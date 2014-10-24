@@ -1715,6 +1715,6 @@ function ispapi_parse_response ( $response ) {
 
 }
 
-__ispapi_init_module("1.0.20", __FILE__);
+__ispapi_init_module("1.0.21", __FILE__);
 
 ?>
