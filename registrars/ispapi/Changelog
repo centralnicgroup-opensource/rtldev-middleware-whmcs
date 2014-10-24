@@ -1,0 +1,134 @@
+ISPAPI Registrar Module for WHMCS
+______________________________________________________________________________
+
+Changelog
+______________________________________________________________________________
+
+v1.0.20 - 2014-09-23
+ - fix Legal Type issue with .CA domains (SaveContactDetails)
+
+v1.0.19 - 2014-08-25
+ - fix in the DNS functionality (issue with redirects)
+
+v1.0.18 - 2014-08-08
+ - fix for adding a new DNS record -> MX record won't be removed
+
+v1.0.17 - 2014-07-23
+ - the fifth nameserver can now be added and managed
+
+v1.0.16 - 2014-07-09
+ - bug fix in the ispapi_call_raw function - error: "$ch" is an undefined variable
+
+v1.0.15 - 2014-05-13
+ - module ready for the new High Performance DomainChecher
+
+v1.0.14 - 2014-03-26
+ - fix for .us transfer issue
+ - README file update
+
+v1.0.13 - 2014-03-17
+ - full support for WHMCS 5.3
+ - fix for "Invalid Template Filename" error
+
+v1.0.12 - 2014-03-13
+ - fix for email forwarding issue 
+ - fix for transfer domain issue (when authcode contains single quotes ('))
+
+v1.0.11 - 2014-02-25
+ - fix for .pro registration issue
+
+v1.0.10 - 2014-02-12
+ - fix for .ca transfer issue
+
+v1.0.9 - 2014-01-28
+ - corrections in getContactDetails to hide firstname, lastname and company for .ca 
+ - layout correction in .ca change of registrant
+
+v1.0.8 - 2014-01-27
+ - bugfix for .ca change of registrant
+ - code cleanups
+
+v1.0.7 - 2014-01-24
+ - .ca change of registrant
+
+v1.0.6 - 2013-11-18
+ - fix for transfer auth issue
+ - .ca contact update fixes
+ - .ca whois privacy module
+ - use local additionaldomainfields.php, no need to overwrite system file
+ - module can now be used under different names by copying
+ - drop-in replacement for WHMCS hexonet module
+ - code cleanups
+
+v1.0.4 - 2013-04-29
+ - fix for transfer sync
+ - improved handling of invalid API responses
+ - fix for contact updates using handles
+
+v1.0.2 - 2013-04-24
+ - full support for WHMCS 5.2
+ - client area WHOIS privacy works with latest WHMCS release
+ - fix for handling empty and invalid responses (no empty errors)
+ - legacy Ispapi Domain Import module compatibility fixed
+
+v1.0.0 - 2013-02-08
+ - full support for WHMCS 5.1
+ - supports WHMCS handling of IDNs, uses IDNA2008 if supported by tld
+ - supports new _Sync method to sync expiration/next due dates
+ - supports new _TransferSync method to finish transfers
+ - old sync method (ispapisync.php) got deprecated
+ - explicit domain deletions via _RequestDelete in admin panel
+ - new module logging via logModuleCall
+ - fix for authorization failed error on transfer request
+
+v0.9.6 - 2012-03-12
+ - full support for WHMCS 5
+ - WHOIS Privacy / ID Protection can now be toggled in Admin area
+ - new WHOIS Privacy / ID Protection management in Client area
+ - corrections to make new WHMCS 5 bulk updates work correctly
+ - field name changes for WHOIS contact information to new standard
+ - code cleanups
+
+v0.9.5 - 2011-08-23
+ - new improved ispapisync.php script
+ - successful transfers now complete automatically (incoming and outgoing)
+ - automated registrar transfer to usertransfer fallback
+ - support for .fr trustee service (additionaldomainfields.php)
+ - support for .jobs
+ - code cleanups
+
+v0.9.4 - 2011-04-26
+ - support for full WHOIS privacy service - www.WHOISTRUSTEE.com
+ - bugfix for additionaldomainfields.php
+ - support included for .ca, fix for .it
+ - options for automatic local presence service: .fr
+ - support for API HTTP proxy, used for secure high performance setups
+ - basic auto-setup of DNS zone for new registrations
+
+v0.9.3 - 2010-05-27
+ - Introduction of new concept for additionaldomainfields.php, see README.TXT
+ - support included for .aero, .asia, .de, .dk, .eu, .it, .jp, .nl, .se, .sg, .travel, .us
+ - basic support for all TLDs, mappings can be defined in additionaldomainfields.php
+ - options for automatic local presence service: .asia, .de, .eu, .it, .jp, .nl, .sg
+ - fixed command to include additionaldomainfields.php in README.TXT
+
+v0.9.2 - 2010-01-21
+ - Support for UTF-8 characters in domain contacts (thx HerrZ)
+ - Domain Import now uses selected currency for new clients
+ - Custom additionaldomainfields.php
+ - free .asia local presence service (CED contact)
+ - free .jp local presence service (applied automatically)
+ - free .nl local presence service (domicile address)
+ - free .sg local presence service (applied automatically)
+ - .us nexus settings
+ - .aero ID and password
+ - .travel UIN
+ - .dk VAT ID
+
+v0.9.1 - 2010-01-13
+ - Initial release
+
+______________________________________________________________________________
+(c)2012 HEXONET GmbH, Talstrasse 27, DE-66424 Homburg - support@hexonet.net
+http://www.hexonet.net/files/whmcs/ispapi/
+
