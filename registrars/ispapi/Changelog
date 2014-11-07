@@ -4,6 +4,10 @@ ______________________________________________________________________________
 Changelog
 ______________________________________________________________________________
 
+v1.0.21 - 2014-11-07
+ - reorganization of the additionaldomainfields.php file
+ - support additional domain fields for: .berlin | .ruhr | .hamburg | .bayern | .jp | .de | .eu | .sg | .com.sg | .edu.sg | .net.sg | .org.sg | .per.sg | .ca | .se | .aero | .travel | .us | .fr | .pm | .re | .tf | .wf | .yt | .jobs | .pro | .hk | .fi | .se | .dk | .it | .quebec | .scot | .nyc | .es
+
 v1.0.20 - 2014-09-23
  - fix Legal Type issue with .CA domains (SaveContactDetails)
 
