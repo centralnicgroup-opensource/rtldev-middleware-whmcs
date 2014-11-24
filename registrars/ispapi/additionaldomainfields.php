@@ -213,7 +213,8 @@ $additionaldomainfields[".us"][] = array(
 		"Ispapi-Options" => ",P1,P2,P3,P4,P5",
 		"Options" => ",P1 - Business use for profit,P2 - Non-profit business; club; association; religious organization; etc.,P3 - Personal Use,P4 - Educational purposes,P5 - Government purposes",
 		"Default" => "",
-		"Required" => true);
+		"Required" => true
+);
 
 $additionaldomainfields[".us"][] = array(
 		"Name" => "Nexus Category",
@@ -222,7 +223,8 @@ $additionaldomainfields[".us"][] = array(
 		"Ispapi-Options" => "C11,C12,C21,C31,C32",
 		"Options" => "C11,C12,C21,C31,C32",
 		"Default" => "",
-		"Required" => true);
+		"Required" => true
+);
 
 $additionaldomainfields[".us"][] = array(
 		"Name" => "Nexus Country",
@@ -230,7 +232,9 @@ $additionaldomainfields[".us"][] = array(
 		"Description" => "<div>Specify the two-letter country-code of the registrant (if Nexus Category is either C31 or C32).</div>",
 		"Ispapi-Name" => "X-US-NEXUS-VALIDATOR",
 		"Default" => "",
-		"Required" => false);
+		"Required" => false,
+		"Ispapi-Eval" => '$value = strtoupper($value);',
+);
 
 
 ## .FR DOMAIN REQUIREMENTS ##
@@ -502,9 +506,9 @@ $additionaldomainfields[".it"] = array();
 $additionaldomainfields[".it"][] = array(
 		"Name" => "Local Presence",
 		"Type" => "dropdown",
-		"Options" => ",Registrant is domiciled in the EU (PIN required),Use Local Presence Service",
+		"Options" => ",Registrant is domiciled in the EU (PIN required) / Use Local Presence Service",
 		"Ispapi-Name" => "X-IT-ACCEPT-TRUSTEE-TAC",
-		"Ispapi-Options" => ",,1"
+		"Ispapi-Options" => ",1"
 );
 $additionaldomainfields[".it"][] = array(
 		"Name" => "PIN",
@@ -513,40 +517,51 @@ $additionaldomainfields[".it"][] = array(
 		"Ispapi-Name" => "X-IT-PIN",
 );
 $additionaldomainfields[".it"][] = array(
-		"Name" => "Section 3 - Declarations and assumptions of liability",
+		"Name" => "Section 3 Agreement",
+		"Description" => "<div style='color:#666666;'><b>Section 3 - Declarations and assumptions of liability</b><br>The Registrant of the domain name in question, declares under their own responsibility that they are:
+<ul><li>in possession of the citizenship or resident in a country belonging to the European Union (in the case of registration for natural persons);</li>
+<li>established in a country belonging to the European Union (in the case of registration for other organizations);</li>
+<li>aware and accept that the registration and management of a domain name is subject to the 'Rules of assignment and management of domain names in ccTLD. it' and 'Regulations for the resolution of disputes in the ccTLD.it' and their subsequent amendments;</li>
+<li>entitled to the use and/or legal availability of the domain name applied for, and that they do not prejudice, with the request for registration, the rights of others;</li>
+<li>aware that for the inclusion of personal data in the Database of assigned domain names, and their possible dissemination and accessibility via the Internet, consent must be given explicitly by ticking the appropriate boxes in the information below. See 'The policy of the .it Registry in the Whois Database' on the website of the Registry (http://www.nic.it);</li>
+<li>aware and agree that in the case of erroneous or false declarations in this request, the Registry shall immediately revoke the domain name, or proceed with other legal actions. In such case the revocation shall not in any way give rise to claims against the Registry;</li>
+<li>release the Registry from any liability resulting from the assignment and use of the domain name by the natural person that has made the request;</li>
+<li>accept Italian jurisdiction and laws of the Italian State.</li></ul></div>",
 		"Type" => "dropdown",
-		"Options" => ",Accepted",
+		"Options" => ",I accept the Section 3 Agreement listed below",
 		"Ispapi-Name" => "X-IT-ACCEPT-LIABILITY-TAC",
 		"Ispapi-Options" => ",1"
 );
 $additionaldomainfields[".it"][] = array(
-		"Name" => "Section 5 - Consent to the processing of personal data for registration",
+		"Name" => "Section 5 Agreement",
+		"Description" => "<div style='color:#666666;'><b>Section 5 - Consent to the processing of personal data for registration</b><br>
+The interested party, after reading the above disclosure, gives consent to the processing of information required for registration, as defined in the above disclosure. Giving consent is optional, but if no consent is given, it will not be possible to finalize the registration, assignment and management of the domain name.</div>",
 		"Type" => "dropdown",
-		"Options" => ",Accepted",
+		"Options" => ",I accept the Section 5 Agreement listed below",
 		"Ispapi-Name" => "X-IT-ACCEPT-REGISTRATION-TAC",
 		"Ispapi-Options" => ",1"
 );
 $additionaldomainfields[".it"][] = array(
-		"Name" => "Section 6 - Consent to the processing of personal data for diffusion and
-		accessibility via the internet",
+		"Name" => "Section 6 Agreement",
+		"Description" => "<div style='color:#666666;'><b>Section 6 - Consent to the processing of personal data for diffusion and accessibility via the Internet</b><br>
+The interested party, after reading the above disclosure, gives consent to the dissemination and accessibility via the Internet, as defined in the disclosure above. Giving consent is optional, but absence of consent does not allow the dissemination and accessibility of Internet data.</div>",
 		"Type" => "dropdown",
-		"Options" => ",Accepted",
+		"Options" => ",I accept the Section 6 Agreement listed below",
 		"Ispapi-Name" => "X-IT-ACCEPT-DIFFUSION-AND-ACCESSIBILITY-TAC",
 		"Ispapi-Options" => ",1"
 );
 $additionaldomainfields[".it"][] = array(
-		"Name" => "Section 7 - Explicit acceptance of the following points",
+		"Name" => "Section 7 Agreement",
+		"Description" => "<div style='color:#666666;'><b>Section 7 - Explicit Acceptance of the following points</b><br>
+For explicit acceptance, the interested party declares that they:
+<ul><li>d) are aware and agree that the registration and management of a domain name is subject to the 'Rules of assignment and management of domain names in ccTLD.it' and 'Regulations for the resolution of disputes in the ccTLD.it' and their subsequent amendments;</li>
+<li>e) are aware and agree that in the case of erroneous or false declarations in this request, the Registry shall immediately revoke the domain name, or proceed with other legal actions. In such case the revocation shall not in any way give rise to claims against the Registry;</li>
+<li>f) release the Registry from any liability resulting from the assignment and use of the domain name by the natural person that has made the request;</li>
+<li>g) accept the Italian jurisdiction and laws of the Italian State.</li></ul>",
 		"Type" => "dropdown",
-		"Options" => ",Accepted",
+		"Options" => ",I accept the Section 7 Agreement listed below",
 		"Ispapi-Name" => "X-IT-ACCEPT-EXPLICIT-TAC",
 		"Ispapi-Options" => ",1"
-);
-$additionaldomainfields[".it"][] = array(
-		"Name" => "Registrant is Admin-C",
-		"Type" => "dropdown",
-		"Options" => "Accepted",
-		"Default" => "Accepted",
-		"Ispapi-Eval" => 'unset($command["ADMINCONTACT0"]); $command["ADMINCONTACT0COPY"] = "OWNERCONTACT0";'
 );
 
 

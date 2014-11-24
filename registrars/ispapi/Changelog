@@ -4,6 +4,11 @@ ______________________________________________________________________________
 Changelog
 ______________________________________________________________________________
 
+v1.0.23 - 2014-11-24
+ - new .it / .at change of registrant page
+ - additional domain fields file update
+ - .ca change of registrant page fix (simple quote issue)
+
 v1.0.22 - 2014-11-14
  - new Hexonet widget for the WHMCS admin area (display information about module version and informs as soon as new module update available)
 
