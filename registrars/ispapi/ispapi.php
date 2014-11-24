@@ -11,7 +11,7 @@ function __ispapi_init_module($version, $file) {
 			$registrar = $m[2];
 
 			$registrarFunctions = array(
-				"GetISPAPIModuleVersion", "getConfigArray",	"ClientAreaCustomButtonArray", "whoisprivacy", "whoisprivacy_ca", "registrantmodification_ca",
+				"GetISPAPIModuleVersion", "getConfigArray",	"ClientAreaCustomButtonArray", "whoisprivacy", "whoisprivacy_ca", "registrantmodification_ca", "registrantmodification_at", "registrantmodification_it", 
 				"GetDNS", "SaveDNS", "GetEmailForwarding", "SaveEmailForwarding",
 				"RegisterNameserver", "ModifyNameserver", "DeleteNameserver", "GetEPPCode",
 				"GetRegistrarLock",	"SaveRegistrarLock",
@@ -89,8 +89,217 @@ function ispapi_ClientAreaCustomButtonArray($params) {
 	if ( $data && (preg_match('/[.]ca$/i', $data["domain"])) ) {
 		$buttonarray[".CA Change of Registrant"] = "registrantmodification_ca";
 	}
-
+	
+	if ( $data && (preg_match('/[.]at$/i', $data["domain"])) ) {
+		$buttonarray[".AT Change of Registrant"] = "registrantmodification_at";
+	}
+	
+	if ( $data && (preg_match('/[.]it$/i', $data["domain"])) ) {
+		$buttonarray[".IT Change of Registrant"] = "registrantmodification_it";
+	}
     return $buttonarray;
+}
+
+function ispapi_registrantmodification_it($params) {
+	$origparams = $params;
+	$error = false;
+	$successful = false;
+	$domain = $params["sld"].".".$params["tld"];
+	$values = array();
+
+	$command = array(
+			"COMMAND" => "StatusDomain",
+			"DOMAIN" => $domain
+	);
+	$response = ispapi_call($command, ispapi_config($params));
+
+	if ( $response["CODE"] == 200 ) {
+		$values["Registrant"] = ispapi_get_contact_info($response["PROPERTY"]["OWNERCONTACT"][0], $params);
+	}
+
+	//include additionaldomainfields
+	//++++++++++++++++++++++++++++++++++++
+	include dirname(__FILE__).DIRECTORY_SEPARATOR.
+	"..".DIRECTORY_SEPARATOR.
+	"..".DIRECTORY_SEPARATOR.
+	"..".DIRECTORY_SEPARATOR.
+	"includes".DIRECTORY_SEPARATOR."additionaldomainfields.php";
+
+	$myadditionalfields = array();
+	if ( is_array($additionaldomainfields) && isset($additionaldomainfields[".".$params["tld"]]) ) {
+		$myadditionalfields = $additionaldomainfields[".".$params["tld"]];
+	}
+
+	$found_additionalfield_mapping = 0;
+	foreach ( $myadditionalfields as $field_index => $field ) {
+		if ( isset($field["Ispapi-Name"]) || isset($field["Ispapi-Eval"]) ) {
+			$found_additionalfield_mapping = 1;
+		}
+	}
+
+	if ( !$found_additionalfield_mapping ) {
+		include dirname(__FILE__).DIRECTORY_SEPARATOR."additionaldomainfields.php";
+		if ( is_array($additionaldomainfields) && isset($additionaldomainfields[".".$params["tld"]]) ) {
+			$myadditionalfields = $additionaldomainfields[".".$params["tld"]];
+		}
+	}
+
+	foreach ( $myadditionalfields as $field_index => $field ) {
+		if ( !is_array($field["Ispapi-Replacements"]) ) {
+			$field["Ispapi-Replacements"] = array();
+		}
+
+		if ( isset($field["Ispapi-Options"]) && isset($field["Options"]) )  {
+			$options = explode(",", $field["Options"]);
+			foreach ( explode(",", $field["Ispapi-Options"]) as $index => $new_option ) {
+				$option = $options[$index];
+				if ( !isset($field["Ispapi-Replacements"][$option]) ) {
+					$field["Ispapi-Replacements"][$option] = $new_option;
+				}
+			}
+		}
+
+		$myadditionalfields[$field_index] = $field;
+	}
+	//+++++++++++++++++++++++++++++++++++++++
+
+	if(isset($_POST["submit"])){
+
+		if(empty($_POST["additionalfields"]["Section 3 Agreement"]) || empty($_POST["additionalfields"]["Section 5 Agreement"]) || empty($_POST["additionalfields"]["Section 6 Agreement"]) || empty($_POST["additionalfields"]["Section 7 Agreement"]) ){
+			$error = "You have to accept the agreement section 3, 5, 6 and 7.";
+		}else{
+
+			$newvalues["Registrant"] = $_POST["contactdetails"]["Registrant"];
+			$values = $newvalues;
+				
+			$command = array(
+					"COMMAND" => "TradeDomain",
+					"DOMAIN" => $domain
+			);
+			$map = array(
+					"OWNERCONTACT0" => "Registrant",
+					"ADMINCONTACT0" => "Registrant",
+			);
+				
+			foreach ( $map as $ctype => $ptype ) {
+				if ( isset($_POST["contactdetails"][$ptype]) ) {
+					$p = $_POST["contactdetails"][$ptype];
+					$command[$ctype] = array(
+							"FIRSTNAME" => html_entity_decode($p["First Name"], ENT_QUOTES),
+							"LASTNAME" => html_entity_decode($p["Last Name"], ENT_QUOTES),
+							"ORGANIZATION" => html_entity_decode($p["Company Name"], ENT_QUOTES),
+							"STREET" => html_entity_decode($p["Address"], ENT_QUOTES),
+							"CITY" => html_entity_decode($p["City"], ENT_QUOTES),
+							"STATE" => html_entity_decode($p["State"], ENT_QUOTES),
+							"ZIP" => html_entity_decode($p["Postcode"], ENT_QUOTES),
+							"COUNTRY" => html_entity_decode($p["Country"], ENT_QUOTES),
+							"PHONE" => html_entity_decode($p["Phone"], ENT_QUOTES),
+							"FAX" => html_entity_decode($p["Fax"], ENT_QUOTES),
+							"EMAIL" => html_entity_decode($p["Email"], ENT_QUOTES),
+					);
+					if ( strlen($p["Address 2"]) ) {
+						$command[$ctype]["STREET"] .= " , ".html_entity_decode($p["Address 2"], ENT_QUOTES);
+					}
+				}
+			}
+				
+			if(isset($params["additionalfields"]["Local Presence"])){
+				if(!empty($_POST["additionalfields"]["Local Presence"])){
+					$params["additionalfields"]["Local Presence"] = "1";
+				}else{
+					unset($params["additionalfields"]["Local Presence"]);
+				}
+			}
+				
+			$params["additionalfields"]["PIN"] = $_POST["additionalfields"]["PIN"];
+			$params["additionalfields"]["Section 3 Agreement"] = "1";
+			$params["additionalfields"]["Section 5 Agreement"] = "1";
+			$params["additionalfields"]["Section 6 Agreement"] = "1";
+			$params["additionalfields"]["Section 7 Agreement"] = "1";
+			ispapi_use_additionalfields($params, $command);
+			$response = ispapi_call($command, ispapi_config($origparams));
+				
+			if ( $response["CODE"] == 200 ) {
+				$successful = $response["DESCRIPTION"];
+			}else {
+				$error = $response["DESCRIPTION"];
+			}
+		}
+	}
+
+	return array(
+			'templatefile' => "registrantmodification_it",
+			'vars' => array('error' => $error, 'successful' => $successful, 'values' => $values, 'additionalfields' => $myadditionalfields),
+	);
+}
+
+function ispapi_registrantmodification_at($params) {
+	$origparams = $params;
+	$error = false;
+	$successful = false;
+	$domain = $params["sld"].".".$params["tld"];
+	$values = array();
+
+	$myadditionalfields = "";
+
+	$command = array(
+			"COMMAND" => "StatusDomain",
+			"DOMAIN" => $domain
+	);
+	$response = ispapi_call($command, ispapi_config($params));
+
+	if ( $response["CODE"] == 200 ) {
+		$values["Registrant"] = ispapi_get_contact_info($response["PROPERTY"]["OWNERCONTACT"][0], $params);
+	}
+
+	// replace values with post values
+	if(isset($_POST["submit"])){
+		$newvalues["Registrant"] = $_POST["contactdetails"]["Registrant"];
+		$values = $newvalues;
+
+		$command = array(
+				"COMMAND" => "TradeDomain",
+				"DOMAIN" => $domain
+		);
+		$map = array(
+				"OWNERCONTACT0" => "Registrant",
+		);
+
+		foreach ( $map as $ctype => $ptype ) {
+			if ( isset($_POST["contactdetails"][$ptype]) ) {
+				$p = $_POST["contactdetails"][$ptype];
+				$command[$ctype] = array(
+						"FIRSTNAME" => html_entity_decode($p["First Name"], ENT_QUOTES),
+						"LASTNAME" => html_entity_decode($p["Last Name"], ENT_QUOTES),
+						"ORGANIZATION" => html_entity_decode($p["Company Name"], ENT_QUOTES),
+						"STREET" => html_entity_decode($p["Address"], ENT_QUOTES),
+						"CITY" => html_entity_decode($p["City"], ENT_QUOTES),
+						"STATE" => html_entity_decode($p["State"], ENT_QUOTES),
+						"ZIP" => html_entity_decode($p["Postcode"], ENT_QUOTES),
+						"COUNTRY" => html_entity_decode($p["Country"], ENT_QUOTES),
+						"PHONE" => html_entity_decode($p["Phone"], ENT_QUOTES),
+						"FAX" => html_entity_decode($p["Fax"], ENT_QUOTES),
+						"EMAIL" => html_entity_decode($p["Email"], ENT_QUOTES),
+				);
+				if ( strlen($p["Address 2"]) ) {
+					$command[$ctype]["STREET"] .= " , ".html_entity_decode($p["Address 2"], ENT_QUOTES);
+				}
+			}
+		}
+		ispapi_use_additionalfields($params, $command);
+		$response = ispapi_call($command, ispapi_config($origparams));
+
+		if ( $response["CODE"] == 200 ) {
+			$successful = $response["DESCRIPTION"];
+		}else {
+			$error = $response["DESCRIPTION"];
+		}
+	}
+
+	return array(
+			'templatefile' => "registrantmodification_at",
+			'vars' => array('error' => $error, 'successful' => $successful, 'values' => $values, 'additionalfields' => $myadditionalfields),
+	);
 }
 
 function ispapi_registrantmodification_ca($params) {
@@ -196,20 +405,20 @@ function ispapi_registrantmodification_ca($params) {
 				if ( isset($_POST["contactdetails"][$ptype]) ) {
 					$p = $_POST["contactdetails"][$ptype];
 					$command[$ctype] = array(
-							"FIRSTNAME" => $p["First Name"],
-							"LASTNAME" => $p["Last Name"],
-							"ORGANIZATION" => $p["Company Name"],
-							"STREET" => $p["Address"],
-							"CITY" => $p["City"],
-							"STATE" => $p["State"],
-							"ZIP" => $p["Postcode"],
-							"COUNTRY" => $p["Country"],
-							"PHONE" => $p["Phone"],
-							"FAX" => $p["Fax"],
-							"EMAIL" => $p["Email"],
+							"FIRSTNAME" => html_entity_decode($p["First Name"], ENT_QUOTES),
+							"LASTNAME" => html_entity_decode($p["Last Name"], ENT_QUOTES),
+							"ORGANIZATION" => html_entity_decode($p["Company Name"], ENT_QUOTES),
+							"STREET" => html_entity_decode($p["Address"], ENT_QUOTES),
+							"CITY" => html_entity_decode($p["City"], ENT_QUOTES),
+							"STATE" => html_entity_decode($p["State"], ENT_QUOTES),
+							"ZIP" => html_entity_decode($p["Postcode"], ENT_QUOTES),
+							"COUNTRY" => html_entity_decode($p["Country"], ENT_QUOTES),
+							"PHONE" => html_entity_decode($p["Phone"], ENT_QUOTES),
+							"FAX" => html_entity_decode($p["Fax"], ENT_QUOTES),
+							"EMAIL" => html_entity_decode($p["Email"], ENT_QUOTES),
 					);
 					if ( strlen($p["Address 2"]) ) {
-						$command[$ctype]["STREET"] .= " , ".$p["Address 2"];
+						$command[$ctype]["STREET"] .= " , ".html_entity_decode($p["Address 2"], ENT_QUOTES);
 					}
 				}
 			}
@@ -372,8 +581,7 @@ function ispapi_getConfigArray() {
 
 	$configarray = array(
      "FriendlyName" => array("Type" => "System", "Value"=>"ISPAPI (New HEXONET Module)"),
-//     "Description" => array("Type" => "System", "Value"=>"Not Got a HEXONET Account? Get one here: <a href='https://www.hexonet.net/sign-up' target='_blank'>www.hexonet.net/sign-up</a>"),
-
+//   "Description" => array("Type" => "System", "Value"=>"Not Got a HEXONET Account? Get one here: <a href='https://www.hexonet.net/sign-up' target='_blank'>www.hexonet.net/sign-up</a>"),
 	 "Username" => array( "Type" => "text", "Size" => "20", "Description" => "Enter your ISPAPI Login ID", ),
 	 "Password" => array( "Type" => "password", "Size" => "20", "Description" => "Enter your ISPAPI Password ", ),
 	 "UseSSL" => array( "Type" => "yesno", "Description" => "Use HTTPS for API Connections" ),
@@ -422,9 +630,7 @@ function ispapi_SaveRegistrarLock($params) {
 		"TRANSFERLOCK" => ($params["lockenabled"] == "locked")? "1" : "0"
 	);
 	$response = ispapi_call($command, ispapi_config($params));
-	if ( $response["CODE"] == 200 ) {
-	}
-	else {
+	if ( $response["CODE"] != 200 ) {
 		$values["error"] = $response["DESCRIPTION"];
 	}
 	return $values;
@@ -497,9 +703,7 @@ function ispapi_SaveNameservers($params) {
 		"INTERNALDNS" => 1
 	);
 	$response = ispapi_call($command, ispapi_config($params));
-	if ( $response["CODE"] == 200 ) {
-	}
-	else {
+	if ( $response["CODE"] != 200 ) {
 		$values["error"] = $response["DESCRIPTION"];
 	}
 	return $values;
@@ -696,9 +900,7 @@ function ispapi_SaveDNS($params) {
 
 	$response = ispapi_call($command, ispapi_config($params));
 
-	if ( $response["CODE"] == 200 ) {
-	}
-	else {
+	if ( $response["CODE"] != 200 ) {
 		$values["error"] = $response["DESCRIPTION"];
 	}
 	return $values;
@@ -792,9 +994,7 @@ function ispapi_SaveEmailForwarding($params) {
 
 	$response = ispapi_call($command, ispapi_config($params));
 
-	if ( $response["CODE"] == 200 ) {
-	}
-	else {
+	if ( $response["CODE"] != 200 ) {
 		$values["error"] = $response["DESCRIPTION"];
 	}
 	return $values;
@@ -814,13 +1014,11 @@ function ispapi_GetContactDetails($params) {
 		$values["Admin"] = ispapi_get_contact_info($response["PROPERTY"]["ADMINCONTACT"][0], $params);
 		$values["Technical"] = ispapi_get_contact_info($response["PROPERTY"]["TECHCONTACT"][0], $params);
 		$values["Billing"] = ispapi_get_contact_info($response["PROPERTY"]["BILLINGCONTACT"][0], $params);
-		if ( preg_match('/[.]ca$/i', $domain) ) {
+		if ( preg_match('/[.]ca|at|it$/i', $domain) ) { 
 			unset($values["Registrant"]["First Name"]);
 			unset($values["Registrant"]["Last Name"]);
 			unset($values["Registrant"]["Company Name"]);
 		}
-	}
-	else {
 	}
 	return $values;
 }
@@ -869,6 +1067,28 @@ function ispapi_SaveContactDetails($params) {
 		}
 	}
 
+	if ( preg_match('/[.]at|it$/i', $domain) ) {
+		unset($command["OWNERCONTACT0"]["FIRSTNAME"]);
+		unset($command["OWNERCONTACT0"]["LASTNAME"]);
+		unset($command["OWNERCONTACT0"]["ORGANIZATION"]);
+	
+		$status_command = array(
+				"COMMAND" => "StatusDomain",
+				"DOMAIN" => $domain
+		);
+		$status_response = ispapi_call($status_command, ispapi_config($origparams));
+	
+		if ( $status_response["CODE"] != 200 ) {
+			$values["error"] = $status_response["DESCRIPTION"];
+			return $values;
+		}
+	
+		$registrant = ispapi_get_contact_info($status_response["PROPERTY"]["OWNERCONTACT"][0], $params);
+		$command["OWNERCONTACT0"]["FIRSTNAME"] = $registrant["First Name"];
+		$command["OWNERCONTACT0"]["LASTNAME"] = $registrant["Last Name"];
+		$command["OWNERCONTACT0"]["ORGANIZATION"] = $registrant["Company Name"];
+	}
+	
 	if ( preg_match('/[.]ca$/i', $domain) ) {
 		$registrant_command = $command["OWNERCONTACT0"];
 
@@ -910,9 +1130,7 @@ function ispapi_SaveContactDetails($params) {
 
 	$response = ispapi_call($command, ispapi_config($origparams));
 
-	if ( $response["CODE"] == 200 ) {
-	}
-	else {
+	if ( $response["CODE"] != 200 ) {
 		$values["error"] = $response["DESCRIPTION"];
 	}
 	return $values;
@@ -928,9 +1146,7 @@ function ispapi_RegisterNameserver($params) {
 		"IPADDRESS0" => $params["ipaddress"],
 	);
 	$response = ispapi_call($command, ispapi_config($params));
-	if ( $response["CODE"] == 200 ) {
-	}
-	else {
+	if ( $response["CODE"] != 200 ) {
 		$values["error"] = $response["DESCRIPTION"];
 	}
 	return $values;
@@ -946,9 +1162,7 @@ function ispapi_ModifyNameserver($params) {
 		"ADDIPADDRESS0" => $params["newipaddress"],
 	);
 	$response = ispapi_call($command, ispapi_config($params));
-	if ( $response["CODE"] == 200 ) {
-	}
-	else {
+	if ( $response["CODE"] != 200 ) {
 		$values["error"] = $response["DESCRIPTION"];
 	}
 	return $values;
@@ -962,9 +1176,7 @@ function ispapi_DeleteNameserver($params) {
 		"NAMESERVER" => $nameserver,
 	);
 	$response = ispapi_call($command, ispapi_config($params));
-	if ( $response["CODE"] == 200 ) {
-	}
-	else {
+	if ( $response["CODE"] != 200 ) {
 		$values["error"] = $response["DESCRIPTION"];
 	}
 	return $values;
@@ -980,9 +1192,7 @@ function ispapi_IDProtectToggle($params) {
 		"X-ACCEPT-WHOISTRUSTEE-TAC" => ($params["protectenable"])? "1" : "0"
 	);
 	$response = ispapi_call($command, ispapi_config($params));
-	if ( $response["CODE"] == 200 ) {
-	}
-	else {
+	if ( $response["CODE"] != 200 ) {
 		$values["error"] = $response["DESCRIPTION"];
 	}
 	return $values;
@@ -1225,9 +1435,7 @@ function ispapi_TransferDomain($params) {
 		$response = ispapi_call($command, ispapi_config($origparams));
 	}
 
-	if ( $response["CODE"] == 200 ) {
-	}
-	else {
+	if ( $response["CODE"] != 200 ) {
 		$values["error"] = $response["DESCRIPTION"];
 	}
 	return $values;
@@ -1248,9 +1456,7 @@ function ispapi_RenewDomain($params) {
 		$response = ispapi_call($command, ispapi_config($params));
 	}
 
-	if ( $response["CODE"] == 200 ) {
-	}
-	else {
+	if ( $response["CODE"] != 200 ) {
 		$values["error"] = $response["DESCRIPTION"];
 	}
 	return $values;
@@ -1266,9 +1472,7 @@ function ispapi_ReleaseDomain($params) {
 	);
 	$response = ispapi_call($command, ispapi_config($params));
 
-	if ( $response["CODE"] == 200 ) {
-	}
-	else {
+	if ( $response["CODE"] != 200 ) {
 		$values["error"] = $response["DESCRIPTION"];
 	}
 	return $values;
@@ -1285,9 +1489,7 @@ function ispapi_RequestDelete($params) {
 	);
 	$response = ispapi_call($command, ispapi_config($params));
 
-	if ( $response["CODE"] == 200 ) {
-	}
-	else {
+	if ( $response["CODE"] != 200 ) {
 		$values["error"] = $response["DESCRIPTION"];
 	}
 	return $values;
@@ -1511,11 +1713,7 @@ function ispapi_get_contact_info($contact, &$params) {
 		}
 
 	}
-	else {
-	}
-
 	$params["_contact_hash"][$contact] = $values;
-
 	return $values;
 }
 
@@ -1662,7 +1860,7 @@ function ispapi_encode_command( $commandarray ) {
             $l = explode("\n", trim($v));
             foreach ( $l as $line ) {
                 $command .= "$k$line\n";
-	    }
+		    }
         }
         else {
             $v = preg_replace( "/\r|\n/", "", $v );
@@ -1715,6 +1913,6 @@ function ispapi_parse_response ( $response ) {
 
 }
 
-__ispapi_init_module("1.0.22", __FILE__);
+__ispapi_init_module("1.0.23", __FILE__);
 
 ?>
