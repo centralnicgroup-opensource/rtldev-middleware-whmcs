@@ -1,5 +1,5 @@
 <?php
-//test
+
 if ( !function_exists('__ispapi_init_module') ) {
 
 function __ispapi_init_module($version, $file) {
