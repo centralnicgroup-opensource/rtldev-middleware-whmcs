@@ -1,36 +1,30 @@
 <?php
-
-if ( !function_exists('__ispapi_init_module') ) {
-
-function __ispapi_init_module($version, $file) {
+	
+function ispapi_InitModule($version) {
 	global $ispapi_module_version;
 	$ispapi_module_version = $version;
-
-	if ( preg_match('/(\/|\\\\)([a-z0-9\-]+)(\/|\\\\)([a-z0-9\-]+)[.]php$/i', $file, $m) ) {
-		if ( ($m[2] == $m[4]) && ($m[2] != "ispapi") ) {
-			$registrar = $m[2];
-
-			$registrarFunctions = array(
-				"GetISPAPIModuleVersion", "getConfigArray",	"ClientAreaCustomButtonArray", "whoisprivacy", "whoisprivacy_ca", "registrantmodification_ca", "registrantmodification_it", 
-				"GetDNS", "SaveDNS", "GetEmailForwarding", "SaveEmailForwarding",
-				"RegisterNameserver", "ModifyNameserver", "DeleteNameserver", "GetEPPCode",
-				"GetRegistrarLock",	"SaveRegistrarLock",
-				"GetContactDetails", "SaveContactDetails", "IDProtectToggle",
-				"GetNameservers", "SaveNameservers",
-				"RegisterDomain", "TransferDomain",	"RenewDomain", "ReleaseDomain", "RequestDelete",
-				"TransferSync", "Sync", "ClientArea"
-			);
-
-			foreach ( $registrarFunctions as $rf ) {
-				eval("function $registrar"."_$rf() { \$args = func_get_args(); return call_user_func_array('ispapi_$rf', \$args); }\n");
-			}
-		}
-	}
 }
 
 function ispapi_GetISPAPIModuleVersion() {
 	global $ispapi_module_version;
 	return $ispapi_module_version;
+}
+	
+function ispapi_getConfigArray() {
+	$version = ispapi_GetISPAPIModuleVersion();
+	$configarray = array(
+			"FriendlyName" => array("Type" => "System", "Value"=>"ISPAPI v".$version),
+			"Username" => array( "Type" => "text", "Size" => "20", "Description" => "Enter your ISPAPI Login ID", ),
+			"Password" => array( "Type" => "password", "Size" => "20", "Description" => "Enter your ISPAPI Password ", ),
+			"UseSSL" => array( "Type" => "yesno", "Description" => "Use HTTPS for API Connections" ),
+			"TestMode" => array( "Type" => "yesno", "Description" => "Connect to OT&amp;E (Test Environment)" ),
+			"ProxyServer" => array( "Type" => "text", "Description" => "Optional (HTTP(S) Proxy Server)" ),
+			"ConvertIDNs" => array( "Type" => "dropdown", "Options" => "API,PHP", "Default" => "API", "Description" => "Use API or PHP function (idn_to_ascii)" ),
+	);
+	if ( !function_exists('idn_to_ascii') ) {
+		$configarray["ConvertIDNs"] = array( "Type" => "dropdown", "Options" => "API", "Default" => "API", "Description" => "Use API (PHP function idn_to_ascii not available)" );
+	}
+	return $configarray;
 }
 
 function ispapi_ClientArea($params) {
@@ -426,8 +420,6 @@ function ispapi_whoisprivacy($params) {
     );
 }
 
-
-
 function ispapi_whoisprivacy_ca($params) {
     $error = false;
 	$domain = $params["sld"].".".$params["tld"];
@@ -501,31 +493,6 @@ function ispapi_whoisprivacy_ca($params) {
     );
 }
 
-
-
-
-function ispapi_getConfigArray() {
-
-	$configarray = array(
-     "FriendlyName" => array("Type" => "System", "Value"=>"ISPAPI (New HEXONET Module)"),
-//   "Description" => array("Type" => "System", "Value"=>"Not Got a HEXONET Account? Get one here: <a href='https://www.hexonet.net/sign-up' target='_blank'>www.hexonet.net/sign-up</a>"),
-	 "Username" => array( "Type" => "text", "Size" => "20", "Description" => "Enter your ISPAPI Login ID", ),
-	 "Password" => array( "Type" => "password", "Size" => "20", "Description" => "Enter your ISPAPI Password ", ),
-	 "UseSSL" => array( "Type" => "yesno", "Description" => "Use HTTPS for API Connections" ),
-	 "TestMode" => array( "Type" => "yesno", "Description" => "Connect to OT&amp;E (Test Environment)" ),
-	 "ProxyServer" => array( "Type" => "text", "Description" => "Optional (HTTP(S) Proxy Server)" ),
-//	 "SyncNextDueDate" => array( "Type" => "yesno", "Description" => "Deprecated (ispapisync.php should not be used anymore)" ),
-	 "ConvertIDNs" => array( "Type" => "dropdown", "Options" => "API,PHP", "Default" => "API", "Description" => "Use API or PHP function (idn_to_ascii)" ),
-	);
-
-	if ( !function_exists('idn_to_ascii') ) {
-		$configarray["ConvertIDNs"] = array( "Type" => "dropdown", "Options" => "API", "Default" => "API", "Description" => "Use API (PHP function idn_to_ascii not available)" );
-	}
-
-	return $configarray;
-}
-
-
 function ispapi_GetRegistrarLock($params) {
 	$domain = $params["sld"].".".$params["tld"];
 	$values["error"] = "";
@@ -563,9 +530,6 @@ function ispapi_SaveRegistrarLock($params) {
 	return $values;
 }
 
-
-
-
 function ispapi_GetEPPCode($params) {
 	$domain = $params["sld"].".".$params["tld"];
 	$values["error"] = "";
@@ -597,7 +561,6 @@ function ispapi_GetEPPCode($params) {
 	return $values;
 }
 
-
 function ispapi_GetNameservers($params) {
 	$domain = $params["sld"].".".$params["tld"];
 	$values["error"] = "";
@@ -619,7 +582,6 @@ function ispapi_GetNameservers($params) {
 	return $values;
 }
 
-
 function ispapi_SaveNameservers($params) {
 	$domain = $params["sld"].".".$params["tld"];
 	$values["error"] = "";
@@ -635,9 +597,6 @@ function ispapi_SaveNameservers($params) {
 	}
 	return $values;
 }
-
-
-
 
 function ispapi_GetDNS($params) {
 	$dnszone = $params["sld"].".".$params["tld"].".";
@@ -714,7 +673,6 @@ function ispapi_GetDNS($params) {
 	}
 	return $hostrecords;
 }
-
 
 function ispapi_SaveDNS($params) {
 	$dnszone = $params["sld"].".".$params["tld"].".";
@@ -832,8 +790,6 @@ function ispapi_SaveDNS($params) {
 	}
 	return $values;
 }
-
-
 
 function ispapi_GetEmailForwarding($params) {
 	$dnszone = $params["sld"].".".$params["tld"].".";
@@ -1063,7 +1019,6 @@ function ispapi_SaveContactDetails($params) {
 	return $values;
 }
 
-
 function ispapi_RegisterNameserver($params) {
 	$nameserver = $params["nameserver"];
 	$values["error"] = "";
@@ -1109,7 +1064,6 @@ function ispapi_DeleteNameserver($params) {
 	return $values;
 }
 
-
 function ispapi_IDProtectToggle($params) {
 	$domain = $params["sld"].".".$params["tld"];
 	$values["error"] = "";
@@ -1124,7 +1078,6 @@ function ispapi_IDProtectToggle($params) {
 	}
 	return $values;
 }
-
 
 function ispapi_RegisterDomain($params) {
     $origparams = $params;
@@ -1198,7 +1151,6 @@ function ispapi_RegisterDomain($params) {
 	return $values;
 }
 
-
 function ispapi_query_additionalfields(&$params) {
 	$result = mysql_query("SELECT name,value FROM tbldomainsadditionalfields
 		WHERE domainid='".mysql_real_escape_string($params["domainid"])."'");
@@ -1206,7 +1158,6 @@ function ispapi_query_additionalfields(&$params) {
 		$params['additionalfields'][$row['name']] = $row['value'];
 	}
 }
-
 
 function ispapi_use_additionalfields($params, &$command) {
 	include dirname(__FILE__).DIRECTORY_SEPARATOR.
@@ -1283,7 +1234,6 @@ function ispapi_use_additionalfields($params, &$command) {
 		}
 	}
 }
-
 
 function ispapi_TransferDomain($params) {
     $origparams = $params;
@@ -1389,7 +1339,6 @@ function ispapi_RenewDomain($params) {
 	return $values;
 }
 
-
 function ispapi_ReleaseDomain($params) {
 	$domain = $params["sld"].".".$params["tld"];
 	$values["error"] = "";
@@ -1405,8 +1354,6 @@ function ispapi_ReleaseDomain($params) {
 	return $values;
 }
 
-
-
 function ispapi_RequestDelete($params) {
 	$domain = $params["sld"].".".$params["tld"];
 	$values["error"] = "";
@@ -1421,8 +1368,6 @@ function ispapi_RequestDelete($params) {
 	}
 	return $values;
 }
-
-
 
 function ispapi_TransferSync($params) {
 	$domain = $params["sld"].".".$params["tld"];
@@ -1474,8 +1419,6 @@ function ispapi_TransferSync($params) {
 	return $values;
 }
 
-
-
 function ispapi_Sync($params) {
 	$domain = $params["sld"].".".$params["tld"];
 	$values = array();
@@ -1512,13 +1455,7 @@ function ispapi_Sync($params) {
 	return $values;
 }
 
-
-
-
-
 /* Helper functions */
-
-
 function ispapi_get_utf8_params($params) {
     if ( isset($params["original"]) ) {
         return $params["original"];
@@ -1592,8 +1529,6 @@ function ispapi_get_utf8_params($params) {
 	return $params;
 }
 
-
-
 function ispapi_get_contact_info($contact, &$params) {
 	if ( isset($params["_contact_hash"][$contact]) )
 		return $params["_contact_hash"][$contact];
@@ -1644,14 +1579,12 @@ function ispapi_get_contact_info($contact, &$params) {
 	return $values;
 }
 
-
 function ispapi_logModuleCall($registrar, $action, $requeststring, $responsedata, $processeddata = NULL, $replacevars = NULL) {
 	if ( !function_exists('logModuleCall') ) {
 		return;
 	}
 	return logModuleCall($registrar, $action, $requeststring, $responsedata, $processeddata, $replacevars);
 }
-
 
 function ispapi_config($params) {
 	$config = array();
@@ -1673,11 +1606,9 @@ function ispapi_config($params) {
 	return $config;
 }
 
-
 function ispapi_call($command, $config) {
         return ispapi_parse_response(ispapi_call_raw($command, $config));
 }
-
 
 function ispapi_call_raw($command, $config) {
 	global $ispapi_module_version;
@@ -1762,7 +1693,6 @@ function ispapi_call_raw($command, $config) {
 	return $response;
 }
 
-
 function ispapi_to_punycode($domain) {
 	if ( !strlen($domain) ) return $domain;
 	if ( preg_match('/^[a-z0-9\.\-]+$/i', $domain) ) {
@@ -1776,7 +1706,6 @@ function ispapi_to_punycode($domain) {
 	}
 	return $domain;
 }
-
 
 function ispapi_encode_command( $commandarray ) {
     if (!is_array($commandarray)) return $commandarray;
@@ -1796,8 +1725,6 @@ function ispapi_encode_command( $commandarray ) {
     }
     return $command;
 }
-
-
 
 function ispapi_parse_response ( $response ) {
     if (is_array($response)) return $response;
@@ -1838,8 +1765,6 @@ function ispapi_parse_response ( $response ) {
     return $hash;
 }
 
-}
-
-__ispapi_init_module("1.0.24", __FILE__);
+ispapi_InitModule("1.0.24");
 
 ?>
