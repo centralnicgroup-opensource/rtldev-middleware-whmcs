@@ -3,6 +3,10 @@ ______________________________________________________________________________
 
 Changelog
 ______________________________________________________________________________
+v1.0.25 - 2015-02-05
+ - drop-in replacement system removed
+ - version number directly displayed in the backend
+ - additionaldomainfields.php file renamed to additionaldomainfields_sample.php for more clarity
 
 v1.0.24 - 2015-01-07
  - .at change of registrant page no more required, registrant change over the normal way

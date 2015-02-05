@@ -1765,6 +1765,6 @@ function ispapi_parse_response ( $response ) {
     return $hash;
 }
 
-ispapi_InitModule("1.0.24");
+ispapi_InitModule("1.0.25");
 
 ?>
