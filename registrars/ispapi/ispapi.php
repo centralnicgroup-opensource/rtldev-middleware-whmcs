@@ -605,7 +605,7 @@ function ispapi_GetDNS($params) {
 		"COMMAND" => "QueryDNSZoneRRList",
 		"DNSZONE" => $dnszone,
 		"SHORT" => 1,
-		"EXTENDED" => 1
+		//"EXTENDED" => 1
 	);
 	$response = ispapi_call($command, ispapi_config($params));
 
@@ -631,7 +631,7 @@ function ispapi_GetDNS($params) {
 			}
 
 			if ( $rrtype == "AAAA" ) {
-				$hostrecords[$i] = array( "hostname" => $domain, "type" => "A", "address" => $fields[0], );
+				$hostrecords[$i] = array( "hostname" => $domain, "type" => "AAAA", "address" => $fields[0], );
 				$i++;
 			}
 
@@ -695,9 +695,12 @@ function ispapi_SaveDNS($params) {
 
 		if ( strlen($hostname) && strlen($address) ) {
 			if ( $type == "A" ) {
-				if ( preg_match('/:/', $address ) ) {
+				/*if ( preg_match('/:/', $address ) ) {
 					$type = "AAAA";
-				}
+				}*/
+				$command["ADDRR"][] = "$hostname $type $address";
+			}
+			if ( $type == "AAAA" ) {
 				$command["ADDRR"][] = "$hostname $type $address";
 			}
 			if ( $type == "CNAME" ) {
@@ -779,6 +782,13 @@ function ispapi_SaveDNS($params) {
 	
 			if ($rrtype == "X-SMTP") {
 				$command["ADDRR"][] = $rr;
+
+				$item = preg_grep("/@ MX [0-9 ]* mx.ispapi.net./i", $command["ADDRR"]);
+				if(!empty($item)){
+					$index = array_keys($item)[0];
+					unset($command["ADDRR"][$index]);
+					$command["ADDRR"] = array_values($command["ADDRR"]);
+				}
 			}
 		}
 	}
