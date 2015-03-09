@@ -3,6 +3,10 @@ ______________________________________________________________________________
 
 Changelog
 ______________________________________________________________________________
+v1.0.26 - 2015-03-09
+ - fix issue MX records not displayed in the DNS management
+ - fix issue AAAA records couldn't be added
+
 v1.0.25 - 2015-02-05
  - drop-in replacement system removed
  - version number directly displayed in the backend
