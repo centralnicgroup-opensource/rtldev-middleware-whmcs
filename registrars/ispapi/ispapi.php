@@ -785,7 +785,8 @@ function ispapi_SaveDNS($params) {
 
 				$item = preg_grep("/@ MX [0-9 ]* mx.ispapi.net./i", $command["ADDRR"]);
 				if(!empty($item)){
-					$index = array_keys($item)[0];
+					$index_arr = array_keys($item);
+					$index = $index_arr[0];
 					unset($command["ADDRR"][$index]);
 					$command["ADDRR"] = array_values($command["ADDRR"]);
 				}
