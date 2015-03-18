@@ -3,6 +3,10 @@ ______________________________________________________________________________
 
 Changelog
 ______________________________________________________________________________
+
+v1.0.27 - 2015-03-18
+ - improvement in the Sync function: set expirydate to paiduntildate when failuredate > paiduntildate
+
 v1.0.26 - 2015-03-09
  - fix issue MX records not displayed in the DNS management
  - fix issue AAAA records couldn't be added

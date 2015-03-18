@@ -1446,13 +1446,15 @@ function ispapi_Sync($params) {
 		elseif ( preg_match('/DELETE/i', $status) ) {
 			$values['expired'] = true;
 		}
-		$expdate = $response["PROPERTY"]["PAIDUNTILDATE"][0];
-		$duedate = $response["PROPERTY"]["ACCOUNTINGDATE"][0];
-
-		$expdate = preg_replace('/ .*/', '', $expdate);
-		$duedate = preg_replace('/ .*/', '', $duedate);
-
-		$values['expirydate'] = $duedate;
+		
+		if($response["PROPERTY"]["FAILUREDATE"][0] > $response["PROPERTY"]["PAIDUNTILDATE"][0]){
+			$paiduntildate = preg_replace('/ .*/', '', $response["PROPERTY"]["PAIDUNTILDATE"][0]);
+			$values['expirydate'] = $paiduntildate;
+		}else{
+			$accountingdate = preg_replace('/ .*/', '', $response["PROPERTY"]["ACCOUNTINGDATE"][0]);
+			$values['expirydate'] = $accountingdate;
+		}
+		
 	}
 	elseif ( $response["CODE"] == 531 ) {
 		$values['expired'] = true;
