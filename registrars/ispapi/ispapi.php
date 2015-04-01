@@ -602,10 +602,9 @@ function ispapi_GetDNS($params) {
 	$dnszone = $params["sld"].".".$params["tld"].".";
 	$values["error"] = "";
 	$command = array(
-		"COMMAND" => "QueryDNSZoneRRList",
-		"DNSZONE" => $dnszone,
-		"SHORT" => 1,
-		//"EXTENDED" => 1
+			"COMMAND" => "QueryDNSZoneRRList",
+			"DNSZONE" => $dnszone,
+			"EXTENDED" => 1
 	);
 	$response = ispapi_call($command, ispapi_config($params));
 
@@ -619,6 +618,12 @@ function ispapi_GetDNS($params) {
 			$ttl = array_shift($fields);
 			$class = array_shift($fields);
 			$rrtype = array_shift($fields);
+				
+			if($domain == $dnszone){
+				$domain = "@";
+			}
+			$domain = str_replace(".".$dnszone, "",  $domain);
+				
 
 			if ( $rrtype == "A" ) {
 				$hostrecords[$i] = array( "hostname" => $domain, "type" => $rrtype, "address" => $fields[0], );
@@ -632,17 +637,6 @@ function ispapi_GetDNS($params) {
 
 			if ( $rrtype == "AAAA" ) {
 				$hostrecords[$i] = array( "hostname" => $domain, "type" => "AAAA", "address" => $fields[0], );
-				$i++;
-			}
-
-			if ( $rrtype == "MX" ) {
-		
-				if ( preg_match('/^mxe-host-for-ip-(\d+)-(\d+)-(\d+)-(\d+)($|\.)/i', $fields[1], $m) ) {
-					$hostrecords[$i] = array( "hostname" => $domain, "type" => "MXE", "address" => $m[1].".".$m[2].".".$m[3].".".$m[4], );
-				}
-				else {
-					$hostrecords[$i] = array( "hostname" => $domain, "type" => $rrtype, "address" => $fields[1], "priority" => $fields[0] );
-				}
 				$i++;
 			}
 
@@ -665,6 +659,34 @@ function ispapi_GetDNS($params) {
 
 				$hostrecords[$i] = array( "hostname" => $domain, "type" => $url_type, "address" => implode(" ",$fields), );
 				$i++;
+			}
+		}
+
+		//only for MX fields, they are note displayed in the "EXTENDED" version
+		$command = array(
+				"COMMAND" => "QueryDNSZoneRRList",
+				"DNSZONE" => $dnszone,
+				"SHORT" => 1,
+		);
+		$response = ispapi_call($command, ispapi_config($params));
+		if ( $response["CODE"] == 200 ) {
+			foreach ( $response["PROPERTY"]["RR"] as $rr ) {
+				$fields = explode(" ", $rr);
+				$domain = array_shift($fields);
+				$ttl = array_shift($fields);
+				$class = array_shift($fields);
+				$rrtype = array_shift($fields);
+
+				if ( $rrtype == "MX" ) {
+					if ( preg_match('/^mxe-host-for-ip-(\d+)-(\d+)-(\d+)-(\d+)($|\.)/i', $fields[1], $m) ) {
+						$hostrecords[$i] = array( "hostname" => $domain, "type" => "MXE", "address" => $m[1].".".$m[2].".".$m[3].".".$m[4], );
+					}
+					else {
+						$hostrecords[$i] = array( "hostname" => $domain, "type" => $rrtype, "address" => $fields[1], "priority" => $fields[0] );
+					}
+					$i++;
+				}
+					
 			}
 		}
 	}
@@ -1605,10 +1627,10 @@ function ispapi_config($params) {
 	$config["entity"] = "54cd";
 	$config["url"] = "http://api.ispapi.net/api/call.cgi";
 	$config["idns"] = $params["ConvertIDNs"];
-	if ( $params["TestMode"] == "on" ) {
+	if ( $params["TestMode"] == 1 ) {
 		$config["entity"] = "1234";
 	}
-	if ( $params["UseSSL"] == "on" ) {
+	if ( $params["UseSSL"] == 1 ) {
 		$config["url"] = "https://coreapi.1api.net/api/call.cgi";
 	}
 	if ( strlen($params["ProxyServer"]) ) {
@@ -1778,6 +1800,6 @@ function ispapi_parse_response ( $response ) {
     return $hash;
 }
 
-ispapi_InitModule("1.0.27");
+ispapi_InitModule("1.0.28");
 
 ?>
