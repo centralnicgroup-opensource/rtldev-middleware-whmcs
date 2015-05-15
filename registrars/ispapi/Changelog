@@ -3,6 +3,9 @@ ______________________________________________________________________________
 
 Changelog
 ______________________________________________________________________________
+v1.0.29 - 2015-04-22
+ - fix to support WHMCS 6
+
 v1.0.28 - 2015-04-01
  - fix conflict with WHMCS 5.3.12: After WHMCS update: our module wasn't able to connect with OT&E
  - fix issue URL REDIRECT records not displayed in the DNS management

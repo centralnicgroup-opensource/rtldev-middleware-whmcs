@@ -1627,10 +1627,10 @@ function ispapi_config($params) {
 	$config["entity"] = "54cd";
 	$config["url"] = "http://api.ispapi.net/api/call.cgi";
 	$config["idns"] = $params["ConvertIDNs"];
-	if ( $params["TestMode"] == 1 ) {
+	if ( $params["TestMode"] == 1 || $params["TestMode"] == "on" ) {
 		$config["entity"] = "1234";
 	}
-	if ( $params["UseSSL"] == 1 ) {
+	if ( $params["UseSSL"] == 1 || $params["UseSSL"] == "on" ) {
 		$config["url"] = "https://coreapi.1api.net/api/call.cgi";
 	}
 	if ( strlen($params["ProxyServer"]) ) {
@@ -1800,6 +1800,6 @@ function ispapi_parse_response ( $response ) {
     return $hash;
 }
 
-ispapi_InitModule("1.0.28");
+ispapi_InitModule("1.0.29");
 
 ?>
