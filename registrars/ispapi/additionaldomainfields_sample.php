@@ -5,11 +5,6 @@
 ## DO NOT INCLUDE THIS FILE DIRECTLY
 ## 
 
-
-In our module you will find a file named “additionaldomainfields.php” containing a lot of
-preconfigured extensions running with our systems. (updated on a regular basis) This file
-will assist you configuring the WHMCS additionald
-
 ## .BERLIN DOMAIN REQUIREMENTS ##
 $additionaldomainfields[".berlin"] = array();
 $additionaldomainfields[".berlin"][] = array(
@@ -656,5 +651,14 @@ $additionaldomainfields[".es"][] = array(
 		"Ispapi-Options" => ",1,39,47,59,68,124,150,152,164,181,197,203,229,269,286,365,434,436,439,476,510,524,525,554,560,562,566,608,612,713,717,744,745,746,747,877,878,879",
 );
 
+## .IE DOMAIN REQUIREMENTS ## - DON'T FORGET TO REPLACE THE EMAIL ADDRESS WITH YOURS
+$additionaldomainfields[".ie"][] = array();
+$additionaldomainfields[".ie"][] = array(
+		"Name" => "Additional Documents required",
+		"Type" => "tickbox",
+		"Description" => "<b>To complete the registration process, I will send a Proof of
+		business relationship with Ireland (Bills etc.) and a excerpt from the commercial register
+		to ###YOUR EMAIL ADDRESS###.</b>",
+);
 
 ?>
