@@ -3,6 +3,9 @@ ______________________________________________________________________________
 
 Changelog
 ______________________________________________________________________________
+v1.0.31 - 2015-07-21
+ - support for SRV records (if also added in the clientareadomaindns.tpl file)
+
 v1.0.30 - 2015-06-15
  - support additional domain fields for: .ie
 

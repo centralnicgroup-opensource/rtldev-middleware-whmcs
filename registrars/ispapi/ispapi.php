@@ -644,6 +644,12 @@ function ispapi_GetDNS($params) {
 				$hostrecords[$i] = array( "hostname" => $domain, "type" => $rrtype, "address" => implode(" ", $fields), );
 				$i++;
 			}
+			
+			if ( $rrtype == "SRV" ) {
+				$priority = array_shift($fields);
+				$hostrecords[$i] = array( "hostname" => $domain, "type" => $rrtype, "address" => implode(" ", $fields), "priority" => $priority );
+				$i++;
+			}
 
 			if ( $rrtype == "CNAME" ) {
 				$hostrecords[$i] = array( "hostname" => $domain, "type" => $rrtype, "address" => $fields[0], );
@@ -731,6 +737,14 @@ function ispapi_SaveDNS($params) {
 			if ( $type == "TXT" ) {
 				$command["ADDRR"][] = "$hostname $type $address";
 			}
+			if ( $type == "SRV" ) {
+				array_push($command["DELRR"], "% SRV");
+				if(!empty($priority)){
+					$command["ADDRR"][] = "$hostname $type $priority $address";
+				}else{
+					$command["ADDRR"][] = "$hostname $type $address";
+				}
+			}
 			if ( $type == "MXE" ) {
 				$mxpref = 100;
 				if ( preg_match('/^([0-9]+) (.*)$/', $address, $m ) ) {
@@ -817,7 +831,6 @@ function ispapi_SaveDNS($params) {
 	}
 
 	$response = ispapi_call($command, ispapi_config($params));
-
 	if ( $response["CODE"] != 200 ) {
 		$values["error"] = $response["DESCRIPTION"];
 	}
@@ -1800,6 +1813,6 @@ function ispapi_parse_response ( $response ) {
     return $hash;
 }
 
-ispapi_InitModule("1.0.30");
+ispapi_InitModule("1.0.31");
 
 ?>
