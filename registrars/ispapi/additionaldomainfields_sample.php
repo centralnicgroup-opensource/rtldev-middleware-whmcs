@@ -661,4 +661,15 @@ $additionaldomainfields[".ie"][] = array(
 		to ###YOUR EMAIL ADDRESS###.</b>",
 );
 
+## .NO DOMAIN REQUIREMENTS ##
+$additionaldomainfields[".no"] = array();
+$additionaldomainfields[".no"][] = array(
+		"Name" => "Registrant ID number",
+		"Type" => "text",
+		"Default" => "",
+		"Required" => true,
+		"Ispapi-Name" => "X-NO-REGISTRANT-IDENTITY"
+);
+
+
 ?>
