@@ -3,6 +3,10 @@ ______________________________________________________________________________
 
 Changelog
 ______________________________________________________________________________
+v1.0.34 - 2015-09-30
+ - fix issue SRV records couldn't be deleted
+ - fix issue whois trustee service was not activated with a domain transfer
+
 v1.0.33 - 2015-08-27
  - fix for .NO transfer issue
  - support additional domain fields for: .NO

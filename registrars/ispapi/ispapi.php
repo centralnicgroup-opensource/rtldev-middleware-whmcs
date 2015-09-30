@@ -710,7 +710,7 @@ function ispapi_SaveDNS($params) {
 		"DNSZONE" => $dnszone,
 		"INCSERIAL" => 1,
 		"EXTENDED" => 1,
-		"DELRR" => array("% A", "% AAAA", "% CNAME", "% TXT", "% MX", "% X-HTTP", "% X-SMTP"),
+		"DELRR" => array("% A", "% AAAA", "% CNAME", "% TXT", "% MX", "% X-HTTP", "% X-SMTP", "% SRV"),
 		"ADDRR" => array(),
 	);
 
@@ -723,9 +723,6 @@ function ispapi_SaveDNS($params) {
 
 		if ( strlen($hostname) && strlen($address) ) {
 			if ( $type == "A" ) {
-				/*if ( preg_match('/:/', $address ) ) {
-					$type = "AAAA";
-				}*/
 				$command["ADDRR"][] = "$hostname $type $address";
 			}
 			if ( $type == "AAAA" ) {
@@ -1445,6 +1442,17 @@ function ispapi_TransferSync($params) {
 		$duedate = preg_replace('/ .*/', '', $duedate);
 
 		$values['expirydate'] = $duedate;
+		
+		//activate the whoistrustee if set to 1 in WHMCS
+		if($params["idprotection"] == "1" || $params["idprotection"] == "on"){
+			$command = array(
+					"COMMAND" => "ModifyDomain",
+					"DOMAIN" => $domain,
+					"X-ACCEPT-WHOISTRUSTEE-TAC" => "1"
+			);
+			$response = ispapi_call($command, ispapi_config($params));
+		}
+		
 	}
 	elseif ( ($response["CODE"] == 545) || ($response["CODE"] == 531) ) {
 		$command = array("COMMAND" => "StatusDomainTransfer", "DOMAIN" => $domain);
@@ -1824,6 +1832,6 @@ function ispapi_parse_response ( $response ) {
     return $hash;
 }
 
-ispapi_InitModule("1.0.33");
+ispapi_InitModule("1.0.34");
 
 ?>
