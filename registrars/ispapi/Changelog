@@ -4,6 +4,11 @@ ______________________________________________________________________________
 Changelog
 ______________________________________________________________________________
 
+v1.0.36 - 2015-12-09
+ - one of the latest update of WHMCS comes out with an important change regarding umlauts in domains or in contacts.
+   In fact WHMCS decided to automatically strip them ("Müller" was replaced by "Muller").
+   THIS NEW RELEASE WILL FIX THIS ISSUE AND WILL KEEP YOUR UMLAUTS !
+
 v1.0.35 - 2015-10-23
  - fix issue with « " » in TXT records
 
