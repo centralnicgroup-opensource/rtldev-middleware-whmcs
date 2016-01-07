@@ -698,7 +698,11 @@ function ispapi_GetDNS($params) {
 			if ( $rrtype == "X-HTTP" ) {
 				if ( preg_match('/^\//', $fields[0]) ) {
 					$domain .= array_shift($fields);
+					while(substr($domain, -1)=="/"){
+						$domain = substr_replace($domain, "", -1);
+					}
 				}
+
 				$url_type = array_shift($fields);
 				if ( $url_type == "REDIRECT" ) $url_type = "URL";
 
@@ -1395,7 +1399,7 @@ function ispapi_TransferDomain($params) {
 		"ADMINCONTACT0" => $admin,
 		"TECHCONTACT0" => $admin,
 		"BILLINGCONTACT0" => $admin,
-		"AUTH" => $params["transfersecret"]
+		"AUTH" => $origparams["transfersecret"]
 	);
 
 	//don't send owner admin tech billing contact for .CA, .US, .PT and .NO domains
@@ -1907,6 +1911,6 @@ function ispapi_parse_response ( $response ) {
     return $hash;
 }
 
-ispapi_InitModule("1.0.36");
+ispapi_InitModule("1.0.37");
 
 ?>

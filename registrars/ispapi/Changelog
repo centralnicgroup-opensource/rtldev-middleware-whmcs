@@ -4,6 +4,10 @@ ______________________________________________________________________________
 Changelog
 ______________________________________________________________________________
 
+v1.0.37 - 2016-01-04
+ - fix issue displaying a "/" at the end of the host name in URL redirections
+ - fix for transfer issue (auth code was not sended to the API)
+
 v1.0.36 - 2015-12-09
  - one of the latest update of WHMCS comes out with an important change regarding umlauts in domains or in contacts.
    In fact WHMCS decided to automatically strip them ("Müller" was replaced by "Muller").
