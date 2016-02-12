@@ -3,7 +3,7 @@
 ## THIS IS A SAMPLE FILE WITH PRECONFIGURED EXTENSIONS RUNNING WITH OUR SYSTEM
 ## THIS FILE WILL ASSIST YOU CONFIGURING YOUR WHMCS ADDITIONAL DOMAIN FIELDS
 ## DO NOT INCLUDE THIS FILE DIRECTLY
-## 
+##
 
 ## .BERLIN DOMAIN REQUIREMENTS ##
 $additionaldomainfields[".berlin"] = array();
@@ -447,7 +447,7 @@ $additionaldomainfields[".hk"][] = array(
 );
 
 
-## .SE DOMAIN REQUIREMENTS ##
+## .FI DOMAIN REQUIREMENTS ##
 $additionaldomainfields[".fi"][] = array();
 $additionaldomainfields[".fi"][] = array(
 		"Name" => "FICORA Agreement",
@@ -671,5 +671,20 @@ $additionaldomainfields[".no"][] = array(
 		"Ispapi-Name" => "X-NO-REGISTRANT-IDENTITY"
 );
 
+## .SWISS DOMAIN REQUIREMENTS ##
+$additionaldomainfields[".swiss"] = array();
+$additionaldomainfields[".swiss"][] = array(
+		"Name" => "Enterprise ID",
+		"Type" => "text",
+		"Required" => true,
+        "Description" => "(must be CHE followed by 9 digits)",
+		"Ispapi-Name" => "X-SWISS-REGISTRANT-ENTERPRISE-ID",
+);
+$additionaldomainfields[".swiss"][] = array(
+		"Name" => "Intended use",
+		"Type" => "text",
+		"Required" => true,
+		"Ispapi-Name" => "X-CORE-INTENDED-USE",
+);
 
 ?>

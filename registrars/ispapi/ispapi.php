@@ -1251,6 +1251,13 @@ function ispapi_RegisterDomain($params) {
 		$command["X-ACCEPT-WHOISTRUSTEE-TAC"] = 1;
 	}
 
+	if ( preg_match('/[.]swiss$/i', $domain) ) {
+		$command["COMMAND"] = "AddDomainApplication";
+		$command["CLASS"] = "GOLIVE";
+		unset($command["INTERNALDNS"]);
+		unset($command["X-ACCEPT-WHOISTRUSTEE-TAC"]);
+	}
+
 	ispapi_use_additionalfields($params, $command);
 
 	$response = ispapi_call($command, ispapi_config($origparams));
@@ -1258,6 +1265,14 @@ function ispapi_RegisterDomain($params) {
 	if ( !($response["CODE"] == 200) ) {
 		$values["error"] = $response["DESCRIPTION"];
 	}
+
+	if ( preg_match('/[.]swiss$/i', $domain) ) {
+		if ($response["CODE"] == 200) {
+			$application_id = $response["PROPERTY"]["APPLICATION"][0];
+			$values["error"] = "APPLICATION <#".$application_id."#> SUCCESSFULLY SUBMITTED. STATUS SET TO PENDING UNTIL THE SWISS REGISTRATION PROCESS IS COMPLETED";
+		}
+	}
+
 	return $values;
 }
 
@@ -1399,11 +1414,11 @@ function ispapi_TransferDomain($params) {
 		"ADMINCONTACT0" => $admin,
 		"TECHCONTACT0" => $admin,
 		"BILLINGCONTACT0" => $admin,
-		"AUTH" => $origparams["transfersecret"]
+		"AUTH" => $params["transfersecret"]
 	);
 
 	//don't send owner admin tech billing contact for .CA, .US, .PT and .NO domains
-	if (preg_match('/[.]ca$/i', $domain) || preg_match('/[.]us$/i', $domain) || preg_match('/[.]pt$/i', $domain) || preg_match('/[.]no$/i', $domain)) {
+	if (preg_match('/[.]ca$/i', $domain) || preg_match('/[.]us$/i', $domain) || preg_match('/[.]pt$/i', $domain) || preg_match('/[.]no$/i', $domain) || preg_match('/[.]se$/i', $domain)) {
 		unset($command["OWNERCONTACT0"]);
 		unset($command["ADMINCONTACT0"]);
 		unset($command["TECHCONTACT0"]);
@@ -1911,6 +1926,6 @@ function ispapi_parse_response ( $response ) {
     return $hash;
 }
 
-ispapi_InitModule("1.0.37");
+ispapi_InitModule("1.0.38");
 
 ?>

@@ -4,6 +4,10 @@ ______________________________________________________________________________
 Changelog
 ______________________________________________________________________________
 
+v1.0.38 - 2016-02-12
+ - fix for .SE transfer issue
+ - support for .SWISS domain registration. (Please read the documentation)
+
 v1.0.37 - 2016-01-04
  - fix issue displaying a "/" at the end of the host name in URL redirections
  - fix for transfer issue (auth code was not sended to the API)
