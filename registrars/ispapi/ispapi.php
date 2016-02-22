@@ -1414,10 +1414,10 @@ function ispapi_TransferDomain($params) {
 		"ADMINCONTACT0" => $admin,
 		"TECHCONTACT0" => $admin,
 		"BILLINGCONTACT0" => $admin,
-		"AUTH" => $params["transfersecret"]
+		"AUTH" => $origparams["transfersecret"]
 	);
 
-	//don't send owner admin tech billing contact for .CA, .US, .PT and .NO domains
+	//don't send owner admin tech billing contact for .CA, .US, .PT, .NO and .SE domains
 	if (preg_match('/[.]ca$/i', $domain) || preg_match('/[.]us$/i', $domain) || preg_match('/[.]pt$/i', $domain) || preg_match('/[.]no$/i', $domain) || preg_match('/[.]se$/i', $domain)) {
 		unset($command["OWNERCONTACT0"]);
 		unset($command["ADMINCONTACT0"]);
@@ -1926,6 +1926,6 @@ function ispapi_parse_response ( $response ) {
     return $hash;
 }
 
-ispapi_InitModule("1.0.38");
+ispapi_InitModule("1.0.39");
 
 ?>

@@ -4,6 +4,9 @@ ______________________________________________________________________________
 Changelog
 ______________________________________________________________________________
 
+v1.0.39 - 2016-02-22
+ - fix for transfer issues
+
 v1.0.38 - 2016-02-12
  - fix for .SE transfer issue
  - support for .SWISS domain registration. (Please read the documentation)
