@@ -1044,6 +1044,26 @@ function ispapi_SaveContactDetails($params) {
 			if ( strlen($p["Address 2"]) ) {
 				$command[$ctype]["STREET"] .= " , ".$p["Address 2"];
 			}
+		}else{
+			//an existing contact was selected
+			$p = $origparams["contactdetails"][$ptype];
+			$key = array_search($ptype, $map);
+			$command[$key] = array(
+				"FIRSTNAME" => $p["First Name"],
+				"LASTNAME" => $p["Last Name"],
+				"ORGANIZATION" => $p["Company Name"],
+				"STREET" => $p["Address"],
+				"CITY" => $p["City"],
+				"STATE" => $p["State"],
+				"ZIP" => $p["Postcode"],
+				"COUNTRY" => $p["Country"],
+				"PHONE" => $p["Phone"],
+				"FAX" => $p["Fax"],
+				"EMAIL" => $p["Email"],
+			);
+			if ( strlen($p["Address 2"]) ) {
+				$command[$key]["STREET"] .= " , ".$p["Address 2"];
+			}
 		}
 	}
 
@@ -1926,6 +1946,6 @@ function ispapi_parse_response ( $response ) {
     return $hash;
 }
 
-ispapi_InitModule("1.0.39");
+ispapi_InitModule("1.0.40");
 
 ?>

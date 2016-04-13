@@ -4,6 +4,9 @@ ______________________________________________________________________________
 Changelog
 ______________________________________________________________________________
 
+v1.0.40 - 2016-04-13
+ - fix for updating domain contacts (OWNER, ADMIN, TECH, BILLING) issue when using existing contacts in WHMCS
+
 v1.0.39 - 2016-02-22
  - fix for transfer issues
 
