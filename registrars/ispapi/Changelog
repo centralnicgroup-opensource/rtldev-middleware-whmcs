@@ -4,6 +4,10 @@ ______________________________________________________________________________
 Changelog
 ______________________________________________________________________________
 
+v1.0.41 - 2016-07-04
+ - Improvements in the SRV support. (See documentation in the README.pdf) 
+ - support additional domain fields for: .cn
+
 v1.0.40 - 2016-04-13
  - fix for updating domain contacts (OWNER, ADMIN, TECH, BILLING) issue when using existing contacts in WHMCS
 
@@ -32,7 +36,7 @@ v1.0.34 - 2015-09-30
 
 v1.0.33 - 2015-08-27
  - fix for .NO transfer issue
- - support additional domain fields for: .NO
+ - support additional domain fields for: .no
 
 v1.0.32 - 2015-08-05
  - fix for .FR and .PT transfer issue
