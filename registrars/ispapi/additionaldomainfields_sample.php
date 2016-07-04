@@ -687,4 +687,27 @@ $additionaldomainfields[".swiss"][] = array(
 		"Ispapi-Name" => "X-CORE-INTENDED-USE",
 );
 
+## .CN DOMAIN REQUIREMENTS ##
+$additionaldomainfields[".cn"] = array();
+$additionaldomainfields[".cn"][] = array(
+		"Name" => "Registrant ID Type",
+		"Type" => "dropdown",
+		"Options" => ",Chinese ID card,Chinese Passport,Chinese Officer Certificate,Chinese Organization Code Certificate,Chinese Business License,Others",
+		"Description" => "",
+		"Required" => true,
+		"Ispapi-Name" => "X-CN-REGISTRANT-ID-TYPE",
+		"Ispapi-Options" => ",SFZ,HZ,JGZ,ORG,YYZZ,QT",
+);
+
+$additionaldomainfields[".cn"][] = array(
+		"Name" => "Registrant ID Number",
+		"Type" => "text",
+		"Required" => true,
+		"Ispapi-Name" => "X-CN-REGISTRANT-ID-NUMBER",
+);
+$additionaldomainfields[".com.cn"] = $additionaldomainfields[".cn"];
+$additionaldomainfields[".net.cn"] = $additionaldomainfields[".cn"];
+$additionaldomainfields[".org.cn"] = $additionaldomainfields[".cn"];
+
+
 ?>
