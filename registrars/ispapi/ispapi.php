@@ -781,12 +781,11 @@ function ispapi_SaveDNS($params) {
 				$command["ADDRR"][] = "$hostname $type $address";
 			}
 			if ( $type == "SRV" ) {
-				array_push($command["DELRR"], "% SRV");
-				if(!empty($priority)){
-					$command["ADDRR"][] = "$hostname $type $priority $address";
-				}else{
-					$command["ADDRR"][] = "$hostname $type $address";
+				if(empty($priority)){
+					$priority=0;
 				}
+				array_push($command["DELRR"], "% SRV");
+				$command["ADDRR"][] = "$hostname $type $priority $address";
 			}
 			if ( $type == "MXE" ) {
 				$mxpref = 100;
