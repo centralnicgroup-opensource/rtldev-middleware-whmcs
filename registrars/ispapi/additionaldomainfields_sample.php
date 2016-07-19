@@ -561,7 +561,7 @@ For explicit acceptance, the interested party declares that they:
 <ul><li>d) are aware and agree that the registration and management of a domain name is subject to the 'Rules of assignment and management of domain names in ccTLD.it' and 'Regulations for the resolution of disputes in the ccTLD.it' and their subsequent amendments;</li>
 <li>e) are aware and agree that in the case of erroneous or false declarations in this request, the Registry shall immediately revoke the domain name, or proceed with other legal actions. In such case the revocation shall not in any way give rise to claims against the Registry;</li>
 <li>f) release the Registry from any liability resulting from the assignment and use of the domain name by the natural person that has made the request;</li>
-<li>g) accept the Italian jurisdiction and laws of the Italian State.</li></ul>",
+<li>g) accept the Italian jurisdiction and laws of the Italian State.</li></ul></div>",
 		"Type" => "dropdown",
 		"Options" => ",I accept the Section 7 Agreement listed below",
 		"Ispapi-Name" => "X-IT-ACCEPT-EXPLICIT-TAC",

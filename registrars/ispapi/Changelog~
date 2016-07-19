@@ -4,12 +4,8 @@ ______________________________________________________________________________
 Changelog
 ______________________________________________________________________________
 
-v1.0.42 - 2016-07-19
- - fix for .CA Registrant WHOIS Privacy and .CA Change of Registrant templates
- - fix for .IT Change of Registrant template
-
 v1.0.41 - 2016-07-04
- - Improvements in the SRV support. (See documentation in the README.pdf)
+ - Improvements in the SRV support. (See documentation in the README.pdf) 
  - support additional domain fields for: .cn
 
 v1.0.40 - 2016-04-13
