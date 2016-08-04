@@ -10,7 +10,7 @@ function ispapi_GetISPAPIModuleVersion() {
 	return $ispapi_module_version;
 }
 
-function ispapi_getConfigArray() {
+function ispapi_getConfigArray($params) {
 	$version = ispapi_GetISPAPIModuleVersion();
 	$configarray = array(
 			"FriendlyName" => array("Type" => "System", "Value"=>"ISPAPI v".$version),
@@ -24,6 +24,20 @@ function ispapi_getConfigArray() {
 	if ( !function_exists('idn_to_ascii') ) {
 		$configarray["ConvertIDNs"] = array( "Type" => "dropdown", "Options" => "API", "Default" => "API", "Description" => "Use API (PHP function idn_to_ascii not available)" );
 	}
+
+	if(!empty($params["Username"])){
+		//Check authentication
+		$command = array(
+				"COMMAND" => "CheckAuthentication",
+				"SUBUSER" => $params["Username"],
+				"PASSWORD" => $params["Password"]
+		);
+		$response = ispapi_call($command, ispapi_config($params));
+		$mode_text = ($params["TestMode"]=="on") ? "to OT&E environment" : "to production environment";
+		$state = ($response["CODE"] == 200) ? "<div style='color:green;font-weight:bold;'>Connected ".$mode_text."</div>" : "<div style='color:red;font-weight:bold;'>Disconnected (Verify Username and Password)</div>";
+		$configarray[""] = array( "Description" => "<b>Connection state:</b><br>".$state );
+	}
+
 	return $configarray;
 }
 

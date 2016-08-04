@@ -4,6 +4,9 @@ ______________________________________________________________________________
 Changelog
 ______________________________________________________________________________
 
+v1.0.43 - 2016-08-04
+ - displays the connection state directly in the module configuration
+
 v1.0.42 - 2016-07-19
  - fix for .CA Registrant WHOIS Privacy and .CA Change of Registrant templates
  - fix for .IT Change of Registrant template
