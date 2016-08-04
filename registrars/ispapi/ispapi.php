@@ -1959,6 +1959,6 @@ function ispapi_parse_response ( $response ) {
     return $hash;
 }
 
-ispapi_InitModule("1.0.42");
+ispapi_InitModule("1.0.43");
 
 ?>
