@@ -4,6 +4,9 @@ ______________________________________________________________________________
 Changelog
 ______________________________________________________________________________
 
+v1.0.45 - 2017-02-24
+ - fix for issues in Pending Module Actions - Clicking Retry triggered an error message but the request was still sent in the background.
+
 v1.0.44 - 2016-10-11
  - Hexonet Widget optimized and now compatible with WHMCS 7
  - Registrar module updated and now compatible with WHMCS 7 (+backward compatibility)

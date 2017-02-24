@@ -407,6 +407,7 @@ function ispapi_registrantmodification_ca($params) {
 }
 
 function ispapi_whoisprivacy($params) {
+	$values = array();
 	if ( isset($params["original"]) ) {
         $params = $params["original"];
     }
@@ -414,7 +415,6 @@ function ispapi_whoisprivacy($params) {
 	$domain = $params["sld"].".".$params["tld"];
 
     if ( isset($_REQUEST["idprotection"]) ) {
-    	$values["error"] = "";
 	    $command = array(
 		    "COMMAND" => "ModifyDomain",
 		    "DOMAIN" => $domain,
@@ -528,11 +528,12 @@ function ispapi_whoisprivacy_ca($params) {
 }
 
 function ispapi_GetRegistrarLock($params) {;
+	$values = array();
 	if ( isset($params["original"]) ) {
 		$params = $params["original"];
 	}
 	$domain = $params["sld"].".".$params["tld"];
-	$values["error"] = "";
+
 	$command = array(
 		"COMMAND" => "StatusDomain",
 		"DOMAIN" => $domain
@@ -553,11 +554,12 @@ function ispapi_GetRegistrarLock($params) {;
 }
 
 function ispapi_SaveRegistrarLock($params) {
+	$values = array();
 	if ( isset($params["original"]) ) {
 		$params = $params["original"];
 	}
 	$domain = $params["sld"].".".$params["tld"];
-	$values["error"] = "";
+
 	$command = array(
 		"COMMAND" => "ModifyDomain",
 		"DOMAIN" => $domain,
@@ -571,11 +573,11 @@ function ispapi_SaveRegistrarLock($params) {
 }
 
 function ispapi_GetEPPCode($params) {
+	$values = array();
 	if ( isset($params["original"]) ) {
 		$params = $params["original"];
 	}
 	$domain = $params["sld"].".".$params["tld"];
-	$values["error"] = "";
 
 	if ( $params["tld"] == "de" ) {
 		$command = array(
@@ -605,11 +607,12 @@ function ispapi_GetEPPCode($params) {
 }
 
 function ispapi_GetNameservers($params) {
+	$values = array();
 	if ( isset($params["original"]) ) {
 		$params = $params["original"];
 	}
 	$domain = $params["sld"].".".$params["tld"];
-	$values["error"] = "";
+
 	$command = array(
 		"COMMAND" => "StatusDomain",
 		"DOMAIN" => $domain
@@ -629,11 +632,12 @@ function ispapi_GetNameservers($params) {
 }
 
 function ispapi_SaveNameservers($params) {
+	$values = array();
 	if ( isset($params["original"]) ) {
 		$params = $params["original"];
 	}
 	$domain = $params["sld"].".".$params["tld"];
-	$values["error"] = "";
+
 	$command = array(
 		"COMMAND" => "ModifyDomain",
 		"DOMAIN" => $domain,
@@ -648,6 +652,7 @@ function ispapi_SaveNameservers($params) {
 }
 
 function ispapi_GetDNS($params) {
+	$values = array();
 	if ( isset($params["original"]) ) {
 		$params = $params["original"];
 	}
@@ -662,7 +667,6 @@ function ispapi_GetDNS($params) {
 	$response = ispapi_call($command, ispapi_config($params));
 	$dnszone_idn = $response["PROPERTY"]["ACE"][0].".";
 
-	$values["error"] = "";
 	$command = array(
 			"COMMAND" => "QueryDNSZoneRRList",
 			"DNSZONE" => $dnszone,
@@ -765,11 +769,12 @@ function ispapi_GetDNS($params) {
 }
 
 function ispapi_SaveDNS($params) {
+	$values = array();
 	if ( isset($params["original"]) ) {
 		$params = $params["original"];
 	}
 	$dnszone = $params["sld"].".".$params["tld"].".";
-	$values["error"] = "";
+
 	$command = array(
 		"COMMAND" => "UpdateDNSZone",
 		"DNSZONE" => $dnszone,
@@ -899,11 +904,12 @@ function ispapi_SaveDNS($params) {
 }
 
 function ispapi_GetEmailForwarding($params) {
+	$values = array();
 	if ( isset($params["original"]) ) {
 		$params = $params["original"];
 	}
 	$dnszone = $params["sld"].".".$params["tld"].".";
-	$values["error"] = "";
+
 	$command = array(
 		"COMMAND" => "QueryDNSZoneRRList",
 		"DNSZONE" => $dnszone,
@@ -941,6 +947,7 @@ function ispapi_GetEmailForwarding($params) {
 }
 
 function ispapi_SaveEmailForwarding($params) {
+	$values = array();
 	if ( isset($params["original"]) ) {
 		$params = $params["original"];
 	}
@@ -964,7 +971,7 @@ function ispapi_SaveEmailForwarding($params) {
 	# Put your code to save email forwarders here
 
 	$dnszone = $params["sld"].".".$params["tld"].".";
-	$values["error"] = "";
+
 	$command = array(
 		"COMMAND" => "UpdateDNSZone",
 		"DNSZONE" => $dnszone,
@@ -996,6 +1003,7 @@ function ispapi_SaveEmailForwarding($params) {
 }
 
 function ispapi_GetContactDetails($params) {
+	$values = array();
 	if ( isset($params["original"]) ) {
         $params = $params["original"];
     }
@@ -1023,12 +1031,13 @@ function ispapi_GetContactDetails($params) {
 }
 
 function ispapi_SaveContactDetails($params) {
+	$values = array();
 	$config = array();
     $origparams = $params;
 	$params = ispapi_get_utf8_params($params);
 
 	$domain = $params["sld"].".".$params["tld"];
-	$values["error"] = "";
+
 	$command = array(
 		"COMMAND" => "ModifyDomain",
 		"DOMAIN" => $domain
@@ -1116,8 +1125,7 @@ function ispapi_SaveContactDetails($params) {
 		);
 		$status_response = ispapi_call($status_command, ispapi_config($origparams));
 
-		if ( $status_response["CODE"] == 200 ) {}
-		else {
+		if ( $status_response["CODE"] != 200 ) {
 			$values["error"] = $status_response["DESCRIPTION"];
 			return $values;
 		}
@@ -1131,8 +1139,7 @@ function ispapi_SaveContactDetails($params) {
 			unset($registrant_command["ORGANIZATION"]);
 			$registrant_response = ispapi_call($registrant_command, ispapi_config($origparams));
 
-			if ( $registrant_response["CODE"] == 200 ) {}
-			else {
+			if ( $registrant_response["CODE"] != 200 ) {
 				$values["error"] = $registrant_response["DESCRIPTION"];
 				return $values;
 			}
@@ -1154,11 +1161,12 @@ function ispapi_SaveContactDetails($params) {
 }
 
 function ispapi_RegisterNameserver($params) {
+	$values = array();
 	if ( isset($params["original"]) ) {
 		$params = $params["original"];
 	}
 	$nameserver = $params["nameserver"];
-	$values["error"] = "";
+
 	$command = array(
 		"COMMAND" => "AddNameserver",
 		"NAMESERVER" => $nameserver,
@@ -1172,11 +1180,12 @@ function ispapi_RegisterNameserver($params) {
 }
 
 function ispapi_ModifyNameserver($params) {
+	$values = array();
 	if ( isset($params["original"]) ) {
 		$params = $params["original"];
 	}
 	$nameserver = $params["nameserver"];
-	$values["error"] = "";
+
 	$command = array(
 		"COMMAND" => "ModifyNameserver",
 		"NAMESERVER" => $nameserver,
@@ -1191,11 +1200,12 @@ function ispapi_ModifyNameserver($params) {
 }
 
 function ispapi_DeleteNameserver($params) {
+	$values = array();
 	if ( isset($params["original"]) ) {
 		$params = $params["original"];
 	}
 	$nameserver = $params["nameserver"];
-	$values["error"] = "";
+
 	$command = array(
 		"COMMAND" => "DeleteNameserver",
 		"NAMESERVER" => $nameserver,
@@ -1208,11 +1218,12 @@ function ispapi_DeleteNameserver($params) {
 }
 
 function ispapi_IDProtectToggle($params) {
+	$values = array();
 	if ( isset($params["original"]) ) {
 		$params = $params["original"];
 	}
 	$domain = $params["sld"].".".$params["tld"];
-	$values["error"] = "";
+
 	$command = array(
 		"COMMAND" => "ModifyDomain",
 		"DOMAIN" => $domain,
@@ -1226,6 +1237,7 @@ function ispapi_IDProtectToggle($params) {
 }
 
 function ispapi_RegisterDomain($params) {
+	$values = array();
 	$origparams = $params;
 	$params = ispapi_get_utf8_params($params);
 	if ( isset($params["original"]) ) {
@@ -1233,7 +1245,6 @@ function ispapi_RegisterDomain($params) {
     }
 
 	$domain = $params["sld"].".".$params["tld"];
-	$values["error"] = "";
 
 	$registrant = array(
 		"FIRSTNAME" => $params["firstname"],
@@ -1300,7 +1311,7 @@ function ispapi_RegisterDomain($params) {
 
 	$response = ispapi_call($command, ispapi_config($origparams));
 
-	if ( !($response["CODE"] == 200) ) {
+	if ( $response["CODE"] != 200 ) {
 		$values["error"] = $response["DESCRIPTION"];
 	}
 
@@ -1402,6 +1413,7 @@ function ispapi_use_additionalfields($params, &$command) {
 }
 
 function ispapi_TransferDomain($params) {
+	$values = array();
     $origparams = $params;
 	$params = ispapi_get_utf8_params($params);
 	if ( isset($params["original"]) ) {
@@ -1409,7 +1421,6 @@ function ispapi_TransferDomain($params) {
 	}
 
 	$domain = $params["sld"].".".$params["tld"];
-	$values["error"] = "";
 
 	$registrant = array(
 		"FIRSTNAME" => $params["firstname"],
@@ -1499,11 +1510,12 @@ function ispapi_TransferDomain($params) {
 }
 
 function ispapi_RenewDomain($params) {
+	$values = array();
 	if ( isset($params["original"]) ) {
 		$params = $params["original"];
 	}
 	$domain = $params["sld"].".".$params["tld"];
-	$values["error"] = "";
+
 	$command = array(
 		"COMMAND" => "RenewDomain",
 		"DOMAIN" => $domain,
@@ -1523,11 +1535,12 @@ function ispapi_RenewDomain($params) {
 }
 
 function ispapi_ReleaseDomain($params) {
+	$values = array();
 	if ( isset($params["original"]) ) {
 		$params = $params["original"];
 	}
 	$domain = $params["sld"].".".$params["tld"];
-	$values["error"] = "";
+
 	$command = array(
 		"COMMAND" => "PushDomain",
 		"DOMAIN" => $domain
@@ -1541,11 +1554,12 @@ function ispapi_ReleaseDomain($params) {
 }
 
 function ispapi_RequestDelete($params) {
+	$values = array();
 	if ( isset($params["original"]) ) {
 		$params = $params["original"];
 	}
 	$domain = $params["sld"].".".$params["tld"];
-	$values["error"] = "";
+
 	$command = array(
 		"COMMAND" => "DeleteDomain",
 		"DOMAIN" => $domain
@@ -1559,8 +1573,9 @@ function ispapi_RequestDelete($params) {
 }
 
 function ispapi_TransferSync($params) {
-	$domain = $params["sld"].".".$params["tld"];
 	$values = array();
+	$domain = $params["sld"].".".$params["tld"];
+
 	$command = array(
 		"COMMAND" => "StatusDomain",
 		"DOMAIN" => $domain
@@ -1620,8 +1635,9 @@ function ispapi_TransferSync($params) {
 }
 
 function ispapi_Sync($params) {
-	$domain = $params["sld"].".".$params["tld"];
 	$values = array();
+	$domain = $params["sld"].".".$params["tld"];
+
 	$command = array(
 		"COMMAND" => "StatusDomain",
 		"DOMAIN" => $domain
@@ -1809,7 +1825,7 @@ function ispapi_config($params) {
 }
 
 function ispapi_call($command, $config) {
-        return ispapi_parse_response(ispapi_call_raw($command, $config));
+    return ispapi_parse_response(ispapi_call_raw($command, $config));
 }
 
 function ispapi_call_raw($command, $config) {
@@ -1967,5 +1983,5 @@ function ispapi_parse_response ( $response ) {
     return $hash;
 }
 
-ispapi_InitModule("1.0.44");
+ispapi_InitModule("1.0.45");
 ?>
