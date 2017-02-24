@@ -1,104 +1,5 @@
 <?php
 
-use WHMCS\Domains\DomainLookup\ResultsList;
-use WHMCS\Domains\DomainLookup\SearchResult;
-use WHMCS\Module\Registrar\Registrarmodule\ApiClient;
-
-
-function ispapi_MetaData()
-{
-	//$version = ispapi_GetISPAPIModuleVersion();
-    return array(
-        'DisplayName' => 'ISPAPI Registrar Module',
-        'APIVersion' => '1.0'//$version,
-    );
-}
-
-
-function ispapi_CheckAvailability($params)
-{
-	//print_r($params);
-	$label = $params['searchTerm'];
-	$tldslist = $params['tldsToInclude'];
-	$premiumEnabled = (bool) $params['premiumEnabled'];
-	$domainslist = array();
- 	$results = new ResultsList();
-
-	foreach($tldslist as $tld){
-		if($tld[0] != '.'){
-			$tld = ".".$tld;
-		}
-		$domainslist["all"][] = $label.$tld;
-		$domainslist["list"][] = array("sld" => $label, "tld" => $tld);
-	}
-
-	$command = array(
-			"COMMAND" => "CheckDomains",
-			"DOMAIN" => $domainslist["all"],
-			"PREMIUMCHANNELS" => "*"
-	);
-	$check = ispapi_call($command, ispapi_config($params));
-
-	if($check["CODE"] == 200){
-		$index=0;
-		foreach($domainslist["list"] as $domain){
-			$searchResult = new SearchResult($domain['sld'], $domain['tld']);
-			if(preg_match('/210/', $check["PROPERTY"]["DOMAINCHECK"][$index])){
-				$status = SearchResult::STATUS_NOT_REGISTERED;
-			}
-			elseif(preg_match('/211 Premium/', $check["PROPERTY"]["DOMAINCHECK"][$index])){
-				//PREMIUM DOMAINS
-				if($premiumEnabled){
-					if(isset($check["PROPERTY"]["PRICE"][$index]) && is_numeric($check["PROPERTY"]["PRICE"][$index])){
-						$registerprice = $check["PROPERTY"]["PRICE"][$index];
-					}
-					if(isset($check["PROPERTY"]["CURRENCY"][$index]) && !empty($check["PROPERTY"]["CURRENCY"][$index])){
-						$currency = $check["PROPERTY"]["CURRENCY"][$index];
-					}
-					if(isset($registerprice) && isset($currency)){
-						$status = SearchResult::STATUS_NOT_REGISTERED;
-						$searchResult->setPremiumDomain(true);
-						$searchResult->setPremiumCostPricing(
-		                    array(
-		                        'register' => $registerprice,
-		                        'renew' => $registerprice, //TODO
-		                        'CurrencyCode' => $currency,
-		                    )
-		                );
-					}else{
-						$status = SearchResult::STATUS_RESERVED;
-					}
-				}else{
-					$status = SearchResult::STATUS_RESERVED;
-				}
-			}
-			else{
-				$status = SearchResult::STATUS_REGISTERED;
-			}
-			$searchResult->setStatus($status);
-			$results->append($searchResult);
-			$index++;
-		}
-	}
-    return $results;
-}
-
-function ispapi_GetDomainSuggestions($params){
-	return ispapi_CheckAvailability($params);
-}
-
-/*
-function ispapi_DomainSuggestionOptions() {
-    return array(
-        'activate' => array(
-            'FriendlyName' => 'Test',
-            'Type' => 'yesno',
-            'Description' => 'Tick to enable',
-        ),
-    );
-}
-*/
-
 function ispapi_InitModule($version) {
 	global $ispapi_module_version;
 	$ispapi_module_version = $version;
@@ -1325,12 +1226,7 @@ function ispapi_IDProtectToggle($params) {
 }
 
 function ispapi_RegisterDomain($params) {
-	mail("anthonys@hexonet.net", "test0", print_r($params, true));
-
 	$origparams = $params;
-    $premiumDomainsEnabled = (bool) $params['premiumEnabled'];
-	$premiumDomainsCost = $params['premiumCost'];
-
 	$params = ispapi_get_utf8_params($params);
 	if ( isset($params["original"]) ) {
         $params = $params["original"];
@@ -1401,32 +1297,6 @@ function ispapi_RegisterDomain($params) {
 	}
 
 	ispapi_use_additionalfields($params, $command);
-
-	//CHECK IF PREMIUM DOMAIN FUNCTIONALITY ENABLED BY THE ADMIN
-	if($premiumDomainsEnabled){
-		mail("anthonys@hexonet.net", "test2", "");
-		//CHECK IF THE DOMAIN HAS A PREMIUM PRICE AND THE PRICE THE CUSTOMER PAID
-		$c = array(
-				"COMMAND" => "CheckDomains",
-				"DOMAIN" => array($domain),
-				"PREMIUMCHANNELS" => "*"
-		);
-		$check = ispapi_call($c, ispapi_config($params));
-		if($check["CODE"] == 200){
-			mail("anthonys@hexonet.net", "test3", print_r($check, true));
-			$registrarprice = $check["PROPERTY"]["PRICE"][0];
-			$command["registrarprice"] =   $check["PROPERTY"]["PRICE"][0];
-			$command["paidprice"] = $premiumDomainsCost;
-
-			if($registrarprice == $premiumDomainsCost){
-				$command["COMMAND"] = "AddDomainApplication";
-				$command["CLASS"] =  $check["PROPERTY"]["CLASS"][0];
-				$command["PRICE"] =  $check["PROPERTY"]["PRICE"][0];
-				$command["CURRENCY"] =  $check["PROPERTY"]["CURRENCY"][0];
-			}
-		}
-	}
-	mail("anthonys@hexonet.net", "test4", print_r($command, true));
 
 	$response = ispapi_call($command, ispapi_config($origparams));
 
@@ -2096,7 +1966,6 @@ function ispapi_parse_response ( $response ) {
 	}
     return $hash;
 }
-
 
 ispapi_InitModule("1.0.44");
 ?>
