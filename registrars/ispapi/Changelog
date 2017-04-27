@@ -4,6 +4,98 @@ ______________________________________________________________________________
 Changelog
 ______________________________________________________________________________
 
+v1.0.45 - 2017-02-24
+ - fix for issues in Pending Module Actions - Clicking Retry triggered an error message but the request was still sent in the background.
+
+v1.0.44 - 2016-10-11
+ - Hexonet Widget optimized and now compatible with WHMCS 7
+ - Registrar module updated and now compatible with WHMCS 7 (+backward compatibility)
+ - Additionaldomainfields location change (please read README.pdf)
+
+v1.0.43 - 2016-08-04
+ - displays the connection state directly in the module configuration
+
+v1.0.42 - 2016-07-19
+ - fix for .CA Registrant WHOIS Privacy and .CA Change of Registrant templates
+ - fix for .IT Change of Registrant template
+
+v1.0.41 - 2016-07-04
+ - Improvements in the SRV support. (See documentation in the README.pdf)
+ - support additional domain fields for: .cn
+
+v1.0.40 - 2016-04-13
+ - fix for updating domain contacts (OWNER, ADMIN, TECH, BILLING) issue when using existing contacts in WHMCS
+
+v1.0.39 - 2016-02-22
+ - fix for transfer issues
+
+v1.0.38 - 2016-02-12
+ - fix for .SE transfer issue
+ - support for .SWISS domain registration. (Please read the documentation)
+
+v1.0.37 - 2016-01-04
+ - fix issue displaying a "/" at the end of the host name in URL redirections
+ - fix for transfer issue (auth code was not sended to the API)
+
+v1.0.36 - 2015-12-09
+ - one of the latest update of WHMCS comes out with an important change regarding umlauts in domains or in contacts.
+   In fact WHMCS decided to automatically strip them ("Müller" was replaced by "Muller").
+   THIS NEW RELEASE WILL FIX THIS ISSUE AND WILL KEEP YOUR UMLAUTS !
+
+v1.0.35 - 2015-10-23
+ - fix issue with « " » in TXT records
+
+v1.0.34 - 2015-09-30
+ - fix issue SRV records couldn't be deleted
+ - fix issue whois trustee service was not activated with a domain transfer
+
+v1.0.33 - 2015-08-27
+ - fix for .NO transfer issue
+ - support additional domain fields for: .no
+
+v1.0.32 - 2015-08-05
+ - fix for .FR and .PT transfer issue
+
+v1.0.31 - 2015-07-21
+ - support for SRV records (if also added in the clientareadomaindns.tpl file)
+
+v1.0.30 - 2015-06-15
+ - support additional domain fields for: .ie
+
+v1.0.29 - 2015-04-22
+ - fix to support WHMCS 6
+
+v1.0.28 - 2015-04-01
+ - fix conflict with WHMCS 5.3.12: After WHMCS update: our module wasn't able to connect with OT&E
+ - fix issue URL REDIRECT records not displayed in the DNS management
+
+v1.0.27 - 2015-03-18
+ - improvement in the Sync function: set expirydate to paiduntildate when failuredate > paiduntildate
+
+v1.0.26 - 2015-03-09
+ - fix issue MX records not displayed in the DNS management
+ - fix issue AAAA records couldn't be added
+
+v1.0.25 - 2015-02-05
+ - drop-in replacement system removed
+ - version number directly displayed in the backend
+ - additionaldomainfields.php file renamed to additionaldomainfields_sample.php for more clarity
+
+v1.0.24 - 2015-01-07
+ - .at change of registrant page no more required, registrant change over the normal way
+
+v1.0.23 - 2014-11-24
+ - new .it / .at change of registrant page
+ - additional domain fields file update
+ - .ca change of registrant page fix (simple quote issue)
+
+v1.0.22 - 2014-11-14
+ - new Hexonet widget for the WHMCS admin area (display information about module version and informs as soon as new module update available)
+
+v1.0.21 - 2014-11-07
+ - reorganization of the additionaldomainfields.php file
+ - support additional domain fields for: .berlin | .ruhr | .hamburg | .bayern | .jp | .de | .eu | .sg | .com.sg | .edu.sg | .net.sg | .org.sg | .per.sg | .ca | .se | .aero | .travel | .us | .fr | .pm | .re | .tf | .wf | .yt | .jobs | .pro | .hk | .fi | .se | .dk | .it | .quebec | .scot | .nyc | .es
+
 v1.0.20 - 2014-09-23
  - fix Legal Type issue with .CA domains (SaveContactDetails)
 
@@ -31,7 +123,7 @@ v1.0.13 - 2014-03-17
  - fix for "Invalid Template Filename" error
 
 v1.0.12 - 2014-03-13
- - fix for email forwarding issue 
+ - fix for email forwarding issue
  - fix for transfer domain issue (when authcode contains single quotes ('))
 
 v1.0.11 - 2014-02-25
@@ -41,7 +133,7 @@ v1.0.10 - 2014-02-12
  - fix for .ca transfer issue
 
 v1.0.9 - 2014-01-28
- - corrections in getContactDetails to hide firstname, lastname and company for .ca 
+ - corrections in getContactDetails to hide firstname, lastname and company for .ca
  - layout correction in .ca change of registrant
 
 v1.0.8 - 2014-01-27
@@ -129,6 +221,5 @@ v0.9.1 - 2010-01-13
  - Initial release
 
 ______________________________________________________________________________
-(c)2012 HEXONET GmbH, Talstrasse 27, DE-66424 Homburg - support@hexonet.net
+(c)2015 HEXONET GmbH, Talstrasse 27, DE-66424 Homburg - support@hexonet.net
 http://www.hexonet.net/files/whmcs/ispapi/
-
