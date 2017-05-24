@@ -1,4 +1,4 @@
- 
+
 <h3>Change of Registrant - {$domain}</h3>
 
 {if $successful}
@@ -59,6 +59,11 @@
 			</div>
 		{/if}
 	{/foreach}
+
+  {if preg_match('/[.]se$/i', $domain)}
+  <label><input type="checkbox" name="se-checkbox"/>After the Trade request has been submitted, I confirm I will send the following form back to complete the process: <a href='http://www.domainform.net/form/se/search?view=ownerchange'>http://www.domainform.net/form/se/search?view=ownerchange</a>
+  </label>
+  {/if}
 
 	<p class="text-center">
 		<input class="btn btn-large btn-primary" type="submit" value="Send TRADE">

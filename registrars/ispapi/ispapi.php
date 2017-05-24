@@ -268,6 +268,7 @@ function ispapi_registrantmodification_tld($params) {
 	$error = false;
 	$successful = false;
 	$domain = $params["sld"].".".$params["tld"];
+
 	$values = array();
 
 	$command = array(
@@ -315,14 +316,29 @@ function ispapi_registrantmodification_tld($params) {
 					}
 				}
 			}
+			if(preg_match('/[.]se$/i', $domain)){
+				if(!$_POST['se-checkbox'] == "on"){
+					$error = "Please confirm that you will send the form back to complete the process";
+				}else{
+					ispapi_use_additionalfields($params, $command);
+					$response = ispapi_call($command, ispapi_config($origparams));
 
-			ispapi_use_additionalfields($params, $command);
-			$response = ispapi_call($command, ispapi_config($origparams));
+					if ( $response["CODE"] == 200 ) {
+						$successful = $response["DESCRIPTION"];
+					}else {
+						$error = $response["DESCRIPTION"];
+					}
+				}
+			}
+			else {
+				ispapi_use_additionalfields($params, $command);
+				$response = ispapi_call($command, ispapi_config($origparams));
 
-			if ( $response["CODE"] == 200 ) {
-				$successful = $response["DESCRIPTION"];
-			}else {
-				$error = $response["DESCRIPTION"];
+				if ( $response["CODE"] == 200 ) {
+					$successful = $response["DESCRIPTION"];
+				}else {
+					$error = $response["DESCRIPTION"];
+				}
 			}
 	}
 
