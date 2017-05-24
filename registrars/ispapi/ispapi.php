@@ -316,21 +316,14 @@ function ispapi_registrantmodification_tld($params) {
 					}
 				}
 			}
+
 			if(preg_match('/[.]se$/i', $domain)){
+				//check if the checkbox has been checked.
 				if(!$_POST['se-checkbox'] == "on"){
 					$error = "Please confirm that you will send the form back to complete the process";
-				}else{
-					ispapi_use_additionalfields($params, $command);
-					$response = ispapi_call($command, ispapi_config($origparams));
-
-					if ( $response["CODE"] == 200 ) {
-						$successful = $response["DESCRIPTION"];
-					}else {
-						$error = $response["DESCRIPTION"];
-					}
 				}
 			}
-			else {
+			if(!$error){
 				ispapi_use_additionalfields($params, $command);
 				$response = ispapi_call($command, ispapi_config($origparams));
 
@@ -340,6 +333,7 @@ function ispapi_registrantmodification_tld($params) {
 					$error = $response["DESCRIPTION"];
 				}
 			}
+			
 	}
 
 	return array(

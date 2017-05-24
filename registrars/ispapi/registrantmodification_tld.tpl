@@ -61,11 +61,10 @@
 	{/foreach}
 
   {if preg_match('/[.]se$/i', $domain)}
-  <label><input type="checkbox" name="se-checkbox"/>After the Trade request has been submitted, I confirm I will send the following form back to complete the process: <a href='http://www.domainform.net/form/se/search?view=ownerchange'>http://www.domainform.net/form/se/search?view=ownerchange</a>
-  </label>
+  <input type="checkbox" name="se-checkbox"/>After the Trade request has been submitted, I confirm I will send the following form back to complete the process: <a target="_blank" href='http://www.domainform.net/form/se/search?view=ownerchange'>http://www.domainform.net/form/se/search?view=ownerchange</a>
   {/if}
 
-	<p class="text-center">
+	<p class="text-center" style="margin-top:15px;">
 		<input class="btn btn-large btn-primary" type="submit" value="Send TRADE">
 	</p>
 
