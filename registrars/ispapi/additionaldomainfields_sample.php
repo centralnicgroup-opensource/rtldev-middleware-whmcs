@@ -671,6 +671,15 @@ $additionaldomainfields[".no"][] = array(
 		"Ispapi-Name" => "X-NO-REGISTRANT-IDENTITY"
 );
 
+$additionaldomainfields[".no"][] = array(
+        "Name" => "Fax required",
+        "Type" => "tickbox",
+        "Description" => "I confirm I will send the following form back to complete the registration process: <a href='http://www.domainform.net/form/no/search?view=registration'>http://www.domainform.net/form/no/search?view=registration</a>",
+        "Default" => "",
+        "Required" => true,
+);
+
+
 ## .SWISS DOMAIN REQUIREMENTS ##
 $additionaldomainfields[".swiss"] = array();
 $additionaldomainfields[".swiss"][] = array(
@@ -708,6 +717,73 @@ $additionaldomainfields[".cn"][] = array(
 $additionaldomainfields[".com.cn"] = $additionaldomainfields[".cn"];
 $additionaldomainfields[".net.cn"] = $additionaldomainfields[".cn"];
 $additionaldomainfields[".org.cn"] = $additionaldomainfields[".cn"];
+
+## ## .COM.AU DOMAIN REQUIREMENTS ##
+$additionaldomainfields[".com.au"] = array();
+
+$additionaldomainfields[".com.au"][] = array(
+  "Name" => "Registrant ID",
+  "Type" => "text",
+  "Size" => "20",
+  "Default" => "",
+  "Required" => true,
+
+  "Ispapi-Name" => "X-AU-REGISTRANT-ID-NUMBER"
+);
+
+$additionaldomainfields[".com.au"][] = array(
+  "Name" => "Registrant ID Type",
+  "Type" => "dropdown",
+  "Options" => "Australian Business Number,Australian Company Number,Business Registration Number, Trademark Number",
+  "Default" => "ABN",
+  "Required" => false,
+
+  "Ispapi-Name" => "X-AU-REGISTRANT-ID-TYPE",
+  "Ispapi-Options" => "ABN,ACN,RBN,TM"
+);
+
+$additionaldomainfields[".net.au"] = $additionaldomainfields[".com.au"];
+$additionaldomainfields[".org.au"] = $additionaldomainfields[".com.au"];
+$additionaldomainfields[".id.au"] = $additionaldomainfields[".com.au"];
+
+## ## .LV DOMAIN REQUIREMENTS ##
+
+$additionaldomainfields[".lv"] = array();
+
+$additionaldomainfields[".lv"][] = array(
+  "Name" => "Vat ID",
+  "Type" => "text",
+  "Required" => false,
+
+  "Ispapi-Name" => "X-VATID"
+);
+
+$additionaldomainfields[".lv"][] = array(
+  "Name" => "ID number",
+  "Type" => "text",
+  "Required" => false,
+
+  "Ispapi-Name" => "X-IDNUMBER"
+);
+
+## ## .PT DOMAIN REQUIREMENTS ##
+$additionaldomainfields[".pt"] = array();
+
+$additionaldomainfields[".pt"][] = array(
+  "Name" => "Registrant Vat ID",
+  "Type" => "text",
+  "Required" => false,
+
+  "Ispapi-Name" => "X-PT-REGISTRANT-VATID"
+);
+
+$additionaldomainfields[".pt"][] = array(
+  "Name" => "Tech vat ID",
+  "Type" => "text",
+  "Required" => false,
+
+  "Ispapi-Name" => "X-PT-TECH-VATID"
+);
 
 
 ?>
