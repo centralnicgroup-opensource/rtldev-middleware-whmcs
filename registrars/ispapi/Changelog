@@ -4,10 +4,13 @@ ______________________________________________________________________________
 Changelog
 ______________________________________________________________________________
 
+v1.0.47 - 2017-05-31
+ - update in the HEXONET Widget
+ - support additional domain fields for .eco
+
 v1.0.46 - 2017-05-23
  - new .li, .se, .ch and .sg change of registrant page
  - additional domain fields file update (.com.au, .net.au, .org.au, .id.au, .lv, .pt, .no)
-
 
 v1.0.45 - 2017-02-24
  - fix for issues in Pending Module Actions - Clicking Retry triggered an error message but the request was still sent in the background.

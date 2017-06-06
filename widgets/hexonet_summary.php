@@ -1,93 +1,114 @@
-<?php //0046b
-if(!extension_loaded('ionCube Loader')){$__oc=strtolower(substr(php_uname(),0,3));$__ln='ioncube_loader_'.$__oc.'_'.substr(phpversion(),0,3).(($__oc=='win')?'.dll':'.so');if(function_exists('dl')){@dl($__ln);}if(function_exists('_il_exec')){return _il_exec();}$__ln='/ioncube/'.$__ln;$__oid=$__id=realpath(ini_get('extension_dir'));$__here=dirname(__FILE__);if(strlen($__id)>1&&$__id[1]==':'){$__id=str_replace('\\','/',substr($__id,2));$__here=str_replace('\\','/',substr($__here,2));}$__rd=str_repeat('/..',substr_count($__id,'/')).$__here.'/';$__i=strlen($__rd);while($__i--){if($__rd[$__i]=='/'){$__lp=substr($__rd,0,$__i).$__ln;if(file_exists($__oid.$__lp)){$__ln=$__lp;break;}}}if(function_exists('dl')){@dl($__ln);}}else{die('The file '.__FILE__." is corrupted.\n");}if(function_exists('_il_exec')){return _il_exec();}echo('Site error: the file <b>'.__FILE__.'</b> requires the ionCube PHP Loader '.basename($__ln).' to be installed by the website operator. If you are the website operator please use the <a href="http://www.ioncube.com/lw/">ionCube Loader Wizard</a> to assist with installation.');exit(199);
+<?php
 
+    if (!defined("WHMCS"))
+        die("This file cannot be accessed directly");
+
+    function bubble_sort_special_version_compare($arr) {
+        $size = count($arr);
+        for($i=0; $i<$size; $i++) {
+            for($j=0; $j<$size-1-$i; $j++) {
+                if(version_compare($arr[$j+1],$arr[$j]) <= 0) {
+                    swap($arr, $j, $j+1);
+                }
+            }
+        }
+        return $arr;
+    }
+
+    function swap(&$arr, $a, $b) {
+        $tmp = $arr[$a];
+        $arr[$a] = $arr[$b];
+        $arr[$b] = $tmp;
+    }
+
+    function widget_hexonet_summary($vars) {
+        global $_ADMINLANG;
+
+        $url = "https://www.hexonet.net/files/whmcs/ispapi";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_TIMEOUT, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        $data = curl_exec($ch);
+        curl_close($ch);
+
+        // Registrar Version Check
+        // ####################################
+        $registrar_versions = array();
+        $regexp = "\/ispapi_whmcs-([\d.]*).zip";
+        if(preg_match_all("/$regexp/siU", $data, $matches, PREG_SET_ORDER)) {
+            foreach($matches as $match) {
+                array_push($registrar_versions, $match[1]);
+            }
+        }
+        $current_registrar_version = array_pop(bubble_sort_special_version_compare($registrar_versions));
+        // ####################################
+
+        // Domainchecker Version Check
+        // ####################################
+        $domainchecker_versions = array();
+        $regexp = "\/ispapi_whmcs-domaincheckaddon-([\d.]*).zip";
+        if(preg_match_all("/$regexp/siU", $data, $matches, PREG_SET_ORDER)) {
+            foreach($matches as $match) {
+                array_push($domainchecker_versions, $match[1]);
+            }
+        }
+        $current_domainchecker_version = array_pop(bubble_sort_special_version_compare($domainchecker_versions));
+        // ####################################
+
+        $content = "";
+		if(!empty($current_registrar_version)){
+			$registrar_path = dirname(__FILE__)."/../../modules/registrars/ispapi/ispapi.php";
+			if(file_exists($registrar_path)){
+				require_once($registrar_path);
+				if(function_exists('ispapi_GetISPAPIModuleVersion')){
+					$content .= "<h3 style='font-weight:bold;margin-bottom:8px;color:#29467c;'>ISPAPI Registrar Module</h3>";
+					$my_registrar_version = call_user_func('ispapi_GetISPAPIModuleVersion');
+
+					$diff = version_compare($my_registrar_version, $current_registrar_version);
+					$content .= "You are currently running version ".$my_registrar_version.".";
+					if($diff < 0){
+						$content .= '<div class="textred">An update is available!<br>Please install the latest version '.$current_registrar_version.'. (<a href="https://www.hexonet.net/files/whmcs/ispapi/ispapi_whmcs-latest.zip">download</a>)</div>';
+					}
+					if($diff >= 0){
+						$content .= '<div class="textgreen">Your version is up to date.</div>';
+					}
+					$content .= '<div style="margin-bottom:20px;"></div>';
+				}
+			}
+		}
+
+		if(!empty($current_domainchecker_version)){
+			$domainchecker_path = dirname(__FILE__)."/../../modules/addons/ispapidomaincheck/ispapidomaincheck.php";
+			if(file_exists($domainchecker_path)){
+				$content .= "<h3 style='font-weight:bold;margin-bottom:8px;color:#29467c;'>ISPAPI High Performance DomainChecker Module</h3>";
+				require_once($domainchecker_path);
+				$my_domainchecker_version = $module_version;
+
+				$diff = version_compare($my_domainchecker_version, $current_domainchecker_version);
+				$content .= "You are currently running version ".$my_domainchecker_version.".";
+				if($diff < 0){
+					$content .= '<div class="textred">An update is available!<br>Please install the latest version '.$current_domainchecker_version.'. (<a href="https://www.hexonet.net/files/whmcs/ispapi/ispapi_whmcs-domaincheckaddon-latest.zip">download</a>)</div>';
+				}
+				if($diff >= 0){
+					$content .= '<div class="textgreen">Your version is up to date.</div>';
+				}
+
+			}
+			$content .= '<div style="margin-bottom:20px;"></div>';
+		}
+
+        $content .= '<div style="margin:10px 10px 10px 10px;padding:8px 10px;background-color:#FDF8E1;border:1px dashed #FADA5A;-moz-border-radius: 5px;-webkit-border-radius: 5px;-o-border-radius: 5px;border-radius: 5px;"><h3 style="font-weight:bold;margin-bottom:8px;color:#779500;">Need more?</h3>
+                     <a target="_blank" href="https://wiki.hexonet.net/index.php/WHMCS_Modules">Check out all our WHMCS Modules! >></a></div>';
+
+        if(empty($content)){
+            $content = "<div style='text-align:center;padding:5px;background:#f7d5d1;'><i style=''>Service Temporarily Unavailable. Please try again later...</i>";
+        }
+
+        return array( 'title' => 'Hexonet Modules', 'content' => "<div style='margin-left:5px; margin-top:5px;'>".$content."</div>" );
+
+    }
+
+    add_hook("AdminHomeWidgets",1,"widget_hexonet_summary");
 ?>
-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

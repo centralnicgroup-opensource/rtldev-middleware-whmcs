@@ -333,7 +333,7 @@ function ispapi_registrantmodification_tld($params) {
 					$error = $response["DESCRIPTION"];
 				}
 			}
-			
+
 	}
 
 	return array(
@@ -2080,5 +2080,5 @@ function ispapi_parse_response ( $response ) {
     return $hash;
 }
 
-ispapi_InitModule("1.0.46");
+ispapi_InitModule("1.0.47");
 ?>
