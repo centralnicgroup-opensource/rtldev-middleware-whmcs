@@ -4,6 +4,9 @@ ______________________________________________________________________________
 Changelog
 ______________________________________________________________________________
 
+v1.0.48 - 2017-06-22
+ - improvement in the TransferSync function: set expirydate to paiduntildate when failuredate > paiduntildate
+
 v1.0.47 - 2017-05-31
  - update in the HEXONET Widget
  - support additional domain fields for .eco
