@@ -1679,16 +1679,15 @@ function ispapi_TransferSync($params) {
 	);
 	$response = ispapi_call($command, ispapi_config($params));
 	if ( $response["CODE"] == 200 ) {
-
-		$expdate = $response["PROPERTY"]["PAIDUNTILDATE"][0];
-		$duedate = $response["PROPERTY"]["ACCOUNTINGDATE"][0];
-
 		$values['completed'] = true; #  when transfer completes successfully
 
-		$expdate = preg_replace('/ .*/', '', $expdate);
-		$duedate = preg_replace('/ .*/', '', $duedate);
-
-		$values['expirydate'] = $duedate;
+		if($response["PROPERTY"]["FAILUREDATE"][0] > $response["PROPERTY"]["PAIDUNTILDATE"][0]){
+			$paiduntildate = preg_replace('/ .*/', '', $response["PROPERTY"]["PAIDUNTILDATE"][0]);
+			$values['expirydate'] = $paiduntildate;
+		}else{
+			$accountingdate = preg_replace('/ .*/', '', $response["PROPERTY"]["ACCOUNTINGDATE"][0]);
+			$values['expirydate'] = $accountingdate;
+		}
 
 		//activate the whoistrustee if set to 1 in WHMCS
 		if($params["idprotection"] == "1" || $params["idprotection"] == "on"){
@@ -2080,5 +2079,5 @@ function ispapi_parse_response ( $response ) {
     return $hash;
 }
 
-ispapi_InitModule("1.0.47");
+ispapi_InitModule("1.0.48");
 ?>
