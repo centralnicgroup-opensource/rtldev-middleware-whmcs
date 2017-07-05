@@ -20,6 +20,7 @@ function ispapi_getConfigArray($params) {
 			"TestMode" => array( "Type" => "yesno", "Description" => "Connect to OT&amp;E (Test Environment)" ),
 			"ProxyServer" => array( "Type" => "text", "Description" => "Optional (HTTP(S) Proxy Server)" ),
 			"ConvertIDNs" => array( "Type" => "dropdown", "Options" => "API,PHP", "Default" => "API", "Description" => "Use API or PHP function (idn_to_ascii)" ),
+			"DNSSEC" => array( "Type" => "yesno", "Description" => "Display the DNSSEC Management functionality in the domain details" ),
 	);
 	if ( !function_exists('idn_to_ascii') ) {
 		$configarray["ConvertIDNs"] = array( "Type" => "dropdown", "Options" => "API", "Default" => "API", "Description" => "Use API (PHP function idn_to_ascii not available)" );
@@ -119,7 +120,127 @@ function ispapi_ClientAreaCustomButtonArray($params) {
 	if ( $data && (preg_match('/[.]sg$/i', $data["domain"])) ) {
 		$buttonarray[".SG Change of Registrant"] = "registrantmodification_tld";
 	}
+
+	if($params["DNSSEC"] == "on"){
+		$buttonarray["DNSSEC Management"] = "dnssec";
+	}
+
     return $buttonarray;
+}
+
+function ispapi_dnssec($params) {
+	$origparams = $params;
+	if ( isset($params["original"]) ) {
+        $params = $params["original"];
+    }
+	$error = false;
+	$successful = false;
+	$domain = $params["sld"].".".$params["tld"];
+
+	if(isset($_POST["submit"])){
+
+		$command = array(
+		    "COMMAND" => "ModifyDomain",
+		    "DOMAIN" => $domain,
+			"SECDNS-MAXSIGLIFE" => $_POST["MAXSIGLIFE"],
+			//"SECDNS-URGENT" => $_POST["URGENT"]
+	    );
+
+		//add DS records
+		$command["SECDNS-DS"] = array();
+		if(isset($_POST["SECDNS-DS"])){
+			foreach ($_POST["SECDNS-DS"] as $dnssecrecord) {
+				$everything_empty = true;
+				foreach($dnssecrecord as $attribute){
+					if(!empty($attribute))
+						$everything_empty = false;
+				}
+				if(!$everything_empty)
+					array_push($command["SECDNS-DS"], implode(" ", $dnssecrecord));
+			}
+		}
+
+		//remove DS records - bugfix
+		if(empty($command["SECDNS-DS"])){
+			unset($command["SECDNS-DS"]);
+			$secdnsds = array();
+			$command2 = array(
+					"COMMAND" => "StatusDomain",
+					"DOMAIN" => $domain
+			);
+			$response = ispapi_call($command2, ispapi_config($params));
+			if ( $response["CODE"] == 200 ) {
+					$secdnsds = (isset($response["PROPERTY"]["SECDNS-DS"])) ? $response["PROPERTY"]["SECDNS-DS"] : array();
+			}
+			$command["DELSECDNS-DS"] = array();
+			foreach($secdnsds as $item){
+				array_push($command["DELSECDNS-DS"], $item);
+			}
+		}
+
+		//add KEY records
+		$command["SECDNS-KEY"] = array();
+		if(isset($_POST["SECDNS-KEY"])){
+			foreach ($_POST["SECDNS-KEY"] as $dnssecrecord) {
+				$everything_empty = true;
+				foreach($dnssecrecord as $attribute){
+					if(!empty($attribute))
+						$everything_empty = false;
+				}
+				if(!$everything_empty)
+					array_push($command["SECDNS-KEY"], implode(" ", $dnssecrecord));
+			}
+		}
+
+	    $response = ispapi_call($command, ispapi_config($params));
+	    if ( $response["CODE"] == 200 ) {
+            $successful = $response["DESCRIPTION"];
+        }else {
+		    $error = $response["DESCRIPTION"];
+	    }
+	}
+
+	$secdnsds = array();
+	$secdnskey = array();
+	$maxsiglife = "";
+	$command = array(
+			"COMMAND" => "StatusDomain",
+			"DOMAIN" => $domain
+	);
+	$response = ispapi_call($command, ispapi_config($params));
+
+	if ( $response["CODE"] == 200 ) {
+			$maxsiglife = (isset($response["PROPERTY"]["SECDNS-MAXSIGLIFE"])) ? $response["PROPERTY"]["SECDNS-MAXSIGLIFE"][0] : "";
+			$secdnsds = (isset($response["PROPERTY"]["SECDNS-DS"])) ? $response["PROPERTY"]["SECDNS-DS"] : array();
+			$secdnskey = (isset($response["PROPERTY"]["SECDNS-KEY"])) ? $response["PROPERTY"]["SECDNS-KEY"] : array();
+			//delete empty KEY records
+			$secdnskeynew = array();
+			foreach($secdnskey as $k){
+				if(!empty($k))
+					$secdnskeynew[] = $k;
+			}
+			$secdnskey = $secdnskeynew;
+	}else{
+		$error = $response["DESCRIPTION"];
+	}
+
+	//split in different fields
+	$secdnsds_newformat = array();
+	foreach($secdnsds as $ds){
+		list($keytag, $alg, $digesttype, $digest) = split(" ", $ds, 4);
+		array_push($secdnsds_newformat, array("keytag" => $keytag, "alg" => $alg, "digesttype" => $digesttype, "digest" => $digest));
+	}
+
+	$secdnskey_newformat = array();
+	foreach($secdnskey as $key){
+		list($flags, $protocol, $alg, $pubkey) = split(" ", $key, 4);
+		array_push($secdnskey_newformat, array("flags" => $flags, "protocol" => $protocol, "alg" => $alg, "pubkey" => $pubkey));
+	}
+
+	return array(
+			'templatefile' => "dnssec",
+			'vars' => array('error' => $error, 'successful' => $successful, 'secdnsds' => $secdnsds_newformat, 'secdnskey' => $secdnskey_newformat, 'maxsiglife' => $maxsiglife )
+	);
 }
 
 function ispapi_registrantmodification_it($params) {
@@ -818,9 +939,9 @@ function ispapi_GetDNS($params) {
 			if ( $rrtype == "X-HTTP" ) {
 				if ( preg_match('/^\//', $fields[0]) ) {
 					$domain .= array_shift($fields);
-					while(substr($domain, -1)=="/"){
+					/*while(substr($domain, -1)=="/"){
 						$domain = substr_replace($domain, "", -1);
-					}
+					}*/
 				}
 
 				$url_type = array_shift($fields);
@@ -1388,6 +1509,16 @@ function ispapi_RegisterDomain($params) {
 		"TECHCONTACT0" => $admin,
 		"BILLINGCONTACT0" => $admin
 	);
+
+	//add NS Entries for .de domains to redirect to the landing page
+	if(strtolower($params["tld"]) == "de"){
+		$command["NAMESERVER0"] = "";
+	 	$command["NAMESERVER1"] = "";
+	 	$command["X-DE-NSENTRY0"] = "www.$domain IN A 144.76.201.8";
+	 	$command["X-DE-NSENTRY1"] = "$domain IN A 144.76.201.8";
+	 	unset($command["NAMESERVER2"]);
+	 	unset($command["NAMESERVER3"]);
+	}
 
 	if ( $params["dnsmanagement"] ) {
 		$command["INTERNALDNS"] = 1;
@@ -2079,5 +2210,5 @@ function ispapi_parse_response ( $response ) {
     return $hash;
 }
 
-ispapi_InitModule("1.0.48");
+ispapi_InitModule("1.0.49");
 ?>
