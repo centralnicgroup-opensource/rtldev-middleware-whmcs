@@ -75,7 +75,7 @@
 	</tbody>
 </table>
 
-<h4>MaxSigLife (Optional)</h4>
+<h4>MaxSigLife (optional)</h4>
 <table class="table table-striped">
 	<tr><td><input style="width:200px;" class="form-control" type="text" name="MAXSIGLIFE" value="{$maxsiglife}"></td></tr>
 </table>
@@ -91,7 +91,6 @@ The use of this flag depends on the registry operator, many TLDs will silently i
 		</select>
 	</td></tr>
 </table> -->
-
 
 <p class="text-center">
     <input class="btn btn-large btn-primary" type="submit" value="{$LANG.clientareasavechanges}">

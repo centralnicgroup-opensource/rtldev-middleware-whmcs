@@ -202,6 +202,7 @@ function ispapi_dnssec($params) {
 
 	$secdnsds = array();
 	$secdnskey = array();
+	$maxsiglife = "";
 	$command = array(
 			"COMMAND" => "StatusDomain",
 			"DOMAIN" => $domain
@@ -219,6 +220,8 @@ function ispapi_dnssec($params) {
 					$secdnskeynew[] = $k;
 			}
 			$secdnskey = $secdnskeynew;
+	}else{
+		$error = $response["DESCRIPTION"];
 	}
 
 	//split in different fields
