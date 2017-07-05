@@ -718,7 +718,7 @@ $additionaldomainfields[".com.cn"] = $additionaldomainfields[".cn"];
 $additionaldomainfields[".net.cn"] = $additionaldomainfields[".cn"];
 $additionaldomainfields[".org.cn"] = $additionaldomainfields[".cn"];
 
-## ## .COM.AU DOMAIN REQUIREMENTS ##
+## .COM.AU DOMAIN REQUIREMENTS ##
 $additionaldomainfields[".com.au"] = array();
 
 $additionaldomainfields[".com.au"][] = array(
@@ -746,7 +746,7 @@ $additionaldomainfields[".net.au"] = $additionaldomainfields[".com.au"];
 $additionaldomainfields[".org.au"] = $additionaldomainfields[".com.au"];
 $additionaldomainfields[".id.au"] = $additionaldomainfields[".com.au"];
 
-## ## .LV DOMAIN REQUIREMENTS ##
+## .LV DOMAIN REQUIREMENTS ##
 
 $additionaldomainfields[".lv"] = array();
 
@@ -766,7 +766,7 @@ $additionaldomainfields[".lv"][] = array(
   "Ispapi-Name" => "X-IDNUMBER"
 );
 
-## ## .PT DOMAIN REQUIREMENTS ##
+## .PT DOMAIN REQUIREMENTS ##
 $additionaldomainfields[".pt"] = array();
 
 $additionaldomainfields[".pt"][] = array(

@@ -939,9 +939,9 @@ function ispapi_GetDNS($params) {
 			if ( $rrtype == "X-HTTP" ) {
 				if ( preg_match('/^\//', $fields[0]) ) {
 					$domain .= array_shift($fields);
-					while(substr($domain, -1)=="/"){
+					/*while(substr($domain, -1)=="/"){
 						$domain = substr_replace($domain, "", -1);
-					}
+					}*/
 				}
 
 				$url_type = array_shift($fields);
@@ -2210,5 +2210,5 @@ function ispapi_parse_response ( $response ) {
     return $hash;
 }
 
-ispapi_InitModule("1.0.48");
+ispapi_InitModule("1.0.49");
 ?>
