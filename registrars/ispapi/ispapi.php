@@ -1,5 +1,7 @@
 <?php
 
+$module_version = "1.0.50";
+
 function ispapi_InitModule($version) {
 	global $ispapi_module_version;
 	$ispapi_module_version = $version;
@@ -34,11 +36,54 @@ function ispapi_getConfigArray($params) {
 				"PASSWORD" => $params["Password"]
 		);
 		$response = ispapi_call($command, ispapi_config($params));
-		$mode_text = ($params["TestMode"]=="on") ? "to OT&E environment" : "to production environment";
-		$state = ($response["CODE"] == 200) ? "<div style='color:green;font-weight:bold;'>Connected ".$mode_text."</div>" : "<div style='color:red;font-weight:bold;'>Disconnected (Verify Username and Password)</div>";
-		$configarray[""] = array( "Description" => "<b>Connection state:</b><br>".$state );
+		$mode_text = ($params["TestMode"]=="on") ? "to OT&E environment" : "to PRODUCTION environment";
+		$state = ($response["CODE"] == 200) ? "<div style='color:white;font-weight:bold;background-color:green;padding:3px;width:400px;text-align:center;'>Connected ".$mode_text."</div>" : "<div style='color:white;font-weight:bold;background-color:red;padding:3px;width:400px;text-align:center;'>Disconnected (Verify Username and Password)</div>";
+		$configarray[""] = array( "Description" => $state );
 	}
 
+	//Save information about module versions in the environment
+	if($response["CODE"] == 200){
+		if(file_exists(dirname(__FILE__)."/once.php")){
+			require_once(dirname(__FILE__)."/once.php");
+			//workarround to call that only 1 time.
+			if(isset($included)){
+				$date = new DateTime("now", new DateTimeZone('UTC') );
+				$hostname = $_SERVER["HTTP_HOST"];
+				$values = array("whmcs" => $params["whmcsVersion"],
+					  			"updated_date" => $date->format('Y-m-d H:i:s')." (UTC)",
+								"ispapiwhmcs" => $version,
+				);
+
+				//check ispapi modules version
+				$modules = array("ispapidomaincheck", "ispapibackorder", "ispapidpi");
+				foreach($modules as $module){
+					if(file_exists(dirname(__FILE__)."/../../addons/$module/$module.php")){
+						require_once dirname(__FILE__)."/../../addons/$module/$module.php";
+						$values[$module] = $module_version;
+					}
+				}
+
+				//check ispapissl module version
+				$module = "ispapissl";
+				if(file_exists(dirname(__FILE__)."/../../servers/$module/$module.php")){
+					require_once dirname(__FILE__)."/../../servers/$module/$module.php";
+					$values[$module] = $ispapissl_module_version;
+				}
+
+				$command = array(
+						"COMMAND" => "SetEnvironment",
+				);
+				$i=0;
+				foreach($values as $key => $value){
+					$command["ENVIRONMENTKEY$i"] = "middleware/whmcs/".$hostname;
+					$command["ENVIRONMENTNAME$i"] = $key;
+					$command["ENVIRONMENTVALUE$i"] = $value;
+					$i++;
+				}
+				$response = ispapi_call($command, ispapi_config($params));
+			}
+		}
+	}
 	return $configarray;
 }
 
@@ -2210,5 +2255,6 @@ function ispapi_parse_response ( $response ) {
     return $hash;
 }
 
-ispapi_InitModule("1.0.49");
+
+ispapi_InitModule($module_version);
 ?>
