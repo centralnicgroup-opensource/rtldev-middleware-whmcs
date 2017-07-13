@@ -41,7 +41,7 @@ function ispapi_getConfigArray($params) {
 		$configarray[""] = array( "Description" => $state );
 	}
 
-	//Save information about module versions in the environment to optimize support.
+	//Save information about module versions in the environment
 	if($response["CODE"] == 200){
 		if(file_exists(dirname(__FILE__)."/once.php")){
 			require_once(dirname(__FILE__)."/once.php");
@@ -49,12 +49,9 @@ function ispapi_getConfigArray($params) {
 			if(isset($included)){
 				$date = new DateTime("now", new DateTimeZone('UTC') );
 				$hostname = $_SERVER["HTTP_HOST"];
-				$values = array("software_version" => $params["whmcsVersion"],
+				$values = array("whmcs" => $params["whmcsVersion"],
 					  			"updated_date" => $date->format('Y-m-d H:i:s')." (UTC)",
-								"adminarea_url" => str_replace('configregistrars.php', '', $_SERVER["SCRIPT_URI"]),
-								"adminarea_path" =>  str_replace('configregistrars.php', '', $_SERVER["SCRIPT_FILENAME"]),
-								"server_ip" => $_SERVER["SERVER_ADDR"],
-								"ispapiregistrar" => $version,
+								"ispapiwhmcs" => $version,
 				);
 
 				//check ispapi modules version
@@ -78,7 +75,7 @@ function ispapi_getConfigArray($params) {
 				);
 				$i=0;
 				foreach($values as $key => $value){
-					$command["ENVIRONMENTKEY$i"] = "_whmcs/".$hostname;
+					$command["ENVIRONMENTKEY$i"] = "middleware/whmcs/".$hostname;
 					$command["ENVIRONMENTNAME$i"] = $key;
 					$command["ENVIRONMENTVALUE$i"] = $value;
 					$i++;

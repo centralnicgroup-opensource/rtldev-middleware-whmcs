@@ -4,8 +4,8 @@ ______________________________________________________________________________
 Changelog
 ______________________________________________________________________________
 
-v1.0.49 - 2017-xx-xx
- - improvement in the module which will allow our Support Team to be able to react faster in support cases.
+v1.0.49 - 2017-07-13
+ - save module version in user environment to allow faster problem resolution
 
 v1.0.49 - 2017-07-05
  - added DNSSEC Management functionality (Can be configured in the Registrar Module Settings)
