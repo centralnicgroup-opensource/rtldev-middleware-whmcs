@@ -1510,16 +1510,6 @@ function ispapi_RegisterDomain($params) {
 		"BILLINGCONTACT0" => $admin
 	);
 
-	//add NS Entries for .de domains to redirect to the landing page
-	if(strtolower($params["tld"]) == "de"){
-		$command["NAMESERVER0"] = "";
-	 	$command["NAMESERVER1"] = "";
-	 	$command["X-DE-NSENTRY0"] = "www.$domain IN A 144.76.201.8";
-	 	$command["X-DE-NSENTRY1"] = "$domain IN A 144.76.201.8";
-	 	unset($command["NAMESERVER2"]);
-	 	unset($command["NAMESERVER3"]);
-	}
-
 	if ( $params["dnsmanagement"] ) {
 		$command["INTERNALDNS"] = 1;
 	}
