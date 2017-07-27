@@ -1032,11 +1032,15 @@ function ispapi_GetDNS($params) {
 }
 
 function ispapi_SaveDNS($params) {
+	// echo "<pre>"; print_r($params); echo "</pre>";
 	$values = array();
 	if ( isset($params["original"]) ) {
 		$params = $params["original"];
 	}
 	$dnszone = $params["sld"].".".$params["tld"].".";
+	//T
+	$domain = $params["sld"].".".$params["tld"];
+	// T
 
 	$command = array(
 		"COMMAND" => "UpdateDNSZone",
@@ -1159,7 +1163,22 @@ function ispapi_SaveDNS($params) {
 		}
 	}
 
+	//T
 	$response = ispapi_call($command, ispapi_config($params));
+
+	if( $response["CODE"] == 545 ){
+
+		$command3 = array(
+			"COMMAND" => "ModifyDomain",
+			"DOMAIN" => $domain,
+			"INTERNALDNS" => 1
+		);
+
+	}
+	$response = ispapi_call($command3, ispapi_config($params));
+	$response = ispapi_call($command, ispapi_config($params));
+	//E T
+
 	if ( $response["CODE"] != 200 ) {
 		$values["error"] = $response["DESCRIPTION"];
 	}
