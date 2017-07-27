@@ -1032,6 +1032,7 @@ function ispapi_GetDNS($params) {
 }
 
 function ispapi_SaveDNS($params) {
+	// echo "<pre>"; print_r($params); echo "</pre>";
 	$values = array();
 	if ( isset($params["original"]) ) {
 		$params = $params["original"];
