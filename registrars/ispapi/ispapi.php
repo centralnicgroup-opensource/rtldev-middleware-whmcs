@@ -1038,9 +1038,7 @@ function ispapi_SaveDNS($params) {
 		$params = $params["original"];
 	}
 	$dnszone = $params["sld"].".".$params["tld"].".";
-	//T
 	$domain = $params["sld"].".".$params["tld"];
-	// T
 
 	$command = array(
 		"COMMAND" => "UpdateDNSZone",
@@ -1163,21 +1161,22 @@ function ispapi_SaveDNS($params) {
 		}
 	}
 
-	//T
+	//send command to update DNS Zone
 	$response = ispapi_call($command, ispapi_config($params));
 
+	//if DNSZONE not existing, create one automatically
 	if( $response["CODE"] == 545 ){
-
-		$command3 = array(
+		$creatednszone_command = array(
 			"COMMAND" => "ModifyDomain",
 			"DOMAIN" => $domain,
 			"INTERNALDNS" => 1
 		);
-
+		$creatednszone = ispapi_call($creatednszone_command, ispapi_config($params));
+		if($creatednszone["CODE"] == 200){
+			//resend command to update DNS Zone
+			$response = ispapi_call($command, ispapi_config($params));
+		}
 	}
-	$response = ispapi_call($command3, ispapi_config($params));
-	$response = ispapi_call($command, ispapi_config($params));
-	//E T
 
 	if ( $response["CODE"] != 200 ) {
 		$values["error"] = $response["DESCRIPTION"];
