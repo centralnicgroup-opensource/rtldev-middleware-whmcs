@@ -1,6 +1,6 @@
 <?php
 
-$module_version = "1.0.50";
+$module_version = "1.0.51";
 
 function ispapi_InitModule($version) {
 	global $ispapi_module_version;
