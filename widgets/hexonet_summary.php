@@ -89,7 +89,7 @@
 				$diff = version_compare($my_domainchecker_version, $current_domainchecker_version);
 				$content .= "You are currently running version ".$my_domainchecker_version.".";
 				if($diff < 0){
-					$content .= '<div class="textred">An update is available!<br>Please install the latest version '.$current_domainchecker_version.'. (<a href="https://www.hexonet.net/files/whmcs/ispapi/ispapi_whmcs-domaincheckaddon-latest.zip">download</a>)</div>';
+					$content .= '<div class="textred">An update is available!<br>Please install the latest version '.$current_domainchecker_version.'. (<a href="https://www.hexonet.net/files/whmcs/ispapi/ispapi_whmcs-domaincheckaddon-7-latest.zip">download</a>)</div>';
 				}
 				if($diff >= 0){
 					$content .= '<div class="textgreen">Your version is up to date.</div>';
