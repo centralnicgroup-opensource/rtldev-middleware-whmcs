@@ -4,8 +4,8 @@ ______________________________________________________________________________
 Changelog
 ______________________________________________________________________________
 
-v1.0.51 - 2017-07-28
- -Added creation of nonexistent DNS record during update of a DNS zone for a domain.
+v1.0.51 - 2017-07-29
+ - DNS Zone created automatically when adding a DNS record if no DNS Zone existing.
 
 v1.0.50 - 2017-07-13
  - save module version in user environment to allow faster problem resolution
