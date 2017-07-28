@@ -1163,7 +1163,7 @@ function ispapi_SaveDNS($params) {
 	//send command to update DNS Zone
 	$response = ispapi_call($command, ispapi_config($params));
 
-	//if DNSZONE not existing, create one automatically
+	//if DNS Zone not existing, create one automatically
 	if( $response["CODE"] == 545 ){
 		$creatednszone_command = array(
 			"COMMAND" => "ModifyDomain",
