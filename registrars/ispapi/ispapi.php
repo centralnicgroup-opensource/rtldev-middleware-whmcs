@@ -2,6 +2,265 @@
 
 $module_version = "1.0.51";
 
+use WHMCS\Domains\DomainLookup\ResultsList;
+use WHMCS\Domains\DomainLookup\SearchResult;
+use WHMCS\Module\Registrar\Registrarmodule\ApiClient;
+use WHMCS\Database\Capsule;
+
+function ispapi_MetaData() {
+	//$version = ispapi_GetISPAPIModuleVersion();
+    return array(
+        'DisplayName' => 'ISPAPI Registrar Module',
+        'APIVersion' => '1.0'//$version,
+    );
+}
+
+function ispapi_CheckAvailability($params) {
+    mail("anthonys@hexonet.net", "test1 ", print_r($params, true));
+    // echo "<pre>";
+    // print_r($params);
+    // echo "</pre>";
+
+    //mail("anthonys@hexonet.net", "test1 ", print_r($params, true));
+
+    if(empty($params['tlds'])){
+        return;
+    }
+
+    //mail("anthonys@hexonet.net", "test1 ", print_r($params, true));
+
+    if(isset($_REQUEST["domain"]) && preg_match('/\./', $_REQUEST["domain"]) ){
+        $search = split("\.", $_REQUEST["domain"]);
+        $searched_tld = ".".$search[1];
+    }
+
+    // mail("anthonys@hexonet.net", "CheckAvailability $searched_tld","");
+
+	$label = $params['searchTerm'];
+	$tldslist = $params['tldsToInclude'];
+	$premiumEnabled = (bool) $params['premiumEnabled'];
+	$domainslist = array();
+ 	$results = new ResultsList();
+
+    if(isset($searched_tld) && !in_array($searched_tld, $tldslist)){
+        $tldslist[] = $searched_tld;
+    }
+
+	foreach($tldslist as $tld){
+        if(!empty($tld[0])){
+            if($tld[0] != '.'){
+    			$tld = ".".$tld;
+    		}
+            $domain = $label.$tld;
+            if(!in_array($domain, $domainslist["all"])){
+                $domainslist["all"][] = $domain;
+        		$domainslist["list"][] = array("sld" => $label, "tld" => $tld);
+            }
+        }
+	}
+
+    //Only for suggestions
+    if(isset($params["suggestions"]) && !empty($params["suggestions"])){
+        foreach($params["suggestions"] as $suggestion){
+            if(!in_array($suggestion, $domainslist["all"])){
+                $domainslist["all"][] = $suggestion;
+                $suggested_domain = split("\.",$suggestion);
+                $domainslist["list"][] = array("sld" => $suggested_domain[0], "tld" => ".".$suggested_domain[1]);
+            }
+        }
+    }
+
+    // //IGNORE CALL WITHOUT TLDS
+    // if(empty($domainslist["all"])){
+    //     return;
+    // }
+
+	$command = array(
+			"COMMAND" => "CheckDomains",
+			"DOMAIN" => $domainslist["all"],
+			"PREMIUMCHANNELS" => "*"
+	);
+	$check = ispapi_call($command, ispapi_config($params));
+    mail("anthonys@hexonet.net", "CheckAvailability", print_r($domainslist["all"], true).print_r($check,true));
+
+	if($check["CODE"] == 200){
+		$index=0;
+		foreach($domainslist["list"] as $domain){
+			$searchResult = new SearchResult($domain['sld'], $domain['tld']);
+			if(preg_match('/210/', $check["PROPERTY"]["DOMAINCHECK"][$index])){
+                //DOMAIN AVAILABLE
+				$status = SearchResult::STATUS_NOT_REGISTERED;
+			}
+			elseif(!empty($check["PROPERTY"]["PREMIUMCHANNEL"][$index])){
+				//IF PREMIUM DOMAIN ENABLED IN WHMCS - DISPLAY AVAILABLE + PRICE
+				if($premiumEnabled){
+                    $currency_id = 0;
+                    if(isset($check["PROPERTY"]["PRICE"][$index]) && is_numeric($check["PROPERTY"]["PRICE"][$index])){
+                        $registerprice = $check["PROPERTY"]["PRICE"][$index];
+                    }
+                    if(isset($check["PROPERTY"]["CURRENCY"][$index]) && !empty($check["PROPERTY"]["CURRENCY"][$index])){
+                        $currency = $check["PROPERTY"]["CURRENCY"][$index];
+                    }
+
+                    //GET ALL CURRENCIES EXISTING IN WHMCS
+                    $command = 'GetCurrencies';
+                    $getcurrencies_res = localAPI($command, array());
+                    $currency_list = array();
+                    foreach($getcurrencies_res["currencies"]["currency"] as $cur){
+                        $currency_list[] = $cur["code"];
+                        if($cur["code"] == $currency){
+                            $currency_id = $cur["id"];
+                        }
+                    }
+
+                    if(!in_array($currency, $currency_list)){
+                        //IF CURRENCY NOT IN WHMCS, RETURN TAKEN BECAUSE IT'S NOT POSSIBLE TO CALCULATE THE PRICE.
+                        $status = SearchResult::STATUS_REGISTERED;
+                    }else{
+                        //AFTERMARKET OR REGISTRY PREMIUM DOMAIN
+                        $renewprice = ispapi_getRenewPrice($params, $check["PROPERTY"]["CLASS"][$index], $currency_id, ltrim($domain['tld'], '.'));
+
+    					if(isset($registerprice) && isset($currency) && $renewprice){
+                            $status = SearchResult::STATUS_NOT_REGISTERED;
+                			$searchResult->setPremiumDomain(true);
+                			$searchResult->setPremiumCostPricing(
+                                array(
+                                    'register' => $registerprice,
+                                    'renew' => $renewprice,
+                                    'CurrencyCode' => $currency,
+                                )
+                            );
+                        }else{
+                            //PROBLEM, COULD NOT GET REGISTRATION OR RENEW PRICES -> DISPLAY THE DOMAIN AS TAKEN
+                            $status = SearchResult::STATUS_REGISTERED;
+                        }
+                    }
+				}else{
+                    //PREMIUM DOMAIN NOT ENABLED IN WHMCS -> DISPLAY THE DOMAIN AS TAKEN
+					$status = SearchResult::STATUS_REGISTERED;
+				}
+			}else{
+                //DOMAIN TAKEN
+				$status = SearchResult::STATUS_REGISTERED;
+			}
+			$searchResult->setStatus($status);
+			$results->append($searchResult);
+			$index++;
+		}
+	}
+    return $results;
+}
+
+function ispapi_GetDomainSuggestions($params){
+    return "";
+    $label = $params['searchTerm'];
+	$tldslist = $params['tldsToInclude'];
+	$zones = array();
+	foreach($tldslist as $tld){
+		$zones[] = $tld;
+	}
+
+    $command = array(
+			"COMMAND" => "QueryDomainSuggestionList",
+			"KEYWORD" => $label,
+			"ZONE" => $zones,
+            "SOURCE" => "ISPAPI-SUGGESTIONS"
+	);
+	$suggestions = ispapi_call($command, ispapi_config($params));
+
+    $domains = array();
+    if($suggestions["CODE"] == 200){
+        $domains = $suggestions["PROPERTY"]["DOMAIN"];
+    }
+    $params["suggestions"] = $domains;
+    return ispapi_CheckAvailability($params);
+}
+
+
+function ispapi_DomainSuggestionOptions() {
+    return array(
+        'activate' => array(
+            'FriendlyName' => 'Activate domain suggestions?',
+            'Type' => 'yesno',
+            'Description' => 'Tick to activate',
+        ),
+    );
+}
+
+function ispapi_getRenewPrice($params, $class, $currency_id, $tld){
+	session_start();
+	$date = new DateTime();
+    $type = "";
+
+    if(empty($class)){
+        //NO PREMIUM RENEW, RETURN THE PRICE SET IN WHMCS
+        $command = 'GetTLDPricing';
+        $gettldpricing_res = localAPI($command, array("currencyid" => $currency_id));
+        $renewprice = $gettldpricing_res["pricing"][$tld]["renew"][1];
+        if(!empty($renewprice)){
+            return $renewprice;
+        }else{
+            return false;
+        }
+    }
+
+    if(!preg_match('/\:/', $class)){
+        //REGISTRY PREMIUM DOMAINS (e.g. PREMIUM_DATE_F)
+        $class = "PRICE_CLASS_DOMAIN_".$class."_ANNUAL";
+    }else{
+        //VARIABLE FEE PREMIUM DOMAINS (e.g. PREMIUM_TOP_CNY:24:4976)
+        $prices = preg_split("/\:/", $class);
+        $type = "VARIABLEPREMIUM";
+    }
+
+    //GET USER RELATIONS
+	if((!isset($_SESSION["ISPAPICACHE"])) || ($_SESSION["ISPAPICACHE"]["TIMESTAMP"] + 600 < $date->getTimestamp() )){
+		$command["COMMAND"] = "StatusUser";
+		$response = ispapi_call($command, ispapi_config($params));
+		if ($response["CODE"] == 200) {
+			$_SESSION["ISPAPICACHE"] = array("TIMESTAMP" => $date->getTimestamp() , "RELATIONS" => $response["PROPERTY"]);
+			$relations = $_SESSION["ISPAPICACHE"]["RELATIONS"];
+		}else{
+			return false;
+		}
+	}else{
+		$relations = $_SESSION["ISPAPICACHE"]["RELATIONS"];
+	}
+
+    if($type == "VARIABLEPREMIUM"){
+        //HANDLE VARIABLE FEE PREMIUM DOMAINS
+        $cl = preg_split("/_/", $prices[0]);
+        $premiummarkupfix_class = "PRICE_CLASS_DOMAIN_".$cl[0]."_".$cl[1]."_*_ANNUAL_MARKUP_FIX";
+        $premiummarkupvar_class = "PRICE_CLASS_DOMAIN_".$cl[0]."_".$cl[1]."_*_ANNUAL_MARKUP_VAR";
+        $i=0;
+        foreach($relations["RELATIONTYPE"] as $relation) {
+            if($relation == $premiummarkupfix_class){
+                $premiummarkupfix_value = $relations["RELATIONVALUE"][$i];
+            }
+            if($relation == $premiummarkupvar_class){
+                $premiummarkupvar_value = $relations["RELATIONVALUE"][$i];
+            }
+            $i++;
+        }
+        if(isset($premiummarkupfix_value) && isset($premiummarkupvar_value)){
+            $renewprice = $prices[1] * (1 + $premiummarkupvar_value/100) + $premiummarkupfix_value;
+            return $renewprice;
+        }
+    }else{
+        //HANDLE REGISTRY PREMIUM DOMAINS
+        $i=0;
+    	foreach($relations["RELATIONTYPE"] as $relation) {
+    		if($relation == $class){
+    			return $relations["RELATIONVALUE"][$i];
+    		}
+    		$i++;
+    	}
+    }
+	return false;
+}
+
+// ###########################
+
 function ispapi_InitModule($version) {
 	global $ispapi_module_version;
 	$ispapi_module_version = $version;
@@ -1519,6 +1778,10 @@ function ispapi_IDProtectToggle($params) {
 function ispapi_RegisterDomain($params) {
 	$values = array();
 	$origparams = $params;
+
+	$premiumDomainsEnabled = (bool) $params['premiumEnabled'];
+	$premiumDomainsCost = $params['premiumCost'];
+
 	$params = ispapi_get_utf8_params($params);
 	if ( isset($params["original"]) ) {
         $params = $params["original"];
@@ -1588,6 +1851,46 @@ function ispapi_RegisterDomain($params) {
 	}
 
 	ispapi_use_additionalfields($params, $command);
+
+	//check if premium domain functionality is enabled by the admin
+	if($premiumDomainsEnabled){
+		//check if the domain has a premium price
+		if(!empty($premiumDomainsCost)){
+			mail("anthonys@hexonet.net", "AddDomainApplication PREMIUM1", "premiumDomainsCost: ".$premiumDomainsCost);
+
+			$c = array(
+					"COMMAND" => "CheckDomains",
+					"DOMAIN" => array($domain),
+					"PREMIUMCHANNELS" => "*"
+			);
+			$check = ispapi_call($c, ispapi_config($origparams));
+			if($check["CODE"] == 200){
+				$registrar_premium_domain_price = $check["PROPERTY"]["PRICE"][0];
+				$registrar_premium_domain_class = $check["PROPERTY"]["CLASS"][0];
+				$registrar_premium_domain_currency = $check["PROPERTY"]["CURRENCY"][0];
+			mail("anthonys@hexonet.net", "AddDomainApplication PREMIUM2", print_r($check, true));
+
+				//check if the price displayed to the customer is equal to the real cost at the registar
+				if($premiumDomainsCost == $registrarprice){
+					//get RENEW price
+					$premiumdomainpriceclass = "PRICE_CLASS_DOMAIN_".$check["PROPERTY"]["CLASS"][0]."_ANNUAL";
+					$renewprice = ispapi_getPriceWithPremiumMargin($origparams, $premiumdomainpriceclass);
+					if(!$renewprice){
+						$values["error"] = "PREMIUM DOMAIN - NO RENEW PRICE FOUND (CLASS=$premiumdomainpriceclass)";
+						return $values;
+					}
+					$command["COMMAND"] = "AddDomainApplication";
+					$command["RENEW"] = $renewprice;
+					$command["CLASS"] =  $registrar_premium_domain_class;
+					$command["PRICE"] =  $premiumDomainsCost;
+					$command["CURRENCY"] = $registrar_premium_domain_currency;
+
+					mail("anthonys@hexonet.net", "AddDomainApplication PREMIUM3", print_r($command,true));
+					$command["COMMAND"] = "DONOTREGISTER";
+				}
+			}
+		}
+	}
 
 	$response = ispapi_call($command, ispapi_config($origparams));
 
