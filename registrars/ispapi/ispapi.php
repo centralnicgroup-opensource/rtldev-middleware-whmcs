@@ -1,4 +1,10 @@
 <?php
+/**
+ * ISPAPI Registrar Module
+ *
+ * @author HEXONET GmbH <support@hexonet.net>
+ * @version 1.0.51
+ */
 
 $module_version = "1.0.51";
 
@@ -7,44 +13,21 @@ use WHMCS\Domains\DomainLookup\SearchResult;
 use WHMCS\Module\Registrar\Registrarmodule\ApiClient;
 use WHMCS\Database\Capsule;
 
-function ispapi_MetaData() {
-	//$version = ispapi_GetISPAPIModuleVersion();
-    return array(
-        'DisplayName' => 'ISPAPI Registrar Module',
-        'APIVersion' => '1.0'//$version,
-    );
-}
-
+/**
+ * Check the availability of a domain name using HEXONET's fast API
+ *
+ */
 function ispapi_CheckAvailability($params) {
-    mail("anthonys@hexonet.net", "test1 ", print_r($params, true));
-    // echo "<pre>";
-    // print_r($params);
-    // echo "</pre>";
-
-    //mail("anthonys@hexonet.net", "test1 ", print_r($params, true));
-
-    if(empty($params['tlds'])){
-        return;
+    if($params['isIdnDomain']){
+	       $label = empty($params['punyCodeSearchTerm']) ? strtolower($params['searchTerm']) : strtolower($params['punyCodeSearchTerm']);
+    }else{
+	       $label = strtolower($params['searchTerm']);
     }
 
-    //mail("anthonys@hexonet.net", "test1 ", print_r($params, true));
-
-    if(isset($_REQUEST["domain"]) && preg_match('/\./', $_REQUEST["domain"]) ){
-        $search = split("\.", $_REQUEST["domain"]);
-        $searched_tld = ".".$search[1];
-    }
-
-    // mail("anthonys@hexonet.net", "CheckAvailability $searched_tld","");
-
-	$label = $params['searchTerm'];
 	$tldslist = $params['tldsToInclude'];
 	$premiumEnabled = (bool) $params['premiumEnabled'];
 	$domainslist = array();
  	$results = new ResultsList();
-
-    if(isset($searched_tld) && !in_array($searched_tld, $tldslist)){
-        $tldslist[] = $searched_tld;
-    }
 
 	foreach($tldslist as $tld){
         if(!empty($tld[0])){
@@ -59,7 +42,7 @@ function ispapi_CheckAvailability($params) {
         }
 	}
 
-    //Only for suggestions
+    //ONLY FOR SUGGESTIONS
     if(isset($params["suggestions"]) && !empty($params["suggestions"])){
         foreach($params["suggestions"] as $suggestion){
             if(!in_array($suggestion, $domainslist["all"])){
@@ -70,18 +53,12 @@ function ispapi_CheckAvailability($params) {
         }
     }
 
-    // //IGNORE CALL WITHOUT TLDS
-    // if(empty($domainslist["all"])){
-    //     return;
-    // }
-
 	$command = array(
 			"COMMAND" => "CheckDomains",
 			"DOMAIN" => $domainslist["all"],
 			"PREMIUMCHANNELS" => "*"
 	);
 	$check = ispapi_call($command, ispapi_config($params));
-    mail("anthonys@hexonet.net", "CheckAvailability", print_r($domainslist["all"], true).print_r($check,true));
 
 	if($check["CODE"] == 200){
 		$index=0;
@@ -116,10 +93,10 @@ function ispapi_CheckAvailability($params) {
                     if(!in_array($currency, $currency_list)){
                         //IF CURRENCY NOT IN WHMCS, RETURN TAKEN BECAUSE IT'S NOT POSSIBLE TO CALCULATE THE PRICE.
                         $status = SearchResult::STATUS_REGISTERED;
+
                     }else{
                         //AFTERMARKET OR REGISTRY PREMIUM DOMAIN
                         $renewprice = ispapi_getRenewPrice($params, $check["PROPERTY"]["CLASS"][$index], $currency_id, ltrim($domain['tld'], '.'));
-
     					if(isset($registerprice) && isset($currency) && $renewprice){
                             $status = SearchResult::STATUS_NOT_REGISTERED;
                 			$searchResult->setPremiumDomain(true);
@@ -143,17 +120,38 @@ function ispapi_CheckAvailability($params) {
                 //DOMAIN TAKEN
 				$status = SearchResult::STATUS_REGISTERED;
 			}
+
 			$searchResult->setStatus($status);
-			$results->append($searchResult);
 			$index++;
+
+            if(isset($params["suggestions"])){
+                //ONLY RETURNS AVAILABLE DOMAINS FOR SUGGESTIONS
+                if($status != SearchResult::STATUS_REGISTERED){
+                    $results->append($searchResult);
+                }
+            }else{
+                $results->append($searchResult);
+            }
+
 		}
 	}
     return $results;
 }
 
+/**
+ * Provide domain suggestions based on the domain lookup term provided.
+ *
+ */
 function ispapi_GetDomainSuggestions($params){
-    return "";
-    $label = $params['searchTerm'];
+    if(empty($params['suggestionSettings']['suggestions'])){
+        return;
+    }
+
+    if($params['isIdnDomain']){
+	       $label = empty($params['punyCodeSearchTerm']) ? strtolower($params['searchTerm']) : strtolower($params['punyCodeSearchTerm']);
+    }else{
+	       $label = strtolower($params['searchTerm']);
+    }
 	$tldslist = $params['tldsToInclude'];
 	$zones = array();
 	foreach($tldslist as $tld){
@@ -164,7 +162,8 @@ function ispapi_GetDomainSuggestions($params){
 			"COMMAND" => "QueryDomainSuggestionList",
 			"KEYWORD" => $label,
 			"ZONE" => $zones,
-            "SOURCE" => "ISPAPI-SUGGESTIONS"
+            "LIMIT" => 50
+            //"SOURCE" => "ISPAPI-SUGGESTIONS"
 	);
 	$suggestions = ispapi_call($command, ispapi_config($params));
 
@@ -173,20 +172,28 @@ function ispapi_GetDomainSuggestions($params){
         $domains = $suggestions["PROPERTY"]["DOMAIN"];
     }
     $params["suggestions"] = $domains;
+
     return ispapi_CheckAvailability($params);
 }
 
-
+/**
+ * Defines the settings relating to domain suggestions.
+ *
+ */
 function ispapi_DomainSuggestionOptions() {
     return array(
-        'activate' => array(
-            'FriendlyName' => 'Activate domain suggestions?',
+        'suggestions' => array(
+            'FriendlyName' => '<h2>Suggestion Engine</h2>',
             'Type' => 'yesno',
-            'Description' => 'Tick to activate',
+            'Description' => 'Activate domain suggestions based on the search term',
         ),
     );
 }
 
+/**
+ * Calculate the domain renew price.
+ *
+ */
 function ispapi_getRenewPrice($params, $class, $currency_id, $tld){
 	session_start();
 	$date = new DateTime();
@@ -196,6 +203,7 @@ function ispapi_getRenewPrice($params, $class, $currency_id, $tld){
         //NO PREMIUM RENEW, RETURN THE PRICE SET IN WHMCS
         $command = 'GetTLDPricing';
         $gettldpricing_res = localAPI($command, array("currencyid" => $currency_id));
+        //mail("anthonys@hexonet.net", "ispapi_getRenewPrice no class", print_r($gettldpricing_res, true));
         $renewprice = $gettldpricing_res["pricing"][$tld]["renew"][1];
         if(!empty($renewprice)){
             return $renewprice;
@@ -258,8 +266,6 @@ function ispapi_getRenewPrice($params, $class, $currency_id, $tld){
     }
 	return false;
 }
-
-// ###########################
 
 function ispapi_InitModule($version) {
 	global $ispapi_module_version;
@@ -1776,6 +1782,7 @@ function ispapi_IDProtectToggle($params) {
 }
 
 function ispapi_RegisterDomain($params) {
+    //mail("anthonys@hexonet.net", "registerdomain", print_r($params, true));
 	$values = array();
 	$origparams = $params;
 
@@ -1852,12 +1859,11 @@ function ispapi_RegisterDomain($params) {
 
 	ispapi_use_additionalfields($params, $command);
 
-	//check if premium domain functionality is enabled by the admin
-	if($premiumDomainsEnabled){
-		//check if the domain has a premium price
-		if(!empty($premiumDomainsCost)){
-			mail("anthonys@hexonet.net", "AddDomainApplication PREMIUM1", "premiumDomainsCost: ".$premiumDomainsCost);
-
+    //#####################################################################
+    //##################### PREMIUM DOMAIN HANDLING #######################
+    //######################################################################
+	if($premiumDomainsEnabled){ //check if premium domain functionality is enabled by the admin
+		if(!empty($premiumDomainsCost)){ //check if the domain has a premium price
 			$c = array(
 					"COMMAND" => "CheckDomains",
 					"DOMAIN" => array($domain),
@@ -1866,33 +1872,22 @@ function ispapi_RegisterDomain($params) {
 			$check = ispapi_call($c, ispapi_config($origparams));
 			if($check["CODE"] == 200){
 				$registrar_premium_domain_price = $check["PROPERTY"]["PRICE"][0];
-				$registrar_premium_domain_class = $check["PROPERTY"]["CLASS"][0];
+				$registrar_premium_domain_class = empty($check["PROPERTY"]["CLASS"][0]) ? "AFTERMARKET_PURCHASE_".$check["PROPERTY"]["PREMIUMCHANNEL"][0] : $check["PROPERTY"]["CLASS"][0];
 				$registrar_premium_domain_currency = $check["PROPERTY"]["CURRENCY"][0];
-			mail("anthonys@hexonet.net", "AddDomainApplication PREMIUM2", print_r($check, true));
 
-				//check if the price displayed to the customer is equal to the real cost at the registar
-				if($premiumDomainsCost == $registrarprice){
-					//get RENEW price
-					$premiumdomainpriceclass = "PRICE_CLASS_DOMAIN_".$check["PROPERTY"]["CLASS"][0]."_ANNUAL";
-					$renewprice = ispapi_getPriceWithPremiumMargin($origparams, $premiumdomainpriceclass);
-					if(!$renewprice){
-						$values["error"] = "PREMIUM DOMAIN - NO RENEW PRICE FOUND (CLASS=$premiumdomainpriceclass)";
-						return $values;
-					}
+				if($premiumDomainsCost == $registrar_premium_domain_price){ //check if the price displayed to the customer is equal to the real cost at the registar
 					$command["COMMAND"] = "AddDomainApplication";
-					$command["RENEW"] = $renewprice;
 					$command["CLASS"] =  $registrar_premium_domain_class;
 					$command["PRICE"] =  $premiumDomainsCost;
 					$command["CURRENCY"] = $registrar_premium_domain_currency;
-
-					mail("anthonys@hexonet.net", "AddDomainApplication PREMIUM3", print_r($command,true));
-					$command["COMMAND"] = "DONOTREGISTER";
 				}
 			}
 		}
 	}
+    //#####################################################################
 
 	$response = ispapi_call($command, ispapi_config($origparams));
+    //mail("anthonys@hexonet.net", "AddDomain $premiumDomainsCost == $registrar_premium_domain_price", print_r($command,true).print_r($response, true));
 
 	if ( $response["CODE"] != 200 ) {
 		$values["error"] = $response["DESCRIPTION"];
