@@ -4,6 +4,10 @@ ______________________________________________________________________________
 Changelog
 ______________________________________________________________________________
 
+v1.0.52 - 2017-10-12
+ - additional domain fields for: .ro
+ - fix for .EU Auth code generation
+
 v1.0.51 - 2017-07-29
  - DNS Zone created automatically when adding a DNS record if no DNS Zone existing
  - fix for download link in the Hexonet Widget

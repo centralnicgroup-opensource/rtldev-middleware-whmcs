@@ -1,6 +1,6 @@
 <?php
 
-$module_version = "1.0.51";
+$module_version = "1.0.52";
 
 function ispapi_InitModule($version) {
 	global $ispapi_module_version;
@@ -836,13 +836,12 @@ function ispapi_SaveRegistrarLock($params) {
 }
 
 function ispapi_GetEPPCode($params) {
-
 	$values = array();
 	if ( isset($params["original"]) ) {
 		$params = $params["original"];
 	}
-
 	$domain = $params["sld"].".".$params["tld"];
+
 	if ( $params["tld"] == "de" ) {
 		$command = array(
 			"COMMAND" => "DENIC_CreateAuthInfo1",
