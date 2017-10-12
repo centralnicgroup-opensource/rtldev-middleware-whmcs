@@ -836,12 +836,13 @@ function ispapi_SaveRegistrarLock($params) {
 }
 
 function ispapi_GetEPPCode($params) {
+
 	$values = array();
 	if ( isset($params["original"]) ) {
 		$params = $params["original"];
 	}
-	$domain = $params["sld"].".".$params["tld"];
 
+	$domain = $params["sld"].".".$params["tld"];
 	if ( $params["tld"] == "de" ) {
 		$command = array(
 			"COMMAND" => "DENIC_CreateAuthInfo1",
@@ -850,11 +851,21 @@ function ispapi_GetEPPCode($params) {
 		$response = ispapi_call($command, ispapi_config($params));
 	}
 
-	$command = array(
-		"COMMAND" => "StatusDomain",
-		"DOMAIN" => $domain
-	);
-	$response = ispapi_call($command, ispapi_config($params));
+	if ( $params["tld"] == "eu" ) {
+		$command = array(
+			"COMMAND" => "RequestDomainAuthInfo",
+			"DOMAIN" => $domain
+		);
+		$response = ispapi_call($command, ispapi_config($params));
+	}
+	else {
+		$command = array(
+			"COMMAND" => "StatusDomain",
+			"DOMAIN" => $domain
+		);
+		$response = ispapi_call($command, ispapi_config($params));
+	}
+
 	if ( $response["CODE"] == 200 ) {
 		if ( strlen($response["PROPERTY"]["AUTH"][0]) ) {
 			$values["eppcode"] = htmlspecialchars($response["PROPERTY"]["AUTH"][0]);
