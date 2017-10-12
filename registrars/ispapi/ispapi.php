@@ -1,6 +1,6 @@
 <?php
 
-$module_version = "1.0.51";
+$module_version = "1.0.52";
 
 function ispapi_InitModule($version) {
 	global $ispapi_module_version;
@@ -850,11 +850,21 @@ function ispapi_GetEPPCode($params) {
 		$response = ispapi_call($command, ispapi_config($params));
 	}
 
-	$command = array(
-		"COMMAND" => "StatusDomain",
-		"DOMAIN" => $domain
-	);
-	$response = ispapi_call($command, ispapi_config($params));
+	if ( $params["tld"] == "eu" ) {
+		$command = array(
+			"COMMAND" => "RequestDomainAuthInfo",
+			"DOMAIN" => $domain
+		);
+		$response = ispapi_call($command, ispapi_config($params));
+	}
+	else {
+		$command = array(
+			"COMMAND" => "StatusDomain",
+			"DOMAIN" => $domain
+		);
+		$response = ispapi_call($command, ispapi_config($params));
+	}
+
 	if ( $response["CODE"] == 200 ) {
 		if ( strlen($response["PROPERTY"]["AUTH"][0]) ) {
 			$values["eppcode"] = htmlspecialchars($response["PROPERTY"]["AUTH"][0]);
