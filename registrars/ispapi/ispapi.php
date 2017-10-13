@@ -14,14 +14,17 @@ use WHMCS\Module\Registrar\Registrarmodule\ApiClient;
 use WHMCS\Database\Capsule;
 
 /**
- * Check the availability of a domain name using HEXONET's fast API
+ * Check the availability of domains using HEXONET's fast API
  *
+ * @param array $params common module parameters
+ *
+ * @return \WHMCS\Domains\DomainLookup\ResultsList An ArrayObject based collection of \WHMCS\Domains\DomainLookup\SearchResult results
  */
 function ispapi_CheckAvailability($params) {
     if($params['isIdnDomain']){
-	       $label = empty($params['punyCodeSearchTerm']) ? strtolower($params['searchTerm']) : strtolower($params['punyCodeSearchTerm']);
+        $label = empty($params['punyCodeSearchTerm']) ? strtolower($params['searchTerm']) : strtolower($params['punyCodeSearchTerm']);
     }else{
-	       $label = strtolower($params['searchTerm']);
+        $label = strtolower($params['searchTerm']);
     }
 
 	$tldslist = $params['tldsToInclude'];
@@ -59,7 +62,7 @@ function ispapi_CheckAvailability($params) {
 			"PREMIUMCHANNELS" => "*"
 	);
 	$check = ispapi_call($command, ispapi_config($params));
-
+    //mail("anthonys@hexonet.net","ispapi_CheckAvailability", print_r($command, true));
 	if($check["CODE"] == 200){
 		$index=0;
 		foreach($domainslist["list"] as $domain){
@@ -72,11 +75,27 @@ function ispapi_CheckAvailability($params) {
 				//IF PREMIUM DOMAIN ENABLED IN WHMCS - DISPLAY AVAILABLE + PRICE
 				if($premiumEnabled){
                     $currency_id = 0;
-                    if(isset($check["PROPERTY"]["PRICE"][$index]) && is_numeric($check["PROPERTY"]["PRICE"][$index])){
-                        $registerprice = $check["PROPERTY"]["PRICE"][$index];
-                    }
+
                     if(isset($check["PROPERTY"]["CURRENCY"][$index]) && !empty($check["PROPERTY"]["CURRENCY"][$index])){
                         $currency = $check["PROPERTY"]["CURRENCY"][$index];
+                    }
+
+                    if(preg_match('/\:/', $check["PROPERTY"]["CLASS"][$index])){
+                        //VARIABLE FEE PREMIUM DOMAINS (e.g. PREMIUM_TOP_CNY:24:2976)
+                        $p = preg_split("/\:/", $check["PROPERTY"]["CLASS"][$index]);
+                        $cl = preg_split("/_/", $p[0]);
+
+                        $premiummarkupfix_value = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_".$cl[0]."_".$cl[1]."_*_SETUP_MARKUP_FIX");
+                        $premiummarkupvar_value = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_".$cl[0]."_".$cl[1]."_*_SETUP_MARKUP_VAR");
+                        if($premiummarkupfix_value && $premiummarkupvar_value){
+                            $registerprice = $p[2] * (1 + $premiummarkupvar_value/100) + $premiummarkupfix_value;
+                        }
+
+                    }else{
+                         //AFTERMARKET OR REGISTRY PREMIUM DOMAIN
+                         if(isset($check["PROPERTY"]["PRICE"][$index]) && is_numeric($check["PROPERTY"]["PRICE"][$index])){
+                             $registerprice = $check["PROPERTY"]["PRICE"][$index];
+                         }
                     }
 
                     //GET ALL CURRENCIES EXISTING IN WHMCS
@@ -90,8 +109,8 @@ function ispapi_CheckAvailability($params) {
                         }
                     }
 
-                    if(!in_array($currency, $currency_list)){
-                        //IF CURRENCY NOT IN WHMCS, RETURN TAKEN BECAUSE IT'S NOT POSSIBLE TO CALCULATE THE PRICE.
+                    if(!in_array($currency, $currency_list) || empty($registerprice)){
+                        //IF CURRENCY NOT IN WHMCS OR PRICE NOT FOUND, RETURN TAKEN BECAUSE IT'S NOT POSSIBLE TO CALCULATE THE PRICE.
                         $status = SearchResult::STATUS_REGISTERED;
 
                     }else{
@@ -141,8 +160,18 @@ function ispapi_CheckAvailability($params) {
 /**
  * Provide domain suggestions based on the domain lookup term provided.
  *
+ * @param array $params common module parameters
+ *
+ * @return \WHMCS\Domains\DomainLookup\ResultsList An ArrayObject based collection of \WHMCS\Domains\DomainLookup\SearchResult results
  */
 function ispapi_GetDomainSuggestions($params){
+    //mail("anthonys@hexonet.net","session", print_r($_REQUEST, true));
+    //GET THE TLD OF THE SEARCHED VALUE
+    if(isset($_REQUEST["domain"]) && preg_match('/\./', $_REQUEST["domain"]) ){
+        $search = split("\.", $_REQUEST["domain"]);
+        $searched_zone = $search[1];
+    }
+
     if(empty($params['suggestionSettings']['suggestions'])){
         return;
     }
@@ -158,12 +187,15 @@ function ispapi_GetDomainSuggestions($params){
 		$zones[] = $tld;
 	}
 
+    //IF SEARCHED VALUE CONTAINS TLD THEN ONLY DISPLAY SUGGESTIONS WITH THIS TLD
+    $zones_for_suggestions = isset($searched_zone) ? array($searched_zone) : $zones;
+    //mail("anthonys@hexonet.net","search", print_r($zone_for_suggestions, true));
     $command = array(
 			"COMMAND" => "QueryDomainSuggestionList",
 			"KEYWORD" => $label,
-			"ZONE" => $zones,
+			"ZONE" => $zones_for_suggestions,
+            "SOURCE" => "ISPAPI-SUGGESTIONS",
             "LIMIT" => 50
-            //"SOURCE" => "ISPAPI-SUGGESTIONS"
 	);
 	$suggestions = ispapi_call($command, ispapi_config($params));
 
@@ -177,8 +209,9 @@ function ispapi_GetDomainSuggestions($params){
 }
 
 /**
- * Defines the settings relating to domain suggestions.
+ * Define the settings relating to domain suggestions.
  *
+ * @param array an array with different settings
  */
 function ispapi_DomainSuggestionOptions() {
     return array(
@@ -193,90 +226,122 @@ function ispapi_DomainSuggestionOptions() {
 /**
  * Calculate the domain renew price.
  *
+ * @param array $params common module parameters
+ * @param string $class the class of the domain name
+ * @param integer $currency_id the currency of the domain name
+ * @param string $tld the tld of the domain name
+ *
+ * @return integer/bool the renew price, false if not found
  */
 function ispapi_getRenewPrice($params, $class, $currency_id, $tld){
 	session_start();
-	$date = new DateTime();
-    $type = "";
 
     if(empty($class)){
         //NO PREMIUM RENEW, RETURN THE PRICE SET IN WHMCS
         $command = 'GetTLDPricing';
         $gettldpricing_res = localAPI($command, array("currencyid" => $currency_id));
-        //mail("anthonys@hexonet.net", "ispapi_getRenewPrice no class", print_r($gettldpricing_res, true));
         $renewprice = $gettldpricing_res["pricing"][$tld]["renew"][1];
-        if(!empty($renewprice)){
-            return $renewprice;
-        }else{
-            return false;
-        }
+        return !empty($renewprice) ? $renewprice : false;
     }
 
     if(!preg_match('/\:/', $class)){
         //REGISTRY PREMIUM DOMAINS (e.g. PREMIUM_DATE_F)
         $class = "PRICE_CLASS_DOMAIN_".$class."_ANNUAL";
+        $type = "REGISTRYPREMIUM";
     }else{
-        //VARIABLE FEE PREMIUM DOMAINS (e.g. PREMIUM_TOP_CNY:24:4976)
-        $prices = preg_split("/\:/", $class);
+        //VARIABLE FEE PREMIUM DOMAINS (e.g. PREMIUM_TOP_CNY:24:2976)
+        $p = preg_split("/\:/", $class);
         $type = "VARIABLEPREMIUM";
     }
 
-    //GET USER RELATIONS
-	if((!isset($_SESSION["ISPAPICACHE"])) || ($_SESSION["ISPAPICACHE"]["TIMESTAMP"] + 600 < $date->getTimestamp() )){
-		$command["COMMAND"] = "StatusUser";
-		$response = ispapi_call($command, ispapi_config($params));
-		if ($response["CODE"] == 200) {
-			$_SESSION["ISPAPICACHE"] = array("TIMESTAMP" => $date->getTimestamp() , "RELATIONS" => $response["PROPERTY"]);
-			$relations = $_SESSION["ISPAPICACHE"]["RELATIONS"];
-		}else{
-			return false;
-		}
-	}else{
-		$relations = $_SESSION["ISPAPICACHE"]["RELATIONS"];
-	}
-
     if($type == "VARIABLEPREMIUM"){
         //HANDLE VARIABLE FEE PREMIUM DOMAINS
-        $cl = preg_split("/_/", $prices[0]);
-        $premiummarkupfix_class = "PRICE_CLASS_DOMAIN_".$cl[0]."_".$cl[1]."_*_ANNUAL_MARKUP_FIX";
-        $premiummarkupvar_class = "PRICE_CLASS_DOMAIN_".$cl[0]."_".$cl[1]."_*_ANNUAL_MARKUP_VAR";
-        $i=0;
-        foreach($relations["RELATIONTYPE"] as $relation) {
-            if($relation == $premiummarkupfix_class){
-                $premiummarkupfix_value = $relations["RELATIONVALUE"][$i];
-            }
-            if($relation == $premiummarkupvar_class){
-                $premiummarkupvar_value = $relations["RELATIONVALUE"][$i];
-            }
-            $i++;
-        }
-        if(isset($premiummarkupfix_value) && isset($premiummarkupvar_value)){
-            $renewprice = $prices[1] * (1 + $premiummarkupvar_value/100) + $premiummarkupfix_value;
+        $cl = preg_split("/_/", $p[0]);
+        $premiummarkupfix_value = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_".$cl[0]."_".$cl[1]."_*_ANNUAL_MARKUP_FIX");
+        $premiummarkupvar_value = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_".$cl[0]."_".$cl[1]."_*_ANNUAL_MARKUP_VAR");
+        if($premiummarkupfix_value && $premiummarkupvar_value){
+            $renewprice = $p[1] * (1 + $premiummarkupvar_value/100) + $premiummarkupfix_value;
             return $renewprice;
         }
     }else{
         //HANDLE REGISTRY PREMIUM DOMAINS
-        $i=0;
-    	foreach($relations["RELATIONTYPE"] as $relation) {
-    		if($relation == $class){
-    			return $relations["RELATIONVALUE"][$i];
-    		}
-    		$i++;
-    	}
+        return ispapi_getUserRelationValue($params, $class);
     }
 	return false;
 }
 
+/**
+ * Get the value for a given user relationtype.
+ *
+ * @param array $params common module parameters
+ * @param string $relationtype the name of the user relationtype
+ *
+ * @return integer/bool the user relationvalue, false if not found
+ */
+function ispapi_getUserRelationValue($params, $relationtype) {
+    $relations = ispapi_getUserRelations($params);
+    $i=0;
+    foreach($relations["RELATIONTYPE"] as $relation) {
+        if($relation == $relationtype){
+            return $relations["RELATIONVALUE"][$i];
+        }
+        $i++;
+    }
+    return false;
+}
+
+/**
+ * Generate and return the user relations (StatusUser)
+ * The user relations are stored in a session ($_SESSION["ISPAPICACHE"]["RELATIONS"]) and are regenerated after 600seconds.
+ *
+ * @param array $params common module parameters
+ *
+ * @return array/bool the user relations, false if not found
+ */
+function ispapi_getUserRelations($params) {
+    $date = new DateTime();
+    if((!isset($_SESSION["ISPAPICACHE"])) || ($_SESSION["ISPAPICACHE"]["TIMESTAMP"] + 600 < $date->getTimestamp() )){
+		$command["COMMAND"] = "StatusUser";
+		$response = ispapi_call($command, ispapi_config($params));
+		if ($response["CODE"] == 200) {
+			$_SESSION["ISPAPICACHE"] = array("TIMESTAMP" => $date->getTimestamp() , "RELATIONS" => $response["PROPERTY"]);
+			return $_SESSION["ISPAPICACHE"]["RELATIONS"];
+		}else{
+			return false;
+		}
+	}else{
+		return $_SESSION["ISPAPICACHE"]["RELATIONS"];
+	}
+}
+
+/**
+ * Initialize the version of the module
+ *
+ * @param string $version the version of the module
+ *
+ */
 function ispapi_InitModule($version) {
 	global $ispapi_module_version;
 	$ispapi_module_version = $version;
 }
 
+/**
+ * Return the version of the module
+ *
+ * @return string $version the version of the module
+ */
 function ispapi_GetISPAPIModuleVersion() {
 	global $ispapi_module_version;
 	return $ispapi_module_version;
 }
 
+/**
+ * Return the configuration array of the module (Setup > Products / Services > Domain Registrars > ISPAPI > Configure)
+ *
+ * @param array $params common module parameters
+ *
+ * @return array $configarray configuration array of the module
+ */
 function ispapi_getConfigArray($params) {
 	$version = ispapi_GetISPAPIModuleVersion();
 	$configarray = array(
