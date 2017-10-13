@@ -417,6 +417,10 @@ function ispapi_getConfigArray($params) {
 	return $configarray;
 }
 
+/**
+ * TODO
+ *
+ */
 function ispapi_ClientArea($params) {
 	if ( isset($params["original"]) ) {
         $params = $params["original"];
@@ -618,6 +622,13 @@ function ispapi_dnssec($params) {
 	);
 }
 
+/**
+ * Return a special page for the registrant modification of an .IT domain name.
+ *
+ * @param array $params common module parameters
+ *
+ * @return array an array with a template name and some variables
+ */
 function ispapi_registrantmodification_it($params) {
 	$origparams = $params;
 	if ( isset($params["original"]) ) {
@@ -1165,6 +1176,13 @@ function ispapi_SaveRegistrarLock($params) {
 	return $values;
 }
 
+/**
+ * Return the authcode of the domain name.
+ *
+ * @param array $params common module parameters
+ *
+ * @return array $values an array with the authcode
+ */
 function ispapi_GetEPPCode($params) {
 	$values = array();
 	if ( isset($params["original"]) ) {
