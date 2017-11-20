@@ -175,6 +175,7 @@ function ispapi_ClientAreaCustomButtonArray($params) {
 
 function ispapi_dnssec($params) {
 	$origparams = $params;
+
 	if ( isset($params["original"]) ) {
         $params = $params["original"];
     }
@@ -204,6 +205,7 @@ function ispapi_dnssec($params) {
 					array_push($command["SECDNS-DS"], implode(" ", $dnssecrecord));
 			}
 		}
+
 
 		//remove DS records - bugfix
 		if(empty($command["SECDNS-DS"])){
@@ -236,7 +238,6 @@ function ispapi_dnssec($params) {
 					array_push($command["SECDNS-KEY"], implode(" ", $dnssecrecord));
 			}
 		}
-
 	    $response = ispapi_call($command, ispapi_config($params));
 	    if ( $response["CODE"] == 200 ) {
             $successful = $response["DESCRIPTION"];
@@ -272,13 +273,13 @@ function ispapi_dnssec($params) {
 	//split in different fields
 	$secdnsds_newformat = array();
 	foreach($secdnsds as $ds){
-		list($keytag, $alg, $digesttype, $digest) = split(" ", $ds, 4);
+		list($keytag, $alg, $digesttype, $digest) = preg_split('/\s+/', $ds);
 		array_push($secdnsds_newformat, array("keytag" => $keytag, "alg" => $alg, "digesttype" => $digesttype, "digest" => $digest));
 	}
 
 	$secdnskey_newformat = array();
 	foreach($secdnskey as $key){
-		list($flags, $protocol, $alg, $pubkey) = split(" ", $key, 4);
+		list($flags, $protocol, $alg, $pubkey) = preg_split('/\s+/', $key);
 		array_push($secdnskey_newformat, array("flags" => $flags, "protocol" => $protocol, "alg" => $alg, "pubkey" => $pubkey));
 	}
 
