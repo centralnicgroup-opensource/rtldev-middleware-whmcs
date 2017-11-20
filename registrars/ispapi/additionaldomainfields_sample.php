@@ -532,6 +532,21 @@ $additionaldomainfields[".dk"][] = array(
 		"Description" => "(Only for Organization)",
 		"Ispapi-Name" => "X-ADMIN-VATID",
 );
+$additionaldomainfields[".dk"][] = array(
+		"Name" => "Registrant contact",
+		"Type" => "text",
+		"Required" => false,
+		"Description" => "(DK-HOSTMASTER User ID)",
+		"Ispapi-Name" => "X-DK-REGISTRANT-CONTACT",
+);
+
+$additionaldomainfields[".dk"][] = array(
+		"Name" => "Admin contact",
+		"Type" => "text",
+		"Required" => false,
+		"Description" => "(DK-HOSTMASTER User ID)",
+		"Ispapi-Name" => "X-DK-ADMIN-CONTACT",
+);
 
 
 ## .IT DOMAIN REQUIREMENTS ##
