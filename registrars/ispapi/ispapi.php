@@ -439,8 +439,11 @@ function ispapi_getConfigArray($params) {
 }
 
 /**
- * TODO
+ * check if a domain is premium domain
  *
+ * @param array $params common module parameters
+ *
+ * @return array an array with a template name
  */
 function ispapi_ClientArea($params) {
 	if ( isset($params["original"]) ) {
@@ -474,6 +477,13 @@ function ispapi_ClientArea($params) {
 	}
 }
 
+/**
+ * Provide custom buttons (whoisprivacy, DNSSEC Management) for domains and change of registrant button for certain domain names on client area
+ *
+ * @param array $params common module parameters
+ *
+ * @return array $buttonarray an array custum buttons
+ */
 function ispapi_ClientAreaCustomButtonArray($params) {
     $buttonarray = array();
 
@@ -527,7 +537,7 @@ function ispapi_ClientAreaCustomButtonArray($params) {
 
     return $buttonarray;
 }
-
+// TODO
 function ispapi_dnssec($params) {
 	$origparams = $params;
 
@@ -789,6 +799,13 @@ function ispapi_registrantmodification_it($params) {
 	);
 }
 
+/**
+ * Return a page for the registrant modification of a domain name.
+ *
+ * @param array $params common module parameters
+ *
+ * @return array an array with a template name and some variables
+ */
 function ispapi_registrantmodification_tld($params) {
 	$origparams = $params;
 	if ( isset($params["original"]) ) {
@@ -871,6 +888,13 @@ function ispapi_registrantmodification_tld($params) {
 	);
 }
 
+/**
+ * Return a special page for the registrant modification of an .ca domain name.
+ *
+ * @param array $params common module parameters
+ *
+ * @return array an array with a template name and some variables
+ */
 function ispapi_registrantmodification_ca($params) {
 	$origparams = $params;
 	if ( isset($params["original"]) ) {
@@ -1032,6 +1056,14 @@ function ispapi_registrantmodification_ca($params) {
 	);
 }
 
+
+/**
+ * Return a whoisprivacy data for domain name.
+ *
+ * @param array $params common module parameters
+ *
+ * @return array an array with a template name and some variables
+ */
 function ispapi_whoisprivacy($params) {
 	$values = array();
 	if ( isset($params["original"]) ) {
@@ -1077,6 +1109,13 @@ function ispapi_whoisprivacy($params) {
     );
 }
 
+/**
+ * Return a whoisprivacy data for .CA domain name.
+ *
+ * @param array $params common module parameters
+ *
+ * @return array an array with a template name and some variables
+ */
 function ispapi_whoisprivacy_ca($params) {
 	if ( isset($params["original"]) ) {
         $params = $params["original"];
@@ -1153,6 +1192,13 @@ function ispapi_whoisprivacy_ca($params) {
     );
 }
 
+/**
+ * Get Transferlock settings
+ *
+ * @param array $params common module parameters
+ *
+ * @return array $values - an array with transferlock setting information
+ */
 function ispapi_GetRegistrarLock($params) {;
 	$values = array();
 	if ( isset($params["original"]) ) {
@@ -1179,6 +1225,13 @@ function ispapi_GetRegistrarLock($params) {;
 	return $values;
 }
 
+/**
+ * Modify and Save Transferlock settings
+ *
+ * @param array $params common module parameters
+ *
+ * @return array $values - returns an array with command response description
+ */
 function ispapi_SaveRegistrarLock($params) {
 	$values = array();
 	if ( isset($params["original"]) ) {
@@ -1199,7 +1252,7 @@ function ispapi_SaveRegistrarLock($params) {
 }
 
 /**
- * Return the authcode of the domain name.
+ * Return the authcode of a domain name.
  *
  * @param array $params common module parameters
  *
@@ -1249,6 +1302,13 @@ function ispapi_GetEPPCode($params) {
 	return $values;
 }
 
+/**
+ * Return Nameservers of a domain name.
+ *
+ * @param array $params common module parameters
+ *
+ * @return array $values an array with the Nameservers
+ */
 function ispapi_GetNameservers($params) {
 	$values = array();
 	if ( isset($params["original"]) ) {
@@ -1274,6 +1334,13 @@ function ispapi_GetNameservers($params) {
 	return $values;
 }
 
+/**
+ * Modify and save Nameservers of a domain name.
+ *
+ * @param array $params common module parameters
+ *
+ * @return array $values - returns an array with command response description
+ */
 function ispapi_SaveNameservers($params) {
 	$values = array();
 	if ( isset($params["original"]) ) {
@@ -1294,6 +1361,13 @@ function ispapi_SaveNameservers($params) {
 	return $values;
 }
 
+/**
+ * Get DNS of a domain name.
+ *
+ * @param array $params common module parameters
+ *
+ * @return array $hostrecords - an array with hostrecord of the domain name
+ */
 function ispapi_GetDNS($params) {
 	$values = array();
 	if ( isset($params["original"]) ) {
@@ -1411,6 +1485,13 @@ function ispapi_GetDNS($params) {
 	return $hostrecords;
 }
 
+/**
+ * Modify and save DNS zone of a domain name.
+ *
+ * @param array $params common module parameters
+ *
+ * @return array $hostrecords - an array with hostrecord of the domain name
+ */
 function ispapi_SaveDNS($params) {
 	$values = array();
 	if ( isset($params["original"]) ) {
@@ -1563,6 +1644,13 @@ function ispapi_SaveDNS($params) {
 	return $values;
 }
 
+/**
+ * Get Email forwarding of a domain name with its DNS zone
+ *
+ * @param array $params common module parameters
+ *
+ * @return array $result - an array with TODO
+ */
 function ispapi_GetEmailForwarding($params) {
 	$values = array();
 	if ( isset($params["original"]) ) {
@@ -1606,6 +1694,13 @@ function ispapi_GetEmailForwarding($params) {
 	return $result;
 }
 
+/**
+ * Save Email forwarding of a domain name by updating its DNS zone
+ *
+ * @param array $params common module parameters
+ *
+ * @return array $values - returns an array with command response description
+ */
 function ispapi_SaveEmailForwarding($params) {
 	$values = array();
 	if ( isset($params["original"]) ) {
@@ -1662,6 +1757,13 @@ function ispapi_SaveEmailForwarding($params) {
 	return $values;
 }
 
+/**
+ * Contact data of a domain name
+ *
+ * @param array $params common module parameters
+ *
+ * @return array $values - an array with different contact values.
+ */
 function ispapi_GetContactDetails($params) {
 	$values = array();
 	if ( isset($params["original"]) ) {
@@ -1690,6 +1792,13 @@ function ispapi_GetContactDetails($params) {
 	return $values;
 }
 
+/**
+ * Modify and Save contact data of a domain name
+ *
+ * @param array $params common module parameters
+ *
+ * @return array $values - an array with command response description
+ */
 function ispapi_SaveContactDetails($params) {
 	$values = array();
 	$config = array();
@@ -1820,6 +1929,13 @@ function ispapi_SaveContactDetails($params) {
 	return $values;
 }
 
+/**
+ * Add a nameserver to a domain name
+ *
+ * @param array $params common module parameters
+ *
+ * @return array $values - an array with command response description
+ */
 function ispapi_RegisterNameserver($params) {
 	$values = array();
 	if ( isset($params["original"]) ) {
@@ -1839,6 +1955,13 @@ function ispapi_RegisterNameserver($params) {
 	return $values;
 }
 
+/**
+ * Modify a nameserver of a domain name
+ *
+ * @param array $params common module parameters
+ *
+ * @return array $values - an array with command response description
+ */
 function ispapi_ModifyNameserver($params) {
 	$values = array();
 	if ( isset($params["original"]) ) {
@@ -1859,6 +1982,13 @@ function ispapi_ModifyNameserver($params) {
 	return $values;
 }
 
+/**
+ * Delete a nameserver of a domain name
+ *
+ * @param array $params common module parameters
+ *
+ * @return array $values - an array with command response description
+ */
 function ispapi_DeleteNameserver($params) {
 	$values = array();
 	if ( isset($params["original"]) ) {
@@ -1877,6 +2007,7 @@ function ispapi_DeleteNameserver($params) {
 	return $values;
 }
 
+// TODO
 function ispapi_IDProtectToggle($params) {
 	$values = array();
 	if ( isset($params["original"]) ) {
@@ -1896,6 +2027,13 @@ function ispapi_IDProtectToggle($params) {
 	return $values;
 }
 
+/**
+ * Register a domain name
+ *
+ * @param array $params common module parameters
+ *
+ * @return array $values - an array with command response description
+ */
 function ispapi_RegisterDomain($params) {
     //mail("anthonys@hexonet.net", "registerdomain", print_r($params, true));
 	$values = array();
@@ -2018,6 +2156,12 @@ function ispapi_RegisterDomain($params) {
 	return $values;
 }
 
+/**
+ * Query additionalfields for a domain name
+ *
+ * @param array $params common module parameters
+ *
+ */
 function ispapi_query_additionalfields(&$params) {
 	$result = mysql_query("SELECT name,value FROM tbldomainsadditionalfields
 		WHERE domainid='".mysql_real_escape_string($params["domainid"])."'");
@@ -2026,6 +2170,7 @@ function ispapi_query_additionalfields(&$params) {
 	}
 }
 
+// TODO
 function ispapi_use_additionalfields($params, &$command) {
 	$additionalfieldsfile_path = dirname(__FILE__).DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."resources".DIRECTORY_SEPARATOR."domains".DIRECTORY_SEPARATOR."additionalfields.php";
 	//Check if additionalfields.php exist in the resources/domains/ directory (FOR WHMCS >= 7)
@@ -2105,6 +2250,13 @@ function ispapi_use_additionalfields($params, &$command) {
 	}
 }
 
+/**
+ * Transfer a domain name with contact data and auth code.
+ *
+ * @param array $params common module parameters
+ *
+ * @return array $values - an array with command response description
+ */
 function ispapi_TransferDomain($params) {
 	$values = array();
     $origparams = $params;
@@ -2202,6 +2354,13 @@ function ispapi_TransferDomain($params) {
 	return $values;
 }
 
+/**
+ * Renew a domain name with time period.
+ *
+ * @param array $params common module parameters
+ *
+ * @return array $values - an array with command response description
+ */
 function ispapi_RenewDomain($params) {
 	$values = array();
 	if ( isset($params["original"]) ) {
@@ -2227,6 +2386,7 @@ function ispapi_RenewDomain($params) {
 	return $values;
 }
 
+// TODO
 function ispapi_ReleaseDomain($params) {
 	$values = array();
 	if ( isset($params["original"]) ) {
@@ -2246,6 +2406,13 @@ function ispapi_ReleaseDomain($params) {
 	return $values;
 }
 
+/**
+ * Request to delete a domain name.
+ *
+ * @param array $params common module parameters
+ *
+ * @return array $values - an array with command response description
+ */
 function ispapi_RequestDelete($params) {
 	$values = array();
 	if ( isset($params["original"]) ) {
@@ -2265,6 +2432,7 @@ function ispapi_RequestDelete($params) {
 	return $values;
 }
 
+// TODO
 function ispapi_TransferSync($params) {
 	$values = array();
 	$domain = $params["sld"].".".$params["tld"];
@@ -2326,6 +2494,7 @@ function ispapi_TransferSync($params) {
 	return $values;
 }
 
+// TODO
 function ispapi_Sync($params) {
 	$values = array();
 	$domain = $params["sld"].".".$params["tld"];
@@ -2365,6 +2534,7 @@ function ispapi_Sync($params) {
 	return $values;
 }
 
+// TODO
 /* Helper functions */
 function ispapi_get_utf8_params($params) {
     if ( isset($params["original"]) ) {
@@ -2439,6 +2609,13 @@ function ispapi_get_utf8_params($params) {
 	return $params;
 }
 
+/**
+ * Contact details of a contact
+ *
+ * @param array &$params -common module parameters and $contact - contact parameter
+ *
+ * @return array $values - an array with contact information
+ */
 function ispapi_get_contact_info($contact, &$params) {
 	if ( isset($params["_contact_hash"][$contact]) )
 		return $params["_contact_hash"][$contact];
@@ -2489,6 +2666,7 @@ function ispapi_get_contact_info($contact, &$params) {
 	return $values;
 }
 
+// TODO
 function ispapi_logModuleCall($registrar, $action, $requeststring, $responsedata, $processeddata = NULL, $replacevars = NULL) {
 	if ( !function_exists('logModuleCall') ) {
 		return;
@@ -2496,6 +2674,7 @@ function ispapi_logModuleCall($registrar, $action, $requeststring, $responsedata
 	return logModuleCall($registrar, $action, $requeststring, $responsedata, $processeddata, $replacevars);
 }
 
+// TODO
 function ispapi_config($params) {
 	$config = array();
 	$config["registrar"] = $params["registrar"];
@@ -2516,10 +2695,12 @@ function ispapi_config($params) {
 	return $config;
 }
 
+// TODO
 function ispapi_call($command, $config) {
     return ispapi_parse_response(ispapi_call_raw($command, $config));
 }
 
+// TODO
 function ispapi_call_raw($command, $config) {
 	global $ispapi_module_version;
 	$args = array();
@@ -2603,6 +2784,7 @@ function ispapi_call_raw($command, $config) {
 	return $response;
 }
 
+// TODO
 function ispapi_to_punycode($domain) {
 	if ( !strlen($domain) ) return $domain;
 	if ( preg_match('/^[a-z0-9\.\-]+$/i', $domain) ) {
@@ -2617,6 +2799,7 @@ function ispapi_to_punycode($domain) {
 	return $domain;
 }
 
+// TODO
 function ispapi_encode_command( $commandarray ) {
     if (!is_array($commandarray)) return $commandarray;
     $command = "";
@@ -2636,6 +2819,7 @@ function ispapi_encode_command( $commandarray ) {
     return $command;
 }
 
+// TODO
 function ispapi_parse_response ( $response ) {
     if (is_array($response)) return $response;
     $hash = array(
