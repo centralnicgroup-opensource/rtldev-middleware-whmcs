@@ -5,6 +5,35 @@
 ## DO NOT INCLUDE THIS FILE DIRECTLY
 ##
 
+## .RO DOMAIN REQUIREMENTS
+$additionaldomainfields[".ro"] = array();
+$additionaldomainfields[".ro"][] = array(
+		"Name" => "Registrant ID Number",
+		"Description" => "ONLY REQUIRED FOR ROMANIAN REGISTRANTS",
+		"Type" => "text",
+		"Required" => false,
+		"Ispapi-Name" => "X-REGISTRANT-IDNUMBER",
+);
+$additionaldomainfields[".ro"][] = array(
+		"Name" => "Registrant VAT ID",
+		"Type" => "text",
+		"Description" => "ONLY REQUIRED FOR EU COUNTRIES AND FOR INDIVIDUALS FROM ROMANIA",
+		"Required" => false,
+		"Ispapi-Name" => "X-REGISTRANT-VATID",
+);
+$additionaldomainfields['.ro'][] = array(
+		"Name"	=> "CNPFiscalCode",
+	 	"Remove" => true
+);
+$additionaldomainfields['.ro'][] = array(
+		"Name"	=> "Registration Number",
+	 	"Remove" => true
+);
+$additionaldomainfields['.ro'][] = array(
+		"Name"	=> "Registrant Type",
+	 	"Remove" => true
+);
+
 ## .BERLIN DOMAIN REQUIREMENTS ##
 $additionaldomainfields[".berlin"] = array();
 $additionaldomainfields[".berlin"][] = array(
@@ -502,6 +531,21 @@ $additionaldomainfields[".dk"][] = array(
 		"Required" => false,
 		"Description" => "(Only for Organization)",
 		"Ispapi-Name" => "X-ADMIN-VATID",
+);
+$additionaldomainfields[".dk"][] = array(
+		"Name" => "Registrant contact",
+		"Type" => "text",
+		"Required" => false,
+		"Description" => "(DK-HOSTMASTER User ID)",
+		"Ispapi-Name" => "X-DK-REGISTRANT-CONTACT",
+);
+
+$additionaldomainfields[".dk"][] = array(
+		"Name" => "Admin contact",
+		"Type" => "text",
+		"Required" => false,
+		"Description" => "(DK-HOSTMASTER User ID)",
+		"Ispapi-Name" => "X-DK-ADMIN-CONTACT",
 );
 
 
