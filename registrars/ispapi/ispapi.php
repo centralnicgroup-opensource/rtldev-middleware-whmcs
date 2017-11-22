@@ -21,6 +21,12 @@ use WHMCS\Database\Capsule;
  * @return \WHMCS\Domains\DomainLookup\ResultsList An ArrayObject based collection of \WHMCS\Domains\DomainLookup\SearchResult results
  */
 function ispapi_CheckAvailability($params) {
+    //GET AN ARRAY OF ALL TLDS CONFIGURED WITH HEXONET
+    $pdo = Capsule::connection()->getPdo();
+    $stmt = $pdo->prepare("SELECT extension FROM tbldomainpricing WHERE autoreg REGEXP '^(ispapi|hexonet)$'");
+    $stmt->execute();
+    $ispapi_tlds = $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
+
     //GET ALL CURRENCIES EXISTING IN WHMCS
     $whmcs_existing_currencies = localAPI('GetCurrencies', array());
 
@@ -91,43 +97,48 @@ function ispapi_CheckAvailability($params) {
 			elseif(!empty($check["PROPERTY"]["PREMIUMCHANNEL"][$index]) || !empty($check["PROPERTY"]["CLASS"][$index])){ //IT IS A PREMIUMDOMAIN
 				//IF PREMIUM DOMAIN ENABLED IN WHMCS - DISPLAY AVAILABLE + PRICE
 				if($premiumEnabled){
-
-                    //GET THE REGISTER PRICE
-                    if(isset($check["PROPERTY"]["PRICE"][$index]) && is_numeric($check["PROPERTY"]["PRICE"][$index])){
-                        $registerprice = $check["PROPERTY"]["PRICE"][$index];
-                    }
-
-                    if(isset($check["PROPERTY"]["CURRENCY"][$index]) && !empty($check["PROPERTY"]["CURRENCY"][$index])){
-                        $currency = $check["PROPERTY"]["CURRENCY"][$index];
-                    }
-
-                    //GET ALL CURRENCIES EXISTING IN WHMCS AND THE PREMIUM DOMAIN CURRENCY
-                    $currency_id = 0;
-                    $currency_list = array();
-                    foreach($whmcs_existing_currencies["currencies"]["currency"] as $cur){
-                        $currency_list[] = $cur["code"];
-                        if($cur["code"] == $currency){
-                            $currency_id = $cur["id"];
-                        }
-                    }
-
-                    if(!in_array($currency, $currency_list) || empty($registerprice)){
-                        //IF CURRENCY OF THE DOMAIN NOT IN WHMCS OR PRICE NOT FOUND, RETURN TAKEN BECAUSE IT'S NOT POSSIBLE TO CALCULATE THE PRICE.
-                        $status = SearchResult::STATUS_REGISTERED;
+                    //CHECK IF HEXONET IS CONFIGURED AS REGISTRAR FOR THIS EXTENSION
+                    if( !in_array($domain['tld'] ,$ispapi_tlds) ){
+                        //PREMIUM DOMAIN BUT NOT REGISTERED WITH HEXONET - RETURN TAKEN
+        				$status = SearchResult::STATUS_REGISTERED;
                     }else{
-                        //AFTERMARKET OR REGISTRY PREMIUM DOMAIN
-                        $renewprice = ispapi_getRenewPrice($params, $check["PROPERTY"]["CLASS"][$index], $currency_id, ltrim($domain['tld'], '.'));
+                        //GET THE REGISTER PRICE
+                        if(isset($check["PROPERTY"]["PRICE"][$index]) && is_numeric($check["PROPERTY"]["PRICE"][$index])){
+                            $registerprice = $check["PROPERTY"]["PRICE"][$index];
+                        }
 
-    					if( isset($registerprice) && isset($currency) && !empty($renewprice) ){
-                            $status = SearchResult::STATUS_NOT_REGISTERED;
-                			$searchResult->setPremiumDomain(true);
-                            $premiuminformation = array('register' => $registerprice,
-                                                        'renew' => $renewprice,
-                                                        'CurrencyCode' => $currency);
-                			$searchResult->setPremiumCostPricing($premiuminformation);
-                        }else{
-                            //PROBLEM, COULD NOT GET REGISTRATION OR RENEW PRICES -> DISPLAY THE DOMAIN AS TAKEN
+                        if(isset($check["PROPERTY"]["CURRENCY"][$index]) && !empty($check["PROPERTY"]["CURRENCY"][$index])){
+                            $currency = $check["PROPERTY"]["CURRENCY"][$index];
+                        }
+
+                        //GET ALL CURRENCIES EXISTING IN WHMCS AND THE PREMIUM DOMAIN CURRENCY
+                        $currency_id = 0;
+                        $currency_list = array();
+                        foreach($whmcs_existing_currencies["currencies"]["currency"] as $cur){
+                            $currency_list[] = $cur["code"];
+                            if($cur["code"] == $currency){
+                                $currency_id = $cur["id"];
+                            }
+                        }
+
+                        if(!in_array($currency, $currency_list) || empty($registerprice)){
+                            //IF CURRENCY OF THE DOMAIN NOT IN WHMCS OR PRICE NOT FOUND, RETURN TAKEN BECAUSE IT'S NOT POSSIBLE TO CALCULATE THE PRICE.
                             $status = SearchResult::STATUS_REGISTERED;
+                        }else{
+                            //AFTERMARKET OR REGISTRY PREMIUM DOMAIN
+                            $renewprice = ispapi_getRenewPrice($params, $check["PROPERTY"]["CLASS"][$index], $currency_id, ltrim($domain['tld'], '.'));
+
+        					if( isset($registerprice) && isset($currency) && !empty($renewprice) ){
+                                $status = SearchResult::STATUS_NOT_REGISTERED;
+                    			$searchResult->setPremiumDomain(true);
+                                $premiuminformation = array('register' => $registerprice,
+                                                            'renew' => $renewprice,
+                                                            'CurrencyCode' => $currency);
+                    			$searchResult->setPremiumCostPricing($premiuminformation);
+                            }else{
+                                //PROBLEM, COULD NOT GET REGISTRATION OR RENEW PRICES -> DISPLAY THE DOMAIN AS TAKEN
+                                $status = SearchResult::STATUS_REGISTERED;
+                            }
                         }
                     }
 				}else{
