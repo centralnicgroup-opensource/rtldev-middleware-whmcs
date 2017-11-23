@@ -61,7 +61,7 @@ function ispapi_CheckAvailability($params) {
         foreach($params["suggestions"] as $suggestion){
             if(!in_array($suggestion, $domainslist["all"])){
                 $domainslist["all"][] = $suggestion;
-                $suggested_domain = split("\.",$suggestion);
+                $suggested_domain = preg_split("/\./",$suggestion, 2);
                 $domainslist["list"][] = array("sld" => $suggested_domain[0], "tld" => ".".$suggested_domain[1]);
             }
         }
@@ -81,7 +81,7 @@ function ispapi_CheckAvailability($params) {
 			$searchResult = new SearchResult($domain['sld'], $domain['tld']);
             if(preg_match('/549/', $check["PROPERTY"]["DOMAINCHECK"][$index])){
                 //TLD not supported at HEXONET. Use a fallback to the WHOIS lookup
-                $whois = localAPI("DomainWhois", array("domain" => $domain['sld'].$domain['tld']));
+                $whois = "";//localAPI("DomainWhois", array("domain" => $domain['sld'].$domain['tld']));
                 if($whois["status"] == "available"){
                     //DOMAIN AVAILABLE
                     $status = SearchResult::STATUS_NOT_REGISTERED;
@@ -126,7 +126,7 @@ function ispapi_CheckAvailability($params) {
                             $status = SearchResult::STATUS_REGISTERED;
                         }else{
                             //AFTERMARKET OR REGISTRY PREMIUM DOMAIN
-                            $renewprice = ispapi_getRenewPrice($params, $check["PROPERTY"]["CLASS"][$index], $currency_id, ltrim($domain['tld'], '.'));
+                            $renewprice = "5";//ispapi_getRenewPrice($params, $check["PROPERTY"]["CLASS"][$index], $currency_id, ltrim($domain['tld'], '.'));
 
         					if( isset($registerprice) && isset($currency) && !empty($renewprice) ){
                                 $status = SearchResult::STATUS_NOT_REGISTERED;
@@ -180,7 +180,7 @@ function ispapi_GetDomainSuggestions($params){
 
     //GET THE TLD OF THE SEARCHED VALUE
     if(isset($_REQUEST["domain"]) && preg_match('/\./', $_REQUEST["domain"]) ){
-        $search = split("\.", $_REQUEST["domain"]);
+        $search = preg_split("/\./", $_REQUEST["domain"], 2);
         $searched_zone = $search[1];
     }
 
@@ -196,7 +196,10 @@ function ispapi_GetDomainSuggestions($params){
 	$tldslist = $params['tldsToInclude'];
 	$zones = array();
 	foreach($tldslist as $tld){
-		$zones[] = $tld;
+        #IGNORE 3RD LEVEL TLDS - NOT FULLY SUPPORTED BY QueryDomainSuggestionList
+        if (!preg_match("/\./", $tld)) {
+            $zones[] = $tld;
+        }
 	}
 
     //IF SEARCHED VALUE CONTAINS TLD THEN ONLY DISPLAY SUGGESTIONS WITH THIS TLD
