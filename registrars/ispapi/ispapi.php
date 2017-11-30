@@ -1759,6 +1759,7 @@ function ispapi_TransferDomain($params) {
 		"AUTH" => $origparams["transfersecret"]
 	);
 
+
 	//don't send owner admin tech billing contact for .CA, .US, .PT, .NO and .SE domains
 	if (preg_match('/[.]ca$/i', $domain) || preg_match('/[.]us$/i', $domain) || preg_match('/[.]pt$/i', $domain) || preg_match('/[.]no$/i', $domain) || preg_match('/[.]se$/i', $domain)) {
 		unset($command["OWNERCONTACT0"]);
@@ -1776,6 +1777,14 @@ function ispapi_TransferDomain($params) {
 	//send PERIOD=0 for .NO domains
 	if (preg_match('/[.]no$/i', $domain)) {
 		$command["PERIOD"] = 0;
+	}
+
+	//do not send contact information for gTLD (Including nTLDs)
+	if(preg_match('/\.[a-z]{3,}$/i', $domain)){
+		unset($command["OWNERCONTACT0"]);
+		unset($command["ADMINCONTACT0"]);
+		unset($command["TECHCONTACT0"]);
+		unset($command["BILLINGCONTACT0"]);
 	}
 
 	$response = ispapi_call($command, ispapi_config($origparams));
@@ -1811,6 +1820,7 @@ function ispapi_RenewDomain($params) {
 		"DOMAIN" => $domain,
 		"PERIOD" => $params["regperiod"]
 	);
+
 	$response = ispapi_call($command, ispapi_config($params));
 
 	if ( $response["CODE"] == 510 ) {
