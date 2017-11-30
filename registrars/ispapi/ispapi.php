@@ -169,7 +169,7 @@ function ispapi_CheckAvailability($params) {
 }
 
 /**
- * Provide domain suggestions based on the domain lookup term provided.
+ * Provide domain suggestions based on the domain lookup term provided
  *
  * @param array $params common module parameters
  *
@@ -223,7 +223,7 @@ function ispapi_GetDomainSuggestions($params){
 }
 
 /**
- * Define the settings relating to domain suggestions.
+ * Define the settings relating to domain suggestions
  *
  * @param array an array with different settings
  */
@@ -250,7 +250,7 @@ function ispapi_DomainSuggestionOptions() {
 }
 
 /**
- * Calculate the domain renew price.
+ * Calculate the domain renew price
  *
  * @param array $params common module parameters
  * @param string $class the class of the domain name
@@ -306,7 +306,7 @@ function ispapi_getRenewPrice($params, $class, $cur_id, $tld){
 }
 
 /**
- * Get the value for a given user relationtype.
+ * Get the value for a given user relationtype
  *
  * @param array $params common module parameters
  * @param string $relationtype the name of the user relationtype
@@ -677,7 +677,7 @@ function ispapi_dnssec($params) {
 }
 
 /**
- * Return a special page for the registrant modification of an .IT domain name.
+ * Return a special page for the registrant modification of a .IT domain
  *
  * @param array $params common module parameters
  *
@@ -911,7 +911,7 @@ function ispapi_registrantmodification_tld($params) {
 }
 
 /**
- * Return a special page for the registrant modification of an .ca domain name
+ * Return a special page for the registrant modification of a .CA domain name
  *
  * @param array $params common module parameters
  *
@@ -1215,7 +1215,7 @@ function ispapi_whoisprivacy_ca($params) {
 }
 
 /**
- * Get Transferlock settings
+ * Get Transferlock settings of a domain name
  *
  * @param array $params common module parameters
  *
@@ -1248,7 +1248,7 @@ function ispapi_GetRegistrarLock($params) {;
 }
 
 /**
- * Modify and save Transferlock settings
+ * Modify and save Transferlock settings of a domain name
  *
  * @param array $params common module parameters
  *
@@ -1951,7 +1951,7 @@ function ispapi_SaveContactDetails($params) {
 }
 
 /**
- * Add new Private Nameserver (=GLUE RECORDS)
+ * Add a new Private Nameserver (=GLUE RECORD)
  * A glue record is simply the association of a hostname (nameserver in our case) with an IP address at the registry
  *
  * @param array $params common module parameters
@@ -1978,7 +1978,7 @@ function ispapi_RegisterNameserver($params) {
 }
 
 /**
- * Modify Private Nameserver
+ * Modify a Private Nameserver
  *
  * @param array $params common module parameters
  *
@@ -2050,8 +2050,7 @@ function ispapi_IDProtectToggle($params) {
 }
 
 /**
- * Register a domain name
- * Supports Premium Domains
+ * Register a domain name - Premium support
  *
  * @param array $params common module parameters
  *
@@ -2177,97 +2176,9 @@ function ispapi_RegisterDomain($params) {
 	return $values;
 }
 
-// TODO ANTHONY
-function ispapi_query_additionalfields(&$params) {
-	$result = mysql_query("SELECT name,value FROM tbldomainsadditionalfields
-		WHERE domainid='".mysql_real_escape_string($params["domainid"])."'");
-	while ( $row = mysql_fetch_array($result, MYSQL_ASSOC) ) {
-		$params['additionalfields'][$row['name']] = $row['value'];
-	}
-}
-
-// TODO ANTHONY
-function ispapi_use_additionalfields($params, &$command) {
-	$additionalfieldsfile_path = dirname(__FILE__).DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."resources".DIRECTORY_SEPARATOR."domains".DIRECTORY_SEPARATOR."additionalfields.php";
-	//Check if additionalfields.php exist in the resources/domains/ directory (FOR WHMCS >= 7)
-	if (file_exists($additionalfieldsfile_path)){
-		include $additionalfieldsfile_path;
-	}else{
-		//Backward compatibility for WHMCS < 7
-		include dirname(__FILE__).DIRECTORY_SEPARATOR. 	"..".DIRECTORY_SEPARATOR. 	"..".DIRECTORY_SEPARATOR. 	"..".DIRECTORY_SEPARATOR. 	"includes".DIRECTORY_SEPARATOR."additionaldomainfields.php";
-	}
-
-	$myadditionalfields = array();
-	if ( is_array($additionaldomainfields) && isset($additionaldomainfields[".".$params["tld"]]) ) {
-		$myadditionalfields = $additionaldomainfields[".".$params["tld"]];
-	}
-
-	$found_additionalfield_mapping = 0;
-	foreach ( $myadditionalfields as $field_index => $field ) {
-		if ( isset($field["Ispapi-Name"]) || isset($field["Ispapi-Eval"]) ) {
-			$found_additionalfield_mapping = 1;
-		}
-	}
-
-	if ( !$found_additionalfield_mapping ) {
-		include dirname(__FILE__).DIRECTORY_SEPARATOR."additionaldomainfields.php";
-		if ( is_array($additionaldomainfields) && isset($additionaldomainfields[".".$params["tld"]]) ) {
-			$myadditionalfields = $additionaldomainfields[".".$params["tld"]];
-		}
-	}
-
-	foreach ( $myadditionalfields as $field_index => $field ) {
-		if ( !is_array($field["Ispapi-Replacements"]) ) {
-			$field["Ispapi-Replacements"] = array();
-		}
-
-		if ( isset($field["Ispapi-Options"]) && isset($field["Options"]) )  {
-			$options = explode(",", $field["Options"]);
-			foreach ( explode(",", $field["Ispapi-Options"]) as $index => $new_option ) {
-				$option = $options[$index];
-				if ( !isset($field["Ispapi-Replacements"][$option]) ) {
-					$field["Ispapi-Replacements"][$option] = $new_option;
-				}
-			}
-		}
-
-		$myadditionalfields[$field_index] = $field;
-	}
-
-	foreach ( $myadditionalfields as $field ) {
-
-		if ( isset($params['additionalfields'][$field["Name"]]) ) {
-			$value = $params['additionalfields'][$field["Name"]];
-
-			$ignore_countries = array();
-			if ( isset($field["Ispapi-IgnoreForCountries"]) ) {
-				foreach ( explode(",", $field["Ispapi-IgnoreForCountries"]) as $country ) {
-					$ignore_countries[strtoupper($country)] = 1;
-				}
-			}
-
-			if ( !$ignore_countries[strtoupper($params["country"])] ) {
-
-				if ( isset($field["Ispapi-Replacements"][$value]) ) {
-					$value = $field["Ispapi-Replacements"][$value];
-				}
-
-				if ( isset($field["Ispapi-Eval"]) ) {
-					eval($field["Ispapi-Eval"]);
-				}
-
-				if ( isset($field["Ispapi-Name"]) ) {
-					if ( strlen($value) ) {
-						$command[$field["Ispapi-Name"]] = $value;
-					}
-				}
-			}
-		}
-	}
-}
 
 /**
- * Transfer a domain name with contact data and auth code
+ * Transfer a domain name
  *
  * @param array $params common module parameters
  *
@@ -2371,7 +2282,7 @@ function ispapi_TransferDomain($params) {
 }
 
 /**
- * Renew a domain name with time period
+ * Renew a domain name
  *
  * @param array $params common module parameters
  *
@@ -2402,7 +2313,15 @@ function ispapi_RenewDomain($params) {
 	return $values;
 }
 
-// TODO ANTHONY
+/**
+ * Release a domain name
+ * A domain name can be pushed to the registry or to another registrar.
+ * This feature currently works for .DE domains (DENIC Transit), .UK domains (.UK detagging), .VE domains, .IS domains and .AT domains (.AT Billwithdraw).
+ *
+ * @param array $params common module parameters
+ *
+ * @return array $values - an array with command response description
+ */
 function ispapi_ReleaseDomain($params) {
 	$values = array();
 	if ( isset($params["original"]) ) {
@@ -2423,7 +2342,7 @@ function ispapi_ReleaseDomain($params) {
 }
 
 /**
- * Request to delete a domain name
+ * Delete a domain name
  *
  * @param array $params common module parameters
  *
@@ -2448,7 +2367,18 @@ function ispapi_RequestDelete($params) {
 	return $values;
 }
 
-// TODO ANTHONY
+/**
+ * Incoming Domain Transfer Sync.
+ *
+ * Check status of incoming domain transfers and notify end-user upon
+ * completion. This function is called daily for incoming domains.
+ *
+ * @param array $params common module parameters
+ *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ *
+ * @return array
+ */
 function ispapi_TransferSync($params) {
 	$values = array();
 	$domain = $params["sld"].".".$params["tld"];
@@ -2510,7 +2440,19 @@ function ispapi_TransferSync($params) {
 	return $values;
 }
 
-// TODO ANTHONY
+/**
+ * Sync Domain Status & Expiration Date
+ *
+ * Domain syncing is intended to ensure domain status and expiry date
+ * changes made directly at the domain registrar are synced to WHMCS.
+ * It is called periodically for a domain.
+ *
+ * @param array $params common module parameters
+ *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ *
+ * @return array
+ */
 function ispapi_Sync($params) {
 	$values = array();
 	$domain = $params["sld"].".".$params["tld"];
@@ -2550,8 +2492,161 @@ function ispapi_Sync($params) {
 	return $values;
 }
 
+/**
+ * Return an array with the contact information of a contact handle
+ * Uses the StatusContact command
+ *
+ * @param array $contact - contact handle
+ * @param array &$params - common module parameters
+ *
+ * @return array $values - an array with contact information
+ */
+function ispapi_get_contact_info($contact, &$params) {
+	if ( isset($params["_contact_hash"][$contact]) )
+		return $params["_contact_hash"][$contact];
 
-// TODO ANTHONY
+	$domain = $params["sld"].".".$params["tld"];
+
+	$values = array();
+	$command = array(
+		"COMMAND" => "StatusContact",
+		"CONTACT" => $contact
+	);
+	$response = ispapi_call($command, ispapi_config($params));
+
+	if ( 1 || $response["CODE"] == 200 ) {
+		$values["First Name"] = htmlspecialchars($response["PROPERTY"]["FIRSTNAME"][0]);
+		$values["Last Name"] = htmlspecialchars($response["PROPERTY"]["LASTNAME"][0]);
+		$values["Company Name"] = htmlspecialchars($response["PROPERTY"]["ORGANIZATION"][0]);
+		$values["Address"] = htmlspecialchars($response["PROPERTY"]["STREET"][0]);
+		$values["Address 2"] = htmlspecialchars($response["PROPERTY"]["STREET"][1]);
+		$values["City"] = htmlspecialchars($response["PROPERTY"]["CITY"][0]);
+		$values["State"] = htmlspecialchars($response["PROPERTY"]["STATE"][0]);
+		$values["Postcode"] = htmlspecialchars($response["PROPERTY"]["ZIP"][0]);
+		$values["Country"] = htmlspecialchars($response["PROPERTY"]["COUNTRY"][0]);
+		$values["Phone"] = htmlspecialchars($response["PROPERTY"]["PHONE"][0]);
+		$values["Fax"] = htmlspecialchars($response["PROPERTY"]["FAX"][0]);
+		$values["Email"] = htmlspecialchars($response["PROPERTY"]["EMAIL"][0]);
+
+		if ( (count($response["PROPERTY"]["STREET"]) < 2)
+			and preg_match('/^(.*) , (.*)/', $response["PROPERTY"]["STREET"][0], $m) ) {
+			$values["Address"] = $m[1];
+			$values["Address 2"] = $m[2];
+		}
+
+		// handle imported .ca domains properly
+		if ( preg_match('/[.]ca$/i', $domain) && isset($response["PROPERTY"]["X-CA-LEGALTYPE"]) ) {
+			if ( preg_match('/^(CCT|RES|ABO|LGR)$/i', $response["PROPERTY"]["X-CA-LEGALTYPE"][0]) ) {
+				// keep name/org
+			}
+			else {
+				if ( (!isset($response["PROPERTY"]["ORGANIZATION"])) || !$response["PROPERTY"]["ORGANIZATION"][0] ) {
+					$response["PROPERTY"]["ORGANIZATION"] = $response["PROPERTY"]["NAME"];
+				}
+			}
+		}
+
+	}
+	$params["_contact_hash"][$contact] = $values;
+	return $values;
+}
+
+
+
+
+
+
+// ------------------------------------------------------------------------------
+// ------- Helper functions and function required to connect to the API ----------
+// ------------------------------------------------------------------------------
+
+function ispapi_query_additionalfields(&$params) {
+	$result = mysql_query("SELECT name,value FROM tbldomainsadditionalfields
+		WHERE domainid='".mysql_real_escape_string($params["domainid"])."'");
+	while ( $row = mysql_fetch_array($result, MYSQL_ASSOC) ) {
+		$params['additionalfields'][$row['name']] = $row['value'];
+	}
+}
+
+function ispapi_use_additionalfields($params, &$command) {
+	$additionalfieldsfile_path = dirname(__FILE__).DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."resources".DIRECTORY_SEPARATOR."domains".DIRECTORY_SEPARATOR."additionalfields.php";
+	//Check if additionalfields.php exist in the resources/domains/ directory (FOR WHMCS >= 7)
+	if (file_exists($additionalfieldsfile_path)){
+		include $additionalfieldsfile_path;
+	}else{
+		//Backward compatibility for WHMCS < 7
+		include dirname(__FILE__).DIRECTORY_SEPARATOR. 	"..".DIRECTORY_SEPARATOR. 	"..".DIRECTORY_SEPARATOR. 	"..".DIRECTORY_SEPARATOR. 	"includes".DIRECTORY_SEPARATOR."additionaldomainfields.php";
+	}
+
+	$myadditionalfields = array();
+	if ( is_array($additionaldomainfields) && isset($additionaldomainfields[".".$params["tld"]]) ) {
+		$myadditionalfields = $additionaldomainfields[".".$params["tld"]];
+	}
+
+	$found_additionalfield_mapping = 0;
+	foreach ( $myadditionalfields as $field_index => $field ) {
+		if ( isset($field["Ispapi-Name"]) || isset($field["Ispapi-Eval"]) ) {
+			$found_additionalfield_mapping = 1;
+		}
+	}
+
+	if ( !$found_additionalfield_mapping ) {
+		include dirname(__FILE__).DIRECTORY_SEPARATOR."additionaldomainfields.php";
+		if ( is_array($additionaldomainfields) && isset($additionaldomainfields[".".$params["tld"]]) ) {
+			$myadditionalfields = $additionaldomainfields[".".$params["tld"]];
+		}
+	}
+
+	foreach ( $myadditionalfields as $field_index => $field ) {
+		if ( !is_array($field["Ispapi-Replacements"]) ) {
+			$field["Ispapi-Replacements"] = array();
+		}
+
+		if ( isset($field["Ispapi-Options"]) && isset($field["Options"]) )  {
+			$options = explode(",", $field["Options"]);
+			foreach ( explode(",", $field["Ispapi-Options"]) as $index => $new_option ) {
+				$option = $options[$index];
+				if ( !isset($field["Ispapi-Replacements"][$option]) ) {
+					$field["Ispapi-Replacements"][$option] = $new_option;
+				}
+			}
+		}
+
+		$myadditionalfields[$field_index] = $field;
+	}
+
+	foreach ( $myadditionalfields as $field ) {
+
+		if ( isset($params['additionalfields'][$field["Name"]]) ) {
+			$value = $params['additionalfields'][$field["Name"]];
+
+			$ignore_countries = array();
+			if ( isset($field["Ispapi-IgnoreForCountries"]) ) {
+				foreach ( explode(",", $field["Ispapi-IgnoreForCountries"]) as $country ) {
+					$ignore_countries[strtoupper($country)] = 1;
+				}
+			}
+
+			if ( !$ignore_countries[strtoupper($params["country"])] ) {
+
+				if ( isset($field["Ispapi-Replacements"][$value]) ) {
+					$value = $field["Ispapi-Replacements"][$value];
+				}
+
+				if ( isset($field["Ispapi-Eval"]) ) {
+					eval($field["Ispapi-Eval"]);
+				}
+
+				if ( isset($field["Ispapi-Name"]) ) {
+					if ( strlen($value) ) {
+						$command[$field["Ispapi-Name"]] = $value;
+					}
+				}
+			}
+		}
+	}
+}
+
 function ispapi_get_utf8_params($params) {
     if ( isset($params["original"]) ) {
         return $params["original"];
@@ -2625,73 +2720,6 @@ function ispapi_get_utf8_params($params) {
 	return $params;
 }
 
-/**
- * Contact details of a contact
- *
- * @param array $contact - contact parameter
- * @param array &$params - common module parameters
- *
- * @return array $values - an array with contact information
- */
-function ispapi_get_contact_info($contact, &$params) {
-	if ( isset($params["_contact_hash"][$contact]) )
-		return $params["_contact_hash"][$contact];
-
-	$domain = $params["sld"].".".$params["tld"];
-
-	$values = array();
-	$command = array(
-		"COMMAND" => "StatusContact",
-		"CONTACT" => $contact
-	);
-	$response = ispapi_call($command, ispapi_config($params));
-
-	if ( 1 || $response["CODE"] == 200 ) {
-		$values["First Name"] = htmlspecialchars($response["PROPERTY"]["FIRSTNAME"][0]);
-		$values["Last Name"] = htmlspecialchars($response["PROPERTY"]["LASTNAME"][0]);
-		$values["Company Name"] = htmlspecialchars($response["PROPERTY"]["ORGANIZATION"][0]);
-		$values["Address"] = htmlspecialchars($response["PROPERTY"]["STREET"][0]);
-		$values["Address 2"] = htmlspecialchars($response["PROPERTY"]["STREET"][1]);
-		$values["City"] = htmlspecialchars($response["PROPERTY"]["CITY"][0]);
-		$values["State"] = htmlspecialchars($response["PROPERTY"]["STATE"][0]);
-		$values["Postcode"] = htmlspecialchars($response["PROPERTY"]["ZIP"][0]);
-		$values["Country"] = htmlspecialchars($response["PROPERTY"]["COUNTRY"][0]);
-		$values["Phone"] = htmlspecialchars($response["PROPERTY"]["PHONE"][0]);
-		$values["Fax"] = htmlspecialchars($response["PROPERTY"]["FAX"][0]);
-		$values["Email"] = htmlspecialchars($response["PROPERTY"]["EMAIL"][0]);
-
-		if ( (count($response["PROPERTY"]["STREET"]) < 2)
-			and preg_match('/^(.*) , (.*)/', $response["PROPERTY"]["STREET"][0], $m) ) {
-			$values["Address"] = $m[1];
-			$values["Address 2"] = $m[2];
-		}
-
-		// handle imported .ca domains properly
-		if ( preg_match('/[.]ca$/i', $domain) && isset($response["PROPERTY"]["X-CA-LEGALTYPE"]) ) {
-			if ( preg_match('/^(CCT|RES|ABO|LGR)$/i', $response["PROPERTY"]["X-CA-LEGALTYPE"][0]) ) {
-				// keep name/org
-			}
-			else {
-				if ( (!isset($response["PROPERTY"]["ORGANIZATION"])) || !$response["PROPERTY"]["ORGANIZATION"][0] ) {
-					$response["PROPERTY"]["ORGANIZATION"] = $response["PROPERTY"]["NAME"];
-				}
-			}
-		}
-
-	}
-	$params["_contact_hash"][$contact] = $values;
-	return $values;
-}
-
-// TODO ANTHONY
-function ispapi_logModuleCall($registrar, $action, $requeststring, $responsedata, $processeddata = NULL, $replacevars = NULL) {
-	if ( !function_exists('logModuleCall') ) {
-		return;
-	}
-	return logModuleCall($registrar, $action, $requeststring, $responsedata, $processeddata, $replacevars);
-}
-
-// TODO ANTHONY
 function ispapi_config($params) {
 	$config = array();
 	$config["registrar"] = $params["registrar"];
@@ -2712,12 +2740,10 @@ function ispapi_config($params) {
 	return $config;
 }
 
-// TODO ANTHONY
 function ispapi_call($command, $config) {
     return ispapi_parse_response(ispapi_call_raw($command, $config));
 }
 
-// TODO ANTHONY
 function ispapi_call_raw($command, $config) {
 	global $ispapi_module_version;
 	$args = array();
@@ -2801,7 +2827,6 @@ function ispapi_call_raw($command, $config) {
 	return $response;
 }
 
-// TODO ANTHONY
 function ispapi_to_punycode($domain) {
 	if ( !strlen($domain) ) return $domain;
 	if ( preg_match('/^[a-z0-9\.\-]+$/i', $domain) ) {
@@ -2816,7 +2841,6 @@ function ispapi_to_punycode($domain) {
 	return $domain;
 }
 
-// TODO ANTHONY
 function ispapi_encode_command( $commandarray ) {
     if (!is_array($commandarray)) return $commandarray;
     $command = "";
@@ -2836,7 +2860,6 @@ function ispapi_encode_command( $commandarray ) {
     return $command;
 }
 
-// TODO ANTHONY
 function ispapi_parse_response ( $response ) {
     if (is_array($response)) return $response;
     $hash = array(
@@ -2876,6 +2899,12 @@ function ispapi_parse_response ( $response ) {
     return $hash;
 }
 
+function ispapi_logModuleCall($registrar, $action, $requeststring, $responsedata, $processeddata = NULL, $replacevars = NULL) {
+	if ( !function_exists('logModuleCall') ) {
+		return;
+	}
+	return logModuleCall($registrar, $action, $requeststring, $responsedata, $processeddata, $replacevars);
+}
 
 ispapi_InitModule($module_version);
 ?>
