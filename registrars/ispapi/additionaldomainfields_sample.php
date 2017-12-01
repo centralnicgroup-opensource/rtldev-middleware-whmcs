@@ -5,6 +5,26 @@
 ## DO NOT INCLUDE THIS FILE DIRECTLY
 ##
 
+## .VOTE DOMAIN REQUIREMENTS
+$additionaldomainfields[".vote"] = array();
+$additionaldomainfields[".vote"] = array(
+	"Name" => "Agreement",
+	"Type" => "tickbox",
+	"Description" => "I confirm bona fide use of this domain name for a relevant election cycle with a clearly identified political/democratic process.",
+	"Required" => true,
+	"Ispapi-Name" => "X-VOTE-ACCEPT-HIGHLY-REGULATED-TAC"
+);
+
+## .VOTO DOMAIN REQUIREMENTS
+$additionaldomainfields[".voto"] = array();
+$additionaldomainfields[".voto"] = array(
+	"Name" => "Agreement",
+	"Type" => "tickbox",
+	"Description" => "I confirm bona fide use of this domain name for a relevant election cycle with a clearly identified political/democratic process.",
+	"Required" => true,
+	"Ispapi-Name" => "X-VOTO-ACCEPT-HIGHLY-REGULATED-TAC"
+);
+
 ## .RO DOMAIN REQUIREMENTS
 $additionaldomainfields[".ro"] = array();
 $additionaldomainfields[".ro"][] = array(
@@ -531,6 +551,21 @@ $additionaldomainfields[".dk"][] = array(
 		"Required" => false,
 		"Description" => "(Only for Organization)",
 		"Ispapi-Name" => "X-ADMIN-VATID",
+);
+$additionaldomainfields[".dk"][] = array(
+		"Name" => "Registrant contact",
+		"Type" => "text",
+		"Required" => false,
+		"Description" => "(DK-HOSTMASTER User ID)",
+		"Ispapi-Name" => "X-DK-REGISTRANT-CONTACT",
+);
+
+$additionaldomainfields[".dk"][] = array(
+		"Name" => "Admin contact",
+		"Type" => "text",
+		"Required" => false,
+		"Description" => "(DK-HOSTMASTER User ID)",
+		"Ispapi-Name" => "X-DK-ADMIN-CONTACT",
 );
 
 

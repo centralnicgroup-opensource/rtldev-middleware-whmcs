@@ -4,6 +4,16 @@ ______________________________________________________________________________
 Changelog
 ______________________________________________________________________________
 
+v1.0.53 - 2017-12-04
+ - additional domain fields for: .vote, .voto and .dk
+ - fixes in the DNSSEC section
+ - domain transfers are now sent without contact information for gTLDs (including nTLDs) in order avoid IRTP triggering
+ - added HEXONET as Lookup Provider
+ - High Performance availability checks using our fast API
+ - Suggestion Engine
+ - Aftermarket and Registry Premium Domains support
+ - Fallback to WHOIS Lookup for non-supported TLDs
+
 v1.0.52 - 2017-10-12
  - additional domain fields for: .ro
  - fix for .EU Auth code generation
