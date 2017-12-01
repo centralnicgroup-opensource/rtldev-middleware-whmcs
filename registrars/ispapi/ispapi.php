@@ -126,7 +126,7 @@ function ispapi_CheckAvailability($params) {
                             $status = SearchResult::STATUS_REGISTERED;
                         }else{
                             //AFTERMARKET OR REGISTRY PREMIUM DOMAIN
-                            $renewprice = "5";//ispapi_getRenewPrice($params, $check["PROPERTY"]["CLASS"][$index], $currency_id, ltrim($domain['tld'], '.'));
+                            $renewprice = ispapi_getRenewPrice($params, $check["PROPERTY"]["CLASS"][$index], $currency_id, ltrim($domain['tld'], '.'));
 
         					if( isset($registerprice) && isset($currency) && !empty($renewprice) ){
                                 $status = SearchResult::STATUS_NOT_REGISTERED;
@@ -2563,11 +2563,8 @@ function ispapi_get_contact_info($contact, &$params) {
 
 
 
-
-
-
 // ------------------------------------------------------------------------------
-// ------- Helper functions and function required to connect to the API ----------
+// ------- Helper functions and functions required to connect the API ----------
 // ------------------------------------------------------------------------------
 
 function ispapi_query_additionalfields(&$params) {
