@@ -2029,7 +2029,13 @@ function ispapi_DeleteNameserver($params) {
 	return $values;
 }
 
-// TODO ANTHONY
+/**
+ * Toggle the ID Protection of a domain name
+ *
+ * @param array $params common module parameters
+ *
+ * @return array
+ */
 function ispapi_IDProtectToggle($params) {
 	$values = array();
 	if ( isset($params["original"]) ) {
