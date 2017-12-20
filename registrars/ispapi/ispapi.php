@@ -2345,19 +2345,16 @@ function ispapi_ReleaseDomain($params) {
 	}
 	$domain = $params["sld"].".".$params["tld"];
     $target = $params["transfertag"];
-    if ( $target != '' ) {
-        $command = array(
-            "COMMAND" => "PushDomain",
-            "DOMAIN" => $domain,
-            "TARGET" => $target
 
-        );
-    } else {
-        $command = array(
-            "COMMAND" => "PushDomain",
-            "DOMAIN" => $domain
-        );
+    $command = array(
+    "COMMAND" => "PushDomain",
+    "DOMAIN" => $domain,
+    );
+
+    if($target != ''){
+        $command["TARGET"] = $target;
     }
+
 	$response = ispapi_call($command, ispapi_config($params));
 
 	if ( $response["CODE"] != 200 ) {
