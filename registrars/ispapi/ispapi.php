@@ -6,7 +6,7 @@
  * @version 1.0.53
  */
 
-$module_version = "1.0.53";
+$module_version = "1.0.54";
 
 use WHMCS\Domains\DomainLookup\ResultsList;
 use WHMCS\Domains\DomainLookup\SearchResult;
