@@ -5,7 +5,7 @@ Changelog
 ______________________________________________________________________________
 
 v1.0.54 - 2018-01-11
- - Support special characters in user password
+ - support special characters in user password
 
 v1.0.53 - 2017-12-04
  - additional domain fields for: .vote, .voto and .dk
