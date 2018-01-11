@@ -6,12 +6,13 @@
  * @version 1.0.53
  */
 
-$module_version = "1.0.53";
+$module_version = "1.0.54";
 
 use WHMCS\Domains\DomainLookup\ResultsList;
 use WHMCS\Domains\DomainLookup\SearchResult;
 use WHMCS\Module\Registrar\Registrarmodule\ApiClient;
 use WHMCS\Database\Capsule;
+
 
 /**
  * Check the availability of domains using HEXONET's fast API
@@ -400,11 +401,13 @@ function ispapi_getConfigArray($params) {
 				"SUBUSER" => $params["Username"],
 				"PASSWORD" => $params["Password"]
 		);
+
 		$response = ispapi_call($command, ispapi_config($params));
 		$mode_text = ($params["TestMode"]=="on") ? "to OT&E environment" : "to PRODUCTION environment";
 		$state = ($response["CODE"] == 200) ? "<div style='color:white;font-weight:bold;background-color:green;padding:3px;width:400px;text-align:center;'>Connected ".$mode_text."</div>" : "<div style='color:white;font-weight:bold;background-color:red;padding:3px;width:400px;text-align:center;'>Disconnected (Verify Username and Password)</div>";
 		$configarray[""] = array( "Description" => $state );
 	}
+
 
 	//Save information about module versions in the environment
 	if($response["CODE"] == 200){
@@ -1442,7 +1445,7 @@ function ispapi_GetDNS($params) {
 			}
 
 			if ( $rrtype == "TXT" ) {
-				$hostrecords[$i] = array( "hostname" => $domain, "type" => $rrtype, "address" => htmlspecialchars(implode(" ", $fields)), );
+				$hostrecords[$i] = array( "hostname" => $domain, "type" => $rrtype, "address" => (implode(" ", $fields)), );
 				$i++;
 			}
 
@@ -2764,7 +2767,7 @@ function ispapi_call_raw($command, $config) {
 	if ( isset($config["login"]) )
 		$args["s_login"] = $config["login"];
 	if ( isset($config["password"]) )
-		$args["s_pw"] = $config["password"];
+        $args["s_pw"] = html_entity_decode($config["password"], ENT_QUOTES);
 	if ( isset($config["user"]) )
 		$args["s_user"] = $config["user"];
 	if ( isset($config["entity"]) )
