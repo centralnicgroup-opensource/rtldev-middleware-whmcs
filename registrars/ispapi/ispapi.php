@@ -3,7 +3,7 @@
  * ISPAPI Registrar Module
  *
  * @author HEXONET GmbH <support@hexonet.net>
- * @version 1.0.53
+ * @version 1.0.54
  */
 
 $module_version = "1.0.54";
