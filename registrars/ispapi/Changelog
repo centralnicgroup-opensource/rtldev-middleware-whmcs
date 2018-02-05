@@ -4,6 +4,9 @@ ______________________________________________________________________________
 Changelog
 ______________________________________________________________________________
 
+v1.0.55 - 2018-02-05
+ - support for automatic transfer lock on domain registration (optional)
+
 v1.0.54 - 2018-01-11
  - fix for special characters in user password
  - fix for issue with TXT records
