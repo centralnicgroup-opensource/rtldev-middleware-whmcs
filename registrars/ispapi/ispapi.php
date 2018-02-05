@@ -389,6 +389,7 @@ function ispapi_getConfigArray($params) {
 			"ProxyServer" => array( "Type" => "text", "Description" => "Optional (HTTP(S) Proxy Server)" ),
 			"ConvertIDNs" => array( "Type" => "dropdown", "Options" => "API,PHP", "Default" => "API", "Description" => "Use API or PHP function (idn_to_ascii)" ),
 			"DNSSEC" => array( "Type" => "yesno", "Description" => "Display the DNSSEC Management functionality in the domain details" ),
+            "TRANSFERLOCK" => array( "Type" => "yesno", "Description" => "Locks automatically a domain after a new registration" ),
 	);
 	if ( !function_exists('idn_to_ascii') ) {
 		$configarray["ConvertIDNs"] = array( "Type" => "dropdown", "Options" => "API", "Default" => "API", "Description" => "Use API (PHP function idn_to_ascii not available)" );
@@ -1225,29 +1226,31 @@ function ispapi_whoisprivacy_ca($params) {
  * @return array $values - an array with transferlock setting information
  */
 function ispapi_GetRegistrarLock($params) {;
-	$values = array();
-	if ( isset($params["original"]) ) {
-		$params = $params["original"];
-	}
-	$domain = $params["sld"].".".$params["tld"];
+    $values = array();
+    if ( isset($params["original"]) ) {
+        $params = $params["original"];
+    }
+    $domain = $params["sld"].".".$params["tld"];
 
-	$command = array(
-		"COMMAND" => "StatusDomain",
-		"DOMAIN" => $domain
-	);
-	$response = ispapi_call($command, ispapi_config($params));
-	if ( $response["CODE"] == 200 ) {
-		if ( isset($response["PROPERTY"]["TRANSFERLOCK"]) ) {
-			if ( $response["PROPERTY"]["TRANSFERLOCK"][0] )
-				return "locked";
-			return "unlocked";
-		}
-		return "";
-	}
-	else {
-		$values["error"] = $response["DESCRIPTION"];
-	}
-	return $values;
+    $command = array(
+        "COMMAND" => "StatusDomain",
+        "DOMAIN" => $domain
+    );
+
+    $response = ispapi_call($command, ispapi_config($params));
+    if ( $response["CODE"] == 200 ) {
+        if ( isset($response["PROPERTY"]["TRANSFERLOCK"]) ) {
+            if ( $response["PROPERTY"]["TRANSFERLOCK"][0])
+                return "locked";
+            return "unlocked";
+        }
+        return "";
+    }
+    else {
+        $values["error"] = $response["DESCRIPTION"];
+    }
+
+    return $values;
 }
 
 /**
@@ -1258,12 +1261,12 @@ function ispapi_GetRegistrarLock($params) {;
  * @return array $values - returns an array with command response description
  */
 function ispapi_SaveRegistrarLock($params) {
+
 	$values = array();
 	if ( isset($params["original"]) ) {
 		$params = $params["original"];
 	}
 	$domain = $params["sld"].".".$params["tld"];
-
 	$command = array(
 		"COMMAND" => "ModifyDomain",
 		"DOMAIN" => $domain,
@@ -1273,6 +1276,7 @@ function ispapi_SaveRegistrarLock($params) {
 	if ( $response["CODE"] != 200 ) {
 		$values["error"] = $response["DESCRIPTION"];
 	}
+
 	return $values;
 }
 
@@ -2073,6 +2077,7 @@ function ispapi_RegisterDomain($params) {
 	$premiumDomainsCost = $params['premiumCost'];
 
 	$params = ispapi_get_utf8_params($params);
+
 	if ( isset($params["original"]) ) {
         $params = $params["original"];
     }
@@ -2125,6 +2130,10 @@ function ispapi_RegisterDomain($params) {
 		"BILLINGCONTACT0" => $admin
 	);
 
+    if ( $origparams["TRANSFERLOCK"] ) {
+        $command["TRANSFERLOCK"] = 1;
+    }
+
 	if ( $params["dnsmanagement"] ) {
 		$command["INTERNALDNS"] = 1;
 	}
@@ -2139,7 +2148,6 @@ function ispapi_RegisterDomain($params) {
 		unset($command["INTERNALDNS"]);
 		unset($command["X-ACCEPT-WHOISTRUSTEE-TAC"]);
 	}
-
 	ispapi_use_additionalfields($params, $command);
 
     //#####################################################################
