@@ -2273,8 +2273,8 @@ function ispapi_TransferDomain($params) {
 		unset($command["BILLINGCONTACT0"]);
 	}
 
-	//send PERIOD=0 for .NO domains
-	if (preg_match('/[.]no$/i', $domain)) {
+	//send PERIOD=0 for .NO and .NU domains
+	if (preg_match('/[.](no|nu)$/i', $domain)) {
 		$command["PERIOD"] = 0;
 	}
 
