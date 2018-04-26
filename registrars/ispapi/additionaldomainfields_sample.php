@@ -13,7 +13,6 @@ $additionaldomainfields[".nu"][] = array(
 		"Required" => true,
 		"Ispapi-Name" => "X-REGISTRANT-IDNUMBER"
 );
-
 $additionaldomainfields[".nu"][] = array(
 		"Name" => "Vat ID",
 		"Type" => "text",
