@@ -5,6 +5,23 @@
 ## DO NOT INCLUDE THIS FILE DIRECTLY
 ##
 
+## .NU DOMAIN REQUIREMENTS ##
+$additionaldomainfields[".nu"] = array();
+$additionaldomainfields[".nu"][] = array(
+		"Name" => "Registrant ID number",
+		"Type" => "text",
+		"Required" => true,
+		"Ispapi-Name" => "X-REGISTRANT-IDNUMBER"
+);
+
+$additionaldomainfields[".nu"][] = array(
+		"Name" => "Vat ID",
+		"Type" => "text",
+		"Required" => true,
+		"Ispapi-Name" => "X-VATID"
+
+);
+
 ## .VOTE DOMAIN REQUIREMENTS
 $additionaldomainfields[".vote"] = array();
 $additionaldomainfields[".vote"] = array(
@@ -742,7 +759,6 @@ $additionaldomainfields[".no"][] = array(
         "Default" => "",
         "Required" => true,
 );
-
 
 ## .SWISS DOMAIN REQUIREMENTS ##
 $additionaldomainfields[".swiss"] = array();
