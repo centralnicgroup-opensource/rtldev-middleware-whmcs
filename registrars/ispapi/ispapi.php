@@ -6,7 +6,7 @@
  * @version 1.0.55
  */
 
-$module_version = "1.0.55";
+$module_version = "1.0.56";
 
 use WHMCS\Domains\DomainLookup\ResultsList;
 use WHMCS\Domains\DomainLookup\SearchResult;
@@ -2273,8 +2273,8 @@ function ispapi_TransferDomain($params) {
 		unset($command["BILLINGCONTACT0"]);
 	}
 
-	//send PERIOD=0 for .NO domains
-	if (preg_match('/[.]no$/i', $domain)) {
+	//send PERIOD=0 for .NO and .NU domains
+	if (preg_match('/[.](no|nu)$/i', $domain)) {
 		$command["PERIOD"] = 0;
 	}
 
