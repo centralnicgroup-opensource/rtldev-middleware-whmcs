@@ -4,6 +4,9 @@ ______________________________________________________________________________
 Changelog
 ______________________________________________________________________________
 
+v1.0.56 - 2018-04-26
+ - fix for .NU transfer issue
+
 v1.0.55 - 2018-02-05
  - support for automatic transfer lock on domain registration (optional)
 
