@@ -1678,7 +1678,7 @@ function ispapi_SaveDNS($params) {
  *
  * @param array $params common module parameters
  *
- * @return array $result - an array with TODO
+ * @return array $result - returns an array with command response description
  */
 function ispapi_GetEmailForwarding($params) {
 	$values = array();
@@ -2259,8 +2259,8 @@ function ispapi_TransferDomain($params) {
 	);
 
 
-	//don't send owner admin tech billing contact for .CA, .US, .PT, .NO and .SE domains
-	if (preg_match('/[.]ca$/i', $domain) || preg_match('/[.]us$/i', $domain) || preg_match('/[.]pt$/i', $domain) || preg_match('/[.]no$/i', $domain) || preg_match('/[.]se$/i', $domain)) {
+	//don't send owner admin tech billing contact for .NU .DK .CA, .US, .PT, .NO and .SE domains
+	if (preg_match('/[.]nu$/i', $domain) || preg_match('/[.]dk$/i', $domain) || preg_match('/[.]ca$/i', $domain) || preg_match('/[.]us$/i', $domain) || preg_match('/[.]pt$/i', $domain) || preg_match('/[.]no$/i', $domain) || preg_match('/[.]se$/i', $domain)) {
 		unset($command["OWNERCONTACT0"]);
 		unset($command["ADMINCONTACT0"]);
 		unset($command["TECHCONTACT0"]);
