@@ -4,6 +4,10 @@ ______________________________________________________________________________
 Changelog
 ______________________________________________________________________________
 
+v1.0.58 - 2018-07-04
+ - updated logo and wording
+ - fix in ispapi_get_contact_info (issues with special characters)
+
 v1.0.57 - 2018-06-06
  - fix for .NU and .DK transfer issues
 

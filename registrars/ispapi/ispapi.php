@@ -3,10 +3,10 @@
  * ISPAPI Registrar Module
  *
  * @author HEXONET GmbH <support@hexonet.net>
- * @version 1.0.57
+ * @version 1.0.58
  */
 
-$module_version = "1.0.57";
+$module_version = "1.0.58";
 
 use WHMCS\Domains\DomainLookup\ResultsList;
 use WHMCS\Domains\DomainLookup\SearchResult;
@@ -382,6 +382,7 @@ function ispapi_getConfigArray($params) {
 	$version = ispapi_GetISPAPIModuleVersion();
 	$configarray = array(
 			"FriendlyName" => array("Type" => "System", "Value"=>"ISPAPI v".$version),
+            "Description" => array("Type" => "System", "Value"=>"The Official ISPAPI Registrar Module. <a target='blank_' href='https://www.hexonet.net'>www.hexonet.net</a>"),
 			"Username" => array( "Type" => "text", "Size" => "20", "Description" => "Enter your ISPAPI Login ID", ),
 			"Password" => array( "Type" => "password", "Size" => "20", "Description" => "Enter your ISPAPI Password ", ),
 			"UseSSL" => array( "Type" => "yesno", "Description" => "Use HTTPS for API Connections" ),
@@ -2542,21 +2543,20 @@ function ispapi_get_contact_info($contact, &$params) {
 	$response = ispapi_call($command, ispapi_config($params));
 
 	if ( 1 || $response["CODE"] == 200 ) {
-		$values["First Name"] = htmlspecialchars($response["PROPERTY"]["FIRSTNAME"][0]);
-		$values["Last Name"] = htmlspecialchars($response["PROPERTY"]["LASTNAME"][0]);
-		$values["Company Name"] = htmlspecialchars($response["PROPERTY"]["ORGANIZATION"][0]);
-		$values["Address"] = htmlspecialchars($response["PROPERTY"]["STREET"][0]);
-		$values["Address 2"] = htmlspecialchars($response["PROPERTY"]["STREET"][1]);
-		$values["City"] = htmlspecialchars($response["PROPERTY"]["CITY"][0]);
-		$values["State"] = htmlspecialchars($response["PROPERTY"]["STATE"][0]);
-		$values["Postcode"] = htmlspecialchars($response["PROPERTY"]["ZIP"][0]);
-		$values["Country"] = htmlspecialchars($response["PROPERTY"]["COUNTRY"][0]);
-		$values["Phone"] = htmlspecialchars($response["PROPERTY"]["PHONE"][0]);
-		$values["Fax"] = htmlspecialchars($response["PROPERTY"]["FAX"][0]);
-		$values["Email"] = htmlspecialchars($response["PROPERTY"]["EMAIL"][0]);
+		$values["First Name"] = $response["PROPERTY"]["FIRSTNAME"][0];
+		$values["Last Name"] = $response["PROPERTY"]["LASTNAME"][0];
+		$values["Company Name"] = $response["PROPERTY"]["ORGANIZATION"][0];
+		$values["Address"] = $response["PROPERTY"]["STREET"][0];
+		$values["Address 2"] = $response["PROPERTY"]["STREET"][1];
+		$values["City"] = $response["PROPERTY"]["CITY"][0];
+		$values["State"] = $response["PROPERTY"]["STATE"][0];
+		$values["Postcode"] = $response["PROPERTY"]["ZIP"][0];
+		$values["Country"] = $response["PROPERTY"]["COUNTRY"][0];
+		$values["Phone"] = $response["PROPERTY"]["PHONE"][0];
+		$values["Fax"] = $response["PROPERTY"]["FAX"][0];
+		$values["Email"] = $response["PROPERTY"]["EMAIL"][0];
 
-		if ( (count($response["PROPERTY"]["STREET"]) < 2)
-			and preg_match('/^(.*) , (.*)/', $response["PROPERTY"]["STREET"][0], $m) ) {
+		if ( (count($response["PROPERTY"]["STREET"]) < 2) && preg_match('/^(.*) , (.*)/', $response["PROPERTY"]["STREET"][0], $m) ) {
 			$values["Address"] = $m[1];
 			$values["Address 2"] = $m[2];
 		}
