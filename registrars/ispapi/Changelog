@@ -4,7 +4,7 @@ ______________________________________________________________________________
 Changelog
 ______________________________________________________________________________
 
-v1.0.58 - 2018-07-04
+v1.0.58 - 2018-07-05
  - updated logo and wording
  - fix in ispapi_get_contact_info (issues with special characters)
  - updated documentation
