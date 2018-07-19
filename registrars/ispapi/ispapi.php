@@ -6,7 +6,7 @@
  * @version 1.0.58
  */
 
-$module_version = "1.0.58";
+$module_version = "1.0.59";
 
 use WHMCS\Domains\DomainLookup\ResultsList;
 use WHMCS\Domains\DomainLookup\SearchResult;
@@ -231,10 +231,10 @@ function ispapi_GetDomainSuggestions($params){
 function ispapi_DomainSuggestionOptions() {
     return array(
         'information' => array(
-            'FriendlyName' => '<img src="/modules/registrars/ispapi/logo.gif"><br>',
-            'Description' => '<b>Don\'t have a HEXONET Account yet?</b><br>Get one here: <a target="_blank" href="https://www.hexonet.net/sign-up">https://www.hexonet.net/sign-up</a><br><br>
+			'FriendlyName' => '<b>Don\'t have a HEXONET Account yet?</b>',
+            'Description' => 'Get one here: <a target="_blank" href="https://www.hexonet.net/sign-up">https://www.hexonet.net/sign-up</a><br><br>
             <b>The HEXONET Lookup Provider provides the following features:</b>
-            <ul style="text-align:left;margin-left:60px;margin-top:5px;">
+			<ul style="text-align:left;margin-left:220px;margin-top:5px;">
             <li>High Performance availability checks using our fast API</li>
             <li>Suggestion Engine</li>
             <li>Aftermarket and Registry Premium Domains support</li>

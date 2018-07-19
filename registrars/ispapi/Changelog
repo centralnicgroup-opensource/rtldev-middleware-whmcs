@@ -4,6 +4,9 @@ ______________________________________________________________________________
 Changelog
 ______________________________________________________________________________
 
+v1.0.59 - 2018-07-19
+ - fix in the configuration page of the HEXONET lookup to fit the requirements of WHMCS 7.6
+
 v1.0.58 - 2018-07-05
  - updated logo and wording
  - fix in ispapi_get_contact_info (issues with special characters)
