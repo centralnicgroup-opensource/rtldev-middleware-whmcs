@@ -230,17 +230,9 @@ function ispapi_GetDomainSuggestions($params){
  */
 function ispapi_DomainSuggestionOptions($params) {
 	if($params['whmcsVersion'] < 7.6){
-		$ulelm = '<ul style="text-align:left;margin-left:60px;margin-top:5px;"><li>High Performance availability checks using our fast API</li>
-		<li>Suggestion Engine</li>
-		<li>Aftermarket and Registry Premium Domains support</li>
-		<li>Fallback to WHOIS Lookup for non-supported TLDs</li>
-		</ul>';
+		$marginleft = '60px'; 
 	}else{
-		$ulelm = '<ul style="text-align:left;margin-left:220px;margin-top:5px;"><li>High Performance availability checks using our fast API</li>
-		<li>Suggestion Engine</li>
-		<li>Aftermarket and Registry Premium Domains support</li>
-		<li>Fallback to WHOIS Lookup for non-supported TLDs</li>
-		</ul>';
+		$marginleft = '220px'; 
 	}
 
 	return array(
@@ -248,7 +240,12 @@ function ispapi_DomainSuggestionOptions($params) {
 			'FriendlyName' => '<b>Don\'t have a HEXONET Account yet?</b>',
             'Description' => 'Get one here: <a target="_blank" href="https://www.hexonet.net/sign-up">https://www.hexonet.net/sign-up</a><br><br>
 			<b>The HEXONET Lookup Provider provides the following features:</b>
-			'.$ulelm.'
+			<ul style="text-align:left;margin-left:'.$marginleft.';margin-top:5px;">
+			<li>High Performance availability checks using our fast API</li>
+			<li>Suggestion Engine</li>
+			<li>Aftermarket and Registry Premium Domains support</li>
+			<li>Fallback to WHOIS Lookup for non-supported TLDs</li>
+			</ul>
             ',
         ),
         'suggestions' => array(
@@ -257,7 +254,6 @@ function ispapi_DomainSuggestionOptions($params) {
             'Description' => 'Tick to activate (recommended)',
         ),
     );
-
 }
 
 /**
