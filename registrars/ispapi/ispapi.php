@@ -3,16 +3,15 @@
  * ISPAPI Registrar Module
  *
  * @author HEXONET GmbH <support@hexonet.net>
- * @version 1.0.59
+ * @version 1.0.60
  */
 
-$module_version = "1.0.59";
+$module_version = "1.0.60";
 
 use WHMCS\Domains\DomainLookup\ResultsList;
 use WHMCS\Domains\DomainLookup\SearchResult;
 use WHMCS\Module\Registrar\Registrarmodule\ApiClient;
 use WHMCS\Database\Capsule;
-
 
 /**
  * Check the availability of domains using HEXONET's fast API
@@ -230,9 +229,9 @@ function ispapi_GetDomainSuggestions($params){
  */
 function ispapi_DomainSuggestionOptions($params) {
 	if($params['whmcsVersion'] < 7.6){
-		$marginleft = '60px'; 
+		$marginleft = '60px';
 	}else{
-		$marginleft = '220px'; 
+		$marginleft = '220px';
 	}
 
 	return array(
@@ -1836,7 +1835,6 @@ function ispapi_GetContactDetails($params) {
  */
 function ispapi_SaveContactDetails($params) {
 	$values = array();
-	$config = array();
     $origparams = $params;
 	$params = ispapi_get_utf8_params($params);
 
@@ -1854,47 +1852,24 @@ function ispapi_SaveContactDetails($params) {
 		"BILLINGCONTACT0" => "Billing",
 	);
 
-	//bug in WHMCS 6.1, $params is completely stripped, we will take the $_POST array here.
-	$unstrippedparams = $_POST;
 	foreach ( $map as $ctype => $ptype ) {
-		if ( isset($unstrippedparams["contactdetails"][$ptype]) ) {
-			$p = $unstrippedparams["contactdetails"][$ptype];
-			$command[$ctype] = array(
-				"FIRSTNAME" => $p["First Name"],
-				"LASTNAME" => $p["Last Name"],
-				"ORGANIZATION" => $p["Company Name"],
-				"STREET" => $p["Address"],
-				"CITY" => $p["City"],
-				"STATE" => $p["State"],
-				"ZIP" => $p["Postcode"],
-				"COUNTRY" => $p["Country"],
-				"PHONE" => $p["Phone"],
-				"FAX" => $p["Fax"],
-				"EMAIL" => $p["Email"],
-			);
-			if ( strlen($p["Address 2"]) ) {
-				$command[$ctype]["STREET"] .= " , ".$p["Address 2"];
-			}
-		}else{
-			//an existing contact was selected
-			$p = $origparams["contactdetails"][$ptype];
-			$key = array_search($ptype, $map);
-			$command[$key] = array(
-				"FIRSTNAME" => $p["First Name"],
-				"LASTNAME" => $p["Last Name"],
-				"ORGANIZATION" => $p["Company Name"],
-				"STREET" => $p["Address"],
-				"CITY" => $p["City"],
-				"STATE" => $p["State"],
-				"ZIP" => $p["Postcode"],
-				"COUNTRY" => $p["Country"],
-				"PHONE" => $p["Phone"],
-				"FAX" => $p["Fax"],
-				"EMAIL" => $p["Email"],
-			);
-			if ( strlen($p["Address 2"]) ) {
-				$command[$key]["STREET"] .= " , ".$p["Address 2"];
-			}
+		$p = $origparams["contactdetails"][$ptype];
+		$key = array_search($ptype, $map);
+		$command[$key] = array(
+			"FIRSTNAME" => $p["First Name"],
+			"LASTNAME" => $p["Last Name"],
+			"ORGANIZATION" => $p["Company Name"],
+			"STREET" => $p["Address"],
+			"CITY" => $p["City"],
+			"STATE" => $p["State"],
+			"ZIP" => $p["Postcode"],
+			"COUNTRY" => $p["Country"],
+			"PHONE" => $p["Phone"],
+			"FAX" => $p["Fax"],
+			"EMAIL" => $p["Email"],
+		);
+		if ( strlen($p["Address 2"]) ) {
+			$command[$key]["STREET"] .= " , ".$p["Address 2"];
 		}
 	}
 
@@ -2937,4 +2912,5 @@ function ispapi_logModuleCall($registrar, $action, $requeststring, $responsedata
 }
 
 ispapi_InitModule($module_version);
+
 ?>

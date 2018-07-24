@@ -1,9 +1,19 @@
 <?php
 
-//##########################################################################################
-//################################     ONLY FOR .SWISS    ##################################
-// Save the .swiss application ID in the admin note.
-//##########################################################################################
+/*
+ * A default function included in WHMCS will automatically replace the most common special characters to avoid issues with third party modules.
+ * Example: "ä" will be replaced with "a".
+ * This Registrar Module supports special characters, so we need to deactivate this default functionality.
+ * More information: https://docs.whmcs.com/Custom_Transliteration
+ */
+function hook_transliterate($string) {
+    return $string;
+}
+
+/*
+ * ONLY FOR .SWISS
+ * saves the .swiss application ID in the admin note
+ */
 add_hook('AfterRegistrarRegistrationFailed', 1, function ($vars){
     $params = $vars["params"];
     $domain = $params["sld"].".".$params["tld"];
@@ -16,10 +26,10 @@ add_hook('AfterRegistrarRegistrationFailed', 1, function ($vars){
     }
 });
 
-//##########################################################################################
-//################################     ONLY FOR .SWISS    ##################################
-// Runs over all pending applications to check if the registration was successful or not.
-//##########################################################################################
+/*
+ * ONLY FOR .SWISS
+ * runs over all pending applications to check if the registration was successful or not.
+ */
 add_hook('DailyCronJob', 1, function ($vars){
     if(file_exists(dirname(__FILE__)."/ispapi.php")){
         require_once(dirname(__FILE__)."/ispapi.php");

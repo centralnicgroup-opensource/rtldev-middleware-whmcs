@@ -4,6 +4,10 @@ ______________________________________________________________________________
 Changelog
 ______________________________________________________________________________
 
+v1.0.60 - 2018-07-24
+ - fix in ispapi_SaveContactDetails function: contact updates were not processed properly due to a change in WHMCS
+ - added hook to disable the default transliteration function from WHMCS as we are supporting special characters in our API. (https://docs.whmcs.com/Custom_Transliteration)
+
 v1.0.59 - 2018-07-19
  - fix in the configuration page of the HEXONET lookup to fit the requirements of WHMCS 7.6
 
