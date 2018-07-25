@@ -4,6 +4,9 @@ ______________________________________________________________________________
 Changelog
 ______________________________________________________________________________
 
+v1.0.61 - 2018-07-25
+ - update in ispapi_RegisterDomain function: disabled using of original data. We don't need that anymore as we deactivated the transliteration function
+
 v1.0.60 - 2018-07-24
  - fix in ispapi_SaveContactDetails function: contact updates were not processed properly due to a change in WHMCS
  - added hook to disable the default transliteration function from WHMCS as we are supporting special characters in our API. (https://docs.whmcs.com/Custom_Transliteration)

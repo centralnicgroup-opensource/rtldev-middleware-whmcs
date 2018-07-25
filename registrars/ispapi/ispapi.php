@@ -3,10 +3,10 @@
  * ISPAPI Registrar Module
  *
  * @author HEXONET GmbH <support@hexonet.net>
- * @version 1.0.60
+ * @version 1.0.61
  */
 
-$module_version = "1.0.60";
+$module_version = "1.0.61";
 
 use WHMCS\Domains\DomainLookup\ResultsList;
 use WHMCS\Domains\DomainLookup\SearchResult;
@@ -2060,9 +2060,10 @@ function ispapi_RegisterDomain($params) {
 
 	$params = ispapi_get_utf8_params($params);
 
-	if ( isset($params["original"]) ) {
-        $params = $params["original"];
-    }
+    //as we deactivated the transliteration hook, we don't need to do that anymore
+	// if ( isset($params["original"]) ) {
+    //     $params = $params["original"];
+    // }
 
 	$domain = $params["sld"].".".$params["tld"];
 
