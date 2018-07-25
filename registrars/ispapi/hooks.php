@@ -1,16 +1,6 @@
 <?php
 
 /*
- * A default function included in WHMCS will automatically replace the most common special characters to avoid issues with third party modules.
- * Example: "ä" will be replaced with "a".
- * This Registrar Module supports special characters, so we need to deactivate this default functionality.
- * More information: https://docs.whmcs.com/Custom_Transliteration
- */
-function hook_transliterate($string) {
-    return $string;
-}
-
-/*
  * ONLY FOR .SWISS
  * saves the .swiss application ID in the admin note
  */

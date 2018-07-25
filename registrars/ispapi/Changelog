@@ -4,13 +4,11 @@ ______________________________________________________________________________
 Changelog
 ______________________________________________________________________________
 
-v1.0.61 - 2018-07-25
- - update in ispapi_RegisterDomain function: disabled using of original data. We don't need that anymore as we deactivated the transliteration function
+v1.0.60 - 2018-07-25
+ - workaround in place in ispapi_SaveContactDetails function: contact updates were not processed properly due to a bug in WHMCS.
+   Current disadvantage: Update of contacts using the "USE EXISTING CONTACT" way will strip all special characters. (https://docs.whmcs.com/Custom_Transliteration)
+   In the meantime to avoid this disadvantage it is possible to deactivate the default WHMCS transliteration via the hook.
  - updated documentation
-
-v1.0.60 - 2018-07-24
- - fix in ispapi_SaveContactDetails function: contact updates were not processed properly due to a change in WHMCS
- - added hook to disable the default transliteration function from WHMCS as we are supporting special characters in our API. (https://docs.whmcs.com/Custom_Transliteration)
 
 v1.0.59 - 2018-07-19
  - fix in the configuration page of the HEXONET lookup to fit the requirements of WHMCS 7.6

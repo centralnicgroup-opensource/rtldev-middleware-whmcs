@@ -3,10 +3,10 @@
  * ISPAPI Registrar Module
  *
  * @author HEXONET GmbH <support@hexonet.net>
- * @version 1.0.61
+ * @version 1.0.60
  */
 
-$module_version = "1.0.61";
+$module_version = "1.0.60";
 
 use WHMCS\Domains\DomainLookup\ResultsList;
 use WHMCS\Domains\DomainLookup\SearchResult;
@@ -841,8 +841,8 @@ function ispapi_registrantmodification_it($params) {
 function ispapi_registrantmodification_tld($params) {
 	$origparams = $params;
 	if ( isset($params["original"]) ) {
-				$params = $params["original"];
-		}
+		$params = $params["original"];
+	}
 	$error = false;
 	$successful = false;
 	$domain = $params["sld"].".".$params["tld"];
@@ -1267,7 +1267,6 @@ function ispapi_GetRegistrarLock($params) {;
  * @return array $values - returns an array with command response description
  */
 function ispapi_SaveRegistrarLock($params) {
-
 	$values = array();
 	if ( isset($params["original"]) ) {
 		$params = $params["original"];
@@ -1838,6 +1837,10 @@ function ispapi_SaveContactDetails($params) {
     $origparams = $params;
 	$params = ispapi_get_utf8_params($params);
 
+    if ( isset($params["original"]) ) {
+        $params = $params["original"];
+    }
+
 	$domain = $params["sld"].".".$params["tld"];
 
 	$command = array(
@@ -1852,24 +1855,35 @@ function ispapi_SaveContactDetails($params) {
 		"BILLINGCONTACT0" => "Billing",
 	);
 
+    //bug in WHMCS since 6.1, $params["original"] is completely stripped, we will take the $_POST array to have the unstipped version
+	$unstrippedparams = $_POST;
+
 	foreach ( $map as $ctype => $ptype ) {
-		$p = $origparams["contactdetails"][$ptype];
-		$key = array_search($ptype, $map);
-		$command[$key] = array(
-			"FIRSTNAME" => $p["First Name"],
-			"LASTNAME" => $p["Last Name"],
-			"ORGANIZATION" => $p["Company Name"],
-			"STREET" => $p["Address"],
-			"CITY" => $p["City"],
-			"STATE" => $p["State"],
-			"ZIP" => $p["Postcode"],
-			"COUNTRY" => $p["Country"],
-			"PHONE" => $p["Phone"],
-			"FAX" => $p["Fax"],
-			"EMAIL" => $p["Email"],
+        //when using "Use Existing Contact" function in WHMCS, the $_POST array is empty, so we have to use the $params version.
+        //in this case the special characters will be replaced due to the default transliteration hook. (https://docs.whmcs.com/Custom_Transliteration)
+        //workarround for customers will be to deactivate the transliteration hook.
+        //once this issue has been fixed on WHMCS side we will release a new version which will support special characters in each cases.
+        if(array_key_exists("First Name", $unstrippedparams["contactdetails"][$ptype])){
+            $p = $unstrippedparams["contactdetails"][$ptype];
+        }else{
+            $p = $params["contactdetails"][$ptype];
+        }
+
+		$command[$ctype] = array(
+			"FIRSTNAME" => html_entity_decode($p["First Name"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
+			"LASTNAME" => html_entity_decode($p["Last Name"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
+			"ORGANIZATION" => html_entity_decode($p["Company Name"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
+			"STREET" => html_entity_decode($p["Address"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
+			"CITY" => html_entity_decode($p["City"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
+			"STATE" => html_entity_decode($p["State"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
+			"ZIP" => html_entity_decode($p["Postcode"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
+			"COUNTRY" => html_entity_decode($p["Country"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
+			"PHONE" => html_entity_decode($p["Phone"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
+			"FAX" => html_entity_decode($p["Fax"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
+			"EMAIL" => html_entity_decode($p["Email"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
 		);
 		if ( strlen($p["Address 2"]) ) {
-			$command[$key]["STREET"] .= " , ".$p["Address 2"];
+			$command[$ctype]["STREET"] .= " , ".html_entity_decode($p["Address 2"], ENT_QUOTES | ENT_XML1, 'UTF-8');
 		}
 	}
 
@@ -2060,10 +2074,9 @@ function ispapi_RegisterDomain($params) {
 
 	$params = ispapi_get_utf8_params($params);
 
-    //as we deactivated the transliteration hook, we don't need to do that anymore
-	// if ( isset($params["original"]) ) {
-    //     $params = $params["original"];
-    // }
+	if ( isset($params["original"]) ) {
+        $params = $params["original"];
+    }
 
 	$domain = $params["sld"].".".$params["tld"];
 
