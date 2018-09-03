@@ -2351,11 +2351,16 @@ function ispapi_ReleaseDomain($params) {
 		$params = $params["original"];
 	}
 	$domain = $params["sld"].".".$params["tld"];
+	$target = $params["transfertag"];
 
 	$command = array(
 		"COMMAND" => "PushDomain",
 		"DOMAIN" => $domain
 	);
+	if(!empty($target)){
+		$command["TARGET"] = $target;
+	}
+
 	$response = ispapi_call($command, ispapi_config($params));
 
 	if ( $response["CODE"] != 200 ) {
