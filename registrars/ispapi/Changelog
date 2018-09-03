@@ -4,6 +4,9 @@ ______________________________________________________________________________
 Changelog
 ______________________________________________________________________________
 
+v1.0.61 - 2018-09-03
+ - fix for release domain issue, target was missing  (PushDomain command)
+
 v1.0.60 - 2018-07-25
  - workaround in place in ispapi_SaveContactDetails function: contact updates were not processed properly due to a bug in WHMCS.
    Current disadvantage: Update of contacts using the "USE EXISTING CONTACT" way will strip all special characters. (https://docs.whmcs.com/Custom_Transliteration)
