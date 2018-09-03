@@ -2354,11 +2354,18 @@ function ispapi_ReleaseDomain($params) {
 	$domain = $params["sld"].".".$params["tld"];
 	$target = $params["transfertag"];
 
-	$command = array(
-		"COMMAND" => "PushDomain",
-		"DOMAIN" => $domain,
-		"TARGET" => $target
-	);
+	if(!empty($target)){
+		$command = array(
+			"COMMAND" => "PushDomain",
+			"DOMAIN" => $domain,
+			"TARGET" => $target
+		);
+	}else{
+		$command = array(
+			"COMMAND" => "PushDomain",
+			"DOMAIN" => $domain
+		);
+	}
 
 	$response = ispapi_call($command, ispapi_config($params));
 
