@@ -2346,7 +2346,6 @@ function ispapi_RenewDomain($params) {
  * @return array $values - an array with command response description
  */
 function ispapi_ReleaseDomain($params) {
-
 	$values = array();
 	if ( isset($params["original"]) ) {
 		$params = $params["original"];
