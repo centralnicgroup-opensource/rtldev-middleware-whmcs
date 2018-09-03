@@ -2346,16 +2346,20 @@ function ispapi_RenewDomain($params) {
  * @return array $values - an array with command response description
  */
 function ispapi_ReleaseDomain($params) {
+
 	$values = array();
 	if ( isset($params["original"]) ) {
 		$params = $params["original"];
 	}
 	$domain = $params["sld"].".".$params["tld"];
+	$target = $params["transfertag"];
 
 	$command = array(
 		"COMMAND" => "PushDomain",
-		"DOMAIN" => $domain
+		"DOMAIN" => $domain,
+		"TARGET" => $target
 	);
+
 	$response = ispapi_call($command, ispapi_config($params));
 
 	if ( $response["CODE"] != 200 ) {
