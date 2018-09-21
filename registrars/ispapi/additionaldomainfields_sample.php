@@ -6,7 +6,11 @@
 ##
 
 ## .NU DOMAIN REQUIREMENTS ##
-$additionaldomainfields[".nu"] = array();
+## remove default whmcs fields ##
+$additionaldomainfields[".nu"][] = array("Name" => "Identification Number", "Remove" => true);
+$additionaldomainfields[".nu"][] = array("Name" => "VAT Number",  "Remove" => true);
+
+## add ispapi additional fields ##
 $additionaldomainfields[".nu"][] = array(
 		"Name" => "Registrant ID number",
 		"Type" => "text",
@@ -42,7 +46,12 @@ $additionaldomainfields[".voto"] = array(
 );
 
 ## .RO DOMAIN REQUIREMENTS
-$additionaldomainfields[".ro"] = array();
+## remove default whmcs fields ##
+$additionaldomainfields['.ro'][] = array('Name'	=> 'CNPFiscalCode', "Remove" => true);
+$additionaldomainfields['.ro'][] = array('Name'	=> 'Registration Number', "Remove" => true);
+$additionaldomainfields['.ro'][] = array('Name'	=> 'Registrant Type',"Remove" => true);
+
+## add ispapi additional fields ##
 $additionaldomainfields[".ro"][] = array(
 		"Name" => "Registrant ID Number",
 		"Description" => "ONLY REQUIRED FOR ROMANIAN REGISTRANTS",
@@ -57,18 +66,7 @@ $additionaldomainfields[".ro"][] = array(
 		"Required" => false,
 		"Ispapi-Name" => "X-REGISTRANT-VATID",
 );
-$additionaldomainfields['.ro'][] = array(
-		"Name"	=> "CNPFiscalCode",
-	 	"Remove" => true
-);
-$additionaldomainfields['.ro'][] = array(
-		"Name"	=> "Registration Number",
-	 	"Remove" => true
-);
-$additionaldomainfields['.ro'][] = array(
-		"Name"	=> "Registrant Type",
-	 	"Remove" => true
-);
+
 
 ## .BERLIN DOMAIN REQUIREMENTS ##
 $additionaldomainfields[".berlin"] = array();
@@ -126,7 +124,12 @@ $additionaldomainfields[".jp"][] = array(
 
 
 ## .DE DOMAIN REQUIREMENTS ##
-$additionaldomainfields[".de"] = array();
+## remove default whmcs fields ##
+$additionaldomainfields[".de"][] = array("Name" => "Tax ID", "Remove" => true);
+$additionaldomainfields[".de"][] = array("Name" => "Address Confirmation", "Remove" => true);
+$additionaldomainfields[".de"][] = array("Name" => "Agree to DE Terms", "Remove" => true);
+
+## add ispapi additional fields ##
 $additionaldomainfields[".de"][] = array(
 		"Name" => "Local Presence",
 		"Type" => "dropdown",
@@ -150,7 +153,11 @@ $additionaldomainfields[".eu"][] = array(
 
 
 ## .SG DOMAIN REQUIREMENTS ##
-$additionaldomainfields[".sg"] = array();
+## remove default whmcs fields ##
+$additionaldomainfields[".sg"][] = array("Name" => "RCB Singapore ID", "Remove" => true);
+$additionaldomainfields[".sg"][] = array("Name" => "Registrant Type",  "Remove" => true);
+
+## add ispapi additional fields ##
 $additionaldomainfields[".sg"][] = array(
 		"Name" => "Local Presence",
 		"Type" => "dropdown",
@@ -183,7 +190,7 @@ $additionaldomainfields[".per.sg"] = $additionaldomainfields[".sg"];
 
 
 ## .CA DOMAIN REQUIREMENTS ##
-$additionaldomainfields[".ca"] = array();
+## add ispapi additional fields ##
 $additionaldomainfields[".ca"][] = array(
 		"Name" => "Legal Type",
 		"LangVar" => "catldlegaltype",
@@ -230,24 +237,12 @@ $additionaldomainfields[".ca"][] = array(
 );
 
 
-## .SE DOMAIN REQUIREMENTS ##
-$additionaldomainfields[".se"] = array();
-$additionaldomainfields[".se"][] = array(
-		"Name" => "Registrant ID Number",
-		"Type" => "text",
-		"Required" => true,
-		"Ispapi-Name" => "X-NICSE-IDNUMBER",
-);
-$additionaldomainfields[".se"][] = array(
-		"Name" => "Registrant VAT ID",
-		"Type" => "text",
-		"Required" => false,
-		"Ispapi-Name" => "X-NICSE-VATID",
-);
-
-
 ## .AERO DOMAIN REQUIREMENTS ##
-$additionaldomainfields[".aero"] = array();
+## remove default whmcs fields ##
+$additionaldomainfields['.aero'][] = array('Name' => '.AERO ID', "Remove" => true);
+$additionaldomainfields['.aero'][] = array('Name' => '.AERO Key', "Remove" => true);
+
+## add ispapi additional fields ##
 $additionaldomainfields[".aero"][] = array(
 		"Name" => ".aero ID",
 		"Type" => "text",
@@ -264,17 +259,22 @@ $additionaldomainfields[".aero"][] = array(
 
 
 ## .TRAVEL DOMAIN REQUIREMENTS ##
-$additionaldomainfields[".travel"] = array();
+## remove default whmcs fields ##
+$additionaldomainfields['.travel'][] = array('Name'	=> 'Trustee Service', "Remove" => true);
+$additionaldomainfields['.travel'][] = array('Name'	=> '.TRAVEL UIN Code', "Remove" => true);
+$additionaldomainfields['.travel'][] = array('Name'	=> 'Trustee Service Agreement ', "Remove" => true);
+$additionaldomainfields['.travel'][] = array('Name'	=> '.TRAVEL Usage Agreement', "Remove" => true);
+
+#$additionaldomainfields[".travel"] = array();
 $additionaldomainfields[".travel"][] = array(
-		"Name" => ".travel UIN",
+		"Name" => ".travel Industry",
 		"Type" => "text",
+		"Default" => "1",
 		"Required" => true,
-		"Ispapi-Name" => "X-TRAVEL-UIN",
+		"Ispapi-Name" => "X-TRAVEL-INDUSTRY",
 );
 
-
 ## .US DOMAIN REQUIREMENTS ##
-$additionaldomainfields[".us"] = array();
 $additionaldomainfields[".us"][] = array(
 		"Name" => "Application Purpose",
 		"Type" => "dropdown",
@@ -307,7 +307,19 @@ $additionaldomainfields[".us"][] = array(
 
 
 ## .FR DOMAIN REQUIREMENTS ##
-$additionaldomainfields[".fr"] = array();
+## remove default whmcs fields ##
+$additionaldomainfields[".fr"][] = array("Name" => "Legal Type", "Remove" => true);
+$additionaldomainfields[".fr"][] = array("Name" => "Info", "Remove" => true);
+$additionaldomainfields[".fr"][] = array("Name" => "Birthdate","Remove" => true);
+$additionaldomainfields[".fr"][] = array("Name" => "Birthplace City", "Remove" => true);
+$additionaldomainfields[".fr"][] = array("Name" => "Birthplace Country", "Remove" => true);
+$additionaldomainfields[".fr"][] = array("Name" => "Birthplace Postcode", "Remove" => true);
+$additionaldomainfields[".fr"][] = array("Name" => "SIRET Number", "Remove" => true);
+$additionaldomainfields[".fr"][] = array("Name" => "DUNS Number", "Remove" => true);
+$additionaldomainfields[".fr"][] = array("Name" => "VAT Number", "Remove" => true);
+$additionaldomainfields[".fr"][] = array("Name" => "Trademark Number", "Remove" => true);
+
+## add ispapi additional fields ##
 $additionaldomainfields[".fr"][] = array(
 		"Name" => "Local Presence",
 		"Type" => "dropdown",
@@ -388,7 +400,10 @@ $additionaldomainfields[".yt"] = $additionaldomainfields[".fr"];
 
 
 ## .JOBS DOMAIN REQUIREMENTS ##
-$additionaldomainfields[".jobs"] = array();
+## remove default whmcs fields ##
+$additionaldomainfields['.jobs'][] = array('Name' => 'Website', "Remove" => true);
+
+## add ispapi additional fields ##
 $additionaldomainfields[".jobs"][] = array(
 		"Name" => "Company URL",
 		"Type" => "text",
@@ -428,7 +443,13 @@ $additionaldomainfields[".jobs"][] = array(
 
 
 ## .PRO DOMAIN REQUIREMENTS ##
-$additionaldomainfields[".pro"] = array();
+## remove default whmcs fields ##
+$additionaldomainfields[".pro"][] = array("Name" => "Profession", "Remove" => true);
+$additionaldomainfields[".pro"][] = array("Name" => "License Number", "Remove" => true);
+$additionaldomainfields[".pro"][] = array("Name" => "Authority", "Remove" => true);
+$additionaldomainfields[".pro"][] = array("Name" => "Authority Website", "Remove" => true);
+
+## add ispapi additional fields ##
 $additionaldomainfields[".pro"][] = array(
 		"Name" => "Profession",
 		"Type" => "text",
@@ -464,7 +485,19 @@ $additionaldomainfields[".pro"][] = array(
 
 
 ## .HK DOMAIN REQUIREMENTS ##
-$additionaldomainfields[".hk"] = array();
+## remove default whmcs fields ##
+$additionaldomainfields[".hk"][] = array("Name" => "Registrant Type", "Remove" => true);
+$additionaldomainfields[".hk"][] = array('Name' => 'Organizations Name in Chinese', "Remove" => true);
+$additionaldomainfields[".hk"][] = array('Name' => 'Organizations Supporting Documentation', "Remove" => true);
+$additionaldomainfields[".hk"][] = array('Name' => 'Organizations Document Number', "Remove" => true);
+$additionaldomainfields[".hk"][] = array('Name' => 'Organizations Issuing Country', "Remove" => true);
+$additionaldomainfields[".hk"][] = array('Name' => 'Organizations Industry Type', "Remove" => true);
+$additionaldomainfields[".hk"][] = array('Name' => 'Individuals Supporting Documentation', "Remove" => true);
+$additionaldomainfields[".hk"][] = array('Name' => 'Individuals Document Number', "Remove" => true);
+$additionaldomainfields[".hk"][] = array('Name' => 'Individuals Issuing Country', "Remove" => true);
+$additionaldomainfields[".hk"][] = array('Name' => 'Individuals Under 18', "Remove" => true);
+
+## add ispapi additional fields ##
 $additionaldomainfields[".hk"][] = array(
 		"Name" => "Registrant Document Type",
 		"Type" => "dropdown",
@@ -495,6 +528,7 @@ $additionaldomainfields[".hk"][] = array(
 );
 $additionaldomainfields[".hk"][] = array(
 		"Name" => "Registrant Birth Date for individuals",
+		"Type" => "text",
 		"Required" => false,
 		"Description" => "YYYY-MM-DD (mandatory, if the registrant is an individual)",
 		"Ispapi-Name" => "X-HK-REGISTRANT-BIRTH-DATE",
@@ -531,7 +565,11 @@ $additionaldomainfields[".fi"][] = array(
 
 
 ## .SE DOMAIN REQUIREMENTS ##
-$additionaldomainfields[".se"] = array();
+## remove default whmcs fields #
+$additionaldomainfields['.se'][] = array('Name' => 'Identification Number', "Remove" => true);
+$additionaldomainfields['.se'][] = array('Name'	=> 'VAT', "Remove" => true);
+
+## add ispapi additional fields ##
 $additionaldomainfields[".se"][] = array(
 		"Name" => "Registrant ID Number",
 		"Type" => "text",
@@ -586,7 +624,16 @@ $additionaldomainfields[".dk"][] = array(
 
 
 ## .IT DOMAIN REQUIREMENTS ##
-$additionaldomainfields[".it"] = array();
+## remove default whmcs fields ##
+$additionaldomainfields[".it"][] = array("Name" => "Legal Type", "Remove" => true);
+$additionaldomainfields[".it"][] = array("Name" => "Tax ID", "Remove" => true);
+$additionaldomainfields[".it"][] = array("Name" => "Publish Personal Data", "Remove" => true);
+$additionaldomainfields[".it"][] = array("Name" => "Accept Section 3 of .IT registrar contract", "Remove" => true);
+$additionaldomainfields[".it"][] = array("Name" => "Accept Section 5 of .IT registrar contract", "Remove" => true);
+$additionaldomainfields[".it"][] = array("Name" => "Accept Section 6 of .IT registrar contract", "Remove" => true);
+$additionaldomainfields[".it"][] = array("Name" => "Accept Section 7 of .IT registrar contract", "Remove" => true);
+
+## add ispapi additional fields ##
 $additionaldomainfields[".it"][] = array(
 		"Name" => "Local Presence",
 		"Type" => "dropdown",
@@ -650,7 +697,10 @@ For explicit acceptance, the interested party declares that they:
 
 
 ## .QUEBEC DOMAIN REQUIREMENTS ##
-$additionaldomainfields[".quebec"] = array();
+## remove default whmcs fields ##
+$additionaldomainfields[".quebec"][] = array("Name" => "Info", "Remove" => true);
+
+## add ispapi additional fields ##
 $additionaldomainfields[".quebec"][] = array(
 		"Name" => "Intended Use",
 		"Type" => "text",
@@ -683,7 +733,11 @@ $additionaldomainfields[".nyc"][] = array(
 
 
 ## .ES DOMAIN REQUIREMENTS ##
-$additionaldomainfields[".es"] = array();
+## remove default whmcs fields ##
+$additionaldomainfields[".es"][] = array("Name" => "ID Form Type", "Remove" => true);
+$additionaldomainfields[".es"][] = array("Name" => "ID Form Number", "Remove" => true);
+
+## add ispapi additional fields ##
 $additionaldomainfields[".es"][] = array(
 		"Name" => "Registrant Type",
 		"Type" => "dropdown",
@@ -776,7 +830,11 @@ $additionaldomainfields[".swiss"][] = array(
 );
 
 ## .CN DOMAIN REQUIREMENTS ##
-$additionaldomainfields[".cn"] = array();
+## remove default whmcs fields ##
+$additionaldomainfields[".cn"][] = array("Name" => "cnhosting", "Remove" => true);
+$additionaldomainfields[".cn"][] = array("Name" => "cnhregisterclause", "Remove" => true);
+
+## add ispapi additional fields ##
 $additionaldomainfields[".cn"][] = array(
 		"Name" => "Registrant ID Type",
 		"Type" => "dropdown",
@@ -798,8 +856,15 @@ $additionaldomainfields[".net.cn"] = $additionaldomainfields[".cn"];
 $additionaldomainfields[".org.cn"] = $additionaldomainfields[".cn"];
 
 ## .COM.AU DOMAIN REQUIREMENTS ##
-$additionaldomainfields[".com.au"] = array();
+## remove default whmcs fields ##
+$additionaldomainfields[".com.au"][] = array("Name" => "Registrant Name", "Remove" => true);
+$additionaldomainfields[".com.au"][] = array("Name" => "Eligibility Name", "Remove" => true);
+$additionaldomainfields[".com.au"][] = array("Name" => "Eligibility ID", "Remove" => true);
+$additionaldomainfields[".com.au"][] = array("Name" => "Eligibility ID Type", "Remove" => true);
+$additionaldomainfields[".com.au"][] = array("Name" => "Eligibility Type", "Remove" => true);
+$additionaldomainfields[".com.au"][] = array("Name" => "Eligibility Reason", "Remove" => true);
 
+## add ispapi additional fields ##
 $additionaldomainfields[".com.au"][] = array(
   "Name" => "Registrant ID",
   "Type" => "text",

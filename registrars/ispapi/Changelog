@@ -4,6 +4,9 @@ ______________________________________________________________________________
 Changelog
 ______________________________________________________________________________
 
+v1.0.62 - 2018-09-20
+ - additional domain fields file update
+
 v1.0.61 - 2018-09-03
  - fix for release domain issue, target was missing  (PushDomain command)
 
