@@ -1,0 +1,10 @@
+# PHPStorm
+.idea
+
+# Composer
+composer.phar
+composer.lock
+vendor/*
+
+# Coverage Reporting
+report
