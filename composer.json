@@ -1,0 +1,65 @@
+{
+	"name": "hexonet/ispapi_whmcs",
+	"type": "library",
+	"description": "The ISPAPI Registrar Module for WHMCS.",
+	"keywords": [
+        "whmcs",
+        "web host automation platform",
+        "registrar module",
+        "domain registrar module",
+		"hexonet",
+		"ispapi",
+        "domain",
+        "isp",
+        "ssl",
+		"cert",
+		"dns",
+		"backorder",
+		"premium",
+		"preregistration",
+		"registration",
+		"application"
+	],
+	"homepage": "https://github.com/hexonet/ispapi_whmcs",
+	"readme": "README.md",
+	"license": "MIT",
+	"authors": [
+		{
+            "name": "Anthony Schneider",
+            "homepage": "https://github.com/anthonyschn",
+			"role": "Developer"
+		},
+		{
+            "name": "Kai Schwarz",
+            "homepage": "https://github.com/papakai",
+			"role": "Developer"
+		},
+		{
+            "name": "Tulasi Seelamkurthi",
+            "homepage": "https://github.com/tulsi91",
+			"role": "Developer"
+		}
+    ],
+    "support": {
+        "email": "support@hexonet.net",
+        "issues": "https://github.com/hexonet/ispapi_whmcs/issues",
+        "source": "https://github.com/hexonet/ispapi_whmcs"
+    },
+	"require": {
+		"php": ">=5.6.0"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "@stable",
+		"squizlabs/php_codesniffer": "^3.3"
+	},
+	"scripts": {
+		"cs": "./vendor/bin/phpcs --standard=PSR2 -n admin registrars widgets tests",
+        "cbf": "./vendor/bin/phpcbf --standard=PSR2 -n admin registrars widgets tests",
+        "unit": "./vendor/bin/phpunit",
+        "test": [
+			"@cbf",
+            "@cs",
+            "@unit"
+		]
+	}
+}
