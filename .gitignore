@@ -12,3 +12,6 @@ package-lock.json
 
 # Coverage Reporting
 report
+
+# Generated Archives
+pkg

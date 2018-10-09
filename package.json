@@ -66,6 +66,10 @@
         "cmd": "./updateVersion.sh ${nextRelease.version} ${options.branch}"
       },
       {
+        "path": "@semantic-release/exec",
+        "cmd": "./make allarchives"
+      },
+      {
         "path": "@semantic-release/git",
         "assets": [
           "HISTORY.md",
@@ -79,7 +83,19 @@
       }
     ],
     "publish": [
-      "@semantic-release/github"
+      {
+        "path": "@semantic-release/github",
+        "assets": [
+          {
+            "name": "WHMCS Module (zip)",
+            "path": "pkg/ispapi_whmcs.zip"
+          },
+          {
+            "name": "WHMCS Module (tar.gz)",
+            "path": "pkg/ispapi_whmcs.zip"
+          }
+        ]
+      }
     ]
   }
 }
