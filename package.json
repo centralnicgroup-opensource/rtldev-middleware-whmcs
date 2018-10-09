@@ -87,11 +87,11 @@
         "path": "@semantic-release/github",
         "assets": [
           {
-            "name": "WHMCS Module (zip)",
+            "label": "WHMCS Module (zip)",
             "path": "pkg/ispapi_whmcs.zip"
           },
           {
-            "name": "WHMCS Module (tar.gz)",
+            "label": "WHMCS Module (tar.gz)",
             "path": "pkg/ispapi_whmcs.tar.gz"
           }
         ]
