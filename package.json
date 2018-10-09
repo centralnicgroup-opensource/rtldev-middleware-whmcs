@@ -67,7 +67,7 @@
       },
       {
         "path": "@semantic-release/exec",
-        "cmd": "./make allarchives"
+        "cmd": "make allarchives"
       },
       {
         "path": "@semantic-release/git",
