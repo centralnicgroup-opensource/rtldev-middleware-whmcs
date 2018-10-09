@@ -61,6 +61,10 @@
         "changelogFile": "HISTORY.md"
       },
       {
+        "path": "@semantic-release/exec",
+        "cmd": "./updateVersion.sh ${nextRelease.version} ${options.branch}"
+      },
+      {
         "path": "@semantic-release/git",
         "assets": [
           "HISTORY.md",
@@ -68,9 +72,9 @@
           "package-lock.json",
           "npm-shrinkwrap.json",
           "composer.json",
-          "composer.lock",
           "build",
-          "report"
+          "report",
+          "registrars/ispapi/ispapi.php"
         ],
         "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }
@@ -78,9 +82,5 @@
     "publish": [
       "@semantic-release/github"
     ]
-  },
-  "scripts": {
-    "semantic-release": "semantic-release",
-    "travis-deploy-once": "travis-deploy-once"
   }
 }

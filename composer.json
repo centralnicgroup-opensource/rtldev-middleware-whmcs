@@ -53,13 +53,8 @@
 		"squizlabs/php_codesniffer": "^3.3"
 	},
 	"scripts": {
-		"cs": "./vendor/bin/phpcs --standard=PSR2 -n admin registrars widgets tests",
-        "cbf": "./vendor/bin/phpcbf --standard=PSR2 -n admin registrars widgets tests",
-        "unit": "./vendor/bin/phpunit",
-        "test": [
-			"@cbf",
-            "@cs",
-            "@unit"
-		]
+		"codeCheck": "./vendor/bin/phpcs --standard=PSR2 -q -n --colors admin registrars widgets tests",
+        "codeFix": "./vendor/bin/phpcbf --standard=PSR2 -q admin registrars widgets tests",
+        "test": "./vendor/bin/phpunit"
 	}
 }

@@ -26,6 +26,7 @@ install:
 - composer install
 script:
 - composer run-script test
+- composer run-script codeCheck
 after_success:
 - if [[ "$TRAVIS_BRANCH" == "master" && "$TRAVIS_PULL_REQUEST" == "false" ]]; then
   git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
