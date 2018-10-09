@@ -92,7 +92,7 @@
           },
           {
             "name": "WHMCS Module (tar.gz)",
-            "path": "pkg/ispapi_whmcs.zip"
+            "path": "pkg/ispapi_whmcs.tar.gz"
           }
         ]
       }
