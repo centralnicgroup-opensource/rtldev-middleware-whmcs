@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/hexonet/ispapi_whmcs/compare/v1.2.0...v1.2.1) (2018-10-09)
+
+
+### Bug Fixes
+
+* **archives:** path of .tar.gz asset ([40bcf26](https://github.com/hexonet/ispapi_whmcs/commit/40bcf26))
+
 # [1.2.0](https://github.com/hexonet/ispapi_whmcs/compare/v1.1.1...v1.2.0) (2018-10-09)
 
 
