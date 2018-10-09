@@ -18,6 +18,8 @@ use PHPUnit\Framework\TestCase;
 class IspapiRegistrarModuleTest extends TestCase
 {
 
+    // TODO: apply OT&E Integration Tests
+
     public static function providerCoreFunctionNames()
     {
         return array(
