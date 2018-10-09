@@ -1,3 +1,15 @@
+# [1.2.0](https://github.com/hexonet/ispapi_whmcs/compare/v1.1.1...v1.2.0) (2018-10-09)
+
+
+### Bug Fixes
+
+* **archives:** remove typo in package.json ([b6fa06e](https://github.com/hexonet/ispapi_whmcs/commit/b6fa06e))
+
+
+### Features
+
+* **archives:** add make file to generate assets ([da80fcf](https://github.com/hexonet/ispapi_whmcs/commit/da80fcf))
+
 ## [1.1.1](https://github.com/hexonet/ispapi_whmcs/compare/v1.1.0...v1.1.1) (2018-10-09)
 
 
