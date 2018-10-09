@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/hexonet/ispapi_whmcs/compare/v1.1.0...v1.1.1) (2018-10-09)
+
+
+### Bug Fixes
+
+* **pkg:** test release process ([5c7b081](https://github.com/hexonet/ispapi_whmcs/commit/5c7b081))
+
 # [1.1.0](https://github.com/hexonet/ispapi_whmcs/compare/v1.0.62...v1.1.0) (2018-10-09)
 
 
