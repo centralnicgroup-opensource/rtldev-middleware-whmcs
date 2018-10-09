@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/hexonet/ispapi_whmcs/compare/v1.2.1...v1.2.2) (2018-10-09)
+
+
+### Bug Fixes
+
+* **archives:** review assets naming ([b7c7374](https://github.com/hexonet/ispapi_whmcs/commit/b7c7374))
+
 ## [1.2.1](https://github.com/hexonet/ispapi_whmcs/compare/v1.2.0...v1.2.1) (2018-10-09)
 
 
