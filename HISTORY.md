@@ -1,3 +1,10 @@
+## [1.2.5](https://github.com/hexonet/ispapi_whmcs/compare/v1.2.4...v1.2.5) (2018-10-10)
+
+
+### Bug Fixes
+
+* **assets:** replace 'v' in current module version ([b68bf5a](https://github.com/hexonet/ispapi_whmcs/commit/b68bf5a))
+
 ## [1.2.4](https://github.com/hexonet/ispapi_whmcs/compare/v1.2.3...v1.2.4) (2018-10-10)
 
 
