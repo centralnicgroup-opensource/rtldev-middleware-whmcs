@@ -1,3 +1,10 @@
+## [1.2.6](https://github.com/hexonet/ispapi_whmcs/compare/v1.2.5...v1.2.6) (2018-10-10)
+
+
+### Bug Fixes
+
+* **pkg:** provide latest zip archive ([ac40231](https://github.com/hexonet/ispapi_whmcs/commit/ac40231))
+
 ## [1.2.5](https://github.com/hexonet/ispapi_whmcs/compare/v1.2.4...v1.2.5) (2018-10-10)
 
 
