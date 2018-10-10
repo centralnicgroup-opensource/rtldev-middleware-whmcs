@@ -31,7 +31,7 @@ function widget_hexonet_summary($vars)
     // Registrar Version Check
     // ####################################
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_TIMEOUT, 1);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 5);
     curl_setopt($ch, CURLOPT_HEADER, 0);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_URL, "https://api.github.com/repos/hexonet/ispapi_whmcs/releases/latest");
@@ -42,7 +42,7 @@ function widget_hexonet_summary($vars)
     }
     curl_close($ch);
     $registrarData = json_decode($registrarData, true);
-    $current_registrar_version = array_key_exists("name", $registrarData) ? $registrarData["name"] : "n/a";
+    $current_registrar_version = array_key_exists("name", $registrarData) ? substr($registrarData["name"], 1) : "n/a";
     if (array_key_exists("assets", $registrarData)) {
         foreach ($registrarData["assets"] as &$asset) {
             if (preg_match("/ispapi_whmcs\.zip$/i", $asset["browser_download_url"])) {
