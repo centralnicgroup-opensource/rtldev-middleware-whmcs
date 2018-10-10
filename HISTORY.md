@@ -1,3 +1,11 @@
+## [1.2.4](https://github.com/hexonet/ispapi_whmcs/compare/v1.2.3...v1.2.4) (2018-10-10)
+
+
+### Bug Fixes
+
+* **assets:** include module version in zip folder ([8d764d8](https://github.com/hexonet/ispapi_whmcs/commit/8d764d8))
+* **assets:** include module version in zip folder ([fd434f8](https://github.com/hexonet/ispapi_whmcs/commit/fd434f8))
+
 ## [1.2.3](https://github.com/hexonet/ispapi_whmcs/compare/v1.2.2...v1.2.3) (2018-10-10)
 
 
