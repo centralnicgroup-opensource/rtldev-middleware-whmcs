@@ -75,9 +75,8 @@
           "HISTORY.md",
           "package.json",
           "composer.json",
-          "build",
-          "report",
-          "registrars/ispapi/ispapi.php"
+          "registrars/ispapi/ispapi.php",
+          "ispapi_whmcs-latest.zip"
         ],
         "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }
