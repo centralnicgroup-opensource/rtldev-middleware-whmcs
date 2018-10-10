@@ -1,8 +1,8 @@
 ISPAPI_REGISTRAR_MODULE_VERSION := $(shell php -r 'include "registrars/ispapi/ispapi.php"; print $$ispapi_module_version;')
+FOLDER := pkg/ispapi_whmcs-$(ISPAPI_REGISTRAR_MODULE_VERSION)
 
 zip:
-	@echo $(ISPAPI_REGISTRAR_MODULE_VERSION)
-	FOLDER := "pkg/ispapi_whmcs-$(ISPAPI_REGISTRAR_MODULE_VERSION)"
+	@echo $(ISPAPI_REGISTRAR_MODULE_VERSION);
 
 	rm -rf $(FOLDER)
 	rm -rf pkg/ispapi_whmcs.zip
@@ -22,7 +22,6 @@ zip:
 
 tar:
 	@echo $(ISPAPI_REGISTRAR_MODULE_VERSION)
-	FOLDER := "pkg/ispapi_whmcs-$(ISPAPI_REGISTRAR_MODULE_VERSION)"
 
 	rm -rf $(FOLDER)
 	rm -rf pkg/ispapi_whmcs.tar.gz
@@ -42,7 +41,6 @@ tar:
 
 allarchives:
 	@echo $(ISPAPI_REGISTRAR_MODULE_VERSION)
-	FOLDER := "pkg/ispapi_whmcs-$(ISPAPI_REGISTRAR_MODULE_VERSION)"
 
 	rm -rf $(FOLDER)
 	rm -rf pkg/ispapi_whmcs.zip
