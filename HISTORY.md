@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/hexonet/ispapi_whmcs/compare/v1.2.2...v1.2.3) (2018-10-10)
+
+
+### Bug Fixes
+
+* **widget:** review latest version detection ([0c36b0f](https://github.com/hexonet/ispapi_whmcs/commit/0c36b0f))
+
 ## [1.2.2](https://github.com/hexonet/ispapi_whmcs/compare/v1.2.1...v1.2.2) (2018-10-09)
 
 
