@@ -522,7 +522,7 @@ function ispapi_ClientAreaCustomButtonArray($params)
 
     if (isset($params["domainid"])) {
         $domainid = $params["domainid"];
-    } else if (!isset($_REQUEST["id"])) {
+    } elseif (!isset($_REQUEST["id"])) {
         $params = $GLOBALS["params"];
         $domainid = $params["domainid"];
     } else {

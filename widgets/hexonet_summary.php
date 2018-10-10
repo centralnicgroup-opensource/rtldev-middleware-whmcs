@@ -28,6 +28,31 @@ function widget_hexonet_summary($vars)
 {
     global $_ADMINLANG;
 
+    // Registrar Version Check
+    // ####################################
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_TIMEOUT, 1);
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt($ch, CURLOPT_URL, "https://api.github.com/repos/hexonet/ispapi_whmcs/releases/latest");
+    $registrarData = curl_exec($ch);
+    if ($registrarData === false) {
+        $registrarData = "{}";
+        $registrar_url = "";
+    }
+    curl_close($ch);
+    $registrarData = json_decode($registrarData, true);
+    $current_registrar_version = array_key_exists("name", $registrarData) ? $registrarData["name"] : "n/a";
+    if (array_key_exists("assets", $registrarData)) {
+        foreach ($registrarData["assets"] as &$asset) {
+            if (preg_match("/ispapi_whmcs\.zip$/i", $asset["browser_download_url"])) {
+                $registrar_url = $asset["browser_download_url"];
+                break;
+            }
+        }
+    }
+    // ####################################
+
     $url = "https://www.hexonet.net/files/whmcs/ispapi";
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_TIMEOUT, 1);
@@ -36,18 +61,6 @@ function widget_hexonet_summary($vars)
     curl_setopt($ch, CURLOPT_URL, $url);
     $data = curl_exec($ch);
     curl_close($ch);
-
-    // Registrar Version Check
-    // ####################################
-    $registrar_versions = array();
-    $regexp = "\/ispapi_whmcs-([\d.]*).zip";
-    if (preg_match_all("/$regexp/siU", $data, $matches, PREG_SET_ORDER)) {
-        foreach ($matches as $match) {
-            array_push($registrar_versions, $match[1]);
-        }
-    }
-    $current_registrar_version = array_pop(bubble_sort_special_version_compare($registrar_versions));
-    // ####################################
 
     // Domainchecker Version Check
     // ####################################
@@ -73,7 +86,7 @@ function widget_hexonet_summary($vars)
                 $diff = version_compare($my_registrar_version, $current_registrar_version);
                 $content .= "You are currently running version ".$my_registrar_version.".";
                 if ($diff < 0) {
-                    $content .= '<div class="textred">An update is available!<br>Please install the latest version '.$current_registrar_version.'. (<a href="https://www.hexonet.net/files/whmcs/ispapi/ispapi_whmcs-latest.zip">download</a>)</div>';
+                    $content .= '<div class="textred">An update is available!<br>Please install the latest version '.$current_registrar_version.'. (<a href="' . $registrar_url . '">download</a>)</div>';
                 }
                 if ($diff >= 0) {
                     $content .= '<div class="textgreen">Your version is up to date.</div>';
