@@ -36,7 +36,7 @@ NOTE: We introduced sematic-release starting with v1.0.63. This is why older Rel
 
 ## Usage Guide ##
 
-Download the ZIP archive including the latest release version [here](https://www.hexonet.net/files/whmcs/ispapi/ispapi_whmcs-latest.zip).
+Download the ZIP archive including the latest release version [here](https://github.com/hexonet/ispapi_whmcs/raw/master/ispapi_whmcs-latest.zip).
 
 Login to the WHMCS Admin Area and navigate to `Setup > Products > Domain Registrars` to activate.
 
