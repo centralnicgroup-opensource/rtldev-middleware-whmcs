@@ -3,10 +3,10 @@
  * ISPAPI Registrar Module
  *
  * @author HEXONET GmbH <support@hexonet.net>
- * @version 1.2.6
+ * @version 1.2.7
  */
 
-$module_version = "1.2.6";
+$module_version = "1.2.7";
 
 use WHMCS\Domains\DomainLookup\ResultsList;
 use WHMCS\Domains\DomainLookup\SearchResult;
