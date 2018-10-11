@@ -7,7 +7,7 @@ Please note we have a code of conduct, please follow it in all your interactions
 
 ## Pull Request Process
 
-Read [here](https://github.com/hexonet/php-sdk/wiki/Development-Guide#pull-request-pr-procedure).
+Read [here](https://github.com/hexonet/ispapi_whmcs/wiki/Development-Guide#pull-request-pr-procedure).
 
 ## Code of Conduct
 
