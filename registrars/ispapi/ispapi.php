@@ -183,8 +183,9 @@ function ispapi_GetDomainSuggestions($params)
         $searched_zone = $search[1];
     }
 
+    //RETURN EMPTY ResultsList OBJECT WHEN SUGGESTIONS ARE DEACTIVATED
     if (empty($params['suggestionSettings']['suggestions'])) {
-        return;
+        return new ResultsList();
     }
 
     if ($params['isIdnDomain']) {
