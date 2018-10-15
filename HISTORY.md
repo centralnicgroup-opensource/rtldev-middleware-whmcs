@@ -1,3 +1,10 @@
+## [1.2.7](https://github.com/hexonet/ispapi_whmcs/compare/v1.2.6...v1.2.7) (2018-10-15)
+
+
+### Bug Fixes
+
+* **domainstatus:** WHMCS v7.6.1 fix for updating domain status when transferredAway/expired ([45674c8](https://github.com/hexonet/ispapi_whmcs/commit/45674c8))
+
 ## [1.2.6](https://github.com/hexonet/ispapi_whmcs/compare/v1.2.5...v1.2.6) (2018-10-10)
 
 
