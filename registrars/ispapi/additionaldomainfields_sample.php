@@ -785,15 +785,26 @@ $additionaldomainfields[".es"][] = array(
         "Ispapi-Options" => ",1,39,47,59,68,124,150,152,164,181,197,203,229,269,286,365,434,436,439,476,510,524,525,554,560,562,566,608,612,713,717,744,745,746,747,877,878,879",
 );
 
-## .IE DOMAIN REQUIREMENTS ## - DON'T FORGET TO REPLACE THE EMAIL ADDRESS WITH YOURS
-$additionaldomainfields[".ie"][] = array();
+
+## .IE DOMAIN REQUIREMENTS ## 
 $additionaldomainfields[".ie"][] = array(
-        "Name" => "Additional Documents required",
-        "Type" => "tickbox",
-        "Description" => "<b>To complete the registration process, I will send a Proof of
-		business relationship with Ireland (Bills etc.) and a excerpt from the commercial register
-		to ###YOUR EMAIL ADDRESS###.</b>",
+        "Name" => "Registrant Class",
+        "Type" => "dropdown",
+        "Options" => ",Company,Business Owner,Club/Band/Local Group,School/College,State Agency,Charity,Blogger/Other",
+        "Description" => "",
+        "Required" => true,
+        "Ispapi-Name" => "X-IE-REGISTRANT-CLASS",
+        "Ispapi-Options" => ",Company,Business Owner,Club/Band/Local Group,School/College,State Agency,Charity,Blogger/Other",
 );
+
+$additionaldomainfields[".ie"][] = array(
+        "Name" => "Proof of connection to Ireland",
+        "Type" => "text",
+        "Description" => "Provide any information supporting your registration request, such as proof of eligibility (e.g. VAT, RBN, CRO, CHY, NIC, or Trademark number; school roll number; link to social media page) or a brief explanation of why you want this domain and what you will use it for.",
+        "Required" => true,
+        "Ispapi-Name" => "X-IE-REGISTRANT-REMARKS",
+);
+
 
 ## .NO DOMAIN REQUIREMENTS ##
 $additionaldomainfields[".no"] = array();
