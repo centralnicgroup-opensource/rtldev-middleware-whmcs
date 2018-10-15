@@ -1,2 +1,0 @@
-<?php
-    $included = 1;
