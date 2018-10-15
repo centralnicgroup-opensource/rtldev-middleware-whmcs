@@ -1,5 +1,5 @@
 {
-	"name": "hexonet/ispapi_whmcs",
+	"name": "hexonet/whmcs-ispapi-registrar",
 	"type": "library",
 	"description": "The ISPAPI Registrar Module for WHMCS.",
 	"keywords": [
@@ -20,7 +20,7 @@
 		"registration",
 		"application"
 	],
-	"homepage": "https://github.com/hexonet/ispapi_whmcs",
+	"homepage": "https://github.com/hexonet/whmcs-ispapi-registrar",
 	"readme": "README.md",
 	"license": "MIT",
 	"authors": [
@@ -42,8 +42,8 @@
     ],
     "support": {
         "email": "support@hexonet.net",
-        "issues": "https://github.com/hexonet/ispapi_whmcs/issues",
-        "source": "https://github.com/hexonet/ispapi_whmcs"
+        "issues": "https://github.com/hexonet/whmcs-ispapi-registrar/issues",
+        "source": "https://github.com/hexonet/whmcs-ispapi-registrar"
     },
 	"require": {
 		"php": ">=5.6.0"

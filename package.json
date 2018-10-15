@@ -1,5 +1,5 @@
 {
-  "name": "ispapi_whmcs",
+  "name": "whmcs-ispapi-registrar",
   "description": "WHMCS ISPAPI Registrar Module",
   "version": "0.0.0-development",
   "private": true,
@@ -11,9 +11,9 @@
   "engines": {
     "node": ">=8.3.0"
   },
-  "homepage": "https://github.com/hexonet/ispapi_whmcs",
-  "repository": "github:hexonet/ispapi_whmcs",
-  "bugs": "https://github.com/hexonet/ispapi_whmcs/issues",
+  "homepage": "https://github.com/hexonet/whmcs-ispapi-registrar",
+  "repository": "github:hexonet/whmcs-ispapi-registrar",
+  "bugs": "https://github.com/hexonet/whmcs-ispapi-registrar/issues",
   "maintainers": [
     {
       "name": "Kai Schwarz",
@@ -76,7 +76,7 @@
           "package.json",
           "composer.json",
           "registrars/ispapi/ispapi.php",
-          "ispapi_whmcs-latest.zip"
+          "whmcs-ispapi-registrar-latest.zip"
         ],
         "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
       }
@@ -87,11 +87,11 @@
         "assets": [
           {
             "label": "WHMCS Module (zip)",
-            "path": "pkg/ispapi_whmcs.zip"
+            "path": "pkg/whmcs-ispapi-registrar.zip"
           },
           {
             "label": "WHMCS Module (tar.gz)",
-            "path": "pkg/ispapi_whmcs.tar.gz"
+            "path": "pkg/whmcs-ispapi-registrar.tar.gz"
           }
         ]
       }

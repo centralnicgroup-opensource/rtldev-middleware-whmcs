@@ -6,7 +6,7 @@
 
 This Repository covers the WHMCS Registrar Module of HEXONET. It provides the following features in WHMCS:
 
-## Features ##
+## Supported Features ##
 
 * Domain registration
 * Domain transfer (with AuthInfo code support)
@@ -28,15 +28,15 @@ This Repository covers the WHMCS Registrar Module of HEXONET. It provides the fo
 
 ## Resources ##
 
-* [Usage Guide](https://github.com/hexonet/ispapi_whmcs/blob/master/README.md#usage-guide)
-* [Release Notes](https://github.com/hexonet/ispapi_whmcs/releases)
-* [Development Guide](https://github.com/hexonet/ispapi_whmcs/wiki/Development-Guide)
+* [Usage Guide](https://github.com/hexonet/whmcs-ispapi-registrar/blob/master/README.md#usage-guide)
+* [Release Notes](https://github.com/hexonet/whmcs-ispapi-registrar/releases)
+* [Development Guide](https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Development-Guide)
 
-NOTE: We introduced sematic-release starting with v1.0.63. This is why older Release Versions do not appear in the [current changelog](HISTORY.md). But these versions appear in the [release overview](https://github.com/hexonet/ispapi_whmcs/releases) and in the [old changelog](HISTORY.old).
+NOTE: We introduced sematic-release starting with v1.0.63. This is why older Release Versions do not appear in the [current changelog](HISTORY.md). But these versions appear in the [release overview](https://github.com/hexonet/whmcs-ispapi-registrar/releases) and in the [old changelog](HISTORY.old).
 
 ## Usage Guide ##
 
-Download the ZIP archive including the latest release version [here](https://www.hexonet.net/files/whmcs/ispapi/ispapi_whmcs-latest.zip).
+Download the ZIP archive including the latest release version [here](https://github.com/hexonet/whmcs-ispapi-registrar/raw/master/whmcs-ispapi-registrar-latest.zip).
 
 Login to the WHMCS Admin Area and navigate to `Setup > Products > Domain Registrars` to activate.
 
@@ -47,7 +47,7 @@ For the latest WHMCS minimum system requirements, please refer to
 
 ## Contributing ##
 
-Please read [our development guide](https://github.com/hexonet/ispapi_whmcs/wiki/Development-Guide) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [our development guide](https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Development-Guide) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Authors ##
 
@@ -55,7 +55,7 @@ Please read [our development guide](https://github.com/hexonet/ispapi_whmcs/wiki
 * **Kai Schwarz** - *development* - [PapaKai](https://github.com/papakai)
 * **Tulasi Seelamkurthi** - *development* - [Tulsi91](https://github.com/tulsi91)
 
-See also the list of [contributors](https://github.com/hexonet/ispapi_whmcs/graphs/contributors) who participated in this project.
+See also the list of [contributors](https://github.com/hexonet/whmcs-ispapi-registrar/graphs/contributors) who participated in this project.
 
 ## License ##
 
