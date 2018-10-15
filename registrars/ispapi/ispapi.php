@@ -2515,7 +2515,8 @@ function ispapi_Sync($params)
         if (preg_match('/ACTIVE/i', $status)) {
             $values["active"] = true;
         } elseif (preg_match('/DELETE/i', $status)) {
-            $values['expired'] = true;
+            $expirydate = preg_replace('/ .*/', '', $response["PROPERTY"]["EXPIRATIONDATE"][0]);
+            $values['expirydate'] = $expirydate;
         }
 
         if ($response["PROPERTY"]["FAILUREDATE"][0] > $response["PROPERTY"]["PAIDUNTILDATE"][0]) {
@@ -2526,9 +2527,9 @@ function ispapi_Sync($params)
             $values['expirydate'] = $accountingdate;
         }
     } elseif ($response["CODE"] == 531) {
-        $values['expired'] = true;
+        $values['transferredAway'] = (bool) true;
     } elseif ($response["CODE"] == 545) {
-        $values['expired'] = true;
+        $values['transferredAway'] = (bool) true;
     } else {
         $values["error"] = $response["DESCRIPTION"];
     }
