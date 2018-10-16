@@ -421,48 +421,59 @@ function ispapi_getConfigArray($params)
         $configarray[""] = array( "Description" => $state );
     }
 
-
     //Save information about module versions in the environment
     if ($response["CODE"] == 200) {
-        if (file_exists(dirname(__FILE__)."/once.php")) {
-            require_once(dirname(__FILE__)."/once.php");
-            //workarround to call that only 1 time.
-            if (isset($included)) {
-                $date = new DateTime("now", new DateTimeZone('UTC'));
-                $hostname = $_SERVER["HTTP_HOST"];
-                $values = array("whmcs" => $params["whmcsVersion"],
-                                "updated_date" => $date->format('Y-m-d H:i:s')." (UTC)",
-                                "ispapiwhmcs" => $version,
-                );
+        //workarround to call that only 1 time.
+        static $included = false;
 
-                //check ispapi modules version
-                $modules = array("ispapidomaincheck", "ispapibackorder", "ispapidpi");
-                foreach ($modules as $module) {
-                    if (file_exists(dirname(__FILE__)."/../../addons/$module/$module.php")) {
-                        require_once dirname(__FILE__)."/../../addons/$module/$module.php";
-                        $values[$module] = $module_version;
-                    }
-                }
+        if (!$included) {
+            $included = true;
+            $date = new DateTime("now", new DateTimeZone('UTC'));
+            $hostname = $_SERVER["HTTP_HOST"];
+            $values = array("whmcs" => $params["whmcsVersion"],
+                            "updated_date" => $date->format('Y-m-d H:i:s')." (UTC)",
+                            "ispapiwhmcs" => $version,
+            );
 
-                //check ispapissl module version
-                $module = "ispapissl";
-                if (file_exists(dirname(__FILE__)."/../../servers/$module/$module.php")) {
-                    require_once dirname(__FILE__)."/../../servers/$module/$module.php";
-                    $values[$module] = $ispapissl_module_version;
+            //check ispapi modules version
+            $modules = array("ispapidomaincheck", "ispapibackorder", "ispapidpi");
+            foreach ($modules as $module) {
+                $path = implode(DIRECTORY_SEPARATOR, array(dirname(__FILE__),"..","..","addons",$module, "$module.php"));
+                $path_symlink = implode(DIRECTORY_SEPARATOR, array($_SERVER["DOCUMENT_ROOT"],"modules","addons",$module, "$module.php"));
+                if (file_exists($path)) {
+                    require_once $path;
+                    $values[$module] = $module_version;
+                } elseif (file_exists($path_symlink)) {
+                    require_once $path_symlink;
+                    $values[$module] = $module_version;
                 }
-
-                $command = array(
-                        "COMMAND" => "SetEnvironment",
-                );
-                $i=0;
-                foreach ($values as $key => $value) {
-                    $command["ENVIRONMENTKEY$i"] = "middleware/whmcs/".$hostname;
-                    $command["ENVIRONMENTNAME$i"] = $key;
-                    $command["ENVIRONMENTVALUE$i"] = $value;
-                    $i++;
-                }
-                $response = ispapi_call($command, ispapi_config($params));
             }
+
+            //check ispapissl module version
+            $modules = array("ispapissl");
+            foreach ($modules as $module) {
+                $path = implode(DIRECTORY_SEPARATOR, array(dirname(__FILE__),"..","..","servers",$module, "$module.php"));
+                $path_symlink = implode(DIRECTORY_SEPARATOR, array($_SERVER["DOCUMENT_ROOT"],"modules","servers",$module, "$module.php"));
+                if (file_exists($path)) {
+                    require_once $path;
+                    $values[$module] = $module_version;
+                } elseif (file_exists($path_symlink)) {
+                    require_once $path_symlink;
+                    $values[$module] = $module_version;
+                }
+            }
+
+            $command = array(
+                    "COMMAND" => "SetEnvironment",
+            );
+            $i=0;
+            foreach ($values as $key => $value) {
+                $command["ENVIRONMENTKEY$i"] = "middleware/whmcs/".$hostname;
+                $command["ENVIRONMENTNAME$i"] = $key;
+                $command["ENVIRONMENTVALUE$i"] = $value;
+                $i++;
+            }
+            $response = ispapi_call($command, ispapi_config($params));
         }
     }
     return $configarray;
@@ -706,6 +717,8 @@ function ispapi_dnssec($params)
  */
 function ispapi_registrantmodification_it($params)
 {
+    global $additionaldomainfields;
+
     $origparams = $params;
     if (isset($params["original"])) {
         $params = $params["original"];
@@ -725,41 +738,19 @@ function ispapi_registrantmodification_it($params)
         $values["Registrant"] = ispapi_get_contact_info($response["PROPERTY"]["OWNERCONTACT"][0], $params);
     }
 
-    //include additionaldomainfields
-    //++++++++++++++++++++++++++++++++++++
-    $additionalfieldsfile_path = dirname(__FILE__).DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."resources".DIRECTORY_SEPARATOR."domains".DIRECTORY_SEPARATOR."additionalfields.php";
-    //Check if additionalfields.php exist in the resources/domains/ directory (FOR WHMCS >= 7)
-    if (file_exists($additionalfieldsfile_path)) {
-        include $additionalfieldsfile_path;
-    } else {
-        //Backward compatibility for WHMCS < 7
-        include dirname(__FILE__).DIRECTORY_SEPARATOR.  "..".DIRECTORY_SEPARATOR.   "..".DIRECTORY_SEPARATOR.   "..".DIRECTORY_SEPARATOR.   "includes".DIRECTORY_SEPARATOR."additionaldomainfields.php";
-    }
+    //handle additionaldomainfields
+    //------------------------------------------------------------------------------
+    ispapi_include_additionaladditionalfields();
 
     $myadditionalfields = array();
     if (is_array($additionaldomainfields) && isset($additionaldomainfields[".".$params["tld"]])) {
         $myadditionalfields = $additionaldomainfields[".".$params["tld"]];
     }
 
-    $found_additionalfield_mapping = 0;
-    foreach ($myadditionalfields as $field_index => $field) {
-        if (isset($field["Ispapi-Name"]) || isset($field["Ispapi-Eval"])) {
-            $found_additionalfield_mapping = 1;
-        }
-    }
-
-    if (!$found_additionalfield_mapping) {
-        include dirname(__FILE__).DIRECTORY_SEPARATOR."additionaldomainfields.php";
-        if (is_array($additionaldomainfields) && isset($additionaldomainfields[".".$params["tld"]])) {
-            $myadditionalfields = $additionaldomainfields[".".$params["tld"]];
-        }
-    }
-
     foreach ($myadditionalfields as $field_index => $field) {
         if (!is_array($field["Ispapi-Replacements"])) {
             $field["Ispapi-Replacements"] = array();
         }
-
         if (isset($field["Ispapi-Options"]) && isset($field["Options"])) {
             $options = explode(",", $field["Options"]);
             foreach (explode(",", $field["Ispapi-Options"]) as $index => $new_option) {
@@ -771,7 +762,8 @@ function ispapi_registrantmodification_it($params)
         }
         $myadditionalfields[$field_index] = $field;
     }
-    //+++++++++++++++++++++++++++++++++++++++
+
+    //------------------------------------------------------------------------------
 
     if (isset($_POST["submit"])) {
         if (empty($_POST["additionalfields"]["Section 3 Agreement"]) || empty($_POST["additionalfields"]["Section 5 Agreement"]) || empty($_POST["additionalfields"]["Section 6 Agreement"]) || empty($_POST["additionalfields"]["Section 7 Agreement"])) {
@@ -850,6 +842,8 @@ function ispapi_registrantmodification_it($params)
  */
 function ispapi_registrantmodification_tld($params)
 {
+    global $additionaldomainfields;
+
     $origparams = $params;
     if (isset($params["original"])) {
         $params = $params["original"];
@@ -938,6 +932,8 @@ function ispapi_registrantmodification_tld($params)
  */
 function ispapi_registrantmodification_ca($params)
 {
+    global $additionaldomainfields;
+
     $origparams = $params;
     if (isset($params["original"])) {
         $params = $params["original"];
@@ -947,41 +943,20 @@ function ispapi_registrantmodification_ca($params)
     $domain = $params["sld"].".".$params["tld"];
     $values = array();
 
-    //include additionaldomainfields
-    //++++++++++++++++++++++++++++++++++++
-    $additionalfieldsfile_path = dirname(__FILE__).DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."resources".DIRECTORY_SEPARATOR."domains".DIRECTORY_SEPARATOR."additionalfields.php";
-    //Check if additionalfields.php exist in the resources/domains/ directory (FOR WHMCS >= 7)
-    if (file_exists($additionalfieldsfile_path)) {
-        include $additionalfieldsfile_path;
-    } else {
-        //Backward compatibility for WHMCS < 7
-        include dirname(__FILE__).DIRECTORY_SEPARATOR.  "..".DIRECTORY_SEPARATOR.   "..".DIRECTORY_SEPARATOR.   "..".DIRECTORY_SEPARATOR.   "includes".DIRECTORY_SEPARATOR."additionaldomainfields.php";
-    }
+
+    //handle additionaldomainfields
+    //------------------------------------------------------------------------------
+    ispapi_include_additionaladditionalfields();
 
     $myadditionalfields = array();
     if (is_array($additionaldomainfields) && isset($additionaldomainfields[".".$params["tld"]])) {
         $myadditionalfields = $additionaldomainfields[".".$params["tld"]];
     }
 
-    $found_additionalfield_mapping = 0;
-    foreach ($myadditionalfields as $field_index => $field) {
-        if (isset($field["Ispapi-Name"]) || isset($field["Ispapi-Eval"])) {
-            $found_additionalfield_mapping = 1;
-        }
-    }
-
-    if (!$found_additionalfield_mapping) {
-        include dirname(__FILE__).DIRECTORY_SEPARATOR."additionaldomainfields.php";
-        if (is_array($additionaldomainfields) && isset($additionaldomainfields[".".$params["tld"]])) {
-            $myadditionalfields = $additionaldomainfields[".".$params["tld"]];
-        }
-    }
-
     foreach ($myadditionalfields as $field_index => $field) {
         if (!is_array($field["Ispapi-Replacements"])) {
             $field["Ispapi-Replacements"] = array();
         }
-
         if (isset($field["Ispapi-Options"]) && isset($field["Options"])) {
             $options = explode(",", $field["Options"]);
             foreach (explode(",", $field["Ispapi-Options"]) as $index => $new_option) {
@@ -991,13 +966,10 @@ function ispapi_registrantmodification_ca($params)
                 }
             }
         }
-
         $myadditionalfields[$field_index] = $field;
     }
-    //+++++++++++++++++++++++++++++++++++++++
 
     //delete "Contact Language" and "Trademark Number"
-    //+++++++++++++++++++++++++++++++++++++++
     $i = 0;
     foreach ($myadditionalfields as $item) {
         if (in_array($item["Name"], array("Contact Language", "Trademark Number"))) {
@@ -1005,7 +977,8 @@ function ispapi_registrantmodification_ca($params)
         }
         $i++;
     }
-    //+++++++++++++++++++++++++++++++++++++++
+    //------------------------------------------------------------------------------
+
 
     $command = array(
             "COMMAND" => "StatusDomain",
@@ -1845,6 +1818,8 @@ function ispapi_GetContactDetails($params)
  */
 function ispapi_SaveContactDetails($params)
 {
+    global $additionaldomainfields;
+
     $values = array();
     $origparams = $params;
     $params = ispapi_get_utf8_params($params);
@@ -2083,6 +2058,8 @@ function ispapi_IDProtectToggle($params)
  */
 function ispapi_RegisterDomain($params)
 {
+    global $additionaldomainfields;
+
     $values = array();
     $origparams = $params;
 
@@ -2161,6 +2138,7 @@ function ispapi_RegisterDomain($params)
         unset($command["INTERNALDNS"]);
         unset($command["X-ACCEPT-WHOISTRUSTEE-TAC"]);
     }
+
     ispapi_use_additionalfields($params, $command);
 
     //#####################################################################
@@ -2609,34 +2587,47 @@ function ispapi_query_additionalfields(&$params)
     }
 }
 
+/**
+ * Includes the corret additionl fields path based on the WHMCS vesion and the method you are using to integrate the registrar module.
+ * More information here: https://docs.whmcs.com/Additional_Domain_Fields
+ *
+ */
+function ispapi_include_additionaladditionalfields()
+{
+    global $additionaldomainfields;
+
+    $old_additionalfieldsfile_path = implode(DIRECTORY_SEPARATOR, array(dirname(__FILE__),"..","..","..","includes","additionaldomainfields.php"));
+    $new_additionalfieldsfile_path = implode(DIRECTORY_SEPARATOR, array(dirname(__FILE__),"..","..","..","resources","domains", "additionalfields.php"));
+    $new_additionalfieldsfile_path_symlinks = implode(DIRECTORY_SEPARATOR, array($_SERVER["DOCUMENT_ROOT"],"resources","domains", "additionalfields.php"));
+
+    if (file_exists($new_additionalfieldsfile_path)) {
+        // for WHMCS >= 7.0
+        include $new_additionalfieldsfile_path;
+    } else {
+        // for WHMCS < 7.0
+        if (file_exists($old_additionalfieldsfile_path)) {
+            include $old_additionalfieldsfile_path;
+        } else {
+            // for WHMCS >= 7.0 WHEN referencing to the module via symlinks
+            // Not working when WHMCS is installed in a sub directory, see below)
+            // WHMCS is available at: www.yourwhmcsinstallation.com => WORKS
+            // WHMCS is available at: www.yourwhmcsinstallation.com/whmcs/ => WILL NOT WORK
+            if (file_exists($new_additionalfieldsfile_path_symlinks)) {
+                include $new_additionalfieldsfile_path_symlinks;
+            }
+        }
+    }
+}
+
 function ispapi_use_additionalfields($params, &$command)
 {
-    $additionalfieldsfile_path = dirname(__FILE__).DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."..".DIRECTORY_SEPARATOR."resources".DIRECTORY_SEPARATOR."domains".DIRECTORY_SEPARATOR."additionalfields.php";
-    //Check if additionalfields.php exist in the resources/domains/ directory (FOR WHMCS >= 7)
-    if (file_exists($additionalfieldsfile_path)) {
-        include $additionalfieldsfile_path;
-    } else {
-        //Backward compatibility for WHMCS < 7
-        include dirname(__FILE__).DIRECTORY_SEPARATOR.  "..".DIRECTORY_SEPARATOR.   "..".DIRECTORY_SEPARATOR.   "..".DIRECTORY_SEPARATOR.   "includes".DIRECTORY_SEPARATOR."additionaldomainfields.php";
-    }
+    global $additionaldomainfields;
+
+    ispapi_include_additionaladditionalfields();
 
     $myadditionalfields = array();
     if (is_array($additionaldomainfields) && isset($additionaldomainfields[".".$params["tld"]])) {
         $myadditionalfields = $additionaldomainfields[".".$params["tld"]];
-    }
-
-    $found_additionalfield_mapping = 0;
-    foreach ($myadditionalfields as $field_index => $field) {
-        if (isset($field["Ispapi-Name"]) || isset($field["Ispapi-Eval"])) {
-            $found_additionalfield_mapping = 1;
-        }
-    }
-
-    if (!$found_additionalfield_mapping) {
-        include dirname(__FILE__).DIRECTORY_SEPARATOR."additionaldomainfields.php";
-        if (is_array($additionaldomainfields) && isset($additionaldomainfields[".".$params["tld"]])) {
-            $myadditionalfields = $additionaldomainfields[".".$params["tld"]];
-        }
     }
 
     foreach ($myadditionalfields as $field_index => $field) {
