@@ -15,7 +15,7 @@ function widget_hexonet_summary($vars)
     curl_setopt($ch, CURLOPT_TIMEOUT, 3);
     curl_setopt($ch, CURLOPT_HEADER, 0);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_USERAGENT,'HEXONET WIDGET');
+    curl_setopt($ch, CURLOPT_USERAGENT, 'HEXONET WIDGET');
     curl_setopt($ch, CURLOPT_URL, "https://api.github.com/repos/hexonet/whmcs-ispapi-registrar/releases/latest");
     $registrarData = curl_exec($ch);
     if ($registrarData === false) {
@@ -62,7 +62,7 @@ function widget_hexonet_summary($vars)
     curl_setopt($ch, CURLOPT_TIMEOUT, 3);
     curl_setopt($ch, CURLOPT_HEADER, 0);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_USERAGENT,'HEXONET WIDGET');
+    curl_setopt($ch, CURLOPT_USERAGENT, 'HEXONET WIDGET');
     curl_setopt($ch, CURLOPT_URL, "https://api.github.com/repos/hexonet/whmcs-ispapi-domainchecker/releases/latest");
     $domaincheckerData = curl_exec($ch);
     if ($domaincheckerData === false) {
