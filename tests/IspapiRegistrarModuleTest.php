@@ -18,8 +18,6 @@ use PHPUnit\Framework\TestCase;
 class IspapiRegistrarModuleTest extends TestCase
 {
 
-    // TODO: apply OT&E Integration Tests
-
     public static function providerCoreFunctionNames()
     {
         return array(
@@ -37,14 +35,59 @@ class IspapiRegistrarModuleTest extends TestCase
      * Test Core Module Functions Exist
      *
      * This test confirms that the functions we recommend for all registrar
-     * modules are defined for the sample module
+     * modules are defined for the ispapi registrar module
      *
-     * @param $moduleName
+     * @param $method
      *
      * @dataProvider providerCoreFunctionNames
      */
-    public function testCoreModuleFunctionsExist($moduleName)
+    public function testCoreModuleFunctionsExist($method)
     {
-        $this->assertTrue(function_exists('ispapi_' . $moduleName));
+        $this->assertTrue(function_exists('ispapi_' . $method));
+    }
+
+    public function testIspapiConfigCASE1()
+    {
+        $expected = array(
+            "registrar" => "ispapi",
+            "entity" => "1234",
+            "url" => "https://coreapi.1api.net/api/call.cgi",
+            "idns" => "API",
+            "proxy" => "google.com",
+            "login" => "test.user",
+            "password" => "test.passw0rd"
+        );
+        $actual = ispapi_config(array(
+            "registrar" => "ispapi",
+            "Username" => "test.user",
+            "Password" => "test.passw0rd",
+            "UseSSL" => "on",
+            "TestMode" => "on",
+            "ProxyServer" => "google.com",
+            "ConvertIDNs" => "API"
+        ));
+        $this->assertEquals($expected, $actual);
+    }
+
+    public function testIspapiConfigCASE2()
+    {
+        $expected = array(
+            "registrar" => "ispapi",
+            "entity" => "1234",
+            "url" => "https://coreapi.1api.net/api/call.cgi",
+            "idns" => "API",
+            "login" => "test.user",
+            "password" => "test.passw0rd"
+        );
+        $actual = ispapi_config(array(
+            "registrar" => "ispapi",
+            "Username" => "test.user",
+            "Password" => "test.passw0rd",
+            "UseSSL" => 1,
+            "TestMode" => 1,
+            "ProxyServer" => "",
+            "ConvertIDNs" => "API"
+        ));
+        $this->assertEquals($expected, $actual);
     }
 }
