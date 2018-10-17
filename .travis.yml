@@ -5,6 +5,8 @@ notifications:
   email:
     recipients:
     - kschwarz@hexonet.net
+    - anthonys@hexonet.net
+    - tseelamkurthi@hexonet.net
     on_success: never
     on_failure: always
   slack:
