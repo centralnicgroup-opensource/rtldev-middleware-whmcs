@@ -12,7 +12,7 @@ use PHPUnit\Framework\TestCase;
  * Custom module tests are added in addtion.
  *
  * @copyright Copyright (c) HEXONET GmbH 2018
- * @license https://github.com/hexonet/ispapi_whmcs/LICENSE
+ * @license https://github.com/hexonet/whmcs-ispapi-registrar/LICENSE
  */
 
 class IspapiRegistrarModuleTest extends TestCase
