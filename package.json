@@ -17,7 +17,15 @@
   "maintainers": [
     {
       "name": "Kai Schwarz",
-      "email": "kschwarz@hexonet.net"
+      "url": "https://github.com/papakai"
+    },
+    {
+      "name": "Anthony Schneider",
+      "url": "https://github.com/anthonyschn"
+    },
+    {
+      "name": "Tulasi Seelamkurthi",
+      "url": "https://github.com/tulsi91"
     }
   ],
   "keywords": [
