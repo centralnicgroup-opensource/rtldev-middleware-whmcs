@@ -51,7 +51,7 @@
     "@semantic-release/commit-analyzer": "6.0.1",
     "@semantic-release/exec": "3.3.0",
     "@semantic-release/git": "7.0.5",
-    "@semantic-release/github": "5.0.6",
+    "@semantic-release/github": "5.2.0",
     "conventional-changelog": "2.0.3",
     "semantic-release": "15.10.5",
     "travis-deploy-once": "5.0.9"
