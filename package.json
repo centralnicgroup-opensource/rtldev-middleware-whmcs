@@ -59,13 +59,7 @@
   "release": {
     "debug": false,
     "analyzeCommits": {
-      "preset": "angular",
-      "releaseRules": [
-        {
-          "type": "build",
-          "release": "minor"
-        }
-      ]
+      "preset": "angular"
     },
     "generateNotes": {
       "preset": "angular"
