@@ -28,21 +28,21 @@ $additionaldomainfields[".nu"][] = array(
 ## .VOTE DOMAIN REQUIREMENTS
 $additionaldomainfields[".vote"] = array();
 $additionaldomainfields[".vote"] = array(
-    "Name" => "Agreement",
-    "Type" => "tickbox",
-    "Description" => "I confirm bona fide use of this domain name for a relevant election cycle with a clearly identified political/democratic process.",
-    "Required" => true,
-    "Ispapi-Name" => "X-VOTE-ACCEPT-HIGHLY-REGULATED-TAC"
+        "Name" => "Agreement",
+        "Type" => "tickbox",
+        "Description" => "I confirm bona fide use of this domain name for a relevant election cycle with a clearly identified political/democratic process.",
+        "Required" => true,
+        "Ispapi-Name" => "X-VOTE-ACCEPT-HIGHLY-REGULATED-TAC"
 );
 
 ## .VOTO DOMAIN REQUIREMENTS
 $additionaldomainfields[".voto"] = array();
 $additionaldomainfields[".voto"] = array(
-    "Name" => "Agreement",
-    "Type" => "tickbox",
-    "Description" => "I confirm bona fide use of this domain name for a relevant election cycle with a clearly identified political/democratic process.",
-    "Required" => true,
-    "Ispapi-Name" => "X-VOTO-ACCEPT-HIGHLY-REGULATED-TAC"
+        "Name" => "Agreement",
+        "Type" => "tickbox",
+        "Description" => "I confirm bona fide use of this domain name for a relevant election cycle with a clearly identified political/democratic process.",
+        "Required" => true,
+        "Ispapi-Name" => "X-VOTO-ACCEPT-HIGHLY-REGULATED-TAC"
 );
 
 ## .RO DOMAIN REQUIREMENTS
