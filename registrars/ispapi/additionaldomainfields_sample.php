@@ -785,8 +785,7 @@ $additionaldomainfields[".es"][] = array(
         "Ispapi-Options" => ",1,39,47,59,68,124,150,152,164,181,197,203,229,269,286,365,434,436,439,476,510,524,525,554,560,562,566,608,612,713,717,744,745,746,747,877,878,879",
 );
 
-
-## .IE DOMAIN REQUIREMENTS ## 
+## .IE DOMAIN REQUIREMENTS ##
 $additionaldomainfields[".ie"][] = array(
         "Name" => "Registrant Class",
         "Type" => "dropdown",
@@ -804,7 +803,6 @@ $additionaldomainfields[".ie"][] = array(
         "Required" => true,
         "Ispapi-Name" => "X-IE-REGISTRANT-REMARKS",
 );
-
 
 ## .NO DOMAIN REQUIREMENTS ##
 $additionaldomainfields[".no"] = array();
