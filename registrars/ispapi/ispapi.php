@@ -2243,8 +2243,8 @@ function ispapi_TransferDomain($params)
     );
 
 
-    //don't send owner admin tech billing contact for .NU .DK .CA, .US, .PT, .NO and .SE domains
-    if (preg_match('/[.]nu$/i', $domain) || preg_match('/[.]dk$/i', $domain) || preg_match('/[.]ca$/i', $domain) || preg_match('/[.]us$/i', $domain) || preg_match('/[.]pt$/i', $domain) || preg_match('/[.]no$/i', $domain) || preg_match('/[.]se$/i', $domain)) {
+    //don't send owner admin tech billing contact for .NU .DK .CA, .US, .PT, .NO, .SE, .ES domains
+    if (preg_match('/[.](nu|dk|ca|us|pt|no|se|es)$/i', $domain)) {
         unset($command["OWNERCONTACT0"]);
         unset($command["ADMINCONTACT0"]);
         unset($command["TECHCONTACT0"]);
@@ -2258,7 +2258,7 @@ function ispapi_TransferDomain($params)
     }
 
     //send PERIOD=0 for .NO and .NU domains
-    if (preg_match('/[.](no|nu)$/i', $domain)) {
+    if (preg_match('/[.](no|nu|es)$/i', $domain)) {
         $command["PERIOD"] = 0;
     }
 
