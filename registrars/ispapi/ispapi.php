@@ -438,13 +438,9 @@ function ispapi_getConfigArray($params)
             //check ispapi modules version
             $modules = array("ispapidomaincheck", "ispapibackorder", "ispapidpi");
             foreach ($modules as $module) {
-                $path = implode(DIRECTORY_SEPARATOR, array(dirname(__FILE__),"..","..","addons",$module, "$module.php"));
-                $path_symlink = implode(DIRECTORY_SEPARATOR, array($_SERVER["DOCUMENT_ROOT"],"modules","addons",$module, "$module.php"));
+                $path = implode(DIRECTORY_SEPARATOR, array(ROOTDIR,"modules","addons",$module, "$module.php"));
                 if (file_exists($path)) {
                     require_once $path;
-                    $values[$module] = $module_version;
-                } elseif (file_exists($path_symlink)) {
-                    require_once $path_symlink;
                     $values[$module] = $module_version;
                 }
             }
@@ -452,13 +448,9 @@ function ispapi_getConfigArray($params)
             //check ispapissl module version
             $modules = array("ispapissl");
             foreach ($modules as $module) {
-                $path = implode(DIRECTORY_SEPARATOR, array(dirname(__FILE__),"..","..","servers",$module, "$module.php"));
-                $path_symlink = implode(DIRECTORY_SEPARATOR, array($_SERVER["DOCUMENT_ROOT"],"modules","servers",$module, "$module.php"));
+                $path = implode(DIRECTORY_SEPARATOR, array(ROOTDIR,"modules","servers",$module, "$module.php"));
                 if (file_exists($path)) {
                     require_once $path;
-                    $values[$module] = $module_version;
-                } elseif (file_exists($path_symlink)) {
-                    require_once $path_symlink;
                     $values[$module] = $module_version;
                 }
             }
@@ -2588,7 +2580,7 @@ function ispapi_query_additionalfields(&$params)
 }
 
 /**
- * Includes the corret additionl fields path based on the WHMCS vesion and the method you are using to integrate the registrar module.
+ * Includes the corret additionl fields path based on the WHMCS vesion.
  * More information here: https://docs.whmcs.com/Additional_Domain_Fields
  *
  */
@@ -2596,26 +2588,15 @@ function ispapi_include_additionaladditionalfields()
 {
     global $additionaldomainfields;
 
-    $old_additionalfieldsfile_path = implode(DIRECTORY_SEPARATOR, array(dirname(__FILE__),"..","..","..","includes","additionaldomainfields.php"));
-    $new_additionalfieldsfile_path = implode(DIRECTORY_SEPARATOR, array(dirname(__FILE__),"..","..","..","resources","domains", "additionalfields.php"));
-    $new_additionalfieldsfile_path_symlinks = implode(DIRECTORY_SEPARATOR, array($_SERVER["DOCUMENT_ROOT"],"resources","domains", "additionalfields.php"));
+    $old_additionalfieldsfile_path = implode(DIRECTORY_SEPARATOR, array(ROOTDIR,"includes","additionaldomainfields.php"));
+    $new_additionalfieldsfile_path = implode(DIRECTORY_SEPARATOR, array(ROOTDIR,"resources","domains", "additionalfields.php"));
 
     if (file_exists($new_additionalfieldsfile_path)) {
         // for WHMCS >= 7.0
         include $new_additionalfieldsfile_path;
-    } else {
+    } elseif (file_exists($old_additionalfieldsfile_path)) {
         // for WHMCS < 7.0
-        if (file_exists($old_additionalfieldsfile_path)) {
-            include $old_additionalfieldsfile_path;
-        } else {
-            // for WHMCS >= 7.0 WHEN referencing to the module via symlinks
-            // Not working when WHMCS is installed in a sub directory, see below)
-            // WHMCS is available at: www.yourwhmcsinstallation.com => WORKS
-            // WHMCS is available at: www.yourwhmcsinstallation.com/whmcs/ => WILL NOT WORK
-            if (file_exists($new_additionalfieldsfile_path_symlinks)) {
-                include $new_additionalfieldsfile_path_symlinks;
-            }
-        }
+        include $old_additionalfieldsfile_path;
     }
 }
 
