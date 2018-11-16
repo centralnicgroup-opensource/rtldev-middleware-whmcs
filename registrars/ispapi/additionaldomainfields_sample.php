@@ -28,21 +28,21 @@ $additionaldomainfields[".nu"][] = array(
 ## .VOTE DOMAIN REQUIREMENTS
 $additionaldomainfields[".vote"] = array();
 $additionaldomainfields[".vote"] = array(
-    "Name" => "Agreement",
-    "Type" => "tickbox",
-    "Description" => "I confirm bona fide use of this domain name for a relevant election cycle with a clearly identified political/democratic process.",
-    "Required" => true,
-    "Ispapi-Name" => "X-VOTE-ACCEPT-HIGHLY-REGULATED-TAC"
+        "Name" => "Agreement",
+        "Type" => "tickbox",
+        "Description" => "I confirm bona fide use of this domain name for a relevant election cycle with a clearly identified political/democratic process.",
+        "Required" => true,
+        "Ispapi-Name" => "X-VOTE-ACCEPT-HIGHLY-REGULATED-TAC"
 );
 
 ## .VOTO DOMAIN REQUIREMENTS
 $additionaldomainfields[".voto"] = array();
 $additionaldomainfields[".voto"] = array(
-    "Name" => "Agreement",
-    "Type" => "tickbox",
-    "Description" => "I confirm bona fide use of this domain name for a relevant election cycle with a clearly identified political/democratic process.",
-    "Required" => true,
-    "Ispapi-Name" => "X-VOTO-ACCEPT-HIGHLY-REGULATED-TAC"
+        "Name" => "Agreement",
+        "Type" => "tickbox",
+        "Description" => "I confirm bona fide use of this domain name for a relevant election cycle with a clearly identified political/democratic process.",
+        "Required" => true,
+        "Ispapi-Name" => "X-VOTO-ACCEPT-HIGHLY-REGULATED-TAC"
 );
 
 ## .RO DOMAIN REQUIREMENTS
@@ -785,14 +785,22 @@ $additionaldomainfields[".es"][] = array(
         "Ispapi-Options" => ",1,39,47,59,68,124,150,152,164,181,197,203,229,269,286,365,434,436,439,476,510,524,525,554,560,562,566,608,612,713,717,744,745,746,747,877,878,879",
 );
 
-## .IE DOMAIN REQUIREMENTS ## - DON'T FORGET TO REPLACE THE EMAIL ADDRESS WITH YOURS
-$additionaldomainfields[".ie"][] = array();
+## .IE DOMAIN REQUIREMENTS ##
 $additionaldomainfields[".ie"][] = array(
-        "Name" => "Additional Documents required",
-        "Type" => "tickbox",
-        "Description" => "<b>To complete the registration process, I will send a Proof of
-		business relationship with Ireland (Bills etc.) and a excerpt from the commercial register
-		to ###YOUR EMAIL ADDRESS###.</b>",
+        "Name" => "Registrant Class",
+        "Type" => "dropdown",
+        "Options" => ",Company,Business Owner,Club/Band/Local Group,School/College,State Agency,Charity,Blogger/Other",
+        "Description" => "",
+        "Required" => true,
+        "Ispapi-Name" => "X-IE-REGISTRANT-CLASS",
+        "Ispapi-Options" => ",Company,Business Owner,Club/Band/Local Group,School/College,State Agency,Charity,Blogger/Other",
+);
+$additionaldomainfields[".ie"][] = array(
+        "Name" => "Proof of connection to Ireland",
+        "Type" => "text",
+        "Description" => "Provide any information supporting your registration request, such as proof of eligibility (e.g. VAT, RBN, CRO, CHY, NIC, or Trademark number; school roll number; link to social media page) or a brief explanation of why you want this domain and what you will use it for.",
+        "Required" => true,
+        "Ispapi-Name" => "X-IE-REGISTRANT-REMARKS",
 );
 
 ## .NO DOMAIN REQUIREMENTS ##
@@ -866,24 +874,22 @@ $additionaldomainfields[".com.au"][] = array("Name" => "Eligibility Reason", "Re
 
 ## add ispapi additional fields ##
 $additionaldomainfields[".com.au"][] = array(
-  "Name" => "Registrant ID",
-  "Type" => "text",
-  "Size" => "20",
-  "Default" => "",
-  "Required" => true,
-
-  "Ispapi-Name" => "X-AU-REGISTRANT-ID-NUMBER"
+        "Name" => "Registrant ID",
+        "Type" => "text",
+        "Size" => "20",
+        "Default" => "",
+        "Required" => true,
+        "Ispapi-Name" => "X-AU-REGISTRANT-ID-NUMBER"
 );
 
 $additionaldomainfields[".com.au"][] = array(
-  "Name" => "Registrant ID Type",
-  "Type" => "dropdown",
-  "Options" => "Australian Business Number,Australian Company Number,Business Registration Number, Trademark Number",
-  "Default" => "ABN",
-  "Required" => false,
-
-  "Ispapi-Name" => "X-AU-REGISTRANT-ID-TYPE",
-  "Ispapi-Options" => "ABN,ACN,RBN,TM"
+        "Name" => "Registrant ID Type",
+        "Type" => "dropdown",
+        "Options" => "Australian Business Number,Australian Company Number,Business Registration Number, Trademark Number",
+        "Default" => "ABN",
+        "Required" => false,
+        "Ispapi-Name" => "X-AU-REGISTRANT-ID-TYPE",
+        "Ispapi-Options" => "ABN,ACN,RBN,TM"
 );
 
 $additionaldomainfields[".net.au"] = $additionaldomainfields[".com.au"];
@@ -895,38 +901,34 @@ $additionaldomainfields[".id.au"] = $additionaldomainfields[".com.au"];
 $additionaldomainfields[".lv"] = array();
 
 $additionaldomainfields[".lv"][] = array(
-  "Name" => "Vat ID",
-  "Type" => "text",
-  "Required" => false,
-
-  "Ispapi-Name" => "X-VATID"
+        "Name" => "Vat ID",
+        "Type" => "text",
+        "Required" => false,
+        "Ispapi-Name" => "X-VATID"
 );
 
 $additionaldomainfields[".lv"][] = array(
-  "Name" => "ID number",
-  "Type" => "text",
-  "Required" => false,
-
-  "Ispapi-Name" => "X-IDNUMBER"
+        "Name" => "ID number",
+        "Type" => "text",
+        "Required" => false,
+        "Ispapi-Name" => "X-IDNUMBER"
 );
 
 ## .PT DOMAIN REQUIREMENTS ##
 $additionaldomainfields[".pt"] = array();
 
 $additionaldomainfields[".pt"][] = array(
-  "Name" => "Registrant Vat ID",
-  "Type" => "text",
-  "Required" => false,
-
-  "Ispapi-Name" => "X-PT-REGISTRANT-VATID"
+        "Name" => "Registrant Vat ID",
+        "Type" => "text",
+        "Required" => false,
+        "Ispapi-Name" => "X-PT-REGISTRANT-VATID"
 );
 
 $additionaldomainfields[".pt"][] = array(
-  "Name" => "Tech vat ID",
-  "Type" => "text",
-  "Required" => false,
-
-  "Ispapi-Name" => "X-PT-TECH-VATID"
+        "Name" => "Tech vat ID",
+        "Type" => "text",
+        "Required" => false,
+        "Ispapi-Name" => "X-PT-TECH-VATID"
 );
 
 ## .ECO DOMAIN REQUIREMENTS ##
