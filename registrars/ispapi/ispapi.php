@@ -5,12 +5,14 @@
  * @author HEXONET GmbH <support@hexonet.net>
  */
 
-$module_version = "1.6.0";
+$module_version = "1.5.0";
 
 use WHMCS\Domains\DomainLookup\ResultsList;
 use WHMCS\Domains\DomainLookup\SearchResult;
 use WHMCS\Module\Registrar\Registrarmodule\ApiClient;
 use WHMCS\Database\Capsule;
+use WHMCS\Domain\Registrar\Domain;
+use WHMCS\Carbon;
 
 /**
  * Check the availability of domains using HEXONET's fast API
@@ -402,6 +404,7 @@ function ispapi_getConfigArray($params)
             "ConvertIDNs" => array( "Type" => "dropdown", "Options" => "API,PHP", "Default" => "API", "Description" => "Use API or PHP function (idn_to_ascii)" ),
             "DNSSEC" => array( "Type" => "yesno", "Description" => "Display the DNSSEC Management functionality in the domain details" ),
             "TRANSFERLOCK" => array( "Type" => "yesno", "Description" => "Locks automatically a domain after a new registration" ),
+            "IRTP" => array( "Type" => "yesno", "Description" => "Use new IRTP feature from WHMCS" ),
     );
     if (!function_exists('idn_to_ascii')) {
         $configarray["ConvertIDNs"] = array( "Type" => "dropdown", "Options" => "API", "Default" => "API", "Description" => "Use API (PHP function idn_to_ascii not available)" );
@@ -438,9 +441,13 @@ function ispapi_getConfigArray($params)
             //check ispapi modules version
             $modules = array("ispapidomaincheck", "ispapibackorder", "ispapidpi");
             foreach ($modules as $module) {
-                $path = implode(DIRECTORY_SEPARATOR, array(ROOTDIR,"modules","addons",$module, "$module.php"));
+                $path = implode(DIRECTORY_SEPARATOR, array(dirname(__FILE__),"..","..","addons",$module, "$module.php"));
+                $path_symlink = implode(DIRECTORY_SEPARATOR, array($_SERVER["DOCUMENT_ROOT"],"modules","addons",$module, "$module.php"));
                 if (file_exists($path)) {
                     require_once $path;
+                    $values[$module] = $module_version;
+                } elseif (file_exists($path_symlink)) {
+                    require_once $path_symlink;
                     $values[$module] = $module_version;
                 }
             }
@@ -448,9 +455,13 @@ function ispapi_getConfigArray($params)
             //check ispapissl module version
             $modules = array("ispapissl");
             foreach ($modules as $module) {
-                $path = implode(DIRECTORY_SEPARATOR, array(ROOTDIR,"modules","servers",$module, "$module.php"));
+                $path = implode(DIRECTORY_SEPARATOR, array(dirname(__FILE__),"..","..","servers",$module, "$module.php"));
+                $path_symlink = implode(DIRECTORY_SEPARATOR, array($_SERVER["DOCUMENT_ROOT"],"modules","servers",$module, "$module.php"));
                 if (file_exists($path)) {
                     require_once $path;
+                    $values[$module] = $module_version;
+                } elseif (file_exists($path_symlink)) {
+                    require_once $path_symlink;
                     $values[$module] = $module_version;
                 }
             }
@@ -1259,6 +1270,133 @@ function ispapi_SaveRegistrarLock($params)
 }
 
 /**
+ * Return true if the TLD is affected by the IRTP
+ *
+ * @param array $params common module parameters
+ *
+ * @return array $values - returns true
+ */
+function ispapi_IsAfectedByIRTP($domain)
+{
+    // All gTLDs and nTLDs are affected by the IRTP
+    if (preg_match('/\.[a-z]{3,}$/i', $domain)) {
+        return true;
+    }
+
+    return false;
+}
+
+/**
+ * Returns domain's information
+ *
+ * @param array $params common module parameters
+ *
+ * @return array $values - returns true
+ */
+function ispapi_GetDomainInformation($params)
+{
+    $values = array();
+    $origparams = $params;
+    $params = ispapi_get_utf8_params($params);
+
+    if (isset($params["original"])) {
+        $params = $params["original"];
+    }
+
+    $domain = $params["sld"].".".$params["tld"];
+    $isAfectedByIRTP = ispapi_IsAfectedByIRTP($domain);
+    //check if registrant change has been requested
+    $command = array(
+        "COMMAND" => "StatusDomainTrade",
+        "DOMAIN" => $domain
+    );
+    $response = ispapi_call($command, ispapi_config($params));
+
+    //setIsIrtpEnabled
+    if ($params['IRTP'] && $isAfectedByIRTP && $response["CODE"] == 200) {
+        $values['setIsIrtpEnabled'] = true;
+    }
+
+    //setIrtpTransferLock
+    $command = array(
+        "COMMAND" => "StatusDomain",
+        "DOMAIN" => $domain
+    );
+    $response = ispapi_call($command, ispapi_config($params));
+    if ($response["CODE"] == 200) {
+        if (isset($response["PROPERTY"]["TRADE-TRANSFERLOCK-EXPIRATIONDATE"]) && isset($response["PROPERTY"]["TRADE-TRANSFERLOCK-EXPIRATIONDATE"][0])) {
+            $values['setIrtpTransferLock'] = true;
+        }
+    }
+
+    //setDomainContactChangePending
+    $command = array(
+        "COMMAND" => "QueryDomainPendingRegistrantVerificationList",
+        "DOMAIN" => $domain
+    );
+    $response = ispapi_call($command, ispapi_config($params));
+
+    if ($response["CODE"] == 200) {
+        if (isset($response["PROPERTY"]["X-REGISTRANT-VERIFICATION-STATUS"]) && ($response["PROPERTY"]["X-REGISTRANT-VERIFICATION-STATUS"][0] == 'PENDING' || $response["PROPERTY"]["X-REGISTRANT-VERIFICATION-STATUS"][0] == 'OVERDUE')) {
+            $values['setDomainContactChangePending'] = true;
+            //setPendingSuspension
+            $values['setPendingSuspension'] = true;
+        }
+        //setDomainContactChangeExpiryDate
+        if (isset($response["PROPERTY"]["X-REGISTRANT-VERIFICATION-DUEDATE"]) && isset($response["PROPERTY"]["X-REGISTRANT-VERIFICATION-DUEDATE"][0])) {
+            $setDomainContactChangeExpiryDate = preg_replace('/ .*/', '', $response["PROPERTY"]["X-REGISTRANT-VERIFICATION-DUEDATE"][0]);
+            $values['setDomainContactChangeExpiryDate'] = trim($setDomainContactChangeExpiryDate);
+        }
+    }
+
+    return (new Domain)
+        ->setIsIrtpEnabled($values['setIsIrtpEnabled'])
+        ->setIrtpTransferLock($values['setIrtpTransferLock'])
+        ->setDomainContactChangePending($values['setDomainContactChangePending'])
+        ->setPendingSuspension($values['setPendingSuspension'])
+        ->setDomainContactChangeExpiryDate($values['setDomainContactChangeExpiryDate'] ? Carbon::createFromFormat('!Y-m-d', $values['setDomainContactChangeExpiryDate']) : null)
+        ->setIrtpVerificationTriggerFields(
+            [
+                'Registrant' => [
+                    'First Name',
+                    'Last Name',
+                    'Organization Name',
+                    'Email',
+                ],
+            ]
+        );
+}
+
+/**
+ * Resend verification email
+ *
+ * @param array $params common module parameters
+ *
+ * @return array returns success or error
+ */
+function ispapi_ResendIRTPVerificationEmail($params)
+{
+    //perform API call to initiate resending of the IRTP Verification Email
+    $success = true;
+    $errorMessage = '';
+    $domain = $params["sld"].".".$params["tld"];
+
+    $command = array(
+        "COMMAND" => "ResendDomainTransferConfirmationEmails",
+        "DOMAIN" => $domain
+    );
+
+    $response = ispapi_call($command, ispapi_config($params));
+    
+    if ($response["CODE"] == 200) {
+        return ['success' => true];
+    } else {
+        $errorMessage = $response["DESCRIPTION"];
+        return ['error' => $errorMessage];
+    }
+}
+
+/**
  * Return the authcode of a domain name
  *
  * @param array $params common module parameters
@@ -1822,10 +1960,45 @@ function ispapi_SaveContactDetails($params)
 
     $domain = $params["sld"].".".$params["tld"];
 
-    $command = array(
-        "COMMAND" => "ModifyDomain",
+    $status_command = array(
+        "COMMAND" => "StatusDomain",
         "DOMAIN" => $domain
     );
+    $status_response = ispapi_call($status_command, ispapi_config($origparams));
+
+    if ($status_response["CODE"] != 200) {
+        $values["error"] = $status_response["DESCRIPTION"];
+        return $values;
+    }
+
+    $isAfectedByIRTP = ispapi_IsAfectedByIRTP($domain);
+    $registrant = ispapi_get_contact_info($status_response["PROPERTY"]["OWNERCONTACT"][0], $params);
+
+    if (isset($params["contactdetails"]["Registrant"])) {
+        $new_registrant = $params["contactdetails"]["Registrant"];
+    }
+    
+    //the following conditions must be true to trigger registrant change request (IRTP)
+    if ($params["IRTP"] && $isAfectedByIRTP && ($registrant['First Name'] != $new_registrant['First Name'] || $registrant['Last Name'] != $new_registrant['Last Name'] || $registrant['Company Name'] != $new_registrant['Company Name'] || $registrant['Email'] != $new_registrant['Email'])) {
+        $command = array(
+            "COMMAND" => "TradeDomain",
+            "DOMAIN" => $domain,
+            "OWNERCONTACT0" => $new_registrant,
+            "X-CONFIRM-DA-OLD-REGISTRANT" => 1,
+            "X-CONFIRM-DA-NEW-REGISTRANT" => 1,
+        );
+
+        if ($params["irtpOptOut"]) {
+            $command["X-REQUEST-OPT-OUT-TRANSFERLOCK"] = 1;
+        } else {
+            $command["X-REQUEST-OPT-OUT-TRANSFERLOCK"] = 0;
+        }
+    } else {
+        $command = array(
+            "COMMAND" => "ModifyDomain",
+            "DOMAIN" => $domain
+        );
+    }
 
     $map = array(
         "OWNERCONTACT0" => "Registrant",
@@ -2243,8 +2416,8 @@ function ispapi_TransferDomain($params)
     );
 
 
-    //don't send owner admin tech billing contact for .NU .DK .CA, .US, .PT, .NO, .SE, .ES domains
-    if (preg_match('/[.](nu|dk|ca|us|pt|no|se|es)$/i', $domain)) {
+    //don't send owner admin tech billing contact for .NU .DK .CA, .US, .PT, .NO and .SE domains
+    if (preg_match('/[.]nu$/i', $domain) || preg_match('/[.]dk$/i', $domain) || preg_match('/[.]ca$/i', $domain) || preg_match('/[.]us$/i', $domain) || preg_match('/[.]pt$/i', $domain) || preg_match('/[.]no$/i', $domain) || preg_match('/[.]se$/i', $domain)) {
         unset($command["OWNERCONTACT0"]);
         unset($command["ADMINCONTACT0"]);
         unset($command["TECHCONTACT0"]);
@@ -2258,7 +2431,7 @@ function ispapi_TransferDomain($params)
     }
 
     //send PERIOD=0 for .NO and .NU domains
-    if (preg_match('/[.](no|nu|es)$/i', $domain)) {
+    if (preg_match('/[.](no|nu)$/i', $domain)) {
         $command["PERIOD"] = 0;
     }
 
@@ -2580,7 +2753,7 @@ function ispapi_query_additionalfields(&$params)
 }
 
 /**
- * Includes the corret additionl fields path based on the WHMCS vesion.
+ * Includes the corret additionl fields path based on the WHMCS vesion and the method you are using to integrate the registrar module.
  * More information here: https://docs.whmcs.com/Additional_Domain_Fields
  *
  */
@@ -2588,15 +2761,26 @@ function ispapi_include_additionaladditionalfields()
 {
     global $additionaldomainfields;
 
-    $old_additionalfieldsfile_path = implode(DIRECTORY_SEPARATOR, array(ROOTDIR,"includes","additionaldomainfields.php"));
-    $new_additionalfieldsfile_path = implode(DIRECTORY_SEPARATOR, array(ROOTDIR,"resources","domains", "additionalfields.php"));
+    $old_additionalfieldsfile_path = implode(DIRECTORY_SEPARATOR, array(dirname(__FILE__),"..","..","..","includes","additionaldomainfields.php"));
+    $new_additionalfieldsfile_path = implode(DIRECTORY_SEPARATOR, array(dirname(__FILE__),"..","..","..","resources","domains", "additionalfields.php"));
+    $new_additionalfieldsfile_path_symlinks = implode(DIRECTORY_SEPARATOR, array($_SERVER["DOCUMENT_ROOT"],"resources","domains", "additionalfields.php"));
 
     if (file_exists($new_additionalfieldsfile_path)) {
         // for WHMCS >= 7.0
         include $new_additionalfieldsfile_path;
-    } elseif (file_exists($old_additionalfieldsfile_path)) {
+    } else {
         // for WHMCS < 7.0
-        include $old_additionalfieldsfile_path;
+        if (file_exists($old_additionalfieldsfile_path)) {
+            include $old_additionalfieldsfile_path;
+        } else {
+            // for WHMCS >= 7.0 WHEN referencing to the module via symlinks
+            // Not working when WHMCS is installed in a sub directory, see below)
+            // WHMCS is available at: www.yourwhmcsinstallation.com => WORKS
+            // WHMCS is available at: www.yourwhmcsinstallation.com/whmcs/ => WILL NOT WORK
+            if (file_exists($new_additionalfieldsfile_path_symlinks)) {
+                include $new_additionalfieldsfile_path_symlinks;
+            }
+        }
     }
 }
 
