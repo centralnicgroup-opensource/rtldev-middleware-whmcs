@@ -1278,7 +1278,7 @@ function ispapi_SaveRegistrarLock($params)
  */
 function ispapi_IsAfectedByIRTP($domain)
 {
-    // All gTLDs and nTLDs are affected by the IRTP
+    //all gTLDs and nTLDs are affected by the IRTP
     if (preg_match('/\.[a-z]{3,}$/i', $domain)) {
         return true;
     }
@@ -1310,10 +1310,10 @@ function ispapi_GetDomainInformation($params)
         "COMMAND" => "StatusDomainTrade",
         "DOMAIN" => $domain
     );
-    $response = ispapi_call($command, ispapi_config($params));
+    $statusDomainTrade_response = ispapi_call($command, ispapi_config($params));
 
     //setIsIrtpEnabled
-    if ($params['IRTP'] && $isAfectedByIRTP && $response["CODE"] == 200) {
+    if ($params['IRTP'] && $isAfectedByIRTP) {
         $values['setIsIrtpEnabled'] = true;
     }
 
@@ -1337,11 +1337,14 @@ function ispapi_GetDomainInformation($params)
     $response = ispapi_call($command, ispapi_config($params));
 
     if ($response["CODE"] == 200) {
-        if (isset($response["PROPERTY"]["X-REGISTRANT-VERIFICATION-STATUS"]) && ($response["PROPERTY"]["X-REGISTRANT-VERIFICATION-STATUS"][0] == 'PENDING' || $response["PROPERTY"]["X-REGISTRANT-VERIFICATION-STATUS"][0] == 'OVERDUE')) {
-            $values['setDomainContactChangePending'] = true;
-            //setPendingSuspension
-            $values['setPendingSuspension'] = true;
+        if ($statusDomainTrade_response["CODE"] == 200) {
+            if (isset($response["PROPERTY"]["X-REGISTRANT-VERIFICATION-STATUS"]) && ($response["PROPERTY"]["X-REGISTRANT-VERIFICATION-STATUS"][0] == 'PENDING' || $response["PROPERTY"]["X-REGISTRANT-VERIFICATION-STATUS"][0] == 'OVERDUE')) {
+                $values['setDomainContactChangePending'] = true;
+                //setPendingSuspension
+                $values['setPendingSuspension'] = true;
+            }
         }
+
         //setDomainContactChangeExpiryDate
         if (isset($response["PROPERTY"]["X-REGISTRANT-VERIFICATION-DUEDATE"]) && isset($response["PROPERTY"]["X-REGISTRANT-VERIFICATION-DUEDATE"][0])) {
             $setDomainContactChangeExpiryDate = preg_replace('/ .*/', '', $response["PROPERTY"]["X-REGISTRANT-VERIFICATION-DUEDATE"][0]);
