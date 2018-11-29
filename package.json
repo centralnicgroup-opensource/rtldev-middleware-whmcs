@@ -53,7 +53,7 @@
     "@semantic-release/git": "7.0.5",
     "@semantic-release/github": "5.2.1",
     "conventional-changelog": "2.0.3",
-    "semantic-release": "15.10.6",
+    "semantic-release": "15.12.3",
     "travis-deploy-once": "5.0.9"
   },
   "release": {
