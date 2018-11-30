@@ -1,9 +1,12 @@
 #!/bin/bash
 OLDBRANCH=$(git branch | sed -n '/\* /s///p')
-git fetch origin -p &&
+DEVBRANCH="$1";
+
+git fetch origin -p
 git checkout master -f &&
-git checkout next -f &&
+git pull &&
+git checkout "$DEVBRANCH" -f &&
 git rebase master &&
-git push &&
+git push --force-with-lease
 git checkout "$OLDBRANCH"
 exit "$?";
