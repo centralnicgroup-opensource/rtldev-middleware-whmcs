@@ -7,8 +7,3 @@ git rebase master &&
 git push &&
 git checkout "$OLDBRANCH"
 exit "$?";
-
-#      {
-#        "path": "@semantic-release/exec",
-#        "cmd": "./rebaseNext.sh"
-#      }
