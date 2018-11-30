@@ -108,6 +108,10 @@
             "path": "pkg/whmcs-ispapi-registrar.tar.gz"
           }
         ]
+      },
+      {
+        "path": "@semantic-release/exec",
+        "cmd": "./rebaseDevBranch.sh next"
       }
     ]
   }
