@@ -29,7 +29,7 @@ This Repository covers the WHMCS Registrar Module of HEXONET. It provides the fo
 
 ## Resources ##
 
-* [Usage Guide](https://github.com/hexonet/whmcs-ispapi-registrar/blob/master/README.md#usage-guide)
+* [Usage Guide](https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide)
 * [Release Notes](https://github.com/hexonet/whmcs-ispapi-registrar/releases)
 * [Development Guide](https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Development-Guide)
 
@@ -39,7 +39,11 @@ NOTE: We introduced sematic-release starting with v1.0.63. This is why older Rel
 
 Download the ZIP archive including the latest release version [here](https://github.com/hexonet/whmcs-ispapi-registrar/raw/master/whmcs-ispapi-registrar-latest.zip).
 
-Login to the WHMCS Admin Area and navigate to `Setup > Products > Domain Registrars` to activate.
+Read the following to get more information ...
+  * [Installation](https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#installation)
+  * [Configuration](https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#configuration)
+  * [Cronjob configuration](https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#cronjob-configuration)
+
 
 ## Minimum Requirements ##
 
