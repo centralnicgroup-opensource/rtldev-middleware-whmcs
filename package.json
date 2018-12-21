@@ -54,7 +54,7 @@
     "@semantic-release/github": "5.2.6",
     "conventional-changelog": "3.0.5",
     "semantic-release": "15.12.5",
-    "travis-deploy-once": "5.0.10"
+    "travis-deploy-once": "5.0.11"
   },
   "release": {
     "debug": false,
