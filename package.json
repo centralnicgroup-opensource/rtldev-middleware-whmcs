@@ -50,7 +50,7 @@
     "@semantic-release/changelog": "3.0.1",
     "@semantic-release/commit-analyzer": "6.1.0",
     "@semantic-release/exec": "3.3.1",
-    "@semantic-release/git": "7.0.6",
+    "@semantic-release/git": "7.0.7",
     "@semantic-release/github": "5.2.7",
     "conventional-changelog": "3.0.5",
     "semantic-release": "15.13.2",
