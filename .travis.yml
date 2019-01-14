@@ -15,11 +15,10 @@ notifications:
     on_success: always
     on_failure: always
 php:
-- 5.6.0
-- 5.6.38
-- 7.0.32
-- 7.1.22
-- 7.2.10
+- 5.6
+- 7.1
+- 7.2
+- 7.3
 cache:
   directories:
   - "~/.npm"
