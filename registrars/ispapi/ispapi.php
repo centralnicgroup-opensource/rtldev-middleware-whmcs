@@ -1510,6 +1510,7 @@ function ispapi_SaveDNS($params)
     $command = array(
         "COMMAND" => "UpdateDNSZone",
         "DNSZONE" => $dnszone,
+        "RESOLVETTLCONFLICTS" => 1,
         "INCSERIAL" => 1,
         "EXTENDED" => 1,
         "DELRR" => array("% A", "% AAAA", "% CNAME", "% TXT", "% MX", "% X-HTTP", "% X-SMTP", "% SRV"),
@@ -1738,6 +1739,7 @@ function ispapi_SaveEmailForwarding($params)
     $command = array(
         "COMMAND" => "UpdateDNSZone",
         "DNSZONE" => $dnszone,
+        "RESOLVETTLCONFLICTS" => 1,
         "INCSERIAL" => 1,
         "EXTENDED" => 1,
         "DELRR" => array("@ X-SMTP"),
