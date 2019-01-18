@@ -2311,6 +2311,27 @@ function ispapi_RenewDomain($params)
         "PERIOD" => $params["regperiod"]
     );
 
+    // renew premium domain
+    $premiumDomainsEnabled = (bool) $params['premiumEnabled'];
+    $premiumDomainsCost = $params['premiumCost'];
+
+    if ($premiumDomainsEnabled) { //check if premium domain functionality is enabled by the admin
+        if (!empty($premiumDomainsCost)) { //check if the domain has a premium price
+            $statusCommand = array(
+                "COMMAND" => "StatusDomain",
+                "DOMAIN" => $domain,
+                "PROPERTIES" => "PRICE"
+            );
+            $statusDomainResponse = ispapi_call($statusCommand, ispapi_config($params));
+    
+            if ($statusDomainResponse["CODE"] == 200 && !empty($statusDomainResponse['PROPERTY']['SUBCLASS'][0])) {
+                if ($premiumDomainsCost == $statusDomainResponse['PROPERTY']['RENEWALPRICE'][0]) { //check if the renewal price displayed to the customer is equal to the real cost at the registar
+                    $command["CLASS"] = $statusDomainResponse['PROPERTY']['SUBCLASS'][0];
+                }
+            }
+        }
+    }
+
     $response = ispapi_call($command, ispapi_config($params));
 
     if ($response["CODE"] == 510) {
@@ -2321,6 +2342,7 @@ function ispapi_RenewDomain($params)
     if ($response["CODE"] != 200) {
         $values["error"] = $response["DESCRIPTION"];
     }
+
     return $values;
 }
 
