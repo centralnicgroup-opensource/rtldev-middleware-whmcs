@@ -2154,6 +2154,8 @@ function ispapi_RegisterDomain($params)
                     $command["CLASS"] =  $registrar_premium_domain_class;
                     $command["PRICE"] =  $premiumDomainsCost;
                     $command["CURRENCY"] = $registrar_premium_domain_currency;
+                    //INTERNALDNS parameter is not supported in AddDomainApplication command
+                    unset($command["INTERNALDNS"]);
                 }
             }
         }
