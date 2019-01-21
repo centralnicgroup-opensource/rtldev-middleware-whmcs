@@ -1216,6 +1216,7 @@ function ispapi_GetRegistrarLock($params)
     );
 
     $response = ispapi_call($command, ispapi_config($params));
+
     if ($response["CODE"] == 200) {
         if (isset($response["PROPERTY"]["TRANSFERLOCK"])) {
             if ($response["PROPERTY"]["TRANSFERLOCK"][0]) {
@@ -1245,16 +1246,27 @@ function ispapi_SaveRegistrarLock($params)
         $params = $params["original"];
     }
     $domain = $params["sld"].".".$params["tld"];
-    $command = array(
-        "COMMAND" => "ModifyDomain",
-        "DOMAIN" => $domain,
-        "TRANSFERLOCK" => ($params["lockenabled"] == "locked")? "1" : "0"
-    );
-    $response = ispapi_call($command, ispapi_config($params));
-    if ($response["CODE"] != 200) {
-        $values["error"] = $response["DESCRIPTION"];
-    }
 
+    $commandQueryDomainList = array(
+        "COMMAND" => "QueryDomainList",
+        "DOMAIN" => $domain,
+        "WIDE" => 1
+    );
+    $responseQueryDomainList = ispapi_call($commandQueryDomainList, ispapi_config($params));
+    if ($responseQueryDomainList['PROPERTY']['DOMAINTRANSFERLOCK'][0] == "") {
+        $values["error"] = "Not supported by this TLD";
+    } else {
+        $command = array(
+            "COMMAND" => "ModifyDomain",
+            "DOMAIN" => $domain,
+            "TRANSFERLOCK" => ($params["lockenabled"] == "locked")? "1" : "0"
+        );
+        $response = ispapi_call($command, ispapi_config($params));
+        if ($response["CODE"] != 200) {
+            $values["error"] = $response["DESCRIPTION"];
+        }
+    }
+    
     return $values;
 }
 
