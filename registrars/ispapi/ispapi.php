@@ -1216,6 +1216,7 @@ function ispapi_GetRegistrarLock($params)
     );
 
     $response = ispapi_call($command, ispapi_config($params));
+
     if ($response["CODE"] == 200) {
         if (isset($response["PROPERTY"]["TRANSFERLOCK"])) {
             if ($response["PROPERTY"]["TRANSFERLOCK"][0]) {
@@ -1245,16 +1246,27 @@ function ispapi_SaveRegistrarLock($params)
         $params = $params["original"];
     }
     $domain = $params["sld"].".".$params["tld"];
-    $command = array(
-        "COMMAND" => "ModifyDomain",
-        "DOMAIN" => $domain,
-        "TRANSFERLOCK" => ($params["lockenabled"] == "locked")? "1" : "0"
-    );
-    $response = ispapi_call($command, ispapi_config($params));
-    if ($response["CODE"] != 200) {
-        $values["error"] = $response["DESCRIPTION"];
-    }
 
+    $commandQueryDomainList = array(
+        "COMMAND" => "QueryDomainList",
+        "DOMAIN" => $domain,
+        "WIDE" => 1
+    );
+    $responseQueryDomainList = ispapi_call($commandQueryDomainList, ispapi_config($params));
+    if ($responseQueryDomainList['PROPERTY']['DOMAINTRANSFERLOCK'][0] == "") {
+        $values["error"] = "Not supported by this TLD";
+    } else {
+        $command = array(
+            "COMMAND" => "ModifyDomain",
+            "DOMAIN" => $domain,
+            "TRANSFERLOCK" => ($params["lockenabled"] == "locked")? "1" : "0"
+        );
+        $response = ispapi_call($command, ispapi_config($params));
+        if ($response["CODE"] != 200) {
+            $values["error"] = $response["DESCRIPTION"];
+        }
+    }
+    
     return $values;
 }
 
@@ -1510,6 +1522,7 @@ function ispapi_SaveDNS($params)
     $command = array(
         "COMMAND" => "UpdateDNSZone",
         "DNSZONE" => $dnszone,
+        "RESOLVETTLCONFLICTS" => 1,
         "INCSERIAL" => 1,
         "EXTENDED" => 1,
         "DELRR" => array("% A", "% AAAA", "% CNAME", "% TXT", "% MX", "% X-HTTP", "% X-SMTP", "% SRV"),
@@ -1738,6 +1751,7 @@ function ispapi_SaveEmailForwarding($params)
     $command = array(
         "COMMAND" => "UpdateDNSZone",
         "DNSZONE" => $dnszone,
+        "RESOLVETTLCONFLICTS" => 1,
         "INCSERIAL" => 1,
         "EXTENDED" => 1,
         "DELRR" => array("@ X-SMTP"),
@@ -2154,6 +2168,8 @@ function ispapi_RegisterDomain($params)
                     $command["CLASS"] =  $registrar_premium_domain_class;
                     $command["PRICE"] =  $premiumDomainsCost;
                     $command["CURRENCY"] = $registrar_premium_domain_currency;
+                    //INTERNALDNS parameter is not supported in AddDomainApplication command
+                    unset($command["INTERNALDNS"]);
                 }
             }
         }
