@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.6.0...v1.6.1) (2019-01-28)
+
+
+### Bug Fixes
+
+* **pkg:** updated UpdateDNSZone and AddDomainApplicaton commands+ispapi_SaveRegistrarLock method for unsupported transferlock setting ([bd332ff](https://github.com/hexonet/whmcs-ispapi-registrar/commit/bd332ff))
+
 # [1.6.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.5.0...v1.6.0) (2018-11-16)
 
 
