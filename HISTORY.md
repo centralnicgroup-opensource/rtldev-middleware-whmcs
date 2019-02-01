@@ -3,7 +3,10 @@
 
 ### Bug Fixes
 
-* **pkg:** updated UpdateDNSZone and AddDomainApplicaton commands+ispapi_SaveRegistrarLock method for unsupported transferlock setting ([bd332ff](https://github.com/hexonet/whmcs-ispapi-registrar/commit/bd332ff))
+* **pkg:** update(https://github.com/hexonet/whmcs-ispapi-registrar/commit/bd332ff))
+  * UpdateDNSZone command updated with RESOLVETTLCONFLICTS=1
+  * TransferLock adaptation for unsupported TLDs
+  * Removed unsupported INTERNALDNS parameter in AddDommainApplication
 
 # [1.6.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.5.0...v1.6.0) (2018-11-16)
 
