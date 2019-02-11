@@ -1214,25 +1214,14 @@ function ispapi_SaveRegistrarLock($params)
         $params = $params["original"];
     }
     $domain = $params["sld"].".".$params["tld"];
-
-    $commandQueryDomainList = array(
-        "COMMAND" => "QueryDomainList",
+    $command = array(
+        "COMMAND" => "ModifyDomain",
         "DOMAIN" => $domain,
-        "WIDE" => 1
+        "TRANSFERLOCK" => ($params["lockenabled"] == "locked")? "1" : "0"
     );
-    $responseQueryDomainList = ispapi_call($commandQueryDomainList, ispapi_config($params));
-    if ($responseQueryDomainList['PROPERTY']['DOMAINTRANSFERLOCK'][0] == "") {
-        $values["error"] = "Not supported by this TLD";
-    } else {
-        $command = array(
-            "COMMAND" => "ModifyDomain",
-            "DOMAIN" => $domain,
-            "TRANSFERLOCK" => ($params["lockenabled"] == "locked")? "1" : "0"
-        );
-        $response = ispapi_call($command, ispapi_config($params));
-        if ($response["CODE"] != 200) {
-            $values["error"] = $response["DESCRIPTION"];
-        }
+    $response = ispapi_call($command, ispapi_config($params));
+    if ($response["CODE"] != 200) {
+        $values["error"] = $response["DESCRIPTION"];
     }
     
     return $values;
