@@ -40,10 +40,10 @@ NOTE: We introduced sematic-release starting with v1.0.63. This is why older Rel
 Download the ZIP archive including the latest release version [here](https://github.com/hexonet/whmcs-ispapi-registrar/raw/master/whmcs-ispapi-registrar-latest.zip).
 
 Read the following to get more information ...
-  * [Installation](https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#installation)
-  * [Configuration](https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#configuration)
-  * [Cronjob configuration](https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#cronjob-configuration)
 
+* [Installation](https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#installation)
+* [Configuration](https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#configuration)
+* [Cronjob configuration](https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#cronjob-configuration)
 
 ## Minimum Requirements ##
 

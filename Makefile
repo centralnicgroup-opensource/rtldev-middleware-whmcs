@@ -6,10 +6,8 @@ clean:
 
 buildsources:
 	mkdir -p $(FOLDER)/install/modules/registrars
-	mkdir -p $(FOLDER)/install/modules/admin
 	mkdir -p $(FOLDER)/install/modules/widgets
 	cp -a registrars/ispapi $(FOLDER)/install/modules/registrars
-	cp -a admin/ispapi_domain_import $(FOLDER)/install/modules/admin
 	cp widgets/hexonet_summary.php $(FOLDER)/install/modules/widgets
 	mv $(FOLDER)/install/modules/registrars/ispapi/README.pdf $(FOLDER)
 	cp README.md HISTORY.md HISTORY.old CONTRIBUTING.md LICENSE $(FOLDER)
