@@ -9,21 +9,43 @@ This Repository covers the WHMCS Registrar Module of HEXONET. It provides the fo
 
 ## Supported Features ##
 
-* Domain registration
-* Domain transfer (with AuthInfo code support)
-* Domain management
-* Domain renewal
-* DNS management
+* Domain Registration 
+     * Additional domain fields
+* Domain Transfer (with AuthInfo code support)
+* Domain Management
+     * Domain locking
+     * Update Contact Information (with UTF-8 support)
+     * Change Nameservers
+     * Nameserver Registration (Add, Modify, Delete)
+     * Explicit Deletions supported in Admin panel
+* Domain Renewal
+     * Special handling for registries without explicit renewals (many ccTLDs)
+* DNS Management
+     * Record-Types: A, AAAA, MX, MXE, CNAME, TXT
+     * Allows user defined TTL values and MX priorities
 * Email forwarding
 * URL forwarding
+     * Redirect using HTTP
+     * Forward using HTML Frame
 * Optional TLS/SSL for API connection
-* Support for Whois Privacy / ID Protection
+     * Supports proxy server for accelerated API access
+* Support for testing environment
+* WHOIS Privacy management of .CA domain names
+* Change of Registrant for .CA / .IT domain names
+* Support for WHOIS Privacy / ID Protection
+     * Uses privacy service WHOISTRUSTEE.com
+     * ID Protection toggle in Admin area gets synchronized
+     * Client area WHOIS Privacy management
 * Support for all bulk update operations
 * Support for IDNs
+     * automatically selects IDNA2008 if supported by TLD (e.g. .de)
+     * uses API based IDN conversion by default
+     * can be configured to use PHP method instead
 * Support for new domain sync method (_Sync)
+     * Workaround for ccTLDs that need to get renewed before expiration
+* Support for .SWISS registrations
 * Support for SRV records
 * Support for DNSSEC Management
-* Supported testing environment
 
 ... and MORE!
 
