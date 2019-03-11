@@ -53,6 +53,7 @@
     "@semantic-release/git": "7.0.8",
     "@semantic-release/github": "5.2.10",
     "conventional-changelog": "3.0.6",
+    "puppeteer": "1.13.0",
     "semantic-release": "15.13.3",
     "travis-deploy-once": "5.0.11"
   },
@@ -108,6 +109,10 @@
             "path": "pkg/whmcs-ispapi-registrar.tar.gz"
           }
         ]
+      },
+      {
+        "path": "@semantic-release/exec",
+        "cmd": "node whmcsmarketplace.js ${nextRelease.version} \"${nextRelease.notes}\""
       },
       {
         "path": "@semantic-release/exec",
