@@ -130,6 +130,23 @@ function widget_hexonet_summary($vars)
     }
 
     // ####################################
+    // Domain Import Module Version Check
+    // ####################################
+    $d = widget_hexonet_data("domainimport");
+    if ($d !== false) {
+        $path = ROOTDIR."/modules/addons/ispapidomainimport/ispapidomainimport.php";
+        if (file_exists($path)) {
+            require_once($path);
+            $content .= widget_hexonet_block(array(
+                "title" => "ISPAPI Domain Import Module",
+                "version_used" => $module_version,
+                "version_latest" => $d["version"],
+                "url" => $d["url"]
+            ));
+        }
+    }
+
+    // ####################################
     // Additonal Output
     // ####################################
     if (empty($content)) {
