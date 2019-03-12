@@ -17,23 +17,45 @@ function widget_hexonet_data($module)
     if ($d !== false) {
         $d = json_decode($d, true);
         $d["url"] = "https://github.com/hexonet/whmcs-ispapi-" . $module . "/raw/master/whmcs-ispapi-" . $module . "-latest.zip";
+        $d["imgurl"] = (
+            "https://raw.githubusercontent.com/hexonet/whmcs-ispapi-" . $module . "/master/module." .
+            (($module=="domainimport") ? "jpg" : "png")
+        );
         return $d;
     }
     return false;
 }
 
-function widget_hexonet_block($cfg)
+function widget_hexonet_module($module)
 {
-    $content = "<h3 style='font-weight:bold;margin-bottom:8px;color:#29467c;'>" . $cfg["title"] . "</h3>";
-    $diff = version_compare($cfg["version_used"], $cfg["version_latest"]);
-    $content .= "You are currently running version ".$cfg["version_used"].".";
-    if ($diff < 0) {
-        $content .= '<div class="textred">An update is available!<br>Please install the latest version '.$cfg["version_latest"].'. (<a href="' . $cfg["url"] . '">download</a>)</div>';
+    if ($module) {
+        $diff = version_compare($module["version_used"], $module["version_latest"]);
+        return (
+            '<div class="col-sm-4 text-center">' .
+                '<div class="thumbnail">' .
+                    '<img style="width:120px; height: 120px" src="' . $module["imgurl"] . '" alt="' .  $module["title"] . '"/>' .
+                    (($diff < 0) ?
+                        '<div class="caption"><a class="textred" href="' . $module["url"] . '">v' . $module["version_used"] . '</a></div>' :
+                        '<div class="caption"><p class="textgreen">v' . $module["version_used"] . '</p></div>'
+                    ) .
+                '</div>' .
+            '</div>'
+        );
     }
-    if ($diff >= 0) {
-        $content .= '<div class="textgreen">Your version is up to date.</div>';
+    return '<div class="col-sm-4"></div>';
+}
+
+function widget_hexonet_block($modules)
+{
+    $content = '<div class="widget-content-padded" style="max-height: 450px">';
+    while (!empty($modules)) {
+        $content .= '<div class="row">';
+        $content .= widget_hexonet_module(array_shift($modules));
+        $content .= widget_hexonet_module(array_shift($modules));
+        $content .= widget_hexonet_module(array_shift($modules));
+        $content .= '</div>';
     }
-    $content .= '<div style="margin-bottom:20px;"></div>';
+    $content .= '</div>';
     return $content;
 }
 
@@ -41,6 +63,7 @@ function widget_hexonet_summary($vars)
 {
     global $_ADMINLANG;
     $content = "";
+    $modules = array();
 
     // ####################################
     // Registrar Version Check
@@ -51,12 +74,13 @@ function widget_hexonet_summary($vars)
         if (file_exists($path)) {
             require_once($path);
             if (function_exists('ispapi_GetISPAPIModuleVersion')) {
-                $content .= widget_hexonet_block(array(
+                $modules[] = array(
                     "title" => "ISPAPI Registrar Module",
                     "version_used" => call_user_func('ispapi_GetISPAPIModuleVersion'),
                     "version_latest" => $d["version"],
-                    "url" => $d["url"]
-                ));
+                    "url" => $d["url"],
+                    "imgurl" => $d["imgurl"]
+                );
             }
         }
     }
@@ -69,12 +93,13 @@ function widget_hexonet_summary($vars)
         $path = ROOTDIR."/modules/addons/ispapidomaincheck/ispapidomaincheck.php";
         if (file_exists($path)) {
             require_once($path);
-            $content .= widget_hexonet_block(array(
+            $modules[] = array(
                 "title" => "ISPAPI High Performance DomainChecker Module",
                 "version_used" => $module_version,
                 "version_latest" => $d["version"],
-                "url" => $d["url"]
-            ));
+                "url" => $d["url"],
+                "imgurl" => $d["imgurl"]
+            );
         }
     }
 
@@ -86,12 +111,13 @@ function widget_hexonet_summary($vars)
         $path = ROOTDIR."/modules/addons/ispapibackorder/ispapibackorder.php";
         if (file_exists($path)) {
             require_once($path);
-            $content .= widget_hexonet_block(array(
+            $modules[] = array(
                 "title" => "ISPAPI Backorder Module",
                 "version_used" => $module_version,
                 "version_latest" => $d["version"],
-                "url" => $d["url"]
-            ));
+                "url" => $d["url"],
+                "imgurl" => $d["imgurl"]
+            );
         }
     }
 
@@ -103,12 +129,13 @@ function widget_hexonet_summary($vars)
         $path = ROOTDIR."/modules/addons/ispapidpi/ispapidpi.php";
         if (file_exists($path)) {
             require_once($path);
-            $content .= widget_hexonet_block(array(
+            $modules[] = array(
                 "title" => "ISPAPI Pricing Importer Module",
                 "version_used" => $module_version,
                 "version_latest" => $d["version"],
-                "url" => $d["url"]
-            ));
+                "url" => $d["url"],
+                "imgurl" => $d["imgurl"]
+            );
         }
     }
 
@@ -120,12 +147,13 @@ function widget_hexonet_summary($vars)
         $path = ROOTDIR."/modules/servers/ispapissl/ispapissl.php";
         if (file_exists($path)) {
             require_once($path);
-            $content .= widget_hexonet_block(array(
+            $modules[] = array(
                 "title" => "ISPAPI SSL Module",
                 "version_used" => $module_version,
                 "version_latest" => $d["version"],
-                "url" => $d["url"]
-            ));
+                "url" => $d["url"],
+                "imgurl" => $d["imgurl"]
+            );
         }
     }
 
@@ -137,22 +165,29 @@ function widget_hexonet_summary($vars)
         $path = ROOTDIR."/modules/addons/ispapidomainimport/ispapidomainimport.php";
         if (file_exists($path)) {
             require_once($path);
-            $content .= widget_hexonet_block(array(
+            $modules[] = array(
                 "title" => "ISPAPI Domain Import Module",
                 "version_used" => $module_version,
                 "version_latest" => $d["version"],
-                "url" => $d["url"]
-            ));
+                "url" => $d["url"],
+                "imgurl" => $d["imgurl"]
+            );
         }
     }
 
     // ####################################
     // Additonal Output
     // ####################################
-    if (empty($content)) {
-        $content = "<div style='text-align:center;padding:5px;background:#f7d5d1;'><i style=''>Service Temporarily Unavailable. Please try again later...</i>";
+    if (empty($modules)) {
+        return array(
+            'title' => 'HEXONET Modules',
+            'content' => "<div class='widget-content-padded'><i style=''>No active HEXONET Modules found.</i></div>"
+        );
     }
-    return array( 'title' => 'Hexonet Modules', 'content' => "<div style='margin-left:5px; margin-top:5px;'>".$content."</div>" );
+    return array(
+        'title' => 'HEXONET Modules',
+        'content' => "". widget_hexonet_block($modules) . ""
+    );
 }
 
 add_hook("AdminHomeWidgets", 1, "widget_hexonet_summary");
