@@ -1,5 +1,4 @@
 language: php
-sudo: false
 dist: trusty
 notifications:
   email:
@@ -15,15 +14,18 @@ notifications:
     on_success: always
     on_failure: always
 php:
-- 5.6.0
 - 5.6.38
 - 7.0.32
-- 7.1.22
-- 7.2.10
+- 7.1.26
+- 7.2.15
+- 7.3.2
 cache:
   directories:
   - "~/.npm"
   - node_modules
+before_install:
+- wget https://github.com/jgm/pandoc/releases/download/2.6/pandoc-2.6-1-amd64.deb
+- sudo dpkg -i pandoc-2.6-1-amd64.deb
 install:
 - composer install
 script:
@@ -32,7 +34,11 @@ script:
 after_success:
 - if [[ "$TRAVIS_BRANCH" == "master" && "$TRAVIS_PULL_REQUEST" == "false" ]]; then
   git config --replace-all remote.origin.fetch +refs/heads/*:refs/remotes/origin/*
-  && git fetch --tags && nvm install lts/* && nvm use lts/* && npm prune && npm i
+  && git fetch --tags
+  && nvm install lts/*
+  && nvm use lts/*
+  && npm prune
+  && npm i
   && npx travis-deploy-once "npx semantic-release" ; fi
 branches:
   except:
