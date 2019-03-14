@@ -1,4 +1,4 @@
-VERSION := $(shell php -r 'include "registrars/ispapi/ispapi.php"; print $$ispapi_module_version;')
+VERSION := $(shell node -p "require('./release.json').version")
 REPOID := whmcs-ispapi-registrar
 FOLDER := pkg/$(REPOID)-$(VERSION)
 
