@@ -40,6 +40,3 @@ after_success:
   && npm prune
   && npm i
   && npx travis-deploy-once "npx semantic-release" ; fi
-branches:
-  except:
-  - "/^v\\d+\\.\\d+\\.\\d+$/"
