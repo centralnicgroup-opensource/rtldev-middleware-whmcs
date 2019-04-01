@@ -869,10 +869,10 @@ function ispapi_registrantmodification_tld($params)
                     "ADMINCONTACT0" => "Registrant",
             );
 
-        foreach ($map as $ctype => $ptype) {
-            if (isset($_POST["contactdetails"][$ptype])) {
-                $p = $_POST["contactdetails"][$ptype];
-                $command[$ctype] = array(
+            foreach ($map as $ctype => $ptype) {
+                if (isset($_POST["contactdetails"][$ptype])) {
+                    $p = $_POST["contactdetails"][$ptype];
+                    $command[$ctype] = array(
                         "FIRSTNAME" => html_entity_decode($p["First Name"], ENT_QUOTES),
                         "LASTNAME" => html_entity_decode($p["Last Name"], ENT_QUOTES),
                         "ORGANIZATION" => html_entity_decode($p["Company Name"], ENT_QUOTES),
@@ -884,29 +884,29 @@ function ispapi_registrantmodification_tld($params)
                         "PHONE" => html_entity_decode($p["Phone"], ENT_QUOTES),
                         "FAX" => html_entity_decode($p["Fax"], ENT_QUOTES),
                         "EMAIL" => html_entity_decode($p["Email"], ENT_QUOTES),
-                );
-                if (strlen($p["Address 2"])) {
-                    $command[$ctype]["STREET"] .= " , ".html_entity_decode($p["Address 2"], ENT_QUOTES);
+                    );
+                    if (strlen($p["Address 2"])) {
+                        $command[$ctype]["STREET"] .= " , ".html_entity_decode($p["Address 2"], ENT_QUOTES);
+                    }
                 }
             }
-        }
 
-        if (preg_match('/[.]se$/i', $domain)) {
-            //check if the checkbox has been checked.
-            if (!$_POST['se-checkbox'] == "on") {
-                $error = "Please confirm that you will send the form back to complete the process";
+            if (preg_match('/[.]se$/i', $domain)) {
+                //check if the checkbox has been checked.
+                if (!$_POST['se-checkbox'] == "on") {
+                    $error = "Please confirm that you will send the form back to complete the process";
+                }
             }
-        }
-        if (!$error) {
-            ispapi_use_additionalfields($params, $command);
-            $response = ispapi_call($command, ispapi_config($origparams));
+            if (!$error) {
+                ispapi_use_additionalfields($params, $command);
+                $response = ispapi_call($command, ispapi_config($origparams));
 
-            if ($response["CODE"] == 200) {
-                $successful = $response["DESCRIPTION"];
-            } else {
-                $error = $response["DESCRIPTION"];
+                if ($response["CODE"] == 200) {
+                    $successful = $response["DESCRIPTION"];
+                } else {
+                    $error = $response["DESCRIPTION"];
+                }
             }
-        }
     }
 
     return array(
