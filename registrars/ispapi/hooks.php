@@ -37,14 +37,14 @@ add_hook('DailyCronJob', 1, function ($vars) {
                     "APPLICATION" => $application_id
                  );
                  $response = ispapi_call($command, $ispapi_config);
-if ($response["PROPERTY"]["STATUS"][0] == "SUCCESSFUL") {
-    //echo $row["domain"]." > Status:".$response["PROPERTY"]["STATUS"][0];
-    mysql_query("UPDATE tbldomains SET status='Active' WHERE id=".$row["id"]);
-}
-if ($response["PROPERTY"]["STATUS"][0] == "FAILED") {
-      //echo $row["domain"]." > Status:".$response["PROPERTY"]["STATUS"][0];
-      mysql_query("UPDATE tbldomains SET status='Cancelled' WHERE id=".$row["id"]);
-}
+                if ($response["PROPERTY"]["STATUS"][0] == "SUCCESSFUL") {
+                    //echo $row["domain"]." > Status:".$response["PROPERTY"]["STATUS"][0];
+                    mysql_query("UPDATE tbldomains SET status='Active' WHERE id=".$row["id"]);
+                }
+                if ($response["PROPERTY"]["STATUS"][0] == "FAILED") {
+                      //echo $row["domain"]." > Status:".$response["PROPERTY"]["STATUS"][0];
+                      mysql_query("UPDATE tbldomains SET status='Cancelled' WHERE id=".$row["id"]);
+                }
             }
         }
     }
