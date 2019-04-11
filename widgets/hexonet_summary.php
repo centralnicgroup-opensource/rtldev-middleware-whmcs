@@ -17,10 +17,7 @@ function widget_hexonet_data($module)
     if ($d !== false) {
         $d = json_decode($d, true);
         $d["url"] = "https://github.com/hexonet/whmcs-ispapi-" . $module . "/raw/master/whmcs-ispapi-" . $module . "-latest.zip";
-        $d["imgurl"] = (
-            "https://raw.githubusercontent.com/hexonet/whmcs-ispapi-" . $module . "/master/module." .
-            (($module=="domainimport") ? "jpg" : "png")
-        );
+        $d["imgurl"] = "https://raw.githubusercontent.com/hexonet/whmcs-ispapi-" . $module . "/master/module.png";
         return $d;
     }
     return false;
