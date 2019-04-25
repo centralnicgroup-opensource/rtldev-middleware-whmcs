@@ -48,13 +48,9 @@
 	"require": {
 		"php": ">=5.6.0"
 	},
-	"require-dev": {
-		"phpunit/phpunit": "@stable",
-		"squizlabs/php_codesniffer": "^3.3"
-	},
 	"scripts": {
-		"codeCheck": "./vendor/bin/phpcs --standard=PSR2 -q -n --colors registrars widgets tests",
-		"codeFix": "./vendor/bin/phpcbf --standard=PSR2 -q registrars widgets tests",
-		"test": "./vendor/bin/phpunit"
+		"codeCheck": "phpcs --ignore=\"*/vendor/*\" --standard=PSR2 -q -n --colors registrars widgets tests",
+		"codeFix": "phpcbf --ignore=\"*/vendor/*\" --standard=PSR2 -q registrars widgets tests",
+		"test": "phpunit"
 	}
 }
