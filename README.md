@@ -57,6 +57,8 @@ This Repository covers the WHMCS Registrar Module of HEXONET. It provides the fo
 
 NOTE: We introduced sematic-release starting with v1.0.63. This is why older Release Versions do not appear in the [current changelog](https://github.com/hexonet/whmcs-ispapi-registrar/blob/master/HISTORY.md). But these versions appear in the [release overview](https://github.com/hexonet/whmcs-ispapi-registrar/releases) and in the [old changelog](https://github.com/hexonet/whmcs-ispapi-registrar/blob/master/HISTORY.old).
 
+**If you have any issue related to this module, please take a look at the FAQs [here](https://github.com/hexonet/whmcs-ispapi-registrar/wiki/FAQs). If you can't find help in the FAQs feel free to contact our support team.**
+
 ## Usage Guide ##
 
 Download the ZIP archive including the latest release version [here](https://github.com/hexonet/whmcs-ispapi-registrar/raw/master/whmcs-ispapi-registrar-latest.zip).
