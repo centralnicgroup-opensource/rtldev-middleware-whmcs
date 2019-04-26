@@ -49,8 +49,8 @@
 		"php": ">=5.6.0"
 	},
 	"scripts": {
-		"codeCheck": "phpcs --ignore=\"*/vendor/*\" --standard=PSR2 -q -n --colors registrars widgets tests",
-		"codeFix": "phpcbf --ignore=\"*/vendor/*\" --standard=PSR2 -q registrars widgets tests",
+		"codeCheck": "phpcs --ignore=\"*/vendor/*\" --standard=PSR2 -q -n --colors registrars tests",
+		"codeFix": "phpcbf --ignore=\"*/vendor/*\" --standard=PSR2 -q registrars tests",
 		"test": "phpunit"
 	}
 }
