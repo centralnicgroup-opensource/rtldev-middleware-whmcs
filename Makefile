@@ -9,13 +9,11 @@ buildsources:
 	# create archive folder structure
 	mkdir -p $(FOLDER)/docs
 	mkdir -p $(FOLDER)/install/modules/registrars
-	mkdir -p $(FOLDER)/install/modules/widgets
 	# clone repository wiki
 	rm -rf /tmp/$(REPOID)
 	git clone https://github.com/hexonet/$(REPOID).wiki.git /tmp/$(REPOID)
 	# Copy files (archive contents)
 	cp -a registrars/ispapi $(FOLDER)/install/modules/registrars
-	cp widgets/hexonet_summary.php $(FOLDER)/install/modules/widgets
 	cp README.md HISTORY.md HISTORY.old CONTRIBUTING.md LICENSE /tmp/$(REPOID)/*.md $(FOLDER)/docs
 	# Clean up files
 	rm -rf $(FOLDER)/docs/_*.md $(FOLDER)/docs/Home.md /tmp/$(REPOID)
