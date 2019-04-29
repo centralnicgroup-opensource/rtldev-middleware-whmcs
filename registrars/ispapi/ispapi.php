@@ -445,8 +445,8 @@ function ispapi_getConfigArray($params)
                 }
             }
 
-            //check ispapissl module version
-            $modules = array("ispapissl");
+            //check ispapissl and ispapipremiumdns modules version
+            $modules = array("ispapissl", "ispapipremiumdns");
             foreach ($modules as $module) {
                 $path = implode(DIRECTORY_SEPARATOR, array(ROOTDIR,"modules","servers",$module, "$module.php"));
                 if (file_exists($path)) {
