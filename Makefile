@@ -1,6 +1,7 @@
 VERSION := $(shell node -p "require('./release.json').version")
 REPOID := whmcs-ispapi-registrar
 FOLDER := pkg/$(REPOID)-$(VERSION)
+LIBFOLDER := $(FOLDER)/install/modules/registrars/ispapi/lib
 
 clean:
 	rm -rf $(FOLDER)
@@ -17,6 +18,7 @@ buildsources:
 	cp README.md HISTORY.md HISTORY.old CONTRIBUTING.md LICENSE /tmp/$(REPOID)/*.md $(FOLDER)/docs
 	# Clean up files
 	rm -rf $(FOLDER)/docs/_*.md $(FOLDER)/docs/Home.md /tmp/$(REPOID)
+	find $(LIBFOLDER) ! -name "*.class.php" -type f -exec rm -f {} \;
 	# convert all necessary files to html
 	find $(FOLDER)/docs -maxdepth 1 -name "*.md" -exec bash -c 'pandoc "$${0}" -f markdown -t html -s --self-contained -o "$${0/\.md/}.html"' {} \;
 	pandoc $(FOLDER)/docs/LICENSE -t html -s --self-contained -o $(FOLDER)/docs/LICENSE.html

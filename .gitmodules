@@ -1,0 +1,3 @@
+[submodule "registrars/ispapi/lib"]
+	path = registrars/ispapi/lib
+	url = git://github.com/hexonet/whmcs-ispapi-helper
