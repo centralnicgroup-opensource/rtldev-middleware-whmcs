@@ -53,7 +53,7 @@
     "@semantic-release/git": "7.0.8",
     "@semantic-release/github": "5.2.10",
     "conventional-changelog": "3.1.8",
-    "puppeteer": "1.14.0",
+    "puppeteer": "1.16.0",
     "semantic-release": "^15.13.12"
   },
   "release": {
