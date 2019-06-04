@@ -2763,7 +2763,7 @@ function ispapi_config($params)
         $config["entity"] = "1234";
     }
     if ($params["UseSSL"] == 1 || $params["UseSSL"] == "on") {
-        $config["url"] = "https://coreapi.1api.net/api/call.cgi";
+        $config["url"] = "https://api.ispapi.net/api/call.cgi";
     }
     if (strlen($params["ProxyServer"])) {
         $config["proxy"] = $params["ProxyServer"];
