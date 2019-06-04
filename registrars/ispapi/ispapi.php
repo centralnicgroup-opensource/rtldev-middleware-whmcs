@@ -5,7 +5,7 @@
  * @author HEXONET GmbH <support@hexonet.net>
  */
 
-$module_version = "1.7.4";
+$module_version = "1.7.3";
 
 use WHMCS\Domains\DomainLookup\ResultsList;
 use WHMCS\Domains\DomainLookup\SearchResult;
@@ -2754,16 +2754,17 @@ function ispapi_get_utf8_params($params)
 
 function ispapi_config($params)
 {
+    $hostname = "api.ispapi.net";
     $config = array();
     $config["registrar"] = $params["registrar"];
     $config["entity"] = "54cd";
-    $config["url"] = "http://api.ispapi.net/api/call.cgi";
+    $config["url"] = "http://" . $hostname . "/api/call.cgi";
     $config["idns"] = $params["ConvertIDNs"];
     if ($params["TestMode"] == 1 || $params["TestMode"] == "on") {
         $config["entity"] = "1234";
     }
     if ($params["UseSSL"] == 1 || $params["UseSSL"] == "on") {
-        $config["url"] = "https://api.ispapi.net/api/call.cgi";
+        $config["url"] = "https://" . $hostname . "/api/call.cgi";
     }
     if (strlen($params["ProxyServer"])) {
         $config["proxy"] = $params["ProxyServer"];
