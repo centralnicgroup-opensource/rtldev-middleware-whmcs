@@ -2814,7 +2814,6 @@ function ispapi_call_raw($command, $config)
 
     # Convert IDNs via API (if applicable)
     if (!$donotidnconvert) {
-        die();
         $new_command = array();
         foreach (explode("\n", $args["s_command"]) as $line) {
             if (preg_match('/^([^\=]+)\=(.*)/', $line, $m)) {
