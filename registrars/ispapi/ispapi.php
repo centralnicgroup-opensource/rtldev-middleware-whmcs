@@ -2796,16 +2796,32 @@ function ispapi_call_raw($command, $config)
     if (isset($config["entity"])) {
         $args["s_entity"] = $config["entity"];
     }
+    //new domainchecker exceptional code
+    //to skip below code for idn conversion as incoming DOMAIN# parameter is already in punycode
+    //necessary to not break the above _CheckAvailability method
+    //when we have reviewed all our modules we can move that integrated auto-idn-conversion below
+    //to the _CheckAvailability method probably
+    //--- BEGIN EXCEPTIONAL CODE ---
+    $donotidnconvert = false;
+    if (isset($command["SKIPIDNCONVERT"])) {
+        if ($command["SKIPIDNCONVERT"]==1) {
+            $donotidnconvert = true;
+        }
+        unset($command["SKIPIDNCONVERT"]);
+    }
     $args["s_command"] = ispapi_encode_command($command);
+    //--- END EXCEPTIONAL CODE ---
 
-    # Convert IDNs via API
-    if (1) {
+    # Convert IDNs via API (if applicable)
+    if (!$donotidnconvert) {
+        die();
         $new_command = array();
         foreach (explode("\n", $args["s_command"]) as $line) {
             if (preg_match('/^([^\=]+)\=(.*)/', $line, $m)) {
                 $new_command[strtoupper(trim($m[1]))] = trim($m[2]);
             }
         }
+        
         if (strtoupper($new_command["COMMAND"]) != "CONVERTIDN") {
             $replace = array();
             $domains = array();
@@ -2844,15 +2860,19 @@ function ispapi_call_raw($command, $config)
         $postfields[] = urlencode($key)."=".urlencode($value);
     }
     $postfields = implode('&', $postfields);
-    curl_setopt($config["curl"], CURLOPT_POST, 1);
-    curl_setopt($config["curl"], CURLOPT_POSTFIELDS, $postfields);
-    curl_setopt($config["curl"], CURLOPT_HEADER, 0);
-    curl_setopt($config["curl"], CURLOPT_RETURNTRANSFER, 1);
-    if (strlen($config["proxy"])) {
-        curl_setopt($config["curl"], CURLOPT_PROXY, $config["proxy"]);
-    }
-    curl_setopt($config["curl"], CURLOPT_USERAGENT, "ISPAPI/$ispapi_module_version WHMCS/".$GLOBALS["CONFIG"]["Version"]." PHP/".phpversion()." (".php_uname("s").")");
-    curl_setopt($config["curl"], CURLOPT_REFERER, $GLOBALS["CONFIG"]["SystemURL"]);
+    curl_setopt_array($config["curl"], array(
+        CURLOPT_POST            =>  1,
+        CURLOPT_POSTFIELDS      =>  $postfields,
+        CURLOPT_HEADER          =>  0,
+        CURLOPT_RETURNTRANSFER  =>  1,
+        CURLOPT_PROXY           => $config["proxy"],
+        CURLOPT_USERAGENT       => "ISPAPI/$ispapi_module_version WHMCS/".$GLOBALS["CONFIG"]["Version"]." PHP/".phpversion()." (".php_uname("s").")",
+        CURLOPT_REFERER         => $GLOBALS["CONFIG"]["SystemURL"],
+        CURLOPT_HTTPHEADER      => array(
+            'Expect:',
+            'Content-type: text/html; charset=UTF-8'
+        )
+    ));
     $response = curl_exec($config["curl"]);
 
     if (preg_match('/(^|\n)\s*COMMAND\s*=\s*([^\s]+)/i', $args["s_command"], $m)) {
