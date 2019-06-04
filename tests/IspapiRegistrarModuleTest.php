@@ -51,7 +51,7 @@ class IspapiRegistrarModuleTest extends TestCase
         $expected = array(
             "registrar" => "ispapi",
             "entity" => "1234",
-            "url" => "https://coreapi.1api.net/api/call.cgi",
+            "url" => "https://api.ispapi.net/api/call.cgi",
             "idns" => "API",
             "proxy" => "google.com",
             "login" => "test.user",
@@ -74,7 +74,7 @@ class IspapiRegistrarModuleTest extends TestCase
         $expected = array(
             "registrar" => "ispapi",
             "entity" => "1234",
-            "url" => "https://coreapi.1api.net/api/call.cgi",
+            "url" => "https://api.ispapi.net/api/call.cgi",
             "idns" => "API",
             "login" => "test.user",
             "password" => "test.passw0rd"
