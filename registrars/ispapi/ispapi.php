@@ -2497,25 +2497,35 @@ function ispapi_Sync($params)
     );
     $response = ispapi_call($command, ispapi_config($params));
     if ($response["CODE"] == 200) {
-        $status = $response["PROPERTY"]["STATUS"][0];
+        $response = $response["PROPERTY"];
+
+        $expirationdate = $response["EXPIRATIONDATE"][0];
+        $expirationts = strtotime($expirationdate);
+        $finalizationdate = $response["FINALIZATIONDATE"][0];
+        $paiduntildate = $response["PAIDUNTILDATE"][0];
+        $accountingdate = $response["ACCOUNTINGDATE"][0];
+        $failuredate = $response["FAILUREDATE"][0];
+        $status = $response["STATUS"][0];
+
         if (preg_match('/ACTIVE/i', $status)) {
             $values["active"] = true;
         } elseif (preg_match('/DELETE/i', $status)) {
-            $expirydate = preg_replace('/ .*/', '', $response["PROPERTY"]["EXPIRATIONDATE"][0]);
-            $values['expirydate'] = $expirydate;
+            $values['expirydate'] = preg_replace('/ .*/$', '', $expirationdate);
         }
 
-        if ($response["PROPERTY"]["FAILUREDATE"][0] > $response["PROPERTY"]["PAIDUNTILDATE"][0]) {
-            $paiduntildate = preg_replace('/ .*/', '', $response["PROPERTY"]["PAIDUNTILDATE"][0]);
-            $values['expirydate'] = $paiduntildate;
+        if ($failuredate > $paiduntildate) {
+            $values['expirydate'] = preg_replace('/ .*$/', '', $paiduntildate);
         } else {
-            $accountingdate = preg_replace('/ .*/', '', $response["PROPERTY"]["ACCOUNTINGDATE"][0]);
-            $values['expirydate'] = $accountingdate;
+            // https://github.com/hexonet/whmcs-ispapi-registrar/issues/82
+            $finalizationts = strtotime($finalizationdate);
+            $paiduntilts = strtotime($paiduntildate);
+            $values['expirydate'] = date("Y-m-d", $finalizationts + ($paiduntilts - $expirationts));
         }
-    } elseif ($response["CODE"] == 531) {
-        $values['transferredAway'] = (bool) true;
-    } elseif ($response["CODE"] == 545) {
-        $values['transferredAway'] = (bool) true;
+
+        // return if domain expired (if EXPIRATIONDATE is in the past)
+        $values['expired'] = gmmktime() > $expirationts;
+    } elseif ($response["CODE"] == 531 || $response["CODE"] == 545) {
+        $values['transferredAway'] = true;
     } else {
         $values["error"] = $response["DESCRIPTION"];
     }
