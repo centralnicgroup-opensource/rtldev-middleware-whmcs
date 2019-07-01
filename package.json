@@ -50,7 +50,7 @@
     "@semantic-release/changelog": "3.0.4",
     "@semantic-release/commit-analyzer": "6.2.0",
     "@semantic-release/exec": "3.3.5",
-    "@semantic-release/git": "7.0.14",
+    "@semantic-release/git": "7.0.15",
     "@semantic-release/github": "5.4.0",
     "conventional-changelog": "3.1.8",
     "puppeteer": "1.14.0",
