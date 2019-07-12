@@ -1309,7 +1309,8 @@ function ispapi_GetEPPCode($params)
 
     if ($response["CODE"] == 200) {
         if (strlen($response["PROPERTY"]["AUTH"][0])) {
-            $values["eppcode"] = htmlspecialchars($response["PROPERTY"]["AUTH"][0]);
+            //htmlspecialchars -> fixed in (#5070 @ 6.2.0 GA) / (#4166 @ 5.3.0)
+            $values["eppcode"] = $response["PROPERTY"]["AUTH"][0];
         } else {
             $values["error"] = "No AuthInfo code assigned to this domain!";
         }
@@ -1340,11 +1341,12 @@ function ispapi_GetNameservers($params)
     );
     $response = ispapi_call($command, ispapi_config($params));
     if ($response["CODE"] == 200) {
-        $values["ns1"] = htmlspecialchars($response["PROPERTY"]["NAMESERVER"][0]);
-        $values["ns2"] = htmlspecialchars($response["PROPERTY"]["NAMESERVER"][1]);
-        $values["ns3"] = htmlspecialchars($response["PROPERTY"]["NAMESERVER"][2]);
-        $values["ns4"] = htmlspecialchars($response["PROPERTY"]["NAMESERVER"][3]);
-        $values["ns5"] = htmlspecialchars($response["PROPERTY"]["NAMESERVER"][4]);
+        //no findings for htmlspecialchars in other registrar modules, looks like this got fixed
+        $values["ns1"] = $response["PROPERTY"]["NAMESERVER"][0];
+        $values["ns2"] = $response["PROPERTY"]["NAMESERVER"][1];
+        $values["ns3"] = $response["PROPERTY"]["NAMESERVER"][2];
+        $values["ns4"] = $response["PROPERTY"]["NAMESERVER"][3];
+        $values["ns5"] = $response["PROPERTY"]["NAMESERVER"][4];
     } else {
         $values["error"] = $response["DESCRIPTION"];
     }
@@ -2288,12 +2290,12 @@ function ispapi_TransferDomain($params)
 
     $response = ispapi_call($command, ispapi_config($origparams));
 
-    //Bug fix Issue WHMCS #4166
+    //Bug fix Issue WHMCS #4166 (fixed in 5.3.7)
     //############
-    if (preg_match('/Authorization failed/', $response["DESCRIPTION"]) && preg_match('/&#039;/', $origparams["transfersecret"])) {
-        $command["AUTH"] = htmlspecialchars_decode($origparams["transfersecret"], ENT_QUOTES);
-        $response = ispapi_call($command, ispapi_config($origparams));
-    }
+    //if (preg_match('/Authorization failed/', $response["DESCRIPTION"]) && preg_match('/&#039;/', $origparams["transfersecret"])) {
+    //    $command["AUTH"] = htmlspecialchars_decode($origparams["transfersecret"], ENT_QUOTES);
+    //    $response = ispapi_call($command, ispapi_config($origparams));
+    //}
     //############
 
     if (preg_match('/USERTRANSFER/', $response["DESCRIPTION"])) {
