@@ -537,7 +537,7 @@ function ispapi_ClientAreaCustomButtonArray($params)
     if ($data && ($data["idprotection"])) {
         $buttonarray["WHOIS Privacy"] = "whoisprivacy";
     }
-
+    
     if ($data && (preg_match('/[.]ca$/i', $data["domain"]))) {
         $buttonarray[".CA Registrant WHOIS Privacy"] = "whoisprivacy_ca";
     }
@@ -992,56 +992,49 @@ function ispapi_registrantmodification_ca($params)
     }
 
     if (isset($_POST["submit"])) {
-        if (isset($_POST["additionalfields"]["CIRA Agreement"])) {
-            //save
-            //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-            $command = array(
-                    "COMMAND" => "ModifyDomain",
-                    "DOMAIN" => $domain
-            );
+        //save
+        //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        $command = array(
+                "COMMAND" => "ModifyDomain",
+                "DOMAIN" => $domain
+        );
 
-            $map = array(
-                    "OWNERCONTACT0" => "Registrant",
-            );
+        $map = array(
+                "OWNERCONTACT0" => "Registrant",
+        );
 
-            foreach ($map as $ctype => $ptype) {
-                if (isset($_POST["contactdetails"][$ptype])) {
-                    $p = $_POST["contactdetails"][$ptype];
-                    $command[$ctype] = array(
-                            "FIRSTNAME" => html_entity_decode($p["First Name"], ENT_QUOTES),
-                            "LASTNAME" => html_entity_decode($p["Last Name"], ENT_QUOTES),
-                            "ORGANIZATION" => html_entity_decode($p["Company Name"], ENT_QUOTES),
-                            "STREET" => html_entity_decode($p["Address"], ENT_QUOTES),
-                            "CITY" => html_entity_decode($p["City"], ENT_QUOTES),
-                            "STATE" => html_entity_decode($p["State"], ENT_QUOTES),
-                            "ZIP" => html_entity_decode($p["Postcode"], ENT_QUOTES),
-                            "COUNTRY" => html_entity_decode($p["Country"], ENT_QUOTES),
-                            "PHONE" => html_entity_decode($p["Phone"], ENT_QUOTES),
-                            "FAX" => html_entity_decode($p["Fax"], ENT_QUOTES),
-                            "EMAIL" => html_entity_decode($p["Email"], ENT_QUOTES),
-                    );
-                    if (strlen($p["Address 2"])) {
-                        $command[$ctype]["STREET"] .= " , ".html_entity_decode($p["Address 2"], ENT_QUOTES);
-                    }
+        foreach ($map as $ctype => $ptype) {
+            if (isset($_POST["contactdetails"][$ptype])) {
+                $p = $_POST["contactdetails"][$ptype];
+                $command[$ctype] = array(
+                        "FIRSTNAME" => html_entity_decode($p["First Name"], ENT_QUOTES),
+                        "LASTNAME" => html_entity_decode($p["Last Name"], ENT_QUOTES),
+                        "ORGANIZATION" => html_entity_decode($p["Company Name"], ENT_QUOTES),
+                        "STREET" => html_entity_decode($p["Address"], ENT_QUOTES),
+                        "CITY" => html_entity_decode($p["City"], ENT_QUOTES),
+                        "STATE" => html_entity_decode($p["State"], ENT_QUOTES),
+                        "ZIP" => html_entity_decode($p["Postcode"], ENT_QUOTES),
+                        "COUNTRY" => html_entity_decode($p["Country"], ENT_QUOTES),
+                        "PHONE" => html_entity_decode($p["Phone"], ENT_QUOTES),
+                        "FAX" => html_entity_decode($p["Fax"], ENT_QUOTES),
+                        "EMAIL" => html_entity_decode($p["Email"], ENT_QUOTES),
+                );
+                if (strlen($p["Address 2"])) {
+                    $command[$ctype]["STREET"] .= " , ".html_entity_decode($p["Address 2"], ENT_QUOTES);
                 }
             }
+        }
+        $params["additionalfields"]["Legal Type"] = $_POST["additionalfields"]["Legal Type"];
+        $params["additionalfields"]["WHOIS Opt-out"] = $_POST["additionalfields"]["WHOIS Opt-out"];
 
-            $params["additionalfields"]["Legal Type"] = $_POST["additionalfields"]["Legal Type"];
-            $params["additionalfields"]["CIRA Agreement"] = $_POST["additionalfields"]["CIRA Agreement"];
-            $params["additionalfields"]["WHOIS Opt-out"] = $_POST["additionalfields"]["WHOIS Opt-out"];
+        ispapi_use_additionalfields($params, $command);
 
-            ispapi_use_additionalfields($params, $command);
+        $response = ispapi_call($command, ispapi_config($origparams));
 
-            $response = ispapi_call($command, ispapi_config($origparams));
-
-            if ($response["CODE"] == 200) {
-                $successful = $response["DESCRIPTION"];
-            } else {
-                $error = $response["DESCRIPTION"];
-            }
-            //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        if ($response["CODE"] == 200) {
+            $successful = $response["DESCRIPTION"];
         } else {
-            $error = "You have to accept the CIRA Agreement.";
+            $error = $response["DESCRIPTION"];
         }
     }
 
@@ -1049,7 +1042,6 @@ function ispapi_registrantmodification_ca($params)
     if (isset($_POST["submit"])) {
         $newvalues["Registrant"] = $_POST["contactdetails"]["Registrant"];
         $newvalues["Legal Type"] = $_POST["additionalfields"]["Legal Type"];
-        $newvalues["CIRA Agreement"] = $_POST["additionalfields"]["CIRA Agreement"];
         $newvalues["WHOIS Opt-out"] = $_POST["additionalfields"]["WHOIS Opt-out"];
         $values = $newvalues;
     }
@@ -1127,70 +1119,46 @@ function ispapi_whoisprivacy_ca($params)
     }
     $error = false;
     $domain = $params["sld"].".".$params["tld"];
-
     $protected = 1;
     $protectable = 0;
     $legaltype = "";
-
-    $command = array(
+    $apicfg = ispapi_config($params);
+    $r = ispapi_call(array(
         "COMMAND" => "StatusDomain",
         "DOMAIN" => $domain
-    );
-    $response = ispapi_call($command, ispapi_config($params));
-
-    if ($response["CODE"] == 200) {
-        $registrant = $response["PROPERTY"]["OWNERCONTACT"][0];
-        $command2 = array(
-            "COMMAND" => "StatusContact",
-            "CONTACT" => $registrant
-        );
-        $response2 = ispapi_call($command2, ispapi_config($params));
-        if ($response2["CODE"] == 200) {
-            if (isset($response2["PROPERTY"]["X-CA-DISCLOSE"]) && ($response2["PROPERTY"]["X-CA-DISCLOSE"][0])) {
-                $protected = 0;
-            }
-            if (isset($response2["PROPERTY"]["X-CA-LEGALTYPE"])) {
-                $legaltype = $response2["PROPERTY"]["X-CA-LEGALTYPE"][0];
-            }
-        } elseif (!$error) {
-            $error = $response2["DESCRIPTION"];
+    ), $apicfg);
+    if ($r["CODE"] == 200) {
+        $protected = (isset($r["PROPERTY"]["X-CA-DISCLOSE"]) && $r["PROPERTY"]["X-CA-DISCLOSE"][0])?0:1;//inverse logic???
+        $registrant = $r["PROPERTY"]["OWNERCONTACT"][0];
+        if (isset($r["PROPERTY"]["X-CA-LEGALTYPE"])) {
+            $legaltype = $r["PROPERTY"]["X-CA-LEGALTYPE"][0];
         }
-        if (isset($response["PROPERTY"]["X-CA-LEGALTYPE"])) {
-            $legaltype = $response["PROPERTY"]["X-CA-LEGALTYPE"][0];
-        }
-    } elseif (!$error) {
-        $error = $response["DESCRIPTION"];
+    } else {
+        $error = $r["DESCRIPTION"];
     }
-
     if (preg_match('/^(CCT|RES|ABO|LGR)$/i', $legaltype)) {
         $protectable = 1;
     }
-
     if (isset($_REQUEST["idprotection"])) {
-        $command3 = array(
-            "COMMAND" => "ModifyContact",
-            "CONTACT" => $registrant,
-            "X-CA-DISCLOSE" => ($_REQUEST["idprotection"] == 'enable')? '0' : '1'
-        );
-        $response3 = ispapi_call($command3, ispapi_config($params));
-        if ($response3["CODE"] == 200) {
-            // force immediate contact sync
-            $command4 = array(
-                "COMMAND" => "ModifyDomain",
-                "DOMAIN" => $domain,
-                "OWNERCONTACT0" => $registrant
-            );
-            $response4 = ispapi_call($command4, ispapi_config($params));
-
+        $r = ispapi_call(array(
+            "COMMAND" => "ModifyDomain",
+            "DOMAIN" => $domain,
+            "X-CA-DISCLOSE" => ($_REQUEST["idprotection"] == 'enable')? '0' : '1'//inverse logic???
+        ), $apicfg);
+        if ($r["CODE"] == 200) {
             return false;
         } else {
-            $error = $response3["DESCRIPTION"];
+            $error = $r["DESCRIPTION"];
         }
     }
-
     return array(
         'templatefile' => "whoisprivacy_ca",
-        'vars' => array('error' => $error, 'protected' => $protected, 'protectable' => $protectable, 'legaltype' => $legaltype ),
+        'vars' => array(
+            'error' => $error,
+            'protected' => $protected,
+            'protectable' => $protectable,
+            'legaltype' => $legaltype
+        )
     );
 }
 
@@ -1936,7 +1904,6 @@ function ispapi_SaveContactDetails($params)
 
         ispapi_query_additionalfields($params);
         ispapi_use_additionalfields($params, $command);
-        unset($command["OWNERCONTACT0X-CA-DISCLOSE"]);
         unset($command["X-CA-LEGALTYPE"]);
     }
 

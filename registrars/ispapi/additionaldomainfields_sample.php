@@ -198,42 +198,27 @@ $additionaldomainfields[".ca"][] = array(
         "Options" => "Corporation,Canadian Citizen,Permanent Resident of Canada,Government,Canadian Educational Institution,Canadian Unincorporated Association,Canadian Hospital,Partnership Registered in Canada,Trade-mark registered in Canada,Canadian Trade Union,Canadian Political Party,Canadian Library Archive or Museum,Trust established in Canada,Aboriginal Peoples,Legal Representative of a Canadian Citizen,Official mark registered in Canada",
         "Default" => "Corporation",
         "Description" => "Legal type of registrant contact",
-        "Ispapi-Name" => "X-CA-LEGALTYPE",
-        "Ispapi-Options" => "CCO,CCT,RES,GOV,EDU,ASS,HOP,PRT,TDM,TRD,PLT,LAM,TRS,ABO,LGR,OMK"
-);
-$additionaldomainfields[".ca"][] = array(
-        "Name" => "CIRA Agreement",
-        "LangVar" => "catldciraagreement",
-        "Type" => "tickbox",
-        "Description" => "Tick to confirm you agree to the CIRA Registration Agreement shown below<br /><blockquote>You have read, understood and agree to the terms and conditions of the Registrant Agreement, and that CIRA may, from time to time and at its discretion, amend any or all of the terms and conditions of the Registrant Agreement, as CIRA deems appropriate, by posting a notice of the changes on the CIRA website and by sending a notice of any material changes to Registrant. You meet all the requirements of the Registrant Agreement to be a Registrant, to apply for the registration of a Domain Name Registration, and to hold and maintain a Domain Name Registration, including without limitation CIRA's Canadian Presence Requirements for Registrants, at: www.cira.ca/assets/Documents/Legal/Registrants/CPR.pdf. CIRA will collect, use and disclose your personal information, as set out in CIRA's Privacy Policy, at: www.cira.ca/assets/Documents/Legal/Registrants/privacy.pdf</blockquote>",
         "Required" => true,
-        "Ispapi-Name" => "X-CA-ACCEPT-AGREEMENT-VERSION",
-        "Ispapi-Eval" => 'if ( $value ) { $value = "2.0"; } else { $value = ""; }'
-);
-$additionaldomainfields[".ca"][] = array(
-        "Name" => "WHOIS Opt-out",
-        "LangVar" => "catldwhoisoptout",
-        "Type" => "tickbox",
-        "Description" => "Tick to hide your contact information in CIRA WHOIS (only available to individuals)",
-        "Ispapi-Name" => "OWNERCONTACT0X-CA-DISCLOSE",
-        "Ispapi-Eval" => 'if ( $value ) { $value = "0"; } else { $value = "1"; }'
-);
-$additionaldomainfields[".ca"][] = array(
-        "Name" => "Trademark Number",
-        "Type" => "text",
-        "Size" => "50",
-        "Default" => "",
-        "Required" => false,
-        "Ispapi-Name" => "X-CA-DOMAIN-TRADEMARK",
-        "Ispapi-Eval" => 'if ( $value ) { $value = "Y"; } else { $value = "N"; }'
+        "Ispapi-Name" => "X-CA-LEGALTYPE",
+        "Ispapi-Options" => "CCO,CCT,RES,GOV,EDU,ASS,HOP,PRT,TDM,TRD,PLT,LAM,TRS,ABO,LGR,OMK,MAJ"
 );
 $additionaldomainfields[".ca"][] = array(
         "Name" => "Contact Language",
         "Type" => "dropdown",
         "Options" => "English,French",
         "Default" => "English",
+        "Required" => true,
         "Ispapi-Name" => "X-CA-LANGUAGE",
         "Ispapi-Options" => "EN,FR"
+);
+$additionaldomainfields['.ca'][] = array('Name' => 'CIRA Agreement', "Remove" => true);
+$additionaldomainfields[".ca"][] = array(
+        "Name" => "WHOIS Opt-out",
+        "LangVar" => "catldwhoisoptout",
+        "Type" => "tickbox",
+        "Description" => "Tick to hide your contact information in CIRA WHOIS (only available to individuals)",
+        "Ispapi-Name" => "X-CA-DISCLOSE",
+        "Ispapi-Eval" => 'if ( $value ) { $value = "0"; } else { $value = "1"; }'
 );
 
 
