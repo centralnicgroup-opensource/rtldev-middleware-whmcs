@@ -3,6 +3,28 @@
 use WHMCS\View\Menu\Item as MenuItem;
 
 /*
+ * Autofill VAT-ID additional domain field
+ * if the client contact details contain the VAT-ID, the VAT-ID fields are autofilled during domain registrations.
+ */
+add_hook('ClientAreaHeadOutput', 1, function ($vars) {
+    $vatid = $vars['clientsdetails']['tax_id'];
+
+    if ($vatid) {
+        return <<<HTML
+            <script type="text/javascript">
+                $(document).ready(function () {
+                    $('#frmConfigureDomains .row .col-sm-4').each(function () {
+                        if($(this).text().match(/VAT ID|VATID/i)){
+                            $(this).siblings().children(':input').val('$vatid');
+                        }
+                    });
+                });
+            </script>
+HTML;
+    }
+});
+
+/*
  * ONLY FOR .SWISS
  * saves the .swiss application ID in the admin note
  */
