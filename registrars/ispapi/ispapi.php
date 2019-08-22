@@ -417,7 +417,10 @@ function ispapi_getConfigArray($params)
 
         $response = ispapi_call($command, ispapi_config($params));
         $mode_text = ($params["TestMode"]=="on") ? "to OT&E environment" : "to PRODUCTION environment";
-        $state = ($response["CODE"] == 200) ? "<div style='color:white;font-weight:bold;background-color:green;padding:3px;width:400px;text-align:center;'>Connected ".$mode_text."</div>" : "<div style='color:white;font-weight:bold;background-color:red;padding:3px;width:400px;text-align:center;'>Disconnected (Verify Username and Password)</div>";
+        $state = ($response["CODE"] == 200) ?
+            "<div style='color:white;font-weight:bold;background-color:green;padding:3px;width:400px;text-align:center;'>Connected ".$mode_text."</div>" :
+            "<div style='color:white;font-weight:bold;background-color:red;padding:3px;width:400px;text-align:center;'>Disconnected (Verify Username and Password)<br/>".$response["CODE"]." " .$response["DESCRIPTION"]."</div>";
+
         $configarray[""] = array( "Description" => $state );
     }
 
@@ -2901,7 +2904,7 @@ function ispapi_parse_response($response)
     $hash = array(
         "PROPERTY" => array(),
         "CODE" => "423",
-        "DESCRIPTION" => "Empty response from API"
+        "DESCRIPTION" => "Empty response from API. Possibly a connection error as of unreachable API end point."
     );
     if (!$response) {
         return $hash;
