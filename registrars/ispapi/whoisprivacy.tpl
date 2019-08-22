@@ -2,7 +2,6 @@
     {include file="$template/$registrar/whoisprivacy.tpl"}
 {else}
     {assign var="img_logo" value="modules/registrars/$registrar/images/whoistrustee_logo.gif"}
-    {assign var="img_example" value="modules/registrars/$registrar/images/whoistrustee_full.png"}
     {if file_exists($img_logo)}
         <img src='{$img_logo}' />
         <!--<h3>{$domain}</h3>-->
@@ -18,12 +17,10 @@
 
     <p><br>
     <h4>Why WHOIS Privacy is important</h4>
-    Domain name registrations requires contact information be provided for storage and display in the public WHOIS database. This means that anyone in the world can view the name, address, phone number and email without restriction. Publicly making this information available puts domain owners at a risk for spam and potential identity theft. Our WHOIS Privacy service securely replaces all of this information, and completely shields all WHOIS data from the outside world.
+    Domain name registration requires personal contact information be provided for permanent storage managed by third party servers for WHOIS. This means that your name, address, phone number and email is recorded and held by third parties without restriction. Our WHOIS Privacy service securely replaces all of this information and completely shields all WHOIS data from all third parties.
     </p><br>
 
     <div style="text-align:center;">
-        {if file_exists($img_example)}<img src='{$img_example}' />{else}&nbsp;{/if}
-        <br><br>
         <h4>WHOIS Privacy Status:</h4>
 
         {if $protected}
