@@ -10,6 +10,10 @@ $module_version = "1.10.0";
 use WHMCS\Domains\DomainLookup\ResultsList;
 use WHMCS\Domains\DomainLookup\SearchResult;
 use WHMCS\Module\Registrar\Registrarmodule\ApiClient;
+use WHMCS\Module\Server;
+use WHMCS\Module\Addon;
+use WHMCS\Module\Widget;
+use WHMCS\Module\Addon\Setting;
 use WHMCS\Database\Capsule;
 
 /**
@@ -431,30 +435,48 @@ function ispapi_getConfigArray($params)
 
         if (!$included) {
             $included = true;
-            $date = new DateTime("now", new DateTimeZone('UTC'));
-            $hostname = $_SERVER["HTTP_HOST"];
-            $values = array("whmcs" => $params["whmcsVersion"],
-                            "updated_date" => $date->format('Y-m-d H:i:s')." (UTC)",
-                            "ispapiwhmcs" => $version,
+            $values = array(
+                "whmcs" => $params["whmcsVersion"],
+                "updated_date" =>  (new DateTime("now", new DateTimeZone('UTC')))->format('Y-m-d H:i:s')." (UTC)",
+                "ispapiwhmcs" => $version,
+                "phpversion" => phpversion(),
+                "os" => php_uname("s")
             );
 
-            //check ispapi modules version
-            $modules = array("ispapidomaincheck", "ispapibackorder", "ispapidpi");
-            foreach ($modules as $module) {
-                $path = implode(DIRECTORY_SEPARATOR, array(ROOTDIR,"modules","addons",$module, "$module.php"));
-                if (file_exists($path)) {
-                    require_once $path;
-                    $values[$module] = $module_version;
+            // get addon module versions
+            global $CONFIG;
+            $activemodules = array_filter(explode(",", $CONFIG["ActiveAddonModules"]));
+            $addon = new WHMCS\Module\Addon();
+            foreach ($addon->getList() as $module) {
+                if (in_array($module, $activemodules) && preg_match("/^ispapi/i", $module) && !preg_match("/\_addon$/i", $module)) {
+                    $d = WHMCS\Module\Addon\Setting::module($module)->pluck("value", "setting");
+                    $values[$module] = $d["version"];
                 }
             }
 
-            //check ispapissl and ispapipremiumdns modules version
-            $modules = array("ispapissl", "ispapipremiumdns");
-            foreach ($modules as $module) {
-                $path = implode(DIRECTORY_SEPARATOR, array(ROOTDIR,"modules","servers",$module, "$module.php"));
-                if (file_exists($path)) {
-                    require_once $path;
-                    $values[$module] = $module_version;
+            // get server module versions
+            $server = new WHMCS\Module\Server();
+            foreach ($server->getList() as $module) {
+                if (preg_match("/^ispapi/i", $module)) {
+                    $server->load($module);
+                    $v = $server->getMetaDataValue("MODULEVersion");
+                    $values[$module] = empty($v) ? "old" : $v;
+                }
+            }
+
+            // get widget module versions
+            $widget = new WHMCS\Module\Widget();
+            foreach ($widget->getList() as $module) {
+                if (preg_match("/^ispapi/i", $module)) {
+                    $widget->load($module);
+                    $tmp = explode("_", $module);
+                    $widgetClass = "\\ISPAPI\\" . ucfirst($tmp[0]) . ucfirst($tmp[1]) . "Widget";
+                    $mname=$tmp[0]."widget".$tmp[1];
+                    if (class_exists($widgetClass) && defined("$widgetClass::VERSION")) {
+                        $values[$mname] = $widgetClass::VERSION;
+                    } else {
+                        $values[$mname] = "n/a";
+                    }
                 }
             }
 
@@ -463,12 +485,12 @@ function ispapi_getConfigArray($params)
             );
             $i=0;
             foreach ($values as $key => $value) {
-                $command["ENVIRONMENTKEY$i"] = "middleware/whmcs/".$hostname;
+                $command["ENVIRONMENTKEY$i"] = "middleware/whmcs/".$_SERVER["HTTP_HOST"];
                 $command["ENVIRONMENTNAME$i"] = $key;
                 $command["ENVIRONMENTVALUE$i"] = $value;
                 $i++;
             }
-            $response = ispapi_call($command, ispapi_config($params));
+            ispapi_call($command, ispapi_config($params));
         }
     }
     return $configarray;
