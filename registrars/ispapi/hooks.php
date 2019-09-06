@@ -79,13 +79,14 @@ add_hook('DailyCronJob', 1, function ($vars) {
  * remove 'Registrar Lock' option and error message (on 'overview') on client area domain details page.
  */
 add_hook('ClientAreaPageDomainDetails', 1, function ($vars) {
-    if (file_exists(dirname(__FILE__)."/ispapi.php")) {
-        require_once(dirname(__FILE__)."/ispapi.php");
+
+    $domain          = Menu::context('domain');
+    $this_domain     = $domain->domain;
+    $this_registrar  = $domain->registrar;//ispapi
+        
+    if ($this_registrar == "ispapi") {
         $registrarconfigoptions = getregistrarconfigoptions("ispapi");
         $ispapi_config = ispapi_config($registrarconfigoptions);
-
-        $domain          = Menu::context('domain');
-        $this_domain     = $domain->domain;
 
         $commandQueryDomainList = array(
             "COMMAND" => "QueryDomainList",
@@ -94,13 +95,13 @@ add_hook('ClientAreaPageDomainDetails', 1, function ($vars) {
         );
         $responseQueryDomainList = ispapi_call($commandQueryDomainList, $ispapi_config);
 
-        if (($responseQueryDomainList['CODE'] == 200) && ($responseQueryDomainList['PROPERTY']['DOMAINTRANSFERLOCK'][0] == "")) {
+        if (($responseQueryDomainList['CODE'] == 200) && ($responseQueryDomainList['PROPERTY']['DOMAINTRANSFERLOCK'] && $responseQueryDomainList['PROPERTY']['DOMAINTRANSFERLOCK'][0] == "")) {
             $vars['managementoptions']['locking'] = false;
             $vars['lockstatus'] = false;
 
             if (!is_null($vars['primarySidebar']->getChild('Domain Details Management'))) {
                 $vars['primarySidebar']->getChild('Domain Details Management')
-                                       ->removeChild('Registrar Lock Status');
+                                        ->removeChild('Registrar Lock Status');
             }
         }
 
