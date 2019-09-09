@@ -47,12 +47,12 @@
     "application"
   ],
   "devDependencies": {
-    "@semantic-release/changelog": "3.0.4",
-    "@semantic-release/commit-analyzer": "6.2.0",
-    "@semantic-release/exec": "3.3.6",
-    "@semantic-release/git": "7.0.16",
-    "@semantic-release/github": "5.4.3",
-    "conventional-changelog": "3.1.10",
+    "@semantic-release/changelog": "^3.0.4",
+    "@semantic-release/commit-analyzer": "^6.2.0",
+    "@semantic-release/exec": "^3.3.6",
+    "@semantic-release/git": "^7.0.16",
+    "@semantic-release/github": "^5.4.3",
+    "conventional-changelog": "^3.1.10",
     "puppeteer": "1.14.0",
     "semantic-release": "^15.13.18"
   },
