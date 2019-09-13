@@ -8,15 +8,6 @@ notifications:
     - tseelamkurthi@hexonet.net
     on_success: never
     on_failure: always
-  slack:
-    rooms:
-      secure: yvrM9kg0ybTzsLZRvNqc/rQN8sW6hiAyqxUhjsx3wOUmD5nLcuCX723EBqF59OzvY7NeZTuzlo9s/dLmRa7rs0MpeVM6KMrgvxsBSTjhzt5q2uR0ajpM2hPkziZ9VCKL7wgn9V6okiyP+AxPb9xOa5c/JY6kv8RjqrUAmPnrnX+AFwstNb8GRrZijFNulyu69GMNBqEnImRb7XgbIobMuCuezAXMV/rgRv0NRGS2wp7xg7G/t5m2+iLeECgZtZTOXuHzneaAUolbxBWnhd9YmpwjDYxb1MEjeoDGGIrwepeDpt0CiEh1CK43NeD/9togaLwBM3Cy116A3wIdFKItUClbI9cXwmVK+TmrrIr8p3MftyXjJFHNFBPpemL7MxTxEbCilUVIwHfHKyJNr0gh12uZS6ohyqNyR+2M40enLW56ydSoZqMqZ8GSVBb0IAXQ1pQ6woxpivoPk5C/smmwq6Bxq2VdSESjQngn+FnP0RZ/wq6De4zDHi0eNf0HzdN7ZXjIYe5s9v/XQBn2O0i92bxKdUTYu8v3Mp10nLAVBq5Ika2BDxhOnreiMifi5h1f14UMAtbtUAgLvnXGv3KnPajEbs2aIocIKhN9wKYuV9dMnfv/L9j2btC8LgTap1IkoMlE7h7DAro1ikZQZgTscaRLlVeGeevWWOE1bbgVNcM=
-    on_success: always
-    on_failure: always
-cache:
-  directories:
-  - "~/.npm"
-  - node_modules
 php:
 - 5.6
 - 7.2

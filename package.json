@@ -20,10 +20,6 @@
       "url": "https://github.com/papakai"
     },
     {
-      "name": "Anthony Schneider",
-      "url": "https://github.com/anthonyschn"
-    },
-    {
       "name": "Tulasi Seelamkurthi",
       "url": "https://github.com/tulsi91"
     }
@@ -53,8 +49,8 @@
     "@semantic-release/git": "^7.0.16",
     "@semantic-release/github": "^5.4.3",
     "conventional-changelog": "^3.1.10",
-    "puppeteer": "1.14.0",
-    "semantic-release": "^15.13.18"
+    "semantic-release": "^15.13.18",
+    "semantic-release-whmcs": "^1.0.4"
   },
   "release": {
     "debug": false,
@@ -67,7 +63,8 @@
     "verifyConditions": [
       "@semantic-release/changelog",
       "@semantic-release/git",
-      "@semantic-release/github"
+      "@semantic-release/github",
+      "semantic-release-whmcs"
     ],
     "prepare": [
       {
@@ -109,14 +106,7 @@
           }
         ]
       },
-      {
-        "path": "@semantic-release/exec",
-        "cmd": "node whmcsmarketplace.js ${nextRelease.version} \"${nextRelease.notes}\""
-      },
-      {
-        "path": "@semantic-release/exec",
-        "cmd": "./rebaseDevBranch.sh next"
-      }
+      "semantic-release-whmcs"
     ]
   }
 }
