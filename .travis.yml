@@ -3,9 +3,7 @@ dist: xenial
 notifications:
   email:
     recipients:
-    - kschwarz@hexonet.net
-    - anthonys@hexonet.net
-    - tseelamkurthi@hexonet.net
+    - middleware@hexonet.net
     on_success: never
     on_failure: always
 php:
@@ -21,14 +19,22 @@ branches:
     - /^dependabot.*$/
 before_install:
   - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
-  - travis_retry wget https://github.com/jgm/pandoc/releases/download/2.6/pandoc-2.6-1-amd64.deb
-  - sudo dpkg -i pandoc-2.6-1-amd64.deb
+  - export TRAVIS_NODE_VERSION="lts/*"
+addons:
+  apt:
+    update: true
 install:
-  - travis_retry composer install
+  - wget https://github.com/jgm/pandoc/releases/download/2.7.3/pandoc-2.7.3-1-amd64.deb
+  - sudo dpkg -i pandoc-2.7.3-1-amd64.deb
+  - rm -rf ~/.nvm
+  - git clone https://github.com/creationix/nvm.git ~/.nvm
+  - (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`)
+  - source ~/.nvm/nvm.sh
+  - nvm install $TRAVIS_NODE_VERSION
   - travis_retry composer global require squizlabs/php_codesniffer
 script:
-  - composer run-script test
-  - composer run-script codeCheck
+  - npm test
+  - npm run codeCheck
 jobs:
   include:
     - stage: release

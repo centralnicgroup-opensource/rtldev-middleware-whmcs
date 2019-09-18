@@ -43,70 +43,12 @@
     "application"
   ],
   "devDependencies": {
-    "@semantic-release/changelog": "^3.0.4",
-    "@semantic-release/commit-analyzer": "^6.2.0",
-    "@semantic-release/exec": "^3.3.6",
-    "@semantic-release/git": "^7.0.16",
-    "@semantic-release/github": "^5.4.3",
-    "conventional-changelog": "^3.1.10",
     "semantic-release": "^15.13.18",
-    "semantic-release-whmcs": "^1.0.4"
+    "@hexonet/semantic-release-github-whmcs-config": "^1.0.0"
   },
-  "release": {
-    "debug": false,
-    "analyzeCommits": {
-      "preset": "angular"
-    },
-    "generateNotes": {
-      "preset": "angular"
-    },
-    "verifyConditions": [
-      "@semantic-release/changelog",
-      "@semantic-release/git",
-      "@semantic-release/github",
-      "semantic-release-whmcs"
-    ],
-    "prepare": [
-      {
-        "path": "@semantic-release/changelog",
-        "changelogFile": "HISTORY.md"
-      },
-      {
-        "path": "@semantic-release/exec",
-        "cmd": "./updateVersion.sh ${nextRelease.version} ${options.branch}"
-      },
-      {
-        "path": "@semantic-release/exec",
-        "cmd": "make allarchives"
-      },
-      {
-        "path": "@semantic-release/git",
-        "assets": [
-          "HISTORY.md",
-          "package.json",
-          "composer.json",
-          "registrars/ispapi/ispapi.php",
-          "whmcs-ispapi-registrar-latest.zip",
-          "release.json"
-        ],
-        "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
-      }
-    ],
-    "publish": [
-      {
-        "path": "@semantic-release/github",
-        "assets": [
-          {
-            "label": "WHMCS Module (zip)",
-            "path": "pkg/whmcs-ispapi-registrar.zip"
-          },
-          {
-            "label": "WHMCS Module (tar.gz)",
-            "path": "pkg/whmcs-ispapi-registrar.tar.gz"
-          }
-        ]
-      },
-      "semantic-release-whmcs"
-    ]
+  "scripts": {
+    "codeCheck": "phpcs --ignore=\"*/vendor/*\" --standard=PSR2 -q -n --colors registrars tests",
+    "codeFix": "phpcbf --ignore=\"*/vendor/*\" --standard=PSR2 -q registrars tests",
+    "test": "phpunit"
   }
 }
