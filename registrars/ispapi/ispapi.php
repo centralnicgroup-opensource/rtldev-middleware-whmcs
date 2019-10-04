@@ -15,6 +15,8 @@ use WHMCS\Module\Addon;
 use WHMCS\Module\Widget;
 use WHMCS\Module\Addon\Setting;
 use WHMCS\Database\Capsule;
+use WHMCS\Domain\Registrar\Domain;
+use WHMCS\Carbon;
 
 /**
  * Check the availability of domains using HEXONET's fast API
@@ -406,6 +408,7 @@ function ispapi_getConfigArray($params)
             "ConvertIDNs" => array( "Type" => "dropdown", "Options" => "API,PHP", "Default" => "API", "Description" => "Use API or PHP function (idn_to_ascii)" ),
             "DNSSEC" => array( "Type" => "yesno", "Description" => "Display the DNSSEC Management functionality in the domain details" ),
             "TRANSFERLOCK" => array( "Type" => "yesno", "Description" => "Locks automatically a domain after a new registration" ),
+            "IRTP" => array( "Type" => "radio", "Options" => "Check to use IRTP feature from our API., Check to act as Designated Agent for all contact changes. Ensure you understand your role and responsibilities before checking this option.", "Default" => "Check to use IRTP feature from our API.", "Description" => "General info about IRTP can be found <a target='blank_' href='https://wiki.hexonet.net/wiki/IRTP'>here</a>. Documentation about option one can be found <a target='blank_' href='https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#option-one'>here</a> and option two <a target='blank_' href='https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#option-two'>here</a>"),
     );
     if (!function_exists('idn_to_ascii')) {
         $configarray["ConvertIDNs"] = array( "Type" => "dropdown", "Options" => "API", "Default" => "API", "Description" => "Use API (PHP function idn_to_ascii not available)" );
@@ -1253,6 +1256,149 @@ function ispapi_SaveRegistrarLock($params)
 }
 
 /**
+ * Return true if the TLD is affected by the IRTP
+ *
+ * @param array $params common module parameters
+ *
+ * @return array $values - returns true
+ */
+function ispapi_IsAfectedByIRTP($domain, $params)
+{
+    $command = array(
+        "COMMAND" => "QueryDomainOptions",
+        "DOMAIN0" => $domain
+    );
+    $response = ispapi_call($command, ispapi_config($params));
+    return ($response['PROPERTY']['ZONEPOLICYREGISTRANTNAMECHANGEBY'] && $response['PROPERTY']['ZONEPOLICYREGISTRANTNAMECHANGEBY'][0] === 'ICANN-TRADE');
+}
+/**
+ * Returns domain's information
+ *
+ * @param array $params common module parameters
+ *
+ * @return array $values - returns true
+ */
+function ispapi_GetDomainInformation($params)
+{
+    $values = array();
+    $origparams = $params;
+    $params = ispapi_get_utf8_params($params);
+    if (isset($params["original"])) {
+        $params = $params["original"];
+    }
+    $domain = $params["sld"].".".$params["tld"];
+
+    $command = array(
+        "COMMAND" => "StatusDomain",
+        "DOMAIN" => $domain
+    );
+    $response = ispapi_call($command, ispapi_config($params));
+
+    if ($response["CODE"] == 200) {
+        //setIrtpTransferLock
+        if (isset($response["PROPERTY"]["TRADE-TRANSFERLOCK-EXPIRATIONDATE"]) && isset($response["PROPERTY"]["TRADE-TRANSFERLOCK-EXPIRATIONDATE"][0])) {
+            $values['setIrtpTransferLock'] = true;
+        }
+
+        //code optimization on getting nameservers and transferLock setting (applicable since WHMCS 7.6)
+        //we kept the GetNameservers() GetRegistrarLock() for the users with < WHMCS 7.6
+        //nameservers
+        //no findings for htmlspecialchars in other registrar modules, looks like this got fixed
+        for ($i = 1; $i <= 5; $i++) {
+            $values['nameservers']['ns'.$i] = $response["PROPERTY"]["NAMESERVER"][$i-1];
+        }
+        
+        //transferlock settings
+        $values['transferlock'] = "";
+        if (isset($response["PROPERTY"]["TRANSFERLOCK"])) {
+            if ($response["PROPERTY"]["TRANSFERLOCK"][0] == "1") {
+                $values['transferlock'] = "locked";
+            }
+        }
+    }
+
+    //IRTP handling
+    $isAfectedByIRTP = ispapi_IsAfectedByIRTP($domain, $params);
+    if (preg_match('/Designated Agent/', $params['IRTP']) && $isAfectedByIRTP) {
+        //setIsIrtpEnabled
+        $values['setIsIrtpEnabled'] = true;
+
+        //check if registrant change has been requested
+        $command = array(
+            "COMMAND" => "StatusDomainTrade",
+            "DOMAIN" => $domain
+        );
+        $statusDomainTrade_response = ispapi_call($command, ispapi_config($params));
+
+        //setDomainContactChangePending
+        $command = array(
+            "COMMAND" => "QueryDomainPendingRegistrantVerificationList",
+            "DOMAIN" => $domain
+        );
+        $response = ispapi_call($command, ispapi_config($params));
+        if ($response["CODE"] == 200) {
+            if ($statusDomainTrade_response["CODE"] == 200) {
+                if (isset($response["PROPERTY"]["X-REGISTRANT-VERIFICATION-STATUS"]) && ($response["PROPERTY"]["X-REGISTRANT-VERIFICATION-STATUS"][0] == 'PENDING' || $response["PROPERTY"]["X-REGISTRANT-VERIFICATION-STATUS"][0] == 'OVERDUE')) {
+                    $values['setDomainContactChangePending'] = true;
+                    //setPendingSuspension
+                    $values['setPendingSuspension'] = true;
+                }
+            }
+            //setDomainContactChangeExpiryDate
+            if (isset($response["PROPERTY"]["X-REGISTRANT-VERIFICATION-DUEDATE"]) && isset($response["PROPERTY"]["X-REGISTRANT-VERIFICATION-DUEDATE"][0])) {
+                $setDomainContactChangeExpiryDate = preg_replace('/ .*/', '', $response["PROPERTY"]["X-REGISTRANT-VERIFICATION-DUEDATE"][0]);
+                $values['setDomainContactChangeExpiryDate'] = trim($setDomainContactChangeExpiryDate);
+            }
+        }
+    }
+    
+    return (new Domain)
+        ->setNameservers($values['nameservers'])
+        ->setTransferLock($values['transferlock'])
+        ->setIsIrtpEnabled($values['setIsIrtpEnabled'])
+        ->setIrtpTransferLock($values['setIrtpTransferLock'])
+        ->setDomainContactChangePending($values['setDomainContactChangePending'])
+        ->setPendingSuspension($values['setPendingSuspension'])
+        ->setDomainContactChangeExpiryDate($values['setDomainContactChangeExpiryDate'] ? Carbon::createFromFormat('!Y-m-d', $values['setDomainContactChangeExpiryDate']) : null)
+        ->setIrtpVerificationTriggerFields(
+            [
+                'Registrant' => [
+                    'First Name',
+                    'Last Name',
+                    'Organization Name',
+                    'Email',
+                ],
+            ]
+        );
+}
+/**
+ * Resend verification email
+ *
+ * @param array $params common module parameters
+ *
+ * @return array returns success or error
+ */
+function ispapi_ResendIRTPVerificationEmail($params)
+{
+    //perform API call to initiate resending of the IRTP Verification Email
+    $success = true;
+    $errorMessage = '';
+    $domain = $params["sld"].".".$params["tld"];
+    $command = array(
+        "COMMAND" => "ResendDomainTransferConfirmationEmails",
+        "DOMAIN" => $domain
+    );
+    $response = ispapi_call($command, ispapi_config($params));
+    
+    if ($response["CODE"] == 200) {
+        return ['success' => true];
+    } else {
+        $errorMessage = $response["DESCRIPTION"];
+        return ['error' => $errorMessage];
+    }
+}
+
+/**
  * Return the authcode of a domain name
  *
  * @param array $params common module parameters
@@ -1820,10 +1966,41 @@ function ispapi_SaveContactDetails($params)
 
     $domain = $params["sld"].".".$params["tld"];
 
-    $command = array(
-        "COMMAND" => "ModifyDomain",
+    $status_command = array(
+        "COMMAND" => "StatusDomain",
         "DOMAIN" => $domain
     );
+    $status_response = ispapi_call($status_command, ispapi_config($origparams));
+    if ($status_response["CODE"] != 200) {
+        $values["error"] = $status_response["DESCRIPTION"];
+        return $values;
+    }
+    $isAfectedByIRTP = ispapi_IsAfectedByIRTP($domain, $params);
+    $registrant = ispapi_get_contact_info($status_response["PROPERTY"]["OWNERCONTACT"][0], $params);
+    if (isset($params["contactdetails"]["Registrant"])) {
+        $new_registrant = $params["contactdetails"]["Registrant"];
+    }
+    
+    //the following conditions must be true to trigger registrant change request (IRTP)
+    if (preg_match('/Designated Agent/', $params["IRTP"]) && $isAfectedByIRTP && ($registrant['First Name'] != $new_registrant['First Name'] || $registrant['Last Name'] != $new_registrant['Last Name'] || $registrant['Company Name'] != $new_registrant['Company Name'] || $registrant['Email'] != $new_registrant['Email'])) {
+        $command = array(
+            "COMMAND" => "TradeDomain",
+            "DOMAIN" => $domain,
+            "OWNERCONTACT0" => $new_registrant,
+            "X-CONFIRM-DA-OLD-REGISTRANT" => 1,
+            "X-CONFIRM-DA-NEW-REGISTRANT" => 1,
+        );
+        if ($params["irtpOptOut"]) {
+            $command["X-REQUEST-OPT-OUT-TRANSFERLOCK"] = 1;
+        } else {
+            $command["X-REQUEST-OPT-OUT-TRANSFERLOCK"] = 0;
+        }
+    } else {
+        $command = array(
+            "COMMAND" => "ModifyDomain",
+            "DOMAIN" => $domain
+        );
+    }
 
     $map = array(
         "OWNERCONTACT0" => "Registrant",
