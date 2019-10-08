@@ -408,7 +408,7 @@ function ispapi_getConfigArray($params)
             "ConvertIDNs" => array( "Type" => "dropdown", "Options" => "API,PHP", "Default" => "API", "Description" => "Use API or PHP function (idn_to_ascii)" ),
             "DNSSEC" => array( "Type" => "yesno", "Description" => "Display the DNSSEC Management functionality in the domain details" ),
             "TRANSFERLOCK" => array( "Type" => "yesno", "Description" => "Locks automatically a domain after a new registration" ),
-            "IRTP" => array( "Type" => "radio", "Options" => "Check to use IRTP feature from our API., Check to act as Designated Agent for all contact changes. Ensure you understand your role and responsibilities before checking this option.", "Default" => "Check to use IRTP feature from our API.", "Description" => "General info about IRTP can be found <a target='blank_' href='https://wiki.hexonet.net/wiki/IRTP'>here</a>. Documentation about option one can be found <a target='blank_' href='https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#option-one'>here</a> and option two <a target='blank_' href='https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#option-two'>here</a>"),
+            "IRTP" => array( "Type" => "radio", "Options" => "Check to use IRTP feature from our API., Check to act as Designated Agent for all contact changes. Ensure you understand your role and responsibilities before checking this option.", "Default" => "Check to use IRTP feature from our API.", "Description" => "General info about IRTP can be found <a target='blank_' href='https://wiki.hexonet.net/wiki/IRTP' style='border-bottom: 1px solid blue; color: blue'>here</a>. Documentation about option one can be found <a target='blank_' href='https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#option-one' style='border-bottom: 1px solid blue; color: blue'>here</a> and option two <a target='blank_' href='https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#option-two' style='border-bottom: 1px solid blue; color: blue'>here</a>"),
     );
     if (!function_exists('idn_to_ascii')) {
         $configarray["ConvertIDNs"] = array( "Type" => "dropdown", "Options" => "API", "Default" => "API", "Description" => "Use API (PHP function idn_to_ascii not available)" );
@@ -1269,6 +1269,7 @@ function ispapi_IsAfectedByIRTP($domain, $params)
         "DOMAIN0" => $domain
     );
     $response = ispapi_call($command, ispapi_config($params));
+
     return ($response['PROPERTY']['ZONEPOLICYREGISTRANTNAMECHANGEBY'] && $response['PROPERTY']['ZONEPOLICYREGISTRANTNAMECHANGEBY'][0] === 'ICANN-TRADE');
 }
 /**
@@ -1976,11 +1977,11 @@ function ispapi_SaveContactDetails($params)
         return $values;
     }
     $isAfectedByIRTP = ispapi_IsAfectedByIRTP($domain, $params);
+
     $registrant = ispapi_get_contact_info($status_response["PROPERTY"]["OWNERCONTACT"][0], $params);
     if (isset($params["contactdetails"]["Registrant"])) {
         $new_registrant = $params["contactdetails"]["Registrant"];
     }
-    
     //the following conditions must be true to trigger registrant change request (IRTP)
     if (preg_match('/Designated Agent/', $params["IRTP"]) && $isAfectedByIRTP && ($registrant['First Name'] != $new_registrant['First Name'] || $registrant['Last Name'] != $new_registrant['Last Name'] || $registrant['Company Name'] != $new_registrant['Company Name'] || $registrant['Email'] != $new_registrant['Email'])) {
         $command = array(
@@ -1990,10 +1991,24 @@ function ispapi_SaveContactDetails($params)
             "X-CONFIRM-DA-OLD-REGISTRANT" => 1,
             "X-CONFIRM-DA-NEW-REGISTRANT" => 1,
         );
-        if ($params["irtpOptOut"]) {
-            $command["X-REQUEST-OPT-OUT-TRANSFERLOCK"] = 1;
-        } else {
-            $command["X-REQUEST-OPT-OUT-TRANSFERLOCK"] = 0;
+
+        //some of the AFNIC TLDs(.fr, .pm, .re) require local presence. eg: "X-FR-ACCEPT-TRUSTEE-TAC" => 1 
+        ispapi_query_additionalfields($params);
+        ispapi_use_additionalfields($params, $command);
+
+        //opt-out is not supported for AFNIC TLDs (eg: .FR)
+        $queryDomainOptions_command = array(
+            "COMMAND" => "QueryDomainOptions",
+            "DOMAIN0" => $domain
+        );
+        $queryDomainOptions_response = ispapi_call($queryDomainOptions_command, ispapi_config($origparams));
+        //AFNIC TLDs => pm, tf, wf, yt, fr, re
+        if (!preg_match("/AFNIC/i", $queryDomainOptions_response["PROPERTY"]["REPOSITORY"][0])){
+            if ($params["irtpOptOut"]) {
+                $command["X-REQUEST-OPT-OUT-TRANSFERLOCK"] = 1;
+            } else {
+                $command["X-REQUEST-OPT-OUT-TRANSFERLOCK"] = 0;
+            }
         }
     } else {
         $command = array(
@@ -2099,7 +2114,7 @@ function ispapi_SaveContactDetails($params)
     }
 
     $response = ispapi_call($command, ispapi_config($origparams));
-
+    
     if ($response["CODE"] != 200) {
         $values["error"] = $response["DESCRIPTION"];
     }
