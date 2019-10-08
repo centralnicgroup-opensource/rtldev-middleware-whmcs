@@ -2448,9 +2448,17 @@ function ispapi_TransferDomain($params)
         unset($command["BILLINGCONTACT0"]);
     }
 
-    //send PERIOD=0 for .NO and .NU domains
-    if (preg_match('/[.](no|nu|es)$/i', $domain)) {
-        $command["PERIOD"] = 0;
+    //auto-detect default transfer period
+    $queryDomainOptions_command = array(
+        "COMMAND" => "QueryDomainOptions",
+        "DOMAIN0" => $domain
+    );
+    $queryDomainOptions_response = ispapi_call($queryDomainOptions_command, ispapi_config($origparams));
+
+    $period_arry = explode (",", $queryDomainOptions_response['PROPERTY']['ZONETRANSFERPERIODS'][0]); 
+
+    if ($period_arry && $period_arry[0]) {
+        $command["PERIOD"] = preg_replace("/([0-9]+[YM])/", "$1", $period_arry[0]);
     }
 
     //do not send contact information for gTLD (Including nTLDs)
