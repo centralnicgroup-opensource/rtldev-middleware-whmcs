@@ -1992,7 +1992,7 @@ function ispapi_SaveContactDetails($params)
             "X-CONFIRM-DA-NEW-REGISTRANT" => 1,
         );
 
-        //some of the AFNIC TLDs(.fr, .pm, .re) require local presence. eg: "X-FR-ACCEPT-TRUSTEE-TAC" => 1 
+        //some of the AFNIC TLDs(.fr, .pm, .re) require local presence. eg: "X-FR-ACCEPT-TRUSTEE-TAC" => 1
         ispapi_query_additionalfields($params);
         ispapi_use_additionalfields($params, $command);
 
@@ -2003,7 +2003,7 @@ function ispapi_SaveContactDetails($params)
         );
         $queryDomainOptions_response = ispapi_call($queryDomainOptions_command, ispapi_config($origparams));
         //AFNIC TLDs => pm, tf, wf, yt, fr, re
-        if (!preg_match("/AFNIC/i", $queryDomainOptions_response["PROPERTY"]["REPOSITORY"][0])){
+        if (!preg_match("/AFNIC/i", $queryDomainOptions_response["PROPERTY"]["REPOSITORY"][0])) {
             if ($params["irtpOptOut"]) {
                 $command["X-REQUEST-OPT-OUT-TRANSFERLOCK"] = 1;
             } else {
@@ -2386,6 +2386,40 @@ function ispapi_TransferDomain($params)
 
     $domain = $params["sld"].".".$params["tld"];
 
+    //domain transfer pre-check
+    $checkDomainTransfer_command = array(
+        "COMMAND" => "CheckDomainTransfer",
+        "DOMAIN" => $domain
+    );
+
+    if ($origparams["transfersecret"]) {
+        $checkDomainTransfer_command["AUTH"] = $origparams["transfersecret"];
+    }
+
+    $r = ispapi_call($checkDomainTransfer_command, ispapi_config($origparams));
+
+    if ($r["CODE"] != "200") {
+        $values["error"] = $r["DESCRIPTION"];
+        return $values;
+    }
+
+    if (isset($r["PROPERTY"]["AUTHISVALID"]) && $r["PROPERTY"]["AUTHISVALID"][0] == "NO") {
+        // return custom error message
+        $values["error"] = "Invaild Authorization Code";
+        return $values;
+    }
+    
+    if (isset($r["PROPERTY"]["TRANSFERLOCK"]) && $r["PROPERTY"]["TRANSFERLOCK"][0] == "1") {
+        // return custom error message
+        $values["error"] = "Transferlock is active. Therefore the Domain cannot be transferred.";
+        return $values;
+    }
+
+    if (isset($r["PROPERTY"]["USERTRANSFERREQUIRED"]) && $r["PROPERTY"]["USERTRANSFERREQUIRED"][0] == "1") {
+        //auto-detect user-transfer
+        $command["ACTION"] = "USERTRANSFER";
+    }
+
     $registrant = array(
         "FIRSTNAME" => $params["firstname"],
         "LASTNAME" => $params["lastname"],
@@ -2449,13 +2483,15 @@ function ispapi_TransferDomain($params)
     }
 
     //auto-detect default transfer period
+    //for example, es, no, nu tlds require period value as zero (free transfers).
+    //in WHMCS the default value is 1
     $queryDomainOptions_command = array(
         "COMMAND" => "QueryDomainOptions",
         "DOMAIN0" => $domain
     );
     $queryDomainOptions_response = ispapi_call($queryDomainOptions_command, ispapi_config($origparams));
 
-    $period_arry = explode (",", $queryDomainOptions_response['PROPERTY']['ZONETRANSFERPERIODS'][0]); 
+    $period_arry = explode(",", $queryDomainOptions_response['PROPERTY']['ZONETRANSFERPERIODS'][0]);
 
     if ($period_arry && $period_arry[0]) {
         $command["PERIOD"] = preg_replace("/([0-9]+[YM])/", "$1", $period_arry[0]);
@@ -2478,11 +2514,6 @@ function ispapi_TransferDomain($params)
     //    $response = ispapi_call($command, ispapi_config($origparams));
     //}
     //############
-
-    if (preg_match('/USERTRANSFER/', $response["DESCRIPTION"])) {
-        $command["ACTION"] = "USERTRANSFER";
-        $response = ispapi_call($command, ispapi_config($origparams));
-    }
 
     if ($response["CODE"] != 200) {
         $values["error"] = $response["DESCRIPTION"];
