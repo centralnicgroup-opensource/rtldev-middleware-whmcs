@@ -566,30 +566,27 @@ function ispapi_ClientAreaCustomButtonArray($params)
         $buttonarray["WHOIS Privacy"] = "whoisprivacy";
     }
     
-    if ($data && (preg_match('/[.]ca$/i', $data["domain"]))) {
+    if ($data && (preg_match('/\.ca$/i', $data["domain"]))) {
         $buttonarray[".CA Registrant WHOIS Privacy"] = "whoisprivacy_ca";
-    }
-
-    if ($data && (preg_match('/[.]ca$/i', $data["domain"]))) {
         $buttonarray[".CA Change of Registrant"] = "registrantmodification_ca";
     }
 
-    if ($data && (preg_match('/[.]it$/i', $data["domain"]))) {
+    if ($data && (preg_match('/\.it$/i', $data["domain"]))) {
         $buttonarray[".IT Change of Registrant"] = "registrantmodification_it";
     }
-    if ($data && (preg_match('/[.]ch$/i', $data["domain"]))) {
+    if ($data && (preg_match('/\.ch$/i', $data["domain"]))) {
         $buttonarray[".CH Change of Registrant"] = "registrantmodification_tld";
     }
 
-    if ($data && (preg_match('/[.]li$/i', $data["domain"]))) {
+    if ($data && (preg_match('/\.li$/i', $data["domain"]))) {
         $buttonarray[".LI Change of Registrant"] = "registrantmodification_tld";
     }
 
-    if ($data && (preg_match('/[.]se$/i', $data["domain"]))) {
+    if ($data && (preg_match('/\.se$/i', $data["domain"]))) {
         $buttonarray[".SE Change of Registrant"] = "registrantmodification_tld";
     }
 
-    if ($data && (preg_match('/[.]sg$/i', $data["domain"]))) {
+    if ($data && (preg_match('/\.sg$/i', $data["domain"]))) {
         $buttonarray[".SG Change of Registrant"] = "registrantmodification_tld";
     }
 
@@ -919,7 +916,7 @@ function ispapi_registrantmodification_tld($params)
                 }
             }
 
-            if (preg_match('/[.]se$/i', $domain)) {
+            if (preg_match('/\.se$/i', $domain)) {
                 //check if the checkbox has been checked.
                 if (!$_POST['se-checkbox'] == "on") {
                     $error = "Please confirm that you will send the form back to complete the process";
@@ -1937,7 +1934,7 @@ function ispapi_GetContactDetails($params)
         $values["Admin"] = ispapi_get_contact_info($response["PROPERTY"]["ADMINCONTACT"][0], $params);
         $values["Technical"] = ispapi_get_contact_info($response["PROPERTY"]["TECHCONTACT"][0], $params);
         $values["Billing"] = ispapi_get_contact_info($response["PROPERTY"]["BILLINGCONTACT"][0], $params);
-        if (preg_match('/[.]ca|it|ch|li|se|sg$/i', $domain)) {
+        if (preg_match('/\.(ca|it|ch|li|se|sg)$/i', $domain)) {
             unset($values["Registrant"]["First Name"]);
             unset($values["Registrant"]["Last Name"]);
             unset($values["Registrant"]["Company Name"]);
@@ -1983,7 +1980,14 @@ function ispapi_SaveContactDetails($params)
         $new_registrant = $params["contactdetails"]["Registrant"];
     }
     //the following conditions must be true to trigger registrant change request (IRTP)
-    if (preg_match('/Designated Agent/', $params["IRTP"]) && $isAfectedByIRTP && ($registrant['First Name'] != $new_registrant['First Name'] || $registrant['Last Name'] != $new_registrant['Last Name'] || $registrant['Company Name'] != $new_registrant['Company Name'] || $registrant['Email'] != $new_registrant['Email'])) {
+    if (preg_match('/Designated Agent/', $params["IRTP"]) &&
+        $isAfectedByIRTP && (
+            $registrant['First Name'] != $new_registrant['First Name'] ||
+            $registrant['Last Name'] != $new_registrant['Last Name'] ||
+            $registrant['Company Name'] != $new_registrant['Company Name'] ||
+            $registrant['Email'] != $new_registrant['Email']
+        )
+    ) {
         $command = array(
             "COMMAND" => "TradeDomain",
             "DOMAIN" => $domain,
@@ -2056,7 +2060,7 @@ function ispapi_SaveContactDetails($params)
         }
     }
 
-    if (preg_match('/[.]it|ch|li|se|sg$/i', $domain)) {
+    if (preg_match('/\.(it|ch|li|se|sg)$/i', $domain)) {
         unset($command["OWNERCONTACT0"]["FIRSTNAME"]);
         unset($command["OWNERCONTACT0"]["LASTNAME"]);
         unset($command["OWNERCONTACT0"]["ORGANIZATION"]);
@@ -2078,7 +2082,7 @@ function ispapi_SaveContactDetails($params)
         $command["OWNERCONTACT0"]["ORGANIZATION"] = $registrant["Company Name"];
     }
 
-    if (preg_match('/[.]ca$/i', $domain)) {
+    if (preg_match('/\.ca$/i', $domain)) {
         $registrant_command = $command["OWNERCONTACT0"];
 
         $status_command = array(
@@ -2313,7 +2317,7 @@ function ispapi_RegisterDomain($params)
         $command["X-ACCEPT-WHOISTRUSTEE-TAC"] = 1;
     }
 
-    if (preg_match('/[.]swiss$/i', $domain)) {
+    if (preg_match('/\.swiss$/i', $domain)) {
         $command["COMMAND"] = "AddDomainApplication";
         $command["CLASS"] = "GOLIVE";
         unset($command["INTERNALDNS"]);
@@ -2357,7 +2361,7 @@ function ispapi_RegisterDomain($params)
         $values["error"] = $response["DESCRIPTION"];
     }
 
-    if (preg_match('/[.]swiss$/i', $domain)) {
+    if (preg_match('/\.swiss$/i', $domain)) {
         if ($response["CODE"] == 200) {
             $application_id = $response["PROPERTY"]["APPLICATION"][0];
             $values["error"] = "APPLICATION <#".$application_id."#> SUCCESSFULLY SUBMITTED. STATUS SET TO PENDING UNTIL THE SWISS REGISTRATION PROCESS IS COMPLETED";
@@ -2468,8 +2472,9 @@ function ispapi_TransferDomain($params)
     );
 
 
-    //don't send owner admin tech billing contact for .NU .DK .CA, .US, .PT, .NO, .SE, .ES domains
-    if (preg_match('/[.](nu|dk|ca|us|pt|no|se|es)$/i', $domain)) {
+    //1) don't send owner admin tech billing contact for .NU .DK .CA, .US, .PT, .NO, .SE, .ES domains
+    //2) do not send contact information for gTLD (Including nTLDs)
+    if (preg_match('/\.([a-z]{3,}|nu|dk|ca|us|pt|no|se|es)$/i', $domain)) {
         unset($command["OWNERCONTACT0"]);
         unset($command["ADMINCONTACT0"]);
         unset($command["TECHCONTACT0"]);
@@ -2477,7 +2482,7 @@ function ispapi_TransferDomain($params)
     }
 
     //don't send owner billing contact for .FR domains
-    if (preg_match('/[.]fr$/i', $domain)) {
+    if (preg_match('/\.fr$/i', $domain)) {
         unset($command["OWNERCONTACT0"]);
         unset($command["BILLINGCONTACT0"]);
     }
@@ -2497,13 +2502,7 @@ function ispapi_TransferDomain($params)
         $command["PERIOD"] = preg_replace("/([0-9]+[YM])/", "$1", $period_arry[0]);
     }
 
-    //do not send contact information for gTLD (Including nTLDs)
-    if (preg_match('/\.[a-z]{3,}$/i', $domain)) {
-        unset($command["OWNERCONTACT0"]);
-        unset($command["ADMINCONTACT0"]);
-        unset($command["TECHCONTACT0"]);
-        unset($command["BILLINGCONTACT0"]);
-    }
+    
 
     $response = ispapi_call($command, ispapi_config($origparams));
 
@@ -2812,7 +2811,7 @@ function ispapi_get_contact_info($contact, &$params)
         }
 
         // handle imported .ca domains properly
-        if (preg_match('/[.]ca$/i', $domain) && isset($response["PROPERTY"]["X-CA-LEGALTYPE"])) {
+        if (preg_match('/\.ca$/i', $domain) && isset($response["PROPERTY"]["X-CA-LEGALTYPE"])) {
             if (preg_match('/^(CCT|RES|ABO|LGR)$/i', $response["PROPERTY"]["X-CA-LEGALTYPE"][0])) {
                 // keep name/org
             } else {
