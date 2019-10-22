@@ -1,3 +1,10 @@
+## [1.12.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.12.0...v1.12.1) (2019-10-22)
+
+
+### Bug Fixes
+
+* **TransferDomains:** a minor bug fix in Transfer domain checks ([de76823](https://github.com/hexonet/whmcs-ispapi-registrar/commit/de76823598f351c9d0c690996a7f6c8b0c9c07d2))
+
 # [1.12.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.11.4...v1.12.0) (2019-10-09)
 
 
