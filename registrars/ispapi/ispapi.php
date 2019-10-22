@@ -2402,7 +2402,7 @@ function ispapi_TransferDomain($params)
 
     $r = ispapi_call($checkDomainTransfer_command, ispapi_config($origparams));
 
-    if ($r["CODE"] != "200") {
+    if ($r["CODE"] != 218) {
         $values["error"] = $r["DESCRIPTION"];
         return $values;
     }
