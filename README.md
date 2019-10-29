@@ -10,7 +10,7 @@ This Repository covers the WHMCS Registrar Module of HEXONET. It provides the fo
 ## Supported Features ##
 
 * Domain Registration 
-     * Additional domain fields
+     * Additional domain fields (default configurations integrated!)
 * Domain Transfer (with AuthInfo code support)
 * Domain Management
      * Domain locking
