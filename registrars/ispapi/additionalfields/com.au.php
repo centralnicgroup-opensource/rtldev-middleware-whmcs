@@ -1,5 +1,5 @@
 <?php
-## .COM.AU DOMAIN REQUIREMENTS (incl. .(net|org|id).au) ##
+## .COM.AU DOMAIN REQUIREMENTS ##
 ## remove default whmcs fields ##
 $additionaldomainfields[$tld][] = array(
     "Name" => "Registrant Name",
@@ -26,21 +26,14 @@ $additionaldomainfields[$tld][] = array(
     "Remove" => true
 );
 
-## add ispapi additional fields ##
+## edit whmcs default additional fields ##
 $additionaldomainfields[$tld][] = array(
     "Name" => "Registrant ID",
-    "Type" => "text",
-    "Size" => "20",
-    "Default" => "",
-    "Required" => true,
     "Ispapi-Name" => "X-AU-REGISTRANT-ID-NUMBER"
 );
 $additionaldomainfields[$tld][] = array(
     "Name" => "Registrant ID Type",
-    "Type" => "dropdown",
     "Options" => "Australian Business Number,Australian Company Number,Business Registration Number,Trademark Number",
-    "Default" => "ABN",
-    "Required" => false,
     "Ispapi-Name" => "X-AU-REGISTRANT-ID-TYPE",
     "Ispapi-Options" => "ABN,ACN,RBN,TM"
 );

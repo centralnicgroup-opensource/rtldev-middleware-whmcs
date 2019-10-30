@@ -101,5 +101,5 @@ $additionaldomainfields[$tld][] = array(
     "Required" => false,
     "Options" => "on",
     "Ispapi-Name" => "X-HK-ACCEPT-INDIVIDUAL-REGISTRATION-TAC",
-    "Ispapi-Replacements" => array("on" => "1")
+    "Ispapi-Options" => "1"
 );

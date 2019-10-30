@@ -734,8 +734,6 @@ function ispapi_dnssec($params)
  */
 function ispapi_registrantmodification_it($params)
 {
-    global $additionaldomainfields;
-
     $origparams = $params;
     if (isset($params["original"])) {
         $params = $params["original"];
@@ -757,29 +755,7 @@ function ispapi_registrantmodification_it($params)
 
     //handle additionaldomainfields
     //------------------------------------------------------------------------------
-    ispapi_include_additionaladditionalfields();
-
-    $myadditionalfields = array();
-    if (is_array($additionaldomainfields) && isset($additionaldomainfields[".".$params["tld"]])) {
-        $myadditionalfields = $additionaldomainfields[".".$params["tld"]];
-    }
-
-    foreach ($myadditionalfields as $field_index => $field) {
-        if (!is_array($field["Ispapi-Replacements"])) {
-            $field["Ispapi-Replacements"] = array();
-        }
-        if (isset($field["Ispapi-Options"]) && isset($field["Options"])) {
-            $options = explode(",", $field["Options"]);
-            foreach (explode(",", $field["Ispapi-Options"]) as $index => $new_option) {
-                $option = $options[$index];
-                if (!isset($field["Ispapi-Replacements"][$option])) {
-                    $field["Ispapi-Replacements"][$option] = $new_option;
-                }
-            }
-        }
-        $myadditionalfields[$field_index] = $field;
-    }
-
+    $myadditionaldomainfields = ispapi_include_additionaladditionalfields();
     //------------------------------------------------------------------------------
 
     if (isset($_POST["submit"])) {
@@ -833,7 +809,7 @@ function ispapi_registrantmodification_it($params)
             $params["additionalfields"]["Section 5 Agreement"] = "1";
             $params["additionalfields"]["Section 6 Agreement"] = "1";
             $params["additionalfields"]["Section 7 Agreement"] = "1";
-            ispapi_use_additionalfields($params, $command);
+            ispapi_use_additionalfields($params, $command, $myadditionaldomainfields);
             $response = ispapi_call($command, ispapi_config($origparams));
 
             if ($response["CODE"] == 200) {
@@ -845,8 +821,13 @@ function ispapi_registrantmodification_it($params)
     }
 
     return array(
-            'templatefile' => "registrantmodification_it",
-            'vars' => array('error' => $error, 'successful' => $successful, 'values' => $values, 'additionalfields' => $myadditionalfields),
+        'templatefile' => "registrantmodification_it",
+        'vars' => array(
+            'error' => $error,
+            'successful' => $successful,
+            'values' => $values,
+            'additionalfields' => $myadditionalfields
+        )
     );
 }
 
@@ -859,8 +840,6 @@ function ispapi_registrantmodification_it($params)
  */
 function ispapi_registrantmodification_tld($params)
 {
-    global $additionaldomainfields;
-
     $origparams = $params;
     if (isset($params["original"])) {
         $params = $params["original"];
@@ -949,8 +928,6 @@ function ispapi_registrantmodification_tld($params)
  */
 function ispapi_registrantmodification_ca($params)
 {
-    global $additionaldomainfields;
-
     $origparams = $params;
     if (isset($params["original"])) {
         $params = $params["original"];
@@ -963,28 +940,7 @@ function ispapi_registrantmodification_ca($params)
 
     //handle additionaldomainfields
     //------------------------------------------------------------------------------
-    ispapi_include_additionaladditionalfields();
-
-    $myadditionalfields = array();
-    if (is_array($additionaldomainfields) && isset($additionaldomainfields[".".$params["tld"]])) {
-        $myadditionalfields = $additionaldomainfields[".".$params["tld"]];
-    }
-
-    foreach ($myadditionalfields as $field_index => $field) {
-        if (!is_array($field["Ispapi-Replacements"])) {
-            $field["Ispapi-Replacements"] = array();
-        }
-        if (isset($field["Ispapi-Options"]) && isset($field["Options"])) {
-            $options = explode(",", $field["Options"]);
-            foreach (explode(",", $field["Ispapi-Options"]) as $index => $new_option) {
-                $option = $options[$index];
-                if (!isset($field["Ispapi-Replacements"][$option])) {
-                    $field["Ispapi-Replacements"][$option] = $new_option;
-                }
-            }
-        }
-        $myadditionalfields[$field_index] = $field;
-    }
+    $myadditionaldomainfields = ispapi_include_additionaladditionalfields();
 
     //delete "Contact Language" and "Trademark Number"
     $i = 0;
@@ -1052,7 +1008,7 @@ function ispapi_registrantmodification_ca($params)
         $params["additionalfields"]["Legal Type"] = $_POST["additionalfields"]["Legal Type"];
         $params["additionalfields"]["WHOIS Opt-out"] = $_POST["additionalfields"]["WHOIS Opt-out"];
 
-        ispapi_use_additionalfields($params, $command);
+        ispapi_use_additionalfields($params, $command, $myadditionaldomainfields);
 
         $response = ispapi_call($command, ispapi_config($origparams));
 
@@ -1072,8 +1028,13 @@ function ispapi_registrantmodification_ca($params)
     }
 
     return array(
-            'templatefile' => "registrantmodification_ca",
-            'vars' => array('error' => $error, 'successful' => $successful, 'values' => $values, 'additionalfields' => $myadditionalfields),
+        'templatefile' => "registrantmodification_ca",
+        'vars' => array(
+            'error' => $error,
+            'successful' => $successful,
+            'values' => $values,
+            'additionalfields' => $myadditionalfields
+        )
     );
 }
 
@@ -1952,8 +1913,6 @@ function ispapi_GetContactDetails($params)
  */
 function ispapi_SaveContactDetails($params)
 {
-    global $additionaldomainfields;
-
     $values = array();
     $origparams = $params;
     $params = ispapi_get_utf8_params($params);
@@ -2243,8 +2202,6 @@ function ispapi_IDProtectToggle($params)
  */
 function ispapi_RegisterDomain($params)
 {
-    global $additionaldomainfields;
-
     $values = array();
     $origparams = $params;
 
@@ -2830,9 +2787,9 @@ function ispapi_query_additionalfields(&$params)
 }
 
 /**
- * Includes the corret additionl fields path based on the WHMCS vesion.
+ * Includes the correct additionl fields path based on the WHMCS version.
  * More information here: https://docs.whmcs.com/Additional_Domain_Fields
- *
+ * @return array additional domain fields in ISPAPI format
  */
 function ispapi_include_additionaladditionalfields()
 {
@@ -2848,13 +2805,6 @@ function ispapi_include_additionaladditionalfields()
         // for WHMCS < 7.0
         include $old_additionalfieldsfile_path;
     }
-}
-
-function ispapi_use_additionalfields($params, &$command)
-{
-    global $additionaldomainfields;
-
-    ispapi_include_additionaladditionalfields();
 
     $myadditionalfields = array();
     if (is_array($additionaldomainfields) && isset($additionaldomainfields[".".$params["tld"]])) {
@@ -2862,47 +2812,43 @@ function ispapi_use_additionalfields($params, &$command)
     }
 
     foreach ($myadditionalfields as $field_index => $field) {
-        if (!is_array($field["Ispapi-Replacements"])) {
-            $field["Ispapi-Replacements"] = array();
-        }
-
+        $field["Ispapi-Replacements"] = array();
         if (isset($field["Ispapi-Options"]) && isset($field["Options"])) {
             $options = explode(",", $field["Options"]);
-            foreach (explode(",", $field["Ispapi-Options"]) as $index => $new_option) {
-                $option = $options[$index];
-                if (!isset($field["Ispapi-Replacements"][$option])) {
-                    $field["Ispapi-Replacements"][$option] = $new_option;
-                }
+            $ispoptions = explode(",", $field["Ispapi-Options"]);
+            foreach ($ispoptions as $index => $new_option) {
+                $field["Ispapi-Replacements"][$options[$index]] = $new_option;
             }
         }
-
         $myadditionalfields[$field_index] = $field;
     }
+    return $myadditionaldomainfields;
+}
 
+function ispapi_use_additionalfields($params, &$command, $myadditionaldomainfields = null)
+{
+    if (is_null($myadditionaldomainfields)) {
+        $myadditionaldomainfields = ispapi_include_additionaladditionalfields();
+    }
+    $ucCountry = strtoupper($params["country"]);
     foreach ($myadditionalfields as $field) {
         if (isset($params['additionalfields'][$field["Name"]])) {
             $value = $params['additionalfields'][$field["Name"]];
-
-            $ignore_countries = array();
             if (isset($field["Ispapi-IgnoreForCountries"])) {
-                foreach (explode(",", $field["Ispapi-IgnoreForCountries"]) as $country) {
-                    $ignore_countries[strtoupper($country)] = 1;
-                }
+                $field["Ispapi-IgnoreForCountries"] = explode(",", $field["Ispapi-IgnoreForCountries"]);
             }
-
-            if (!$ignore_countries[strtoupper($params["country"])]) {
+            if (!in_array($ucCountry, $field["Ispapi-IgnoreForCountries"]) && isset($field["Ispapi-Name"])) {
                 if (isset($field["Ispapi-Replacements"][$value])) {
                     $value = $field["Ispapi-Replacements"][$value];
                 }
-
-                if (isset($field["Ispapi-Eval"])) {
-                    eval($field["Ispapi-Eval"]);
+                if (isset($field["Type"]) && $field["Type"]=="tickbox") {
+                    $value = ( $value ) ? "1" : "0";
                 }
-
-                if (isset($field["Ispapi-Name"])) {
-                    if (strlen($value)) {
-                        $command[$field["Ispapi-Name"]] = $value;
-                    }
+                if (isset($field["Ispapi-Format"]) && $field["Ispapi-Format"]=="UPPERCASE") {
+                    $value = strtoupper($value);
+                }
+                if (strlen($value)) {
+                    $command[$field["Ispapi-Name"]] = $value;
                 }
             }
         }

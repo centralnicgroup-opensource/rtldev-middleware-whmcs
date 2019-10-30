@@ -48,6 +48,5 @@ $additionaldomainfields[$tld][] = array(
     "Type" => "tickbox",
     "Description" => "Tick to confirm that you agree to the .PRO End User Terms Of Use at: <a href='http://www.registry.pro/legal/user-terms'>http://www.registry.pro/legal/user-terms</a>",
     "Required" => true,
-    "Ispapi-Name" => "X-PRO-ACCEPT-TOU",
-    "Ispapi-Eval" => 'if ( $value ) { $value = "1"; } else { $value = ""; }'
+    "Ispapi-Name" => "X-PRO-ACCEPT-TOU"
 );

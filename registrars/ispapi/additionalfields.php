@@ -1,16 +1,16 @@
 <?php
-use ISPAPI\Helper;
+use \ISPAPI\Helper;
 
-include "lib/Helper.class.php";
+require_once "lib/Helper.class.php";
 
-$r = Helper::SQLCall("SELECT LOWER(extension) as extension, LOWER(SUBSTRING(extension, 1)) as short FROM tbldomainpricing WHERE autoreg=:registrar", array(
-    ":registrar" => "ispapi"
+$r = \ISPAPI\Helper::SQLCall("SELECT LOWER(extension) as extension, LOWER(SUBSTRING(extension, 2)) as short FROM tbldomainpricing WHERE autoreg=:registrar", array(
+    ":registrar" => "Ispapi"
 ), "fetchall");
 if ($r["success"]) {
     foreach ($r["result"] as $row) {
         $tld = $row["extension"];
         // check if an file exists for the extension (e.g. .sg, .com.sg, .de)
-        $file = implode(DIRECTORY_SEPARATOR, "additionalfields", $row["short"] . ".php");//TODO sanitize, test if $tld is used
+        $file = implode(DIRECTORY_SEPARATOR, array(ROOTDIR, "modules", "registrars", "ispapi", "additionalfields", $row["short"] . ".php"));//TODO sanitize, test if $tld is used
         if (file_exists($file)) {
             include $file;
         } else {
@@ -19,7 +19,7 @@ if ($r["success"]) {
             $tldold = $tld;
             $tldshort = preg_replace("/^.+\./", "", $row["short"]);
             $tld = "." . $tldshort;
-            $file = implode(DIRECTORY_SEPARATOR, "additionalfields", $tldshort . ".php");//TODO sanitize, test if $tld is used
+            $file = implode(DIRECTORY_SEPARATOR, array(ROOTDIR, "modules", "registrars", "ispapi", "additionalfields", $tldshort . ".php"));
             if (($tldold !== $tld) && file_exists($file)) {
                 include $file;
             }

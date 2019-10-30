@@ -52,5 +52,5 @@ $additionaldomainfields[$tld][] = array(
     "Ispapi-Name" => "X-US-NEXUS-VALIDATOR",
     "Default" => "",
     "Required" => false,
-    "Ispapi-Eval" => '$value = strtoupper($value);',
+    "Ispapi-Format" => 'UPPERCASE'
 );
