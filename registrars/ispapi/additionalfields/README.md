@@ -53,6 +53,7 @@ Just create a new tld-specific file like `uk.php` or `co.uk.php`. Of course the 
   -> Just create configuration files for the 3rd level extensions.
 
 NOTE: If you want to reuse configurations, move the parts you want to share into separate files which start with `_` (underscore) in file name. Finally include them again.
+Existing examples are `_acceptregistrationtac.php`, `_highlyregulatedtld.php` and `_intendeduse.php`.
 
 ### Deactivating a default WHMCS' field
 

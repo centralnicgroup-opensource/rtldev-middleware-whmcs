@@ -1,3 +1,4 @@
 <?php
 ## .BARCELONA DOMAIN REQUIREMENTS ##
-include "scot.php";
+$additionaldomainfields[$tld] = array();
+include "_intendeduse.php";

@@ -1,4 +1,5 @@
 <?php
+$tclass = strtoupper(preg_replace("/\./", "", $tld, 1));
 $tac = array(
     ".boats" => "https://get.boats/policies/",
     ".abogado" => "http://nic.law/eligibilitycriteria/",
@@ -22,6 +23,6 @@ $additionaldomainfields[$tld][] = array(
     "Options" => ",I accept",
     "Default" => "",
     "Required" => true,
-    "Ispapi-Name" => "X-" . strtoupper(substr($tld, 1)) . "-ACCEPT-HIGHLY-REGULATED-TAC",
+    "Ispapi-Name" => "X-" . $tclass . "-ACCEPT-HIGHLY-REGULATED-TAC",
     "Ispapi-Options" => ",1"
 );

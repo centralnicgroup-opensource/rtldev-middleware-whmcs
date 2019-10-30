@@ -1,13 +1,7 @@
 <?php
 ## .XXX DOMAIN REQUIREMENTS ##
 $additionaldomainfields[$tld] = array();
-$additionaldomainfields[$tld][] = array(
-    "Name" => "Agreement",
-    "Type" => "tickbox",
-    "Description" => "Tick to confirm that you agree to the <a href='http://www.icmregistry.com/about/policies/registry-registrant-agreement/' target='_blank'>Registry Terms and Conditions of Registration</a> upon new registration of .XXX domain names.",
-    "Required" => true,
-    "Ispapi-Name" => "X-XXX-ACCEPT-REGISTRATION-TAC"
-);
+include "_acceptregistrationtac.php";
 $additionaldomainfields[$tld][] = array(
     "Name" => "Resolving Domain",
     "Description" => "(Should this .XXX domain resolve?)",

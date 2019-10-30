@@ -1,4 +1,4 @@
 <?php
-## .SCOT, .CAT, .BARCELONA, .MADRID, .SPORT DOMAIN REQUIREMENTS ##
+## .SCOT DOMAIN REQUIREMENTS ##
 $additionaldomainfields[$tld] = array();
 include "_intendeduse.php";

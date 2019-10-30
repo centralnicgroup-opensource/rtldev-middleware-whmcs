@@ -29,11 +29,4 @@ $additionaldomainfields[$tld][] = array(
 		Union but outside Sweden)",
     "Ispapi-Name" => "X-NICSE-VATID",
 );
-$additionaldomainfields[$tld][] = array(
-    "Name" => "Agreement",
-    "Type" => "tickbox",
-    "Description" => "Tick to confirm that you agree to the Registry Terms and Conditions of Registration (link below) upon new registration of .SE domain names.
-    <br><a href='https://internetstiftelsen.se/app/uploads/2019/02/registreringsvillkor-se-eng.pdf' target=\"_blank\">Registry Terms and Conditions</a>",
-    "Required" => true,
-    "Ispapi-Name" => "X-SE-ACCEPT-REGISTRATION-TAC"
-);
+include "_acceptregistrationtac.php";

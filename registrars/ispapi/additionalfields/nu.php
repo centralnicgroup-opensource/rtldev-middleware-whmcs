@@ -23,10 +23,4 @@ $additionaldomainfields[$tld][] = array(
     "Ispapi-Name" => "X-VATID"
 
 );
-$additionaldomainfields[$tld][] = array(
-    "Name" => "Agreement",
-    "Type" => "tickbox",
-    "Description" => "Tick to confirm that you agree to the <a href='https://internetstiftelsen.se/app/uploads/2019/02/terms-and-conditions-nu.pdf' target='_blank'>Registry Terms and Conditions of Registration</a> upon new registration of .NU domain names.",
-    "Required" => true,
-    "Ispapi-Name" => "X-NU-ACCEPT-REGISTRATION-TAC"
-);
+include "_acceptregistrationtac.php";
