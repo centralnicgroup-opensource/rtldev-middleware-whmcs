@@ -1,5 +1,5 @@
 <?php
 ## .CAT DOMAIN REQUIREMENTS ##
-$additionaldomainfields[$tld] = array();
+$additionaldomainfields[$tld] = [];
 include "_intendeduse.php";
 include "_highlyregulatedtld.php";

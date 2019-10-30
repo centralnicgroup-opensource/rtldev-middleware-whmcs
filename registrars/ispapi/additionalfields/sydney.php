@@ -1,15 +1,15 @@
 <?php
 ## .SYDNEY DOMAIN REQUIREMENTS ##
-$additionaldomainfields[$tld] = array();
-$additionaldomainfields[$tld][] = array(
+$additionaldomainfields[$tld] = [];
+$additionaldomainfields[$tld][] = [
     "Name" => "Nexus Category",
     "Type" => "dropdown",
     "Ispapi-Name" => "X-SYDNEY-NEXUS-CATEGORY",
-    "Ispapi-Options" => "A,B,C",
-    "Options" => implode(",", array(
-        "Criteria A - New South Wales Entities",
-        "Criteria B - New South Wales Residents",
-        "Criteria C - Associated Entities"
-    )),
+    "Options" => implode(",", [
+        "A|Criteria A - New South Wales Entities",
+        "B|Criteria B - New South Wales Residents",
+        "C|Criteria C - Associated Entities"
+    ]),
+    "Default" => "A|Criteria A - New South Wales Entities",
     "Required" => true
-);
+];

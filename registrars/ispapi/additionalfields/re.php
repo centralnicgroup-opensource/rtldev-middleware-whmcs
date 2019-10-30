@@ -1,2 +1,2 @@
 <?php
-include "fr.php";
+include "_afnic.php";

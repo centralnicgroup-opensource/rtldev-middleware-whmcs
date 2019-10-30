@@ -109,8 +109,9 @@ $additionaldomainfields[$tld][] = array(
 );
 ```
 
-#### Ispapi-Options
+#### Ispapi-Options [REMOVED by v2.0.0]
 
+Removed in favour of the more compact piped notation WHMCS now allows in property `options`.
 Specify here values for dropdown lists / fields that should reach our backend system API. The index of the value provided here has to correspond to the one specified in property `Options`. e.g.:
 
 ```php
@@ -127,6 +128,21 @@ $additionaldomainfields[$tld][] = array(
         "CCT",
         // ...
         "MAJ"
+    )),
+    "Ispapi-Name" => "X-CA-LEGALTYPE",
+);
+```
+
+Replace the above by
+
+```php
+$additionaldomainfields[$tld][] = array(
+    "Name" => "Legal Type",
+    "Options" => implode(",", array(
+        "CCO|Corporation",
+        "CCT|Canadian Citizen",
+        // ...
+        "MAJ|Her Majesty the Queen"
     )),
     "Ispapi-Name" => "X-CA-LEGALTYPE",
 );
@@ -164,7 +180,7 @@ $additionaldomainfields[$tld][] = array(
 
 If the parameter value is a valid key of this array, it gets replaced by the respective value. Indirect use via Ispapi-Options is preferred, direct use makes sense to map older values for backward compatibility.
 
-> This config property is for internal use only and is no longer thought to be used as configuration setting.
+> This config property has been removed in favour of `Options` setting.
 
 #### Ispapi-Eval [REMOVED by v2.0.0]
 

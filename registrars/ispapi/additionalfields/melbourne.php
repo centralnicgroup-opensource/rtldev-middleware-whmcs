@@ -1,11 +1,16 @@
 <?php
 ## .MELBOURNE DOMAIN REQUIREMENTS ##
-$additionaldomainfields[$tld] = array();
-$additionaldomainfields[$tld][] = array(
+$additionaldomainfields[$tld] = [];
+$additionaldomainfields[$tld][] = [
     "Name" => "Nexus Category",
     "Type" => "dropdown",
     "Required" => true,
-    "Options" => "Criteria A - Victorian Entities,Criteria B - Victorian Residents,Criteria C - Associated Entities",
+    "Options" => implode(",", [
+        "A|Criteria A - Victorian Entities",
+        "B|Criteria B - Victorian Residents",
+        "C|Criteria C - Associated Entities"
+    ]),
+    "Default" => "A|Criteria A - Victorian Entities",
     "Description" => "<div><b>Registration Eligibility</b><br/>In order to register or renew a domain name the Applicant or Registrant must satisfy one of the following Criteria A, B or C below:<br/><br/>
                         <b>Criteria A – Victorian Entities</b><br/>The Applicant must be an entity registered with the Australian Securities and Investments Commission or the Australian Business Register that:
                         <ul><li>has an address in the State of Victoria associated with its ABN, ACN, RBN or ARBN; or</li><li>has a valid corporate address in the State of Victoria.</li></ul><br/>
@@ -17,6 +22,5 @@ $additionaldomainfields[$tld][] = array(
                         <li>an event that the Associated Entity organises or sponsors in the State of Victoria;</li>
                         <li>an activity that the Associated Entity facilitates in the State of Victoria; or</li>
                         <li>a course or training program that the Associated Entity provides to residents of the State of Victoria.</li></div>",
-    "Ispapi-Name" => "X-MELBOURNE-NEXUS-CATEGORY",
-    "Ispapi-Options" => "A,B,C"
-);
+    "Ispapi-Name" => "X-MELBOURNE-NEXUS-CATEGORY"
+];

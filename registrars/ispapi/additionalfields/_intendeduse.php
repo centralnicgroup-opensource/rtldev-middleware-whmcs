@@ -1,7 +1,7 @@
 <?php
-$additionaldomainfields[$tld][] = array(
-    "Name" => "Intended Use",
+$additionaldomainfields[$tld][] = [
+    "Name" => isset($fieldname) ? $fieldname : "Intended Use",
     "Type" => "text",
     "Required" => true,
     "Ispapi-Name" => "X-CORE-INTENDED-USE"
-);
+];

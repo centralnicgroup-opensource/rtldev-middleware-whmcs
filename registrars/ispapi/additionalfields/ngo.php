@@ -1,4 +1,4 @@
 <?php
 ## .NGO DOMAIN REQUIREMENTS ##
-$additionaldomainfields[$tld] = array();
+$additionaldomainfields[$tld] = [];
 include "_acceptregistrationtac.php";

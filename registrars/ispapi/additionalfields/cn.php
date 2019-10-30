@@ -1,92 +1,46 @@
 <?php
 ## .CN DOMAIN REQUIREMENTS  (incl. .(com|net|org).cn)
 ## remove default whmcs fields ##
-$additionaldomainfields[$tld][] = array(
+$additionaldomainfields[$tld][] = [
     "Name" => "cnhosting",
     "Remove" => true
-);
-$additionaldomainfields[$tld][] = array(
+];
+$additionaldomainfields[$tld][] = [
     "Name" => "cnhregisterclause",
     "Remove" => true
-);
+];
 
 ## add ispapi additional fields ##
-$additionaldomainfields[$tld][] = array(
-    "Name" => "Registrant ID Type",
-    "Type" => "dropdown",
-    "Options" => join(",", array(
-        "",
-        "Chinese ID card",
-        "Foreign passport",
-        "Exit-Entry Permit for Travelling to and from Hong Kong and Macao",
-        "Travel passes for Taiwan Residents to Enter or Leave the Mainland",
-        "Foreign Permanent Resident ID Card",
-        "Residence permit for Hong Kong, Macao residents",
-        "Residence permit for Taiwan residents",
-        "Chinese officer certificate",
-        "Chinese Organization Code Certificate",
-        "Chinese business license",
-        "Certificate for Uniform Social Credit Code",
-        "Military Code Designation",
-        "Military Paid External Service License",
-        "Public Institution Legal Person Certificate",
-        "Resident Representative Offices of Foreign Enterprises Registration Form",
-        "Social Organization Legal Person Registration Certificate",
-        "Religion Activity Site Registration Certificate",
-        "Private Non-Enterprise Entity Registration Certificate",
-        "Fund Legal Person Registration Certificate",
-        "Practicing License of Law Firm",
-        "Registration Certificate of Foreign Cultural Center in China",
-        "Resident Representative Office of Tourism Departments of Foreign Government Approval Registration Certificate",
-        "Judicial Expertise License",
-        "Overseas Organization Certificate",
-        "Social Service Agency Registration Certificate",
-        "Private School Permit",
-        "Medical Institution Practicing License",
-        "Notary Organization Practicing License",
-        "Beijing School for Children of Foreign Embassy Staff in China Permit",
-        "Others"
-    )),
-    "Description" => "",
-    "Required" => true,
-    "Ispapi-Name" => "X-CN-REGISTRANT-ID-TYPE",
-    "Ispapi-Options" => join(",", array(
-        "",
-        "SFZ",
-        "HZ",
-        "GAJMTX",
-        "TWJMTX",
-        "WJLSFZ",
-        "GAJZZ",
-        "TWJZZ",
-        "JGZ",
-        "ORG",
-        "YYZZ",
-        "TYDM",
-        "BDDM",
-        "JDDWFW",
-        "SYDWFR",
-        "WGCZJG",
-        "SHTTFR",
-        "ZJCS",
-        "MBFQY",
-        "JJHFR",
-        "LSZY",
-        "WGZHWH",
-        "WLCZJG",
-        "SFJD",
-        "JWJG",
-        "SHFWJG",
-        "MBXXBX",
-        "YLJGZY",
-        "GZJGZY",
-        "BJWSXX",
-        "QT"
-    ))
-);
-$additionaldomainfields[$tld][] = array(
-    "Name" => "Registrant ID Number",
-    "Type" => "text",
-    "Required" => true,
-    "Ispapi-Name" => "X-CN-REGISTRANT-ID-NUMBER"
-);
+$customopts = implode(",", [
+    "SFZ|Chinese ID card",
+    "HZ|Foreign passport",
+    "GAJMTX|Exit-Entry Permit for Travelling to and from Hong Kong and Macao",
+    "TWJMTX|Travel passes for Taiwan Residents to Enter or Leave the Mainland",
+    "WJLSFZ|Foreign Permanent Resident ID Card",
+    "GAJZZ|Residence permit for Hong Kong, Macao residents",
+    "TWJZZ|Residence permit for Taiwan residents",
+    "JGZ|Chinese officer certificate",
+    "ORG|Chinese Organization Code Certificate",
+    "YYZZ|Chinese business license",
+    "TYDM|Certificate for Uniform Social Credit Code",
+    "BDDM|Military Code Designation",
+    "JDDWFW|Military Paid External Service License",
+    "SYDWFR|Public Institution Legal Person Certificate",
+    "WGCZJG|Resident Representative Offices of Foreign Enterprises Registration Form",
+    "SHTTFR|Social Organization Legal Person Registration Certificate",
+    "ZJCS|Religion Activity Site Registration Certificate",
+    "MBFQY|Private Non-Enterprise Entity Registration Certificate",
+    "JJHFR|Fund Legal Person Registration Certificate",
+    "LSZY|Practicing License of Law Firm",
+    "WGZHWH|Registration Certificate of Foreign Cultural Center in China",
+    "WLCZJG|Resident Representative Office of Tourism Departments of Foreign Government Approval Registration Certificate",
+    "SFJD|Judicial Expertise License",
+    "JWJG|Overseas Organization Certificate",
+    "SHFWJG|Social Service Agency Registration Certificate",
+    "MBXXBX|Private School Permit",
+    "YLJGZY|Medical Institution Practicing License",
+    "GZJGZY|Notary Organization Practicing License",
+    "BJWSXX|Beijing School for Children of Foreign Embassy Staff in China Permit",
+    "QT|Others"
+]);
+include "_registrantid.php";

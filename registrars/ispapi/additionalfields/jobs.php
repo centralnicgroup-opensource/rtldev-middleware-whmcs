@@ -1,33 +1,50 @@
 <?php
 ## .JOBS DOMAIN REQUIREMENTS ##
-## remove default whmcs fields ##
-$additionaldomainfields[$tld][] = array(
-    'Name' => 'Website',
-    "Remove" => true
-);
-
 ## add ispapi additional fields ##
-$additionaldomainfields[$tld][] = array(
-    "Name" => "Company URL",
-    "Type" => "text",
-    "Required" => true,
+$additionaldomainfields[$tld][] = [
+    "Name" => "Website",
     "Ispapi-Name" => "X-JOBS-COMPANYURL"
-);
-$additionaldomainfields[$tld][] = array(
+];
+$additionaldomainfields[$tld][] = [
     "Name" => "Industry Classification",
     "Type" => "dropdown",
-    "Options" => ",Accounting/Banking/Finance,Agriculture/Farming,Biotechnology/Science,Computer/Information Technology,Construction/Building Services,Consulting,Education/Training/Library,Entertainment,Environmental,Hospitality,Government/Civil Service,Healthcare,HR/Recruiting,Insurance,Legal,Manufacturing,Media/Advertising,Parks & Recreation,Pharmaceutical,Real Estate,Restaurant/Food Service,Retail,Telemarketing,Transportation,Other",
+    "Options" => implode(",", [
+        "2|Accounting/Banking/Finance",
+        "3|Agriculture/Farming",
+        "21|Biotechnology/Science",
+        "5|Computer/Information Technology",
+        "4|Construction/Building Services",
+        "12|Consulting",
+        "6|Education/Training/Library",
+        "7|Entertainment",
+        "13|Environmental",
+        "19|Hospitality",
+        "10|Government/Civil Service",
+        "11|Healthcare",
+        "15|HR/Recruiting",
+        "16|Insurance",
+        "17|Legal",
+        "18|Manufacturing",
+        "20|Media/Advertising",
+        "9|Parks & Recreation",
+        "26|Pharmaceutical",
+        "22|Real Estate",
+        "14|Restaurant/Food Service",
+        "23|Retail",
+        "8|Telemarketing",
+        "24|Transportation",
+        "25|Other"
+    ]),
+    "Default" => "2|Accounting/Banking/Finance",
     "Required" => true,
-    "Ispapi-Name" => "X-JOBS-INDUSTRYCLASSIFICATION",
-    "Ispapi-Options" => ",2,3,21,5,4,12,6,7,13,19,10,11,15,16,17,18,20,9,26,22,14,23,8,24,25"
-);
+    "Ispapi-Name" => "X-JOBS-INDUSTRYCLASSIFICATION"
+];
 $additionaldomainfields[$tld][] = array(
     "Name" => "Member of a Human Resources Association",
     "Type" => "dropdown",
-    "Options" => "No,Yes",
-    "Default" => "No",
-    "Ispapi-Name" => "X-JOBS-HRANAME",
-    "Ispapi-Options" => "no,yes"
+    "Options" => "no|No,yes|Yes",
+    "Default" => "no|No",
+    "Ispapi-Name" => "X-JOBS-HRANAME"
 );
 $additionaldomainfields[$tld][] = array(
     "Name" => "Contact Job Title (e.g. CEO)",
@@ -38,8 +55,7 @@ $additionaldomainfields[$tld][] = array(
 $additionaldomainfields[$tld][] = array(
     "Name" => "Contact Type",
     "Type" => "dropdown",
-    "Options" => "Administrative,Other",
-    "Default" => "Administrative",
-    "Ispapi-Name" => "X-JOBS-ADMINTYPE",
-    "Ispapi-Options" => "1,0"
+    "Options" => "1|Administrative,0|Other",
+    "Default" => "1|Administrative",
+    "Ispapi-Name" => "X-JOBS-ADMINTYPE"
 );

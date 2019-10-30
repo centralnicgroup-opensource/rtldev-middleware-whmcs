@@ -1,3 +1,4 @@
 <?php
 ## .DENTIST DOMAIN REQUIREMENTS ##
-include "makeup.php";
+$additionaldomainfields[$tld] = [];
+include "_highlyregulatedtld.php";

@@ -1,14 +1,18 @@
 <?php
 use \ISPAPI\Helper;
+use \WHMCS\Domains\Idna;
 
 require_once "lib/Helper.class.php";
 
-$r = \ISPAPI\Helper::SQLCall("SELECT LOWER(extension) as extension, LOWER(SUBSTRING(extension, 2)) as short FROM tbldomainpricing WHERE autoreg=:registrar", array(
+$r = \ISPAPI\Helper::SQLCall("SELECT LOWER(SUBSTRING(extension, 2)) as short FROM tbldomainpricing WHERE autoreg=:registrar", array(
     ":registrar" => "Ispapi"
 ), "fetchall");
 if ($r["success"]) {
+    $idnConvert = new \WHMCS\Domains\Idna();
     foreach ($r["result"] as $row) {
-        $tld = $row["extension"];
+        // in tbldomainpricing they want IDN format, but for additional fields they still use punycode?
+        $tld = "." . $idnConvert->encode($row["short"]);
+
         // check if an file exists for the extension (e.g. .sg, .com.sg, .de)
         $file = implode(DIRECTORY_SEPARATOR, array(ROOTDIR, "modules", "registrars", "ispapi", "additionalfields", $row["short"] . ".php"));//TODO sanitize, test if $tld is used
         if (file_exists($file)) {
@@ -16,11 +20,10 @@ if ($r["success"]) {
         } else {
             // if not, fallback to 2nd lvl extension
             // note: in case 3rd lvl extension has NO xflags, but 2nd lvl extension has -> simply add an empty file for 3rd lvl extension
-            $tldold = $tld;
             $tldshort = preg_replace("/^.+\./", "", $row["short"]);
-            $tld = "." . $tldshort;
+            $tldnew = "." . $tldshort;
             $file = implode(DIRECTORY_SEPARATOR, array(ROOTDIR, "modules", "registrars", "ispapi", "additionalfields", $tldshort . ".php"));
-            if (($tldold !== $tld) && file_exists($file)) {
+            if (($tld !== $tldnew) && file_exists($file)) {
                 include $file;
             }
         }

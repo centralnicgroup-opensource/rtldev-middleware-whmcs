@@ -1,39 +1,36 @@
 <?php
-## .COM.AU DOMAIN REQUIREMENTS ##
+## .(COM|NET|ORG|ASN|ID).AU DOMAIN REQUIREMENTS ##
 ## remove default whmcs fields ##
-$additionaldomainfields[$tld][] = array(
+$additionaldomainfields[$tld][] = [
     "Name" => "Registrant Name",
     "Remove" => true
-);
-$additionaldomainfields[$tld][] = array(
+];
+$additionaldomainfields[$tld][] = [
     "Name" => "Eligibility Name",
     "Remove" => true
-);
-$additionaldomainfields[$tld][] = array(
+];
+$additionaldomainfields[$tld][] = [
     "Name" => "Eligibility ID",
     "Remove" => true
-);
-$additionaldomainfields[$tld][] = array(
+];
+$additionaldomainfields[$tld][] = [
     "Name" => "Eligibility ID Type",
     "Remove" => true
-);
-$additionaldomainfields[$tld][] = array(
+];
+$additionaldomainfields[$tld][] = [
     "Name" => "Eligibility Type",
     "Remove" => true
-);
-$additionaldomainfields[$tld][] = array(
+];
+$additionaldomainfields[$tld][] = [
     "Name" => "Eligibility Reason",
     "Remove" => true
-);
+];
 
 ## edit whmcs default additional fields ##
-$additionaldomainfields[$tld][] = array(
-    "Name" => "Registrant ID",
-    "Ispapi-Name" => "X-AU-REGISTRANT-ID-NUMBER"
-);
-$additionaldomainfields[$tld][] = array(
-    "Name" => "Registrant ID Type",
-    "Options" => "Australian Business Number,Australian Company Number,Business Registration Number,Trademark Number",
-    "Ispapi-Name" => "X-AU-REGISTRANT-ID-TYPE",
-    "Ispapi-Options" => "ABN,ACN,RBN,TM"
-);
+$customopts =  implode(",", [
+    "ABN|Australian Business Number",
+    "ACN|Australian Company Number",
+    "RBN|Business Registration Number",
+    "TM|Trademark Number"
+]);
+include "_registrantid.php";

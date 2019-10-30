@@ -1,4 +1,4 @@
 <?php
 ## .SCOT DOMAIN REQUIREMENTS ##
-$additionaldomainfields[$tld] = array();
+$additionaldomainfields[$tld] = [];
 include "_intendeduse.php";

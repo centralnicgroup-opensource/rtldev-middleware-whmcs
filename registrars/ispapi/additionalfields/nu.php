@@ -1,26 +1,14 @@
 <?php
 ## .NU DOMAIN REQUIREMENTS ##
-## remove default whmcs fields ##
-$additionaldomainfields[$tld][] = array(
-    "Name" => "Identification Number",
-    "Remove" => true
-);
-$additionaldomainfields[$tld][] = array(
-    "Name" => "VAT Number",
-    "Remove" => true
-);
 ## add ispapi additional fields ##
-$additionaldomainfields[$tld][] = array(
-    "Name" => "Registrant ID number",
-    "Type" => "text",
-    "Required" => true,
+$additionaldomainfields[$tld][] = [
+    "Name" => "Identification Number",
+    'Description' => '(Personal Identification Number (or Organization number), if you are an individual registrant (or organization) in/outside Sweden)',
     "Ispapi-Name" => "X-REGISTRANT-IDNUMBER"
-);
-$additionaldomainfields[$tld][] = array(
-    "Name" => "Vat ID",
-    "Type" => "text",
-    "Required" => true,
-    "Ispapi-Name" => "X-VATID"
-
-);
+];
+$additionaldomainfields[$tld][] = [
+    "Name" => "VAT Number",
+    "Ispapi-Name" => "X-VATID",
+    'Description' => '(for companies outside of Sweden but inside EU)',
+];
 include "_acceptregistrationtac.php";

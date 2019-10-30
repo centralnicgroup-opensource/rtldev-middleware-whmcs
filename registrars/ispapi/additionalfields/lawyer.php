@@ -1,3 +1,4 @@
 <?php
-## .LAW DOMAIN REQUIREMENTS ##
-include "makeup.php";
+## .LAWYER DOMAIN REQUIREMENTS ##
+$additionaldomainfields[$tld] = [];
+include "_highlyregulatedtld.php";

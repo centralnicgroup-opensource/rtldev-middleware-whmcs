@@ -1,7 +1,7 @@
 <?php
 
 ## .JP DOMAIN REQUIREMENTS ##
-$additionaldomainfields[$tld] = array();
+$additionaldomainfields[$tld] = [];
 
 ## LOCAL PRESENCE / TRUSTEE SERVICE ##
 ## NOTE: if you want to offer local presence service, add the trustee service price to the domain registration AND transfer price ##
@@ -9,12 +9,12 @@ $additionaldomainfields[$tld] = array();
 ## TODO: we do not offer JP Trustee Service, this is just some relict out of the past and related on how our backend system covered
 ##       the .jp registrations internally. Obviously this part can be cleaned up.
 /*
-$additionaldomainfields[$tld][] = array(
+$additionaldomainfields[$tld][] = [
     "Name" => "Local Presence",
     "Type" => "dropdown",
-    "Options" => ",Registrant and/or Admin-C are domiciled in Japan / Use Local Presence Service",
+    "Options" => ",1|Registrant and/or Admin-C are domiciled in Japan / Use Local Presence Service",
+    "Default" => "",
     "Ispapi-IgnoreForCountries" => "JP",
-    "Ispapi-Name" => "X-JP-ACCEPT-TRUSTEE-TAC",
-    "Ispapi-Options" => ",1"
-);
+    "Ispapi-Name" => "X-JP-ACCEPT-TRUSTEE-TAC"
+];
 */

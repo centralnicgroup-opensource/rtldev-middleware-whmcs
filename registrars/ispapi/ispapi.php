@@ -135,9 +135,11 @@ function ispapi_CheckAvailability($params)
                             if (isset($registerprice) && isset($currency) && !empty($renewprice)) {
                                 $status = SearchResult::STATUS_NOT_REGISTERED;
                                 $searchResult->setPremiumDomain(true);
-                                $premiuminformation = array('register' => $registerprice,
-                                                            'renew' => $renewprice,
-                                                            'CurrencyCode' => $currency);
+                                $premiuminformation = array(
+                                    'register' => $registerprice,
+                                    'renew' => $renewprice,
+                                    'CurrencyCode' => $currency
+                                );
                                 $searchResult->setPremiumCostPricing($premiuminformation);
                             } else {
                                 //PROBLEM, COULD NOT GET REGISTRATION OR RENEW PRICES -> DISPLAY THE DOMAIN AS TAKEN
@@ -291,7 +293,11 @@ function ispapi_getRenewPrice($params, $class, $cur_id, $tld)
         // $renewprice = $gettldpricing_res["pricing"][$tld]["renew"][1];
         //return !empty($renewprice) ? $renewprice : false;
     }
-
+    //-----------------------------------------------------------------------
+    // TODO
+    //-----------------------------------------------------------------------
+    //????????????? currency conversion ?????????????????????????????????????
+    //-----------------------------------------------------------------------
     if (!preg_match('/\:/', $class)) {
         //REGISTRY PREMIUM DOMAIN (e.g. PREMIUM_DATE_F)
         $class = "PRICE_CLASS_DOMAIN_".$class."_ANNUAL";
@@ -964,9 +970,9 @@ function ispapi_registrantmodification_ca($params)
 
         foreach ($myadditionalfields as $item) {
             if ($item["Ispapi-Name"] == "X-CA-LEGALTYPE") {
-                $ispapi_options = explode(",", $item["Ispapi-Options"]);
                 $options = explode(",", $item["Options"]);
-                $index = array_search($response["PROPERTY"]["X-CA-LEGALTYPE"][0], $ispapi_options);
+                $options = preg_replace("/\|.+$/", "", $options);
+                $index = array_search($response["PROPERTY"]["X-CA-LEGALTYPE"][0], $options);
                 $values["Legal Type"] = $options[$index];
             }
         }
@@ -2810,23 +2816,12 @@ function ispapi_include_additionaladditionalfields()
     if (is_array($additionaldomainfields) && isset($additionaldomainfields[".".$params["tld"]])) {
         $myadditionalfields = $additionaldomainfields[".".$params["tld"]];
     }
-
-    foreach ($myadditionalfields as $field_index => $field) {
-        $field["Ispapi-Replacements"] = array();
-        if (isset($field["Ispapi-Options"]) && isset($field["Options"])) {
-            $options = explode(",", $field["Options"]);
-            $ispoptions = explode(",", $field["Ispapi-Options"]);
-            foreach ($ispoptions as $index => $new_option) {
-                $field["Ispapi-Replacements"][$options[$index]] = $new_option;
-            }
-        }
-        $myadditionalfields[$field_index] = $field;
-    }
     return $myadditionaldomainfields;
 }
 
 function ispapi_use_additionalfields($params, &$command, $myadditionaldomainfields = null)
 {
+    //TODO: can we clean this part of to just loop over $params["additionalfields"] ???
     if (is_null($myadditionaldomainfields)) {
         $myadditionaldomainfields = ispapi_include_additionaladditionalfields();
     }
@@ -2838,9 +2833,6 @@ function ispapi_use_additionalfields($params, &$command, $myadditionaldomainfiel
                 $field["Ispapi-IgnoreForCountries"] = explode(",", $field["Ispapi-IgnoreForCountries"]);
             }
             if (!in_array($ucCountry, $field["Ispapi-IgnoreForCountries"]) && isset($field["Ispapi-Name"])) {
-                if (isset($field["Ispapi-Replacements"][$value])) {
-                    $value = $field["Ispapi-Replacements"][$value];
-                }
                 if (isset($field["Type"]) && $field["Type"]=="tickbox") {
                     $value = ( $value ) ? "1" : "0";
                 }

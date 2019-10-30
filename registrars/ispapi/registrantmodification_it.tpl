@@ -1,4 +1,3 @@
-{assign var=ispapioptslabel value="Ispapi-Options"}
 {assign var=ispapinamelabel value="Ispapi-Name"}
 
 {assign var=localpresence value="Local Presence"}
@@ -64,14 +63,14 @@
 	{foreach item=field from=$additionalfields}
 		{if $field.Type == "dropdown"}
 			{assign var="options" value=","|explode:$field.Options}
-			{assign var="ispapioptions" value=","|explode:$field.$ispapioptslabel}
 			{assign var="ispapiname" value=""}
 			<div class="form-group">
 	 			<label for="additionalfields[{$field.Name}]">{$field.Name}<br></label>
 				<br>
 				<select name="additionalfields[{$field.Name}]" id="additionalfields[{$field.Name}]" class="{$field.$ispapinamelabel}">
 					{foreach from=$options key=k  item=option}
-		        		<option value="{$ispapioptions.$k}">{$option}</option>
+						{assign var="opt" value="|"|explode:$option}
+		        		<option value="{$opt[0]}">{if count($opt)>1}{$opt[1]}{else}{$opt[0]}{/if}</option>
 		        	{/foreach}
 		    	</select>
 		    	{$field.Description}

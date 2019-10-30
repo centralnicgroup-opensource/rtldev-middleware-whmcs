@@ -1,17 +1,22 @@
 <?php
 ## .EU DOMAIN REQUIREMENTS ##
-$additionaldomainfields[$tld] = array();
+## remove default whmcs fields
+$additionaldomainfields[$tld][] = [
+    'Name' => 'Entity Type',
+    'Remove' => true
+];
 
+## add ispapi fields 
 ## LOCAL PRESENCE / TRUSTEE SERVICE ##
 ## NOTE: if you want to offer local presence service, add the trustee service price to the domain registration AND transfer price ##
 ## for reference: https://requests.whmcs.com/topic/integrate-trustee-service-as-generic-domain-add-on
 /*
-$additionaldomainfields[$tld][] = array(
+$additionaldomainfields[$tld][] = [
     "Name" => "Local Presence",
     "Type" => "dropdown",
-    "Options" => ",Registrant is domiciled in the EU / Use Local Presence Service",
+    "Options" => ",1|Registrant is domiciled in the EU / Use Local Presence Service",
+    "Default" => "",
     "Ispapi-IgnoreForCountries" => "AT,BE,BG,CZ,CY,DE,DK,ES,EE,FI,FR,GR,HU,IE,IT,LT,LU,LV,MT,NL,PL,PT,RO,SE,SK,SI,HR",
-    "Ispapi-Name" => "X-EU-ACCEPT-TRUSTEE-TAC",
-    "Ispapi-Options" => ",1"
-);
+    "Ispapi-Name" => "X-EU-ACCEPT-TRUSTEE-TAC"
+];
 */

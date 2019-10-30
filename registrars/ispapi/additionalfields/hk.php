@@ -1,105 +1,101 @@
 <?php
-## .HK, .香港 DOMAIN REQUIREMENTS ##
+## .HK, .香港 (.xn--j6w193g) DOMAIN REQUIREMENTS ##
 ## remove default whmcs fields ##
-$additionaldomainfields[$tld][] = array(
+$additionaldomainfields[$tld][] = [
     "Name" => "Registrant Type",
     "Remove" => true
-);
-$additionaldomainfields[$tld][] = array(
+];
+$additionaldomainfields[$tld][] = [
     'Name' => 'Organizations Name in Chinese',
     "Remove" => true
-);
-$additionaldomainfields[$tld][] = array(
+];
+$additionaldomainfields[$tld][] = [
     'Name' => 'Organizations Supporting Documentation',
     "Remove" => true
-);
-$additionaldomainfields[$tld][] = array(
+];
+$additionaldomainfields[$tld][] = [
     'Name' => 'Organizations Document Number',
     "Remove" => true
-);
-$additionaldomainfields[$tld][] = array(
+];
+$additionaldomainfields[$tld][] = [
     'Name' => 'Organizations Issuing Country',
     "Remove" => true
-);
-$additionaldomainfields[$tld][] = array(
+];
+$additionaldomainfields[$tld][] = [
     'Name' => 'Organizations Industry Type',
     "Remove" => true
-);
-$additionaldomainfields[$tld][] = array(
+];
+$additionaldomainfields[$tld][] = [
     'Name' => 'Individuals Supporting Documentation',
     "Remove" => true
-);
-$additionaldomainfields[$tld][] = array(
+];
+$additionaldomainfields[$tld][] = [
     'Name' => 'Individuals Document Number',
     "Remove" => true
-);
-$additionaldomainfields[$tld][] = array(
+];
+$additionaldomainfields[$tld][] = [
     'Name' => 'Individuals Issuing Country',
     "Remove" => true
-);
-$additionaldomainfields[$tld][] = array(
+];
+$additionaldomainfields[$tld][] = [
     'Name' => 'Individuals Under 18',
     "Remove" => true
-);
+];
 
 ## add ispapi additional fields ##
-$additionaldomainfields[$tld][] = array(
+$additionaldomainfields[$tld][] = [
     "Name" => "Registrant Document Type",
     "Type" => "dropdown",
-    "Options" => implode(",", array(
-        "Individual - Hong Kong Identity Number",
-        "Individual - Other's Country Identity Number",
-        "Individual - Passport No.",
-        "Individual - Birth Certificate",
-        "Individual - Others Individual Document",
-        "Organization - Business Registration Certificate",
-        "Organization - Certificate of Incorporation",
-        "Organization - Certificate of Registration of a School",
-        "Organization - Hong Kong Special Administrative Region Government Department",
-        "Organization - Ordinance of Hong Kong",
-        "Organization - Others Organization Document"
-    )),
+    "Options" => implode(",", [
+        "HKID|Individual - Hong Kong Identity Number",
+        "OTHID|Individual - Other's Country Identity Number",
+        "PASSNO|Individual - Passport No.",
+        "BIRTHCERT|Individual - Birth Certificate",
+        "OTHIDV|Individual - Others Individual Document",
+        "BR|Organization - Business Registration Certificate",
+        "CI|Organization - Certificate of Incorporation",
+        "CRS|Organization - Certificate of Registration of a School",
+        "HKSARG|Organization - Hong Kong Special Administrative Region Government Department",
+        "HKORDINANCE|Organization - Ordinance of Hong Kong",
+        "OTHORG|Organization - Others Organization Document"
+    ]),
+    "Default" => "HKID|Individual - Hong Kong Identity Number",
     "Description" => "",
     "Required" => true,
-    "Ispapi-Name" => "X-HK-REGISTRANT-DOCUMENT-TYPE",
-    "Ispapi-Options" => implode(",", array(
-        "HKID", "OTHID","PASSNO","BIRTHCERT","OTHIDV",
-        "BR", "CI","CRS","HKSARG","HKORDINANCE","OTHORG"
-    ))
-);
-$additionaldomainfields[$tld][] = array(
+    "Ispapi-Name" => "X-HK-REGISTRANT-DOCUMENT-TYPE"
+];
+$additionaldomainfields[$tld][] = [
     "Name" => "Registrant Other Document Type",
     "Type" => "text",
     "Required" => false,
     "Description" => "required for chosen document type: `Others Individual Document` or `Others Organization Document`",
     "Ispapi-Name" => "X-HK-REGISTRANT-OTHER-DOCUMENT-TYPE"
-);
-$additionaldomainfields[$tld][] = array(
+];
+$additionaldomainfields[$tld][] = [
     "Name" => "Registrant Document Number",
     "Type" => "text",
     "Required" => true,
     "Ispapi-Name" => "X-HK-REGISTRANT-DOCUMENT-NUMBER"
-);
-$additionaldomainfields[$tld][] = array(
+];
+$additionaldomainfields[$tld][] = [
     "Name" => "Registrant Document Origin Country",
     "Type" => "text",
     "Required" => true,
     "Description" => "two-letter country code (ISO 3166-1 alpha-2)",
     "Ispapi-Name" => "X-HK-REGISTRANT-DOCUMENT-ORIGIN-COUNTRY"
-);
-$additionaldomainfields[$tld][] = array(
+];
+$additionaldomainfields[$tld][] = [
     "Name" => "Registrant Birth Date for individuals",
     "Type" => "text",
     "Required" => false,
     "Description" => "YYYY-MM-DD (mandatory, if the registrant is an individual)",
     "Ispapi-Name" => "X-HK-REGISTRANT-BIRTH-DATE"
-);
-$additionaldomainfields[$tld][] = array(
+];
+$additionaldomainfields[$tld][] = [
     "Name" => "HK Terms for individuals",
     "Type" => "tickbox",
     "Description" => "Accept the .HK <a href='https://www.hkirc.hk/content.jsp?id=3#!/6' target='_blank'>Terms for individuals</a>. (mandatory, if the registrant is an individual)",
     "Required" => false,
-    "Options" => "on",
-    "Ispapi-Name" => "X-HK-ACCEPT-INDIVIDUAL-REGISTRATION-TAC",
-    "Ispapi-Options" => "1"
-);
+    "Options" => "1|on",
+    "Ispapi-Name" => "X-HK-ACCEPT-INDIVIDUAL-REGISTRATION-TAC"
+];

@@ -1,29 +1,24 @@
 <?php
 ## .TEL DOMAIN REQUIREMENTS ##
-$additionaldomainfields[$tld] = array();
-$additionaldomainfields[$tld][] = array(
-    "Name" => "WHOIS Type",
-    "Type" => "dropdown",
+$additionaldomainfields[$tld][] = [
+    "Name" => "Legal Type",
     "Ispapi-Name" => "X-TEL-WHOISTYPE",
-    "Options" => implode(",", array(
-        "Legal",
-        "Natural"
-    )),
+    "Options" => implode(",", [
+        "Natural|Natural Person",
+        "Legal|Legal Person"
+    ]),
+    "Default" => "Natural|Natural Person",
     "Required" => true
-);
+];
 $additionaldomainfields[$tld][] = array(
-    "Name" => "Publish Full Data in WHOIS",
-    "Description" => "(available for WHOIS Type `Natural`. Choose `No` to get WHOIS data limited to registrant name.)",
+    "Name" => "WHOIS Opt-out",
+    "Description" => "(available for Legal Type `Natural`. Choose `No` to get WHOIS data limited to registrant name.)",
     "Type" => "dropdown",
     "Ispapi-Name" => "X-TEL-PUBLISH",
-    "Options" => implode(",", array(
-        "Yes",
-        "No"
-    )),
-    "Ispapi-Options" => implode(",", array(
-        "Y",
-        "N"
-    )),
-    "Default" => "Y",
+    "Options" => implode(",", [
+        "Y|Yes",
+        "N|No"
+    ]),
+    "Default" => "Y|Yes",
     "Required" => false
 );
