@@ -1,3 +1,10 @@
+## [1.12.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.12.1...v1.12.2) (2019-11-04)
+
+
+### Bug Fixes
+
+* **transfer:** change period auto-detection to apply for only 0Y ([5fb61bb](https://github.com/hexonet/whmcs-ispapi-registrar/commit/5fb61bbfa820812c539e3a8ddc8baac12a3bf9fe))
+
 ## [1.12.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.12.0...v1.12.1) (2019-10-22)
 
 
