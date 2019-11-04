@@ -2495,24 +2495,13 @@ function ispapi_TransferDomain($params)
         "DOMAIN0" => $domain
     );
     $queryDomainOptions_response = ispapi_call($queryDomainOptions_command, ispapi_config($origparams));
-
-    $period_arry = explode(",", $queryDomainOptions_response['PROPERTY']['ZONETRANSFERPERIODS'][0]);
-
-    if ($period_arry && $period_arry[0]) {
-        $command["PERIOD"] = preg_replace("/([0-9]+[YM])/", "$1", $period_arry[0]);
+    if ($queryDomainOptions_response["CODE"] == 200) {
+        $period_arry = explode(",", $queryDomainOptions_response['PROPERTY']['ZONETRANSFERPERIODS'][0]);
+        if (preg_match("/^0(Y|M)?$/i", $period_arry[0])) {// set period 0 - specific case.
+            $command["PERIOD"] = $period_arry[0];//TODO: in corner-cases execute a regperiod renewal
+        }
     }
-
-    
-
     $response = ispapi_call($command, ispapi_config($origparams));
-
-    //Bug fix Issue WHMCS #4166 (fixed in 5.3.7)
-    //############
-    //if (preg_match('/Authorization failed/', $response["DESCRIPTION"]) && preg_match('/&#039;/', $origparams["transfersecret"])) {
-    //    $command["AUTH"] = htmlspecialchars_decode($origparams["transfersecret"], ENT_QUOTES);
-    //    $response = ispapi_call($command, ispapi_config($origparams));
-    //}
-    //############
 
     if ($response["CODE"] != 200) {
         $values["error"] = $response["DESCRIPTION"];
