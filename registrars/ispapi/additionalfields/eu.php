@@ -16,7 +16,7 @@ $additionaldomainfields[$tld][] = [
     "Type" => "dropdown",
     "Options" => ",1|Registrant is domiciled in the EU / Use Local Presence Service",
     "Default" => "",
-    "Ispapi-IgnoreForCountries" => "AT,BE,BG,CZ,CY,DE,DK,ES,EE,FI,FR,GR,HU,IE,IT,LT,LU,LV,MT,NL,PL,PT,RO,SE,SK,SI,HR",
+    "Ispapi-IgnoreForCountries" => ["AT","BE","BG","CZ","CY","DE","DK","ES","EE","FI","FR","GR","HU","IE","IT","LT","LU","LV","MT","NL","PL","PT","RO","SE","SK","SI","HR"],
     "Ispapi-Name" => "X-EU-ACCEPT-TRUSTEE-TAC"
 ];
 */

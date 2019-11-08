@@ -18,14 +18,14 @@ $additionaldomainfields[$tld][] = [
 $additionaldomainfields[$tld][] = [
     "Name" => "General Request Contact",
     "Type" => "text",
-    "Description" => "The registry will identify this as the general request contact information. You can use an email address (contact@example.com) or a website (https://mycontactform.example)",
+    "Description" => "The registry will identify this as the general request contact information. You can provide an email address or a website url",
     "Required" => false,
     "Ispapi-Name" => "X-DE-GENERAL-REQUEST"
 ];
 $additionaldomainfields[$tld][] = [
     "Name" => "Abuse Team Contact",
     "Type" => "text",
-    "Description" => "The registry will identify this as the abuse team contact information. You can use an email address (contact@example.com) or a website (https://mycontactform.example)",
+    "Description" => "The registry will identify this as the abuse team contact information. You can provide an email address or a website url",
     "Required" => false,
     "Ispapi-Name" => "X-DE-ABUSE-CONTACT"
 ];
@@ -38,6 +38,6 @@ $additionaldomainfields[$tld][] = [
     "Type" => "dropdown",
     "Options" => ",1|Registrant and/or Admin-C are domiciled in Germany / Use Local Presence Service",
     "Default" => "",
-    "Ispapi-IgnoreForCountries" => "DE",
+    "Ispapi-IgnoreForCountries" => ["DE"],
     "Ispapi-Name" => "X-DE-ACCEPT-TRUSTEE-TAC"
 ];*/

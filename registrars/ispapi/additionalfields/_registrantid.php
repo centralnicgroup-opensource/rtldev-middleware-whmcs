@@ -12,7 +12,6 @@ $additionaldomainfields[$tld][] = [
     "Type" => "dropdown",
     "Options" => $customopts,
     "Default" => $customopts[0],
-    "Description" => "",//TODO remove?
     "Required" => true,
     "Ispapi-Name" => "X-" . $tclass . "-REGISTRANT-ID-TYPE"
 ];

@@ -30,14 +30,8 @@ $additionaldomainfields[$tld][] = [
 */
 
 $additionaldomainfields[$tld][] = [
-    "Name" => "PIN",
-    "Type" => "text",
-    "Required" => false,
-    "Ispapi-Name" => "X-IT-PIN"
-];
-$additionaldomainfields[$tld][] = [
     "Name" => "Accept Section 3 of .IT registrar contract",
-    "Description" => "<div style='color:#666666;'><b>Section 3 - Declarations and assumptions of liability</b><br>The Registrant of the domain name in question, declares under their own responsibility that they are:
+    "Description" => "<b>Section 3 - Declarations and assumptions of liability</b><br/><div style='text-align:justify;margin-bottom:10px;'>The Registrant of the domain name in question, declares under their own responsibility that they are:
 <ul><li>in possession of the citizenship or resident in a country belonging to the European Union (in the case of registration for natural persons);</li>
 <li>established in a country belonging to the European Union (in the case of registration for other organizations);</li>
 <li>aware and accept that the registration and management of a domain name is subject to the 'Rules of assignment and management of domain names in ccTLD. it' and 'Regulations for the resolution of disputes in the ccTLD.it' and their subsequent amendments;</li>
@@ -46,39 +40,37 @@ $additionaldomainfields[$tld][] = [
 <li>aware and agree that in the case of erroneous or false declarations in this request, the Registry shall immediately revoke the domain name, or proceed with other legal actions. In such case the revocation shall not in any way give rise to claims against the Registry;</li>
 <li>release the Registry from any liability resulting from the assignment and use of the domain name by the natural person that has made the request;</li>
 <li>accept Italian jurisdiction and laws of the Italian State.</li></ul></div>",
-    "Type" => "dropdown",
-    "Options" => ",1|I accept the Section 3 Agreement listed below",
-    "Default" => "",
+    "Type" => "tickbox",
     "Ispapi-Name" => "X-IT-ACCEPT-LIABILITY-TAC"
 ];
 $additionaldomainfields[$tld][] = [
     "Name" => "Accept Section 5 of .IT registrar contract",
-    "Description" => "<div style='color:#666666;'><b>Section 5 - Consent to the processing of personal data for registration</b><br>
+    "Description" => "<b>Section 5 - Consent to the processing of personal data for registration</b><br/><div style='text-align:justify;margin-bottom:10px;'>
 The interested party, after reading the above disclosure, gives consent to the processing of information required for registration, as defined in the above disclosure. Giving consent is optional, but if no consent is given, it will not be possible to finalize the registration, assignment and management of the domain name.</div>",
-    "Type" => "dropdown",
-    "Options" => ",1|I accept the Section 5 Agreement listed below",
-    "Default" => "",
+    "Type" => "tickbox",
     "Ispapi-Name" => "X-IT-ACCEPT-REGISTRATION-TAC"
 ];
 $additionaldomainfields[$tld][] = [
     "Name" => "Accept Section 6 of .IT registrar contract",
-    "Description" => "<div style='color:#666666;'><b>Section 6 - Consent to the processing of personal data for diffusion and accessibility via the Internet</b><br>
+    "Description" => "<b>Section 6 - Consent to the processing of personal data for diffusion and accessibility via the Internet</b><br/><div style='text-align:justify;margin-bottom:10px;'>
 The interested party, after reading the above disclosure, gives consent to the dissemination and accessibility via the Internet, as defined in the disclosure above. Giving consent is optional, but absence of consent does not allow the dissemination and accessibility of Internet data.</div>",
-    "Type" => "dropdown",
-    "Options" => ",1|I accept the Section 6 Agreement listed below",
-    "Default" => "",
+    "Type" => "tickbox",
     "Ispapi-Name" => "X-IT-ACCEPT-DIFFUSION-AND-ACCESSIBILITY-TAC"
 ];
 $additionaldomainfields[$tld][] = [
     "Name" => "Accept Section 7 of .IT registrar contract",
-    "Description" => "<div style='color:#666666;'><b>Section 7 - Explicit Acceptance of the following points</b><br>
+    "Description" => "<b>Section 7 - Explicit Acceptance of the following points</b><br/><div style='text-align:justify;margin-bottom:10px;'>
 For explicit acceptance, the interested party declares that they:
 <ul><li>d) are aware and agree that the registration and management of a domain name is subject to the 'Rules of assignment and management of domain names in ccTLD.it' and 'Regulations for the resolution of disputes in the ccTLD.it' and their subsequent amendments;</li>
 <li>e) are aware and agree that in the case of erroneous or false declarations in this request, the Registry shall immediately revoke the domain name, or proceed with other legal actions. In such case the revocation shall not in any way give rise to claims against the Registry;</li>
 <li>f) release the Registry from any liability resulting from the assignment and use of the domain name by the natural person that has made the request;</li>
 <li>g) accept the Italian jurisdiction and laws of the Italian State.</li></ul></div>",
-    "Type" => "dropdown",
-    "Options" => ",1|I accept the Section 7 Agreement listed below",
-    "Default" => "",
+    "Type" => "tickbox",
     "Ispapi-Name" => "X-IT-ACCEPT-EXPLICIT-TAC"
+];
+$additionaldomainfields[$tld][] = [
+    "Name" => "PIN",
+    "Type" => "text",
+    "Required" => false,
+    "Ispapi-Name" => "X-IT-PIN"
 ];

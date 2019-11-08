@@ -19,7 +19,7 @@ $additionaldomainfields[$tld][] = [
     "Default" => "",
     "Description" => "<div>If you are not domiciled in Singapore use the Local presence.<br>If you are domiciled in Singapore fill the dedicated fields below:</div>",
     "Default" => "",
-    "Ispapi-IgnoreForCountries" => "SG",
+    "Ispapi-IgnoreForCountries" => ["SG"],
     "Ispapi-Name" => "X-SG-ACCEPT-TRUSTEE-TAC"
 ];
 */

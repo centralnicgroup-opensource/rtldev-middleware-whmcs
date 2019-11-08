@@ -12,7 +12,7 @@ $additionaldomainfields[$tld][] = [
     "Options" => ",1|Registrant and/or Admin-C are domiciled in Malaysia / Use Local Presence Service",
     "Default" => "",
     "Description" => "<div>If you are not domiciled in Malaysia use the Local presence.<br>If you are domiciled in Malaysia fill the dedicated fields below:</div>",
-    "Ispapi-IgnoreForCountries" => "MY",
+    "Ispapi-IgnoreForCountries" => ["MY"],
     "Ispapi-Name" => "X-MY-ACCEPT-TRUSTEE-TAC"
 ];
 */

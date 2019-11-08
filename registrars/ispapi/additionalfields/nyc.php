@@ -9,7 +9,7 @@ $additionaldomainfields[$tld][] = [
         "2|Entity or organization - primary domicile with physical address in NYC"
     ]),
     "Default" => "1|Natural Person - primary domicile with physical address in NYC",
-    "Description" => "<div>P.O Boxes are prohibited, see <a href='http://www.ownit.nyc/policies/index.php'>.nyc Nexus Policies</a>.</div>",
+    "Description" => "(P.O Boxes are prohibited, see <a href='http://www.ownit.nyc/policies/index.php'>.nyc Nexus Policies</a>.)",
     "Required" => true,
     "Ispapi-Name" => "X-NYC-REGISTRANT-NEXUS-CATEGORY"
 ];

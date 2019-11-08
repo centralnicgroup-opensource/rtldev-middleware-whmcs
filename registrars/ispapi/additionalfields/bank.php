@@ -5,7 +5,7 @@ $additionaldomainfields[$tld][] = [
     "Name" => "Registry's Allocation Token",
     "Type" => "text",
     "Required" => true,
-    "Description" => "<div>To register a .BANK domain, you must provide the allocation token issued by the registry. Please complete the registrant application <a href='https://www.register.bank/get-started/' target='_blank'>here</a> to obtain the token.</div>",
+    "Description" => "(Issued by the registry. Obtain it by completing <a href='https://www.register.bank/get-started/' target='_blank'>the registrant application</a>.)",
     "Ispapi-Name" => "X-ALLOCATIONTOKEN",
     "Default" => ""
 ];

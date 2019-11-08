@@ -17,7 +17,7 @@ When you have to introduce a new custom field, ensure that the value for propert
 Create file `/resources/domain/additionalfields.php` if not existing and add the following source code snippet at the end of the file. This file will be automatically considered by WHMCS when existing and will **NOT** be overwritten by WHMCS Upgrades!
 
 ```php
-$ipath = implode(DIRECTORY_SEPARATOR, array(ROOTDIR, "modules", "registrars", "ispapi", "additionalfields.php"));
+$ipath = implode(DIRECTORY_SEPARATOR, [ROOTDIR, "modules", "registrars", "ispapi", "additionalfields.php"]);
 if (file_exists($ipath)){
         include $ipath;
 }
@@ -65,10 +65,10 @@ Some of the default fields might be deprecated and thus deactivating them, is us
 4. Modify the configuration to follow the below snippet:
 
    ```php
-   $additionaldomainfields[$tld][] = array(
+   $additionaldomainfields[$tld][] = [
     'Name' => 'CIRA Agreement',
     "Remove" => true
-   );
+   ];
    ```
 
    So, by just keeping property `Name` and adding property `Remove` and setting its value to `true`. Replace the domain extension key name by `$tld`.
@@ -102,11 +102,11 @@ There's no possibility to just deactivate a key-value pair, you can just overwri
 This property covers the so-called extension flag name of the additional domain field in our backend system API e.g.
 
 ```php
-$additionaldomainfields[$tld][] = array(
+$additionaldomainfields[$tld][] = [
     "Name" => "Legal Type",
     "Ispapi-Name" => "X-CA-LEGALTYPE",
     // ...
-);
+];
 ```
 
 #### Ispapi-Options [REMOVED by v2.0.0]
@@ -115,37 +115,37 @@ Removed in favour of the more compact piped notation WHMCS now allows in propert
 Specify here values for dropdown lists / fields that should reach our backend system API. The index of the value provided here has to correspond to the one specified in property `Options`. e.g.:
 
 ```php
-$additionaldomainfields[$tld][] = array(
+$additionaldomainfields[$tld][] = [
     "Name" => "Legal Type",
-    "Options" => implode(",", array(
+    "Options" => implode(",", [
         "Corporation",
         "Canadian Citizen",
         // ...
         "Her Majesty the Queen"
-    )),
-    "Ispapi-Options" => implode(",", array(
+    ]),
+    "Ispapi-Options" => implode(",", [
         "CCO",
         "CCT",
         // ...
         "MAJ"
-    )),
+    ]),
     "Ispapi-Name" => "X-CA-LEGALTYPE",
-);
+];
 ```
 
 Replace the above by
 
 ```php
-$additionaldomainfields[$tld][] = array(
+$additionaldomainfields[$tld][] = [
     "Name" => "Legal Type",
-    "Options" => implode(",", array(
+    "Options" => implode(",", [
         "CCO|Corporation",
         "CCT|Canadian Citizen",
         // ...
         "MAJ|Her Majesty the Queen"
-    )),
+    ]),
     "Ispapi-Name" => "X-CA-LEGALTYPE",
-);
+];
 ```
 
 The values have to be provided as comma-separated string. For better visualization and maintenance, we just concatenate array entries with comma.
@@ -157,11 +157,13 @@ Specify a comma-separated list of countries for which this field should get igno
 The list will then be compared to registrant's country which is provided by WHMCS in `$params["country"]` in the appropriate registrar module methods.
 
 ```php
-$additionaldomainfields[$tld][] = array(
+$additionaldomainfields[$tld][] = [
     //...
-    "Ispapi-IgnoreForCountries" => 'AT,BE,BG'
-);
+    "Ispapi-IgnoreForCountries" => ['AT','BE','BG']
+];
 ```
+
+> In v2.x.x this parameter changed from type string to array to remove extra code in our registrar module.
 
 #### Ispapi-Format
 
@@ -170,10 +172,10 @@ This will auto-format the additional field's value in the format of choice befor
 Supported values: `UPPERCASE` (to be extended on demand), e.g.
 
 ```php
-$additionaldomainfields[$tld][] = array(
+$additionaldomainfields[$tld][] = [
     //...
     "Ispapi-Format" => "UPPERCASE"
-);
+];
 ```
 
 #### Ispapi-Replacements [REMOVED by v2.0.0]

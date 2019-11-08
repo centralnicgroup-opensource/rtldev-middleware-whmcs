@@ -14,7 +14,7 @@ $additionaldomainfields[$tld][] = [
     "Type" => "dropdown",
     "Options" => ",1|Registrant and/or Admin-C are domiciled in Japan / Use Local Presence Service",
     "Default" => "",
-    "Ispapi-IgnoreForCountries" => "JP",
+    "Ispapi-IgnoreForCountries" => ["JP"],
     "Ispapi-Name" => "X-JP-ACCEPT-TRUSTEE-TAC"
 ];
 */

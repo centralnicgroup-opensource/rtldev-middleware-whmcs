@@ -68,7 +68,7 @@ $additionaldomainfields[$tld][] = [
     "Name" => "Registrant Other Document Type",
     "Type" => "text",
     "Required" => false,
-    "Description" => "required for chosen document type: `Others Individual Document` or `Others Organization Document`",
+    "Description" => "(required for document types `Others Individual/Organization Document`)",
     "Ispapi-Name" => "X-HK-REGISTRANT-OTHER-DOCUMENT-TYPE"
 ];
 $additionaldomainfields[$tld][] = [
@@ -81,14 +81,14 @@ $additionaldomainfields[$tld][] = [
     "Name" => "Registrant Document Origin Country",
     "Type" => "text",
     "Required" => true,
-    "Description" => "two-letter country code (ISO 3166-1 alpha-2)",
+    "Description" => "(two-letter country code in format <a href='https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2' target='_blank'>ISO 3166-1 alpha-2</a>)",
     "Ispapi-Name" => "X-HK-REGISTRANT-DOCUMENT-ORIGIN-COUNTRY"
 ];
 $additionaldomainfields[$tld][] = [
     "Name" => "Registrant Birth Date for individuals",
     "Type" => "text",
     "Required" => false,
-    "Description" => "YYYY-MM-DD (mandatory, if the registrant is an individual)",
+    "Description" => "(mandatory for individuals, format YYYY-MM-DD)",
     "Ispapi-Name" => "X-HK-REGISTRANT-BIRTH-DATE"
 ];
 $additionaldomainfields[$tld][] = [
@@ -96,6 +96,5 @@ $additionaldomainfields[$tld][] = [
     "Type" => "tickbox",
     "Description" => "Accept the .HK <a href='https://www.hkirc.hk/content.jsp?id=3#!/6' target='_blank'>Terms for individuals</a>. (mandatory, if the registrant is an individual)",
     "Required" => false,
-    "Options" => "1|on",
     "Ispapi-Name" => "X-HK-ACCEPT-INDIVIDUAL-REGISTRATION-TAC"
 ];

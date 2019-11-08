@@ -10,7 +10,7 @@ $additionaldomainfields[$tld][] = [
     "Default" => "Natural|Natural Person",
     "Required" => true
 ];
-$additionaldomainfields[$tld][] = array(
+$additionaldomainfields[$tld][] = [
     "Name" => "WHOIS Opt-out",
     "Description" => "(available for Legal Type `Natural`. Choose `No` to get WHOIS data limited to registrant name.)",
     "Type" => "dropdown",
@@ -21,4 +21,4 @@ $additionaldomainfields[$tld][] = array(
     ]),
     "Default" => "Y|Yes",
     "Required" => false
-);
+];

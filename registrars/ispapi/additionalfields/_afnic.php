@@ -42,7 +42,7 @@ $additionaldomainfields[$tld][] = [
     "Options" => ",1|Registrant and/or Admin-C are domiciled in France / Use Local Presence Service",
     "Default" => "",
     "Description" => "<div>If you are not domiciled in France use the Local presence.<br>If you are domiciled in France fill the dedicated fields below:</div>",
-    "Ispapi-IgnoreForCountries" => "FR",
+    "Ispapi-IgnoreForCountries" => ["FR"],
     "Ispapi-Name" => "X-FR-ACCEPT-TRUSTEE-TAC"
 ];
 */

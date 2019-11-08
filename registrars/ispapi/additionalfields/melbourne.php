@@ -11,7 +11,7 @@ $additionaldomainfields[$tld][] = [
         "C|Criteria C - Associated Entities"
     ]),
     "Default" => "A|Criteria A - Victorian Entities",
-    "Description" => "<div><b>Registration Eligibility</b><br/>In order to register or renew a domain name the Applicant or Registrant must satisfy one of the following Criteria A, B or C below:<br/><br/>
+    "Description" => "<div style='padding:10px 0px;text-align:justify'><b>Registration Eligibility</b><br/>In order to register or renew a domain name the Applicant or Registrant must satisfy one of the following Criteria A, B or C below:<br/><br/>
                         <b>Criteria A – Victorian Entities</b><br/>The Applicant must be an entity registered with the Australian Securities and Investments Commission or the Australian Business Register that:
                         <ul><li>has an address in the State of Victoria associated with its ABN, ACN, RBN or ARBN; or</li><li>has a valid corporate address in the State of Victoria.</li></ul><br/>
                         <b>Criteria B – Victorian Residents</b><br/>The Applicant must be an Australian citizen or resident with a valid address in the State of Victoria.<br/><br/>

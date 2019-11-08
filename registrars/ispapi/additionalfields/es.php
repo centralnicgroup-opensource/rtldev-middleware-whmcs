@@ -54,10 +54,8 @@ $additionaldomainfields[$tld][] = [
 ];
 $additionaldomainfields[$tld][] = [
     "Name" => "Agreement",
-    "Type" => "dropdown",
-    "Options" => "0|,1|I agree to the .ES registration TAC for individuals",
-    "Description" => "<div><a href='https://www.dominios.es/dominios/en/todo-lo-que-necesitas-saber/sobre-registros-de-dominios/terms-and-conditions'>.ES registration TAC for individuals</a> (Only for individuals)</div>",
-    "Default" => "0|",
+    "Type" => "tickbox",
+    "Description" => "Tick to confirm the <a href='https://www.dominios.es/dominios/en/todo-lo-que-necesitas-saber/sobre-registros-de-dominios/terms-and-conditions' target='_blank'>.ES registration TAC for individuals</a> (Only for individuals)",
     "Required" => true,
     "Ispapi-Name" => "X-ES-ACCEPT-INDIVIDUAL-REGISTRATION-TAC"
 ];

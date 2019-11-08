@@ -39,23 +39,23 @@ $additionaldomainfields[$tld][] = [
     "Required" => true,
     "Ispapi-Name" => "X-JOBS-INDUSTRYCLASSIFICATION"
 ];
-$additionaldomainfields[$tld][] = array(
+$additionaldomainfields[$tld][] = [
     "Name" => "Member of a Human Resources Association",
     "Type" => "dropdown",
     "Options" => "no|No,yes|Yes",
     "Default" => "no|No",
     "Ispapi-Name" => "X-JOBS-HRANAME"
-);
-$additionaldomainfields[$tld][] = array(
+];
+$additionaldomainfields[$tld][] = [
     "Name" => "Contact Job Title (e.g. CEO)",
     "Type" => "text",
     "Required" => true,
     "Ispapi-Name" => "X-JOBS-TITLE"
-);
-$additionaldomainfields[$tld][] = array(
+];
+$additionaldomainfields[$tld][] = [
     "Name" => "Contact Type",
     "Type" => "dropdown",
     "Options" => "1|Administrative,0|Other",
     "Default" => "1|Administrative",
     "Ispapi-Name" => "X-JOBS-ADMINTYPE"
-);
+];
