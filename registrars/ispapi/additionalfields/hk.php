@@ -60,7 +60,7 @@ $additionaldomainfields[$tld][] = [
         "OTHORG|Organization - Others Organization Document"
     ]),
     "Default" => "HKID|Individual - Hong Kong Identity Number",
-    "Description" => "",
+    "Description" => "(NOTE: Additionally, you may need to send us a copy of the document via email. For .HK, this step is only required upon request by the registry. For .COM.HK, a copy of a business certificate is required before we can process the registration.)",
     "Required" => true,
     "Ispapi-Name" => "X-HK-REGISTRANT-DOCUMENT-TYPE"
 ];

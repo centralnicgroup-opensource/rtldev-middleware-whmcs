@@ -6,7 +6,7 @@ $additionaldomainfields[$tld][] = [
     'Remove' => true
 ];
 
-## add ispapi fields 
+## add ispapi fields
 ## LOCAL PRESENCE / TRUSTEE SERVICE ##
 ## NOTE: if you want to offer local presence service, add the trustee service price to the domain registration AND transfer price ##
 ## for reference: https://requests.whmcs.com/topic/integrate-trustee-service-as-generic-domain-add-on

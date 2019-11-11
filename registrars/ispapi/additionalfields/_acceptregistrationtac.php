@@ -17,7 +17,7 @@ $cfg = [
     "Required" => true,
     "Ispapi-Name" => "X-" . $tclass . "-ACCEPT-REGISTRATION-TAC"
 ];
-if ($tld == ".ngo"){
+if ($tld == ".ngo") {
     $cfg["Description"] .= "<div style='padding:10px 0px;'>The registration of a .NGO domain name is bundled with an .ONG domain name without additional costs. Changes on the .NGO Domain will be auto-applied to the .ONG Domain.</div>";
 }
 $additionaldomainfields[$tld][] = $cfg;
