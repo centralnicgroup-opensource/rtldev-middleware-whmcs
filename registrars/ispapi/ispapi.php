@@ -1371,21 +1371,7 @@ function ispapi_GetEPPCode($params)
         $params = $params["original"];
     }
 
-    $r = ispapi_requestAuthCode($params);
-
-    if ($r["CODE"] != 200) {
-        return [
-            "error" => $r["DESCRIPTION"]
-        ];
-    }
-    if (!strlen($r["PROPERTY"]["AUTH"][0])) {
-        return [
-            "error" => "No AuthInfo code assigned to this domain!"
-        ];
-    }
-    return [
-        "eppcode" => $r["PROPERTY"]["AUTH"][0]
-    ];
+    return ispapi_requestAuthCode($params);
 }
 
 /**
@@ -1775,6 +1761,7 @@ function ispapi_requestAuthCode($params)
     // TODO: review for .IE, .NZ etc. - needs probably backend-side review 1st
     $domain = $params["domainObj"];
     $tld = $domain->getLastTLDSegment();
+    $target = "PROPERTY";
     switch ($tld) {
         case "de":
             $r = ispapi_call([
@@ -1782,6 +1769,8 @@ function ispapi_requestAuthCode($params)
                 "DOMAIN" => $domain->getDomain()
             ], ispapi_config($params));
             break;
+        case "be":
+            $target = "REGISTRANT";
         case "eu":
             $r = ispapi_call([
                 "COMMAND" => "RequestDomainAuthInfo",
@@ -1795,7 +1784,26 @@ function ispapi_requestAuthCode($params)
             ], ispapi_config($params));
             break;
     }
-    return $r;
+
+    if ($r["CODE"] != 200) {
+        return [
+            "error" => $r["DESCRIPTION"]
+        ];
+    }
+    if ($target == "REGISTRANT") {
+        //email sent to registrant
+        //shows success message: `domaingeteppcodeemailconfirmation`
+        //see clientdomains.php RegGetEPPCode() Handling
+        return [];
+    }
+    if (!strlen($r["PROPERTY"]["AUTH"][0])) {
+        return [
+            "error" => "No AuthInfo code assigned to this domain!"
+        ];
+    }
+    return [
+        "eppcode" => $r["PROPERTY"]["AUTH"][0]
+    ];
 }
 
 /**
