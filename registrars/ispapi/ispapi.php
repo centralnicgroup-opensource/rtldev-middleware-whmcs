@@ -293,7 +293,7 @@ function ispapi_TransferDomain($params)
             // if not, check if 0Y transfer is possible
             if (!in_array("0Y", $periods) && !in_array("0", $periods)) {
                 return [
-                    "error" => "Transfer Period " . $period . " not available for " . $domain->getTLD() . ". Check your Domain Pricing configuration."
+                    "error" => "Transfer Period " . $period . " not available for " . $domain->getTLD() . ". Available ones for ISPAPI are: " . $r['PROPERTY']['ZONETRANSFERPERIODS'][0] . ". Check your Domain Pricing configuration."
                 ];
             } else {
                 $period = "0Y";
