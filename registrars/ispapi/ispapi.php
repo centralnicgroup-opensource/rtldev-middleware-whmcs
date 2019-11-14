@@ -2314,11 +2314,6 @@ function ispapi_registrantmodification_it($params)
         $values["Registrant"] = ispapi_get_contact_info($r["PROPERTY"]["OWNERCONTACT"][0], $params);
     }
 
-    //handle additionaldomainfields
-    //------------------------------------------------------------------------------
-    $myadditionaldomainfields = ispapi_include_additionalfields($params);
-    //------------------------------------------------------------------------------
-
     if (isset($_POST["submit"])) {
         if (empty($_POST["additionalfields"]["Section 3 Agreement"]) ||
             empty($_POST["additionalfields"]["Section 5 Agreement"]) ||
@@ -2385,13 +2380,21 @@ function ispapi_registrantmodification_it($params)
         }
     }
 
+    $domainid = (int) App::getFromRequest("domainid");
+    $domain_data = (new WHMCS\Domains())->getDomainsDatabyID($domainid);
+
+    $additflds = new WHMCS\Domains\AdditionalFields();
+    $additflds->setDomain($domain->getDomain())
+            ->setDomainType($domain_data["type"])
+            ->getFieldValuesFromDatabase($domainid);
+
     return [
         'templatefile' => "registrantmodification_it",
         'vars' => [
             'error' => $error,
             'successful' => $successful,
             'values' => $values,
-            'additionalfields' => $myadditionaldomainfields
+            'additionalfields' => $additflds
         ]
     ];
 }

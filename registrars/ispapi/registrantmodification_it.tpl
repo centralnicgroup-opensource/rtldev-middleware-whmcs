@@ -60,6 +60,13 @@
 		</div>
 	{/foreach}
 
+	<div class="form-group"><table class="form" width="100%">
+	{foreach key=fieldLabel item=inputHTML from=$additionalfields->getFieldsForOutput()}
+		<tr><td class="fieldlabel">{$fieldLabel}</td><td class="fieldarea" colspan="3">{$inputHTML}</td></tr>
+	{/foreach}
+	</table></div>
+
+<!--
 	{foreach item=field from=$additionalfields}
 		{if $field.Type == "dropdown"}
 			{assign var="options" value=","|explode:$field.Options}
@@ -75,14 +82,17 @@
 		    	</select>
 		    	{$field.Description}
 		    </div>
-	    {/if}
-		{if $field.Type == "text"}
+		{elseif $field.Type == "text"}
 			<div class="form-group">
 				<label for="additionalfields[{$field.Name}]">{$field.Name}</label>
-				<input class="form-control Technicalcustomwhois" name="additionalfields[{$field.Name}]" id="additionalfields[{$field.Name}]" type="text" class="{$field.$ispapinamelabel}" style="width:400px">
+				<input class="form-control Technicalcustomwhois" name="additionalfields[{$field.Name}]" id="additionalfields[{$field.Name}]" type="text" class="{$field.$ispapinamelabel}" style="width:400px"/>
+			</div>
+		{elseif $field.Type == "tickbox"}
+			<div class="form-group">
+				<label for="additionalfields[{$field.Name}]">{$field.Name} <input type="checkbox" class="{$field.$ispapinamelabel}" name="additionalfields[{$field.Name}]" id="additionalfields[{$field.Name}]" value="1"/></label>
 			</div>
 		{/if}
-	{/foreach}
+	{/foreach}-->
 
 	<p class="text-center">
 		<input class="btn btn-large btn-primary" type="submit" value="Send TRADE">
