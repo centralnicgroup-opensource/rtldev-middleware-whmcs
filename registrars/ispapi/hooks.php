@@ -87,8 +87,7 @@ add_hook('ClientAreaPageDomainDetails', 1, function ($vars) {
             "WIDE" => 1
         ], ispapi_config(getregistrarconfigoptions("ispapi")));
 
-        if (
-            ($r['CODE'] == 200) && (
+        if (($r['CODE'] == 200) && (
                 $r['PROPERTY']['DOMAINTRANSFERLOCK'] &&
                 $r['PROPERTY']['DOMAINTRANSFERLOCK'][0] == ""
             )
