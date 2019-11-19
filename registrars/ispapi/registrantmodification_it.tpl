@@ -28,12 +28,17 @@
 {if $successful}
 	<div class="alert alert-success text-center">
     	<p>The TRADE has been sended successfully.</p>
+		<pre style="text-align:left">{$successful}</pre>
+		<pre style="text-align:left">{$smarty.request|print_r:true}</pre>
 	</div>
 {/if}
 
 {if $error}
 	<div class="alert alert-danger text-center">
 		<p>{$error}</p>
+		{if $missingfields}
+			<p>{", "|implode:$missingfields}</p>
+		{/if}
 	</div>
 {/if}
 
@@ -45,8 +50,8 @@
 	}
 </style>
 {/literal}
-<BR>
-<form method="POST" action="{$smarty.server.PHP_SELF}">
+<br/>
+<form method="POST" action="">
 <input type="hidden" name="action" value="domaindetails">
 <input type="hidden" name="id" value="{$domainid}">
 <input type="hidden" name="modop" value="custom">
@@ -60,39 +65,11 @@
 		</div>
 	{/foreach}
 
-	<div class="form-group"><table class="form" width="100%">
 	{foreach key=fieldLabel item=inputHTML from=$additionalfields->getFieldsForOutput()}
-		<tr><td class="fieldlabel">{$fieldLabel}</td><td class="fieldarea" colspan="3">{$inputHTML}</td></tr>
+		<div class="form-group">
+			<label>{$fieldLabel}</label><br/> {$inputHTML}
+		</div>
 	{/foreach}
-	</table></div>
-
-<!--
-	{foreach item=field from=$additionalfields}
-		{if $field.Type == "dropdown"}
-			{assign var="options" value=","|explode:$field.Options}
-			{assign var="ispapiname" value=""}
-			<div class="form-group">
-	 			<label for="additionalfields[{$field.Name}]">{$field.Name}<br></label>
-				<br>
-				<select name="additionalfields[{$field.Name}]" id="additionalfields[{$field.Name}]" class="{$field.$ispapinamelabel}">
-					{foreach from=$options key=k  item=option}
-						{assign var="opt" value="|"|explode:$option}
-		        		<option value="{$opt[0]}">{if count($opt)>1}{$opt[1]}{else}{$opt[0]}{/if}</option>
-		        	{/foreach}
-		    	</select>
-		    	{$field.Description}
-		    </div>
-		{elseif $field.Type == "text"}
-			<div class="form-group">
-				<label for="additionalfields[{$field.Name}]">{$field.Name}</label>
-				<input class="form-control Technicalcustomwhois" name="additionalfields[{$field.Name}]" id="additionalfields[{$field.Name}]" type="text" class="{$field.$ispapinamelabel}" style="width:400px"/>
-			</div>
-		{elseif $field.Type == "tickbox"}
-			<div class="form-group">
-				<label for="additionalfields[{$field.Name}]">{$field.Name} <input type="checkbox" class="{$field.$ispapinamelabel}" name="additionalfields[{$field.Name}]" id="additionalfields[{$field.Name}]" value="1"/></label>
-			</div>
-		{/if}
-	{/foreach}-->
 
 	<p class="text-center">
 		<input class="btn btn-large btn-primary" type="submit" value="Send TRADE">

@@ -95,6 +95,40 @@ There's no possibility to just deactivate a key-value pair, you can just overwri
 
 (see standard [WHMCS Documentation](https://docs.whmcs.com/Additional_Domain_Fields))
 
+### Local Presence / Trustee Service
+
+As a Local Presence service is not free of charge and WHMCS does not offer a generic domain addon to offer it as a kind of service, you as reseller have to care about the configuration manually. We decided to not activate the local presence service by default in our additional fields, as you as reseller might lose money if you don't add the service fee to the domain registration price configuration. We have prepared things to support you as far as possible, e.g. Local Presence Service for .it:
+
+Open file `/modules/registrars/ispapi/additionalfields/it.php`, you'll find the below comment block:
+
+```php
+## LOCAL PRESENCE / TRUSTEE SERVICE ##
+## NOTE: if you want to offer local presence service, add the trustee service price to the domain registration AND transfer price ##
+## for reference: https://requests.whmcs.com/topic/integrate-trustee-service-as-generic-domain-add-on
+##
+## When you uncomment the Local Presence service:
+## - mark X-IT-ACCEPT-LIABILITY-TAC as not required
+## - mark X-IT-ACCEPT-DIFFUSION-AND-ACCESSIBILITY-TAC as not required
+## - mark X-IT-ACCEPT-EXPLICIT-TAC as not required
+/*
+$additionaldomainfields[$tld][] = [
+    "Name" => "Local Presence",
+    "Type" => "dropdown",
+    "Options" => ",1|Registrant is domiciled in the EU (PIN required) / Use Local Presence Service",
+    "Default" => "",
+    "Ispapi-Name" => "X-IT-ACCEPT-TRUSTEE-TAC"
+);
+*/
+```
+
+All you have to do to get the Local Presence Service working, is to
+
+* Add the trustee service price to your domain registration prices for the appropriate TLD
+* uncomment the additional field configuration (`X-<TLD>-ACCEPT-TRUSTEE-TAC`)
+* ensure all the other mentioned additional fields are configured as not required
+
+Enjoy!
+
 ### ISPAPI specific configuration settings
 
 #### Ispapi-Name

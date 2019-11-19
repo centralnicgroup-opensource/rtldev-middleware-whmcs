@@ -7,8 +7,10 @@
 
 $module_version = "1.12.2";
 
+require_once(implode( DIRECTORY_SEPARATOR, array(__DIR__, "lib", "AdditionalFieldsHX.class.php") ) );
+
+use ISPAPI\AdditionalFieldsHX;
 use WHMCS\Domains;
-use WHMCS\Domains\AdditionalFields;
 use WHMCS\Domains\DomainLookup\ResultsList;
 use WHMCS\Domains\DomainLookup\SearchResult;
 use WHMCS\Module\Server;
@@ -2301,92 +2303,60 @@ function ispapi_registrantmodification_it($params)
     if (isset($params["original"])) {
         $params = $params["original"];
     }
-    $error = false;
-    $successful = false;
-    $values = [];
+
+    $domain_data = (new WHMCS\Domains())->getDomainsDatabyID((int) $params["domainid"]);
+    $addflds = new AdditionalFieldsHX();
+    $addflds->setDomain($domain_data["domain"])
+            ->setDomainType($domain_data["type"]);
 
     $r = ispapi_call([
         "COMMAND" => "StatusDomain",
         "DOMAIN" => $domain->getDomain()
     ], ispapi_config($params));
 
+    $values = [];
     if ($r["CODE"] == 200) {
         $values["Registrant"] = ispapi_get_contact_info($r["PROPERTY"]["OWNERCONTACT"][0], $params);
     }
 
+    $error = false;
+    $successful = false;
+    $missingfields = [];
+
     if (isset($_POST["submit"])) {
-        if (empty($_POST["additionalfields"]["Section 3 Agreement"]) ||
-            empty($_POST["additionalfields"]["Section 5 Agreement"]) ||
-            empty($_POST["additionalfields"]["Section 6 Agreement"]) ||
-            empty($_POST["additionalfields"]["Section 7 Agreement"])
-        ) {
-            $error = "You have to accept the agreement section 3, 5, 6 and 7.";
+        $addflds->setFieldValues($_POST["domainfield"]);
+        if ($addflds->isMissingRequiredFields()) {
+            $error = Lang::trans("carterrordomainconfigskipped");
+            $missingfields = $addflds->getMissingRequiredFields();
         } else {
-            $newvalues["Registrant"] = $_POST["contactdetails"]["Registrant"];
-            $values = $newvalues;
+            $values["Registrant"] = $_POST["contactdetails"]["Registrant"];
 
             $command = [
                 "COMMAND" => "TradeDomain",
                 "DOMAIN" => $domain->getDomain()
             ];
-            $map = [
+
+            ispapi_get_contact_info2($command, $_POST, [
                 "OWNERCONTACT0" => "Registrant",
-                "ADMINCONTACT0" => "Registrant",
-            ];
+                //see https://wiki.hexonet.net/wiki/IT "Ownerchange"
+                //if the new registrant is an individual then the admin contact is required and has to match the new registrant contact
+                "ADMINCONTACT0" => "Registrant"
+            ]);
 
-            foreach ($map as $ctype => $ptype) {
-                if (isset($_POST["contactdetails"][$ptype])) {
-                    $p = $_POST["contactdetails"][$ptype];
-                    $command[$ctype] = [
-                        "FIRSTNAME" => html_entity_decode($p["First Name"], ENT_QUOTES),
-                        "LASTNAME" => html_entity_decode($p["Last Name"], ENT_QUOTES),
-                        "ORGANIZATION" => html_entity_decode($p["Company Name"], ENT_QUOTES),
-                        "STREET" => html_entity_decode($p["Address"], ENT_QUOTES),
-                        "CITY" => html_entity_decode($p["City"], ENT_QUOTES),
-                        "STATE" => html_entity_decode($p["State"], ENT_QUOTES),
-                        "ZIP" => html_entity_decode($p["Postcode"], ENT_QUOTES),
-                        "COUNTRY" => html_entity_decode($p["Country"], ENT_QUOTES),
-                        "PHONE" => html_entity_decode($p["Phone"], ENT_QUOTES),
-                        "FAX" => html_entity_decode($p["Fax"], ENT_QUOTES),
-                        "EMAIL" => html_entity_decode($p["Email"], ENT_QUOTES)
-                    ];
-                    if (strlen($p["Address 2"])) {
-                        $command[$ctype]["STREET"] .= " , ".html_entity_decode($p["Address 2"], ENT_QUOTES);
-                    }
-                }
-            }
+            $addflds->addToCommand($command, $params["country"]);
 
-            if (isset($params["additionalfields"]["Local Presence"])) {
-                if (!empty($_POST["additionalfields"]["Local Presence"])) {
-                    $params["additionalfields"]["Local Presence"] = "1";
-                } else {
-                    unset($params["additionalfields"]["Local Presence"]);
-                }
-            }
-
-            $params["additionalfields"]["PIN"] = $_POST["additionalfields"]["PIN"];
-            $params["additionalfields"]["Section 3 Agreement"] = "1";
-            $params["additionalfields"]["Section 5 Agreement"] = "1";
-            $params["additionalfields"]["Section 6 Agreement"] = "1";
-            $params["additionalfields"]["Section 7 Agreement"] = "1";
-            ispapi_use_additionalfields($params, $command, $myadditionaldomainfields);
+            die("<pre>" . print_r($command, true) . "</pre>");
             $response = ispapi_call($command, ispapi_config($origparams));
-
             if ($response["CODE"] == 200) {
+                $addflds->saveToDatabase();
                 $successful = $response["DESCRIPTION"];
             } else {
                 $error = $response["DESCRIPTION"];
             }
         }
+    } else {
+        $addflds->getFieldValuesFromDatabase($domain_data["id"]);
     }
-
-    $domainid = (int) App::getFromRequest("domainid");
-    $domain_data = (new WHMCS\Domains())->getDomainsDatabyID($domainid);
-
-    $additflds = new WHMCS\Domains\AdditionalFields();
-    $additflds->setDomain($domain->getDomain())
-            ->setDomainType($domain_data["type"])
-            ->getFieldValuesFromDatabase($domainid);
 
     return [
         'templatefile' => "registrantmodification_it",
@@ -2394,7 +2364,8 @@ function ispapi_registrantmodification_it($params)
             'error' => $error,
             'successful' => $successful,
             'values' => $values,
-            'additionalfields' => $additflds
+            'additionalfields' => $addflds,
+            'missingfields' => $missingfields
         ]
     ];
 }
@@ -2416,10 +2387,9 @@ function ispapi_registrantmodification_tld($params)
     if (isset($params["original"])) {
         $params = $params["original"];
     }
+
     $error = false;
     $successful = false;
-    
-
     $values = [];
 
     $r = ispapi_call([
@@ -2432,48 +2402,27 @@ function ispapi_registrantmodification_tld($params)
     }
 
     if (isset($_POST["submit"])) {
-        $newvalues["Registrant"] = $_POST["contactdetails"]["Registrant"];
-        $values = $newvalues;
+        $values["Registrant"] = $_POST["contactdetails"]["Registrant"];
 
         $command = [
             "COMMAND" => "TradeDomain",
             "DOMAIN" => $domain->getDomain()
         ];
-        $map = array(
-                "OWNERCONTACT0" => "Registrant",
-                "ADMINCONTACT0" => "Registrant",
-        );
 
-        foreach ($map as $ctype => $ptype) {
-            if (isset($_POST["contactdetails"][$ptype])) {
-                $p = $_POST["contactdetails"][$ptype];
-                $command[$ctype] = array(
-                    "FIRSTNAME" => html_entity_decode($p["First Name"], ENT_QUOTES),
-                    "LASTNAME" => html_entity_decode($p["Last Name"], ENT_QUOTES),
-                    "ORGANIZATION" => html_entity_decode($p["Company Name"], ENT_QUOTES),
-                    "STREET" => html_entity_decode($p["Address"], ENT_QUOTES),
-                    "CITY" => html_entity_decode($p["City"], ENT_QUOTES),
-                    "STATE" => html_entity_decode($p["State"], ENT_QUOTES),
-                    "ZIP" => html_entity_decode($p["Postcode"], ENT_QUOTES),
-                    "COUNTRY" => html_entity_decode($p["Country"], ENT_QUOTES),
-                    "PHONE" => html_entity_decode($p["Phone"], ENT_QUOTES),
-                    "FAX" => html_entity_decode($p["Fax"], ENT_QUOTES),
-                    "EMAIL" => html_entity_decode($p["Email"], ENT_QUOTES)
-                );
-                if (strlen($p["Address 2"])) {
-                    $command[$ctype]["STREET"] .= " , ".html_entity_decode($p["Address 2"], ENT_QUOTES);
-                }
-            }
-        }
+        ispapi_get_contact_info2($command, $_POST, [
+            "OWNERCONTACT0" => "Registrant",
+            //why admin-c in general???
+            "ADMINCONTACT0" => "Registrant"
+        ]);
 
         if (preg_match('/\.se$/i', $domain)) {
             //check if the checkbox has been checked.
-            if (!$_POST['se-checkbox'] == "on") {
+            if (!$_POST['se-checkbox'] == "on") {//TODO
                 $error = "Please confirm that you will send the form back to complete the process";
             }
         }
         if (!$error) {
-            ispapi_use_additionalfields($params, $command);
+            ispapi_use_additionalfields($params, $command);//TODO
             $r = ispapi_call($command, ispapi_config($origparams));
 
             if ($r["CODE"] == 200) {
@@ -2484,13 +2433,20 @@ function ispapi_registrantmodification_tld($params)
         }
     }
 
+    $domainid = (int) $params["domainid"];
+    $domain_data = (new WHMCS\Domains())->getDomainsDatabyID($domainid);
+    $addflds = new WHMCS\Domains\AdditionalFields();
+    $addflds->setDomain($domain_data["domain"])
+            ->setDomainType($domain_data["type"])
+            ->getFieldValuesFromDatabase($domain_data["id"]);
+
     return [
         'templatefile' => "registrantmodification_tld",
         'vars' => [
             'error' => $error,
             'successful' => $successful,
             'values' => $values,
-            'additionalfields' => $myadditionaldomainfields
+            'additionalfields' => $addflds
         ]
     ];
 }
@@ -2603,13 +2559,20 @@ function ispapi_registrantmodification_ca($params)
         $values = $newvalues;
     }
 
+    $domainid = (int) $params["domainid"];
+    $domain_data = (new WHMCS\Domains())->getDomainsDatabyID($domainid);
+    $addflds = new WHMCS\Domains\AdditionalFields();
+    $addflds->setDomain($domain_data["domain"])
+            ->setDomainType($domain_data["type"])
+            ->getFieldValuesFromDatabase($domain_data["id"]);
+
     return array(
         'templatefile' => "registrantmodification_ca",
         'vars' => array(
             'error' => $error,
             'successful' => $successful,
             'values' => $values,
-            'additionalfields' => $myadditionaldomainfields
+            'additionalfields' => $addflds
         )
     );
 }
@@ -3037,6 +3000,31 @@ function ispapi_get_contact_info($contact, &$params)
     return $params["_contact_hash"][$contact];
 }
 
+function ispapi_get_contact_info2(&$command, $data, $map){
+    foreach ($map as $ctype => $ptype) {
+        if (isset($data["contactdetails"][$ptype])) {
+            $p = $data["contactdetails"][$ptype];
+            $command[$ctype] = [
+                "FIRSTNAME" => html_entity_decode($p["First Name"], ENT_QUOTES),
+                "LASTNAME" => html_entity_decode($p["Last Name"], ENT_QUOTES),
+                "ORGANIZATION" => html_entity_decode($p["Company Name"], ENT_QUOTES),
+                "STREET" => html_entity_decode($p["Address"], ENT_QUOTES),
+                "CITY" => html_entity_decode($p["City"], ENT_QUOTES),
+                "STATE" => html_entity_decode($p["State"], ENT_QUOTES),
+                "ZIP" => html_entity_decode($p["Postcode"], ENT_QUOTES),
+                "COUNTRY" => html_entity_decode($p["Country"], ENT_QUOTES),
+                "PHONE" => html_entity_decode($p["Phone"], ENT_QUOTES),
+                "FAX" => html_entity_decode($p["Fax"], ENT_QUOTES),
+                "EMAIL" => html_entity_decode($p["Email"], ENT_QUOTES)
+            ];
+            if (strlen($p["Address 2"])) {
+                $command[$ctype]["STREET"] .= " , ".html_entity_decode($p["Address 2"], ENT_QUOTES);
+            }
+        }
+    }
+
+}
+
 
 
 // ------------------------------------------------------------------------------
@@ -3094,9 +3082,6 @@ function ispapi_use_additionalfields($params, &$command, $myadditionaldomainfiel
             }
         }
     }
-    //die( "<pre>" . print_r($params, true) . "</pre>" .
-    //    "<pre>" . print_r($myadditionaldomainfields, true) . "</pre>" .
-    //    "<pre>" . print_r($command, true) . "</pre>" );
 }
 
 function ispapi_get_utf8_params($params)

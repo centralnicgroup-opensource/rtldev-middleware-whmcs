@@ -20,6 +20,9 @@
 {if $error}
 	<div class="alert alert-danger text-center">
     	<p>{$error}</p>
+		{if $missingfields}
+			<p>{", "|implode:$missingfields}</p>
+		{/if}
 	</div>
 {/if}
 
@@ -32,7 +35,7 @@
 </style>
 {/literal}
 
-<form method="POST" action="{$smarty.server.PHP_SELF}">
+<form method="POST" action="">
 <input type="hidden" name="action" value="domaindetails">
 <input type="hidden" name="id" value="{$domainid}">
 <input type="hidden" name="modop" value="custom">
@@ -46,29 +49,10 @@
         </div>
 	{/foreach}
 
-	{foreach item=field from=$additionalfields}
-		{if $field.Type == "dropdown"}
-			{assign var="options" value=","|explode:$field.Options}
-            <div class="form-group">
-                <label for="additionalfields[{$field.Name}]">{$field.Name}</label>
-                <br>
-                <select name="additionalfields[{$field.Name}]" id="additionalfields[{$field.Name}]" class="{$field.Name|replace:' ':''}">
-                    {foreach item=option from=$options}
-                        <option value="{$option}">{$option}</option>
-                    {/foreach}
-                </select>
-                {$field.Description}
-            </div>
-	    {/if}
-		{if $field.Type == "tickbox"}
-			<div class="form-group">
-				<label for="additionalfields[{$field.Name}]">{$field.Name}</label>
-				<div class="controls">
-					<input style="float:left;margin-top:2px;margin-right:10px;" name="additionalfields[{$field.Name}]" id="additionalfields[{$field.Name}]" type="checkbox" class="{$field.Name|replace:' ':''}">
-					{$field.Description}
-				</div>
-			</div>
-		{/if}
+	{foreach key=fieldLabel item=inputHTML from=$additionalfields->getFieldsForOutput()}
+		<div class="form-group">
+			<label>{$fieldLabel}</label><br/> {$inputHTML}
+		</div>
 	{/foreach}
 
 

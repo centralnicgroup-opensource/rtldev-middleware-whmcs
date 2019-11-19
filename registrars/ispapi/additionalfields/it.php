@@ -19,6 +19,11 @@ $additionaldomainfields[$tld][] = [
 ## LOCAL PRESENCE / TRUSTEE SERVICE ##
 ## NOTE: if you want to offer local presence service, add the trustee service price to the domain registration AND transfer price ##
 ## for reference: https://requests.whmcs.com/topic/integrate-trustee-service-as-generic-domain-add-on
+##
+## When you uncomment the Local Presence service:
+## - mark X-IT-ACCEPT-LIABILITY-TAC as not required
+## - mark X-IT-ACCEPT-DIFFUSION-AND-ACCESSIBILITY-TAC as not required 
+## - mark X-IT-ACCEPT-EXPLICIT-TAC as not required
 /*
 $additionaldomainfields[$tld][] = [
     "Name" => "Local Presence",
@@ -41,7 +46,8 @@ $additionaldomainfields[$tld][] = [
 <li>release the Registry from any liability resulting from the assignment and use of the domain name by the natural person that has made the request;</li>
 <li>accept Italian jurisdiction and laws of the Italian State.</li></ul></div>",
     "Type" => "tickbox",
-    "Ispapi-Name" => "X-IT-ACCEPT-LIABILITY-TAC"
+    "Ispapi-Name" => "X-IT-ACCEPT-LIABILITY-TAC",
+    "Required" => true
 ];
 $additionaldomainfields[$tld][] = [
     "Name" => "Accept Section 5 of .IT registrar contract",
@@ -55,7 +61,8 @@ $additionaldomainfields[$tld][] = [
     "Description" => "<b>Section 6 - Consent to the processing of personal data for diffusion and accessibility via the Internet</b><br/><div style='text-align:justify;margin-bottom:10px;'>
 The interested party, after reading the above disclosure, gives consent to the dissemination and accessibility via the Internet, as defined in the disclosure above. Giving consent is optional, but absence of consent does not allow the dissemination and accessibility of Internet data.</div>",
     "Type" => "tickbox",
-    "Ispapi-Name" => "X-IT-ACCEPT-DIFFUSION-AND-ACCESSIBILITY-TAC"
+    "Ispapi-Name" => "X-IT-ACCEPT-DIFFUSION-AND-ACCESSIBILITY-TAC",
+    "Required" => true
 ];
 $additionaldomainfields[$tld][] = [
     "Name" => "Accept Section 7 of .IT registrar contract",
@@ -66,11 +73,11 @@ For explicit acceptance, the interested party declares that they:
 <li>f) release the Registry from any liability resulting from the assignment and use of the domain name by the natural person that has made the request;</li>
 <li>g) accept the Italian jurisdiction and laws of the Italian State.</li></ul></div>",
     "Type" => "tickbox",
-    "Ispapi-Name" => "X-IT-ACCEPT-EXPLICIT-TAC"
+    "Ispapi-Name" => "X-IT-ACCEPT-EXPLICIT-TAC",
+    "Required" => true
 ];
 $additionaldomainfields[$tld][] = [
     "Name" => "PIN",
     "Type" => "text",
-    "Required" => false,
     "Ispapi-Name" => "X-IT-PIN"
 ];
