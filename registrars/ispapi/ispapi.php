@@ -7,9 +7,9 @@
 
 $module_version = "1.12.2";
 
-require_once(implode( DIRECTORY_SEPARATOR, array(__DIR__, "lib", "AdditionalFieldsHX.class.php") ) );
+require_once(implode( DIRECTORY_SEPARATOR, array(__DIR__, "lib", "AdditionalFields.class.php") ) );
 
-use ISPAPI\AdditionalFieldsHX;
+use ISPAPI\AdditionalFields;
 use WHMCS\Domains;
 use WHMCS\Domains\DomainLookup\ResultsList;
 use WHMCS\Domains\DomainLookup\SearchResult;
@@ -53,7 +53,7 @@ function ispapi_getConfigArray($params)
         ],
         "Description" => [
             "Type" => "System",
-            "Value"=>"The Official ISPAPI Registrar Module. <a target='blank_' href='https://www.hexonet.net'>www.hexonet.net</a>"
+            "Value"=> "The Official ISPAPI Registrar Module. <a target='blank_' href='https://www.hexonet.net'>www.hexonet.net</a>"
         ],
         "Username" => [
             "Type" => "text",
@@ -178,13 +178,16 @@ function ispapi_RegisterDomain($params)
         ], ispapi_config($origparams));
 
         if ($check["CODE"] == 200) {
-            if ($premiumDomainsCost == $check["PROPERTY"]["PRICE"][0]) { //check if the price displayed to the customer is equal to the real cost at the registar
-                $isApplicationCase = true;
-                $command["COMMAND"] = "AddDomainApplication";
-                $command["CLASS"] =  empty($check["PROPERTY"]["CLASS"][0]) ? "AFTERMARKET_PURCHASE_".$check["PROPERTY"]["PREMIUMCHANNEL"][0] : $check["PROPERTY"]["CLASS"][0];
-                $command["PRICE"] =  $premiumDomainsCost;
-                $command["CURRENCY"] = $check["PROPERTY"]["CURRENCY"][0];
+            if ($premiumDomainsCost != $check["PROPERTY"]["PRICE"][0]) { //check if the price displayed to the customer is equal to the real cost at the registar
+                return [
+                    "error" => "Premium Domain Cost does not match!"
+                ];
             }
+            $isApplicationCase = true;
+            $command["COMMAND"] = "AddDomainApplication";
+            $command["CLASS"] =  empty($check["PROPERTY"]["CLASS"][0]) ? "AFTERMARKET_PURCHASE_".$check["PROPERTY"]["PREMIUMCHANNEL"][0] : $check["PROPERTY"]["CLASS"][0];
+            $command["PRICE"] =  $premiumDomainsCost;
+            $command["CURRENCY"] = $check["PROPERTY"]["CURRENCY"][0];
         }
     }
     //#####################################################################
@@ -2305,7 +2308,7 @@ function ispapi_registrantmodification_it($params)
     }
 
     $domain_data = (new WHMCS\Domains())->getDomainsDatabyID((int) $params["domainid"]);
-    $addflds = new AdditionalFieldsHX();
+    $addflds = new \ISPAPI\AdditionalFields();
     $addflds->setDomain($domain_data["domain"])
             ->setDomainType($domain_data["type"]);
 
