@@ -7,7 +7,7 @@
 
 $module_version = "1.12.2";
 
-require_once(implode( DIRECTORY_SEPARATOR, array(__DIR__, "lib", "AdditionalFields.class.php") ) );
+require_once(implode(DIRECTORY_SEPARATOR, array(__DIR__, "lib", "AdditionalFields.class.php")));
 
 use ISPAPI\AdditionalFields;
 use WHMCS\Domains;
@@ -1884,9 +1884,10 @@ function ispapi_getInboundTransferLog($params)
 /**
  * Check if providing Admin-C in Trade is necessary
  * @param string $tld last segment of the tld
- * @return bool 
+ * @return bool
  */
-function ispapi_needsAdminContactInTrade($tld){
+function ispapi_needsAdminContactInTrade($tld)
+{
     //see https://wiki.hexonet.net/wiki/IT "Ownerchange"
     //see https://wiki.hexonet.net/wiki/ES "Ownerchange"
     //if the new registrant is an individual then the admin contact is required and has to match the new registrant contact
@@ -1899,8 +1900,9 @@ function ispapi_needsAdminContactInTrade($tld){
  * @param string $tld last segment of the tld
  * @return string
  */
-function ispapi_getTradeFurtherDocsURL($domain, $tld){
-    return preg_match("/^(au|no|nu|pt|ru|se)$/i", $tld) ? 
+function ispapi_getTradeFurtherDocsURL($domain, $tld)
+{
+    return preg_match("/^(au|no|nu|pt|ru|se)$/i", $tld) ?
         "https://www.domainform.net/form/" . $tld . "?type=ownerchange&domain=" . $domain . "&language=en" :
         "";
 }
@@ -2363,7 +2365,6 @@ function ispapi_registrantmodificationtrade($params)
     $needsAdminC = ispapi_needsAdminContactInTrade($domain->getLastTLDSegment());
 
     if (isset($_POST["submit"])) {
-
         $addflds->setFieldValues($_POST["domainfield"]);
         if ($addflds->isMissingRequiredFields()) {
             $error = Lang::trans("carterrordomainconfigskipped");
@@ -2378,7 +2379,7 @@ function ispapi_registrantmodificationtrade($params)
             $map = [
                 "OWNERCONTACT0" => "Registrant"
             ];
-            if ($needsAdminC){
+            if ($needsAdminC) {
                 $map["ADMINCONTACT0"] = "Registrant";
             }
             ispapi_get_contact_info2($command, $_POST, $map);
@@ -2919,7 +2920,8 @@ function ispapi_get_contact_info($contact, &$params)
     return $params["_contact_hash"][$contact];
 }
 
-function ispapi_get_contact_info2(&$command, $data, $map){
+function ispapi_get_contact_info2(&$command, $data, $map)
+{
     foreach ($map as $ctype => $ptype) {
         if (isset($data["contactdetails"][$ptype])) {
             $p = $data["contactdetails"][$ptype];
@@ -2941,7 +2943,6 @@ function ispapi_get_contact_info2(&$command, $data, $map){
             }
         }
     }
-
 }
 
 

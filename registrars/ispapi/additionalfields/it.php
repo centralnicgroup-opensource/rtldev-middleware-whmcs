@@ -22,7 +22,7 @@ $additionaldomainfields[$tld][] = [
 ##
 ## When you uncomment the Local Presence service:
 ## - mark X-IT-ACCEPT-LIABILITY-TAC as not required
-## - mark X-IT-ACCEPT-DIFFUSION-AND-ACCESSIBILITY-TAC as not required 
+## - mark X-IT-ACCEPT-DIFFUSION-AND-ACCESSIBILITY-TAC as not required
 ## - mark X-IT-ACCEPT-EXPLICIT-TAC as not required
 /*
 $additionaldomainfields[$tld][] = [
