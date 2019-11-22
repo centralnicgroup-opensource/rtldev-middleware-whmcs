@@ -316,24 +316,20 @@ function ispapi_TransferDomain($params)
     if ($isUserTransfer) {
         $command["ACTION"] = "USERTRANSFER";
     }
-    ispapi_applyContactsCommand($params, $command);
-    ispapi_applyNamserversCommand($params, $command);
-    // TODO: add support for premium domain transfers (CLASS parameter)
-
     // TODO: we need to figure out the reasons for the below exceptions... such cases have to be covered by API
     //1) don't send owner admin tech billing contact for .NU .DK .CA, .US, .PT, .NO, .SE, .ES domains
     //2) do not send contact information for gTLD (Including nTLDs)
-    if (preg_match('/\.([a-z]{3,}|nu|dk|ca|us|pt|no|se|es)$/i', $domain->getDomain())) {
-        unset($command["OWNERCONTACT0"]);
-        unset($command["ADMINCONTACT0"]);
-        unset($command["TECHCONTACT0"]);
-        unset($command["BILLINGCONTACT0"]);
+    // 2)-> auto detection using querydomainrepositoryinfo category
+    if (!preg_match('/\.([a-z]{3,}|nu|dk|ca|us|pt|no|se|es)$/i', $domain->getDomain())) {
+        ispapi_applyContactsCommand($params, $command);
+        //see: https://wiki.hexonet.net/wiki/FR#Domain_Transfer
+        if (preg_match("/^(fr|pm|tf|re|wf|yt)$/i", $domain->getLastTLDSegment())) {
+            unset($command["OWNERCONTACT0"]);
+            unset($command["BILLINGCONTACT0"]);
+        }
     }
-    //TODO: why don't send owner billing contact for .FR domains
-    if (preg_match('/\.fr$/i', $domain->getDomain())) {
-        unset($command["OWNERCONTACT0"]);
-        unset($command["BILLINGCONTACT0"]);
-    }
+    ispapi_applyNamserversCommand($params, $command);
+    // TODO: add support for premium domain transfers (CLASS parameter)
 
     $r = ispapi_call($command, ispapi_config($origparams));
 
@@ -1590,6 +1586,15 @@ function ispapi_Sync($params)
         ];
     }
 
+    //-- sync domain additional field values
+    $domain_data = (new WHMCS\Domains())->getDomainsDatabyID((int) $params["domainid"]);
+    $addflds = new \ISPAPI\AdditionalFields();
+    $addflds->setDomain($domain_data["domain"])
+            ->setDomainType($domain_data["type"]);
+    $addflds->setFieldValuesFromAPI($r);
+    $addflds->saveToDatabase();
+    //-- done sync domain additional field values
+
     return [
         "active" => preg_match("/ACTIVE/i", $r["PROPERTY"]["STATUS"][0]),
         "expirydate" => ispapi_getExpiryDate($r),
@@ -1687,7 +1692,7 @@ function ispapi_ClientAreaCustomButtonArray($params)
     }
 
     // TODO: use PDO instead or WHMCS\Domains class
-    $result = select_query('tbldomains', 'idprotection,domain', ['id' => $domainid]);
+    $result = select_query('tbldomains', 'idprotection', ['id' => $domainid]);
     $data = mysql_fetch_array($result);
     $buttonarray = [];
     if ($params["DNSSEC"] == "on") {
@@ -1697,16 +1702,22 @@ function ispapi_ClientAreaCustomButtonArray($params)
         if ($data["idprotection"]) {
             $buttonarray["WHOIS Privacy"] = "whoisprivacy";
         }
-        if (preg_match('/\.ca$/i', $data["domain"])) {
+        if (preg_match('/\.ca$/i', $domain->getDomain())) {
             //TODO: - no longer contact related, but domain related
             //      - can't we output that information on default page?
             $buttonarray[".CA Registrant WHOIS Privacy"] = "whoisprivacy_ca";
-
-            $buttonarray[".CA Change of Registrant"] = "registrantmodification_ca";
-        } elseif (preg_match('/\.it$/i', $data["domain"])) {
-            $buttonarray[".IT Change of Registrant"] = "registrantmodification_it";
-        } elseif (preg_match('/\.(ch|li|se|sg)$/i', $data["domain"], $m)) {
-            $buttonarray["." . strtoupper($m[1]) . " Change of Registrant"] = "registrantmodification_tld";
+        }
+        $tld = "." . strtoupper($domain->getTLD());
+        if (ispapi_needsTradeForRegistrantModification($domain, $params)) {
+            $buttonarray[$tld . " Change of Registrant"] = "registrantmodificationtrade";
+        } else {
+            $addflds = new \ISPAPI\AdditionalFields();
+            $addflds->setDomain($domain->getDomain())
+                    ->setDomainType("Register");
+            if ($addflds->isMissingRequiredFields()) {
+                //in case we have additional required domain fields for registration
+                $buttonarray[$tld . " Change of Registrant"] = "registrantmodification";
+            }
         }
     }
     return $buttonarray;
@@ -1868,6 +1879,30 @@ function ispapi_getInboundTransferLog($params)
         }
     }
     return $log;
+}
+
+/**
+ * Check if providing Admin-C in Trade is necessary
+ * @param string $tld last segment of the tld
+ * @return bool 
+ */
+function ispapi_needsAdminContactInTrade($tld){
+    //see https://wiki.hexonet.net/wiki/IT "Ownerchange"
+    //see https://wiki.hexonet.net/wiki/ES "Ownerchange"
+    //if the new registrant is an individual then the admin contact is required and has to match the new registrant contact
+    return in_array($tld, ["it", "es"]);
+}
+
+/**
+ * Check if providing Admin-C in Trade is necessary
+ * @param string $domain domain name
+ * @param string $tld last segment of the tld
+ * @return string
+ */
+function ispapi_getTradeFurtherDocsURL($domain, $tld){
+    return preg_match("/^(au|no|nu|pt|ru|se)$/i", $tld) ? 
+        "https://www.domainform.net/form/" . $tld . "?type=ownerchange&domain=" . $domain . "&language=en" :
+        "";
 }
 
 /**
@@ -2290,13 +2325,13 @@ function ispapi_dnssec($params)
 }
 
 /**
- * Return a special page for the registrant modification of a .IT domain
+ * Return a special page for the registrant modification of a domain requiring TRADE
  *
  * @param array $params common module parameters
  * @see https://developers.whmcs.com/domain-registrars/module-parameters/
  * @return array an array with a template name and some variables
  */
-function ispapi_registrantmodification_it($params)
+function ispapi_registrantmodificationtrade($params)
 {
     $params = injectDomainObjectIfNecessary($params);
     /** @var \WHMCS\Domains\Domain $domain */
@@ -2311,7 +2346,7 @@ function ispapi_registrantmodification_it($params)
     $addflds = new \ISPAPI\AdditionalFields();
     $addflds->setDomain($domain_data["domain"])
             ->setDomainType($domain_data["type"]);
-
+    
     $r = ispapi_call([
         "COMMAND" => "StatusDomain",
         "DOMAIN" => $domain->getDomain()
@@ -2321,12 +2356,14 @@ function ispapi_registrantmodification_it($params)
     if ($r["CODE"] == 200) {
         $values["Registrant"] = ispapi_get_contact_info($r["PROPERTY"]["OWNERCONTACT"][0], $params);
     }
-
+    
     $error = false;
     $successful = false;
     $missingfields = [];
+    $needsAdminC = ispapi_needsAdminContactInTrade($domain->getLastTLDSegment());
 
     if (isset($_POST["submit"])) {
+
         $addflds->setFieldValues($_POST["domainfield"]);
         if ($addflds->isMissingRequiredFields()) {
             $error = Lang::trans("carterrordomainconfigskipped");
@@ -2338,17 +2375,15 @@ function ispapi_registrantmodification_it($params)
                 "COMMAND" => "TradeDomain",
                 "DOMAIN" => $domain->getDomain()
             ];
-
-            ispapi_get_contact_info2($command, $_POST, [
-                "OWNERCONTACT0" => "Registrant",
-                //see https://wiki.hexonet.net/wiki/IT "Ownerchange"
-                //if the new registrant is an individual then the admin contact is required and has to match the new registrant contact
-                "ADMINCONTACT0" => "Registrant"
-            ]);
+            $map = [
+                "OWNERCONTACT0" => "Registrant"
+            ];
+            if ($needsAdminC){
+                $map["ADMINCONTACT0"] = "Registrant";
+            }
+            ispapi_get_contact_info2($command, $_POST, $map);
 
             $addflds->addToCommand($command, $params["country"]);
-
-            die("<pre>" . print_r($command, true) . "</pre>");
             $response = ispapi_call($command, ispapi_config($origparams));
             if ($response["CODE"] == 200) {
                 $addflds->saveToDatabase();
@@ -2362,94 +2397,17 @@ function ispapi_registrantmodification_it($params)
     }
 
     return [
-        'templatefile' => "registrantmodification_it",
+        'templatefile' => "registrantmodification",
         'vars' => [
+            'tld' => $domain->getLastTLDSegment(),
+            'needsAdminC' => $needsAdminC,
+            'furtherDocsURL' => ispapi_getTradeFurtherDocsURL($domain->getDomain(), $domain->getLastTLDSegment()),
             'error' => $error,
             'successful' => $successful,
             'values' => $values,
             'additionalfields' => $addflds,
-            'missingfields' => $missingfields
-        ]
-    ];
-}
-
-/**
- * Return a page for the registrant modification of a domain name
- *
- * @param array $params common module parameters
- *
- * @return array an array with a template name and some variables
- */
-function ispapi_registrantmodification_tld($params)
-{
-    $params = injectDomainObjectIfNecessary($params);
-    /** @var \WHMCS\Domains\Domain $domain */
-    $domain = $params["domainObj"];
-
-    $origparams = $params;
-    if (isset($params["original"])) {
-        $params = $params["original"];
-    }
-
-    $error = false;
-    $successful = false;
-    $values = [];
-
-    $r = ispapi_call([
-        "COMMAND" => "StatusDomain",
-        "DOMAIN" => $domain->getDomain()
-    ], ispapi_config($params));
-
-    if ($r["CODE"] == 200) {
-        $values["Registrant"] = ispapi_get_contact_info($r["PROPERTY"]["OWNERCONTACT"][0], $params);
-    }
-
-    if (isset($_POST["submit"])) {
-        $values["Registrant"] = $_POST["contactdetails"]["Registrant"];
-
-        $command = [
-            "COMMAND" => "TradeDomain",
-            "DOMAIN" => $domain->getDomain()
-        ];
-
-        ispapi_get_contact_info2($command, $_POST, [
-            "OWNERCONTACT0" => "Registrant",
-            //why admin-c in general???
-            "ADMINCONTACT0" => "Registrant"
-        ]);
-
-        if (preg_match('/\.se$/i', $domain)) {
-            //check if the checkbox has been checked.
-            if (!$_POST['se-checkbox'] == "on") {//TODO
-                $error = "Please confirm that you will send the form back to complete the process";
-            }
-        }
-        if (!$error) {
-            ispapi_use_additionalfields($params, $command);//TODO
-            $r = ispapi_call($command, ispapi_config($origparams));
-
-            if ($r["CODE"] == 200) {
-                $successful = $r["DESCRIPTION"];
-            } else {
-                $error = $r["DESCRIPTION"];
-            }
-        }
-    }
-
-    $domainid = (int) $params["domainid"];
-    $domain_data = (new WHMCS\Domains())->getDomainsDatabyID($domainid);
-    $addflds = new WHMCS\Domains\AdditionalFields();
-    $addflds->setDomain($domain_data["domain"])
-            ->setDomainType($domain_data["type"])
-            ->getFieldValuesFromDatabase($domain_data["id"]);
-
-    return [
-        'templatefile' => "registrantmodification_tld",
-        'vars' => [
-            'error' => $error,
-            'successful' => $successful,
-            'values' => $values,
-            'additionalfields' => $addflds
+            'missingfields' => $missingfields,
+            'type' => 'trade'
         ]
     ];
 }
@@ -2461,121 +2419,79 @@ function ispapi_registrantmodification_tld($params)
  *
  * @return array an array with a template name and some variables
  */
-function ispapi_registrantmodification_ca($params)
+function ispapi_registrantmodification($params)
 {
     $params = injectDomainObjectIfNecessary($params);
     /** @var \WHMCS\Domains\Domain $domain */
     $domain = $params["domainObj"];
-    
+
     $origparams = $params;
     if (isset($params["original"])) {
         $params = $params["original"];
     }
-    $error = false;
-    $successful = false;
 
-    $values = [];
-
-    //handle additionaldomainfields
-    //------------------------------------------------------------------------------
-    $myadditionaldomainfields = ispapi_include_additionalfields($params);
-
-    //delete "Contact Language" and "Trademark Number"
-    $i = 0;
-    foreach ($myadditionaldomainfields as $item) {
-        if (in_array($item["Name"], array("Contact Language", "Trademark Number"))) {
-            unset($myadditionaldomainfields[$i]);
-        }
-        $i++;
-    }
-    //------------------------------------------------------------------------------
-
+    $domain_data = (new WHMCS\Domains())->getDomainsDatabyID((int) $params["domainid"]);
+    $addflds = new \ISPAPI\AdditionalFields();
+    $addflds->setDomain($domain_data["domain"])
+            ->setDomainType($domain_data["type"]);
+    
     $r = ispapi_call([
         "COMMAND" => "StatusDomain",
         "DOMAIN" => $domain->getDomain()
     ], ispapi_config($params));
 
+    $values = [];
     if ($r["CODE"] == 200) {
         $values["Registrant"] = ispapi_get_contact_info($r["PROPERTY"]["OWNERCONTACT"][0], $params);
-
-        foreach ($myadditionaldomainfields as $item) {
-            if ($item["Ispapi-Name"] == "X-CA-LEGALTYPE") {
-                $options = explode(",", $item["Options"]);
-                $options = preg_replace("/\|.+$/", "", $options);
-                $index = array_search($r["PROPERTY"]["X-CA-LEGALTYPE"][0], $options);
-                $values["Legal Type"] = $options[$index];
-            }
-        }
     }
+    
+    $error = false;
+    $successful = false;
+    $missingfields = [];
 
     if (isset($_POST["submit"])) {
-        //save
-        //+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-        $command = [
-            "COMMAND" => "ModifyDomain",
-            "DOMAIN" => $domain->getDomain()
-        ];
-        $map = array(
-            "OWNERCONTACT0" => "Registrant",
-        );
-
-        foreach ($map as $ctype => $ptype) {
-            if (isset($_POST["contactdetails"][$ptype])) {
-                $p = $_POST["contactdetails"][$ptype];
-                $command[$ctype] = [
-                    "FIRSTNAME" => html_entity_decode($p["First Name"], ENT_QUOTES),
-                    "LASTNAME" => html_entity_decode($p["Last Name"], ENT_QUOTES),
-                    "ORGANIZATION" => html_entity_decode($p["Company Name"], ENT_QUOTES),
-                    "STREET" => html_entity_decode($p["Address"], ENT_QUOTES),
-                    "CITY" => html_entity_decode($p["City"], ENT_QUOTES),
-                    "STATE" => html_entity_decode($p["State"], ENT_QUOTES),
-                    "ZIP" => html_entity_decode($p["Postcode"], ENT_QUOTES),
-                    "COUNTRY" => html_entity_decode($p["Country"], ENT_QUOTES),
-                    "PHONE" => html_entity_decode($p["Phone"], ENT_QUOTES),
-                    "FAX" => html_entity_decode($p["Fax"], ENT_QUOTES),
-                    "EMAIL" => html_entity_decode($p["Email"], ENT_QUOTES)
-                ];
-                if (strlen($p["Address 2"])) {
-                    $command[$ctype]["STREET"] .= " , ".html_entity_decode($p["Address 2"], ENT_QUOTES);
-                }
-            }
-        }
-        $params["additionalfields"]["Legal Type"] = $_POST["additionalfields"]["Legal Type"];
-        $params["additionalfields"]["WHOIS Opt-out"] = $_POST["additionalfields"]["WHOIS Opt-out"];
-
-        ispapi_use_additionalfields($params, $command, $myadditionaldomainfields);
-
-        $r = ispapi_call($command, ispapi_config($origparams));
-
-        if ($r["CODE"] == 200) {
-            $successful = $r["DESCRIPTION"];
+        $addflds->setFieldValues($_POST["domainfield"]);
+        if ($addflds->isMissingRequiredFields()) {
+            $error = Lang::trans("carterrordomainconfigskipped");
+            $missingfields = $addflds->getMissingRequiredFields();
         } else {
-            $error = $r["DESCRIPTION"];
+            $values["Registrant"] = $_POST["contactdetails"]["Registrant"];
+
+            $command = [
+                "COMMAND" => "ModifyDomain",
+                "DOMAIN" => $domain->getDomain()
+            ];
+
+            ispapi_get_contact_info2($command, $_POST, [
+                "OWNERCONTACT0" => "Registrant"
+            ]);
+
+            $addflds->addToCommand($command, $params["country"]);
+            $r = ispapi_call($command, ispapi_config($origparams));
+
+            if ($r["CODE"] == 200) {
+                $addflds->saveToDatabase();
+                $successful = $r["DESCRIPTION"];
+            } else {
+                $error = $r["DESCRIPTION"];
+            }
         }
+    } else {
+        $addflds->getFieldValuesFromDatabase($domain_data["id"]);
     }
-
-    // replace values with post values
-    if (isset($_POST["submit"])) {
-        $newvalues["Registrant"] = $_POST["contactdetails"]["Registrant"];
-        $newvalues["Legal Type"] = $_POST["additionalfields"]["Legal Type"];
-        $newvalues["WHOIS Opt-out"] = $_POST["additionalfields"]["WHOIS Opt-out"];
-        $values = $newvalues;
-    }
-
-    $domainid = (int) $params["domainid"];
-    $domain_data = (new WHMCS\Domains())->getDomainsDatabyID($domainid);
-    $addflds = new WHMCS\Domains\AdditionalFields();
-    $addflds->setDomain($domain_data["domain"])
-            ->setDomainType($domain_data["type"])
-            ->getFieldValuesFromDatabase($domain_data["id"]);
 
     return array(
-        'templatefile' => "registrantmodification_ca",
+        'templatefile' => "registrantmodification",
         'vars' => array(
+            'tld' => $domain->getLastTLDSegment(),
+            'needsAdminC' => false,
+            'furtherDocsURL' => "",
             'error' => $error,
             'successful' => $successful,
             'values' => $values,
-            'additionalfields' => $addflds
+            'additionalfields' => $addflds,
+            'missingfields' => $missingfields,
+            'type' => ''
         )
     );
 }

@@ -24,7 +24,7 @@ HTML;
     }
 });
 
-/*
+/**
  * ONLY FOR .SWISS
  * saves the .swiss application ID in the admin note
  */
@@ -40,8 +40,8 @@ add_hook('AfterRegistrarRegistrationFailed', 1, function ($vars) {
     }
 });
 
-/*
- * ONLY FOR .SWISS ... TODO: checking for being it a .SWISS domain, would be better
+/**
+ * ONLY FOR .SWISS
  * runs over all pending applications to check if the registration was successful or not.
  */
 add_hook('DailyCronJob', 1, function ($vars) {
@@ -49,7 +49,7 @@ add_hook('DailyCronJob', 1, function ($vars) {
         require_once(dirname(__FILE__)."/ispapi.php");
         $ispapi_config = ispapi_config(getregistrarconfigoptions("ispapi"));
 
-        $result = mysql_query("SELECT * from tbldomains WHERE additionalnotes!='' and registrar='ispapi' and status='Pending'");
+        $result = mysql_query("SELECT * from tbldomains WHERE domain REGEXP '\\.swiss$' and additionalnotes!='' and registrar='ispapi' and status='Pending'");
         while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
             preg_match('/APPLICATION:(.+?)(?:$|\n)/i', $row["additionalnotes"], $matches);
             if (isset($matches[1])) {

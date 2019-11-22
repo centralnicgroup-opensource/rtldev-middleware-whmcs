@@ -14,7 +14,8 @@ if ($r["success"]) {
         $tld = "." . $idnConvert->encode($row["short"]);
 
         // check if an file exists for the extension (e.g. .sg, .com.sg, .de)
-        $file = implode(DIRECTORY_SEPARATOR, [ROOTDIR, "modules", "registrars", "ispapi", "additionalfields", $row["short"] . ".php"]);//TODO sanitize, test if $tld is used
+        $tldsecured = basename(realpath($row["short"]));
+        $file = implode(DIRECTORY_SEPARATOR, [ROOTDIR, "modules", "registrars", "ispapi", "additionalfields", $row["short"] . ".php"]);
         if (file_exists($file)) {
             include $file;
         } else {
