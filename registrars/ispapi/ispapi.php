@@ -7,9 +7,6 @@
 
 $module_version = "1.12.4";
 
-use WHMCS\Domains\DomainLookup\ResultsList;
-use WHMCS\Domains\DomainLookup\SearchResult;
-use WHMCS\Module\Registrar\Registrarmodule\ApiClient;
 use WHMCS\Module\Server;
 use WHMCS\Module\Addon;
 use WHMCS\Module\Widget;
@@ -24,18 +21,10 @@ use WHMCS\Carbon;
  * @param array $params common module parameters
  *
  * @return \WHMCS\Domains\DomainLookup\ResultsList An ArrayObject based collection of \WHMCS\Domains\DomainLookup\SearchResult results
+ * @see https://confluence.hexonet.net/pages/viewpage.action?pageId=8589377 for diagram
  */
 function ispapi_CheckAvailability($params)
 {
-    //GET AN ARRAY OF ALL TLDS CONFIGURED WITH HEXONET
-    $pdo = Capsule::connection()->getPdo();
-    $stmt = $pdo->prepare("SELECT extension FROM tbldomainpricing WHERE autoreg REGEXP '^(ispapi|hexonet)$'");
-    $stmt->execute();
-    $ispapi_tlds = $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
-
-    //GET ALL CURRENCIES EXISTING IN WHMCS
-    $whmcs_existing_currencies = localAPI('GetCurrencies', array());
-
     if ($params['isIdnDomain']) {
         $label = empty($params['punyCodeSearchTerm']) ? strtolower($params['searchTerm']) : strtolower($params['punyCodeSearchTerm']);
     } else {
@@ -45,7 +34,7 @@ function ispapi_CheckAvailability($params)
     $tldslist = $params['tldsToInclude'];
     $premiumEnabled = (bool) $params['premiumEnabled'];
     $domainslist = array();
-    $results = new ResultsList();
+    $results = new WHMCS\Domains\DomainLookup\ResultsList();
 
     foreach ($tldslist as $tld) {
         if (!empty($tld[0])) {
@@ -73,101 +62,65 @@ function ispapi_CheckAvailability($params)
         }
     }
 
+    //TODO: chunk this as
+    // * only ~250 are allowed at once and
+    // * requesting all at once is probably quite slower
     $command = array(
-            "COMMAND" => "CheckDomains",
-            "DOMAIN" => $domainslist["all"],
-            "PREMIUMCHANNELS" => "*"
+        "COMMAND" => "CheckDomains",
+        "DOMAIN" => $domainslist["all"],
+        "PREMIUMCHANNELS" => "*"
     );
     $check = ispapi_call($command, ispapi_config($params));
 
     if ($check["CODE"] == 200) {
-        $index=0;
-        foreach ($domainslist["list"] as $domain) {
+        //GET AN ARRAY OF ALL TLDS CONFIGURED WITH HEXONET
+        $pdo = Capsule::connection()->getPdo();
+        $stmt = $pdo->prepare("SELECT extension FROM tbldomainpricing WHERE autoreg REGEXP '^(ispapi|hexonet)$'");
+        $stmt->execute();
+        $ispapi_tlds = $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
+
+        foreach ($domainslist["list"] as $index => $domain) {
             $registerprice = $renewprice = $currency = $status = "";
-            $searchResult = new SearchResult($domain['sld'], $domain['tld']);
+            $sr = new WHMCS\Domains\DomainLookup\SearchResult($domain['sld'], $domain['tld']);
+            $sr->setStatus($sr::STATUS_REGISTERED);
             if (preg_match('/549/', $check["PROPERTY"]["DOMAINCHECK"][$index])) {
                 //TLD NOT SUPPORTED AT HEXONET USE A FALLBACK TO THE WHOIS LOOKUP.
                 $whois = localAPI("DomainWhois", array("domain" => $domain['sld'].$domain['tld']));
                 if ($whois["status"] == "available") {
                     //DOMAIN AVAILABLE
-                    $status = SearchResult::STATUS_NOT_REGISTERED;
-                } else {
-                    //DOMAIN TAKEN
-                    $status = SearchResult::STATUS_REGISTERED;
+                    $sr->setStatus($sr::STATUS_NOT_REGISTERED);
                 }
-            } elseif (preg_match('/210/', $check["PROPERTY"]["DOMAINCHECK"][$index])) {
+            } elseif (preg_match('/^210 .+$/', $check["PROPERTY"]["DOMAINCHECK"][$index])) {
                 //DOMAIN AVAILABLE
-                $status = SearchResult::STATUS_NOT_REGISTERED;
-            } elseif (!empty($check["PROPERTY"]["PREMIUMCHANNEL"][$index]) || !empty($check["PROPERTY"]["CLASS"][$index])) { //IT IS A PREMIUMDOMAIN
+                $sr->setStatus($sr::STATUS_NOT_REGISTERED);
+            } elseif (!empty($check["PROPERTY"]["PREMIUMCHANNEL"][$index]) || !empty($check["PROPERTY"]["CLASS"][$index])) {
                 //IF PREMIUM DOMAIN ENABLED IN WHMCS - DISPLAY AVAILABLE + PRICE
-                if ($premiumEnabled) {
-                    //CHECK IF HEXONET IS CONFIGURED AS REGISTRAR FOR THIS EXTENSION
-                    if (!in_array($domain['tld'], $ispapi_tlds)) {
-                        //PREMIUM DOMAIN BUT NOT REGISTERED WITH HEXONET - RETURN TAKEN
-                        $status = SearchResult::STATUS_REGISTERED;
-                    } else {
-                        //GET THE REGISTER PRICE
-                        if (isset($check["PROPERTY"]["PRICE"][$index]) && is_numeric($check["PROPERTY"]["PRICE"][$index])) {
-                            $registerprice = $check["PROPERTY"]["PRICE"][$index];
-                        }
-
-                        if (isset($check["PROPERTY"]["CURRENCY"][$index]) && !empty($check["PROPERTY"]["CURRENCY"][$index])) {
-                            $currency = $check["PROPERTY"]["CURRENCY"][$index];
-                        }
-
-                        //GET ALL CURRENCIES EXISTING IN WHMCS AND THE PREMIUM DOMAIN CURRENCY
-                        $currency_id = 0;
-                        $currency_list = array();
-                        foreach ($whmcs_existing_currencies["currencies"]["currency"] as $cur) {
-                            $currency_list[] = $cur["code"];
-                            if ($cur["code"] == $currency) {
-                                $currency_id = $cur["id"];
-                            }
-                        }
-
-                        if (!in_array($currency, $currency_list) || empty($registerprice)) {
-                            //IF CURRENCY OF THE DOMAIN NOT IN WHMCS OR PRICE NOT FOUND, RETURN TAKEN BECAUSE IT'S NOT POSSIBLE TO CALCULATE THE PRICE.
-                            $status = SearchResult::STATUS_REGISTERED;
-                        } else {
-                            //AFTERMARKET OR REGISTRY PREMIUM DOMAIN
-                            $renewprice = ispapi_getRenewPrice($params, $check["PROPERTY"]["CLASS"][$index], $currency_id, ltrim($domain['tld'], '.'));
-
-                            if (isset($registerprice) && isset($currency) && !empty($renewprice)) {
-                                $status = SearchResult::STATUS_NOT_REGISTERED;
-                                $searchResult->setPremiumDomain(true);
-                                $premiuminformation = array('register' => $registerprice,
-                                                            'renew' => $renewprice,
-                                                            'CurrencyCode' => $currency);
-                                $searchResult->setPremiumCostPricing($premiuminformation);
-                            } else {
-                                //PROBLEM, COULD NOT GET REGISTRATION OR RENEW PRICES -> DISPLAY THE DOMAIN AS TAKEN
-                                $status = SearchResult::STATUS_REGISTERED;
-                            }
-                        }
-                    }
+                if (!$premiumEnabled) {
+                    $sr->setStatus($sr::STATUS_RESERVED);
                 } else {
-                    //PREMIUM DOMAIN NOT ENABLED IN WHMCS -> DISPLAY THE DOMAIN AS TAKEN
-                    $status = SearchResult::STATUS_REGISTERED;
+                    $params["AvailabilityCheckResult"] = $check;
+                    $params["AvailabilityCheckResultIndex"] = $index;
+                    $prices = ispapi_GetPremiumPrice($params);
+                    $sr->setPremiumDomain(true);
+                    $sr->setPremiumCostPricing($prices);
+                    if (empty($prices)) {
+                        $sr->setStatus($sr::STATUS_RESERVED);
+                    } elseif (isset($prices["register"])) {
+                        $sr->setStatus($sr::STATUS_NOT_REGISTERED);
+                    }
                 }
-            } else {
-                //DOMAIN TAKEN
-                $status = SearchResult::STATUS_REGISTERED;
             }
-
-            $searchResult->setStatus($status);
-            $index++;
 
             if (isset($params["suggestions"])) {
                 //ONLY RETURNS AVAILABLE DOMAINS FOR SUGGESTIONS
-                if ($status != SearchResult::STATUS_REGISTERED) {
-                    $results->append($searchResult);
+                if ($sr->getStatus() != $sr::STATUS_REGISTERED) {
+                    $results->append($sr);
                 }
             } else {
-                $results->append($searchResult);
+                $results->append($sr);
             }
         }
     }
-
     return $results;
 }
 
@@ -180,8 +133,6 @@ function ispapi_CheckAvailability($params)
  */
 function ispapi_GetDomainSuggestions($params)
 {
-    //return;
-
     //GET THE TLD OF THE SEARCHED VALUE
     if (isset($_REQUEST["domain"]) && preg_match('/\./', $_REQUEST["domain"])) {
         $search = preg_split("/\./", $_REQUEST["domain"], 2);
@@ -260,6 +211,243 @@ function ispapi_DomainSuggestionOptions($params)
         ),
     );
 }
+/**
+ * Get Premium Price for given domain,
+ * @see call of this method in \WHMCS\DOMAINS\DOMAIN::getPremiumPricing
+ * $pricing = $registrarModule->call("GetPremiumPrice", array(
+ *      "domain" => $this,
+ *      "sld" => $this->getSecondLevel(),
+ *      "tld" => $this->getDotTopLevel(),
+ *      "type" => $type
+ * ));
+ * @throws Exception in case currency configuration is missing
+ */
+function ispapi_GetPremiumPrice($params)
+{
+    if (isset($params["AvailabilityCheckResult"])) {
+        $index = $params["AvailabilityCheckResultIndex"];
+        $r = $params["AvailabilityCheckResult"];
+        unset(
+            $params["AvailabilityCheckResultIndex"],
+            $params["AvailabilityCheckResult"]
+        );
+    } else {
+        $index = 0;
+        $r = ispapi_call([
+            "COMMAND" => "CheckDomains",
+            "DOMAIN0" => $params["domain"],
+            "PREMIUMCHANNELS" => "*"
+        ], ispapi_config($params));
+    }
+    if (($r["CODE"] != 200) ||
+        (empty($r["PROPERTY"]["PREMIUMCHANNEL"][0]) && empty($r["PROPERTY"]["CLASS"][0]))
+    ) {
+        return [];
+    }
+    $r = $r["PROPERTY"];
+
+    //GET THE PRICES
+    if (isset($r["CURRENCY"][$index]) && isset($r["PRICE"][$index]) && is_numeric($r["PRICE"][$index])) {
+        $prices = [
+            "CurrencyCode" => $r["CURRENCY"][$index]
+        ];
+        $currency = \WHMCS\Billing\Currency::where("code", $prices["CurrencyCode"])->first();
+        if (!$currency) {
+            throw new Exception("Missing currency configuration for: " . $prices["CurrencyCode"]);
+        }
+        // probably registration case (domain name available), API provides PRICE/CURRENCY Properties
+        // get registration price (as of variable fee premiums calculation is more complex)
+        $renewprice = ispapi_getPremiumRenewPrice($params, $r["CLASS"][$index], $currency->id);
+        if ($renewprice !== false) {
+            $prices["renew"] = $renewprice;
+        }
+        $registerprice = ispapi_getPremiumRegisterPrice($params, $r["CLASS"][$index], $r["PRICE"][$index], $currency->id);
+        if ($registerprice !== false) {
+            $prices["register"] = $registerprice;
+        }
+    } else {
+        $prices = [
+            "CurrencyCode" =>  ispapi_getPremiumCurrency($params, $r["CLASS"][$index])
+        ];
+        if ($prices["CurrencyCode"] === false) {
+            $racc = ispapi_call([ // worst case fallback
+                "COMMAND" => "StatusAccount"
+            ], ispapi_config($params));
+            if ($racc["CODE"]!="200" || empty($racc["PROPERTY"]["CURRENCY"][0])) {
+                return [];
+            }
+            $prices["CurrencyCode"] = $racc["PROPERTY"]["CURRENCY"][0];
+        }
+        
+        $currency = \WHMCS\Billing\Currency::where("code", $prices["CurrencyCode"])->first();
+        if (!$currency) {
+            throw new Exception("Missing currency configuration for: " . $prices["CurrencyCode"]);
+        }
+        // probably transfer case (domain name n/a), API doesn't provide PRICE/CURRENCY Properties
+        $renewprice = ispapi_getPremiumRenewPrice($params, $r["CLASS"][$index], $currency->id);
+        if ($renewprice !== false) {
+            $prices["renew"] = $renewprice;
+        }
+        $transferprice = ispapi_getPremiumTransferPrice($params, $r["CLASS"][$index], $currency->id);
+        if ($transferprice !== false) {
+            $prices["transfer"] = $transferprice;
+        }
+    }
+    return $prices;
+}
+
+/**
+ * Get the API currency for the given premium domain class
+ * @param array $params common module parameters
+ * @param string $class the class of the domain name
+ * @return string/bool the premium currency, false if not found
+ */
+function ispapi_getPremiumCurrency($params, $class)
+{
+    if (!preg_match('/\:/', $class)) {
+        //REGISTRY PREMIUM DOMAIN (e.g. PREMIUM_DATE_F)
+        return  ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_".$class."_CURRENCY");
+    }
+    //VARIABLE FEE PREMIUM DOMAINS (e.g. PREMIUM_TOP_CNY:24:2976)
+    return preg_replace("/(^.+_|:.+$)", "", $class);
+}
+
+/**
+ * Calculate the domain premium registration price
+ *
+ * @param array $params common module parameters
+ * @param string $class the class of the domain name
+ * @param string $registerprice the price we have from CheckDoamins
+ * @param integer $cur_id the currency id of the currency we have form CheckDomains
+ *
+ * @return integer/bool the renew price, false if not found
+ */
+function ispapi_getPremiumRegisterPrice($params, $class, $registerprice, $cur_id)
+{
+    if (!preg_match('/\:/', $class)) {
+        //REGISTRY PREMIUM DOMAIN (e.g. PREMIUM_DATE_F)
+        return $registerprice;// looking up relations not necessary API provided the prices
+    }
+    //VARIABLE FEE PREMIUM DOMAINS (e.g. PREMIUM_TOP_CNY:24:2976)
+    $p = preg_split("/\:/", $class);
+    $cl = preg_split("/_/", $p[0]);
+    $premiummarkupfix_value = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_".$cl[0]."_".$cl[1]."_*_SETUP_MARKUP_FIX");
+    $premiummarkupvar_value = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_".$cl[0]."_".$cl[1]."_*_SETUP_MARKUP_VAR");
+    if ($premiummarkupfix_value && $premiummarkupvar_value) {
+        $currency = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_".$cl[0]."_".$cl[1]."_*_CURRENCY");
+        if ($currency !== false) {
+            $currency = \WHMCS\Billing\Currency::where("code", $prices["CurrencyCode"])->first();
+            if (!$currency) {
+                return false;
+            }
+            if ($currency->id != $cur_id) {
+                $premiummarkupvar_value = convertCurrency($premiummarkupvar_value, $currency->id, $cur_id);
+                $premiummarkupfix_value = convertCurrency($premiummarkupfix_value, $currency->id, $cur_id);
+            }
+        }
+        return $p[2] * (1 + $premiummarkupvar_value/100) + $premiummarkupfix_value;
+    }
+    return false;
+}
+
+/**
+ * Calculate the domain registration price
+ *
+ * @param array $params common module parameters
+ * @param string $class the class of the domain name
+ * @param integer $cur_id the currency of the domain name
+ *
+ * @return integer/bool the premium transfer price, false if not found
+ */
+function ispapi_getPremiumTransferPrice($params, $class, $cur_id)
+{
+    if (!preg_match('/\:/', $class)) {
+        //REGISTRY PREMIUM DOMAIN (e.g. PREMIUM_DATE_F)
+        $currency = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_".$class."_CURRENCY");
+        if ($currency === false) {
+            return false;
+        }
+        $currency = \WHMCS\Billing\Currency::where("code", $currency)->first();
+        if (!$currency) {
+            return false;
+        }
+        $transfer = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_".$class."_TRANSFER");
+        // premium period is in general 1Y, no need to reflect period in calculations
+        if ($transfer !== false && ($currency->id != $cur_id)) {
+            return convertCurrency($transfer, $currency->id, $cur_id);
+        }
+        return  $transfer;
+    }
+    //VARIABLE FEE PREMIUM DOMAINS (e.g. PREMIUM_TOP_CNY:24:2976)
+    $p = preg_split("/\:/", $class);
+    $cl = preg_split("/_/", $p[0]);
+    $premiummarkupfix_value = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_".$cl[0]."_".$cl[1]."_*_TRANSFER_MARKUP_FIX");
+    $premiummarkupvar_value = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_".$cl[0]."_".$cl[1]."_*_TRANSFER_MARKUP_VAR");
+    if ($premiummarkupfix_value && $premiummarkupvar_value) {
+        $currency = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_".$cl[0]."_".$cl[1]."_*_CURRENCY");
+        if ($currency !== false) {
+            $currency = \WHMCS\Billing\Currency::where("code", $currency)->first();
+            if (!$currency) {
+                return false;
+            }
+            if ($currency->id != $cur_id) {
+                $premiummarkupvar_value = convertCurrency($premiummarkupvar_value, $currency->id, $cur_id);
+                $premiummarkupfix_value = convertCurrency($premiummarkupfix_value, $currency->id, $cur_id);
+            }
+        }
+        return $p[1] * (1 + $premiummarkupvar_value/100) + $premiummarkupfix_value;
+    }
+    return false;
+}
+
+/**
+ * Calculate the premium domain renew price
+ *
+ * @param array $params common module parameters
+ * @param string $class the class of the domain name
+ * @param integer $cur_id the currency of the domain name
+ *
+ * @return integer/bool the premium renew price, false if not found
+ */
+function ispapi_getPremiumRenewPrice($params, $class, $cur_id)
+{
+    if (!preg_match('/\:/', $class)) {
+        //REGISTRY PREMIUM DOMAIN (e.g. PREMIUM_DATE_F)
+        $currency = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_".$class."_CURRENCY");
+        if ($currency === false) {
+            return false;
+        }
+        $currency = \WHMCS\Billing\Currency::where("code", $currency)->first();
+        if (!$currency) {
+            return false;
+        }
+        $renewprice = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_".$class."_ANNUAL");
+        if ($renewprice && ($currency->id != $cur_id)) {
+            $renewprice = convertCurrency($renewprice, $cur_id2->id, $cur_id);
+        }
+        return $renewprice;
+    }
+    //VARIABLE FEE PREMIUM DOMAINS (e.g. PREMIUM_TOP_CNY:24:2976)
+    $p = preg_split("/\:/", $class);
+    $cl = preg_split("/_/", $p[0]);
+    $premiummarkupfix_value = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_".$cl[0]."_".$cl[1]."_*_ANNUAL_MARKUP_FIX");
+    $premiummarkupvar_value = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_".$cl[0]."_".$cl[1]."_*_ANNUAL_MARKUP_VAR");
+    if ($premiummarkupfix_value && $premiummarkupvar_value) {
+        $currency = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_".$cl[0]."_".$cl[1]."_*_CURRENCY");
+        if ($currency !== false) {
+            $currency = \WHMCS\Billing\Currency::where("code", $currency)->first();
+            if (!$currency) {
+                return false;
+            }
+            if ($currency->id != $cur_id) {
+                $premiummarkupvar_value = convertCurrency($premiummarkupvar_value, $currency->id, $cur_id);
+                $premiummarkupfix_value = convertCurrency($premiummarkupfix_value, $currency->id, $cur_id);
+            }
+        }
+        return $p[1] * (1 + $premiummarkupvar_value/100) + $premiummarkupfix_value;
+    }
+    return false;
+}
 
 /**
  * Calculate the domain renew price
@@ -273,8 +461,6 @@ function ispapi_DomainSuggestionOptions($params)
  */
 function ispapi_getRenewPrice($params, $class, $cur_id, $tld)
 {
-    session_start();
-
     if (empty($class)) {
         //NO PREMIUM RENEW, RETURN THE PRICE SET IN WHMCS
         $pdo = Capsule::connection()->getPdo();
@@ -283,39 +469,15 @@ function ispapi_getRenewPrice($params, $class, $cur_id, $tld)
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
         if (!empty($data) && !in_array($data["msetupfee"], array("-1", "0"))) {
             return $data["msetupfee"];
-        } else {
-            return false;
         }
+        return false;
         //API COMMAND GetTLDPricing IS TRIGERING JS ERROR AND IS UNUSABLE.
         // $gettldpricing_res = localAPI('GetTLDPricing', array('currencyid' => $cur_id));
         // $renewprice = $gettldpricing_res["pricing"][$tld]["renew"][1];
         //return !empty($renewprice) ? $renewprice : false;
     }
 
-    if (!preg_match('/\:/', $class)) {
-        //REGISTRY PREMIUM DOMAIN (e.g. PREMIUM_DATE_F)
-        $class = "PRICE_CLASS_DOMAIN_".$class."_ANNUAL";
-        $type = "PREMIUM";
-    } else {
-        //VARIABLE FEE PREMIUM DOMAINS (e.g. PREMIUM_TOP_CNY:24:2976)
-        $p = preg_split("/\:/", $class);
-        $type = "VARIABLEPREMIUM";
-    }
-
-    if ($type == "VARIABLEPREMIUM") {
-        //HANDLE VARIABLE FEE PREMIUM DOMAINS
-        $cl = preg_split("/_/", $p[0]);
-        $premiummarkupfix_value = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_".$cl[0]."_".$cl[1]."_*_ANNUAL_MARKUP_FIX");
-        $premiummarkupvar_value = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_".$cl[0]."_".$cl[1]."_*_ANNUAL_MARKUP_VAR");
-        if ($premiummarkupfix_value && $premiummarkupvar_value) {
-            $renewprice = $p[1] * (1 + $premiummarkupvar_value/100) + $premiummarkupfix_value;
-            return $renewprice;
-        }
-    } else {
-        //HANDLE REGISTRY PREMIUM DOMAINS
-        return ispapi_getUserRelationValue($params, $class);
-    }
-    return false;
+    return ispapi_getPremiumRenewPrice($params, $class, $cur_id);
 }
 
 /**
@@ -349,6 +511,10 @@ function ispapi_getUserRelationValue($params, $relationtype)
  */
 function ispapi_getUserRelations($params)
 {
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+
     $date = new DateTime();
     if ((!isset($_SESSION["ISPAPICACHE"])) || ($_SESSION["ISPAPICACHE"]["TIMESTAMP"] + 600 < $date->getTimestamp() )) {
         $command["COMMAND"] = "StatusUser";
@@ -449,16 +615,16 @@ function ispapi_getConfigArray($params)
             // get addon module versions
             global $CONFIG;
             $activemodules = array_filter(explode(",", $CONFIG["ActiveAddonModules"]));
-            $addon = new WHMCS\Module\Addon();
+            $addon = new \WHMCS\Module\Addon();
             foreach ($addon->getList() as $module) {
                 if (in_array($module, $activemodules) && preg_match("/^ispapi/i", $module) && !preg_match("/\_addon$/i", $module)) {
-                    $d = WHMCS\Module\Addon\Setting::module($module)->pluck("value", "setting");
+                    $d = \WHMCS\Module\Addon\Setting::module($module)->pluck("value", "setting");
                     $values[$module] = $d["version"];
                 }
             }
 
             // get server module versions
-            $server = new WHMCS\Module\Server();
+            $server = new \WHMCS\Module\Server();
             foreach ($server->getList() as $module) {
                 if (preg_match("/^ispapi/i", $module)) {
                     $server->load($module);
@@ -468,7 +634,7 @@ function ispapi_getConfigArray($params)
             }
 
             // get widget module versions
-            $widget = new WHMCS\Module\Widget();
+            $widget = new \WHMCS\Module\Widget();
             foreach ($widget->getList() as $module) {
                 if (preg_match("/^ispapi/i", $module)) {
                     $widget->load($module);
@@ -2388,6 +2554,9 @@ function ispapi_TransferDomain($params)
     /** @var \WHMCS\Domains\Domain $domain */
     $domain = $params["domainObj"];
 
+    $premiumDomainsEnabled = (bool) $params['premiumEnabled'];
+    $premiumDomainsCost = $params['premiumCost'];
+
     //domain transfer pre-check
     $command = [
         "COMMAND" => "CheckDomainTransfer",
@@ -2498,6 +2667,28 @@ function ispapi_TransferDomain($params)
             $command["PERIOD"] = $period_arry[0];//TODO: in corner-cases execute a regperiod renewal
         }
     }
+
+    //#####################################################################
+    //##################### PREMIUM DOMAIN HANDLING #######################
+    //######################################################################
+    if ($premiumDomainsEnabled && !empty($premiumDomainsCost)) {
+        //check if premium domain functionality is enabled by the admin
+        //check if the domain has a premium price
+        
+        //checkdomaintransfer
+        if ($r["CODE"] == 200 && !empty($r['PROPERTY']['CLASS'][0])) {
+            //check if the price displayed to the customer is equal to the real cost at the registar
+            $price = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_" . $r['PROPERTY']['CLASS'][0] . "_TRANSFER");
+            if ($price !== false && $premiumDomainsCost == $price) {
+                $command["CLASS"] = $r['PROPERTY']['CLASS'][0];
+            } else {
+                return [
+                    "error" => "Price mismatch. Got $premiumDomainsCost, but expected $price."
+                ];
+            }
+        }
+    }
+    //#####################################################################
     $response = ispapi_call($command, ispapi_config($params));
 
     if ($response["CODE"] != 200) {
@@ -2849,8 +3040,6 @@ function ispapi_get_contact_info($contact, &$params)
     $params["_contact_hash"][$contact] = $values;
     return $values;
 }
-
-
 
 // ------------------------------------------------------------------------------
 // ------- Helper functions and functions required to connect the API ----------
