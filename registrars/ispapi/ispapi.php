@@ -65,10 +65,6 @@ function ispapi_getConfigArray($params)
             "Size" => "20",
             "Description" => "Enter your ISPAPI Password ",
         ],
-        "UseSSL" => [
-            "Type" => "yesno",
-            "Description" => "Use HTTPS for API Connections"
-        ],
         "TestMode" => [
             "Type" => "yesno",
             "Description" => "Connect to OT&amp;E (Test Environment)"
@@ -76,12 +72,6 @@ function ispapi_getConfigArray($params)
         "ProxyServer" => [
             "Type" => "text",
             "Description" => "Optional (HTTP(S) Proxy Server)"
-        ],
-        "ConvertIDNs" => [
-            "Type" => "dropdown",
-            "Options" => "API,PHP",
-            "Default" => "API",
-            "Description" => "Use API or PHP function (idn_to_ascii)"
         ],
         "DNSSEC" => [
             "Type" => "yesno",
@@ -98,14 +88,6 @@ function ispapi_getConfigArray($params)
             "Description" => "General info about IRTP can be found <a target='blank_' href='https://wiki.hexonet.net/wiki/IRTP' style='border-bottom: 1px solid blue; color: blue'>here</a>. Documentation about option one can be found <a target='blank_' href='https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#option-one' style='border-bottom: 1px solid blue; color: blue'>here</a> and option two <a target='blank_' href='https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#option-two' style='border-bottom: 1px solid blue; color: blue'>here</a>"
         ]
     ];
-    if (!function_exists('idn_to_ascii')) {
-        $configarray["ConvertIDNs"] = [
-            "Type" => "dropdown",
-            "Options" => "API",
-            "Default" => "API",
-            "Description" => "Use API (PHP function idn_to_ascii not available)"
-        ];
-    }
 
     if (!empty($params["Username"])) {
         $r = ispapi_call([
@@ -3085,8 +3067,7 @@ function ispapi_config($params)
     $config = [
         "registrar" => $params["registrar"],
         "entity"    => ($params["TestMode"] == 1 || $params["TestMode"] == "on") ? "1234" : "54cd",
-        "url"       => "http" . (($params["UseSSL"] == 1 || $params["UseSSL"] == "on") ? "s" : "") . "://api.ispapi.net/api/call.cgi",
-        "idns"      => $params["ConvertIDNs"],
+        "url"       => "https://api.ispapi.net/api/call.cgi",
         "login"     => $params["Username"],
         "password"  => $params["Password"]
     ];
