@@ -2381,47 +2381,38 @@ function ispapi_RegisterDomain($params)
  */
 function ispapi_TransferDomain($params)
 {
-    $values = array();
-    $origparams = $params;
-    $params = ispapi_get_utf8_params($params);
-    if (isset($params["original"])) {
-        $params = $params["original"];
-    }
-
-    $domain = $params["sld"].".".$params["tld"];
+    $params = injectDomainObjectIfNecessary($params);
+    /** @var \WHMCS\Domains\Domain $domain */
+    $domain = $params["domainObj"];
 
     //domain transfer pre-check
-    $checkDomainTransfer_command = array(
+    $command = [
         "COMMAND" => "CheckDomainTransfer",
-        "DOMAIN" => $domain
-    );
-
-    if ($origparams["transfersecret"]) {
-        $checkDomainTransfer_command["AUTH"] = $origparams["transfersecret"];
+        "DOMAIN" => $domain->getDomain()
+    ];
+    if ($params["transfersecret"]) {
+        $command["AUTH"] = $params["transfersecret"];
     }
-
-    $r = ispapi_call($checkDomainTransfer_command, ispapi_config($origparams));
+    $r = ispapi_call($command, ispapi_config($params));
 
     if ($r["CODE"] != 218) {
-        $values["error"] = $r["DESCRIPTION"];
-        return $values;
+        return [
+            "error" => $r["DESCRIPTION"]
+        ];
     }
 
     if (isset($r["PROPERTY"]["AUTHISVALID"]) && $r["PROPERTY"]["AUTHISVALID"][0] == "NO") {
         // return custom error message
-        $values["error"] = "Invaild Authorization Code";
-        return $values;
+        return [
+            "error" => "Invaild Authorization Code"
+        ];
     }
     
     if (isset($r["PROPERTY"]["TRANSFERLOCK"]) && $r["PROPERTY"]["TRANSFERLOCK"][0] == "1") {
         // return custom error message
-        $values["error"] = "Transferlock is active. Therefore the Domain cannot be transferred.";
-        return $values;
-    }
-
-    if (isset($r["PROPERTY"]["USERTRANSFERREQUIRED"]) && $r["PROPERTY"]["USERTRANSFERREQUIRED"][0] == "1") {
-        //auto-detect user-transfer
-        $command["ACTION"] = "USERTRANSFER";
+        return [
+            "error" => "Transferlock is active. Therefore the Domain cannot be transferred."
+        ];
     }
 
     $registrant = array(
@@ -2456,9 +2447,9 @@ function ispapi_TransferDomain($params)
         $admin["STREET"] .= " , ".$params["adminaddress2"];
     }
 
-    $command = array(
+    $command = [
         "COMMAND" => "TransferDomain",
-        "DOMAIN" => $domain,
+        "DOMAIN" => $domain->getDomain(),
         "PERIOD" => $params["regperiod"],
         "NAMESERVER0" => $params["ns1"],
         "NAMESERVER1" => $params["ns2"],
@@ -2468,13 +2459,16 @@ function ispapi_TransferDomain($params)
         "ADMINCONTACT0" => $admin,
         "TECHCONTACT0" => $admin,
         "BILLINGCONTACT0" => $admin,
-        "AUTH" => $origparams["transfersecret"]
-    );
-
+        "AUTH" => $params["transfersecret"]
+    ];
+    if (isset($r["PROPERTY"]["USERTRANSFERREQUIRED"]) && $r["PROPERTY"]["USERTRANSFERREQUIRED"][0] == "1") {
+        //auto-detect user-transfer
+        $command["ACTION"] = "USERTRANSFER";
+    }
 
     //1) don't send owner admin tech billing contact for .NU .DK .CA, .US, .PT, .NO, .SE, .ES domains
     //2) do not send contact information for gTLD (Including nTLDs)
-    if (preg_match('/\.([a-z]{3,}|nu|dk|ca|us|pt|no|se|es)$/i', $domain)) {
+    if (preg_match('/\.([a-z]{3,}|nu|dk|ca|us|pt|no|se|es)$/i', $domain->getDomain())) {
         unset($command["OWNERCONTACT0"]);
         unset($command["ADMINCONTACT0"]);
         unset($command["TECHCONTACT0"]);
@@ -2482,7 +2476,7 @@ function ispapi_TransferDomain($params)
     }
 
     //don't send owner billing contact for .FR domains
-    if (preg_match('/\.fr$/i', $domain)) {
+    if (preg_match('/\.fr$/i', $domain->getDomain())) {
         unset($command["OWNERCONTACT0"]);
         unset($command["BILLINGCONTACT0"]);
     }
@@ -2490,23 +2484,27 @@ function ispapi_TransferDomain($params)
     //auto-detect default transfer period
     //for example, es, no, nu tlds require period value as zero (free transfers).
     //in WHMCS the default value is 1
-    $queryDomainOptions_command = array(
+    $qr = ispapi_call([
         "COMMAND" => "QueryDomainOptions",
-        "DOMAIN0" => $domain
-    );
-    $queryDomainOptions_response = ispapi_call($queryDomainOptions_command, ispapi_config($origparams));
-    if ($queryDomainOptions_response["CODE"] == 200) {
-        $period_arry = explode(",", $queryDomainOptions_response['PROPERTY']['ZONETRANSFERPERIODS'][0]);
+        "DOMAIN0" => $domain->getDomain()
+    ], ispapi_config($params));
+
+    if ($qr["CODE"] == 200) {
+        $period_arry = explode(",", $qr['PROPERTY']['ZONETRANSFERPERIODS'][0]);
         if (preg_match("/^0(Y|M)?$/i", $period_arry[0])) {// set period 0 - specific case.
             $command["PERIOD"] = $period_arry[0];//TODO: in corner-cases execute a regperiod renewal
         }
     }
-    $response = ispapi_call($command, ispapi_config($origparams));
+    $response = ispapi_call($command, ispapi_config($params));
 
     if ($response["CODE"] != 200) {
-        $values["error"] = $response["DESCRIPTION"];
+        return [
+            "error" => $response["DESCRIPTION"]
+        ];
     }
-    return $values;
+    return [
+        "success" => true
+    ];
 }
 
 /**
@@ -2649,10 +2647,9 @@ function ispapi_TransferSync($params)
         "CLASS" => "DOMAIN_TRANSFER",
         "MINDATE" => date("Y-m-d H:i:s", strtotime("first day of previous month")),
         "ORDERBY" => "EVENTDATEDESC",
-        "LIMIT" => 1,
         "WIDE" => 1
     ], ispapi_config($params));
-    
+
     if ($r["CODE"] != 200 || !isset($r["PROPERTY"]["EVENTDATA0"])) {
         return [];
     }
