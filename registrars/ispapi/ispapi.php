@@ -2640,61 +2640,97 @@ function ispapi_RequestDelete($params)
  */
 function ispapi_TransferSync($params)
 {
-    $values = array();
-    $domain = $params["sld"].".".$params["tld"];
+    $params = injectDomainObjectIfNecessary($params);
+    /** @var \WHMCS\Domains\Domain $domain */
+    $domain = $params["domainObj"];
 
-    $command = array(
-        "COMMAND" => "StatusDomain",
-        "DOMAIN" => $domain
-    );
-    $response = ispapi_call($command, ispapi_config($params));
-    if ($response["CODE"] == 200) {
-        $values['completed'] = true; #  when transfer completes successfully
+    $r = ispapi_call([
+        "COMMAND" => "QueryEventList",
+        "CLASS" => "DOMAIN_TRANSFER",
+        "MINDATE" => date("Y-m-d H:i:s", strtotime("first day of previous month")),
+        "ORDERBY" => "EVENTDATEDESC",
+        "LIMIT" => 1,
+        "WIDE" => 1
+    ], ispapi_config($params));
+    
+    if ($r["CODE"] != 200 || !isset($r["PROPERTY"]["EVENTDATA0"])) {
+        return [];
+    }
 
-        if ($response["PROPERTY"]["FAILUREDATE"][0] > $response["PROPERTY"]["PAIDUNTILDATE"][0]) {
-            $paiduntildate = preg_replace('/ .*/', '', $response["PROPERTY"]["PAIDUNTILDATE"][0]);
-            $values['expirydate'] = $paiduntildate;
-        } else {
-            $accountingdate = preg_replace('/ .*/', '', $response["PROPERTY"]["ACCOUNTINGDATE"][0]);
-            $values['expirydate'] = $accountingdate;
+    $rows = [];
+    $r = $r["PROPERTY"];
+    foreach ($r["EVENTDATA0"] as $idx => &$d) {
+        if ("domain:" . $domain->getDomain() == $d) {
+            $rows[$r["EVENTSUBCLASS"][$idx]] = $r["EVENTDATE"][$idx];
+            if ($r["EVENTSUBCLASS"][$idx]=="TRANSFER_PENDING") {
+                break;
+            }
         }
+    }
+    
+    if (isset($rows["TRANSFER_SUCCESSFUL"])) {
+        $r = $r = ispapi_call([
+            "COMMAND" => "StatusDomain",
+            "DOMAIN" => $domain->getDomain()
+        ], ispapi_config($params));
 
-        //activate the whoistrustee if set to 1 in WHMCS
-        if ($params["idprotection"] == "1" || $params["idprotection"] == "on") {
-            $command = array(
+        if ($r["CODE"]=="200") {
+            $r = $r["PROPERTY"];
+            //activate the whoistrustee if set to 1 in WHMCS
+            if (($params["idprotection"] == "1" || $params["idprotection"] == "on") &&
+                empty($r["X-ACCEPT-WHOISTRUSTEE-TAC"][0]) // doesn't exist, "" or 0
+             ) {
+                ispapi_call([
                     "COMMAND" => "ModifyDomain",
                     "DOMAIN" => $domain,
-                    "X-ACCEPT-WHOISTRUSTEE-TAC" => "1"
-            );
-            $response = ispapi_call($command, ispapi_config($params));
-        }
-    } elseif (($response["CODE"] == 545) || ($response["CODE"] == 531)) {
-        $command = array("COMMAND" => "StatusDomainTransfer", "DOMAIN" => $domain);
-        $response = ispapi_call($command, ispapi_config($params));
-        if (($response["CODE"] == 545) || ($response["CODE"] == 531)) {
-            $values['failed'] = true;
-            $values['reason'] = "Transfer Failed";
+                    "X-ACCEPT-WHOISTRUSTEE-TAC" => 1
+                ], ispapi_config($params));
+            }
 
-            $loglist_command = array("COMMAND" => "QueryObjectLogList", "OBJECTCLASS" => "DOMAIN", "OBJECTID" => $domain, "ORDERBY" => "LOGDATEDESC", "LIMIT" => 1);
-            $loglist_response = ispapi_call($loglist_command, ispapi_config($params));
-            if (isset($loglist_response["PROPERTY"]["LOGINDEX"])) {
-                foreach ($loglist_response["PROPERTY"]["LOGINDEX"] as $index => $logindex) {
-                    $type = $loglist_response["PROPERTY"]["OPERATIONTYPE"][$index];
-                    $status = $loglist_response["PROPERTY"]["OPERATIONSTATUS"][$index];
-                    if (($type == "INBOUND_TRANSFER") && ($status == "FAILED")) {
-                        $logstatus_command = array("COMMAND" => "StatusObjectLog", "LOGINDEX" => $logindex);
-                        $logstatus_response = ispapi_call($logstatus_command, ispapi_config($params));
-                        if ($logstatus_response["CODE"] == 200) {
-                            $values['reason'] = implode("\n", $logstatus_response["PROPERTY"]["OPERATIONINFO"]);
-                        }
+            $date = ($r["FAILUREDATE"][0] > $r["PAIDUNTILDATE"][0]) ? $r["PAIDUNTILDATE"][0] : $r["ACCOUNTINGDATE"][0];
+            return [
+                'completed' => true,
+                'expirydate' => preg_replace('/ .*$/', '', $date)
+            ];
+        }
+        return [
+            'completed' => true
+        ];
+    }
+
+    if (isset($rows["TRANSFER_FAILED"])) {
+        $values = [
+            'failed' => true,
+            'reason' => "Transfer Failed"
+        ];
+        $rloglist = ispapi_call([
+            "COMMAND" => "QueryObjectLogList",
+            "OBJECTCLASS" => "DOMAIN",
+            "OBJECTID" => $domain,
+            "ORDERBY" => "LOGDATEDESC",
+            "LIMIT" => 1
+        ], ispapi_config($params));
+    
+        if (isset($rloglist["PROPERTY"]["LOGINDEX"])) {
+            $rloglist = $rloglist["PROPERTY"];
+            foreach ($rloglist["LOGINDEX"] as $index => $logindex) {
+                if (($rloglist["OPERATIONTYPE"][$index] == "INBOUND_TRANSFER") &&
+                    ($rloglist["OPERATIONSTATUS"][$index] == "FAILED")
+                ) {
+                    $rlog = ispapi_call([
+                        "COMMAND" => "StatusObjectLog",
+                        "LOGINDEX" => $logindex
+                    ], ispapi_config($params));
+                    if ($rlog["CODE"] == 200) {
+                        $values['reason'] .= "\n" . implode("\n", $rlog["PROPERTY"]["OPERATIONINFO"]);
                     }
                 }
             }
         }
-    } else {
-        $values["error"] = $response["DESCRIPTION"];
+        return $values;
     }
-    return $values;
+    
+    return [];
 }
 
 /**
