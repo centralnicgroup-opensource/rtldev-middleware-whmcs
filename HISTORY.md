@@ -1,3 +1,11 @@
+## [1.12.3](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.12.2...v1.12.3) (2019-12-03)
+
+
+### Bug Fixes
+
+* **transferdomain:** review use of $params ([f3c0619](https://github.com/hexonet/whmcs-ispapi-registrar/commit/f3c061999c9f86469e3a00365450fe3ab2fac04b))
+* **transfersync:** reviewed in direction of QueryEventList to be more reliable ([b618892](https://github.com/hexonet/whmcs-ispapi-registrar/commit/b6188925871492800a7f675efa2d086f908ca914))
+
 ## [1.12.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.12.1...v1.12.2) (2019-11-04)
 
 
