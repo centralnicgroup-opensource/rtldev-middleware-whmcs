@@ -1503,6 +1503,9 @@ function ispapi_SaveNameservers($params)
     $response = ispapi_call($command, ispapi_config($params));
     if ($response["CODE"] != 200) {
         $values["error"] = $response["DESCRIPTION"];
+        if ($response["CODE"] == 504 && preg_match("/TOO FEW.+CONTACTS/", $values["error"])) {
+            $values["error"] = "Please update contact data first to be able to update nameserver data.";
+        }
     }
     return $values;
 }
