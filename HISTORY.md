@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.12.4...v2.0.0) (2019-12-04)
+
+
+### Bug Fixes
+
+* **CheckAvailability:** review premium price/transfer detection ([546ecf4](https://github.com/hexonet/whmcs-ispapi-registrar/commit/546ecf4c8cf71ec6aae9ad8fab90a034ffd17045))
+
+
+### BREAKING CHANGES
+
+* **CheckAvailability:** reviewed premium price detection
+
 ## [1.12.4](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.12.3...v1.12.4) (2019-12-03)
 
 
