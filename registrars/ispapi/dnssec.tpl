@@ -12,7 +12,7 @@
 	</div>
 {/if}
 
-<form method="POST" action="{$smarty.server.PHP_SELF}">
+<form method="POST" action="">
 <input type="hidden" name="action" value="domaindetails">
 <input type="hidden" name="id" value="{$domainid}">
 <input type="hidden" name="modop" value="custom">

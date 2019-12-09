@@ -5,7 +5,7 @@ The renewal will take place automatically with the product renew.</b>
 <br><br>
 If you don't want to renew this domain, you have to cancel the respective product in the product area.<br><br>
 {if $statusdomain}
-<h4><strong>Expiration Date: </strong></h4> {$statusdomain.EXPIRATIONDATE.0}
+<h4><strong>Expiration Date: </strong></h4> {$statusdomain.EXPIRATIONDATE.0}<!-- TODO better using the fn to detect the date? -->
 {/if}
 {literal}
 <script>

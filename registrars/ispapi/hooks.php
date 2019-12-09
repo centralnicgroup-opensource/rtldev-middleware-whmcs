@@ -1,7 +1,5 @@
 <?php
 
-use WHMCS\View\Menu\Item as MenuItem;
-
 /*
  * Autofill VAT-ID additional domain field
  * if the client contact details contain the VAT-ID, the VAT-ID fields are autofilled during domain registrations.
@@ -24,14 +22,14 @@ HTML;
     }
 });
 
-/*
+/**
  * ONLY FOR .SWISS
  * saves the .swiss application ID in the admin note
  */
 add_hook('AfterRegistrarRegistrationFailed', 1, function ($vars) {
     $params = $vars["params"];
     $domain = $params["sld"].".".$params["tld"];
-    if (preg_match('/[.]swiss$/i', $domain)) {
+    if (preg_match('/\.swiss$/i', $domain)) {
         preg_match('/<#(.+?)#>/i', $vars["error"], $matches);
         if (isset($matches[1])) {
             $application_id=$matches[1];
@@ -40,32 +38,31 @@ add_hook('AfterRegistrarRegistrationFailed', 1, function ($vars) {
     }
 });
 
-/*
+/**
  * ONLY FOR .SWISS
  * runs over all pending applications to check if the registration was successful or not.
  */
 add_hook('DailyCronJob', 1, function ($vars) {
     if (file_exists(dirname(__FILE__)."/ispapi.php")) {
         require_once(dirname(__FILE__)."/ispapi.php");
-        $registrarconfigoptions = getregistrarconfigoptions("ispapi");
-        $ispapi_config = ispapi_config($registrarconfigoptions);
+        $ispapi_config = ispapi_config(getregistrarconfigoptions("ispapi"));
 
-        $result = mysql_query("SELECT * from tbldomains WHERE additionalnotes!='' and registrar='ispapi' and status='Pending'");
+        $result = mysql_query("SELECT * from tbldomains WHERE domain REGEXP '\\.swiss$' and additionalnotes!='' and registrar='ispapi' and status='Pending'");
         while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
             preg_match('/APPLICATION:(.+?)(?:$|\n)/i', $row["additionalnotes"], $matches);
             if (isset($matches[1])) {
                 $application_id=$matches[1];
 
-                $command = array(
+                $r = ispapi_call([
                     "COMMAND" => "StatusDomainApplication",
                     "APPLICATION" => $application_id
-                 );
-                 $response = ispapi_call($command, $ispapi_config);
-                if ($response["PROPERTY"]["STATUS"][0] == "SUCCESSFUL") {
+                ], $ispapi_config);
+
+                if ($r["PROPERTY"]["STATUS"][0] == "SUCCESSFUL") {
                     //echo $row["domain"]." > Status:".$response["PROPERTY"]["STATUS"][0];
                     mysql_query("UPDATE tbldomains SET status='Active' WHERE id=".$row["id"]);
                 }
-                if ($response["PROPERTY"]["STATUS"][0] == "FAILED") {
+                if ($r["PROPERTY"]["STATUS"][0] == "FAILED") {
                       //echo $row["domain"]." > Status:".$response["PROPERTY"]["STATUS"][0];
                       mysql_query("UPDATE tbldomains SET status='Cancelled' WHERE id=".$row["id"]);
                 }
@@ -74,28 +71,25 @@ add_hook('DailyCronJob', 1, function ($vars) {
     }
 });
 
-/*
+/**
  * for TLDs those do not support Transfer/Registrar lock
  * remove 'Registrar Lock' option and error message (on 'overview') on client area domain details page.
  */
 add_hook('ClientAreaPageDomainDetails', 1, function ($vars) {
-
-    $domain          = Menu::context('domain');
-    $this_domain     = $domain->domain;
-    $this_registrar  = $domain->registrar;//ispapi
-        
-    if ($this_registrar == "ispapi") {
-        $registrarconfigoptions = getregistrarconfigoptions("ispapi");
-        $ispapi_config = ispapi_config($registrarconfigoptions);
-
-        $commandQueryDomainList = array(
+    $domain = Menu::context('domain');
+    if ($domain->registrar == "ispapi") {
+        $r = ispapi_call([
             "COMMAND" => "QueryDomainList",
             "DOMAIN" => $this_domain,
             "WIDE" => 1
-        );
-        $responseQueryDomainList = ispapi_call($commandQueryDomainList, $ispapi_config);
+        ], ispapi_config(getregistrarconfigoptions("ispapi")));
 
-        if (($responseQueryDomainList['CODE'] == 200) && ($responseQueryDomainList['PROPERTY']['DOMAINTRANSFERLOCK'] && $responseQueryDomainList['PROPERTY']['DOMAINTRANSFERLOCK'][0] == "")) {
+
+        if (($r['CODE'] == 200) && (
+                $r['PROPERTY']['DOMAINTRANSFERLOCK'] &&
+                $r['PROPERTY']['DOMAINTRANSFERLOCK'][0] == ""
+            )
+        ) {
             $vars['managementoptions']['locking'] = false;
             $vars['lockstatus'] = false;
 
@@ -104,7 +98,6 @@ add_hook('ClientAreaPageDomainDetails', 1, function ($vars) {
                                         ->removeChild('Registrar Lock Status');
             }
         }
-
         return $vars;
     }
 });

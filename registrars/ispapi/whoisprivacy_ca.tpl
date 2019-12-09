@@ -39,7 +39,10 @@
                 <div class="alert alert-success">
                     <p>Your WHOIS information is currently protected!</p>
                 </div>
-                <form method="post" action="{$smarty.server.PHP_SELF}?action=domaindetails&modop=custom&a={$smarty.request.a|htmlspecialchars}">
+                <form method="post" action="">
+                    <input type="hidden" name="action" value="domaindetails" />
+                    <input type="hidden" name="modop" value="custom" />
+                    <input type="hidden" name="a" value="{$smarty.request.a|htmlspecialchars}" />
                     <input type="hidden" name="id" value="{$domainid}" />
                     <input type='hidden' name="idprotection" value='disable' />
                     <p><input type="submit" class="btn btn-danger btn-large" value="Disable WHOIS Privacy" /></p>
@@ -48,7 +51,10 @@
                 <div class="alert alert-danger">
                     <p>Your WHOIS information is currently unprotected!</p>
                 </div>
-                <form method="post" action="{$smarty.server.PHP_SELF}?action=domaindetails&modop=custom&a={$smarty.request.a|htmlspecialchars}">
+                <form method="post" action="">
+                    <input type="hidden" name="action" value="domaindetails" />
+                    <input type="hidden" name="modop" value="custom" />
+                    <input type="hidden" name="a" value="{$smarty.request.a|htmlspecialchars}" />
                     <input type="hidden" name="id" value="{$domainid}" />
                     <input type='hidden' name="idprotection" value='enable' />
                     <p><input type="submit" class="btn btn-success btn-large" value="Enable WHOIS Privacy" /></p>

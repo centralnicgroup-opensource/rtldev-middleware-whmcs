@@ -7,13 +7,31 @@
 
 $module_version = "2.2.2";
 
+require_once(implode(DIRECTORY_SEPARATOR, array(__DIR__, "lib", "AdditionalFields.class.php")));
+
+use ISPAPI\AdditionalFields;
+use WHMCS\Domains;
 use WHMCS\Module\Server;
 use WHMCS\Module\Addon;
 use WHMCS\Module\Widget;
 use WHMCS\Module\Addon\Setting;
 use WHMCS\Database\Capsule;
-use WHMCS\Domain\Registrar\Domain;
 use WHMCS\Carbon;
+
+/**
+ * Return module related metadata
+ *
+ * Provide some module information including the display name and API Version to
+ * determine the method of decoding the input values.
+ *
+ * @return array
+ */
+function ispapi_MetaData()
+{
+    return [
+        "DisplayName" => "ISPAPI v" . ispapi_GetISPAPIModuleVersion()
+    ];
+}
 
 /**
  * Check the availability of domains using HEXONET's fast API
@@ -1516,7 +1534,7 @@ function ispapi_GetDomainInformation($params)
         }
     }
     
-    return (new Domain)
+    return (new WHMCS\Domain\Registrar\Domain)
         ->setNameservers($values['nameservers'])
         ->setTransferLock($values['transferlock'])
         ->setIsIrtpEnabled($values['setIsIrtpEnabled'])

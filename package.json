@@ -48,8 +48,12 @@
     "@hexonet/semantic-release-github-whmcs-config": "^1.0.0"
   },
   "scripts": {
-    "codeCheck": "phpcs --ignore=\"*/vendor/*\" --standard=PSR2 -q -n --colors registrars tests",
-    "codeFix": "phpcbf --ignore=\"*/vendor/*\" --standard=PSR2 -q registrars tests",
+    "codeCheck": "npm run codeCheckPSR1 --silent && npm run codeCheckPSR2",
+    "codeFix": "npm run codeFixPSR1 --silent && npm run codeFixPSR2",
+    "codeCheckPSR1": "phpcs --ignore=\"*/vendor/*\" --standard=PSR1 -q -n --colors registrars tests",
+    "codeCheckPSR2": "phpcs --ignore=\"*/vendor/*\" --standard=PSR2 -q -n --colors registrars tests",
+    "codeFixPSR1": "phpcbf --ignore=\"*/vendor/*\" --standard=PSR1 -q registrars tests",
+    "codeFixPSR2": "phpcbf --ignore=\"*/vendor/*\" --standard=PSR2 -q registrars tests",
     "test": "phpunit"
   }
 }
