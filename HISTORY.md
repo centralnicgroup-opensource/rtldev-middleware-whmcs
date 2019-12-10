@@ -1,3 +1,10 @@
+# [2.1.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.0.0...v2.1.0) (2019-12-10)
+
+
+### Features
+
+* **dep-bump:** upgrade whmcs-ispapi-helper to v2.3.4 ([2144fff](https://github.com/hexonet/whmcs-ispapi-registrar/commit/2144fff43b863131a65769a4e69397d328337653))
+
 # [2.0.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.12.4...v2.0.0) (2019-12-04)
 
 
