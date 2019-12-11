@@ -2867,15 +2867,74 @@ function ispapi_TransferSync($params)
 
         if ($r["CODE"]=="200") {
             $r = $r["PROPERTY"];
+            $command = [
+                "COMMAND" => "ModifyDomain",
+                "DOMAIN" => $domain->getDomain()
+            ];
+            // TODO:---------- EXCEPTION [BEGIN] --------
+            // Missing/Empty contact handles after Transfer over THIN Registry [kschwarz]
+            // Ticket#: 485677 DeskPro
+            if (preg_match("/^(com|net|cc|tv)$/", $domain->getTLD())) {
+                $domain_data = (new \WHMCS\Domains())->getDomainsDatabyID($params["domainid"]);
+                $p = getClientsDetails($domain_data["userid"]);
+                $cmdparams = [
+                    "FIRSTNAME" => html_entity_decode($p["firstname"], ENT_QUOTES),
+                    "LASTNAME" => html_entity_decode($p["lastame"], ENT_QUOTES),
+                    "ORGANIZATION" => html_entity_decode($p["companyname"], ENT_QUOTES),
+                    "STREET" => html_entity_decode($p["address1"], ENT_QUOTES),
+                    "CITY" => html_entity_decode($p["city"], ENT_QUOTES),
+                    "STATE" => html_entity_decode($p["state"], ENT_QUOTES),
+                    "ZIP" => html_entity_decode($p["postcode"], ENT_QUOTES),
+                    "COUNTRY" => html_entity_decode($p["country"], ENT_QUOTES),
+                    "PHONE" => html_entity_decode($p["phonenumber"], ENT_QUOTES),
+                    //"FAX" => html_entity_decode($p["Fax"], ENT_QUOTES), n/a in whmcs
+                    "EMAIL" => html_entity_decode($p["email"], ENT_QUOTES),
+                ];
+                if (strlen($p["address2"])) {
+                    $cmdparams["STREET"] .= " , ".html_entity_decode($p["address2"], ENT_QUOTES);
+                }
+                if (!empty($r["OWNERCONTACT0"][0]) && preg_match("/^AUTO-.+$/", $r["OWNERCONTACT0"][0])) {
+                    $rc = ispapi_call([
+                        "COMMAND" => "StatusContact",
+                        "CONTACT" => $r["OWNERCONTACT0"][0]
+                    ], ispapi_config($params));
+                    if ($rc["CODE"] == 200) {
+                        if (empty($rc["PROPERTY"]["NAME"][0]) &&
+                            empty($rc["PROPERTY"]["EMAIL"][0]) &&
+                            //empty($rc["PROPERTY"]["ORGANIZATION"][0]) && // with data
+                            empty($rc["PROPERTY"]["PHONE"][0]) &&
+                            //empty($rc["PROPERTY"]["COUNTRY"][0]) && // with data
+                            empty($rc["PROPERTY"]["CITY"][0]) &&
+                            empty($rc["PROPERTY"]["STREET"][0]) &&
+                            empty($rc["PROPERTY"]["ZIP"][0])
+                        ) {
+                            $command["OWNERCONTACT0"] = $cmdparams;
+                        }
+                    }
+                }
+                $map = [
+                    "OWNERCONTACT0",
+                    "ADMINCONTACT0",
+                    "TECHCONTACT0",
+                    "BILLINGCONTACT0"
+                ];
+                foreach ($map as $ctype) {
+                    if (empty($r[$ctype][0])) {
+                        $command[$ctype] = $cmdparams;
+                    }
+                }
+            }
+            //--------------- EXCEPTION [END] -----------
+
             //activate the whoistrustee if set to 1 in WHMCS
             if (($params["idprotection"] == "1" || $params["idprotection"] == "on") &&
                 empty($r["X-ACCEPT-WHOISTRUSTEE-TAC"][0]) // doesn't exist, "" or 0
-             ) {
-                ispapi_call([
-                    "COMMAND" => "ModifyDomain",
-                    "DOMAIN" => $domain,
-                    "X-ACCEPT-WHOISTRUSTEE-TAC" => 1
-                ], ispapi_config($params));
+            ) {
+                $command["X-ACCEPT-WHOISTRUSTEE-TAC"] = 1;
+            }
+            //check if domain update is necessary
+            if (count(array_keys($command))>2) {
+                ispapi_call($command, ispapi_config($params));
             }
 
             $date = ($r["FAILUREDATE"][0] > $r["PAIDUNTILDATE"][0]) ? $r["PAIDUNTILDATE"][0] : $r["ACCOUNTINGDATE"][0];
