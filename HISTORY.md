@@ -1,3 +1,10 @@
+# [2.2.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.1.1...v2.2.0) (2019-12-11)
+
+
+### Features
+
+* **transfer:** transferSync: update com/net/cc/tv domain with contact data after transfer ([b899802](https://github.com/hexonet/whmcs-ispapi-registrar/commit/b899802554fb60825e31549d4c81bd7864950d0a))
+
 ## [2.1.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.1.0...v2.1.1) (2019-12-11)
 
 
