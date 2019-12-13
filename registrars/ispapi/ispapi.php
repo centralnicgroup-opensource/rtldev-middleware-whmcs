@@ -9,15 +9,6 @@ $module_version = "2.2.2";
 
 require_once(implode(DIRECTORY_SEPARATOR, array(__DIR__, "lib", "AdditionalFields.class.php")));
 
-use ISPAPI\AdditionalFields;
-use WHMCS\Domains;
-use WHMCS\Module\Server;
-use WHMCS\Module\Addon;
-use WHMCS\Module\Widget;
-use WHMCS\Module\Addon\Setting;
-use WHMCS\Database\Capsule;
-use WHMCS\Carbon;
-
 /**
  * Return module related metadata
  *
@@ -32,6 +23,184 @@ function ispapi_MetaData()
         "DisplayName" => "ISPAPI v" . ispapi_GetISPAPIModuleVersion()
     ];
 }
+
+/**
+ * Return the configuration array of the module (Setup > Products / Services > Domain Registrars > ISPAPI > Configure)
+ *
+ * @param array $params common module parameters
+ *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ *
+ * @return array
+ */
+function ispapi_getConfigArray($params)
+{
+    $configarray = [
+        "FriendlyName" => [
+            "Type" => "System",
+            "Value"=>"ISPAPI v" . ispapi_GetISPAPIModuleVersion()
+        ],
+        "Description" => [
+            "Type" => "System",
+            "Value"=> "The Official ISPAPI Registrar Module. <a target='blank_' href='https://www.hexonet.net'>www.hexonet.net</a>"
+        ],
+        "Username" => [
+            "Type" => "text",
+            "Size" => "20",
+            "Description" => "Enter your ISPAPI Login ID"
+        ],
+        "Password" => [
+            "Type" => "password",
+            "Size" => "20",
+            "Description" => "Enter your ISPAPI Password ",
+        ],
+        "TestMode" => [
+            "Type" => "yesno",
+            "Description" => "Connect to OT&amp;E (Test Environment)"
+        ],
+        "ProxyServer" => [
+            "Type" => "text",
+            "Description" => "Optional (HTTP(S) Proxy Server)"
+        ],
+        "DNSSEC" => [
+            "Type" => "yesno",
+            "Description" => "Display the DNSSEC Management functionality in the domain details"
+        ],
+        "TRANSFERLOCK" => [
+            "Type" => "yesno",
+            "Description" => "Locks automatically a domain after a new registration"
+        ],
+        "IRTP" => [
+            "Type" => "radio",
+            "Options" => "Check to use IRTP feature from our API., Check to act as Designated Agent for all contact changes. Ensure you understand your role and responsibilities before checking this option.",
+            "Default" => "Check to use IRTP feature from our API.",
+            "Description" => "General info about IRTP can be found <a target='blank_' href='https://wiki.hexonet.net/wiki/IRTP' style='border-bottom: 1px solid blue; color: blue'>here</a>. Documentation about option one can be found <a target='blank_' href='https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#option-one' style='border-bottom: 1px solid blue; color: blue'>here</a> and option two <a target='blank_' href='https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#option-two' style='border-bottom: 1px solid blue; color: blue'>here</a>"
+        ]
+    ];
+
+    if (!empty($params["Username"])) {
+        $r = ispapi_call([
+            "COMMAND" => "CheckAuthentication",
+            "SUBUSER" => $params["Username"],
+            "PASSWORD" => $params["Password"]
+        ], ispapi_config($params));
+
+        if ($r["CODE"] == 200) {
+            $configarray[""] = [
+                "Description" => "<div class='label label-success' style='padding:5px 50px;'><b>Connected ". (($params["TestMode"]=="on") ? "to OT&E environment" : "to PRODUCTION environment") . "</b></div>"
+            ];
+            ispapi_setStatsEnvironment($params);
+        } else {
+            $configarray[""] = [
+                "Description" => "<div class='label label-success' style='padding:5px 50px;'><b>Disconnected (Verify Username and Password)<br/>".$r["CODE"]." " .$r["DESCRIPTION"]."</b></div>"
+            ];
+        }
+    }
+    return $configarray;
+}
+
+/**
+ * Register a domain name - Premium support
+ *
+ * @param array $params common module parameters
+ *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ *
+ * @return array
+ */
+function ispapi_RegisterDomain($params)
+{
+    $params = injectDomainObjectIfNecessary($params);
+    /** @var \WHMCS\Domains\Domain $domain */
+    $domain = $params["domainObj"];
+    
+    $premiumDomainsEnabled = (bool) $params['premiumEnabled'];
+    $premiumDomainsCost = $params['premiumCost'];
+
+    $origparams = $params;
+    $params = ispapi_get_utf8_params($params);
+
+    $command = [
+        "COMMAND" => "AddDomain",
+        "DOMAIN" => $domain->getDomain(),
+        "PERIOD" => $params["regperiod"]
+    ];
+    ispapi_applyNamserversCommand($params, $command);
+    ispapi_applyContactsCommand($params, $command);
+    
+    if ($origparams["TRANSFERLOCK"]) {
+        $command["TRANSFERLOCK"] = 1;
+    }
+    
+    $isApplicationCase = preg_match("/\.swiss$/i", $domain->getDomain());
+    if ($isApplicationCase) {
+        $command["COMMAND"] = "AddDomainApplication";
+        $command["CLASS"] = "GOLIVE";
+    }
+
+    ispapi_use_additionalfields($params, $command);
+
+    //##################### PREMIUM DOMAIN HANDLING #######################
+    if ($premiumDomainsEnabled && !empty($premiumDomainsCost)) {
+        $check = ispapi_call([
+            "COMMAND" => "CheckDomains",
+            "DOMAIN0" => $domain->getDomain(),
+            "PREMIUMCHANNELS" => "*"
+        ], ispapi_config($origparams));
+
+        if ($check["CODE"] == 200) {
+            if ($premiumDomainsCost != $check["PROPERTY"]["PRICE"][0]) { //check if the price displayed to the customer is equal to the real cost at the registar
+                return [
+                    "error" => "Premium Domain Cost does not match!"
+                ];
+            }
+            $isApplicationCase = true;
+            $command["COMMAND"] = "AddDomainApplication";
+            $command["CLASS"] =  empty($check["PROPERTY"]["CLASS"][0]) ? "AFTERMARKET_PURCHASE_".$check["PROPERTY"]["PREMIUMCHANNEL"][0] : $check["PROPERTY"]["CLASS"][0];
+            $command["PRICE"] =  $premiumDomainsCost;
+            $command["CURRENCY"] = $check["PROPERTY"]["CURRENCY"][0];
+        }
+    }
+    //#####################################################################
+
+    if (!$isApplicationCase) {//TODO auto-apply this AFTER successful registration
+        //INTERNALDNS and idprotection parameters are not supported by AddDomainApplication command
+        if ($params["dnsmanagement"]) {
+            $command["INTERNALDNS"] = 1;
+        }
+        if ($params["idprotection"]) {
+            $command["X-ACCEPT-WHOISTRUSTEE-TAC"] = 1;
+        }
+    }
+
+    $response = ispapi_call($command, ispapi_config($origparams));
+    if ($response["CODE"] != 200) {
+        // return error info in error case
+        return [
+            "error" => $response["DESCRIPTION"]
+        ];
+    }
+    if ($isApplicationCase) {
+        // provide the Application ID and further information
+        $application_id = $response['PROPERTY']['APPLICATION'][0];
+        $appResponse = "APPLICATION <strong>#".$application_id."</strong> SUCCESSFULLY SUBMITTED. " .
+                        "STATUS IS PENDING UNTIL REGISTRATION PROCESS COMPLETES." .
+                        (($params["dnsmanagement"] || $params["idprotection"]) ?
+                        "<br/>Note: Available Domain Addons can be activated AFTER completion." :
+                        "");
+        Capsule::table('tbldomains')
+            ->where('id', '=', $params['domainid'])
+            ->update(['additionalnotes' => "### DO NOT DELETE BELOW THIS LINE ### \nApplicationID: " . $application_id . "\n"]);
+        return [
+            "pending" => true,
+            "pendingMessage" => $appResponse
+        ];
+    }
+    return [
+        "success" => true
+    ];
+}
+
 
 /**
  * Check the availability of domains using HEXONET's fast API
@@ -52,7 +221,7 @@ function ispapi_CheckAvailability($params)
     $tldslist = $params['tldsToInclude'];
     $premiumEnabled = (bool) $params['premiumEnabled'];
     $domainslist = array();
-    $results = new WHMCS\Domains\DomainLookup\ResultsList();
+    $results = new \WHMCS\Domains\DomainLookup\ResultsList();
 
     foreach ($tldslist as $tld) {
         if (!empty($tld[0])) {
@@ -92,14 +261,14 @@ function ispapi_CheckAvailability($params)
 
     if ($check["CODE"] == 200) {
         //GET AN ARRAY OF ALL TLDS CONFIGURED WITH HEXONET
-        $pdo = Capsule::connection()->getPdo();
+        $pdo = \WHMCS\Database\Capsule::connection()->getPdo();
         $stmt = $pdo->prepare("SELECT extension FROM tbldomainpricing WHERE autoreg REGEXP '^(ispapi|hexonet)$'");
         $stmt->execute();
-        $ispapi_tlds = $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
+        $ispapi_tlds = $stmt->fetchAll(\PDO::FETCH_COLUMN, 0);
 
         foreach ($domainslist["list"] as $index => $domain) {
             $registerprice = $renewprice = $currency = $status = "";
-            $sr = new WHMCS\Domains\DomainLookup\SearchResult($domain['sld'], $domain['tld']);
+            $sr = new \WHMCS\Domains\DomainLookup\SearchResult($domain['sld'], $domain['tld']);
             $sr->setStatus($sr::STATUS_REGISTERED);
             if (preg_match('/549/', $check["PROPERTY"]["DOMAINCHECK"][$index])) {
                 //TLD NOT SUPPORTED AT HEXONET USE A FALLBACK TO THE WHOIS LOOKUP.
@@ -159,7 +328,7 @@ function ispapi_GetDomainSuggestions($params)
 
     //RETURN EMPTY ResultsList OBJECT WHEN SUGGESTIONS ARE DEACTIVATED
     if (empty($params['suggestionSettings']['suggestions'])) {
-        return new ResultsList();
+        return new \WHMCS\Domains\DomainLookup\ResultsList();
     }
 
     if ($params['isIdnDomain']) {
@@ -481,7 +650,7 @@ function ispapi_getRenewPrice($params, $class, $cur_id, $tld)
 {
     if (empty($class)) {
         //NO PREMIUM RENEW, RETURN THE PRICE SET IN WHMCS
-        $pdo = Capsule::connection()->getPdo();
+        $pdo = \WHMCS\Database\Capsule::connection()->getPdo();
         $stmt = $pdo->prepare("select * from tbldomainpricing tbldp, tblpricing tblp where tbldp.extension = ? and tbldp.id = tblp.relid and tblp.type = 'domainrenew' and tblp.currency=?");
         $stmt->execute(array(".".$tld, $cur_id));
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -569,118 +738,6 @@ function ispapi_GetISPAPIModuleVersion()
 {
     global $ispapi_module_version;
     return $ispapi_module_version;
-}
-
-/**
- * Return the configuration array of the module (Setup > Products / Services > Domain Registrars > ISPAPI > Configure)
- *
- * @param array $params common module parameters
- *
- * @return array $configarray configuration array of the module
- */
-function ispapi_getConfigArray($params)
-{
-    $version = ispapi_GetISPAPIModuleVersion();
-    $configarray = array(
-            "FriendlyName" => array("Type" => "System", "Value"=>"ISPAPI v".$version),
-            "Description" => array("Type" => "System", "Value"=>"The Official ISPAPI Registrar Module. <a target='blank_' href='https://www.hexonet.net'>www.hexonet.net</a>"),
-            "Username" => array( "Type" => "text", "Size" => "20", "Description" => "Enter your ISPAPI Login ID", ),
-            "Password" => array( "Type" => "password", "Size" => "20", "Description" => "Enter your ISPAPI Password ", ),
-            "UseSSL" => array( "Type" => "yesno", "Description" => "Use HTTPS for API Connections" ),
-            "TestMode" => array( "Type" => "yesno", "Description" => "Connect to OT&amp;E (Test Environment)" ),
-            "ProxyServer" => array( "Type" => "text", "Description" => "Optional (HTTP(S) Proxy Server)" ),
-            "ConvertIDNs" => array( "Type" => "dropdown", "Options" => "API,PHP", "Default" => "API", "Description" => "Use API or PHP function (idn_to_ascii)" ),
-            "DNSSEC" => array( "Type" => "yesno", "Description" => "Display the DNSSEC Management functionality in the domain details" ),
-            "TRANSFERLOCK" => array( "Type" => "yesno", "Description" => "Locks automatically a domain after a new registration" ),
-            "IRTP" => array( "Type" => "radio", "Options" => "Check to use IRTP feature from our API., Check to act as Designated Agent for all contact changes. Ensure you understand your role and responsibilities before checking this option.", "Default" => "Check to use IRTP feature from our API.", "Description" => "General info about IRTP can be found <a target='blank_' href='https://wiki.hexonet.net/wiki/IRTP' style='border-bottom: 1px solid blue; color: blue'>here</a>. Documentation about option one can be found <a target='blank_' href='https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#option-one' style='border-bottom: 1px solid blue; color: blue'>here</a> and option two <a target='blank_' href='https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#option-two' style='border-bottom: 1px solid blue; color: blue'>here</a>"),
-    );
-    if (!function_exists('idn_to_ascii')) {
-        $configarray["ConvertIDNs"] = array( "Type" => "dropdown", "Options" => "API", "Default" => "API", "Description" => "Use API (PHP function idn_to_ascii not available)" );
-    }
-
-    if (!empty($params["Username"])) {
-        //Check authentication
-        $command = array(
-                "COMMAND" => "CheckAuthentication",
-                "SUBUSER" => $params["Username"],
-                "PASSWORD" => $params["Password"]
-        );
-
-        $response = ispapi_call($command, ispapi_config($params));
-        $mode_text = ($params["TestMode"]=="on") ? "to OT&E environment" : "to PRODUCTION environment";
-        $state = ($response["CODE"] == 200) ?
-            "<div style='color:white;font-weight:bold;background-color:green;padding:3px;width:400px;text-align:center;'>Connected ".$mode_text."</div>" :
-            "<div style='color:white;font-weight:bold;background-color:red;padding:3px;width:400px;text-align:center;'>Disconnected (Verify Username and Password)<br/>".$response["CODE"]." " .$response["DESCRIPTION"]."</div>";
-
-        $configarray[""] = array( "Description" => $state );
-    }
-
-    //Save information about module versions in the environment
-    if ($response["CODE"] == 200) {
-        //workarround to call that only 1 time.
-        static $included = false;
-
-        if (!$included) {
-            $included = true;
-            $values = array(
-                "whmcs" => $params["whmcsVersion"],
-                "updated_date" =>  (new DateTime("now", new DateTimeZone('UTC')))->format('Y-m-d H:i:s')." (UTC)",
-                "ispapiwhmcs" => $version,
-                "phpversion" => phpversion(),
-                "os" => php_uname("s")
-            );
-
-            // get addon module versions
-            global $CONFIG;
-            $activemodules = array_filter(explode(",", $CONFIG["ActiveAddonModules"]));
-            $addon = new \WHMCS\Module\Addon();
-            foreach ($addon->getList() as $module) {
-                if (in_array($module, $activemodules) && preg_match("/^ispapi/i", $module) && !preg_match("/\_addon$/i", $module)) {
-                    $d = \WHMCS\Module\Addon\Setting::module($module)->pluck("value", "setting");
-                    $values[$module] = $d["version"];
-                }
-            }
-
-            // get server module versions
-            $server = new \WHMCS\Module\Server();
-            foreach ($server->getList() as $module) {
-                if (preg_match("/^ispapi/i", $module)) {
-                    $server->load($module);
-                    $v = $server->getMetaDataValue("MODULEVersion");
-                    $values[$module] = empty($v) ? "old" : $v;
-                }
-            }
-
-            // get widget module versions
-            $widget = new \WHMCS\Module\Widget();
-            foreach ($widget->getList() as $module) {
-                if (preg_match("/^ispapi/i", $module)) {
-                    $widget->load($module);
-                    $tmp = explode("_", $module);
-                    $widgetClass = "\\ISPAPI\\" . ucfirst($tmp[0]) . ucfirst($tmp[1]) . "Widget";
-                    $mname=$tmp[0]."widget".$tmp[1];
-                    if (class_exists($widgetClass) && defined("$widgetClass::VERSION")) {
-                        $values[$mname] = $widgetClass::VERSION;
-                    } else {
-                        $values[$mname] = "n/a";
-                    }
-                }
-            }
-
-            $command = array(
-                    "COMMAND" => "SetEnvironment",
-            );
-            $i=0;
-            foreach ($values as $key => $value) {
-                $command["ENVIRONMENTKEY$i"] = "middleware/whmcs/".$_SERVER["HTTP_HOST"];
-                $command["ENVIRONMENTNAME$i"] = $key;
-                $command["ENVIRONMENTVALUE$i"] = $value;
-                $i++;
-            }
-            ispapi_call($command, ispapi_config($params));
-        }
-    }
-    return $configarray;
 }
 
 /**
@@ -1534,14 +1591,14 @@ function ispapi_GetDomainInformation($params)
         }
     }
     
-    return (new WHMCS\Domain\Registrar\Domain)
+    return (new \WHMCS\Domain\Registrar\Domain)
         ->setNameservers($values['nameservers'])
         ->setTransferLock($values['transferlock'])
         ->setIsIrtpEnabled($values['setIsIrtpEnabled'])
         ->setIrtpTransferLock($values['setIrtpTransferLock'])
         ->setDomainContactChangePending($values['setDomainContactChangePending'])
         ->setPendingSuspension($values['setPendingSuspension'])
-        ->setDomainContactChangeExpiryDate($values['setDomainContactChangeExpiryDate'] ? Carbon::createFromFormat('!Y-m-d', $values['setDomainContactChangeExpiryDate']) : null)
+        ->setDomainContactChangeExpiryDate($values['setDomainContactChangeExpiryDate'] ? \WHMCS\Carbon::createFromFormat('!Y-m-d', $values['setDomainContactChangeExpiryDate']) : null)
         ->setIrtpVerificationTriggerFields(
             [
                 'Registrant' => [
@@ -2417,144 +2474,6 @@ function ispapi_IDProtectToggle($params)
     }
     return $values;
 }
-
-/**
- * Register a domain name - Premium support
- *
- * @param array $params common module parameters
- *
- * @return array $values - an array with command response description
- */
-function ispapi_RegisterDomain($params)
-{
-    global $additionaldomainfields;
-
-    $values = array();
-    $origparams = $params;
-
-    $premiumDomainsEnabled = (bool) $params['premiumEnabled'];
-    $premiumDomainsCost = $params['premiumCost'];
-
-    $params = ispapi_get_utf8_params($params);
-
-    if (isset($params["original"])) {
-        $params = $params["original"];
-    }
-
-    $domain = $params["sld"].".".$params["tld"];
-
-    $registrant = array(
-        "FIRSTNAME" => $params["firstname"],
-        "LASTNAME" => $params["lastname"],
-        "ORGANIZATION" => $params["companyname"],
-        "STREET" => $params["address1"],
-        "CITY" => $params["city"],
-        "STATE" => $params["state"],
-        "ZIP" => $params["postcode"],
-        "COUNTRY" => $params["country"],
-        "PHONE" => $params["phonenumber"],
-        "EMAIL" => $params["email"]
-    );
-    if (strlen($params["address2"])) {
-        $registrant["STREET"] .= " , ".$params["address2"];
-    }
-
-    $admin = array(
-        "FIRSTNAME" => $params["adminfirstname"],
-        "LASTNAME" => $params["adminlastname"],
-        "ORGANIZATION" => $params["admincompanyname"],
-        "STREET" => $params["adminaddress1"],
-        "CITY" => $params["admincity"],
-        "STATE" => $params["adminstate"],
-        "ZIP" => $params["adminpostcode"],
-        "COUNTRY" => $params["admincountry"],
-        "PHONE" => $params["adminphonenumber"],
-        "EMAIL" => $params["adminemail"]
-    );
-    if (strlen($params["adminaddress2"])) {
-        $admin["STREET"] .= " , ".$params["adminaddress2"];
-    }
-
-    $command = array(
-        "COMMAND" => "AddDomain",
-        "DOMAIN" => $domain,
-        "PERIOD" => $params["regperiod"],
-        "NAMESERVER0" => $params["ns1"],
-        "NAMESERVER1" => $params["ns2"],
-        "NAMESERVER2" => $params["ns3"],
-        "NAMESERVER3" => $params["ns4"],
-        "OWNERCONTACT0" => $registrant,
-        "ADMINCONTACT0" => $admin,
-        "TECHCONTACT0" => $admin,
-        "BILLINGCONTACT0" => $admin
-    );
-
-    if ($origparams["TRANSFERLOCK"]) {
-        $command["TRANSFERLOCK"] = 1;
-    }
-
-    if ($params["dnsmanagement"]) {
-        $command["INTERNALDNS"] = 1;
-    }
-
-    if ($params["idprotection"]) {
-        $command["X-ACCEPT-WHOISTRUSTEE-TAC"] = 1;
-    }
-
-    if (preg_match('/\.swiss$/i', $domain)) {
-        $command["COMMAND"] = "AddDomainApplication";
-        $command["CLASS"] = "GOLIVE";
-        unset($command["INTERNALDNS"]);
-        unset($command["X-ACCEPT-WHOISTRUSTEE-TAC"]);
-    }
-
-    ispapi_use_additionalfields($params, $command);
-
-    //#####################################################################
-    //##################### PREMIUM DOMAIN HANDLING #######################
-    //######################################################################
-    if ($premiumDomainsEnabled) { //check if premium domain functionality is enabled by the admin
-        if (!empty($premiumDomainsCost)) { //check if the domain has a premium price
-            $c = array(
-                    "COMMAND" => "CheckDomains",
-                    "DOMAIN" => array($domain),
-                    "PREMIUMCHANNELS" => "*"
-            );
-            $check = ispapi_call($c, ispapi_config($origparams));
-            if ($check["CODE"] == 200) {
-                $registrar_premium_domain_price = $check["PROPERTY"]["PRICE"][0];
-                $registrar_premium_domain_class = empty($check["PROPERTY"]["CLASS"][0]) ? "AFTERMARKET_PURCHASE_".$check["PROPERTY"]["PREMIUMCHANNEL"][0] : $check["PROPERTY"]["CLASS"][0];
-                $registrar_premium_domain_currency = $check["PROPERTY"]["CURRENCY"][0];
-
-                if ($premiumDomainsCost == $registrar_premium_domain_price) { //check if the price displayed to the customer is equal to the real cost at the registar
-                    $command["COMMAND"] = "AddDomainApplication";
-                    $command["CLASS"] =  $registrar_premium_domain_class;
-                    $command["PRICE"] =  $premiumDomainsCost;
-                    $command["CURRENCY"] = $registrar_premium_domain_currency;
-                    //INTERNALDNS parameter is not supported in AddDomainApplication command
-                    unset($command["INTERNALDNS"]);
-                }
-            }
-        }
-    }
-    //#####################################################################
-
-    $response = ispapi_call($command, ispapi_config($origparams));
-
-    if ($response["CODE"] != 200) {
-        $values["error"] = $response["DESCRIPTION"];
-    }
-
-    if (preg_match('/\.swiss$/i', $domain)) {
-        if ($response["CODE"] == 200) {
-            $application_id = $response["PROPERTY"]["APPLICATION"][0];
-            $values["error"] = "APPLICATION <#".$application_id."#> SUCCESSFULLY SUBMITTED. STATUS SET TO PENDING UNTIL THE SWISS REGISTRATION PROCESS IS COMPLETED";
-        }
-    }
-
-    return $values;
-}
-
 
 /**
  * Transfer a domain name
@@ -3506,6 +3425,144 @@ function ispapi_logModuleCall($registrar, $action, $requeststring, $responsedata
         return;
     }
     return logModuleCall($registrar, $action, $requeststring, $responsedata, $processeddata, $replacevars);
+}
+
+/**
+ * Write version data of ispapi modules to user environment
+ *
+ * @param array $params common module parameters
+ *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ */
+function ispapi_setStatsEnvironment($params)
+{
+    //Save information about module versions in the environment
+    //workarround to call that only 1 time.
+    static $included = false;
+    global $CONFIG;
+
+    if (!$included) {
+        $included = true;
+        $values = [
+            "whmcs" => $params["whmcsVersion"],
+            "updated_date" =>  (new DateTime("now", new DateTimeZone('UTC')))->format('Y-m-d H:i:s')." (UTC)",
+            "ispapiwhmcs" => ispapi_GetISPAPIModuleVersion(),
+            "phpversion" => phpversion(),
+            "os" => php_uname("s")
+        ];
+
+        // get addon module versions
+        $activemodules = array_filter(explode(",", $CONFIG["ActiveAddonModules"]));
+        $addon = new \WHMCS\Module\Addon();
+        foreach ($addon->getList() as $module) {
+            if (in_array($module, $activemodules) && preg_match("/^ispapi/i", $module) && !preg_match("/\_addon$/i", $module)) {
+                $d = \WHMCS\Module\Addon\Setting::module($module)->pluck("value", "setting");
+                $values[$module] = $d["version"];
+            }
+        }
+
+        // get server module versions
+        $server = new \WHMCS\Module\Server();
+        foreach ($server->getList() as $module) {
+            if (preg_match("/^ispapi/i", $module)) {
+                $server->load($module);
+                $v = $server->getMetaDataValue("MODULEVersion");
+                $values[$module] = empty($v) ? "old" : $v;
+            }
+        }
+
+        // get widget module versions
+        $widget = new \WHMCS\Module\Widget();
+        foreach ($widget->getList() as $module) {
+            if (preg_match("/^ispapi/i", $module)) {
+                $widget->load($module);
+                $tmp = explode("_", $module);
+                $widgetClass = "\\ISPAPI\\" . ucfirst($tmp[0]) . ucfirst($tmp[1]) . "Widget";
+                $mname=$tmp[0]."widget".$tmp[1];
+                if (class_exists($widgetClass) && defined("$widgetClass::VERSION")) {
+                    $values[$mname] = $widgetClass::VERSION;
+                } else {
+                    $values[$mname] = "n/a";
+                }
+            }
+        }
+
+        $command = [
+            "COMMAND" => "SetEnvironment",
+        ];
+        $i=0;
+        foreach ($values as $key => $value) {
+            $command["ENVIRONMENTKEY$i"] = "middleware/whmcs/".$_SERVER["HTTP_HOST"];
+            $command["ENVIRONMENTNAME$i"] = $key;
+            $command["ENVIRONMENTVALUE$i"] = $value;
+            $i++;
+        }
+        ispapi_call($command, ispapi_config($params));
+    }
+}
+
+/**
+ * Add NAMESERVER# parameter to API command
+ *
+ * @param array $params common module parameters
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ * @param array &$command api command to update with nameservers
+ */
+function ispapi_applyNamserversCommand($params, &$command)
+{
+    for ($i=1; $i<=5; $i++) {
+        $k = "ns" . $i;
+        if (isset($params[$k])) {
+            $v = trim($params[$k]);
+            if (!empty($v)) {
+                $command["NAMESERVER" . ($i - 1)] = $v;
+            }
+        }
+    }
+}
+
+/**
+ * Add (OWNER|ADMIN|TECH|BILLING)CONTACT0 parameters to API command
+ *
+ * @param array $params common module parameters
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ * @param array &$command api command to update with contact parameters
+ */
+function ispapi_applyContactsCommand($params, &$command)
+{
+    $admin = [
+        "FIRSTNAME" => $params["adminfirstname"],
+        "LASTNAME" => $params["adminlastname"],
+        "ORGANIZATION" => $params["admincompanyname"],
+        "STREET" => $params["adminaddress1"],
+        "CITY" => $params["admincity"],
+        "STATE" => $params["adminstate"],
+        "ZIP" => $params["adminpostcode"],
+        "COUNTRY" => $params["admincountry"],
+        "PHONE" => $params["adminphonenumber"],
+        "EMAIL" => $params["adminemail"]
+    ];
+    if (strlen($params["adminaddress2"])) {
+        $admin["STREET"] .= " , ".$params["adminaddress2"];
+    }
+    $command["OWNERCONTACT0"] = [
+        "FIRSTNAME" => $params["firstname"],
+        "LASTNAME" => $params["lastname"],
+        "ORGANIZATION" => $params["companyname"],
+        "STREET" => $params["address1"],
+        "CITY" => $params["city"],
+        "STATE" => $params["state"],
+        "ZIP" => $params["postcode"],
+        "COUNTRY" => $params["country"],
+        "PHONE" => $params["phonenumber"],
+        "EMAIL" => $params["email"]
+    ];
+    if (strlen($params["address2"])) {
+        $command["OWNERCONTACT0"]["STREET"] .= " , ".$params["address2"];
+    }
+    $command["ADMINCONTACT0"] = $admin;
+    $command["TECHCONTACT0"] = $admin;
+    $command["BILLINGCONTACT0"] = $admin;
 }
 
 ispapi_InitModule($module_version);

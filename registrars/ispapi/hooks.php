@@ -39,7 +39,7 @@ add_hook('AfterRegistrarRegistrationFailed', 1, function ($vars) {
 });
 
 /**
- * ONLY FOR .SWISS
+ * Special Handling of .SWISS Applications and Premium Domain Applications
  * runs over all pending applications to check if the registration was successful or not.
  */
 add_hook('DailyCronJob', 1, function ($vars) {
@@ -47,7 +47,7 @@ add_hook('DailyCronJob', 1, function ($vars) {
         require_once(dirname(__FILE__)."/ispapi.php");
         $ispapi_config = ispapi_config(getregistrarconfigoptions("ispapi"));
 
-        $result = mysql_query("SELECT * from tbldomains WHERE domain REGEXP '\\.swiss$' and additionalnotes!='' and registrar='ispapi' and status='Pending'");
+        $result = mysql_query("SELECT * from tbldomains WHERE additionalnotes!='' and registrar='ispapi' type='Register' and status='Pending'");
         while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
             preg_match('/APPLICATION:(.+?)(?:$|\n)/i', $row["additionalnotes"], $matches);
             if (isset($matches[1])) {
@@ -59,11 +59,8 @@ add_hook('DailyCronJob', 1, function ($vars) {
                 ], $ispapi_config);
 
                 if ($r["PROPERTY"]["STATUS"][0] == "SUCCESSFUL") {
-                    //echo $row["domain"]." > Status:".$response["PROPERTY"]["STATUS"][0];
-                    mysql_query("UPDATE tbldomains SET status='Active' WHERE id=".$row["id"]);
-                }
-                if ($r["PROPERTY"]["STATUS"][0] == "FAILED") {
-                      //echo $row["domain"]." > Status:".$response["PROPERTY"]["STATUS"][0];
+                    mysql_query("UPDATE tbldomains SET status='Active', additionalnotes='' WHERE id=".$row["id"]);
+                } elseif ($r["PROPERTY"]["STATUS"][0] == "FAILED") {
                       mysql_query("UPDATE tbldomains SET status='Cancelled' WHERE id=".$row["id"]);
                 }
             }
