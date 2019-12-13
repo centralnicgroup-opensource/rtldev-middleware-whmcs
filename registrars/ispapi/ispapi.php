@@ -2562,8 +2562,8 @@ function ispapi_TransferDomain($params)
         "COMMAND" => "CheckDomainTransfer",
         "DOMAIN" => $domain->getDomain()
     ];
-    if ($params["transfersecret"]) {
-        $command["AUTH"] = $params["transfersecret"];
+    if ($params["eppcode"]) {
+        $command["AUTH"] = $params["eppcode"];
     }
     $r = ispapi_call($command, ispapi_config($params));
 
@@ -2631,7 +2631,7 @@ function ispapi_TransferDomain($params)
         "ADMINCONTACT0" => $admin,
         "TECHCONTACT0" => $admin,
         "BILLINGCONTACT0" => $admin,
-        "AUTH" => $params["transfersecret"]
+        "AUTH" => $params["eppcode"]
     ];
     if (isset($r["PROPERTY"]["USERTRANSFERREQUIRED"]) && $r["PROPERTY"]["USERTRANSFERREQUIRED"][0] == "1") {
         //auto-detect user-transfer
