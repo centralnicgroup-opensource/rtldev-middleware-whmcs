@@ -201,6 +201,130 @@ function ispapi_RegisterDomain($params)
     ];
 }
 
+/**
+ * Transfer a domain name
+ *
+ * @param array $params common module parameters
+ *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ *
+ * @return array
+ */
+function ispapi_TransferDomain($params)
+{
+    $params = injectDomainObjectIfNecessary($params);
+    /** @var \WHMCS\Domains\Domain $domain */
+    $domain = $params["domainObj"];
+
+    // ### domain transfer pre-check ###
+    $r = ispapi_call([
+        "COMMAND" => "CheckDomainTransfer",
+        "DOMAIN" => $domain->getDomain(),
+        "AUTH" => $params["eppcode"]
+    ], ispapi_config($params));
+    if ($r["CODE"] != 218) {// transfer request is not available
+        return [
+            "error" => $r["DESCRIPTION"]
+        ];
+    }
+    $r = $r["PROPERTY"];
+    if (isset($r["AUTHISVALID"]) && $r["AUTHISVALID"][0] == "NO") {
+        return [
+            "error" => "Invaild Authorization Code"
+        ];
+    }
+    if (isset($r["TRANSFERLOCK"]) && $r["TRANSFERLOCK"][0] == "1") {
+        return [
+            "error" => "Transferlock is active. Therefore the Domain cannot be transferred."
+        ];
+    }
+    
+    // ### Transfer Period Check
+    // 1) check if whmcs default period is valid
+    // 2) otherwise check if 0Y period is available which corresponds to transfer without renewal
+    //    (probably for free) e.g. .es, .no, .nu
+    // NOTE:
+    // the default WHMCS period is the lowest configured period in domain pricing section,
+    // so probably 1Y ... some of the 0Y TLDs don't even allow other periods.
+    // This is a generic problem as WHMCS might charge for the transfer using the price defined for
+    // the lowest transfer period.
+    $period = $params["regperiod"] . "";
+    $qr = ispapi_call([
+        "COMMAND" => "QueryDomainOptions",
+        "DOMAIN0" => $domain->getDomain()
+    ], ispapi_config($params));
+    if ($qr["CODE"] == 200) {
+        $periods = explode(",", $qr['PROPERTY']['ZONETRANSFERPERIODS'][0]);
+        // check if whmcs' regperiod can be used
+        if (!in_array($params["regperiod"]."Y", $periods) && !in_array($params["regperiod"], $periods)) {
+            // if not, check if 0Y transfer is possible
+            if (!in_array("0Y", $periods) && !in_array("0", $periods)) {
+                return [
+                    "error" => "Transfer Period " . $period . " not available for " . $domain->getTLD() . ". Available ones for ISPAPI are: " . $qr['PROPERTY']['ZONETRANSFERPERIODS'][0] . ". Check your Domain Pricing configuration."
+                ];
+            } else {
+                $period = "0Y";//TODO: execute regperiod renewal after successful transfer
+            }
+        }
+    }
+
+    // ### Initiate Domain Transfer
+    $command = [
+        "COMMAND" => "TransferDomain",
+        "DOMAIN" => $domain->getDomain(),
+        "PERIOD" => $period,
+        "AUTH" => $params["eppcode"]
+    ];
+    if (!empty($r["USERTRANSFERREQUIRED"][0])) {
+        $command["ACTION"] = "USERTRANSFER";// system internal transfer
+    }
+    //####################### CONTACT DATA SPECIFICS ######################
+    //don't send owner admin tech billing contact for .NU .DK .CA, .US, .PT, .NO, .SE, .ES and n/gTLDs
+    //IMPROVE by auto detection using querydomainoptions' category
+    if (!preg_match('/\.([a-z]{3,}|nu|dk|ca|us|pt|no|se|es)$/i', $domain->getDomain())) {
+        ispapi_applyContactsCommand($params, $command);
+        //see: https://wiki.hexonet.net/wiki/FR#Domain_Transfer
+        if (preg_match("/^(fr|pm|tf|re|wf|yt)$/i", $domain->getLastTLDSegment())) {
+            unset($command["OWNERCONTACT0"]);
+            unset($command["BILLINGCONTACT0"]);
+        }
+    }
+    ispapi_applyNamserversCommand($params, $command);
+
+    //##################### PREMIUM DOMAIN HANDLING #######################
+    //check if premium domain functionality is enabled by the admin
+    //check if the domain has a premium price
+    //check if premium class is provided by domaintransfer
+    if ((bool) $params['premiumEnabled'] && !empty($params['premiumCost']) && !empty($r['CLASS'][0])) {
+        //check if the price displayed to the customer is equal to the real cost at the registar
+        $currencycode = ispapi_getPremiumCurrency($params, $r["CLASS"][0]);
+        $currency = \WHMCS\Billing\Currency::where("code", $currencycode)->first();
+        if (!$currency) {
+            throw new Exception("Missing currency configuration for: " . $currencycode);
+        }
+        $price = ispapi_getPremiumTransferPrice($params, $r['CLASS'][0], $currency->id);
+        if ($price !== false && $params['premiumCost'] == $price) {
+            $command["CLASS"] = $r['CLASS'][0];
+        } else {
+            return [
+                "error" => "Price mismatch. Got " . $params['premiumCost'] . ", but expected " . $price
+            ];
+        }
+    }
+    
+    //TODO: consider additional fields
+    $r = ispapi_call($command, ispapi_config($params));
+
+    if ($r["CODE"] != 200) {
+        return [
+            "error" => $r["DESCRIPTION"]
+        ];
+    }
+    return [
+        "success" => true
+    ];
+}
+
 
 /**
  * Check the availability of domains using HEXONET's fast API
@@ -2473,166 +2597,6 @@ function ispapi_IDProtectToggle($params)
         $values["error"] = $response["DESCRIPTION"];
     }
     return $values;
-}
-
-/**
- * Transfer a domain name
- *
- * @param array $params common module parameters
- *
- * @return array $values - an array with command response description
- */
-function ispapi_TransferDomain($params)
-{
-    $params = injectDomainObjectIfNecessary($params);
-    /** @var \WHMCS\Domains\Domain $domain */
-    $domain = $params["domainObj"];
-
-    $premiumDomainsEnabled = (bool) $params['premiumEnabled'];
-    $premiumDomainsCost = $params['premiumCost'];
-
-    //domain transfer pre-check
-    $command = [
-        "COMMAND" => "CheckDomainTransfer",
-        "DOMAIN" => $domain->getDomain()
-    ];
-    if ($params["eppcode"]) {
-        $command["AUTH"] = $params["eppcode"];
-    }
-    $r = ispapi_call($command, ispapi_config($params));
-
-    if ($r["CODE"] != 218) {
-        return [
-            "error" => $r["DESCRIPTION"]
-        ];
-    }
-
-    if (isset($r["PROPERTY"]["AUTHISVALID"]) && $r["PROPERTY"]["AUTHISVALID"][0] == "NO") {
-        // return custom error message
-        return [
-            "error" => "Invaild Authorization Code"
-        ];
-    }
-    
-    if (isset($r["PROPERTY"]["TRANSFERLOCK"]) && $r["PROPERTY"]["TRANSFERLOCK"][0] == "1") {
-        // return custom error message
-        return [
-            "error" => "Transferlock is active. Therefore the Domain cannot be transferred."
-        ];
-    }
-
-    $registrant = array(
-        "FIRSTNAME" => $params["firstname"],
-        "LASTNAME" => $params["lastname"],
-        "ORGANIZATION" => $params["companyname"],
-        "STREET" => $params["address1"],
-        "CITY" => $params["city"],
-        "STATE" => $params["state"],
-        "ZIP" => $params["postcode"],
-        "COUNTRY" => $params["country"],
-        "PHONE" => $params["phonenumber"],
-        "EMAIL" => $params["email"]
-    );
-    if (strlen($params["address2"])) {
-        $registrant["STREET"] .= " , ".$params["address2"];
-    }
-
-    $admin = array(
-        "FIRSTNAME" => $params["adminfirstname"],
-        "LASTNAME" => $params["adminlastname"],
-        "ORGANIZATION" => $params["admincompanyname"],
-        "STREET" => $params["adminaddress1"],
-        "CITY" => $params["admincity"],
-        "STATE" => $params["adminstate"],
-        "ZIP" => $params["adminpostcode"],
-        "COUNTRY" => $params["admincountry"],
-        "PHONE" => $params["adminphonenumber"],
-        "EMAIL" => $params["adminemail"]
-    );
-    if (strlen($params["adminaddress2"])) {
-        $admin["STREET"] .= " , ".$params["adminaddress2"];
-    }
-
-    $command = [
-        "COMMAND" => "TransferDomain",
-        "DOMAIN" => $domain->getDomain(),
-        "PERIOD" => $params["regperiod"],
-        "NAMESERVER0" => $params["ns1"],
-        "NAMESERVER1" => $params["ns2"],
-        "NAMESERVER2" => $params["ns3"],
-        "NAMESERVER3" => $params["ns4"],
-        "OWNERCONTACT0" => $registrant,
-        "ADMINCONTACT0" => $admin,
-        "TECHCONTACT0" => $admin,
-        "BILLINGCONTACT0" => $admin,
-        "AUTH" => $params["eppcode"]
-    ];
-    if (isset($r["PROPERTY"]["USERTRANSFERREQUIRED"]) && $r["PROPERTY"]["USERTRANSFERREQUIRED"][0] == "1") {
-        //auto-detect user-transfer
-        $command["ACTION"] = "USERTRANSFER";
-    }
-
-    //1) don't send owner admin tech billing contact for .NU .DK .CA, .US, .PT, .NO, .SE, .ES domains
-    //2) do not send contact information for gTLD (Including nTLDs)
-    if (preg_match('/\.([a-z]{3,}|nu|dk|ca|us|pt|no|se|es)$/i', $domain->getDomain())) {
-        unset($command["OWNERCONTACT0"]);
-        unset($command["ADMINCONTACT0"]);
-        unset($command["TECHCONTACT0"]);
-        unset($command["BILLINGCONTACT0"]);
-    }
-
-    //don't send owner billing contact for .FR domains
-    if (preg_match('/\.fr$/i', $domain->getDomain())) {
-        unset($command["OWNERCONTACT0"]);
-        unset($command["BILLINGCONTACT0"]);
-    }
-
-    //auto-detect default transfer period
-    //for example, es, no, nu tlds require period value as zero (free transfers).
-    //in WHMCS the default value is 1
-    $qr = ispapi_call([
-        "COMMAND" => "QueryDomainOptions",
-        "DOMAIN0" => $domain->getDomain()
-    ], ispapi_config($params));
-
-    if ($qr["CODE"] == 200) {
-        $period_arry = explode(",", $qr['PROPERTY']['ZONETRANSFERPERIODS'][0]);
-        if (preg_match("/^0(Y|M)?$/i", $period_arry[0])) {// set period 0 - specific case.
-            $command["PERIOD"] = $period_arry[0];//TODO: in corner-cases execute a regperiod renewal
-        }
-    }
-
-    //#####################################################################
-    //##################### PREMIUM DOMAIN HANDLING #######################
-    //######################################################################
-    if ($premiumDomainsEnabled && !empty($premiumDomainsCost)) {
-        //check if premium domain functionality is enabled by the admin
-        //check if the domain has a premium price
-        
-        //checkdomaintransfer
-        if ($r["CODE"] == 200 && !empty($r['PROPERTY']['CLASS'][0])) {
-            //check if the price displayed to the customer is equal to the real cost at the registar
-            $price = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_" . $r['PROPERTY']['CLASS'][0] . "_TRANSFER");
-            if ($price !== false && $premiumDomainsCost == $price) {
-                $command["CLASS"] = $r['PROPERTY']['CLASS'][0];
-            } else {
-                return [
-                    "error" => "Price mismatch. Got $premiumDomainsCost, but expected $price."
-                ];
-            }
-        }
-    }
-    //#####################################################################
-    $response = ispapi_call($command, ispapi_config($params));
-
-    if ($response["CODE"] != 200) {
-        return [
-            "error" => $response["DESCRIPTION"]
-        ];
-    }
-    return [
-        "success" => true
-    ];
 }
 
 /**
