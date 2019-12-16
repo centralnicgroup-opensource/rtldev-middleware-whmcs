@@ -138,7 +138,7 @@ function ispapi_RegisterDomain($params)
         $command["CLASS"] = "GOLIVE";
     }
 
-    ispapi_use_additionalfields($params, $command);
+    ispapi_use_additionalfields($params, $command);//TODO: replace by new logic, check additionalfields branch
 
     //##################### PREMIUM DOMAIN HANDLING #######################
     if ($premiumDomainsEnabled && !empty($premiumDomainsCost)) {
@@ -312,7 +312,12 @@ function ispapi_TransferDomain($params)
         }
     }
     
-    //TODO: consider additional fields
+    //######################## consider additional fields ####################### TODO
+    #$addflds = new \ISPAPI\AdditionalFields();
+    #$addflds->setDomain($domain->getDomain())->setDomainType("Transfer");
+    #$addflds->setFieldValues($params["additionalfields"]);
+    #$addflds->addToCommand($command, $registrantcountry);
+    
     $r = ispapi_call($command, ispapi_config($params));
 
     if ($r["CODE"] != 200) {
