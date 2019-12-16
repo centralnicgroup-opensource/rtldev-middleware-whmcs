@@ -463,6 +463,54 @@ function ispapi_SaveNameservers($params)
 }
 
 /**
+ * Contact data of a domain name
+ *
+ * @param array $params common module parameters
+ *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ *
+ * @return array
+ */
+function ispapi_GetContactDetails($params)
+{
+    $params = injectDomainObjectIfNecessary($params);
+    /** @var \WHMCS\Domains\Domain $domain */
+    $domain = $params["domainObj"];
+
+    if (isset($params["original"])) {
+        $params = $params["original"];
+    }
+
+    $r = ispapi_call([
+        "COMMAND" => "StatusDomain",
+        "DOMAIN" => $domain->getDomain()
+    ], ispapi_config($params));
+
+    if ($r["CODE"] != 200) {
+        return [
+            "error" => $r["DESCRIPTION"]
+        ];
+    }
+
+    $values = [
+        "Registrant" => ispapi_get_contact_info($r["PROPERTY"]["OWNERCONTACT"][0], $params),
+        "Admin" => ispapi_get_contact_info($r["PROPERTY"]["ADMINCONTACT"][0], $params),
+        "Technical" => ispapi_get_contact_info($r["PROPERTY"]["TECHCONTACT"][0], $params),
+        "Billing" => ispapi_get_contact_info($r["PROPERTY"]["BILLINGCONTACT"][0], $params)
+    ];
+    // Remove input fields for Registrant's COUNTRY|NAME|ORGANIZATION in case a Trade is required
+    // For these cases we have pre-defined registrant modification pages
+    //if (preg_match('/\.(ca|it|ch|li|se|sg)$/i', $domain->getDomain())) {
+    if (ispapi_needsTradeForRegistrantModification($domain, $params)) {
+        unset($values["Registrant"]["First Name"]);
+        unset($values["Registrant"]["Last Name"]);
+        unset($values["Registrant"]["Company Name"]);
+        unset($values["Registrant"]["Country"]);
+    }
+    return $values;
+}
+
+/**
  * Check the availability of domains using HEXONET's fast API
  *
  * @param array $params common module parameters
@@ -2348,42 +2396,6 @@ function ispapi_SaveEmailForwarding($params)
 }
 
 /**
- * Contact data of a domain name
- *
- * @param array $params common module parameters
- *
- * @return array $values - an array with different contact values.
- */
-function ispapi_GetContactDetails($params)
-{
-    $values = array();
-    if (isset($params["original"])) {
-        $params = $params["original"];
-    }
-
-    $domain = $params["sld"].".".$params["tld"];
-    $values = array();
-    $command = array(
-        "COMMAND" => "StatusDomain",
-        "DOMAIN" => $domain
-    );
-    $response = ispapi_call($command, ispapi_config($params));
-
-    if ($response["CODE"] == 200) {
-        $values["Registrant"] = ispapi_get_contact_info($response["PROPERTY"]["OWNERCONTACT"][0], $params);
-        $values["Admin"] = ispapi_get_contact_info($response["PROPERTY"]["ADMINCONTACT"][0], $params);
-        $values["Technical"] = ispapi_get_contact_info($response["PROPERTY"]["TECHCONTACT"][0], $params);
-        $values["Billing"] = ispapi_get_contact_info($response["PROPERTY"]["BILLINGCONTACT"][0], $params);
-        if (preg_match('/\.(ca|it|ch|li|se|sg)$/i', $domain)) {
-            unset($values["Registrant"]["First Name"]);
-            unset($values["Registrant"]["Last Name"]);
-            unset($values["Registrant"]["Company Name"]);
-        }
-    }
-    return $values;
-}
-
-/**
  * Modify and save contact data of a domain name
  *
  * @param array $params common module parameters
@@ -3543,6 +3555,25 @@ function ispapi_applyContactsCommand($params, &$command)
     $command["ADMINCONTACT0"] = $admin;
     $command["TECHCONTACT0"] = $admin;
     $command["BILLINGCONTACT0"] = $admin;
+}
+
+/**
+ * Detect if Ownerchange by Trade is required for given domain name
+
+ * @param WHMCS\Domains\Domain $domain
+ * @param array $params common module parameters
+ *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ *
+ * @return bool
+ */
+function ispapi_needsTradeForRegistrantModification($domain, $params)
+{
+    $r = ispapi_call([
+        "COMMAND" => "QueryDomainOptions",
+        "DOMAIN0" => $domain->getDomain()
+    ], ispapi_config($params));
+    return ($r["CODE"] == 200 && $r["PROPERTY"]["ZONEPOLICYREGISTRANTNAMECHANGEBY"][0] == "TRADE");
 }
 
 ispapi_InitModule($module_version);
