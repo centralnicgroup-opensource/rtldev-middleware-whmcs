@@ -2689,56 +2689,6 @@ function ispapi_ResendIRTPVerificationEmail($params)
 }
 
 /**
- * Return the authcode of a domain name
- *
- * @param array $params common module parameters
- *
- * @return array $values an array with the authcode
- */
-function ispapi_GetEPPCode($params)
-{
-    $values = array();
-    if (isset($params["original"])) {
-        $params = $params["original"];
-    }
-    $domain = $params["sld"].".".$params["tld"];
-
-    if ($params["tld"] == "de") {
-        $command = array(
-            "COMMAND" => "DENIC_CreateAuthInfo1",
-            "DOMAIN" => $domain
-        );
-        $response = ispapi_call($command, ispapi_config($params));
-    }
-
-    if ($params["tld"] == "eu") {
-        $command = array(
-            "COMMAND" => "RequestDomainAuthInfo",
-            "DOMAIN" => $domain
-        );
-        $response = ispapi_call($command, ispapi_config($params));
-    } else {
-        $command = array(
-            "COMMAND" => "StatusDomain",
-            "DOMAIN" => $domain
-        );
-        $response = ispapi_call($command, ispapi_config($params));
-    }
-
-    if ($response["CODE"] == 200) {
-        if (strlen($response["PROPERTY"]["AUTH"][0])) {
-            //htmlspecialchars -> fixed in (#5070 @ 6.2.0 GA) / (#4166 @ 5.3.0)
-            $values["eppcode"] = $response["PROPERTY"]["AUTH"][0];
-        } else {
-            $values["error"] = "No AuthInfo code assigned to this domain!";
-        }
-    } else {
-        $values["error"] = $response["DESCRIPTION"];
-    }
-    return $values;
-}
-
-/**
  * Get Email forwarding of a domain name with its DNS zone
  *
  * @param array $params common module parameters
