@@ -1694,6 +1694,97 @@ function ispapi_TransferSync($params)
 }
 
 /**
+ * Provide custom buttons (whoisprivacy, DNSSEC Management) for domains and change of registrant button for certain domain names on client area
+ *
+ * @param array $params common module parameters
+ *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ *
+ * @return array
+ */
+function ispapi_ClientAreaCustomButtonArray($params)
+{
+    $params = injectDomainObjectIfNecessary($params);
+    /** @var \WHMCS\Domains\Domain $domain */
+    $domain = $params["domainObj"];
+
+    if (isset($params["domainid"])) {
+        $domainid = $params["domainid"];
+    } elseif (!isset($_REQUEST["id"])) {
+        $params = $GLOBALS["params"];
+        $domainid = $params["domainid"];
+    } else {
+        $domainid = $_REQUEST["id"];
+    }
+
+    // TODO: use PDO instead or WHMCS\Domains class
+    $result = select_query('tbldomains', 'idprotection', ['id' => $domainid]);
+    $data = mysql_fetch_array($result);
+    $buttonarray = [];
+    if ($params["DNSSEC"] == "on") {
+        $buttonarray["DNSSEC Management"] = "dnssec";
+    }
+    if ($data) {
+        if ($data["idprotection"]) {
+            $buttonarray["WHOIS Privacy"] = "whoisprivacy";
+        }
+        if (preg_match('/\.ca$/i', $domain->getDomain())) {
+            //TODO: - no longer contact related, but domain related
+            //      - can't we output that information on default page?
+            $buttonarray[".CA Registrant WHOIS Privacy"] = "whoisprivacy_ca";
+        }
+        $tld = "." . strtoupper($domain->getTLD());
+        if (ispapi_needsTradeForRegistrantModification($domain, $params)) {
+            $buttonarray[$tld . " Change of Registrant"] = "registrantmodificationtrade";
+        } else {
+            $addflds = new \ISPAPI\AdditionalFields();
+            $addflds->setDomain($domain->getDomain())
+                    ->setDomainType("Register");
+            if ($addflds->isMissingRequiredFields()) {
+                //in case we have additional required domain fields for registration
+                $buttonarray[$tld . " Change of Registrant"] = "registrantmodification";
+            }
+        }
+    }
+    return $buttonarray;
+}
+
+/**
+ * Check if a domain is PREMIUM (required in combination with ISPAPI DomainCheck Addon)
+ * Will be deprecated with the new Lookup Feature which will support Premium Domains
+ *
+ * @param array $params common module parameters
+ *
+ * @return array an array with a template name
+ */
+function ispapi_ClientArea($params)
+{
+    $params = injectDomainObjectIfNecessary($params);
+    /** @var \WHMCS\Domains\Domain $domain */
+    $domain = $params["domainObj"];
+
+    // TODO: use pdo or a better replacement
+    $result = mysql_query("select g.name from tblproductgroups g, tblproducts p, tblhosting h where p.id = h.packageid and p.gid = g.id and h.domain = '".$domain->getDomain()."'");
+    $data = mysql_fetch_array($result);
+    if (!empty($data) && $data["name"]=="PREMIUM DOMAIN") {
+        $r = ispapi_call([
+            "COMMAND" => "StatusDomain",
+            "DOMAIN" => $domain->getDomain()
+        ], ispapi_config($params));
+
+        if ($r["CODE"] == 200) {
+            global $smarty;
+            $smarty->assign("statusdomain", $r["PROPERTY"]);
+        }
+        return [
+            'templatefile' => 'clientarea_premium'
+        ];
+    }
+    //TODO: return nothing otherwise???
+    //TODO: is it deprecated???
+}
+
+/**
  * Get Premium Price for given domain,
  * @see call of this method in \WHMCS\DOMAINS\DOMAIN::getPremiumPricing
  * $pricing = $registrarModule->call("GetPremiumPrice", array(
@@ -2033,104 +2124,6 @@ function ispapi_GetISPAPIModuleVersion()
 {
     global $ispapi_module_version;
     return $ispapi_module_version;
-}
-
-/**
- * Check if a domain is PREMIUM (required in combination with ISPAPI DomainCheck Addon)
- * Will be deprecated with the new Lookup Feature which will support Premium Domains
- *
- * @param array $params common module parameters
- *
- * @return array an array with a template name
- */
-function ispapi_ClientArea($params)
-{
-    if (isset($params["original"])) {
-        $params = $params["original"];
-    }
-    global $smarty;
-
-    $domain = $params["sld"].".".$params["tld"];
-    $premium = false;
-
-    $result = mysql_query("select g.name from tblproductgroups g, tblproducts p, tblhosting h where p.id = h.packageid and p.gid = g.id and h.domain = '".$domain."'");
-    $data = mysql_fetch_array($result);
-    if (!empty($data) && $data["name"]=="PREMIUM DOMAIN") {
-        $premium = true;
-    }
-
-    if ($premium) {
-        $command = array(
-                "COMMAND" => "StatusDomain",
-                "DOMAIN" => $domain
-        );
-        $response = ispapi_call($command, ispapi_config($params));
-
-        if ($response["CODE"] == 200) {
-            $smarty->assign("statusdomain", $response["PROPERTY"]);
-        }
-
-        return array(
-                'templatefile' => 'clientarea_premium'
-        );
-    }
-}
-
-/**
- * Provide custom buttons (whoisprivacy, DNSSEC Management) for domains and change of registrant button for certain domain names on client area
- *
- * @param array $params common module parameters
- *
- * @return array $buttonarray an array custum buttons
- */
-function ispapi_ClientAreaCustomButtonArray($params)
-{
-    $buttonarray = array();
-
-    if (isset($params["domainid"])) {
-        $domainid = $params["domainid"];
-    } elseif (!isset($_REQUEST["id"])) {
-        $params = $GLOBALS["params"];
-        $domainid = $params["domainid"];
-    } else {
-        $domainid = $_REQUEST["id"];
-    }
-    $result = select_query('tbldomains', 'idprotection,domain', array ('id' => $domainid));
-    $data = mysql_fetch_array($result);
-
-    if ($data && ($data["idprotection"])) {
-        $buttonarray["WHOIS Privacy"] = "whoisprivacy";
-    }
-    
-    if ($data && (preg_match('/\.ca$/i', $data["domain"]))) {
-        $buttonarray[".CA Registrant WHOIS Privacy"] = "whoisprivacy_ca";
-        $buttonarray[".CA Change of Registrant"] = "registrantmodification_ca";
-    }
-
-    if ($data && (preg_match('/\.it$/i', $data["domain"]))) {
-        $buttonarray[".IT Change of Registrant"] = "registrantmodification_it";
-    }
-    if ($data && (preg_match('/\.ch$/i', $data["domain"]))) {
-        $buttonarray[".CH Change of Registrant"] = "registrantmodification_tld";
-    }
-
-    if ($data && (preg_match('/\.li$/i', $data["domain"]))) {
-        $buttonarray[".LI Change of Registrant"] = "registrantmodification_tld";
-    }
-
-    if ($data && (preg_match('/\.se$/i', $data["domain"]))) {
-        $buttonarray[".SE Change of Registrant"] = "registrantmodification_tld";
-    }
-
-    if ($data && (preg_match('/\.sg$/i', $data["domain"]))) {
-        $buttonarray[".SG Change of Registrant"] = "registrantmodification_tld";
-    }
-
-    if ($params["DNSSEC"] == "on") {
-        $buttonarray["DNSSEC Management"] = "dnssec";
-    }
-
-    return $buttonarray;
 }
 
 /**
