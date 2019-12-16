@@ -511,6 +511,172 @@ function ispapi_GetContactDetails($params)
 }
 
 /**
+ * Modify and save contact data of a domain name
+ * @param array $params common module parameters
+ *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ *
+ * @return array
+ */
+function ispapi_SaveContactDetails($params)
+{
+    $params = injectDomainObjectIfNecessary($params);
+    /** @var \WHMCS\Domains\Domain $domain */
+    $domain = $params["domainObj"];
+    
+    // get registrant data
+    $r = ispapi_call([
+        "COMMAND" => "StatusDomain",
+        "DOMAIN" => $domain->getDomain()
+    ], ispapi_config($params));
+
+    if ($r["CODE"] != 200) {
+        return [
+            "error" => $r["DESCRIPTION"]
+        ];
+    }
+    $registrant = ispapi_get_contact_info($r["PROPERTY"]["OWNERCONTACT"][0], $params);
+    if (isset($params["contactdetails"]["Registrant"])) {
+        $new_registrant = $params["contactdetails"]["Registrant"];
+    }
+
+    //the following conditions must be true to trigger registrant change request (IRTP)
+    if (preg_match('/Designated Agent/', $params["IRTP"]) &&
+        ispapi_IsAffectedByIRTP($domain->getDomain(), $params) && (
+            $registrant['First Name'] != $new_registrant['First Name'] ||
+            $registrant['Last Name'] != $new_registrant['Last Name'] ||
+            $registrant['Company Name'] != $new_registrant['Company Name'] ||
+            $registrant['Email'] != $new_registrant['Email']
+        )
+    ) {
+        $command = [
+            "COMMAND" => "TradeDomain",
+            "DOMAIN" => $domain->getDomain(),
+            "OWNERCONTACT0" => $new_registrant,
+            "X-CONFIRM-DA-OLD-REGISTRANT" => 1,
+            "X-CONFIRM-DA-NEW-REGISTRANT" => 1
+        ];
+        // some extensions have special requirements e.g. AFNIC TLDs(.fr, ...)
+        ispapi_query_additionalfields($params);
+        ispapi_use_additionalfields($params, $command);
+
+        //opt-out is not supported for AFNIC TLDs (eg: .FR)
+        $r = ispapi_call([
+            "COMMAND" => "QueryDomainOptions",
+            "DOMAIN0" => $domain->getDomain()
+        ], ispapi_config($params));
+        if ($r["CODE"] == 200) {
+            if (!preg_match("/AFNIC/i", $r["PROPERTY"]["REPOSITORY"][0])) {
+                $command["X-REQUEST-OPT-OUT-TRANSFERLOCK"] = ($params["irtpOptOut"]) ? 1 : 0;
+            }
+        }
+    } else {
+        // even if we are here also in IRTP case and if reseller has not configured DA status,
+        // he could have configured the API with IRTP specific user environment settings.
+        // ModifyDomain will do an auto-fallback to TradeDomain on API-side then.
+        $command = [
+            "COMMAND" => "ModifyDomain",
+            "DOMAIN" => $domain->getDomain()
+        ];
+    }
+    // set new contact details
+    $map = [
+        "OWNERCONTACT0" => "Registrant",
+        "ADMINCONTACT0" => "Admin",
+        "TECHCONTACT0" => "Technical",
+        "BILLINGCONTACT0" => "Billing",
+    ];
+    $contactDetails = $params["contactdetails"];
+    foreach ($map as $ctype => $ptype) {
+        $p = $contactDetails[$ptype];
+        $command[$ctype] = [
+            "FIRSTNAME" => $p["First Name"],
+            "LASTNAME" => $p["Last Name"],
+            "ORGANIZATION" => $p["Company Name"],
+            "STREET" => $p["Address"],
+            "CITY" => $p["City"],
+            "STATE" => $p["State"],
+            "ZIP" => $p["Postcode"],
+            "COUNTRY" => $p["Country"],
+            "PHONE" => $p["Phone"],
+            "FAX" => $p["Fax"],
+            "EMAIL" => $p["Email"]
+        ];
+        if (strlen($p["Address 2"])) {
+            $command[$ctype]["STREET"] .= " , ". $p["Address 2"];
+        }
+    }
+
+    // .CA specific registrant modification process
+    // TODO ... looks deprecated, check if this is still required
+    if (preg_match('/\.ca$/i', $domain->getDomain())) {
+        $r = ispapi_call([
+            "COMMAND" => "StatusDomain",
+            "DOMAIN" => $domain->getDomain()
+        ], ispapi_config($params));
+
+        if ($r["CODE"] != 200) {
+            return [
+                "error" => $r["DESCRIPTION"]
+            ];
+        }
+
+        if (!preg_match('/^AUTO\-/i', $r["PROPERTY"]["OWNERCONTACT"][0])) {
+            $registrant_command = $command["OWNERCONTACT0"];
+            $registrant_command["COMMAND"] = "ModifyContact";
+            $registrant_command["CONTACT"] = $r["PROPERTY"]["OWNERCONTACT"][0];
+            unset($registrant_command["FIRSTNAME"]);
+            unset($registrant_command["LASTNAME"]);
+            unset($registrant_command["ORGANIZATION"]);
+            $r = ispapi_call($registrant_command, ispapi_config($params));
+            if ($r["CODE"] != 200) {
+                return [
+                    "error" => $r["DESCRIPTION"]
+                ];
+            }
+            unset($command["OWNERCONTACT0"]);
+        }
+
+        ispapi_query_additionalfields($params);
+        ispapi_use_additionalfields($params, $command);
+        unset($command["X-CA-LEGALTYPE"]);
+    } elseif (ispapi_needsTradeForRegistrantModification($domain, $params)) {
+        // * below fields are not allowed to get modified, TradeDomain is required for it
+        // * additional fields are not available in the default WHMCS contact information page
+        // -> need for a specific registrant modification page
+        // -> necessary to set the old data to get all the other changes processed
+        // otherwise the API would complain about a required TradeDomain
+        $r = ispapi_call([
+            "COMMAND" => "StatusDomain",
+            "DOMAIN" => $domain->getDomain()
+        ], ispapi_config($params));
+
+        if ($r["CODE"] != 200) {
+            return [
+                "error" => $r["DESCRIPTION"]
+            ];
+        }
+        $registrant = ispapi_get_contact_info($r["PROPERTY"]["OWNERCONTACT"][0], $params);
+        
+        $command["OWNERCONTACT0"]["FIRSTNAME"] = $registrant["First Name"];
+        $command["OWNERCONTACT0"]["LASTNAME"] = $registrant["Last Name"];
+        $command["OWNERCONTACT0"]["ORGANIZATION"] = $registrant["Company Name"];
+        $command["OWNERCONTACT0"]["COUNTRY"] = $registrant["Country"];
+    }
+
+    $r = ispapi_call($command, ispapi_config($params));
+    
+    if ($r["CODE"] != 200) {
+        return [
+            "error" => $r["DESCRIPTION"]
+        ];
+    }
+    return [
+        "success" => true
+    ];
+}
+
+/**
  * Check the availability of domains using HEXONET's fast API
  *
  * @param array $params common module parameters
@@ -2391,185 +2557,6 @@ function ispapi_SaveEmailForwarding($params)
 
     if ($response["CODE"] != 200) {
         $values["error"] = $response["DESCRIPTION"];
-    }
-    return $values;
-}
-
-/**
- * Modify and save contact data of a domain name
- *
- * @param array $params common module parameters
- *
- * @return array $values - an array with command response description
- */
-function ispapi_SaveContactDetails($params)
-{
-    $params = injectDomainObjectIfNecessary($params);
-    $domain = $params["domainObj"]->getDomain();
-
-    global $additionaldomainfields;
-    $values = array();
-
-    $status_response = ispapi_call([
-        "COMMAND" => "StatusDomain",
-        "DOMAIN" => $domain
-    ], ispapi_config($params));
-    if ($status_response["CODE"] != 200) {
-        return [
-            "error" => $status_response["DESCRIPTION"]
-        ];
-    }
-    $isAfectedByIRTP = ispapi_IsAfectedByIRTP($domain, $params);
-
-    $registrant = ispapi_get_contact_info($status_response["PROPERTY"]["OWNERCONTACT"][0], $params);
-    if (isset($params["contactdetails"]["Registrant"])) {
-        $new_registrant = $params["contactdetails"]["Registrant"];
-    }
-
-    //the following conditions must be true to trigger registrant change request (IRTP)
-    if (preg_match('/Designated Agent/', $params["IRTP"]) &&
-        $isAfectedByIRTP && (
-            $registrant['First Name'] != $new_registrant['First Name'] ||
-            $registrant['Last Name'] != $new_registrant['Last Name'] ||
-            $registrant['Company Name'] != $new_registrant['Company Name'] ||
-            $registrant['Email'] != $new_registrant['Email']
-        )
-    ) {
-        $command = array(
-            "COMMAND" => "TradeDomain",
-            "DOMAIN" => $domain,
-            "OWNERCONTACT0" => $new_registrant,
-            "X-CONFIRM-DA-OLD-REGISTRANT" => 1,
-            "X-CONFIRM-DA-NEW-REGISTRANT" => 1,
-        );
-
-        //some of the AFNIC TLDs(.fr, .pm, .re) require local presence. eg: "X-FR-ACCEPT-TRUSTEE-TAC" => 1
-        ispapi_query_additionalfields($params);
-        ispapi_use_additionalfields($params, $command);
-
-        //opt-out is not supported for AFNIC TLDs (eg: .FR)
-        $queryDomainOptions_response = ispapi_call([
-            "COMMAND" => "QueryDomainOptions",
-            "DOMAIN0" => $domain
-        ], ispapi_config($params));
-        //AFNIC TLDs => pm, tf, wf, yt, fr, re
-        if (!preg_match("/AFNIC/i", $queryDomainOptions_response["PROPERTY"]["REPOSITORY"][0])) {
-            if ($params["irtpOptOut"]) {
-                $command["X-REQUEST-OPT-OUT-TRANSFERLOCK"] = 1;
-            } else {
-                $command["X-REQUEST-OPT-OUT-TRANSFERLOCK"] = 0;
-            }
-        }
-    } else {
-        $command = array(
-            "COMMAND" => "ModifyDomain",
-            "DOMAIN" => $domain
-        );
-    }
-
-    $map = array(
-        "OWNERCONTACT0" => "Registrant",
-        "ADMINCONTACT0" => "Admin",
-        "TECHCONTACT0" => "Technical",
-        "BILLINGCONTACT0" => "Billing",
-    );
-
-    //bug in WHMCS since 6.1, $params["original"] is completely stripped, we will take the $_POST array to have the unstipped version
-    $unstrippedparams = $_POST;
-
-    foreach ($map as $ctype => $ptype) {
-        //when using "Use Existing Contact" function in WHMCS, the $_POST array is empty, so we have to use the $params version.
-        //in this case the special characters will be replaced due to the default transliteration hook. (https://docs.whmcs.com/Custom_Transliteration)
-        //workarround for customers will be to deactivate the transliteration hook.
-        //once this issue has been fixed on WHMCS side we will release a new version which will support special characters in each cases.
-        if (array_key_exists("First Name", $unstrippedparams["contactdetails"][$ptype])) {
-            $p = $unstrippedparams["contactdetails"][$ptype];
-        } else {
-            $p = $params["contactdetails"][$ptype];
-        }
-
-        $command[$ctype] = array(
-            "FIRSTNAME" => html_entity_decode($p["First Name"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
-            "LASTNAME" => html_entity_decode($p["Last Name"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
-            "ORGANIZATION" => html_entity_decode($p["Company Name"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
-            "STREET" => html_entity_decode($p["Address"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
-            "CITY" => html_entity_decode($p["City"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
-            "STATE" => html_entity_decode($p["State"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
-            "ZIP" => html_entity_decode($p["Postcode"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
-            "COUNTRY" => html_entity_decode($p["Country"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
-            "PHONE" => html_entity_decode($p["Phone"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
-            "FAX" => html_entity_decode($p["Fax"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
-            "EMAIL" => html_entity_decode($p["Email"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
-        );
-        if (strlen($p["Address 2"])) {
-            $command[$ctype]["STREET"] .= " , ".html_entity_decode($p["Address 2"], ENT_QUOTES | ENT_XML1, 'UTF-8');
-        }
-    }
-
-    if (preg_match('/\.(it|ch|li|se|sg)$/i', $domain)) {
-        unset($command["OWNERCONTACT0"]["FIRSTNAME"]);
-        unset($command["OWNERCONTACT0"]["LASTNAME"]);
-        unset($command["OWNERCONTACT0"]["ORGANIZATION"]);
-
-        $status_command = array(
-                "COMMAND" => "StatusDomain",
-                "DOMAIN" => $domain
-        );
-        $status_response = ispapi_call($status_command, ispapi_config($params));
-
-        if ($status_response["CODE"] != 200) {
-            return [
-                "error" => $status_response["DESCRIPTION"]
-            ];
-        }
-
-        $registrant = ispapi_get_contact_info($status_response["PROPERTY"]["OWNERCONTACT"][0], $params);
-        $command["OWNERCONTACT0"]["FIRSTNAME"] = $registrant["First Name"];
-        $command["OWNERCONTACT0"]["LASTNAME"] = $registrant["Last Name"];
-        $command["OWNERCONTACT0"]["ORGANIZATION"] = $registrant["Company Name"];
-    }
-
-    if (preg_match('/\.ca$/i', $domain)) {
-        $registrant_command = $command["OWNERCONTACT0"];
-
-        $status_command = array(
-            "COMMAND" => "StatusDomain",
-            "DOMAIN" => $domain
-        );
-        $status_response = ispapi_call($status_command, ispapi_config($params));
-
-        if ($status_response["CODE"] != 200) {
-            $values["error"] = $status_response["DESCRIPTION"];
-            return $values;
-        }
-
-        $registrant_command["COMMAND"] = "ModifyContact";
-        $registrant_command["CONTACT"] = $status_response["PROPERTY"]["OWNERCONTACT"][0];
-
-        if (!preg_match('/^AUTO\-/i', $registrant_command["CONTACT"])) {
-            unset($registrant_command["FIRSTNAME"]);
-            unset($registrant_command["LASTNAME"]);
-            unset($registrant_command["ORGANIZATION"]);
-            $registrant_response = ispapi_call($registrant_command, ispapi_config($params));
-
-            if ($registrant_response["CODE"] != 200) {
-                $values["error"] = $registrant_response["DESCRIPTION"];
-                return $values;
-            }
-            unset($command["OWNERCONTACT0"]);
-        }
-
-        ispapi_query_additionalfields($params);
-        ispapi_use_additionalfields($params, $command);
-        unset($command["X-CA-LEGALTYPE"]);
-    }
-
-    $response = ispapi_call($command, ispapi_config($params));
-    
-    if ($response["CODE"] != 200) {
-        return [
-            "error" => $response["DESCRIPTION"]
-        ];
     }
     return $values;
 }
