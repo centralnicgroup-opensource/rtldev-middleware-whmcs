@@ -477,10 +477,6 @@ function ispapi_GetContactDetails($params)
     /** @var \WHMCS\Domains\Domain $domain */
     $domain = $params["domainObj"];
 
-    if (isset($params["original"])) {
-        $params = $params["original"];
-    }
-
     $r = ispapi_call([
         "COMMAND" => "StatusDomain",
         "DOMAIN" => $domain->getDomain()
@@ -926,6 +922,140 @@ function ispapi_SaveRegistrarLock($params)
     return [
         'success' => true
     ];
+}
+
+/**
+ * Get DNS Zone of a domain name
+ *
+ * @param array $params common module parameters
+ *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ *
+ * @return array $hostrecords - an array with hostrecord of the domain name
+ */
+function ispapi_GetDNS($params)
+{
+    $params = injectDomainObjectIfNecessary($params);
+    /** @var \WHMCS\Domains\Domain $domain */
+    $domain = $params["domainObj"];
+
+    //convert the dnszone in idn
+    $r = ispapi_call([
+        "COMMAND" => "ConvertIDN",
+        "DOMAIN" => $domain->getDomain()
+    ], ispapi_config($params));
+    if ($r["CODE"]!=200) {
+        return [
+            "error" => $r["DESCRIPTION"]
+        ];
+    }
+    $dnszone = $r["PROPERTY"]["ACE"][0].".";
+
+    $r = ispapi_call([
+        "COMMAND" => "QueryDNSZoneRRList",
+        "DNSZONE" => $dnszone,
+        "EXTENDED" => 1
+    ], ispapi_config($params));
+    if ($r["CODE"] != 200) {
+        return [
+            "error" => $r["DESCRIPTION"]
+        ];
+    }
+
+    //only for MX fields, they are note displayed in the "EXTENDED" version
+    $r2 = ispapi_call([
+        "COMMAND" => "QueryDNSZoneRRList",
+        "DNSZONE" => $dnszone,
+        "SHORT" => 1,
+    ], ispapi_config($params));
+    if ($r2["CODE"] != 200) {
+        return [
+            "error" => $r2["DESCRIPTION"]
+        ];
+    }
+
+    $hostrecords = [];
+    foreach ($r["PROPERTY"]["RR"] as $rr) {
+        $fields = explode(" ", $rr);
+        $domain = array_shift($fields);
+        $ttl = array_shift($fields);
+        $class = array_shift($fields);
+        $rrtype = array_shift($fields);
+
+        if ($domain == $dnszone) {
+            $domain = "@";
+        }
+        $domain = str_replace(".".$dnszone, "", $domain);
+
+        if ($rrtype == "A") {
+            if (!preg_match('/^mxe-host-for-ip-(\d+)-(\d+)-(\d+)-(\d+)$/i', $domain, $m)) {
+                $hostrecords[] = [
+                    "hostname" => $domain,
+                    "type" => $rrtype,
+                    "address" => $fields[0]
+                ];
+            }
+        } elseif (preg_match("/^(AAAA|CNAME)$/", $rrtype)) {
+            $hostrecords[] = [
+               "hostname" => $domain,
+               "type" => $rrtype,
+               "address" => $fields[0]
+            ];
+        } elseif ($rrtype == "TXT") {
+            $hostrecords[] = [
+               "hostname" => $domain,
+               "type" => $rrtype,
+               "address" => implode(" ", $fields)
+            ];
+        } elseif ($rrtype == "SRV") {
+            $priority = array_shift($fields);
+            $hostrecords[] = [
+               "hostname" => $domain,
+               "type" => $rrtype,
+               "address" => implode(" ", $fields),
+               "priority" => $priority
+            ];
+        } elseif ($rrtype == "X-HTTP") {
+            if (preg_match('/^\//', $fields[0])) {
+                $domain .= array_shift($fields);
+            }
+            $url_type = array_shift($fields);
+            if ($url_type == "REDIRECT") {
+                $url_type = "URL";
+            }
+            $hostrecords[] = [
+                "hostname" => $domain,
+                "type" => $url_type,
+                "address" => implode(" ", $fields)
+            ];
+        }
+    }
+
+    foreach ($r2["PROPERTY"]["RR"] as $rr) {
+        $fields = explode(" ", $rr);
+        $domain = array_shift($fields);
+        $ttl = array_shift($fields);
+        $class = array_shift($fields);
+        $rrtype = array_shift($fields);
+
+        if ($rrtype == "MX") {
+            if (preg_match('/^mxe-host-for-ip-(\d+)-(\d+)-(\d+)-(\d+)($|\.)/i', $fields[1], $m)) {
+                $hostrecords[] = [
+                    "hostname" => $domain,
+                    "type" => "MXE",
+                    "address" => $m[1].".".$m[2].".".$m[3].".".$m[4]
+                 ];
+            } else {
+                $hostrecords[] = [
+                    "hostname" => $domain,
+                    "type" => $rrtype,
+                    "address" => $fields[1],
+                    "priority" => $fields[0]
+                ];
+            }
+        }
+    }
+    return $hostrecords;
 }
 
 /**
@@ -2150,130 +2280,6 @@ function ispapi_GetEPPCode($params)
         $values["error"] = $response["DESCRIPTION"];
     }
     return $values;
-}
-
-/**
- * Get DNS Zone of a domain name
- *
- * @param array $params common module parameters
- *
- * @return array $hostrecords - an array with hostrecord of the domain name
- */
-function ispapi_GetDNS($params)
-{
-    $values = array();
-    if (isset($params["original"])) {
-        $params = $params["original"];
-    }
-    $dnszone = $params["sld"].".".$params["tld"].".";
-    $domain = $params["sld"].".".$params["tld"];
-
-    //convert the dnszone in idn
-    $command = array(
-            "COMMAND" => "ConvertIDN",
-            "DOMAIN" => $domain
-    );
-    $response = ispapi_call($command, ispapi_config($params));
-    $dnszone_idn = $response["PROPERTY"]["ACE"][0].".";
-
-    $command = array(
-            "COMMAND" => "QueryDNSZoneRRList",
-            "DNSZONE" => $dnszone,
-            "EXTENDED" => 1
-    );
-    $response = ispapi_call($command, ispapi_config($params));
-    $hostrecords = array();
-    if ($response["CODE"] == 200) {
-        $i = 0;
-        foreach ($response["PROPERTY"]["RR"] as $rr) {
-            $fields = explode(" ", $rr);
-            $domain = array_shift($fields);
-            $ttl = array_shift($fields);
-            $class = array_shift($fields);
-            $rrtype = array_shift($fields);
-
-            if ($domain == $dnszone) {
-                $domain = "@";
-            }
-            $domain = str_replace(".".$dnszone_idn, "", $domain);
-
-            if ($rrtype == "A") {
-                $hostrecords[$i] = array( "hostname" => $domain, "type" => $rrtype, "address" => $fields[0], );
-                if (preg_match('/^mxe-host-for-ip-(\d+)-(\d+)-(\d+)-(\d+)$/i', $domain, $m)) {
-                    unset($hostrecords[$i]);
-                    $i--;
-                }
-                $i++;
-            }
-
-            if ($rrtype == "AAAA") {
-                $hostrecords[$i] = array( "hostname" => $domain, "type" => "AAAA", "address" => $fields[0], );
-                $i++;
-            }
-
-            if ($rrtype == "TXT") {
-                $hostrecords[$i] = array( "hostname" => $domain, "type" => $rrtype, "address" => (implode(" ", $fields)), );
-                $i++;
-            }
-
-            if ($rrtype == "SRV") {
-                $priority = array_shift($fields);
-                $hostrecords[$i] = array( "hostname" => $domain, "type" => $rrtype, "address" => implode(" ", $fields), "priority" => $priority );
-                $i++;
-            }
-
-            if ($rrtype == "CNAME") {
-                $hostrecords[$i] = array( "hostname" => $domain, "type" => $rrtype, "address" => $fields[0], );
-                $i++;
-            }
-
-            if ($rrtype == "X-HTTP") {
-                if (preg_match('/^\//', $fields[0])) {
-                    $domain .= array_shift($fields);
-                    /*while(substr($domain, -1)=="/"){
-                        $domain = substr_replace($domain, "", -1);
-                    }*/
-                }
-
-                $url_type = array_shift($fields);
-                if ($url_type == "REDIRECT") {
-                    $url_type = "URL";
-                }
-
-                $hostrecords[$i] = array( "hostname" => $domain, "type" => $url_type, "address" => implode(" ", $fields), );
-                $i++;
-            }
-        }
-
-        //only for MX fields, they are note displayed in the "EXTENDED" version
-        $command = array(
-                "COMMAND" => "QueryDNSZoneRRList",
-                "DNSZONE" => $dnszone,
-                "SHORT" => 1,
-        );
-        $response = ispapi_call($command, ispapi_config($params));
-        if ($response["CODE"] == 200) {
-            foreach ($response["PROPERTY"]["RR"] as $rr) {
-                $fields = explode(" ", $rr);
-                $domain = array_shift($fields);
-                $ttl = array_shift($fields);
-                $class = array_shift($fields);
-                $rrtype = array_shift($fields);
-
-                if ($rrtype == "MX") {
-                    if (preg_match('/^mxe-host-for-ip-(\d+)-(\d+)-(\d+)-(\d+)($|\.)/i', $fields[1], $m)) {
-                        $hostrecords[$i] = array( "hostname" => $domain, "type" => "MXE", "address" => $m[1].".".$m[2].".".$m[3].".".$m[4], );
-                    } else {
-                        $hostrecords[$i] = array( "hostname" => $domain, "type" => $rrtype, "address" => $fields[1], "priority" => $fields[0] );
-                    }
-                    $i++;
-                }
-            }
-        }
-    } else {
-        $values["error"] = $response["DESCRIPTION"];
-    }
-    return $hostrecords;
 }
 
 /**
