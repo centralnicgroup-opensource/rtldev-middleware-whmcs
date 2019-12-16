@@ -1515,6 +1515,185 @@ function ispapi_Sync($params)
 }
 
 /**
+ * Incoming Domain Transfer Sync.
+ *
+ * Check status of incoming domain transfers and notify end-user upon
+ * completion. This function is called daily for incoming domains.
+ *
+ * @param array $params common module parameters
+ *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ *
+ * @return array
+ */
+function ispapi_TransferSync($params)
+{
+    $params = injectDomainObjectIfNecessary($params);
+    /** @var \WHMCS\Domains\Domain $domain */
+    $domain = $params["domainObj"];
+    
+    $domain_pc = $domain_idn = $domain->getDomain();
+    $r = ispapi_call([
+        "COMMAND" => "ConvertIDN",
+        "DOMAIN0" => $domain->getDomain(),
+    ], ispapi_config($params));
+
+    if ($r["CODE"]==200 && isset($r["PROPERTY"]["ACE"][0])) {
+        $domain_pc = strtolower($r["PROPERTY"]["ACE"][0]);
+        $domain_idn = strtolower($r["PROPERTY"]["IDN"][0]);
+    }
+
+    $r = ispapi_call([
+        "COMMAND" => "QueryEventList",
+        "CLASS" => "DOMAIN_TRANSFER",
+        "MINDATE" => date("Y-m-d H:i:s", strtotime("first day of previous month")),
+        "ORDERBY" => "EVENTDATEDESC",
+        "WIDE" => 1
+    ], ispapi_config($params));
+
+    if ($r["CODE"] != 200 || !isset($r["PROPERTY"]["EVENTDATA0"])) {
+        return [];
+    }
+
+    $rows = [];
+    $r = $r["PROPERTY"];
+    foreach ($r["EVENTDATA0"] as $idx => &$d) {
+        $tmp = strtolower($d);
+        if ("domain:" . $domain_pc == $tmp || "domain:" . $domain_idn == $tmp) {
+            $rows[$r["EVENTSUBCLASS"][$idx]] = $r["EVENTDATE"][$idx];
+            if ($r["EVENTSUBCLASS"][$idx]=="TRANSFER_PENDING") {
+                break;
+            }
+        }
+    }
+    
+    if (isset($rows["TRANSFER_SUCCESSFUL"])) {
+        $r = $r = ispapi_call([
+            "COMMAND" => "StatusDomain",
+            "DOMAIN" => $domain_pc,
+            "SKIPIDNCONVERT" => 1
+        ], ispapi_config($params));
+
+        if ($r["CODE"]=="200") {
+            $r = $r["PROPERTY"];
+            $command = [
+                "COMMAND" => "ModifyDomain",
+                "DOMAIN" => $domain_pc,
+                "SKIPIDNCONVERT" => 1
+            ];
+            // TODO:---------- EXCEPTION [BEGIN] --------
+            // Missing/Empty contact handles after Transfer over THIN Registry [kschwarz]
+            // Ticket#: 485677 DeskPro
+            if (preg_match("/^(com|net|cc|tv)$/", $domain->getTLD())) {
+                $domain_data = (new \WHMCS\Domains())->getDomainsDatabyID($params["domainid"]);
+                $p = getClientsDetails($domain_data["userid"]);
+                $cmdparams = [
+                    "FIRSTNAME" => html_entity_decode($p["firstname"], ENT_QUOTES),
+                    "LASTNAME" => html_entity_decode($p["lastname"], ENT_QUOTES),
+                    "ORGANIZATION" => html_entity_decode($p["companyname"], ENT_QUOTES),
+                    "STREET" => html_entity_decode($p["address1"], ENT_QUOTES),
+                    "CITY" => html_entity_decode($p["city"], ENT_QUOTES),
+                    "STATE" => html_entity_decode($p["state"], ENT_QUOTES),
+                    "ZIP" => html_entity_decode($p["postcode"], ENT_QUOTES),
+                    "COUNTRY" => html_entity_decode($p["country"], ENT_QUOTES),
+                    "PHONE" => html_entity_decode($p["phonenumber"], ENT_QUOTES),
+                    //"FAX" => html_entity_decode($p["Fax"], ENT_QUOTES), n/a in whmcs
+                    "EMAIL" => html_entity_decode($p["email"], ENT_QUOTES),
+                ];
+                if (strlen($p["address2"])) {
+                    $cmdparams["STREET"] .= " , ".html_entity_decode($p["address2"], ENT_QUOTES);
+                }
+                if (!empty($r["OWNERCONTACT0"][0]) && preg_match("/^AUTO-.+$/", $r["OWNERCONTACT0"][0])) {
+                    $rc = ispapi_call([
+                        "COMMAND" => "StatusContact",
+                        "CONTACT" => $r["OWNERCONTACT0"][0]
+                    ], ispapi_config($params));
+                    if ($rc["CODE"] == 200) {
+                        if (empty($rc["PROPERTY"]["NAME"][0]) &&
+                            empty($rc["PROPERTY"]["EMAIL"][0]) &&
+                            //empty($rc["PROPERTY"]["ORGANIZATION"][0]) && // with data
+                            empty($rc["PROPERTY"]["PHONE"][0]) &&
+                            //empty($rc["PROPERTY"]["COUNTRY"][0]) && // with data
+                            empty($rc["PROPERTY"]["CITY"][0]) &&
+                            empty($rc["PROPERTY"]["STREET"][0]) &&
+                            empty($rc["PROPERTY"]["ZIP"][0])
+                        ) {
+                            $command["OWNERCONTACT0"] = $cmdparams;
+                        }
+                    }
+                }
+                $map = [
+                    "OWNERCONTACT0",
+                    "ADMINCONTACT0",
+                    "TECHCONTACT0",
+                    "BILLINGCONTACT0"
+                ];
+                foreach ($map as $ctype) {
+                    if (empty($r[$ctype][0])) {
+                        $command[$ctype] = $cmdparams;
+                    }
+                }
+            }
+            //--------------- EXCEPTION [END] -----------
+
+            //activate the whoistrustee if set to 1 in WHMCS
+            if (($params["idprotection"] == "1" || $params["idprotection"] == "on") &&
+                empty($r["X-ACCEPT-WHOISTRUSTEE-TAC"][0]) // doesn't exist, "" or 0
+            ) {
+                $command["X-ACCEPT-WHOISTRUSTEE-TAC"] = 1;
+            }
+            //check if domain update is necessary
+            if (count(array_keys($command))>3) {
+                ispapi_call($command, ispapi_config($params));
+            }
+
+            $date = ($r["FAILUREDATE"][0] > $r["PAIDUNTILDATE"][0]) ? $r["PAIDUNTILDATE"][0] : $r["ACCOUNTINGDATE"][0];
+            return [
+                'completed' => true,
+                'expirydate' => preg_replace('/ .*$/', '', $date)
+            ];
+        }
+        return [
+            'completed' => true
+        ];
+    }
+
+    if (isset($rows["TRANSFER_FAILED"])) {
+        $values = [
+            'failed' => true,
+            'reason' => "Transfer Failed"
+        ];
+        $rloglist = ispapi_call([
+            "COMMAND" => "QueryObjectLogList",
+            "OBJECTCLASS" => "DOMAIN",
+            "OBJECTID" => $domain,
+            "ORDERBY" => "LOGDATEDESC",
+            "LIMIT" => 1
+        ], ispapi_config($params));
+    
+        if (isset($rloglist["PROPERTY"]["LOGINDEX"])) {
+            $rloglist = $rloglist["PROPERTY"];
+            foreach ($rloglist["LOGINDEX"] as $index => $logindex) {
+                if (($rloglist["OPERATIONTYPE"][$index] == "INBOUND_TRANSFER") &&
+                    ($rloglist["OPERATIONSTATUS"][$index] == "FAILED")
+                ) {
+                    $rlog = ispapi_call([
+                        "COMMAND" => "StatusObjectLog",
+                        "LOGINDEX" => $logindex
+                    ], ispapi_config($params));
+                    if ($rlog["CODE"] == 200) {
+                        $values['reason'] .= "\n" . implode("\n", $rlog["PROPERTY"]["OPERATIONINFO"]);
+                    }
+                }
+            }
+        }
+        return $values;
+    }
+    
+    return [];
+}
+
+/**
  * Get Premium Price for given domain,
  * @see call of this method in \WHMCS\DOMAINS\DOMAIN::getPremiumPricing
  * $pricing = $registrarModule->call("GetPremiumPrice", array(
@@ -2802,171 +2981,6 @@ function ispapi_SaveEmailForwarding($params)
         $values["error"] = $response["DESCRIPTION"];
     }
     return $values;
-}
-
-/**
- * Incoming Domain Transfer Sync.
- *
- * Check status of incoming domain transfers and notify end-user upon
- * completion. This function is called daily for incoming domains.
- *
- * @param array $params common module parameters
- *
- * @see https://developers.whmcs.com/domain-registrars/module-parameters/
- *
- * @return array
- */
-function ispapi_TransferSync($params)
-{
-    $params = injectDomainObjectIfNecessary($params);
-    /** @var \WHMCS\Domains\Domain $domain */
-    $domain = $params["domainObj"];
-
-    $r = ispapi_call([
-        "COMMAND" => "QueryEventList",
-        "CLASS" => "DOMAIN_TRANSFER",
-        "MINDATE" => date("Y-m-d H:i:s", strtotime("first day of previous month")),
-        "ORDERBY" => "EVENTDATEDESC",
-        "WIDE" => 1
-    ], ispapi_config($params));
-
-    if ($r["CODE"] != 200 || !isset($r["PROPERTY"]["EVENTDATA0"])) {
-        return [];
-    }
-
-    $rows = [];
-    $r = $r["PROPERTY"];
-    foreach ($r["EVENTDATA0"] as $idx => &$d) {
-        if ("domain:" . $domain->getDomain() == $d) {
-            $rows[$r["EVENTSUBCLASS"][$idx]] = $r["EVENTDATE"][$idx];
-            if ($r["EVENTSUBCLASS"][$idx]=="TRANSFER_PENDING") {
-                break;
-            }
-        }
-    }
-    
-    if (isset($rows["TRANSFER_SUCCESSFUL"])) {
-        $r = $r = ispapi_call([
-            "COMMAND" => "StatusDomain",
-            "DOMAIN" => $domain->getDomain()
-        ], ispapi_config($params));
-
-        if ($r["CODE"]=="200") {
-            $r = $r["PROPERTY"];
-            $command = [
-                "COMMAND" => "ModifyDomain",
-                "DOMAIN" => $domain->getDomain()
-            ];
-            // TODO:---------- EXCEPTION [BEGIN] --------
-            // Missing/Empty contact handles after Transfer over THIN Registry [kschwarz]
-            // Ticket#: 485677 DeskPro
-            if (preg_match("/^(com|net|cc|tv)$/", $domain->getTLD())) {
-                $domain_data = (new \WHMCS\Domains())->getDomainsDatabyID($params["domainid"]);
-                $p = getClientsDetails($domain_data["userid"]);
-                $cmdparams = [
-                    "FIRSTNAME" => html_entity_decode($p["firstname"], ENT_QUOTES),
-                    "LASTNAME" => html_entity_decode($p["lastname"], ENT_QUOTES),
-                    "ORGANIZATION" => html_entity_decode($p["companyname"], ENT_QUOTES),
-                    "STREET" => html_entity_decode($p["address1"], ENT_QUOTES),
-                    "CITY" => html_entity_decode($p["city"], ENT_QUOTES),
-                    "STATE" => html_entity_decode($p["state"], ENT_QUOTES),
-                    "ZIP" => html_entity_decode($p["postcode"], ENT_QUOTES),
-                    "COUNTRY" => html_entity_decode($p["country"], ENT_QUOTES),
-                    "PHONE" => html_entity_decode($p["phonenumber"], ENT_QUOTES),
-                    //"FAX" => html_entity_decode($p["Fax"], ENT_QUOTES), n/a in whmcs
-                    "EMAIL" => html_entity_decode($p["email"], ENT_QUOTES),
-                ];
-                if (strlen($p["address2"])) {
-                    $cmdparams["STREET"] .= " , ".html_entity_decode($p["address2"], ENT_QUOTES);
-                }
-                if (!empty($r["OWNERCONTACT0"][0]) && preg_match("/^AUTO-.+$/", $r["OWNERCONTACT0"][0])) {
-                    $rc = ispapi_call([
-                        "COMMAND" => "StatusContact",
-                        "CONTACT" => $r["OWNERCONTACT0"][0]
-                    ], ispapi_config($params));
-                    if ($rc["CODE"] == 200) {
-                        if (empty($rc["PROPERTY"]["NAME"][0]) &&
-                            empty($rc["PROPERTY"]["EMAIL"][0]) &&
-                            //empty($rc["PROPERTY"]["ORGANIZATION"][0]) && // with data
-                            empty($rc["PROPERTY"]["PHONE"][0]) &&
-                            //empty($rc["PROPERTY"]["COUNTRY"][0]) && // with data
-                            empty($rc["PROPERTY"]["CITY"][0]) &&
-                            empty($rc["PROPERTY"]["STREET"][0]) &&
-                            empty($rc["PROPERTY"]["ZIP"][0])
-                        ) {
-                            $command["OWNERCONTACT0"] = $cmdparams;
-                        }
-                    }
-                }
-                $map = [
-                    "OWNERCONTACT0",
-                    "ADMINCONTACT0",
-                    "TECHCONTACT0",
-                    "BILLINGCONTACT0"
-                ];
-                foreach ($map as $ctype) {
-                    if (empty($r[$ctype][0])) {
-                        $command[$ctype] = $cmdparams;
-                    }
-                }
-            }
-            //--------------- EXCEPTION [END] -----------
-
-            //activate the whoistrustee if set to 1 in WHMCS
-            if (($params["idprotection"] == "1" || $params["idprotection"] == "on") &&
-                empty($r["X-ACCEPT-WHOISTRUSTEE-TAC"][0]) // doesn't exist, "" or 0
-            ) {
-                $command["X-ACCEPT-WHOISTRUSTEE-TAC"] = 1;
-            }
-            //check if domain update is necessary
-            if (count(array_keys($command))>2) {
-                ispapi_call($command, ispapi_config($params));
-            }
-
-            $date = ($r["FAILUREDATE"][0] > $r["PAIDUNTILDATE"][0]) ? $r["PAIDUNTILDATE"][0] : $r["ACCOUNTINGDATE"][0];
-            return [
-                'completed' => true,
-                'expirydate' => preg_replace('/ .*$/', '', $date)
-            ];
-        }
-        return [
-            'completed' => true
-        ];
-    }
-
-    if (isset($rows["TRANSFER_FAILED"])) {
-        $values = [
-            'failed' => true,
-            'reason' => "Transfer Failed"
-        ];
-        $rloglist = ispapi_call([
-            "COMMAND" => "QueryObjectLogList",
-            "OBJECTCLASS" => "DOMAIN",
-            "OBJECTID" => $domain,
-            "ORDERBY" => "LOGDATEDESC",
-            "LIMIT" => 1
-        ], ispapi_config($params));
-    
-        if (isset($rloglist["PROPERTY"]["LOGINDEX"])) {
-            $rloglist = $rloglist["PROPERTY"];
-            foreach ($rloglist["LOGINDEX"] as $index => $logindex) {
-                if (($rloglist["OPERATIONTYPE"][$index] == "INBOUND_TRANSFER") &&
-                    ($rloglist["OPERATIONSTATUS"][$index] == "FAILED")
-                ) {
-                    $rlog = ispapi_call([
-                        "COMMAND" => "StatusObjectLog",
-                        "LOGINDEX" => $logindex
-                    ], ispapi_config($params));
-                    if ($rlog["CODE"] == 200) {
-                        $values['reason'] .= "\n" . implode("\n", $rlog["PROPERTY"]["OPERATIONINFO"]);
-                    }
-                }
-            }
-        }
-        return $values;
-    }
-    
-    return [];
 }
 
 /**
