@@ -899,6 +899,36 @@ function ispapi_GetRegistrarLock($params)
 }
 
 /**
+ * Set Registrar/Domain/Transfer Lock status of a domain name
+ *
+ * @param array $params common module parameters
+ *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ *
+ * @return array
+ */
+function ispapi_SaveRegistrarLock($params)
+{
+    $params = injectDomainObjectIfNecessary($params);
+    /** @var \WHMCS\Domains\Domain $domain */
+    $domain = $params["domainObj"];
+
+    $r = ispapi_call([
+        "COMMAND" => "ModifyDomain",
+        "DOMAIN" => $domain->getDomain(),
+        "TRANSFERLOCK" => ($params["lockenabled"] == "locked")? "1" : "0"
+    ], ispapi_config($params));
+    if ($r["CODE"] != 200) {
+        return [
+            "error" => $r["DESCRIPTION"]
+        ];
+    }
+    return [
+        'success' => true
+    ];
+}
+
+/**
  * Get Premium Price for given domain,
  * @see call of this method in \WHMCS\DOMAINS\DOMAIN::getPremiumPricing
  * $pricing = $registrarModule->call("GetPremiumPrice", array(
@@ -1926,33 +1956,6 @@ function ispapi_whoisprivacy_ca($params)
             'legaltype' => $legaltype
         )
     );
-}
-
-/**
- * Modify and save Transferlock settings of a domain name
- *
- * @param array $params common module parameters
- *
- * @return array $values - returns an array with command response description
- */
-function ispapi_SaveRegistrarLock($params)
-{
-    $values = array();
-    if (isset($params["original"])) {
-        $params = $params["original"];
-    }
-    $domain = $params["sld"].".".$params["tld"];
-    $command = array(
-        "COMMAND" => "ModifyDomain",
-        "DOMAIN" => $domain,
-        "TRANSFERLOCK" => ($params["lockenabled"] == "locked")? "1" : "0"
-    );
-    $response = ispapi_call($command, ispapi_config($params));
-    if ($response["CODE"] != 200) {
-        $values["error"] = $response["DESCRIPTION"];
-    }
-    
-    return $values;
 }
 
 /**
