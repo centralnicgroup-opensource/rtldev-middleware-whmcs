@@ -42,7 +42,11 @@
     "registration",
     "application"
   ],
+  "dependencies": {
+    "npm": ">=6.13.4"
+  },
   "devDependencies": {
+    "npm": ">=6.13.4",
     "semantic-release": "^15.13.18",
     "@hexonet/semantic-release-github-whmcs-config": "^1.0.0"
   },
