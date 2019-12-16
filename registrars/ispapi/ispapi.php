@@ -330,6 +330,66 @@ function ispapi_TransferDomain($params)
     ];
 }
 
+/**
+ * Renew a domain name
+ *
+ * @param array $params common module parameters
+ *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ *
+ * @return array
+ */
+function ispapi_RenewDomain($params)
+{
+    $params = injectDomainObjectIfNecessary($params);
+    /** @var \WHMCS\Domains\Domain $domain */
+    $domain = $params["domainObj"];
+
+    $premiumDomainsEnabled = (bool) $params['premiumEnabled'];
+    $premiumDomainsCost = $params['premiumCost'];
+
+    $command = [
+        "COMMAND" => "RenewDomain",
+        "DOMAIN" => $domain->getDomain(),
+        "PERIOD" => $params["regperiod"]
+    ];
+    
+    // renew premium domain
+    // check if premium domain functionality is enabled by the admin
+    // check if the domain has a premium price
+    if ($premiumDomainsEnabled && !empty($premiumDomainsCost)) {
+        $r = ispapi_call([
+            "COMMAND" => "StatusDomain",
+            "DOMAIN" => $domain->getDomain(),
+            "PROPERTIES" => "PRICE"
+        ], ispapi_config($params));
+
+        if (
+            $r["CODE"] == 200 &&
+            !empty($r['PROPERTY']['SUBCLASS'][0]) &&
+            $premiumDomainsCost == $r['PROPERTY']['RENEWALPRICE'][0]
+        ) {
+            // renewal price in whmcs is equal to the real cost at the registar
+            $command["CLASS"] = $r['PROPERTY']['SUBCLASS'][0];
+        }
+    }
+
+    $r = ispapi_call($command, ispapi_config($params));
+
+    if ($r["CODE"] == 510) {//TODO can we detect this in advance to avoid unnecessary api calls?
+        $command["COMMAND"] = "PayDomainRenewal";
+        $r = ispapi_call($command, ispapi_config($params));
+    }
+
+    if ($r["CODE"] != 200) {
+        return [
+            "error" => $r["DESCRIPTION"]
+        ];
+    }
+    return [
+        "success" => true
+    ];
+}
 
 /**
  * Check the availability of domains using HEXONET's fast API
@@ -2601,62 +2661,6 @@ function ispapi_IDProtectToggle($params)
     if ($response["CODE"] != 200) {
         $values["error"] = $response["DESCRIPTION"];
     }
-    return $values;
-}
-
-/**
- * Renew a domain name
- *
- * @param array $params common module parameters
- *
- * @return array $values - an array with command response description
- */
-function ispapi_RenewDomain($params)
-{
-    $values = array();
-    if (isset($params["original"])) {
-        $params = $params["original"];
-    }
-    $domain = $params["sld"].".".$params["tld"];
-
-    $command = array(
-        "COMMAND" => "RenewDomain",
-        "DOMAIN" => $domain,
-        "PERIOD" => $params["regperiod"]
-    );
-
-    // renew premium domain
-    $premiumDomainsEnabled = (bool) $params['premiumEnabled'];
-    $premiumDomainsCost = $params['premiumCost'];
-
-    if ($premiumDomainsEnabled) { //check if premium domain functionality is enabled by the admin
-        if (!empty($premiumDomainsCost)) { //check if the domain has a premium price
-            $statusCommand = array(
-                "COMMAND" => "StatusDomain",
-                "DOMAIN" => $domain,
-                "PROPERTIES" => "PRICE"
-            );
-            $statusDomainResponse = ispapi_call($statusCommand, ispapi_config($params));
-    
-            if ($statusDomainResponse["CODE"] == 200 && !empty($statusDomainResponse['PROPERTY']['SUBCLASS'][0])) {
-                if ($premiumDomainsCost == $statusDomainResponse['PROPERTY']['RENEWALPRICE'][0]) { //check if the renewal price displayed to the customer is equal to the real cost at the registar
-                    $command["CLASS"] = $statusDomainResponse['PROPERTY']['SUBCLASS'][0];
-                }
-            }
-        }
-    }
-
-    $response = ispapi_call($command, ispapi_config($params));
-
-    if ($response["CODE"] == 510) {
-        $command["COMMAND"] = "PayDomainRenewal";
-        $response = ispapi_call($command, ispapi_config($params));
-    }
-
-    if ($response["CODE"] != 200) {
-        $values["error"] = $response["DESCRIPTION"];
-    }
-
     return $values;
 }
 
