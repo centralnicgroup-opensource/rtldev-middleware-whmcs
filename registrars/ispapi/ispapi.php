@@ -680,9 +680,12 @@ function ispapi_SaveContactDetails($params)
  * Check the availability of domains using HEXONET's fast API
  *
  * @param array $params common module parameters
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ *
+ * @see \WHMCS\Domains\DomainLookup\SearchResult
+ * @see \WHMCS\Domains\DomainLookup\ResultsList
  *
  * @return \WHMCS\Domains\DomainLookup\ResultsList An ArrayObject based collection of \WHMCS\Domains\DomainLookup\SearchResult results
- * @see https://confluence.hexonet.net/pages/viewpage.action?pageId=8589377 for diagram
  */
 function ispapi_CheckAvailability($params)
 {
@@ -779,6 +782,44 @@ function ispapi_CheckAvailability($params)
     return $results;
 }
 
+
+/**
+ * Domain Suggestion Settings.
+ *
+ * Defines the settings relating to domain suggestions (optional).
+ * It follows the same convention as `getConfigArray`.
+ *
+ * @see https://developers.whmcs.com/domain-registrars/availability-checks/
+ *
+ * @return array of Configuration Options
+ */
+function ispapi_DomainSuggestionOptions($params)
+{
+    if ($params['whmcsVersion'] < 7.6) {
+        $marginleft = 60;
+    } else {
+        $marginleft = 220;
+    }
+
+    return [
+        'information' => [
+            'FriendlyName' => '<b>Don\'t have a HEXONET Account yet?</b>',
+            'Description' => 'Get one here: <a target="_blank" href="https://www.hexonet.net/sign-up">https://www.hexonet.net/sign-up</a><br><br>
+                                <b>The HEXONET Lookup Provider provides the following features:</b>
+                                <ul style="text-align:left;margin-left:'.$marginleft.'px;margin-top:5px;">
+                                <li>High Performance availability checks</li>
+                                <li>Domain Name Suggestion Engine</li>
+                                <li>Aftermarket and Registry Premium Domains support</li>
+                                </ul>'
+        ],
+        'suggestions' => [
+            'FriendlyName' => '<b style="color:#FF6600;">Suggestion Engine based on search term:</b>',
+            'Type' => 'yesno',
+            'Description' => 'Tick to activate (recommended)',
+        ]
+    ];
+}
+
 /**
  * Provide domain suggestions based on the domain lookup term provided
  *
@@ -833,39 +874,6 @@ function ispapi_GetDomainSuggestions($params)
     return ispapi_CheckAvailability($params);
 }
 
-/**
- * Define the settings relating to domain suggestions
- *
- * @param array an array with different settings
- */
-function ispapi_DomainSuggestionOptions($params)
-{
-    if ($params['whmcsVersion'] < 7.6) {
-        $marginleft = '60px';
-    } else {
-        $marginleft = '220px';
-    }
-
-    return array(
-        'information' => array(
-            'FriendlyName' => '<b>Don\'t have a HEXONET Account yet?</b>',
-            'Description' => 'Get one here: <a target="_blank" href="https://www.hexonet.net/sign-up">https://www.hexonet.net/sign-up</a><br><br>
-			<b>The HEXONET Lookup Provider provides the following features:</b>
-			<ul style="text-align:left;margin-left:'.$marginleft.';margin-top:5px;">
-			<li>High Performance availability checks using our fast API</li>
-			<li>Suggestion Engine</li>
-			<li>Aftermarket and Registry Premium Domains support</li>
-			<li>Fallback to WHOIS Lookup for non-supported TLDs</li>
-			</ul>
-            ',
-        ),
-        'suggestions' => array(
-            'FriendlyName' => '<b style="color:#FF6600;">Suggestion Engine based on search term:</b>',
-            'Type' => 'yesno',
-            'Description' => 'Tick to activate (recommended)',
-        ),
-    );
-}
 /**
  * Get Premium Price for given domain,
  * @see call of this method in \WHMCS\DOMAINS\DOMAIN::getPremiumPricing
