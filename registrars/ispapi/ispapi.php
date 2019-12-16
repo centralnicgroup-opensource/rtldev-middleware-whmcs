@@ -1306,6 +1306,49 @@ function ispapi_GetEPPCode($params)
 }
 
 /**
+ * Release a Domain.
+ *
+ * Used to initiate a transfer out such as an IPSTAG change for .UK
+ * domain names.
+ *
+ * A domain name can be pushed to the registry or to another registrar.
+ * This feature currently works for .DE domains (DENIC Transit), .UK
+ * domains (.UK detagging), .VE domains, .IS domains and .AT domains
+ * (.AT Billwithdraw).
+ *
+ * @param array $params common module parameters
+ *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ * @see https://github.com/hexonet/hexonet-api-documentation/blob/master/API/DOMAIN/PUSHDOMAIN.md
+ *
+ * @return array
+ */
+function ispapi_ReleaseDomain($params)
+{
+    $params = injectDomainObjectIfNecessary($params);
+    /** @var \WHMCS\Domains\Domain $domain */
+    $domain = $params["domainObj"];
+
+    $cmd = [
+        "COMMAND" => "PushDomain",
+        "DOMAIN" => $domain
+    ];
+    if (!empty($params["transfertag"])) {//API DEFAULT -> "TRANSIT"
+        $cmd["TARGET"] = $params["transfertag"];
+    }
+    $r = ispapi_call($cmd, ispapi_config($params));
+
+    if ($r["CODE"] != 200) {
+        return [
+            "error" => $r["DESCRIPTION"]
+        ];
+    }
+    return [
+        "success" => true
+    ];
+}
+
+/**
  * Get Premium Price for given domain,
  * @see call of this method in \WHMCS\DOMAINS\DOMAIN::getPremiumPricing
  * $pricing = $registrarModule->call("GetPremiumPrice", array(
@@ -2721,40 +2764,6 @@ function ispapi_DeleteNameserver($params)
         "NAMESERVER" => $nameserver,
     );
     $response = ispapi_call($command, ispapi_config($params));
-    if ($response["CODE"] != 200) {
-        $values["error"] = $response["DESCRIPTION"];
-    }
-    return $values;
-}
-
-/**
- * Release a domain name
- * A domain name can be pushed to the registry or to another registrar.
- * This feature currently works for .DE domains (DENIC Transit), .UK domains (.UK detagging), .VE domains, .IS domains and .AT domains (.AT Billwithdraw).
- *
- * @param array $params common module parameters
- *
- * @return array $values - an array with command response description
- */
-function ispapi_ReleaseDomain($params)
-{
-    $values = array();
-    if (isset($params["original"])) {
-        $params = $params["original"];
-    }
-    $domain = $params["sld"].".".$params["tld"];
-    $target = $params["transfertag"];
-
-    $command = array(
-        "COMMAND" => "PushDomain",
-        "DOMAIN" => $domain
-    );
-    if (!empty($target)) {
-        $command["TARGET"] = $target;
-    }
-
-    $response = ispapi_call($command, ispapi_config($params));
-
     if ($response["CODE"] != 200) {
         $values["error"] = $response["DESCRIPTION"];
     }
