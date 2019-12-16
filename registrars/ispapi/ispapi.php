@@ -2121,26 +2121,20 @@ function ispapi_GetContactDetails($params)
  */
 function ispapi_SaveContactDetails($params)
 {
+    $params = injectDomainObjectIfNecessary($params);
+    $domain = $params["domainObj"]->getDomain();
+
     global $additionaldomainfields;
-
     $values = array();
-    $origparams = $params;
-    $params = ispapi_get_utf8_params($params);
 
-    if (isset($params["original"])) {
-        $params = $params["original"];
-    }
-
-    $domain = $params["sld"].".".$params["tld"];
-
-    $status_command = array(
+    $status_response = ispapi_call([
         "COMMAND" => "StatusDomain",
         "DOMAIN" => $domain
-    );
-    $status_response = ispapi_call($status_command, ispapi_config($origparams));
+    ], ispapi_config($params));
     if ($status_response["CODE"] != 200) {
-        $values["error"] = $status_response["DESCRIPTION"];
-        return $values;
+        return [
+            "error" => $status_response["DESCRIPTION"]
+        ];
     }
     $isAfectedByIRTP = ispapi_IsAfectedByIRTP($domain, $params);
 
@@ -2148,6 +2142,7 @@ function ispapi_SaveContactDetails($params)
     if (isset($params["contactdetails"]["Registrant"])) {
         $new_registrant = $params["contactdetails"]["Registrant"];
     }
+
     //the following conditions must be true to trigger registrant change request (IRTP)
     if (preg_match('/Designated Agent/', $params["IRTP"]) &&
         $isAfectedByIRTP && (
@@ -2170,11 +2165,10 @@ function ispapi_SaveContactDetails($params)
         ispapi_use_additionalfields($params, $command);
 
         //opt-out is not supported for AFNIC TLDs (eg: .FR)
-        $queryDomainOptions_command = array(
+        $queryDomainOptions_response = ispapi_call([
             "COMMAND" => "QueryDomainOptions",
             "DOMAIN0" => $domain
-        );
-        $queryDomainOptions_response = ispapi_call($queryDomainOptions_command, ispapi_config($origparams));
+        ], ispapi_config($params));
         //AFNIC TLDs => pm, tf, wf, yt, fr, re
         if (!preg_match("/AFNIC/i", $queryDomainOptions_response["PROPERTY"]["REPOSITORY"][0])) {
             if ($params["irtpOptOut"]) {
@@ -2238,11 +2232,12 @@ function ispapi_SaveContactDetails($params)
                 "COMMAND" => "StatusDomain",
                 "DOMAIN" => $domain
         );
-        $status_response = ispapi_call($status_command, ispapi_config($origparams));
+        $status_response = ispapi_call($status_command, ispapi_config($params));
 
         if ($status_response["CODE"] != 200) {
-            $values["error"] = $status_response["DESCRIPTION"];
-            return $values;
+            return [
+                "error" => $status_response["DESCRIPTION"]
+            ];
         }
 
         $registrant = ispapi_get_contact_info($status_response["PROPERTY"]["OWNERCONTACT"][0], $params);
@@ -2258,7 +2253,7 @@ function ispapi_SaveContactDetails($params)
             "COMMAND" => "StatusDomain",
             "DOMAIN" => $domain
         );
-        $status_response = ispapi_call($status_command, ispapi_config($origparams));
+        $status_response = ispapi_call($status_command, ispapi_config($params));
 
         if ($status_response["CODE"] != 200) {
             $values["error"] = $status_response["DESCRIPTION"];
@@ -2272,7 +2267,7 @@ function ispapi_SaveContactDetails($params)
             unset($registrant_command["FIRSTNAME"]);
             unset($registrant_command["LASTNAME"]);
             unset($registrant_command["ORGANIZATION"]);
-            $registrant_response = ispapi_call($registrant_command, ispapi_config($origparams));
+            $registrant_response = ispapi_call($registrant_command, ispapi_config($params));
 
             if ($registrant_response["CODE"] != 200) {
                 $values["error"] = $registrant_response["DESCRIPTION"];
@@ -2286,10 +2281,12 @@ function ispapi_SaveContactDetails($params)
         unset($command["X-CA-LEGALTYPE"]);
     }
 
-    $response = ispapi_call($command, ispapi_config($origparams));
+    $response = ispapi_call($command, ispapi_config($params));
     
     if ($response["CODE"] != 200) {
-        $values["error"] = $response["DESCRIPTION"];
+        return [
+            "error" => $response["DESCRIPTION"]
+        ];
     }
     return $values;
 }
@@ -2879,7 +2876,7 @@ function ispapi_TransferSync($params)
                 $p = getClientsDetails($domain_data["userid"]);
                 $cmdparams = [
                     "FIRSTNAME" => html_entity_decode($p["firstname"], ENT_QUOTES),
-                    "LASTNAME" => html_entity_decode($p["lastame"], ENT_QUOTES),
+                    "LASTNAME" => html_entity_decode($p["lastname"], ENT_QUOTES),
                     "ORGANIZATION" => html_entity_decode($p["companyname"], ENT_QUOTES),
                     "STREET" => html_entity_decode($p["address1"], ENT_QUOTES),
                     "CITY" => html_entity_decode($p["city"], ENT_QUOTES),
