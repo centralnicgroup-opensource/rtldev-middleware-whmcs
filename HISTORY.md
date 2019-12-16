@@ -1,3 +1,10 @@
+## [2.2.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.2.1...v2.2.2) (2019-12-16)
+
+
+### Bug Fixes
+
+* **savecontactdetails:** fixed data usage in case of contact dropdown list usage ([5a5f961](https://github.com/hexonet/whmcs-ispapi-registrar/commit/5a5f9618b23bab9da23a01418e74c6792f45cfe3))
+
 ## [2.2.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.2.0...v2.2.1) (2019-12-13)
 
 
