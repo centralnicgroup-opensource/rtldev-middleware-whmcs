@@ -692,24 +692,7 @@ function ispapi_CheckAvailability($params)
         $label = strtolower($params['searchTerm']);
     }
 
-    $tldslist = $params['tldsToInclude'];
-    $premiumEnabled = (bool) $params['premiumEnabled'];
-    $domainslist = array();
-    $results = new \WHMCS\Domains\DomainLookup\ResultsList();
-
-    foreach ($tldslist as $tld) {
-        if (!empty($tld[0])) {
-            if ($tld[0] != '.') {
-                $tld = ".".$tld;
-            }
-            $domain = $label.$tld;
-            if (!in_array($domain, $domainslist["all"])) {
-                $domainslist["all"][] = $domain;
-                $domainslist["list"][] = array("sld" => $label, "tld" => $tld);
-            }
-        }
-    }
-
+    $domainslist = ["all" => [], "list" => []];
     //ONLY FOR SUGGESTIONS
     if (isset($params["suggestions"]) && !empty($params["suggestions"])) {
         $domainslist["all"] = array();
@@ -721,19 +704,35 @@ function ispapi_CheckAvailability($params)
                 $domainslist["list"][] = array("sld" => $suggested_domain[0], "tld" => ".".$suggested_domain[1]);
             }
         }
+    } else {
+        $tldslist = $params['tldsToInclude'];
+        foreach ($tldslist as $tld) {
+            if (!empty($tld[0])) {
+                if ($tld[0] != '.') {
+                    $tld = ".".$tld;
+                }
+                $domain = $label.$tld;
+                if (!in_array($domain, $domainslist["all"])) {
+                    $domainslist["all"][] = $domain;
+                    $domainslist["list"][] = array("sld" => $label, "tld" => $tld);
+                }
+            }
+        }
     }
 
     //TODO: chunk this as
     // * only ~250 are allowed at once and
     // * requesting all at once is probably quite slower
-    $command = array(
+    $check = ispapi_call([
         "COMMAND" => "CheckDomains",
         "DOMAIN" => $domainslist["all"],
         "PREMIUMCHANNELS" => "*"
-    );
-    $check = ispapi_call($command, ispapi_config($params));
+    ], ispapi_config($params));
 
+    $results = new \WHMCS\Domains\DomainLookup\ResultsList();
     if ($check["CODE"] == 200) {
+        $premiumEnabled = (bool) $params['premiumEnabled'];
+
         //GET AN ARRAY OF ALL TLDS CONFIGURED WITH HEXONET
         $pdo = \WHMCS\Database\Capsule::connection()->getPdo();
         $stmt = $pdo->prepare("SELECT extension FROM tbldomainpricing WHERE autoreg REGEXP '^(ispapi|hexonet)$'");
@@ -744,7 +743,7 @@ function ispapi_CheckAvailability($params)
             $registerprice = $renewprice = $currency = $status = "";
             $sr = new \WHMCS\Domains\DomainLookup\SearchResult($domain['sld'], $domain['tld']);
             $sr->setStatus($sr::STATUS_REGISTERED);
-            if (preg_match('/549/', $check["PROPERTY"]["DOMAINCHECK"][$index])) {
+            if (preg_match('/^549 .+$/', $check["PROPERTY"]["DOMAINCHECK"][$index])) {
                 //TLD NOT SUPPORTED AT HEXONET USE A FALLBACK TO THE WHOIS LOOKUP.
                 $whois = localAPI("DomainWhois", array("domain" => $domain['sld'].$domain['tld']));
                 if ($whois["status"] == "available") {
@@ -772,12 +771,7 @@ function ispapi_CheckAvailability($params)
                 }
             }
 
-            if (isset($params["suggestions"])) {
-                //ONLY RETURNS AVAILABLE DOMAINS FOR SUGGESTIONS
-                if ($sr->getStatus() != $sr::STATUS_REGISTERED) {
-                    $results->append($sr);
-                }
-            } else {
+            if (!isset($params["suggestions"]) || $sr->getStatus() != $sr::STATUS_REGISTERED) {
                 $results->append($sr);
             }
         }
