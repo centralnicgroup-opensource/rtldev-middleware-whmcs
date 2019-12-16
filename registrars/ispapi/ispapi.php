@@ -1659,35 +1659,10 @@ function ispapi_TransferSync($params)
     }
 
     if (isset($rows["TRANSFER_FAILED"])) {
-        $values = [
+        return [
             'failed' => true,
-            'reason' => "Transfer Failed"
+            'reason' => "Transfer Failed" . ispapi_getInboundTransferLog($params, $domain_pc)
         ];
-        $rloglist = ispapi_call([
-            "COMMAND" => "QueryObjectLogList",
-            "OBJECTCLASS" => "DOMAIN",
-            "OBJECTID" => $domain,
-            "ORDERBY" => "LOGDATEDESC",
-            "LIMIT" => 1
-        ], ispapi_config($params));
-    
-        if (isset($rloglist["PROPERTY"]["LOGINDEX"])) {
-            $rloglist = $rloglist["PROPERTY"];
-            foreach ($rloglist["LOGINDEX"] as $index => $logindex) {
-                if (($rloglist["OPERATIONTYPE"][$index] == "INBOUND_TRANSFER") &&
-                    ($rloglist["OPERATIONSTATUS"][$index] == "FAILED")
-                ) {
-                    $rlog = ispapi_call([
-                        "COMMAND" => "StatusObjectLog",
-                        "LOGINDEX" => $logindex
-                    ], ispapi_config($params));
-                    if ($rlog["CODE"] == 200) {
-                        $values['reason'] .= "\n" . implode("\n", $rlog["PROPERTY"]["OPERATIONINFO"]);
-                    }
-                }
-            }
-        }
-        return $values;
     }
     
     return [];
@@ -3582,6 +3557,65 @@ function ispapi_needsTradeForRegistrantModification($domain, $params)
         "DOMAIN0" => $domain->getDomain()
     ], ispapi_config($params));
     return ($r["CODE"] == 200 && $r["PROPERTY"]["ZONEPOLICYREGISTRANTNAMECHANGEBY"][0] == "TRADE");
+}
+
+/**
+ * Get expirydate for WHMCS' Sync
+ * NOTE: check for API error before calling this method
+ *
+ * @param array $r API response of StatusDomain
+ *
+ * @return string
+ */
+function ispapi_getExpiryDate($r)
+{
+    $r = $r["PROPERTY"];
+    if (preg_match("/DELETE/i", $r["STATUS"][0])) {
+        $expirydate = preg_replace("/ .*$/", "", $r["EXPIRATIONDATE"][0]);
+    }
+    if ($r["FAILUREDATE"][0] > $r["PAIDUNTILDATE"][0]) {
+        $expirydate = preg_replace("/ .*$/", "", $r["PAIDUNTILDATE"][0]);
+    } else {
+        // https://github.com/hexonet/whmcs-ispapi-registrar/issues/82
+        $finalizationts = strtotime($r["FINALIZATIONDATE"][0]);
+        $paiduntilts = strtotime($r["PAIDUNTILDATE"][0]);
+        $expirationts = strtotime($r["EXPIRATIONDATE"][0]);
+        $expirydate = date("Y-m-d", $finalizationts + ($paiduntilts - $expirationts));
+    }
+    return $expirydate;
+}
+
+/**
+ * Request Transfer Log for given domain name
+ *
+ * @param string $domain Domain Name
+ */
+function ispapi_getInboundTransferLog($params, $domain_pc)
+{
+    $log = "";
+    $r = ispapi_call([
+        "COMMAND" => "QueryObjectLogList",
+        "OBJECTCLASS" => "DOMAIN",
+        "OBJECTID" => $domain_pc,
+        "ORDERBY" => "LOGDATEDESC",
+        "LIMIT" => 1
+    ], ispapi_config($params));
+    if ($r["CODE"] == 200 && isset($r["PROPERTY"]["LOGINDEX"])) {
+        foreach ($r["PROPERTY"]["LOGINDEX"] as $index => $logindex) {
+            if (($r["PROPERTY"]["OPERATIONTYPE"][$index] == "INBOUND_TRANSFER") &&
+                ($r["PROPERTY"]["OPERATIONSTATUS"][$index] == "FAILED")
+            ) {
+                $logr = ispapi_call([
+                    "COMMAND" => "StatusObjectLog",
+                    "LOGINDEX" => $logindex
+                ], ispapi_config($params));
+                if ($logr["CODE"] == 200) {
+                    $log .= "\n" . implode("\n", $logr["PROPERTY"]["OPERATIONINFO"]);
+                }
+            }
+        }
+    }
+    return $log;
 }
 
 ispapi_InitModule($module_version);
