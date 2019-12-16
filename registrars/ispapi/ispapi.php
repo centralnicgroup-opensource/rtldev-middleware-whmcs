@@ -1241,6 +1241,71 @@ function ispapi_IDProtectToggle($params)
 }
 
 /**
+ * Request EEP Code.
+ *
+ * Supports both displaying the EPP Code directly to a user or indicating
+ * that the EPP Code will be emailed to the registrant.
+ *
+ * @param array $params common module parameters
+ *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ *
+ * @return array
+ */
+function ispapi_GetEPPCode($params)
+{
+    $params = injectDomainObjectIfNecessary($params);
+    /** @var \WHMCS\Domains\Domain $domain */
+    $domain = $params["domainObj"];
+
+    // TODO: review for .IE, .NZ etc. - needs probably backend-side review 1st
+    $tld = $domain->getLastTLDSegment();
+    $target = "PROPERTY";
+    switch ($tld) {
+        case "de":
+            $r = ispapi_call([
+                "COMMAND" => "DENIC_CreateAuthInfo1",
+                "DOMAIN" => $domain->getDomain()
+            ], ispapi_config($params));
+            break;
+        case "be":
+            $target = "REGISTRANT";
+        case "eu":
+            $r = ispapi_call([
+                "COMMAND" => "RequestDomainAuthInfo",
+                "DOMAIN" => $domain->getDomain()
+            ], ispapi_config($params));
+            break;
+        default:
+            $r = ispapi_call([
+                "COMMAND" => "StatusDomain",
+                "DOMAIN" => $domain->getDomain()
+            ], ispapi_config($params));
+            break;
+    }
+
+    if ($r["CODE"] != 200) {
+        return [
+            "error" => $r["DESCRIPTION"]
+        ];
+    }
+    if ($target == "REGISTRANT") {
+        //email sent to registrant
+        //shows success message: `domaingeteppcodeemailconfirmation`
+        //see clientdomains.php RegGetEPPCode() Handling
+        return [];
+    }
+    if (!strlen($r["PROPERTY"]["AUTH"][0])) {
+        return [
+            "error" => "No AuthInfo code assigned to this domain!"
+        ];
+    }
+    return [
+        "eppcode" => $r["PROPERTY"]["AUTH"][0]
+    ];
+}
+
+/**
  * Get Premium Price for given domain,
  * @see call of this method in \WHMCS\DOMAINS\DOMAIN::getPremiumPricing
  * $pricing = $registrarModule->call("GetPremiumPrice", array(
