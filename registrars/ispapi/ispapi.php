@@ -1059,6 +1059,158 @@ function ispapi_GetDNS($params)
 }
 
 /**
+ * Update DNS Host Records.
+ *
+ * @param array $params common module parameters
+ *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ *
+ * @return array
+ */
+function ispapi_SaveDNS($params)
+{
+    $params = injectDomainObjectIfNecessary($params);
+    /** @var \WHMCS\Domains\Domain $domain */
+
+    $domain = $params["domainObj"]->getDomain();
+    $dnszone = $domain . ".";
+
+    $command = [
+        "COMMAND" => "UpdateDNSZone",
+        "DNSZONE" => $dnszone,
+        "RESOLVETTLCONFLICTS" => 1,
+        "INCSERIAL" => 1,
+        "EXTENDED" => 1,
+        "DELRR" => ["% A", "% AAAA", "% CNAME", "% TXT", "% MX", "% X-HTTP", "% X-SMTP", "% SRV"],
+        "ADDRR" => [],
+    ];
+
+    $mxe_hosts = [];
+    foreach ($params["dnsrecords"] as $key => $values) {
+        $hostname = $values["hostname"];
+        $type = strtoupper($values["type"]);
+        $address = $values["address"];
+        $priority = $values["priority"];
+
+        if (strlen($hostname) && strlen($address)) {
+            if (preg_match("/^(A|AAAA|CNAME|TXT)$/", $type)) {
+                $command["ADDRR"][] = "$hostname $type $address";
+            } elseif ($type == "SRV") {
+                if (empty($priority)) {
+                    $priority=0;
+                }
+                array_push($command["DELRR"], "% SRV");
+                $command["ADDRR"][] = "$hostname $type $priority $address";
+            } elseif ($type == "MXE") {
+                $mxpref = 100;
+                if (preg_match('/^([0-9]+) (.*)$/', $address, $m)) {
+                    $mxpref = $m[1];
+                    $address = $m[2];
+                }
+                if (preg_match('/^([0-9]+)$/', $priority)) {
+                    $mxpref = $priority;
+                }
+                if (preg_match('/^(\d+)\.(\d+)\.(\d+)\.(\d+)$/', $address, $m)) {
+                    $mxe_host = "mxe-host-for-ip-$m[1]-$m[2]-$m[3]-$m[4]";
+                    $ip = $m[1].".".$m[2].".".$m[3].".".$m[4];
+                    $mxe_hosts[$ip] = $mxe_host;
+                    $command["ADDRR"][] = "$hostname MX $mxpref $mxe_host";
+                } else {
+                    // CHANGE RRTYPE TO MX
+                    $address = "$mxpref $address";
+                    $type = "MX";
+                }
+            } elseif ($type == "FRAME") {
+                $redirect = "FRAME";
+                if (preg_match('/^([^\/]+)(.*)$/', $hostname, $m)) {
+                    $hostname = $m[1];
+                    $redirect = $m[2]." ".$redirect;
+                }
+                $command["ADDRR"][] = "$hostname X-HTTP $redirect $address";
+            } elseif ($type == "URL") {
+                $redirect = "REDIRECT";
+                if (preg_match('/^([^\/]+)(.*)$/', $hostname, $m)) {
+                    $hostname = $m[1];
+                    $redirect = $m[2]." ".$redirect;
+                }
+                $command["ADDRR"][] = "$hostname X-HTTP $redirect $address";
+            }
+            // DO NOT PUT ELSEIF HERE (see MXE block)
+            if ($type == "MX") {
+                $mxpref = 100;
+                if (preg_match('/^([0-9]+) (.*)$/', $address, $m)) {
+                    $mxpref = $m[1];
+                    $address = $m[2];
+                }
+                if (preg_match('/^([0-9]+)$/', $priority)) {
+                    $mxpref = $priority;
+                }
+
+                $command["ADDRR"][] = "$hostname $type $mxpref $address";
+            }
+        }
+    }
+    foreach ($mxe_hosts as $address => $hostname) {
+        $command["ADDRR"][] = "$hostname A $address";
+    }
+
+    //add X-SMTP to the list
+    $r = ispapi_call([
+        "COMMAND" => "QueryDNSZoneRRList",
+        "DNSZONE" => $dnszone,
+        "EXTENDED" => 1
+    ], ispapi_config($params));
+
+    if ($r["CODE"] == 200) {
+        foreach ($r["PROPERTY"]["RR"] as $rr) {
+            $fields = explode(" ", $rr);
+            array_shift($fields);
+            array_shift($fields);
+            array_shift($fields);
+            $rrtype = array_shift($fields);
+
+            if ($rrtype == "X-SMTP") {
+                $command["ADDRR"][] = $rr;
+
+                $item = preg_grep("/@ MX [0-9 ]* mx.ispapi.net./i", $command["ADDRR"]);
+                if (!empty($item)) {
+                    $index_arr = array_keys($item);
+                    $index = $index_arr[0];
+                    unset($command["ADDRR"][$index]);
+                    $command["ADDRR"] = array_values($command["ADDRR"]);
+                }
+            }
+        }
+    }
+
+    //send command to update DNS Zone
+    $r = ispapi_call($command, ispapi_config($params));
+
+    //if DNS Zone not existing, create one automatically
+    //TODO: precheck if a dnszone exists in advance
+    //545 - OBJECT NOT FOUND
+    if ($r["CODE"] == 545) {
+        $cr = ispapi_call([
+            "COMMAND" => "ModifyDomain",
+            "DOMAIN" => $domain,
+            "INTERNALDNS" => 1
+        ], ispapi_config($params));
+        if ($cr["CODE"] == 200) {
+            //resend command to update DNS Zone
+            $r = ispapi_call($command, ispapi_config($params));
+        }
+    }
+    if ($r["CODE"] != 200) {
+        return [
+            "error" => $response["DESCRIPTION"]
+        ];
+    }
+    return [
+        "success" => true
+    ];
+}
+
+/**
  * Get Premium Price for given domain,
  * @see call of this method in \WHMCS\DOMAINS\DOMAIN::getPremiumPricing
  * $pricing = $registrarModule->call("GetPremiumPrice", array(
@@ -2277,166 +2429,6 @@ function ispapi_GetEPPCode($params)
             $values["error"] = "No AuthInfo code assigned to this domain!";
         }
     } else {
-        $values["error"] = $response["DESCRIPTION"];
-    }
-    return $values;
-}
-
-/**
- * Modify and save DNS Zone of a domain name
- *
- * @param array $params common module parameters
- *
- * @return array $hostrecords - an array with hostrecord of the domain name
- */
-function ispapi_SaveDNS($params)
-{
-    $values = array();
-    if (isset($params["original"])) {
-        $params = $params["original"];
-    }
-    $dnszone = $params["sld"].".".$params["tld"].".";
-    $domain = $params["sld"].".".$params["tld"];
-
-    $command = array(
-        "COMMAND" => "UpdateDNSZone",
-        "DNSZONE" => $dnszone,
-        "RESOLVETTLCONFLICTS" => 1,
-        "INCSERIAL" => 1,
-        "EXTENDED" => 1,
-        "DELRR" => array("% A", "% AAAA", "% CNAME", "% TXT", "% MX", "% X-HTTP", "% X-SMTP", "% SRV"),
-        "ADDRR" => array(),
-    );
-
-    $mxe_hosts = array();
-    foreach ($params["dnsrecords"] as $key => $values) {
-        $hostname = $values["hostname"];
-        $type = strtoupper($values["type"]);
-        $address = $values["address"];
-        $priority = $values["priority"];
-
-        if (strlen($hostname) && strlen($address)) {
-            if ($type == "A") {
-                $command["ADDRR"][] = "$hostname $type $address";
-            }
-            if ($type == "AAAA") {
-                $command["ADDRR"][] = "$hostname $type $address";
-            }
-            if ($type == "CNAME") {
-                $command["ADDRR"][] = "$hostname $type $address";
-            }
-            if ($type == "TXT") {
-                $command["ADDRR"][] = "$hostname $type $address";
-            }
-            if ($type == "SRV") {
-                if (empty($priority)) {
-                    $priority=0;
-                }
-                array_push($command["DELRR"], "% SRV");
-                $command["ADDRR"][] = "$hostname $type $priority $address";
-            }
-            if ($type == "MXE") {
-                $mxpref = 100;
-                if (preg_match('/^([0-9]+) (.*)$/', $address, $m)) {
-                    $mxpref = $m[1];
-                    $address = $m[2];
-                }
-                if (preg_match('/^([0-9]+)$/', $priority)) {
-                    $mxpref = $priority;
-                }
-
-                if (preg_match('/^(\d+)\.(\d+)\.(\d+)\.(\d+)$/', $address, $m)) {
-                    $mxe_host = "mxe-host-for-ip-$m[1]-$m[2]-$m[3]-$m[4]";
-                    $ip = $m[1].".".$m[2].".".$m[3].".".$m[4];
-                    $mxe_hosts[$ip] = $mxe_host;
-                    $command["ADDRR"][] = "$hostname MX $mxpref $mxe_host";
-                } else {
-                    $address = "$mxpref $address";
-                    $type = "MX";
-                }
-            }
-            if ($type == "MX") {
-                $mxpref = 100;
-                if (preg_match('/^([0-9]+) (.*)$/', $address, $m)) {
-                    $mxpref = $m[1];
-                    $address = $m[2];
-                }
-                if (preg_match('/^([0-9]+)$/', $priority)) {
-                    $mxpref = $priority;
-                }
-
-                $command["ADDRR"][] = "$hostname $type $mxpref $address";
-            }
-            if ($type == "FRAME") {
-                $redirect = "FRAME";
-                if (preg_match('/^([^\/]+)(.*)$/', $hostname, $m)) {
-                    $hostname = $m[1];
-                    $redirect = $m[2]." ".$redirect;
-                }
-                $command["ADDRR"][] = "$hostname X-HTTP $redirect $address";
-            }
-            if ($type == "URL") {
-                $redirect = "REDIRECT";
-                if (preg_match('/^([^\/]+)(.*)$/', $hostname, $m)) {
-                    $hostname = $m[1];
-                    $redirect = $m[2]." ".$redirect;
-                }
-                $command["ADDRR"][] = "$hostname X-HTTP $redirect $address";
-            }
-        }
-    }
-    foreach ($mxe_hosts as $address => $hostname) {
-        $command["ADDRR"][] = "$hostname A $address";
-    }
-
-    //add X-SMTP to the list
-    $command2 = array(
-            "COMMAND" => "QueryDNSZoneRRList",
-            "DNSZONE" => $dnszone,
-            "EXTENDED" => 1
-    );
-    $response = ispapi_call($command2, ispapi_config($params));
-
-    if ($response["CODE"] == 200) {
-        foreach ($response["PROPERTY"]["RR"] as $rr) {
-            $fields = explode(" ", $rr);
-            $domain = array_shift($fields);
-            $ttl = array_shift($fields);
-            $class = array_shift($fields);
-            $rrtype = array_shift($fields);
-
-            if ($rrtype == "X-SMTP") {
-                $command["ADDRR"][] = $rr;
-
-                $item = preg_grep("/@ MX [0-9 ]* mx.ispapi.net./i", $command["ADDRR"]);
-                if (!empty($item)) {
-                    $index_arr = array_keys($item);
-                    $index = $index_arr[0];
-                    unset($command["ADDRR"][$index]);
-                    $command["ADDRR"] = array_values($command["ADDRR"]);
-                }
-            }
-        }
-    }
-
-    //send command to update DNS Zone
-    $response = ispapi_call($command, ispapi_config($params));
-
-    //if DNS Zone not existing, create one automatically
-    if ($response["CODE"] == 545) {
-        $creatednszone_command = array(
-            "COMMAND" => "ModifyDomain",
-            "DOMAIN" => $domain,
-            "INTERNALDNS" => 1
-        );
-        $creatednszone = ispapi_call($creatednszone_command, ispapi_config($params));
-        if ($creatednszone["CODE"] == 200) {
-            //resend command to update DNS Zone
-            $response = ispapi_call($command, ispapi_config($params));
-        }
-    }
-
-    if ($response["CODE"] != 200) {
         $values["error"] = $response["DESCRIPTION"];
     }
     return $values;
