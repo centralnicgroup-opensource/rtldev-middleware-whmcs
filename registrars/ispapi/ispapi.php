@@ -1379,6 +1379,35 @@ function ispapi_RequestDelete($params)
 }
 
 /**
+ * Register a Nameserver (Add a new Private NS => GLUE RECORD)
+ * A glue record is simply the association of a hostname (ns) with an
+ * IP address at the registry
+ *
+ * @param array $params common module parameters
+ *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ *
+ * @return array
+ */
+function ispapi_RegisterNameserver($params)
+{
+    $r = ispapi_call([
+        "COMMAND" => "AddNameserver",
+        "NAMESERVER" => $params["nameserver"],
+        "IPADDRESS0" => $params["ipaddress"]
+    ], ispapi_config($params));
+
+    if ($r["CODE"] != 200) {
+        return [
+            "error" => $r["DESCRIPTION"]
+        ];
+    }
+    return [
+        "success" => true
+    ];
+}
+
+/**
  * Get Premium Price for given domain,
  * @see call of this method in \WHMCS\DOMAINS\DOMAIN::getPremiumPricing
  * $pricing = $registrarModule->call("GetPremiumPrice", array(
@@ -2712,34 +2741,6 @@ function ispapi_SaveEmailForwarding($params)
 
     $response = ispapi_call($command, ispapi_config($params));
 
-    if ($response["CODE"] != 200) {
-        $values["error"] = $response["DESCRIPTION"];
-    }
-    return $values;
-}
-
-/**
- * Add a new Private Nameserver (=GLUE RECORD)
- * A glue record is simply the association of a hostname (nameserver in our case) with an IP address at the registry
- *
- * @param array $params common module parameters
- *
- * @return array $values - an array with command response description
- */
-function ispapi_RegisterNameserver($params)
-{
-    $values = array();
-    if (isset($params["original"])) {
-        $params = $params["original"];
-    }
-    $nameserver = $params["nameserver"];
-
-    $command = array(
-        "COMMAND" => "AddNameserver",
-        "NAMESERVER" => $nameserver,
-        "IPADDRESS0" => $params["ipaddress"],
-    );
-    $response = ispapi_call($command, ispapi_config($params));
     if ($response["CODE"] != 200) {
         $values["error"] = $response["DESCRIPTION"];
     }
