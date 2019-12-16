@@ -821,55 +821,48 @@ function ispapi_DomainSuggestionOptions($params)
 }
 
 /**
- * Provide domain suggestions based on the domain lookup term provided
+ * Get Domain Suggestions.
+ *
+ * Provide domain suggestions based on the domain lookup term provided.
  *
  * @param array $params common module parameters
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ *
+ * @see \WHMCS\Domains\DomainLookup\SearchResult
+ * @see \WHMCS\Domains\DomainLookup\ResultsList
  *
  * @return \WHMCS\Domains\DomainLookup\ResultsList An ArrayObject based collection of \WHMCS\Domains\DomainLookup\SearchResult results
  */
 function ispapi_GetDomainSuggestions($params)
 {
-    //GET THE TLD OF THE SEARCHED VALUE
-    if (isset($_REQUEST["domain"]) && preg_match('/\./', $_REQUEST["domain"])) {
-        $search = preg_split("/\./", $_REQUEST["domain"], 2);
-        $searched_zone = $search[1];
-    }
-
     //RETURN EMPTY ResultsList OBJECT WHEN SUGGESTIONS ARE DEACTIVATED
     if (empty($params['suggestionSettings']['suggestions'])) {
         return new \WHMCS\Domains\DomainLookup\ResultsList();
     }
 
     if ($params['isIdnDomain']) {
-           $label = empty($params['punyCodeSearchTerm']) ? strtolower($params['searchTerm']) : strtolower($params['punyCodeSearchTerm']);
+        $label = strtolower(empty($params['punyCodeSearchTerm']) ? $params['searchTerm'] : $params['punyCodeSearchTerm']);
     } else {
-           $label = strtolower($params['searchTerm']);
+        $label = strtolower($params['searchTerm']);
     }
+
     $tldslist = $params['tldsToInclude'];
-    $zones = array();
+    $zones = [];
     foreach ($tldslist as $tld) {
-        #IGNORE 3RD LEVEL TLDS - NOT FULLY SUPPORTED BY QueryDomainSuggestionList
+        #IGNORE 3RD LEVEL TLDS - FTASKS-2876
         if (!preg_match("/\./", $tld)) {
-            $zones[] = $tld;
+            $zones[] = strtoupper($tld);
         }
     }
 
-    //IF SEARCHED VALUE CONTAINS TLD THEN ONLY DISPLAY SUGGESTIONS WITH THIS TLD
-    //$zones_for_suggestions = isset($searched_zone) ? array($searched_zone) : $zones;
+    $r = ispapi_call([
+        "COMMAND" => "QueryDomainSuggestionList",
+        "KEYWORD" => $label,
+        "ZONE" => $zones,
+        "SOURCE" => "ISPAPI-SUGGESTIONS",
+    ], ispapi_config($params));
 
-    $command = array(
-            "COMMAND" => "QueryDomainSuggestionList",
-            "KEYWORD" => $label,
-            "ZONE" => $zones,
-            "SOURCE" => "ISPAPI-SUGGESTIONS",
-    );
-    $suggestions = ispapi_call($command, ispapi_config($params));
-
-    $domains = array();
-    if ($suggestions["CODE"] == 200) {
-        $domains = $suggestions["PROPERTY"]["DOMAIN"];
-    }
-    $params["suggestions"] = $domains;
+    $params["suggestions"] = ($r["CODE"] == 200) ? $r["PROPERTY"]["DOMAIN"] : [];
 
     return ispapi_CheckAvailability($params);
 }
