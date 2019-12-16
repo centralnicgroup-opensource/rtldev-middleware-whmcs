@@ -364,8 +364,7 @@ function ispapi_RenewDomain($params)
             "PROPERTIES" => "PRICE"
         ], ispapi_config($params));
 
-        if (
-            $r["CODE"] == 200 &&
+        if ($r["CODE"] == 200 &&
             !empty($r['PROPERTY']['SUBCLASS'][0]) &&
             $premiumDomainsCost == $r['PROPERTY']['RENEWALPRICE'][0]
         ) {
@@ -385,6 +384,78 @@ function ispapi_RenewDomain($params)
         return [
             "error" => $r["DESCRIPTION"]
         ];
+    }
+    return [
+        "success" => true
+    ];
+}
+
+/**
+ * Return Nameservers of a domain name
+ *
+ * @param array $params common module parameters
+ *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ *
+ * @return array
+ */
+function ispapi_GetNameservers($params)
+{
+    $params = injectDomainObjectIfNecessary($params);
+    /** @var \WHMCS\Domains\Domain $domain */
+    $domain = $params["domainObj"];
+
+    $r = ispapi_call([
+        "COMMAND" => "StatusDomain",
+        "DOMAIN" =>  $domain->getDomain()
+    ], ispapi_config($params));
+    if ($r["CODE"] != 200) {
+        return [
+            "error" => $r["DESCRIPTION"]
+        ];
+    }
+    $values = [];
+    foreach ($r["PROPERTY"]["NAMESERVER"] as $idx => $val) {
+        $values["ns1".($idx+1)] = $val;
+    }
+    return $values;
+}
+
+
+/**
+ * Modify and save Nameservers of a domain name
+ *
+ * @param array $params common module parameters
+ *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ *
+ * @return array
+ */
+function ispapi_SaveNameservers($params)
+{
+    $params = injectDomainObjectIfNecessary($params);
+    /** @var \WHMCS\Domains\Domain $domain */
+    $domain = $params["domainObj"];
+
+    $r = ispapi_call([
+        "COMMAND" => "ModifyDomain",
+        "DOMAIN" => $domain->getDomain(),
+        "NAMESERVER" => [
+            $params["ns1"],
+            $params["ns2"],
+            $params["ns3"],
+            $params["ns4"],
+            $params["ns5"]
+        ],
+        "INTERNALDNS" => 1
+    ], ispapi_config($params));
+
+    if ($r["CODE"] != 200) {
+        $values = ["error" => $r["DESCRIPTION"]];
+        if ($r["CODE"] == 504 && preg_match("/TOO FEW.+CONTACTS/", $values["error"])) {
+            $values["error"] = "Please update contact data first to be able to update nameserver data.";
+        }
+        return $values;
     }
     return [
         "success" => true
@@ -1872,70 +1943,6 @@ function ispapi_GetEPPCode($params)
         }
     } else {
         $values["error"] = $response["DESCRIPTION"];
-    }
-    return $values;
-}
-
-/**
- * Return Nameservers of a domain name
- *
- * @param array $params common module parameters
- *
- * @return array $values an array with the Nameservers
- */
-function ispapi_GetNameservers($params)
-{
-    $values = array();
-    if (isset($params["original"])) {
-        $params = $params["original"];
-    }
-    $domain = $params["sld"].".".$params["tld"];
-
-    $command = array(
-        "COMMAND" => "StatusDomain",
-        "DOMAIN" => $domain
-    );
-    $response = ispapi_call($command, ispapi_config($params));
-    if ($response["CODE"] == 200) {
-        //no findings for htmlspecialchars in other registrar modules, looks like this got fixed
-        $values["ns1"] = $response["PROPERTY"]["NAMESERVER"][0];
-        $values["ns2"] = $response["PROPERTY"]["NAMESERVER"][1];
-        $values["ns3"] = $response["PROPERTY"]["NAMESERVER"][2];
-        $values["ns4"] = $response["PROPERTY"]["NAMESERVER"][3];
-        $values["ns5"] = $response["PROPERTY"]["NAMESERVER"][4];
-    } else {
-        $values["error"] = $response["DESCRIPTION"];
-    }
-    return $values;
-}
-
-/**
- * Modify and save Nameservers of a domain name
- *
- * @param array $params common module parameters
- *
- * @return array $values - returns an array with command response description
- */
-function ispapi_SaveNameservers($params)
-{
-    $values = array();
-    if (isset($params["original"])) {
-        $params = $params["original"];
-    }
-    $domain = $params["sld"].".".$params["tld"];
-
-    $command = array(
-        "COMMAND" => "ModifyDomain",
-        "DOMAIN" => $domain,
-        "NAMESERVER" => array($params["ns1"], $params["ns2"], $params["ns3"], $params["ns4"], $params["ns5"]),
-        "INTERNALDNS" => 1
-    );
-    $response = ispapi_call($command, ispapi_config($params));
-    if ($response["CODE"] != 200) {
-        $values["error"] = $response["DESCRIPTION"];
-        if ($response["CODE"] == 504 && preg_match("/TOO FEW.+CONTACTS/", $values["error"])) {
-            $values["error"] = "Please update contact data first to be able to update nameserver data.";
-        }
     }
     return $values;
 }
