@@ -1436,6 +1436,85 @@ function ispapi_ModifyNameserver($params)
 }
 
 /**
+ * Delete a Private Nameserver.
+ *
+ * @param array $params common module parameters
+ *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ *
+ * @return array
+ */
+function ispapi_DeleteNameserver($params)
+{
+    $r = ispapi_call([
+        "COMMAND" => "DeleteNameserver",
+        "NAMESERVER" => $params["nameserver"]
+    ], ispapi_config($params));
+    
+    if ($r["CODE"] != 200) {
+        return [
+            "error" => $r["DESCRIPTION"]
+        ];
+    }
+    return [
+        "success" => true
+    ];
+}
+
+/**
+ * Sync Domain Status & Expiration Date
+ *
+ * Domain syncing is intended to ensure domain status and expiry date
+ * changes made directly at the domain registrar are synced to WHMCS.
+ * It is called periodically for a domain.
+ *
+ * @param array $params common module parameters
+ *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ *
+ * @return array
+ */
+function ispapi_Sync($params)
+{
+    $params = injectDomainObjectIfNecessary($params);
+    /** @var \WHMCS\Domains\Domain $domain */
+    $domain = $params["domainObj"];
+
+    $r = ispapi_call([
+        "COMMAND" => "StatusDomain",
+        "DOMAIN" => $domain->getDomain()
+    ], ispapi_config($params));
+
+    if (in_array($r["CODE"], [531, 545])) {
+        return [
+            "transferredAway" => true
+        ];
+    }
+    if ($r["CODE"] != 200) {
+        return [
+            "error" => $r["DESCRIPTION"]
+        ];
+    }
+
+    //-- sync domain additional field values
+    $domain_data = (new WHMCS\Domains())->getDomainsDatabyID((int) $params["domainid"]);
+    $addflds = new \ISPAPI\AdditionalFields();
+    $addflds->setDomain($domain_data["domain"])
+            ->setDomainType($domain_data["type"]);
+    $addflds->setFieldValuesFromAPI($r);
+    $addflds->saveToDatabase();
+    //-- done sync domain additional field values
+
+    return [
+        "active" => preg_match("/ACTIVE/i", $r["PROPERTY"]["STATUS"][0]),
+        "expirydate" => ispapi_getExpiryDate($r),
+        // domain expired (if EXPIRATIONDATE is in the past)
+        // TODO: shouldn't we use the expirydate logic for the below too?
+        'expired' => gmmktime() > strtotime($r["PROPERTY"]["EXPIRATIONDATE"][0])
+    ];
+}
+
+/**
  * Get Premium Price for given domain,
  * @see call of this method in \WHMCS\DOMAINS\DOMAIN::getPremiumPricing
  * $pricing = $registrarModule->call("GetPremiumPrice", array(
@@ -2776,32 +2855,6 @@ function ispapi_SaveEmailForwarding($params)
 }
 
 /**
- * Delete a Private Nameserver
- *
- * @param array $params common module parameters
- *
- * @return array $values - an array with command response description
- */
-function ispapi_DeleteNameserver($params)
-{
-    $values = array();
-    if (isset($params["original"])) {
-        $params = $params["original"];
-    }
-    $nameserver = $params["nameserver"];
-
-    $command = array(
-        "COMMAND" => "DeleteNameserver",
-        "NAMESERVER" => $nameserver,
-    );
-    $response = ispapi_call($command, ispapi_config($params));
-    if ($response["CODE"] != 200) {
-        $values["error"] = $response["DESCRIPTION"];
-    }
-    return $values;
-}
-
-/**
  * Incoming Domain Transfer Sync.
  *
  * Check status of incoming domain transfers and notify end-user upon
@@ -2964,65 +3017,6 @@ function ispapi_TransferSync($params)
     }
     
     return [];
-}
-
-/**
- * Sync Domain Status & Expiration Date
- *
- * Domain syncing is intended to ensure domain status and expiry date
- * changes made directly at the domain registrar are synced to WHMCS.
- * It is called periodically for a domain.
- *
- * @param array $params common module parameters
- *
- * @see https://developers.whmcs.com/domain-registrars/module-parameters/
- *
- * @return array
- */
-function ispapi_Sync($params)
-{
-    $values = array();
-    $domain = $params["sld"].".".$params["tld"];
-
-    $command = array(
-        "COMMAND" => "StatusDomain",
-        "DOMAIN" => $domain
-    );
-    $response = ispapi_call($command, ispapi_config($params));
-    if ($response["CODE"] == 200) {
-        $response = $response["PROPERTY"];
-
-        $expirationdate = $response["EXPIRATIONDATE"][0];
-        $expirationts = strtotime($expirationdate);
-        $finalizationdate = $response["FINALIZATIONDATE"][0];
-        $paiduntildate = $response["PAIDUNTILDATE"][0];
-        $accountingdate = $response["ACCOUNTINGDATE"][0];
-        $failuredate = $response["FAILUREDATE"][0];
-        $status = $response["STATUS"][0];
-
-        if (preg_match('/ACTIVE/i', $status)) {
-            $values["active"] = true;
-        } elseif (preg_match('/DELETE/i', $status)) {
-            $values['expirydate'] = preg_replace('/ .*/$', '', $expirationdate);
-        }
-
-        if ($failuredate > $paiduntildate) {
-            $values['expirydate'] = preg_replace('/ .*$/', '', $paiduntildate);
-        } else {
-            // https://github.com/hexonet/whmcs-ispapi-registrar/issues/82
-            $finalizationts = strtotime($finalizationdate);
-            $paiduntilts = strtotime($paiduntildate);
-            $values['expirydate'] = date("Y-m-d", $finalizationts + ($paiduntilts - $expirationts));
-        }
-
-        // return if domain expired (if EXPIRATIONDATE is in the past)
-        $values['expired'] = gmmktime() > $expirationts;
-    } elseif ($response["CODE"] == 531 || $response["CODE"] == 545) {
-        $values['transferredAway'] = true;
-    } else {
-        $values["error"] = $response["DESCRIPTION"];
-    }
-    return $values;
 }
 
 /**
