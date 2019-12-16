@@ -1408,6 +1408,34 @@ function ispapi_RegisterNameserver($params)
 }
 
 /**
+ * Modify a Private Nameserver. (GLUE RECORD)
+ *
+ * @param array $params common module parameters
+ *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ *
+ * @return array
+ */
+function ispapi_ModifyNameserver($params)
+{
+    $r = ispapi_call([
+        "COMMAND" => "ModifyNameserver",
+        "NAMESERVER" => $params["nameserver"],
+        "DELIPADDRESS0" => $params["currentipaddress"],
+        "ADDIPADDRESS0" => $params["newipaddress"],
+    ], ispapi_config($params));
+
+    if ($r["CODE"] != 200) {
+        return [
+            "error" => $r["DESCRIPTION"]
+        ];
+    }
+    return [
+        "success" => true
+    ];
+}
+
+/**
  * Get Premium Price for given domain,
  * @see call of this method in \WHMCS\DOMAINS\DOMAIN::getPremiumPricing
  * $pricing = $registrarModule->call("GetPremiumPrice", array(
@@ -2741,34 +2769,6 @@ function ispapi_SaveEmailForwarding($params)
 
     $response = ispapi_call($command, ispapi_config($params));
 
-    if ($response["CODE"] != 200) {
-        $values["error"] = $response["DESCRIPTION"];
-    }
-    return $values;
-}
-
-/**
- * Modify a Private Nameserver
- *
- * @param array $params common module parameters
- *
- * @return array $values - an array with command response description
- */
-function ispapi_ModifyNameserver($params)
-{
-    $values = array();
-    if (isset($params["original"])) {
-        $params = $params["original"];
-    }
-    $nameserver = $params["nameserver"];
-
-    $command = array(
-        "COMMAND" => "ModifyNameserver",
-        "NAMESERVER" => $nameserver,
-        "DELIPADDRESS0" => $params["currentipaddress"],
-        "ADDIPADDRESS0" => $params["newipaddress"],
-    );
-    $response = ispapi_call($command, ispapi_config($params));
     if ($response["CODE"] != 200) {
         $values["error"] = $response["DESCRIPTION"];
     }
