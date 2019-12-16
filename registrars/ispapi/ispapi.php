@@ -868,6 +868,37 @@ function ispapi_GetDomainSuggestions($params)
 }
 
 /**
+ * Get Registrar/Domain/Transfer Lock status of a domain name
+ *
+ * @param array $params common module parameters
+ *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ *
+ * @return string|array Lock status or error message
+ */
+function ispapi_GetRegistrarLock($params)
+{
+    $params = injectDomainObjectIfNecessary($params);
+    /** @var \WHMCS\Domains\Domain $domain */
+    $domain = $params["domainObj"];
+
+    $r = ispapi_call([
+        "COMMAND" => "StatusDomain",
+        "DOMAIN" => $domain->getDomain()
+    ], ispapi_config($params));
+
+    if ($r["CODE"] != 200) {
+        return [
+            "error" => $r["DESCRIPTION"]
+        ];
+    }
+    if (isset($r["PROPERTY"]["TRANSFERLOCK"][0])) {
+        return ($r["PROPERTY"]["TRANSFERLOCK"][0]=="1" ? "locked" : "unlocked");
+    }
+    return "";
+}
+
+/**
  * Get Premium Price for given domain,
  * @see call of this method in \WHMCS\DOMAINS\DOMAIN::getPremiumPricing
  * $pricing = $registrarModule->call("GetPremiumPrice", array(
@@ -1895,44 +1926,6 @@ function ispapi_whoisprivacy_ca($params)
             'legaltype' => $legaltype
         )
     );
-}
-
-/**
- * Get Transferlock settings of a domain name
- *
- * @param array $params common module parameters
- *
- * @return array $values - an array with transferlock setting information
- */
-function ispapi_GetRegistrarLock($params)
-{
-    ;
-    $values = array();
-    if (isset($params["original"])) {
-        $params = $params["original"];
-    }
-    $domain = $params["sld"].".".$params["tld"];
-
-    $command = array(
-        "COMMAND" => "StatusDomain",
-        "DOMAIN" => $domain
-    );
-
-    $response = ispapi_call($command, ispapi_config($params));
-
-    if ($response["CODE"] == 200) {
-        if (isset($response["PROPERTY"]["TRANSFERLOCK"])) {
-            if ($response["PROPERTY"]["TRANSFERLOCK"][0]) {
-                return "locked";
-            }
-            return "unlocked";
-        }
-        return "";
-    } else {
-        $values["error"] = $response["DESCRIPTION"];
-    }
-
-    return $values;
 }
 
 /**
