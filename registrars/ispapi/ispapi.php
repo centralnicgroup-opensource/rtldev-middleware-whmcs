@@ -1349,6 +1349,36 @@ function ispapi_ReleaseDomain($params)
 }
 
 /**
+ * Delete Domain.
+ *
+ * @param array $params common module parameters
+ *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ *
+ * @return array
+ */
+function ispapi_RequestDelete($params)
+{
+    $params = injectDomainObjectIfNecessary($params);
+    /** @var \WHMCS\Domains\Domain $domain */
+    $domain = $params["domainObj"];
+
+    $r = ispapi_call([
+        "COMMAND" => "DeleteDomain",
+        "DOMAIN" => $domain
+    ], ispapi_config($params));
+
+    if ($r["CODE"] != 200) {
+        return [
+            "error" => $response["DESCRIPTION"]
+        ];
+    }
+    return [
+        "success" => true
+    ];
+}
+
+/**
  * Get Premium Price for given domain,
  * @see call of this method in \WHMCS\DOMAINS\DOMAIN::getPremiumPricing
  * $pricing = $registrarModule->call("GetPremiumPrice", array(
@@ -2764,33 +2794,6 @@ function ispapi_DeleteNameserver($params)
         "NAMESERVER" => $nameserver,
     );
     $response = ispapi_call($command, ispapi_config($params));
-    if ($response["CODE"] != 200) {
-        $values["error"] = $response["DESCRIPTION"];
-    }
-    return $values;
-}
-
-/**
- * Delete a domain name
- *
- * @param array $params common module parameters
- *
- * @return array $values - an array with command response description
- */
-function ispapi_RequestDelete($params)
-{
-    $values = array();
-    if (isset($params["original"])) {
-        $params = $params["original"];
-    }
-    $domain = $params["sld"].".".$params["tld"];
-
-    $command = array(
-        "COMMAND" => "DeleteDomain",
-        "DOMAIN" => $domain
-    );
-    $response = ispapi_call($command, ispapi_config($params));
-
     if ($response["CODE"] != 200) {
         $values["error"] = $response["DESCRIPTION"];
     }
