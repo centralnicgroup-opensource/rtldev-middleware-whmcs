@@ -117,9 +117,6 @@ function ispapi_RegisterDomain($params)
     $premiumDomainsEnabled = (bool) $params['premiumEnabled'];
     $premiumDomainsCost = $params['premiumCost'];
 
-    $origparams = $params;
-    $params = ispapi_get_utf8_params($params);
-
     $command = [
         "COMMAND" => "AddDomain",
         "DOMAIN" => $domain->getDomain(),
@@ -128,7 +125,7 @@ function ispapi_RegisterDomain($params)
     ispapi_applyNamserversCommand($params, $command);
     ispapi_applyContactsCommand($params, $command);
     
-    if ($origparams["TRANSFERLOCK"]) {
+    if ($params["TRANSFERLOCK"]) {
         $command["TRANSFERLOCK"] = 1;
     }
     
@@ -146,7 +143,7 @@ function ispapi_RegisterDomain($params)
             "COMMAND" => "CheckDomains",
             "DOMAIN0" => $domain->getDomain(),
             "PREMIUMCHANNELS" => "*"
-        ], ispapi_config($origparams));
+        ], ispapi_config($params));
 
         if ($check["CODE"] == 200) {
             if ($premiumDomainsCost != $check["PROPERTY"]["PRICE"][0]) { //check if the price displayed to the customer is equal to the real cost at the registar
@@ -173,7 +170,7 @@ function ispapi_RegisterDomain($params)
         }
     }
 
-    $response = ispapi_call($command, ispapi_config($origparams));
+    $response = ispapi_call($command, ispapi_config($params));
     if ($response["CODE"] != 200) {
         // return error info in error case
         return [
@@ -2998,82 +2995,6 @@ function ispapi_use_additionalfields($params, &$command, $myadditionaldomainfiel
             }
         }
     }
-}
-
-function ispapi_get_utf8_params($params)
-{
-    if (isset($params["original"])) {
-        return $params["original"];
-    }
-    $config = [];
-    $result = mysql_query("SELECT setting, value FROM tblconfiguration;");//TODO: use PDO or ,,,
-    while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
-        $config[strtolower($row['setting'])] = $row['value'];
-    }
-    if ((strtolower($config["charset"]) != "utf-8") && (strtolower($config["charset"]) != "utf8")) {
-        return $params;
-    }
-    $result = mysql_query("SELECT orderid FROM tbldomains WHERE id='".mysql_real_escape_string($params["domainid"])."' LIMIT 1;");
-    if (!($row = mysql_fetch_array($result, MYSQL_ASSOC))) {
-        return $params;
-    }
-
-    $result = mysql_query("SELECT userid,contactid FROM tblorders WHERE id='".mysql_real_escape_string($row['orderid'])."' LIMIT 1;");
-    if (!($row = mysql_fetch_array($result, MYSQL_ASSOC))) {
-        return $params;
-    }
-
-    if ($row['contactid']) {
-        $result = mysql_query("SELECT firstname, lastname, companyname, email, address1, address2, city, state, postcode, country, phonenumber FROM tblcontacts WHERE id='".mysql_real_escape_string($row['contactid'])."' LIMIT 1;");
-        if (!($row = mysql_fetch_array($result, MYSQL_ASSOC))) {
-            return $params;
-        }
-        foreach ($row as $key => $value) {
-            $params[$key] = $value;
-        }
-    } elseif ($row['userid']) {
-        $result = mysql_query("SELECT firstname, lastname, companyname, email, address1, address2, city, state, postcode, country, phonenumber FROM tblclients WHERE id='".mysql_real_escape_string($row['userid'])."' LIMIT 1;");
-        if (!($row = mysql_fetch_array($result, MYSQL_ASSOC))) {
-            return $params;
-        }
-        foreach ($row as $key => $value) {
-            $params[$key] = $value;
-        }
-    }
-
-    if ($config['registraradminuseclientdetails']) {
-        $params['adminfirstname'] = $params['firstname'];
-        $params['adminlastname'] = $params['lastname'];
-        $params['admincompanyname'] = $params['companyname'];
-        $params['adminemail'] = $params['email'];
-        $params['adminaddress1'] = $params['address1'];
-        $params['adminaddress2'] = $params['address2'];
-        $params['admincity'] = $params['city'];
-        $params['adminstate'] = $params['state'];
-        $params['adminpostcode'] = $params['postcode'];
-        $params['admincountry'] = $params['country'];
-        $params['adminphonenumber'] = $params['phonenumber'];
-    } else {
-        $params['adminfirstname'] = $config['registraradminfirstname'];
-        $params['adminlastname'] = $config['registraradminlastname'];
-        $params['admincompanyname'] = $config['registraradmincompanyname'];
-        $params['adminemail'] = $config['registraradminemailaddress'];
-        $params['adminaddress1'] = $config['registraradminaddress1'];
-        $params['adminaddress2'] = $config['registraradminaddress2'];
-        $params['admincity'] = $config['registraradmincity'];
-        $params['adminstate'] = $config['registraradminstateprovince'];
-        $params['adminpostcode'] = $config['registraradminpostalcode'];
-        $params['admincountry'] = $config['registraradmincountry'];
-        $params['adminphonenumber'] = $config['registraradminphone'];
-    }
-
-    $result = mysql_query("SELECT name,value FROM tbldomainsadditionalfields
-		WHERE domainid='".mysql_real_escape_string($params["domainid"])."'");
-    while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
-        $params['additionalfields'][$row['name']] = $row['value'];
-    }
-
-    return $params;
 }
 
 function ispapi_config($params)
