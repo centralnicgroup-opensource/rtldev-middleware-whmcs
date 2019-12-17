@@ -1270,6 +1270,7 @@ function ispapi_GetEPPCode($params)
             break;
         case "be":
             $target = "REGISTRANT";
+            //fall through to reuse .eu
         case "eu":
             $r = ispapi_call([
                 "COMMAND" => "RequestDomainAuthInfo",
