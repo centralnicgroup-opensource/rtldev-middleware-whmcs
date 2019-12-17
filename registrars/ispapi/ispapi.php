@@ -2844,19 +2844,6 @@ function ispapi_SaveEmailForwarding($params)
     /** @var \WHMCS\Domains\Domain $domain */
     $domain = $params["domainObj"];
 
-    if (isset($params["original"])) {
-        $params = $params["original"];
-    }
-    //Bug fix - Issue WHMCS (TODO: affecting which version, which issue exactly?)
-    //###########
-    if (is_array($params["prefix"][0])) {
-        $params["prefix"][0] = $params["prefix"][0][0];
-    }
-    if (is_array($params["forwardto"][0])) {
-        $params["forwardto"][0] = $params["forwardto"][0][0];
-    }
-    //###########
-
     $command = [
         "COMMAND" => "UpdateDNSZone",
         "DNSZONE" => $domain->getDomain() . ".",
