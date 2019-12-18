@@ -952,7 +952,8 @@ function ispapi_GetDNS($params)
     $r = ispapi_call([
         "COMMAND" => "QueryDNSZoneRRList",
         "DNSZONE" => $dnszone,
-        "EXTENDED" => 1
+        "EXTENDED" => 1,
+        "SKIPIDNCONVERT" => 1
     ], ispapi_config($params));
     if ($r["CODE"] != 200) {
         return [
@@ -965,6 +966,7 @@ function ispapi_GetDNS($params)
         "COMMAND" => "QueryDNSZoneRRList",
         "DNSZONE" => $dnszone,
         "SHORT" => 1,
+        "SKIPIDNCONVERT" => 1
     ], ispapi_config($params));
     if ($r2["CODE"] != 200) {
         return [
