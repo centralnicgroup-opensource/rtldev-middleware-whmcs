@@ -315,6 +315,7 @@ function ispapi_TransferDomain($params)
     #$addflds->setDomain($domain->getDomain())->setDomainType("Transfer");
     #$addflds->setFieldValues($params["additionalfields"]);
     #$addflds->addToCommand($command, $registrantcountry);
+    //TODO: transfer needs probably not all flags
     
     $r = ispapi_call($command, ispapi_config($params));
 
@@ -570,64 +571,14 @@ function ispapi_SaveContactDetails($params)
         ];
     }
     // set new contact details
-    $map = [
+    ispapi_get_contact_info2($command, $params, [
         "OWNERCONTACT0" => "Registrant",
         "ADMINCONTACT0" => "Admin",
         "TECHCONTACT0" => "Technical",
         "BILLINGCONTACT0" => "Billing",
-    ];
-    $contactDetails = $params["contactdetails"];
-    foreach ($map as $ctype => $ptype) {
-        $p = $contactDetails[$ptype];
-        $command[$ctype] = [
-            "FIRSTNAME" => $p["First Name"],
-            "LASTNAME" => $p["Last Name"],
-            "ORGANIZATION" => $p["Company Name"],
-            "STREET" => $p["Address"],
-            "CITY" => $p["City"],
-            "STATE" => $p["State"],
-            "ZIP" => $p["Postcode"],
-            "COUNTRY" => $p["Country"],
-            "PHONE" => $p["Phone"],
-            "FAX" => $p["Fax"],
-            "EMAIL" => $p["Email"]
-        ];
-        if (strlen($p["Address 2"])) {
-            $command[$ctype]["STREET"] .= " , ". $p["Address 2"];
-        }
-    }
+    ]);
 
-    // .CA specific registrant modification process
-    // TODO ... looks deprecated, check if this is still required
-    if (preg_match('/\.ca$/i', $domain->getDomain())) {
-        $r = ispapi_call([
-            "COMMAND" => "StatusDomain",
-            "DOMAIN" => $domain->getDomain()
-        ], ispapi_config($params));
-
-        if ($r["CODE"] != 200) {
-            return [
-                "error" => $r["DESCRIPTION"]
-            ];
-        }
-
-        if (!preg_match('/^AUTO\-/i', $r["PROPERTY"]["OWNERCONTACT"][0])) {
-            $registrant_command = $command["OWNERCONTACT0"];
-            $registrant_command["COMMAND"] = "ModifyContact";
-            $registrant_command["CONTACT"] = $r["PROPERTY"]["OWNERCONTACT"][0];
-            unset($registrant_command["FIRSTNAME"]);
-            unset($registrant_command["LASTNAME"]);
-            unset($registrant_command["ORGANIZATION"]);
-            $r = ispapi_call($registrant_command, ispapi_config($params));
-            if ($r["CODE"] != 200) {
-                return [
-                    "error" => $r["DESCRIPTION"]
-                ];
-            }
-            unset($command["OWNERCONTACT0"]);
-        }
-        unset($command["X-CA-LEGALTYPE"]);
-    } elseif (ispapi_needsTradeForRegistrantModification($domain, $params)) {
+    if (ispapi_needsTradeForRegistrantModification($domain, $params)) {
         // * below fields are not allowed to get modified, TradeDomain is required for it
         // * additional fields are not available in the default WHMCS contact information page
         // -> need for a specific registrant modification page
@@ -2317,6 +2268,7 @@ function ispapi_registrantmodificationtrade($params)
  */
 function ispapi_registrantmodification($params)
 {
+    //TODO: modification needs probably not all flags
     $params = injectDomainObjectIfNecessary($params);
     /** @var \WHMCS\Domains\Domain $domain */
     $domain = $params["domainObj"];
