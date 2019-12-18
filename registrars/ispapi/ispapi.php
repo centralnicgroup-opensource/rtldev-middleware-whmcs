@@ -2263,7 +2263,7 @@ function ispapi_registrantmodificationtrade($params)
  * Return a special page for the registrant modification of a .CA domain name
  *
  * @param array $params common module parameters
- *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
  * @return array an array with a template name and some variables
  */
 function ispapi_registrantmodification($params)
@@ -2343,7 +2343,7 @@ function ispapi_registrantmodification($params)
  * Handle the ID Protection (whoisprivacy) of a domain name
  *
  * @param array $params common module parameters
- *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
  * @return array an array with a template name and some variables
  */
 function ispapi_whoisprivacy($params)
@@ -2393,7 +2393,7 @@ function ispapi_whoisprivacy($params)
  * Handle the ID Protection (whoisprivacy) of a .CA domain name
  *
  * @param array $params common module parameters
- *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
  * @return array an array with a template name and some variables
  */
 function ispapi_whoisprivacy_ca($params)
@@ -2453,7 +2453,7 @@ function ispapi_whoisprivacy_ca($params)
  * Return true if the TLD is affected by the IRTP
  *
  * @param array $params common module parameters
- *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
  * @return array $values - returns true
  */
 function ispapi_isAffectedByIRTP($domain, $params)
@@ -2470,7 +2470,7 @@ function ispapi_isAffectedByIRTP($domain, $params)
  * Returns domain's information
  *
  * @param array $params common module parameters
- *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
  * @return array $values - returns true
  */
 function ispapi_GetDomainInformation($params)
@@ -2567,7 +2567,7 @@ function ispapi_GetDomainInformation($params)
  * Resend verification email
  *
  * @param array $params common module parameters
- *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
  * @return array returns success or error
  */
 function ispapi_ResendIRTPVerificationEmail($params)
@@ -2596,7 +2596,7 @@ function ispapi_ResendIRTPVerificationEmail($params)
  * Get Email forwarding of a domain name with its DNS zone
  *
  * @param array $params common module parameters
- *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
  * @return array $result - returns an array with command response description
  */
 function ispapi_GetEmailForwarding($params)
@@ -2648,7 +2648,7 @@ function ispapi_GetEmailForwarding($params)
  * Save Email forwarding of a domain name by updating its DNS zone
  *
  * @param array $params common module parameters
- *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
  * @return array $values - returns an array with command response description
  */
 function ispapi_SaveEmailForwarding($params)
@@ -2691,12 +2691,47 @@ function ispapi_SaveEmailForwarding($params)
 }
 
 /**
+ * Return required additional domain fields
+ *
+ * @param array $params common module parameters
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ * @return array $values - returns an array with command response description
+ */
+/*function ispapi_AdditionalDomainFields(array $params)
+{
+    $params = injectDomainObjectIfNecessary($params);
+    // @var \WHMCS\Domains\Domain $domain
+    $domain = $params["domainObj"];
+
+    $transientKey = "ispApi" . ucfirst($domain->getTLD());
+    $fields = WHMCS\TransientData::getInstance()->retrieve($transientKey);
+    if ($fields) {
+        $fields = json_decode($fields, true);
+        if ($fields && is_array($fields)) {
+            return ["fields" => $fields];
+        }
+    }
+    
+    $fields = [];//todo load fields per TLD
+    try {
+        WHMCS\TransientData::getInstance()->store($transientKey, json_encode($fields), 86400 * 30);
+    } catch (Exception $e) {
+        return [
+            "error" => $e->getMessage()
+        ];
+    }
+    return [
+        "fields" => $fields
+    ];
+}*/
+
+/**
  * Return an array with the contact information of a contact handle
  * Uses the StatusContact command
  *
  * @param array $contact - contact handle
  * @param array &$params - common module parameters
- *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
  * @return array $values - an array with contact information
  */
 function ispapi_get_contact_info($contact, &$params)
@@ -2760,6 +2795,7 @@ function ispapi_get_contact_info2(&$command, $data, $map)
 /**
  * Load additional domain fields and apply appropriate parameters to the backend system API command
  * @param array $params input parameters
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
  * @return array additional domain fields in ISPAPI format
  */
 function ispapi_use_additionalfields($params, &$command)
