@@ -1647,13 +1647,13 @@ function ispapi_TransferSync($params)
             if (count(array_keys($command))>3) {
                 ispapi_call($command, ispapi_config($params));
             }
-
             $date = ($r["FAILUREDATE"][0] > $r["PAIDUNTILDATE"][0]) ? $r["PAIDUNTILDATE"][0] : $r["ACCOUNTINGDATE"][0];
             return [
                 'completed' => true,
                 'expirydate' => preg_replace('/ .*$/', '', $date)
             ];
         }
+        //hint: not returning expirydate leads to auto-fallback to _Sync method
         return [
             'completed' => true
         ];
