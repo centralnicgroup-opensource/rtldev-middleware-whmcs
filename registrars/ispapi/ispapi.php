@@ -550,10 +550,6 @@ function ispapi_SaveContactDetails($params)
             "X-CONFIRM-DA-OLD-REGISTRANT" => 1,
             "X-CONFIRM-DA-NEW-REGISTRANT" => 1
         ];
-        // some extensions have special requirements e.g. AFNIC TLDs(.fr, ...)
-        ispapi_query_additionalfields($params);
-        ispapi_use_additionalfields($params, $command);
-
         //opt-out is not supported for AFNIC TLDs (eg: .FR)
         $r = ispapi_call([
             "COMMAND" => "QueryDomainOptions",
@@ -630,9 +626,6 @@ function ispapi_SaveContactDetails($params)
             }
             unset($command["OWNERCONTACT0"]);
         }
-
-        ispapi_query_additionalfields($params);
-        ispapi_use_additionalfields($params, $command);
         unset($command["X-CA-LEGALTYPE"]);
     } elseif (ispapi_needsTradeForRegistrantModification($domain, $params)) {
         // * below fields are not allowed to get modified, TradeDomain is required for it
@@ -658,6 +651,7 @@ function ispapi_SaveContactDetails($params)
         $command["OWNERCONTACT0"]["COUNTRY"] = $registrant["Country"];
     }
 
+    ispapi_use_additionalfields($params, $command);
     $r = ispapi_call($command, ispapi_config($params));
     
     if ($r["CODE"] != 200) {
@@ -2402,19 +2396,13 @@ function ispapi_registrantmodification($params)
  */
 function ispapi_registrantmodification_ca($params)
 {
-    global $additionaldomainfields;
-
     $error = false;
     $successful = false;
     $domain = $params["sld"].".".$params["tld"];
     $values = array();
 
-
-    //handle additionaldomainfields
-    //------------------------------------------------------------------------------
-    ispapi_include_additionaladditionalfields();
-
     $myadditionalfields = array();
+    $additionaldomainfields = $params["additionalfields"];
     if (is_array($additionaldomainfields) && isset($additionaldomainfields[".".$params["tld"]])) {
         $myadditionalfields = $additionaldomainfields[".".$params["tld"]];
     }
@@ -2600,7 +2588,7 @@ function ispapi_whoisprivacy_ca($params)
     $error = false;
 
     if ($r["CODE"] == 200) {
-        $protected = (isset($r["PROPERTY"]["X-CA-DISCLOSE"]) && $r["PROPERTY"]["X-CA-DISCLOSE"][0])?0:1;//TODO: inverse logic???
+        $protected = (isset($r["PROPERTY"]["X-CA-DISCLOSE"]) && $r["PROPERTY"]["X-CA-DISCLOSE"][0])?0:1;
         $registrant = $r["PROPERTY"]["OWNERCONTACT"][0];
         if (isset($r["PROPERTY"]["X-CA-LEGALTYPE"])) {
             $legaltype = $r["PROPERTY"]["X-CA-LEGALTYPE"][0];
@@ -2616,7 +2604,7 @@ function ispapi_whoisprivacy_ca($params)
         $r = ispapi_call([
             "COMMAND" => "ModifyDomain",
             "DOMAIN" => $domain->getDomain(),
-            "X-CA-DISCLOSE" => ($_REQUEST["idprotection"] == 'enable')? '0' : '1'//TODO: inverse logic???
+            "X-CA-DISCLOSE" => ($_REQUEST["idprotection"] == 'enable')? '0' : '1'
         ], ispapi_config($params));
         
         if ($r["CODE"] == 200) {
@@ -2944,44 +2932,14 @@ function ispapi_get_contact_info2(&$command, $data, $map)
     }
 }
 
-// ------------------------------------------------------------------------------
-// ------- Helper functions and functions required to connect the API ----------
-// ------------------------------------------------------------------------------
-function ispapi_query_additionalfields(&$params)
-{
-    // TODO: use PDO or another way
-    $result = mysql_query("SELECT name,value FROM tbldomainsadditionalfields
-		WHERE domainid='".mysql_real_escape_string($params["domainid"])."'");
-    while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
-        $params['additionalfields'][$row['name']] = $row['value'];
-    }
-}
-
-/**
- * Includes the correct additionl fields path based on the WHMCS version.
- * More information here: https://docs.whmcs.com/Additional_Domain_Fields
- * @param array $params input parameters
- * @return array additional domain fields in ISPAPI format
- */
-function ispapi_include_additionalfields($params)
-{
-    $data = (new WHMCS\Domains())->getDomainsDatabyID($params["domainid"]);
-    return (new WHMCS\Domains\AdditionalFields())
-        ->setDomain($data["domain"])
-        ->setDomainType($data["type"]) //can be "register" or "transfer"
-        ->getFields();
-}
-
 /**
  * Load additional domain fields and apply appropriate parameters to the backend system API command
  * @param array $params input parameters
  * @return array additional domain fields in ISPAPI format
  */
-function ispapi_use_additionalfields($params, &$command, $myadditionaldomainfields = null)
+function ispapi_use_additionalfields($params, &$command)
 {
-    if (is_null($myadditionaldomainfields)) {
-        $myadditionaldomainfields = ispapi_include_additionalfields($params);
-    }
+    $myadditionaldomainfields = $params["additionalfields"];
     $ucCountry = strtoupper($params["country"]);
     foreach ($myadditionaldomainfields as $field) {
         if (isset($params['additionalfields'][$field["Name"]])) {
