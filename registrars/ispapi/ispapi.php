@@ -177,20 +177,21 @@ function ispapi_RegisterDomain($params)
             "error" => $response["DESCRIPTION"]
         ];
     }
-    if ($isApplicationCase) {
+    if (preg_match("/\.swiss$/i", $domain->getDomain())) {
         // provide the Application ID and further information
         $application_id = $response['PROPERTY']['APPLICATION'][0];
-        $appResponse = "APPLICATION <strong>#".$application_id."</strong> SUCCESSFULLY SUBMITTED. " .
-                        "STATUS IS PENDING UNTIL REGISTRATION PROCESS COMPLETES." .
-                        (($params["dnsmanagement"] || $params["idprotection"]) ?
-                        "<br/>Note: Available Domain Addons can be activated AFTER completion." :
-                        "");
         Capsule::table('tbldomains')
             ->where('id', '=', $params['domainid'])
-            ->update(['additionalnotes' => "### DO NOT DELETE BELOW THIS LINE ### \nApplicationID: " . $application_id . "\n"]);
+            ->update(['additionalnotes' => "### DO NOT DELETE BELOW THIS LINE ### \nApplicationID:" . $application_id . "\n"]);
         return [
             "pending" => true,
-            "pendingMessage" => $appResponse
+            "pendingMessage" => (
+                "Registration successfully requested (<strong>ID #".$application_id."</strong>). " .
+                "Status is `Pending` until the .SWISS Registration Process completes." .
+                (($params["dnsmanagement"] || $params["idprotection"]) ?
+                    "<br/><small>NOTE: Available Domain Addons can be activated AFTER completion.</small>" :
+                    "")
+            )
         ];
     }
     return [

@@ -23,23 +23,7 @@ HTML;
 });
 
 /**
- * ONLY FOR .SWISS
- * saves the .swiss application ID in the admin note
- */
-add_hook('AfterRegistrarRegistrationFailed', 1, function ($vars) {
-    $params = $vars["params"];
-    $domain = $params["sld"].".".$params["tld"];
-    if (preg_match('/\.swiss$/i', $domain)) {
-        preg_match('/<#(.+?)#>/i', $vars["error"], $matches);
-        if (isset($matches[1])) {
-            $application_id=$matches[1];
-            $result = mysql_query("UPDATE tbldomains SET additionalnotes='### DO NOT DELETE ANYTHING BELOW THIS LINE \nAPPLICATION:".$application_id."\n' WHERE id=".$params["domainid"]);
-        }
-    }
-});
-
-/**
- * Special Handling of .SWISS Applications and Premium Domain Applications
+ * Special Handling of .SWISS Applications
  * runs over all pending applications to check if the registration was successful or not.
  */
 add_hook('DailyCronJob', 1, function ($vars) {
@@ -47,21 +31,19 @@ add_hook('DailyCronJob', 1, function ($vars) {
         require_once(dirname(__FILE__)."/ispapi.php");
         $ispapi_config = ispapi_config(getregistrarconfigoptions("ispapi"));
 
-        $result = mysql_query("SELECT * from tbldomains WHERE additionalnotes!='' and registrar='ispapi' type='Register' and status='Pending'");
+        $result = mysql_query("SELECT * from tbldomains WHERE domain REGEXP '\\.swiss$' and additionalnotes!='' and registrar='ispapi' type='Register' and status='Pending'");
         while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
-            preg_match('/APPLICATION:(.+?)(?:$|\n)/i', $row["additionalnotes"], $matches);
-            if (isset($matches[1])) {
-                $application_id=$matches[1];
-
-                $r = ispapi_call([
+            preg_match('/ApplicationID:\s?(\d+)\n$/i', $row["additionalnotes"], $m);
+            if (isset($m[1])) {
+                $r = ispapi_call([//TODO: improve by using QueryEventList
                     "COMMAND" => "StatusDomainApplication",
-                    "APPLICATION" => $application_id
+                    "APPLICATION" => $m[1]
                 ], $ispapi_config);
 
                 if ($r["PROPERTY"]["STATUS"][0] == "SUCCESSFUL") {
                     mysql_query("UPDATE tbldomains SET status='Active', additionalnotes='' WHERE id=".$row["id"]);
                 } elseif ($r["PROPERTY"]["STATUS"][0] == "FAILED") {
-                      mysql_query("UPDATE tbldomains SET status='Cancelled' WHERE id=".$row["id"]);
+                    mysql_query("UPDATE tbldomains SET status='Cancelled' WHERE id=".$row["id"]);
                 }
             }
         }
