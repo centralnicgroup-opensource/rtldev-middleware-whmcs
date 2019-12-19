@@ -1,3 +1,10 @@
+# [2.3.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.2.3...v2.3.0) (2019-12-19)
+
+
+### Features
+
+* **sync:** transferSync fallback to Sync for expirydate detection and share contact data auto-upd ([c31db05](https://github.com/hexonet/whmcs-ispapi-registrar/commit/c31db05dd71c7c4947de44a7e9ecf3400d0a28db))
+
 ## [2.2.3](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.2.2...v2.2.3) (2019-12-19)
 
 
