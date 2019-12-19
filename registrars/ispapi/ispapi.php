@@ -2833,11 +2833,22 @@ function ispapi_TransferSync($params)
     /** @var \WHMCS\Domains\Domain $domain */
     $domain = $params["domainObj"];
 
+    $domain_pc = $domain_idn = $domain->getDomain();
     $r = ispapi_call([
+        "COMMAND" => "ConvertIDN",
+        "DOMAIN0" => $domain_pc
+    ], ispapi_config($params));
+    if ($r["CODE"]==200 && isset($r["PROPERTY"]["ACE"][0])) {
+        $domain_pc = strtolower($r["PROPERTY"]["ACE"][0]);
+        $domain_idn = strtolower($r["PROPERTY"]["IDN"][0]);
+    }
+
+    $r = ispapi_call([//events will be available for 30d
         "COMMAND" => "QueryEventList",
         "CLASS" => "DOMAIN_TRANSFER",
-        "MINDATE" => date("Y-m-d H:i:s", strtotime("first day of previous month")),
+        "SUBCLASS" => "TRANSFER_SUCCESSFUL",
         "ORDERBY" => "EVENTDATEDESC",
+        "LIMIT" => 100000,
         "WIDE" => 1
     ], ispapi_config($params));
 
@@ -2845,28 +2856,31 @@ function ispapi_TransferSync($params)
         return [];
     }
 
-    $rows = [];
+    $success = false;
     $r = $r["PROPERTY"];
     foreach ($r["EVENTDATA0"] as $idx => &$d) {
-        if ("domain:" . $domain->getDomain() == $d) {
-            $rows[$r["EVENTSUBCLASS"][$idx]] = $r["EVENTDATE"][$idx];
-            if ($r["EVENTSUBCLASS"][$idx]=="TRANSFER_PENDING") {
+        $tmp = strtolower($d);
+        if ("domain:" . $domain_pc == $tmp || "domain:" . $domain_idn == $tmp) {
+            if (strtoupper($r["EVENTSUBCLASS"][$idx])=="TRANSFER_SUCCESSFUL") {
+                $success = true;
                 break;
             }
         }
     }
-    
-    if (isset($rows["TRANSFER_SUCCESSFUL"])) {
+
+    if ($success) {
         $r = $r = ispapi_call([
             "COMMAND" => "StatusDomain",
-            "DOMAIN" => $domain->getDomain()
+            "DOMAIN" => $domain_pc,
+            "SKIPIDNCONVERT" => 1
         ], ispapi_config($params));
 
         if ($r["CODE"]=="200") {
             $r = $r["PROPERTY"];
             $command = [
                 "COMMAND" => "ModifyDomain",
-                "DOMAIN" => $domain->getDomain()
+                "DOMAIN" => $domain_pc,
+                "SKIPIDNCONVERT" => 1
             ];
             // TODO:---------- EXCEPTION [BEGIN] --------
             // Missing/Empty contact handles after Transfer over THIN Registry [kschwarz]
@@ -2944,8 +2958,33 @@ function ispapi_TransferSync($params)
             'completed' => true
         ];
     }
+    
+    $r = ispapi_call([
+        "COMMAND" => "QueryEventList",
+        "CLASS" => "DOMAIN_TRANSFER",
+        "SUBCLASS" => "TRANSFER_FAILED",
+        "ORDERBY" => "EVENTDATEDESC",
+        "LIMIT" => 100000,
+        "WIDE" => 1
+    ], ispapi_config($params));
 
-    if (isset($rows["TRANSFER_FAILED"])) {
+    if ($r["CODE"] != 200 || !isset($r["PROPERTY"]["EVENTDATA0"])) {
+        return [];
+    }
+
+    $failed = false;
+    $r = $r["PROPERTY"];
+    foreach ($r["EVENTDATA0"] as $idx => &$d) {
+        $tmp = strtolower($d);
+        if ("domain:" . $domain_pc == $tmp || "domain:" . $domain_idn == $tmp) {
+            if (strtoupper($r["EVENTSUBCLASS"][$idx])=="TRANSFER_FAILED") {
+                $failed = true;
+                break;
+            }
+        }
+    }
+
+    if ($failed) {
         $values = [
             'failed' => true,
             'reason' => "Transfer Failed"
@@ -2953,7 +2992,7 @@ function ispapi_TransferSync($params)
         $rloglist = ispapi_call([
             "COMMAND" => "QueryObjectLogList",
             "OBJECTCLASS" => "DOMAIN",
-            "OBJECTID" => $domain,
+            "OBJECTID" => $domain_pc,
             "ORDERBY" => "LOGDATEDESC",
             "LIMIT" => 1
         ], ispapi_config($params));
