@@ -2869,91 +2869,7 @@ function ispapi_TransferSync($params)
     }
 
     if ($success) {
-        $r = $r = ispapi_call([
-            "COMMAND" => "StatusDomain",
-            "DOMAIN" => $domain_pc,
-            "SKIPIDNCONVERT" => 1
-        ], ispapi_config($params));
-
-        if ($r["CODE"]=="200") {
-            $r = $r["PROPERTY"];
-            $command = [
-                "COMMAND" => "ModifyDomain",
-                "DOMAIN" => $domain_pc,
-                "SKIPIDNCONVERT" => 1
-            ];
-            // TODO:---------- EXCEPTION [BEGIN] --------
-            // Missing/Empty contact handles after Transfer over THIN Registry [kschwarz]
-            // Ticket#: 485677 DeskPro
-            if (preg_match("/^(com|net|cc|tv)$/", $domain->getTLD())) {
-                $domain_data = (new \WHMCS\Domains())->getDomainsDatabyID($params["domainid"]);
-                $p = getClientsDetails($domain_data["userid"]);
-                $cmdparams = [
-                    "FIRSTNAME" => html_entity_decode($p["firstname"], ENT_QUOTES),
-                    "LASTNAME" => html_entity_decode($p["lastname"], ENT_QUOTES),
-                    "ORGANIZATION" => html_entity_decode($p["companyname"], ENT_QUOTES),
-                    "STREET" => html_entity_decode($p["address1"], ENT_QUOTES),
-                    "CITY" => html_entity_decode($p["city"], ENT_QUOTES),
-                    "STATE" => html_entity_decode($p["state"], ENT_QUOTES),
-                    "ZIP" => html_entity_decode($p["postcode"], ENT_QUOTES),
-                    "COUNTRY" => html_entity_decode($p["country"], ENT_QUOTES),
-                    "PHONE" => html_entity_decode($p["phonenumber"], ENT_QUOTES),
-                    //"FAX" => html_entity_decode($p["Fax"], ENT_QUOTES), n/a in whmcs
-                    "EMAIL" => html_entity_decode($p["email"], ENT_QUOTES),
-                ];
-                if (strlen($p["address2"])) {
-                    $cmdparams["STREET"] .= " , ".html_entity_decode($p["address2"], ENT_QUOTES);
-                }
-                if (!empty($r["OWNERCONTACT0"][0]) && preg_match("/^AUTO-.+$/", $r["OWNERCONTACT0"][0])) {
-                    $rc = ispapi_call([
-                        "COMMAND" => "StatusContact",
-                        "CONTACT" => $r["OWNERCONTACT0"][0]
-                    ], ispapi_config($params));
-                    if ($rc["CODE"] == 200) {
-                        if (empty($rc["PROPERTY"]["NAME"][0]) &&
-                            empty($rc["PROPERTY"]["EMAIL"][0]) &&
-                            //empty($rc["PROPERTY"]["ORGANIZATION"][0]) && // with data
-                            empty($rc["PROPERTY"]["PHONE"][0]) &&
-                            //empty($rc["PROPERTY"]["COUNTRY"][0]) && // with data
-                            empty($rc["PROPERTY"]["CITY"][0]) &&
-                            empty($rc["PROPERTY"]["STREET"][0]) &&
-                            empty($rc["PROPERTY"]["ZIP"][0])
-                        ) {
-                            $command["OWNERCONTACT0"] = $cmdparams;
-                        }
-                    }
-                }
-                $map = [
-                    "OWNERCONTACT0",
-                    "ADMINCONTACT0",
-                    "TECHCONTACT0",
-                    "BILLINGCONTACT0"
-                ];
-                foreach ($map as $ctype) {
-                    if (empty($r[$ctype][0])) {
-                        $command[$ctype] = $cmdparams;
-                    }
-                }
-            }
-            //--------------- EXCEPTION [END] -----------
-
-            //activate the whoistrustee if set to 1 in WHMCS
-            if (($params["idprotection"] == "1" || $params["idprotection"] == "on") &&
-                empty($r["X-ACCEPT-WHOISTRUSTEE-TAC"][0]) // doesn't exist, "" or 0
-            ) {
-                $command["X-ACCEPT-WHOISTRUSTEE-TAC"] = 1;
-            }
-            //check if domain update is necessary
-            if (count(array_keys($command))>2) {
-                ispapi_call($command, ispapi_config($params));
-            }
-
-            $date = ($r["FAILUREDATE"][0] > $r["PAIDUNTILDATE"][0]) ? $r["PAIDUNTILDATE"][0] : $r["ACCOUNTINGDATE"][0];
-            return [
-                'completed' => true,
-                'expirydate' => preg_replace('/ .*$/', '', $date)
-            ];
-        }
+        # WHMCS will fallback to _Sync method if expirydate not returned
         return [
             'completed' => true
         ];
@@ -3034,46 +2950,124 @@ function ispapi_TransferSync($params)
  */
 function ispapi_Sync($params)
 {
-    $values = array();
-    $domain = $params["sld"].".".$params["tld"];
+    $params = injectDomainObjectIfNecessary($params);
+    /** @var \WHMCS\Domains\Domain $domain */
+    $domain = $params["domainObj"];
 
-    $command = array(
+    $r = ispapi_call([
         "COMMAND" => "StatusDomain",
-        "DOMAIN" => $domain
-    );
-    $response = ispapi_call($command, ispapi_config($params));
-    if ($response["CODE"] == 200) {
-        $response = $response["PROPERTY"];
+        "DOMAIN" => $domain->getDomain()
+    ], ispapi_config($params));
+           
+    if ($response["CODE"] == 531 || $response["CODE"] == 545) {
+        return [
+            "transferredAway" => true
+        ];
+    }
+    if ($r["CODE"] != 200) {
+        return [
+            "error" => $r["DESCRIPTION"]
+        ];
+    }
 
-        $expirationdate = $response["EXPIRATIONDATE"][0];
-        $expirationts = strtotime($expirationdate);
-        $finalizationdate = $response["FINALIZATIONDATE"][0];
-        $paiduntildate = $response["PAIDUNTILDATE"][0];
-        $accountingdate = $response["ACCOUNTINGDATE"][0];
-        $failuredate = $response["FAILUREDATE"][0];
-        $status = $response["STATUS"][0];
+    $r = $r["PROPERTY"];
 
-        if (preg_match('/ACTIVE/i', $status)) {
-            $values["active"] = true;
-        } elseif (preg_match('/DELETE/i', $status)) {
-            $values['expirydate'] = preg_replace('/ .*/$', '', $expirationdate);
+    $command = [
+        "COMMAND" => "ModifyDomain",
+        "DOMAIN" => $domain->getDomain()
+    ];
+    // TODO:---------- EXCEPTION [BEGIN] --------
+    // Missing/Empty contact handles after Transfer over THIN Registry [kschwarz]
+    // shared with _TransferSync method to cover existing domains in addition
+    // Ticket#: 485677 DeskPro
+    if (preg_match("/^(com|net|cc|tv)$/", $domain->getTLD())) {
+        $domain_data = (new \WHMCS\Domains())->getDomainsDatabyID($params["domainid"]);
+        $p = getClientsDetails($domain_data["userid"]);
+        $cmdparams = [
+            "FIRSTNAME" => html_entity_decode($p["firstname"], ENT_QUOTES),
+            "LASTNAME" => html_entity_decode($p["lastname"], ENT_QUOTES),
+            "ORGANIZATION" => html_entity_decode($p["companyname"], ENT_QUOTES),
+            "STREET" => html_entity_decode($p["address1"], ENT_QUOTES),
+            "CITY" => html_entity_decode($p["city"], ENT_QUOTES),
+            "STATE" => html_entity_decode($p["state"], ENT_QUOTES),
+            "ZIP" => html_entity_decode($p["postcode"], ENT_QUOTES),
+            "COUNTRY" => html_entity_decode($p["country"], ENT_QUOTES),
+            "PHONE" => html_entity_decode($p["phonenumber"], ENT_QUOTES),
+            //"FAX" => html_entity_decode($p["Fax"], ENT_QUOTES), n/a in whmcs
+            "EMAIL" => html_entity_decode($p["email"], ENT_QUOTES),
+        ];
+        if (strlen($p["address2"])) {
+            $cmdparams["STREET"] .= " , ".html_entity_decode($p["address2"], ENT_QUOTES);
         }
-
-        if ($failuredate > $paiduntildate) {
-            $values['expirydate'] = preg_replace('/ .*$/', '', $paiduntildate);
-        } else {
-            // https://github.com/hexonet/whmcs-ispapi-registrar/issues/82
-            $finalizationts = strtotime($finalizationdate);
-            $paiduntilts = strtotime($paiduntildate);
-            $values['expirydate'] = date("Y-m-d", $finalizationts + ($paiduntilts - $expirationts));
+        if (!empty($r["OWNERCONTACT0"][0]) && preg_match("/^AUTO-.+$/", $r["OWNERCONTACT0"][0])) {
+            $rc = ispapi_call([
+                "COMMAND" => "StatusContact",
+                "CONTACT" => $r["OWNERCONTACT0"][0]
+            ], ispapi_config($params));
+            if ($rc["CODE"] == 200) {
+                if (empty($rc["PROPERTY"]["NAME"][0]) &&
+                    empty($rc["PROPERTY"]["EMAIL"][0]) &&
+                    //empty($rc["PROPERTY"]["ORGANIZATION"][0]) && // with data
+                    empty($rc["PROPERTY"]["PHONE"][0]) &&
+                    //empty($rc["PROPERTY"]["COUNTRY"][0]) && // with data
+                    empty($rc["PROPERTY"]["CITY"][0]) &&
+                    empty($rc["PROPERTY"]["STREET"][0]) &&
+                    empty($rc["PROPERTY"]["ZIP"][0])
+                ) {
+                    $command["OWNERCONTACT0"] = $cmdparams;
+                }
+            }
         }
+        $map = [
+            "OWNERCONTACT0",
+            "ADMINCONTACT0",
+            "TECHCONTACT0",
+            "BILLINGCONTACT0"
+        ];
+        foreach ($map as $ctype) {
+            if (empty($r[$ctype][0])) {
+                $command[$ctype] = $cmdparams;
+            }
+        }
+    }
+    //--------------- EXCEPTION [END] -----------
 
-        // return if domain expired (if EXPIRATIONDATE is in the past)
-        $values['expired'] = gmmktime() > $expirationts;
-    } elseif ($response["CODE"] == 531 || $response["CODE"] == 545) {
-        $values['transferredAway'] = true;
+    //activate the whoistrustee if set to 1 in WHMCS
+    if (($params["idprotection"] == "1" || $params["idprotection"] == "on") &&
+        empty($r["X-ACCEPT-WHOISTRUSTEE-TAC"][0]) // doesn't exist, "" or 0
+    ) {
+        $command["X-ACCEPT-WHOISTRUSTEE-TAC"] = 1;
+    }
+    //check if domain update is necessary
+    if (count(array_keys($command))>2) {
+        ispapi_call($command, ispapi_config($params));
+    }
+
+    $expirationdate = $r["EXPIRATIONDATE"][0];
+    $expirationts = strtotime($expirationdate);
+    $finalizationdate = $r["FINALIZATIONDATE"][0];
+    $paiduntildate = $r["PAIDUNTILDATE"][0];
+    $accountingdate = $r["ACCOUNTINGDATE"][0];
+    $failuredate = $r["FAILUREDATE"][0];
+
+    $values = [];
+    if (preg_match("/ACTIVE/i", $r["STATUS"][0])) {
+        $values["active"] = true;
+    } elseif (preg_match("/DELETE/i", $r["STATUS"][0])) {
+        $values["expirydate"] = preg_replace("/ .*$/", "", $expirationdate);
+        $values["expired"] = gmmktime() > $expirationts;
+    }
+
+    if ($failuredate > $paiduntildate) {
+        $values["expirydate"] = preg_replace("/ .*$/", "", $paiduntildate);
+        $values["expired"] = gmmktime() > strtotime($paiduntildate);
     } else {
-        $values["error"] = $response["DESCRIPTION"];
+        // https://github.com/hexonet/whmcs-ispapi-registrar/issues/82
+        $finalizationts = strtotime($finalizationdate);
+        $paiduntilts = strtotime($paiduntildate);
+        $expirationts = $finalizationts + ($paiduntilts - $expirationts);
+        $values["expirydate"] = date("Y-m-d", $expirationts);
+        $values["expired"] = gmmktime() > $expirationts;
     }
     return $values;
 }
@@ -3116,14 +3110,14 @@ function ispapi_get_contact_info($contact, &$params)
         $values["Fax"] = $response["PROPERTY"]["FAX"][0];
         $values["Email"] = $response["PROPERTY"]["EMAIL"][0];
 
-        if ((count($response["PROPERTY"]["STREET"]) < 2) && preg_match('/^(.*) , (.*)/', $response["PROPERTY"]["STREET"][0], $m)) {
+        if ((count($response["PROPERTY"]["STREET"]) < 2) && preg_match("/^(.*) , (.*)/", $response["PROPERTY"]["STREET"][0], $m)) {
             $values["Address"] = $m[1];
             $values["Address 2"] = $m[2];
         }
 
         // handle imported .ca domains properly
-        if (preg_match('/\.ca$/i', $domain) && isset($response["PROPERTY"]["X-CA-LEGALTYPE"])) {
-            if (preg_match('/^(CCT|RES|ABO|LGR)$/i', $response["PROPERTY"]["X-CA-LEGALTYPE"][0])) {
+        if (preg_match("/\.ca$/i", $domain) && isset($response["PROPERTY"]["X-CA-LEGALTYPE"])) {
+            if (preg_match("/^(CCT|RES|ABO|LGR)$/i", $response["PROPERTY"]["X-CA-LEGALTYPE"][0])) {
                 // keep name/org
             } else {
                 if ((!isset($response["PROPERTY"]["ORGANIZATION"])) || !$response["PROPERTY"]["ORGANIZATION"][0]) {
