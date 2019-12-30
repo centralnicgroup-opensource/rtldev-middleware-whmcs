@@ -2486,6 +2486,7 @@ function ispapi_RegisterDomain($params)
     if (preg_match('/\.swiss$/i', $domain)) {
         $command["COMMAND"] = "AddDomainApplication";
         $command["CLASS"] = "GOLIVE";
+        //INTERNALDNS and WHOIS privacy service parameter is not supported in AddDomainApplication command
         unset($command["INTERNALDNS"]);
         unset($command["X-ACCEPT-WHOISTRUSTEE-TAC"]);
     }
@@ -2513,8 +2514,9 @@ function ispapi_RegisterDomain($params)
                     $command["CLASS"] =  $registrar_premium_domain_class;
                     $command["PRICE"] =  $premiumDomainsCost;
                     $command["CURRENCY"] = $registrar_premium_domain_currency;
-                    //INTERNALDNS parameter is not supported in AddDomainApplication command
+                    //INTERNALDNS and WHOIS privacy service parameter is not supported in AddDomainApplication command
                     unset($command["INTERNALDNS"]);
+                    unset($command["X-ACCEPT-WHOISTRUSTEE-TAC"]);
                 }
             }
         }
