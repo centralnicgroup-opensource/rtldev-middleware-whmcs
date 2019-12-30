@@ -92,7 +92,7 @@ function ispapi_getConfigArray($params)
             ispapi_setStatsEnvironment($params);
         } else {
             $configarray[""] = [
-                "Description" => "<div class='label label-success' style='padding:5px 50px;'><b>Disconnected (Verify Username and Password)<br/>".$r["CODE"]." " .$r["DESCRIPTION"]."</b></div>"
+                "Description" => "<div class='label label-danger' style='padding:5px 50px;'><b>Disconnected (Verify Username and Password)<br/>".$r["CODE"]." " .$r["DESCRIPTION"]."</b></div>"
             ];
         }
     }
