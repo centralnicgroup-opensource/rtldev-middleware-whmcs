@@ -2,20 +2,32 @@
 
 use WHMCS\View\Menu\Item as MenuItem;
 
-/*
- * Autofill VAT-ID additional domain field
- * if the client contact details contain the VAT-ID, the VAT-ID fields are autofilled during domain registrations.
+/**
+ * Auto-Prefill VAT-ID, X-DK-REGISTRANT/ADMIN additional domain field when provided in client data
  */
 add_hook('ClientAreaHeadOutput', 1, function ($vars) {
     $vatid = $vars['clientsdetails']['tax_id'];
+    $dkid = '';
 
-    if ($vatid) {
+    $cfs = getCustomFields("client", "", $vars['clientsdetails']['userid'], "on", "");
+    foreach ($cfs as $cf) {
+        if ("dkhostmasteruserid" === $cf['textid'] && !empty($cf['value'])) {
+            $dkid = $cf['value'];
+        }
+    }
+
+    if ($vatid || $dkid) {
         return <<<HTML
             <script type="text/javascript">
+                const vatid = '$vatid';
+                const dkid = '$dkid';
                 $(document).ready(function () {
                     $('#frmConfigureDomains .row .col-sm-4').each(function () {
-                        if($(this).text().match(/VAT ID|VATID/i)){
-                            $(this).siblings().children(':input').val('$vatid');
+                        if(vatid && $(this).text().match(/VAT ID|VATID/i)){
+                            $(this).siblings().children(':input').val(vatid);
+                        }
+                        else if (dkid && $(this).text().match(/^(registrant|admin) contact\:$/i)) {
+                            $(this).siblings().children(':input').val(dkid);
                         }
                     });
                 });
