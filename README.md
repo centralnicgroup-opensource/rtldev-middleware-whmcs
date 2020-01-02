@@ -46,6 +46,9 @@ This Repository covers the WHMCS Registrar Module of HEXONET. It provides the fo
 * Support for .SWISS registrations
 * Support for SRV records
 * Support for DNSSEC Management
+* Auto-Prefill additional domain fields
+    * VAT ID
+    * DK Hostmaster User ID
 
 ... and MORE!
 
