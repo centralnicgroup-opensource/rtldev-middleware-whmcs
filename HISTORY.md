@@ -1,3 +1,10 @@
+# [2.4.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.3.0...v2.4.0) (2020-01-02)
+
+
+### Features
+
+* **.dk additional fields:** auto-prefill DK-Hostmaster User ID input fields ([10a642c](https://github.com/hexonet/whmcs-ispapi-registrar/commit/10a642cebc5a76913431b6a3630ffc8f17051fba))
+
 # [2.3.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.2.3...v2.3.0) (2019-12-19)
 
 
