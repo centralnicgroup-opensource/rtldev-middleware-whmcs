@@ -1,3 +1,10 @@
+## [2.4.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.0...v2.4.1) (2020-01-02)
+
+
+### Bug Fixes
+
+* **additional fields:** fixed pre-fill to check for getCustomFields fn ([f7eb9e4](https://github.com/hexonet/whmcs-ispapi-registrar/commit/f7eb9e40950e14fee41887fa2ac133889652b503))
+
 # [2.4.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.3.0...v2.4.0) (2020-01-02)
 
 
