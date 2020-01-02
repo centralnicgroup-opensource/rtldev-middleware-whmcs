@@ -9,10 +9,12 @@ add_hook('ClientAreaHeadOutput', 1, function ($vars) {
     $vatid = $vars['clientsdetails']['tax_id'];
     $dkid = '';
 
-    $cfs = getCustomFields("client", "", $vars['clientsdetails']['userid'], "on", "");
-    foreach ($cfs as $cf) {
-        if ("dkhostmasteruserid" === $cf['textid'] && !empty($cf['value'])) {
-            $dkid = $cf['value'];
+    if (function_exists('getCustomFields')) {
+        $cfs = getCustomFields("client", "", $vars['clientsdetails']['userid'], "on", "");
+        foreach ($cfs as $cf) {
+            if ("dkhostmasteruserid" === $cf['textid'] && !empty($cf['value'])) {
+                $dkid = $cf['value'];
+            }
         }
     }
 
