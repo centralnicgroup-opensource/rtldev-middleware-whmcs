@@ -1,3 +1,10 @@
+## [2.4.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.1...v2.4.2) (2020-01-03)
+
+
+### Bug Fixes
+
+* **sync:** do not return expirydate if not available on API side ([3a32573](https://github.com/hexonet/whmcs-ispapi-registrar/commit/3a32573ed2d80117f7f82dc81f529a2640fc9ca2))
+
 ## [2.4.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.0...v2.4.1) (2020-01-02)
 
 
