@@ -3001,10 +3001,10 @@ function ispapi_Sync($params)
         if (strlen($p["address2"])) {
             $cmdparams["STREET"] .= " , ".html_entity_decode($p["address2"], ENT_QUOTES);
         }
-        if (!empty($r["OWNERCONTACT0"][0]) && preg_match("/^AUTO-.+$/", $r["OWNERCONTACT0"][0])) {
+        if (!empty($r["OWNERCONTACT"][0]) && preg_match("/^AUTO-.+$/", $r["OWNERCONTACT"][0])) {
             $rc = ispapi_call([
                 "COMMAND" => "StatusContact",
-                "CONTACT" => $r["OWNERCONTACT0"][0]
+                "CONTACT" => $r["OWNERCONTACT"][0]
             ], ispapi_config($params));
             if ($rc["CODE"] == 200) {
                 if (empty($rc["PROPERTY"]["NAME"][0]) &&
