@@ -1,3 +1,10 @@
+## [2.4.3](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.2...v2.4.3) (2020-01-13)
+
+
+### Bug Fixes
+
+* **sync:** fixed data key name used to access registrant data ([4d22817](https://github.com/hexonet/whmcs-ispapi-registrar/commit/4d22817537bc53bcea2a55015acb2874e63f3b55))
+
 ## [2.4.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.1...v2.4.2) (2020-01-03)
 
 
