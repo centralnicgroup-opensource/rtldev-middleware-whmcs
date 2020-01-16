@@ -1,3 +1,10 @@
+## [2.4.4](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.3...v2.4.4) (2020-01-16)
+
+
+### Bug Fixes
+
+* **authentication:** review output ([ceaef9f](https://github.com/hexonet/whmcs-ispapi-registrar/commit/ceaef9fd8eea48952f7911f36d6fd6489f470fe3)), closes [#129](https://github.com/hexonet/whmcs-ispapi-registrar/issues/129) [#128](https://github.com/hexonet/whmcs-ispapi-registrar/issues/128)
+
 ## [2.4.3](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.2...v2.4.3) (2020-01-13)
 
 
