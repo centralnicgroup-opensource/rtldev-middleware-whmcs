@@ -590,11 +590,12 @@ function ispapi_getConfigArray($params)
 
         $response = ispapi_call($command, ispapi_config($params));
         $mode_text = ($params["TestMode"]=="on") ? "to OT&E environment" : "to PRODUCTION environment";
-        $state = ($response["CODE"] == 200) ?
-            "<div style='color:white;font-weight:bold;background-color:green;padding:3px;width:400px;text-align:center;'>Connected ".$mode_text."</div>" :
-            "<div style='color:white;font-weight:bold;background-color:red;padding:3px;width:400px;text-align:center;'>Disconnected (Verify Username and Password)<br/>".$response["CODE"]." " .$response["DESCRIPTION"]."</div>";
-
-        $configarray[""] = array( "Description" => $state );
+        if ($response["CODE"] == 200) {
+            $configarray[""] = array( "Description" => "<div class='alert alert-success' style='font-size:medium;margin-bottom:0px;'>Connected ".$mode_text.".</div>" );
+        } else {
+            $configarray["Your Server-IP"] = array("Description" => $_SERVER["SERVER_ADDR"]);
+            $configarray[""] = array( "Description" => "<div class='alert alert-danger' style='margin-bottom:0px;'><h2 style='color:inherit;'>Connection failed. <small>(".$response["CODE"]." " .$response["DESCRIPTION"].")</small></h2><p>Read <a href='https://github.com/hexonet/whmcs-ispapi-registrar/wiki/FAQs#49-login-failed-in-registrar-module' target='_blank' class='alert-link'>here</a> for possible reasons.</p></div>" );
+        }
     }
 
     //Save information about module versions in the environment
