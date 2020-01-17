@@ -14,6 +14,10 @@ use WHMCS\Module\Addon\Setting;
 use WHMCS\Database\Capsule;
 use WHMCS\Domain\Registrar\Domain;
 use WHMCS\Carbon;
+use \WHMCS\Domains\Idna;
+
+require_once "lib/Helper.class.php";
+require_once "lib/AdditionalFields.class.php";
 
 include_once(implode(DIRECTORY_SEPARATOR, [__DIR__, "lib", "Ispapi.class.php"]));
 
@@ -1006,7 +1010,10 @@ function ispapi_registrantmodification_it($params)
             $params["additionalfields"]["Section 5 Agreement"] = "1";
             $params["additionalfields"]["Section 6 Agreement"] = "1";
             $params["additionalfields"]["Section 7 Agreement"] = "1";
+            
+            $params["countrycode"] = $command["OWNERCONTACT0"]["COUNTRY"];
             ispapi_use_additionalfields($params, $command);
+
             $response = ispapi_call($command, ispapi_config($origparams));
 
             if ($response["CODE"] == 200) {
@@ -1123,7 +1130,7 @@ function ispapi_registrantmodification_tld($params)
                 }
             }
             if (!$error) {
-                $params["additionalfields"] = $_POST["additionalfields"];
+                $params["countrycode"] = $command["OWNERCONTACT0"]["COUNTRY"];
                 ispapi_use_additionalfields($params, $command);
                 $response = ispapi_call($command, ispapi_config($origparams));
 
@@ -1253,6 +1260,7 @@ function ispapi_registrantmodification_ca($params)
         $params["additionalfields"]["Legal Type"] = $_POST["additionalfields"]["Legal Type"];
         $params["additionalfields"]["WHOIS Opt-out"] = $_POST["additionalfields"]["WHOIS Opt-out"];
 
+        $params["countrycode"] = $command["OWNERCONTACT0"]["COUNTRY"];
         ispapi_use_additionalfields($params, $command);
 
         $response = ispapi_call($command, ispapi_config($origparams));
@@ -2205,6 +2213,7 @@ function ispapi_SaveContactDetails($params)
 
         //some of the AFNIC TLDs(.fr, .pm, .re) require local presence. eg: "X-FR-ACCEPT-TRUSTEE-TAC" => 1
         ispapi_query_additionalfields($params);
+        $params["countrycode"] = $command["OWNERCONTACT0"]["COUNTRY"];
         ispapi_use_additionalfields($params, $command);
 
         //opt-out is not supported for AFNIC TLDs (eg: .FR)
@@ -2291,6 +2300,7 @@ function ispapi_SaveContactDetails($params)
 
     if (preg_match('/\.ca$/i', $domain)) {
         $registrant_command = $command["OWNERCONTACT0"];
+        $params["countrycode"] = $command["OWNERCONTACT0"]["COUNTRY"];
 
         $status_command = array(
             "COMMAND" => "StatusDomain",
@@ -2320,6 +2330,7 @@ function ispapi_SaveContactDetails($params)
         }
 
         ispapi_query_additionalfields($params);
+        //see $params["countrycode"] above
         ispapi_use_additionalfields($params, $command);
         //unset($command["X-CA-LEGALTYPE"]);
     }
@@ -2734,8 +2745,10 @@ function ispapi_TransferDomain($params)
         }
     }
     //#####################################################################
+    
+    $params["countrycode"] = $registrant["COUNTRY"];
+    ispapi_use_additionalfields($params, $command);
     if (preg_match("/\.ca$/", $domain->getDomain())) {
-        ispapi_use_additionalfields($params, $command);
         unset($command["X-CA-DISCLOSE"]);//not supported for transfers
     }
     $response = ispapi_call($command, ispapi_config($params));
@@ -3179,6 +3192,61 @@ function ispapi_getTLDPricing($params)
 }
 
 /**
+ * Return Additional Domain Fields per extension and order type
+ *
+ * @param array $params common module parameters
+ *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ *
+ * @return array
+ */
+function ispapi_AdditionalDomainFields(array $params)
+{
+    // TODO Review in case params["type"] is no longer >>always<< "register";
+    //      Review ispapi_use_additionalfields method
+    $type = $params["type"];
+    $transientKey = "ispapiFields" . ucfirst($params["type"]) . ucfirst($params["tld"]);
+    $fields = \WHMCS\TransientData::getInstance()->retrieve($transientKey);
+    if ($fields) {
+        $fields = json_decode($fields, true);
+        if (isset($fields) && is_array($fields)) {
+            return ["fields" => $fields];
+        }
+    }
+    //initialize array
+    $additionaldomainfields = [];
+    
+    // in tbldomainpricing they want IDN format, but for additional fields they still use punycode
+    $idnConvert = new \WHMCS\Domains\Idna();
+    $tld = $idnConvert->encode($params["tld"]);
+
+    // check if an file exists for the extension (e.g. .sg, .com.sg, .de)
+    $tldsecured = basename($idnConvert->encode($tld));
+    $type = basename($type);
+    $file = implode(DIRECTORY_SEPARATOR, [ROOTDIR, "modules", "registrars", "ispapi", "additionalfields", $type, $tldsecured . ".php"]);
+    if (file_exists($file)) {
+        include $file;
+    } else {
+        // if not, fallback to 2nd lvl extension
+        // note: in case 3rd lvl extension has NO xflags, but 2nd lvl extension has -> simply add an empty file for 3rd lvl extension
+        $tldshort = preg_replace("/^.+\./", "", $tld);
+        if ($tld !== $tldshort) {
+            $tldsecured = basename($tldshort);
+            $file = implode(DIRECTORY_SEPARATOR, [ROOTDIR, "modules", "registrars", "ispapi", "additionalfields", $type, $tldsecured . ".php"]);
+            if (file_exists($file)) {
+                include $file;
+            }
+        }
+    }
+    if (!isset($additionaldomainfields[$tld])) {
+        return ["fields" => []];
+    }
+    $fields = $additionaldomainfields[$tld];
+    \WHMCS\TransientData::getInstance()->store($transientKey, json_encode($fields), 86400 * 30);
+    return ["fields" => $fields];
+}
+
+/**
  * Return an array with the contact information of a contact handle
  * Uses the StatusContact command
  *
@@ -3272,61 +3340,15 @@ function ispapi_include_additionaladditionalfields()
 
 function ispapi_use_additionalfields($params, &$command)
 {
-    global $additionaldomainfields;
+    //TODO review when _AdditionalDomainFields has $params["type"] fixed
+    $params = injectDomainObjectIfNecessary($params);
 
-    ispapi_include_additionaladditionalfields();
-
-    $myadditionalfields = array();
-    if (is_array($additionaldomainfields) && isset($additionaldomainfields[".".$params["tld"]])) {
-        $myadditionalfields = $additionaldomainfields[".".$params["tld"]];
-    }
-
-    foreach ($myadditionalfields as $field_index => $field) {
-        if (!is_array($field["Ispapi-Replacements"])) {
-            $field["Ispapi-Replacements"] = array();
-        }
-
-        if (isset($field["Ispapi-Options"]) && isset($field["Options"])) {
-            $options = explode(",", $field["Options"]);
-            foreach (explode(",", $field["Ispapi-Options"]) as $index => $new_option) {
-                $option = $options[$index];
-                if (!isset($field["Ispapi-Replacements"][$option])) {
-                    $field["Ispapi-Replacements"][$option] = $new_option;
-                }
-            }
-        }
-
-        $myadditionalfields[$field_index] = $field;
-    }
-
-    foreach ($myadditionalfields as $field) {
-        if (isset($params['additionalfields'][$field["Name"]])) {
-            $value = $params['additionalfields'][$field["Name"]];
-
-            $ignore_countries = array();
-            if (isset($field["Ispapi-IgnoreForCountries"])) {
-                foreach (explode(",", $field["Ispapi-IgnoreForCountries"]) as $country) {
-                    $ignore_countries[strtoupper($country)] = 1;
-                }
-            }
-
-            if (!$ignore_countries[strtoupper($params["country"])]) {
-                if (isset($field["Ispapi-Replacements"][$value])) {
-                    $value = $field["Ispapi-Replacements"][$value];
-                }
-
-                if (isset($field["Ispapi-Eval"])) {
-                    eval($field["Ispapi-Eval"]);
-                }
-
-                if (isset($field["Ispapi-Name"])) {
-                    if (strlen($value)) {
-                        $command[$field["Ispapi-Name"]] = $value;
-                    }
-                }
-            }
-        }
-    }
+    $addflds = new \ISPAPI\AdditionalFields();
+    $addflds->setDomain($params["domainObj"]->getDomain())
+            ->setDomainType("register")
+            ->setFieldValues($params["additionalfields"])
+            ->addToCommand($command, $params["countrycode"]);
+    //TODO: verify $params["type"] and $params["countrycode"] to be available
 }
 
 function ispapi_get_utf8_params($params)
