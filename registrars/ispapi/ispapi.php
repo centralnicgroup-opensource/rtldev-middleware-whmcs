@@ -3022,14 +3022,14 @@ function ispapi_Sync($params)
             }
         }
         $map = [
-            "OWNERCONTACT0",
-            "ADMINCONTACT0",
-            "TECHCONTACT0",
-            "BILLINGCONTACT0"
+            "OWNERCONTACT",
+            "ADMINCONTACT",
+            "TECHCONTACT",
+            "BILLINGCONTACT"
         ];
         foreach ($map as $ctype) {
             if (empty($r[$ctype][0])) {
-                $command[$ctype] = $cmdparams;
+                $command[$ctype."0"] = $cmdparams;
             }
         }
     }
