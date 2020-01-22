@@ -1,3 +1,10 @@
+## [2.4.5](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.4...v2.4.5) (2020-01-22)
+
+
+### Bug Fixes
+
+* **_Sync:** review auto-update mechanism ([be47dc6](https://github.com/hexonet/whmcs-ispapi-registrar/commit/be47dc66372881ed358840c4a704ee11369ff7d4))
+
 ## [2.4.4](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.3...v2.4.4) (2020-01-16)
 
 
