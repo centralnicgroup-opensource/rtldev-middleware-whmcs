@@ -3204,46 +3204,10 @@ function ispapi_AdditionalDomainFields(array $params)
 {
     // TODO Review in case params["type"] is no longer >>always<< "register";
     //      Review ispapi_use_additionalfields method
-    $type = $params["type"];
-    $transientKey = "ispapiFields" . ucfirst($params["type"]) . ucfirst($params["tld"]);
-    $fields = \WHMCS\TransientData::getInstance()->retrieve($transientKey);
-    if ($fields) {
-        $fields = json_decode($fields, true);
-        if (isset($fields) && is_array($fields)) {
-            return ["fields" => $fields];
-        }
-    }
-    //initialize array
-    $additionaldomainfields = [];
-    
-    // in tbldomainpricing they want IDN format, but for additional fields they still use punycode
-    $idnConvert = new \WHMCS\Domains\Idna();
-    $tld = $idnConvert->encode($params["tld"]);
-
-    // check if an file exists for the extension (e.g. .sg, .com.sg, .de)
-    $tldsecured = basename($idnConvert->encode($tld));
-    $type = basename($type);
-    $file = implode(DIRECTORY_SEPARATOR, [ROOTDIR, "modules", "registrars", "ispapi", "additionalfields", $type, $tldsecured . ".php"]);
-    if (file_exists($file)) {
-        include $file;
-    } else {
-        // if not, fallback to 2nd lvl extension
-        // note: in case 3rd lvl extension has NO xflags, but 2nd lvl extension has -> simply add an empty file for 3rd lvl extension
-        $tldshort = preg_replace("/^.+\./", "", $tld);
-        if ($tld !== $tldshort) {
-            $tldsecured = basename($tldshort);
-            $file = implode(DIRECTORY_SEPARATOR, [ROOTDIR, "modules", "registrars", "ispapi", "additionalfields", $type, $tldsecured . ".php"]);
-            if (file_exists($file)) {
-                include $file;
-            }
-        }
-    }
-    if (!isset($additionaldomainfields[$tld])) {
-        return ["fields" => []];
-    }
-    $fields = $additionaldomainfields[$tld];
-    \WHMCS\TransientData::getInstance()->store($transientKey, json_encode($fields), 86400 * 30);
-    return ["fields" => $fields];
+    \ISPAPI\AdditionalFields::init($params["TestMode"] == "on");
+    $fields = \ISPAPI\AdditionalFields::getAdditionalDomainFields($params["tld"], $params["type"]);
+    var_dump($fields);
+    return $fields;
 }
 
 /**
