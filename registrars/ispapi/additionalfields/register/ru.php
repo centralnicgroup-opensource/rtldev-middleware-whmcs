@@ -32,15 +32,30 @@ $additionaldomainfields[$tld][] = [
 
 # add ispapi fields
 $additionaldomainfields[$tld][] = [
+    "Name" => "Legal Type",
+    "Type" => "dropdown",
+    "Options" => "Individual,Organization",
+    "Default" => "Individual"
+];
+$additionaldomainfields[$tld][] = [
     'Name'  => 'Individuals Birthday',
     "Description" => "(required for individuals)",
+    "Required" => [
+        "Legal Type" => [
+            "Individual"
+        ]
+    ],
     "Ispapi-Name" => "X-RU-REGISTRANT-BIRTH-DATE"
 ];
 $additionaldomainfields[$tld][] = [
     "Name" => "Individual's Passport Data",
     "Description" => "(required for individuals; including passport number, issue date, and place of issue)<br/><br/>",
     "Type" => "text",
-    "Required" => false,
+    "Required" => [
+        "Legal Type" => [
+            "Individual"
+        ]
+    ],
     "Ispapi-Name" => "X-RU-REGISTRANT-PASSPORT-DATA"
 ];
 include "_acceptregistrationtac.php";

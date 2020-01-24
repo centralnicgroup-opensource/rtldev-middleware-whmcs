@@ -67,8 +67,13 @@ $additionaldomainfields[$tld][] = [
 $additionaldomainfields[$tld][] = [
     "Name" => "Registrant Other Document Type",
     "Type" => "text",
-    "Required" => false,
-    "Description" => "(required for document types `Others Individual/Organization Document`)",
+    "Required" => [
+        'Registrant Document Type' => [
+            'OTHIDV',
+            'OTHORG'
+        ]
+    ],
+    "Description" => "(required for Registrant Document Types `Others Individual/Organization Document`)",
     "Ispapi-Name" => "X-HK-REGISTRANT-OTHER-DOCUMENT-TYPE"
 ];
 $additionaldomainfields[$tld][] = [
@@ -87,14 +92,30 @@ $additionaldomainfields[$tld][] = [
 $additionaldomainfields[$tld][] = [
     "Name" => "Registrant Birth Date for individuals",
     "Type" => "text",
-    "Required" => false,
+    "Required" => [
+        "Registrant Document Type" => [
+            "HKID",
+            "OTHID",
+            "PASSNO",
+            "BIRTHCERT",
+            "OTHIDV"
+        ]
+    ],
     "Description" => "(mandatory for individuals, format YYYY-MM-DD)",
     "Ispapi-Name" => "X-HK-REGISTRANT-BIRTH-DATE"
 ];
 $additionaldomainfields[$tld][] = [
     "Name" => "HK Terms for individuals",
     "Type" => "tickbox",
-    "Description" => "Accept the .HK <a href='https://www.hkirc.hk/content.jsp?id=3#!/6' target='_blank'>Terms for individuals</a>. (mandatory, if the registrant is an individual)",
-    "Required" => false,
+    "Description" => "Accept the .HK <a href='https://www.hkirc.hk/content.jsp?id=3#!/6' target='_blank'>Terms for individuals</a>. (mandatory for individuals)",
+    "Required" => [
+        "Registrant Document Type" => [
+            "HKID",
+            "OTHID",
+            "PASSNO",
+            "BIRTHCERT",
+            "OTHIDV"
+        ]
+    ],
     "Ispapi-Name" => "X-HK-ACCEPT-INDIVIDUAL-REGISTRATION-TAC"
 ];

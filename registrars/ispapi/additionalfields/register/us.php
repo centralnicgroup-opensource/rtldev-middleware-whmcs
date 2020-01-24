@@ -26,6 +26,11 @@ $additionaldomainfields[$tld][] = [
     "Name" => "Nexus Country",
     "Description" => "<div>Specify the two-letter country-code of the registrant (if Nexus Category is either C31 or C32).</div>",
     "Ispapi-Name" => "X-US-NEXUS-VALIDATOR",
-    "Required" => false,
+    "Required" => [
+        "Nexus Category" => [
+            "C31",
+            "C32"
+        ]
+    ],
     "Ispapi-Format" => 'UPPERCASE'
 ];

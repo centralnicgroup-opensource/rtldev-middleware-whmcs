@@ -3341,6 +3341,7 @@ function ispapi_include_additionaladditionalfields()
 function ispapi_use_additionalfields($params, &$command)
 {
     //TODO review when _AdditionalDomainFields has $params["type"] fixed
+    //TODO verify $params["type"] to be available
     $params = injectDomainObjectIfNecessary($params);
 
     $addflds = new \ISPAPI\AdditionalFields();
@@ -3348,7 +3349,6 @@ function ispapi_use_additionalfields($params, &$command)
             ->setDomainType("register")
             ->setFieldValues($params["additionalfields"])
             ->addToCommand($command, $params["countrycode"]);
-    //TODO: verify $params["type"] and $params["countrycode"] to be available
 }
 
 function ispapi_get_utf8_params($params)
