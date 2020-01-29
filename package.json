@@ -49,7 +49,6 @@
   },
   "scripts": {
     "codeCheck": "phpcs --standard=PSR1,PSR2 -q -n --colors registrars tests",
-    "codeFix": "phpcbf --standard=PSR1,PSR2 -q registrars tests",
-    "test": "phpunit"
+    "codeFix": "phpcbf --standard=PSR1,PSR2 -q registrars tests"
   }
 }
