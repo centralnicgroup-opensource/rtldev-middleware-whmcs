@@ -2514,9 +2514,7 @@ function ispapi_RegisterDomain($params)
         "NAMESERVER2" => $params["ns3"],
         "NAMESERVER3" => $params["ns4"],
         "OWNERCONTACT0" => $registrant,
-        "ADMINCONTACT0" => $admin,
-        "TECHCONTACT0" => $admin,
-        "BILLINGCONTACT0" => $admin
+        "ADMINCONTACT0" => $admin
     );
 
     if ($origparams["TRANSFERLOCK"]) {
@@ -2542,6 +2540,7 @@ function ispapi_RegisterDomain($params)
     }
 
     \ISPAPI\AdditionalFields::addToCMD($params, $command);
+    $command["BILLINGCONTACT0"] = $command["TECHCONTACT0"] = $command["ADMINCONTACT0"];
 
     //#####################################################################
     //##################### PREMIUM DOMAIN HANDLING #######################
@@ -3199,7 +3198,6 @@ function ispapi_AdditionalDomainFields(array $params)
     //      Review \ISPAPI\AdditionalFields::addToCMD method
     \ISPAPI\AdditionalFields::init($params["TestMode"] == "on");
     $fields = \ISPAPI\AdditionalFields::getAdditionalDomainFields($params["tld"], $params["type"], $params["whmcsVersion"]);
-    var_dump($fields);
     return $fields;
 }
 

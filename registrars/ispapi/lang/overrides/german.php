@@ -217,10 +217,14 @@ $_LANG["hxflagsdetldabuseteamcontactdescr"] = "Sie können eine Email- oder Webs
 
 // .DK
 $_LANG["hxflagsdktldregistrantcontact"] = "Registrant, Kontakt";
+$_LANG["hxflagsdktldregistrantlegaltype"] = "Registrant, Rechtsform";
+$_LANG["hxflagsdktldregistrantlegaltypeindiv"] = "Privatperson";
+$_LANG["hxflagsdktldregistrantlegaltypeorg"] = "Unternehmen";
 $_LANG["hxflagsdktldadmincontact"] = "Admin, Kontakt";
-$_LANG["hxflagsdktldlegaltypeindividual"] = "Privatperson";
-$_LANG["hxflagsdktldlegaltypeorganization"] = "Unternehmen";
-$_LANG["hxflagsdktldlegaltypedescr"] = "Wählen Sie bitte auch `Privatperson` un Falle eines Kleinunternehmens ohne Umsatzsteuer-ID-Nr.";
+$_LANG["hxflagsdktldadminlegaltype"] = "Admin, Rechtsform";
+$_LANG["hxflagsdktldadminlegaltypeindiv"] = "Privatperson";
+$_LANG["hxflagsdktldadminlegaltypeorg"] = "Unternehmen";
+$_LANG["hxflagsdktldlegaltypedescr"] = "Wählen Sie bitte auch `Privatperson` im Falle eines Kleinunternehmens ohne Umsatzsteuer-ID-Nr. (Firmdaten werden dann bei der Registrierung unterdrückt).";
 $_LANG["hxflagsdktldcontactdescr"] = "DK-HOSTMASTER Benutzer ID";
 
 // .ES

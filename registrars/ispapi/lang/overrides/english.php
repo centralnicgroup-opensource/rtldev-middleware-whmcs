@@ -217,10 +217,14 @@ $_LANG["hxflagsdetldabuseteamcontactdescr"] = "The registry will identify this a
 
 // .DK
 $_LANG["hxflagsdktldregistrantcontact"] = "Registrant Contact";
+$_LANG["hxflagsdktldregistrantlegaltype"] = "Registrant Legal Type";
+$_LANG["hxflagsdktldregistrantlegaltypeindiv"] = "Individual";
+$_LANG["hxflagsdktldregistrantlegaltypeorg"] = "Organization";
 $_LANG["hxflagsdktldadmincontact"] = "Admin Contact";
-$_LANG["hxflagsdktldlegaltypeindividual"] = "Individual";
-$_LANG["hxflagsdktldlegaltypeorganization"] = "Organization";
-$_LANG["hxflagsdktldlegaltypedescr"] = "Also choose `Individual` in case you're a company without VATID";
+$_LANG["hxflagsdktldadminlegaltype"] = "Admin Legal Type";
+$_LANG["hxflagsdktldadminlegaltypeindiv"] = "Individual";
+$_LANG["hxflagsdktldadminlegaltypeorg"] = "Organization";
+$_LANG["hxflagsdktldlegaltypedescr"] = "Also choose `Individual` in case you're a company without VATID (Company data will then be suppressed in registration process).";
 $_LANG["hxflagsdktldcontactdescr"] = "DK-HOSTMASTER User ID";
 
 // .ES
