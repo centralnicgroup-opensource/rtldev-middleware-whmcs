@@ -9,7 +9,7 @@ $_LANG["hxflagstacagreementindiv"] = "Bedingungen für Privatpersonen";
 $_LANG["hxflagstactrustee"] = "Treuhandservice";
 $_LANG["hxflagstachighlyregulated"] = "Stark Regulierte TLD";
 $_LANG["hxflagstachighlyregulateddescrdefault"] = (
-    "Bestätigen Sie, daß der Registrant berechtigt ist diese Domain zu registrieren und daß alle angegebenen Daten korrekt und wahrheitsgemäß sind." .
+    "Bestätigen Sie, daß der Registrant berechtigt ist diese Domain zu registrieren und daß alle angegebenen Daten korrekt und wahrheitsgemäß sind. " .
     "Berechtigungskriterien können <a href='####TAC####' target='_blank'>hier</a> eingesehen werden."
 );
 $_LANG["hxflagstachighlyregulateddescreco"] = (
@@ -103,7 +103,7 @@ $_LANG["hxflagsbillingidnumber"] = "Billing-C, Identifikationsnr.";
 $_LANG["hxflagsregistrantidtype"] = "Registrant, Ursprung der Identifikationsnr.";
 $_LANG["hxflagsallocationtoken"] = "Bestellschlüssel der Registrierungsstelle";
 $_LANG["hxflagsallocationtokendescr"] = (
-    "Um eine ####TLD#### Domain zu registrieren, müssen Sie den durch Registrierungsstelle ausgestellten Bestellschlüssel angeben. " .
+    "Um eine ####TLD#### Domain zu registrieren, müssen Sie den durch die Registrierungsstelle ausgestellten Bestellschlüssel angeben. " .
     "Füllen Sie bitte <a href='####TAC####' target='_blank'>hier</a> den Antrag aus, um den Schlüssel zu erhalten."
 );
 $_LANG["hxflagsnexuscategory"] = "Nexus Kategorie";
@@ -141,23 +141,24 @@ $_LANG["hxflagsafnictldlegaltypeorg4"] = "Unternehmen mit regionaler Kennung";
 $_LANG["hxflagsafnictldlegaltypeass"] = "Französischer Verband";
 
 // .AERO
-$_LANG["hxflagsaerotldaeroid"] = ".AERO ID";
-$_LANG["hxflagsaerotldaerokey"] = ".AERO Key";
+$_LANG["hxflagsaerotldaeroid"] = ".AERO ID <sup style='cursor:help;' title='Hier ausstellen lassen https://www.information.aero/'>was ist das?</sup>";
+$_LANG["hxflagsaerotldaerokey"] = ".AERO Key <sup style='cursor:help;' title='Hier ausstellen lassen https://www.information.aero/'>was ist das?</sup>";
 
 // .CA
 $_LANG["hxflagscatldcontactlanguage"] = "Kontaktsprache";
+$_LANG["hxflagscatldwhoisoptoutdescr"] = "Ankreuzen, um Ihre Kontaktdaten im CIRA WHOIS auszublenden (nur für Privatpersonen)";
 // Options, Legal Type
 $_LANG["hxflagscatldlegaltypecco"] = "Unternehmen";
 $_LANG["hxflagscatldlegaltypecct"] = "Kanadischer Staatsbürger";
 $_LANG["hxflagscatldlegaltyperes"] = "Ständiger Wohnsitz in Kanada";
 $_LANG["hxflagscatldlegaltypegov"] = "Regierung oder Regierungsbehörde in Kanada";
 $_LANG["hxflagscatldlegaltypeedu"] = "Kanadische Bildungseinrichtung";
-$_LANG["hxflagscatldlegaltypeass"] = "Kanadischer, nicht eingetragener Verein";
+$_LANG["hxflagscatldlegaltypeass"] = "Kanadischer nicht eingetragener Verein";
 $_LANG["hxflagscatldlegaltypehos"] = "Kanadisches Krankenhaus";
 $_LANG["hxflagscatldlegaltypeprt"] = "In Kanada eingetragene Partnerschaft";
 $_LANG["hxflagscatldlegaltypetdm"] = "In Kanada registrierte Marke (durch einen nicht-kanadischen Inhaber)";
 $_LANG["hxflagscatldlegaltypetrd"] = "Kanadische Handelsgesellschaft";
-$_LANG["hxflagscatldlegaltypeplt"] = "Kanadische, politische Partei";
+$_LANG["hxflagscatldlegaltypeplt"] = "Kanadische politische Partei";
 $_LANG["hxflagscatldlegaltypelam"] = "Kanadisches Bibliotheksarchiv oder Museum";
 $_LANG["hxflagscatldlegaltypetrs"] = "In Kanada etablierter Konzern";
 $_LANG["hxflagscatldlegaltypeabo"] = "Ureinwohner (Einzelpersonen oder Gruppen) uransässig in Kanada";
@@ -180,7 +181,7 @@ $_LANG["hxflagscntldregistrantidtypeorg"] = "CCC Zertifikat";
 $_LANG["hxflagscntldregistrantidtypeyyzz"] = "Chinesische Gewerbeerlaubnis";
 $_LANG["hxflagscntldregistrantidtypetydm"] = "USCC Zertifikat";
 $_LANG["hxflagscntldregistrantidtypebddm"] = "Militärische Code-Bezeichnung";
-$_LANG["hxflagscntldregistrantidtypejddwfw"] = "Militärisch-bezahlte, ausländische Service-Lizenz";
+$_LANG["hxflagscntldregistrantidtypejddwfw"] = "Militärisch-bezahlte ausländische Service-Lizenz";
 $_LANG["hxflagscntldregistrantidtypesydwfr"] = "Zertifikat einer juristischen Person der öffentlichen Einrichtung";
 $_LANG["hxflagscntldregistrantidtypewgczjg"] = "Registrierungsformular für Ansässige Vertretungen ausländischer Unternehmen";
 $_LANG["hxflagscntldregistrantidtypeshttfr"] = "Registrierungszertifikat einer juristischen Person einer sozialen Einrichtung";
@@ -204,10 +205,10 @@ $_LANG["hxflagscntldregistrantidtypeqt"] = "Sonstiges";
 $_LANG["hxflagscomautldregistrantidtypeabn"] = "Australische Steuernummer";
 $_LANG["hxflagscomautldregistrantidtypeacn"] = "Australische Firmennummer";
 $_LANG["hxflagscomautldregistrantidtyperbn"] = "Handelsregisternummer";
-$_LANG["hxflagscomautldregistrantidtypertm"] = "Markennummer";
+$_LANG["hxflagscomautldregistrantidtypetm"] = "Markennummer";
 
 // .COM.BR
-$_LANG["hxflagscombrtldidentificationnumberdescr"] = "Bitte geben Sie Ihre CPF oder CNPJ Nummern an, welche Ihnen das staatlische Finanzministerium Brasiliens für steuerliche Zwecke ausstellt.";
+$_LANG["hxflagscombrtldidentificationnumberdescr"] = "Bitte geben Sie Ihre CPF oder CNPJ Nummer an, welche Ihnen das staatlische Finanzministerium Brasiliens für steuerliche Zwecke ausstellt.";
 
 // .DE
 $_LANG["hxflagsdetldgeneralrequestcontact"] = "Kontakt für allg. Anfragen";
@@ -440,7 +441,7 @@ $_LANG["hxflagsmytldregistrantorganisationtype27"] = "Landesregierungsbehörde/-
 $_LANG["hxflagsmytldregistrantorganisationtype28"] = "Handelsgesellschaft";
 $_LANG["hxflagsmytldregistrantorganisationtype29"] = "Treuhänder";
 $_LANG["hxflagsmytldregistrantorganisationtype30"] = "Universität unter Leitung des Bildungsministeriums";
-$_LANG["hxflagsmytldregistrantorganisationtype31"] = "Gutachter-, Sachverständigen- und Immobiliengunternehmen";
+$_LANG["hxflagsmytldregistrantorganisationtype31"] = "Gutachter-/Sachverständigen-/Immobiliengunternehmen";
 
 // .NYC
 // Options, Nexus Category
@@ -502,16 +503,16 @@ $_LANG["hxflagsustldintendedusep3"] = "Privatgebrauch";
 $_LANG["hxflagsustldintendedusep4"] = "Bildungszwecke";
 $_LANG["hxflagsustldintendedusep5"] = "Regierungszwecke";
 // Options, Nexus Category, https://www.about.us/policies/ustld-nexus-codes
-$_LANG["hxflagsustldnexuscategoryc11"] = "Eine natürliche Person, die Bürger der Vereinigten Staaten ist";
-$_LANG["hxflagsustldnexuscategoryc12"] = "Eine natürliche Person mit ständigem Wohnsitz in den USA oder in einem der zugehörigen Gebiete/Territorien";
+$_LANG["hxflagsustldnexuscategoryc11"] = "Natürliche Person - Bürger der Vereinigten Staaten";
+$_LANG["hxflagsustldnexuscategoryc12"] = "Natürliche Person - Ständiger Wohnsitz in den USA oder in einem der zugehörigen Gebiete/Territorien";
 $_LANG["hxflagsustldnexuscategoryc21"] = (
-    "Eine U.S.-Organisation oder Firma, die in einem der 50 U.S. Staaten, im Bezirk Columbien oder in einem der US-Gebiete/Territorien gegründet " .
-    "oder aufgebaut wurde, oder anderweitig unter der Gesetzen der USA, des Bezirks Columbien oder in einem der US-Gebiete/Territorien errichtet wurde " .
-    "oder eine U.S. Bundes-, Landes- oder Kommunalbehörde oder eine Gebietskörperschaft davon."
+    "Eine U.S.-Organisation oder Firma; in einem der 50 U.S. Staaten / im Bezirk Columbien oder in einem der US-Gebiete/Territorien gegründet " .
+    "oder aufgebaut wurde / oder anderweitig unter der Gesetzen der USA / des Bezirks Columbien oder in einem der US-Gebiete/Territorien errichtet wurde " .
+    "oder eine U.S. Bundes- / Landes- / Kommunalbehörde oder eine Gebietskörperschaft davon."
 );
 $_LANG["hxflagsustldnexuscategoryc31"] = (
     "Eine ausländische Entität oder Firma mit gutgläubiger Präsenz in den USA oder in einem der zugehörigen Gebiete/Territorien, die sich regelmäßig mit ".
-    "gesetzlichen Angelegenheiten, Güterverkauf oder Dienstleistungen oder sonstigen kommerziellen oder nicht-kommerziellen Geschäften befasst inkl. gemeinnützige Beziehungen zu den Vereinigte Staaten"
+    "gesetzlichen Angelegenheiten / Güterverkauf / Dienstleistungen oder sonstigen kommerziellen oder nicht-kommerziellen Geschäften befasst inkl. gemeinnützige Beziehungen zu den Vereinigte Staaten"
 );
 $_LANG["hxflagsustldnexuscategoryc32"] = "Ein ausländisches Unternehmen mit Büro oder Werk in den Vereinigten Staaten";
 $_LANG["hxflagsustldnexuscountrydescr"] = "<div>Geben Sie die ursprüngliche Staatsbürgerschaft des Registranten an (NUR benötigt für die letzen beiden Optionen der Nexus Kategorie (C31 or C32)).</div>";

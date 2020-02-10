@@ -141,11 +141,12 @@ $_LANG["hxflagsafnictldlegaltypeorg4"] = "Company local identifier";
 $_LANG["hxflagsafnictldlegaltypeass"] = "French Association";
 
 // .AERO
-$_LANG["hxflagsaerotldaeroid"] = ".AERO ID";
-$_LANG["hxflagsaerotldaerokey"] = ".AERO Key";
+$_LANG["hxflagsaerotldaeroid"] = ".AERO ID <sup style='cursor:help;' title='Obtain from https://www.information.aero/'>what's this?</sup>";
+$_LANG["hxflagsaerotldaerokey"] = ".AERO Key <sup style='cursor:help;' title='Obtain from https://www.information.aero/'>what's this?</sup>";
 
 // .CA
 $_LANG["hxflagscatldcontactlanguage"] = "Contact Language";
+$_LANG["hxflagscatldwhoisoptoutdescr"] = "Tick to hide your contact information in CIRA WHOIS (only available to individuals)";
 // Options, Legal Type
 $_LANG["hxflagscatldlegaltypecco"] = "Corporation";
 $_LANG["hxflagscatldlegaltypecct"] = "Canadian Citizen";
@@ -173,7 +174,7 @@ $_LANG["hxflagscntldregistrantidtypehz"] = "Foreign Passport";
 $_LANG["hxflagscntldregistrantidtypegajmtx"] = "Exit-Entry Permit for Travelling to and from Hong Kong and Macao";
 $_LANG["hxflagscntldregistrantidtypetwjmtx"] = "Travel passes for Taiwan Residents to Enter or Leave the Mainland";
 $_LANG["hxflagscntldregistrantidtypewjlsfz"] = "Foreign Permanent Resident ID Card";
-$_LANG["hxflagscntldregistrantidtypegajzz"] = "Residence permit for Hong Kong, Macao residents";
+$_LANG["hxflagscntldregistrantidtypegajzz"] = "Residence permit for Hong Kong / Macao residents";
 $_LANG["hxflagscntldregistrantidtypetwjzz"] = "Residence permit for Taiwan residents";
 $_LANG["hxflagscntldregistrantidtypejgz"] = "Chinese officer certificate";
 $_LANG["hxflagscntldregistrantidtypeorg"] = "Chinese Organization Code Certificate";
@@ -204,7 +205,7 @@ $_LANG["hxflagscntldregistrantidtypeqt"] = "Others";
 $_LANG["hxflagscomautldregistrantidtypeabn"] = "Australian Business Number";
 $_LANG["hxflagscomautldregistrantidtypeacn"] = "Australian Company Number";
 $_LANG["hxflagscomautldregistrantidtyperbn"] = "Business Registration Number";
-$_LANG["hxflagscomautldregistrantidtypertm"] = "Trademark Number";
+$_LANG["hxflagscomautldregistrantidtypetm"] = "Trademark Number";
 
 // .COM.BR
 $_LANG["hxflagscombrtldidentificationnumberdescr"] = "Please provide your CPF or CNPJ numbers which are issued by the Department of Federal Revenue of Brazil for tax purposes";
@@ -440,7 +441,7 @@ $_LANG["hxflagsmytldregistrantorganisationtype27"] = "state government departmen
 $_LANG["hxflagsmytldregistrantorganisationtype28"] = "trade union";
 $_LANG["hxflagsmytldregistrantorganisationtype29"] = "trustee";
 $_LANG["hxflagsmytldregistrantorganisationtype30"] = "university under the administration of ministry of education";
-$_LANG["hxflagsmytldregistrantorganisationtype31"] = "valuer, appraiser and estate agent firm";
+$_LANG["hxflagsmytldregistrantorganisationtype31"] = "valuer / appraiser / estate agent firm";
 
 // .NYC
 // Options, Nexus Category
@@ -503,15 +504,15 @@ $_LANG["hxflagsustldintendedusep4"] = "Educational purposes";
 $_LANG["hxflagsustldintendedusep5"] = "Government purposes";
 // Options, Nexus Category, https://www.about.us/policies/ustld-nexus-codes
 $_LANG["hxflagsustldnexuscategoryc11"] = "A natural person who is a United States Citizen";
-$_LANG["hxflagsustldnexuscategoryc12"] = "A natural person who is a permanent resident of the United States of America, or any of its possessions or territories";
+$_LANG["hxflagsustldnexuscategoryc12"] = "A natural person who is a permanent resident of the United States of America / or any of its possessions or territories";
 $_LANG["hxflagsustldnexuscategoryc21"] = (
-    "A U.S.-based organization or company formed within one of the fifty (50) U.S. states, the District of Columbia, or any of the United States " .
-    "possessions or territories, or organized or otherwise constituted under the laws of a state of the United States of America, the District of " .
-    "Columbia or any of its possessions or territories or a U.S. federal, state, or local government entity or a political subdivision thereof"
+    "A U.S.-based organization or company formed within one of the fifty (50) U.S. states / the District of Columbia / or any of the United States " .
+    "possessions or territories; or organized or otherwise constituted under the laws of a state of the United States of America / the District of " .
+    "Columbia or any of its possessions or territories or a U.S. federal / state / or local government entity or a political subdivision thereof"
 );
 $_LANG["hxflagsustldnexuscategoryc31"] = (
     "A foreign entity or organization that has a bona fide presence in the United States of America or any of its possessions or territories who " .
-    "regularly engages in lawful activities, sales of goods or services or other business, commercial or non-commercial, including not-for-profit relations in the United States"
+    "regularly engages in lawful activities / sales of goods or services or other business / commercial or non-commercial / including not-for-profit relations in the United States"
 );
 $_LANG["hxflagsustldnexuscategoryc32"] = "A foreign entity that has an office or other facility in the United States";
 $_LANG["hxflagsustldnexuscountrydescr"] = "<div>Specify registrant's origin citizenship (in case of last two Nexus Category Options (C31 or C32)).</div>";
