@@ -9,7 +9,7 @@
   },
   "license": "MIT",
   "engines": {
-    "node": ">=8.3.0"
+    "node": ">=10.18.0"
   },
   "homepage": "https://github.com/hexonet/whmcs-ispapi-registrar",
   "repository": "github:hexonet/whmcs-ispapi-registrar",
