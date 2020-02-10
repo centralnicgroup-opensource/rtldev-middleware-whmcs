@@ -3195,11 +3195,10 @@ function ispapi_getTLDPricing($params)
  */
 function ispapi_AdditionalDomainFields(array $params)
 {
-    die("<pre>" . print_r($params, true) . "</pre>");
     // TODO Review in case params["type"] is no longer >>always<< "register";
     //      Review \ISPAPI\AdditionalFields::addToCMD method
     \ISPAPI\AdditionalFields::init($params["TestMode"] == "on");
-    $fields = \ISPAPI\AdditionalFields::getAdditionalDomainFields($params["tld"], $params["type"]);
+    $fields = \ISPAPI\AdditionalFields::getAdditionalDomainFields($params["tld"], $params["type"], $params["whmcsVersion"]);
     var_dump($fields);
     return $fields;
 }
