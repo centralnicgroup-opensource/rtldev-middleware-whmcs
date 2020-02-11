@@ -32,12 +32,12 @@ $_LANG["hxflagstachighlyregulateddescrnotac"] = (
     "</li>" .
     "</ol></div>"
 );
-$_LANG["hxflagstacindividualregulateddescrdefault"] = "Bestätigen Sie die <a href='####TAC####' target='_blank'>Richtlinien für Privatpersonen</a> anzuerkennen.";//
-$_LANG["hxflagstacregulateddescrdefault"] = "Bestätigen Sie die <a href='####TAC####' target='_blank'>Registrierungsbedingungen der Registrierungsstelle</a> bzgl. Neuregistrierung von ####TLD#### Domainnamen anzuerkennen.";//
+$_LANG["hxflagstacindividualregulateddescrdefault"] = "Bestätigen Sie die <a href='####TAC####' target='_blank'>Richtlinien für Privatpersonen</a> anzuerkennen.";
+$_LANG["hxflagstacregulateddescrdefault"] = "Bestätigen Sie die <a href='####TAC####' target='_blank'>Registrierungsbedingungen der Registrierungsstelle</a> bzgl. Neuregistrierung von ####TLD#### Domainnamen anzuerkennen.";
 $_LANG["hxflagstacregulateddescrngo"] = (
     "Bestätigen Sie die <a href='####TAC####' target='_blank'>Registrierungsbedingungen der Registrierungsstelle</a> bzgl. Neuregistrierung von ####TLD#### Domainnamen anzuerkennen." .
-    "<div style='padding:10px 0px;'>Mit der Registrierung einer .NGO Domain erhalten Sie auch gleichzeitig und ohne zusätzliche Kosten eine .ONG Domain. " .
-    "Änderungen an der .NGO Domain werden auch automatisch bei der .ONG Domain durchgeführt.</div>"
+    "<div style='padding:10px 0px;'>Mit der Registrierung einer ####TLD#### Domain erhalten Sie auch gleichzeitig und ohne zusätzliche Kosten eine .ONG Domain. " .
+    "Änderungen an der ####TLD#### Domain werden auch automatisch bei der .ONG Domain durchgeführt. Aus diesem Grund finden Sie die .ONG Domain auch nicht in Ihrem Domaininventar gelistet.</div>"
 );
 $_LANG["hxflagstacregulateddescritsection3"] = (
     "Bestätigen Sie <b><a href='####TAC####' target='_blank'>Abschnitt 3 - Declarations and assumptions of liability</a></b> anzuerkennen.<br/>" .
@@ -109,13 +109,13 @@ $_LANG["hxflagsallocationtokendescr"] = (
 $_LANG["hxflagsnexuscategory"] = "Nexus Kategorie";
 $_LANG["hxflagsnexuscountry"] = "Nexus Länderschlüssel";
 $_LANG["hxflagsfax"] = "Fax benötigt";
-$_LANG["hxflagsfaxdescr"] = "Ich versichere <a href='####TAC####'>dieses Formular</a> auszufüllen und zu übersenden, um den Registrierungsprozess abzuschließen.";
+$_LANG["hxflagsfaxdescr"] = "Ich versichere <a href='####TAC####'>dieses Formular</a> nach Übermittlung der Registrierung auszufüllen und zu übersenden, um den Registrierungsprozess abzuschließen.";
 $_LANG["hxflagsidentificationnumber"] = "Identifikationsnr.";
 $_LANG["hxflagswhoisoptout"] = "WHOIS Widerspruch";
 $_LANG["hxflagsregistrantbirthdate"] = "Registrant, Geburtsdatum";
 
 // AFNIC TLDs, prefixed with hxflagsafnic
-$_LANG["hxflagsafnictldvatid"] = "Steuernr. oder SIREN/SIRET Nr.";
+$_LANG["hxflagsafnictldvatid"] = "Steuernr. oder SIREN/SIRET-Nr.";
 $_LANG["hxflagsafnictldvatiddescr"] = "(Nur für Unternehmen mit Steuernr. oder SIREN/SIRET Nr.)";
 $_LANG["hxflagsafnictldtrademark"] = "Markenzeichennr.";
 $_LANG["hxflagsafnictldtrademarkdescr"] = "(Nur für Unternehmen mit europäischer Marke)";
@@ -127,7 +127,7 @@ $_LANG["hxflagsafnictldlocaliddescr"] = "(Nur für Unternehmen mit regionaler Ke
 $_LANG["hxflagsafnictldjodod"] = "Datum der Ankündigung [JO]";
 $_LANG["hxflagsafnictldjododdescr"] = "(Nur für französische Verbände, Format <b>JJJJ-MM-TT</b>)";
 $_LANG["hxflagsafnictldjonumber"] = "Nummer [JO]";
-$_LANG["hxflagsafnictldjonumberdescr"] = "(Nur für französische Verbände, Nr. des Journal Officiel)</div>";
+$_LANG["hxflagsafnictldjonumberdescr"] = "(Nur für französische Verbände, Nr. des Journal Officiel)";
 $_LANG["hxflagsafnictldjopage"] = "Seite der Ankündigung [JO]";
 $_LANG["hxflagsafnictldjopagedescr"] = "(Nur für französische Verbände, Seite der Ankündigung im Journal Officiel)";
 $_LANG["hxflagsafnictldjodop"] = "Datum der Veröffentlichung [JO]";
@@ -163,7 +163,7 @@ $_LANG["hxflagscatldlegaltypelam"] = "Kanadisches Bibliotheksarchiv oder Museum"
 $_LANG["hxflagscatldlegaltypetrs"] = "In Kanada etablierter Konzern";
 $_LANG["hxflagscatldlegaltypeabo"] = "Ureinwohner (Einzelpersonen oder Gruppen) uransässig in Kanada";
 $_LANG["hxflagscatldlegaltypeinb"] = "Durch den Indian Act Kanadas anerkannter Indianischer Stamm";
-$_LANG["hxflagscatldlegaltypelgr"] = "Rechtlicher Vertreter eines kanadischen Staatsbürgers oder ständigen Bewohners";//
+$_LANG["hxflagscatldlegaltypelgr"] = "Rechtlicher Vertreter eines kanadischen Staatsbürgers oder ständigen Bewohners";
 $_LANG["hxflagscatldlegaltypeomk"] = "Offzielle in Kanada registrierte Marke";
 $_LANG["hxflagscatldlegaltypemaj"] = "Ihre Majestät die Königin";
 
@@ -197,7 +197,7 @@ $_LANG["hxflagscntldregistrantidtypeshfwjg"] = "Registrierungszertifikat einer S
 $_LANG["hxflagscntldregistrantidtypembxxbx"] = "Erlaubnis einer Privatschule";
 $_LANG["hxflagscntldregistrantidtypeyljgzy"] = "Ausübungszertifikat einer medizinischen Einrichtung";
 $_LANG["hxflagscntldregistrantidtypegzjgzy"] = "Ausübungszertifikat eines notoriellen Unternehmens";
-$_LANG["hxflagscntldregistrantidtypebjwsxx"] = "Erlaubnis der Schule für Kinder ausländischer Botschaftsmitarbeiter in Beijing/China";//
+$_LANG["hxflagscntldregistrantidtypebjwsxx"] = "Erlaubnis der Schule für Kinder ausländischer Botschaftsmitarbeiter in Beijing/China";
 $_LANG["hxflagscntldregistrantidtypeqt"] = "Sonstiges";
 
 // .COM.AU
@@ -273,12 +273,12 @@ $_LANG["hxflagsestldlegaltype878"] = "Herkunftsbezeichnung Aufsichtsrat";
 $_LANG["hxflagsestldlegaltype879"] = "Managing Naturräume verwaltenden Entität";
 $_LANG["hxflagsestldlegaltype877"] = "Sonstiges";
 // Options, Registrant ID Type
-$_LANG["hxflagsestldregistrantidtype0"] = "Nicht-spanischer Besitzer";
-$_LANG["hxflagsestldregistrantidtype1"] = "Spanische Privatperson oder Firma";
-$_LANG["hxflagsestldregistrantidtype3"] = "Meldebescheinigung der Ausländerbehörde";
-$_LANG["hxflagsestldadminidtype0"] = "Nicht-spanische Entität";
-$_LANG["hxflagsestldadminidtype1"] = "Spanische Privatperson oder Firma";
-$_LANG["hxflagsestldadminidtype3"] = "Meldebescheinigung der Ausländerbehörde";
+$_LANG["hxflagsestldregistranttype0"] = "Nicht-spanischer Besitzer";
+$_LANG["hxflagsestldregistranttype1"] = "Spanische Privatperson oder Firma";
+$_LANG["hxflagsestldregistranttype3"] = "Meldebescheinigung der Ausländerbehörde";
+$_LANG["hxflagsestldadmintype0"] = "Nicht-spanische Entität";
+$_LANG["hxflagsestldadmintype1"] = "Spanische Privatperson oder Firma";
+$_LANG["hxflagsestldadmintype3"] = "Meldebescheinigung der Ausländerbehörde";
 
 // .EU
 $_LANG["hxflagseutldregistrantcitizenship"] = "Registrant, Staatsangehörigkeit";
@@ -293,7 +293,7 @@ $_LANG["hxflagsfitldregistrantidnumberdescr"] = (
     "<ul><li>TTMMJJ: Geburtsdatum</li>" .
     "<li>C: Jahrhundertzeichen `+` für 1800–1899, `-` für 1900–1999 oder `A` für 2000-2099</li>" .
     "<li>ZZZ: die Individuelle Nummer - ungerade für Männer, gerade für Frauen und für in Finland Geborene der Bereich 002-899 (In Ausnahmefällen auch größere Nummern).</li>" .
-    "<li>Q: dem Kontrollzeichen (checksum).</li></ul>An example of a valid code is 311280-888Y."
+    "<li>Q: das Kontrollzeichen (Prüfsumme).</li></ul>Beispiel für eine gültige Kennung: 311280-888Y."
 );
 $_LANG["hxflagsfitldregistrantbirthdatedescr"] = "(YYYY-MM-DD; only required for Individuals not from Finland)";
 
@@ -301,7 +301,7 @@ $_LANG["hxflagsfitldregistrantbirthdatedescr"] = "(YYYY-MM-DD; only required for
 $_LANG["hxflagshktldregistrantdocumenttype"] = "Registrant, Dokumenttyp";
 $_LANG["hxflagshktldregistrantotherdocumenttype"] = "Registrant, anderer Dokumenttyp";
 $_LANG["hxflagshktldregistrantdocumentnumber"] = "Registrant, Dokumentnr.";
-$_LANG["hxflagshktldregistrantdocumentorigincountry"] = "Registrant, Ausstellungsland des DoKuments";
+$_LANG["hxflagshktldregistrantdocumentorigincountry"] = "Registrant, Ausstellungsland des Dokuments";
 $_LANG["hxflagshktldregistrantbirthdateforindividuals"] = "Registrant, Geburtsdatum für Privatpersonen";
 // Options, Registrant Document Type
 $_LANG["hxflagshktldregistrantdocumenttypehkid"] = "Privatperson - Hong Kong Ausweisnummer";
@@ -319,7 +319,7 @@ $_LANG["hxflagshktldregistrantdocumenttypedescr"] = (
     "(HINWEIS: Zusätzlich könnte es erforderlich sein, dass Sie uns eine Kopie des Dokuments per Email zusenden müssen. Für .HK ist dieser Schritt nur notwendig " .
     "auf Anfrage der Registrierungsstelle. Für .COM.HK wird die Gewerbeerlaubnis benötigt, bevor der Registrierungsanfrage bearbeitet werden kann.)"
 );
-$_LANG["hxflagshktldregistrantotherdocumenttypedescr"] = "(für vorige Typauswahl `Privatperson/Unternehmen - Sonstiges Dokument` benötigt)";
+$_LANG["hxflagshktldregistrantotherdocumenttypedescr"] = "(benötigt für Typauswahl `Privatperson/Unternehmen - Sonstiges Dokument`)";
 $_LANG["hxflagshktldregistrantbirthdateforindividualsdescr"] = "(benötigt für Privatpersonen, Format JJJJ-MM-TT)";
 
 // .IE
@@ -341,8 +341,14 @@ $_LANG["hxflagsietldregistrantclassbloggerother"] = "Blogger/Sonstiges";
 
 // .IT
 $_LANG["hxflagsittldpin"] = "PIN";
+$_LANG["hxflagsittldacceptsection3"] = "Abschnitt 3 des .IT Registrarvertrags";
+$_LANG["hxflagsittldacceptsection5"] = "Abschnitt 5 des .IT Registrarvertrags";
+$_LANG["hxflagsittldacceptsection6"] = "Abschnitt 6 des .IT Registrarvertrags";
+$_LANG["hxflagsittldacceptsection7"] = "Abschnitt 7 des .IT Registrarvertrags";
 
 // .JOBS
+$_LANG["hxflagsjobstldyesnono"] = "Nein";
+$_LANG["hxflagsjobstldyesnoyes"] = "Ja";
 $_LANG["hxflagsjobstldwebsite"] = "Webseite";
 $_LANG["hxflagsjobstldindustryclassification"] = "Branchenklassifizierung";
 $_LANG["hxflagsjobstldmemberofahrassociation"] = "Mitglied eines HR Verbandes";
@@ -395,18 +401,18 @@ $_LANG["hxflagsmelbournetldnexuscategorydescr"] = (
     "Um eine Domain zu verlängern oder zu registrieren muss der Besitzer oder Registrant eine der folgenden Kriterien A, B oder C erfüllen:<br/><br/>".
     "<b>Kriterium A – Unternehmen von Victoria</b><br/>Der Registrant muss ein im <a href='https://register.business.gov.au/' target='_blank'>australischen Handelsregister</a> oder über die ".
     "`<a href='https://asic.gov.au/' target='_blank'>Australian Securities and Investment Commission</a>` registriertes Unternehmen sein. Der Registrant <ul>" .
-    "<li>hat eine mit seiner ABN, ACN, RBN oder ARBN Nummer verknüpfte Adresse im Staat Victoria - oder - </li>" .
+    "<li>hat eine mit seiner ABN, ACN, RBN oder ARBN Nummer verknüpfte Adresse im Staat Victoria, oder</li>" .
     "<li>hat eine gültige Firmenanschrift im Staat Victoria.</li></ul><br/>" .
     "<b>Kritermium B – Bewohner von Victoria</b><br/>Der Registrant muss ein australischer Staatbürger sein oder eine gültige Wohnsitzadresse im Staat Victoria vorweisen können.<br/><br/>" .
     "<b>Kritermium C – Assoziiertes Unternehmen</b><br/>Der Registrant muss ein assoziiertes Unternehmen sein. Er kann sich nur um einen Domainnamen bewerben, der in Bezug folgender Punkte " .
     " einer Abkürzung, einem Akronym oder einem direkten oder nur teilweisen Treffer entspricht:" .
-    "<ul><li>Firmenname oder Name/Rufname/Pseudonym des Registranten, wobei der Firmenname bei der für den Geschäftsbereich zuständigen Behörde registiert sein muss. - oder -</li>" .
-    "<li>ein Produkt welches durch das assoziierte Unternehmen selbst hergestellt oder an Firmen und Privatkunden im Staat Victoria verkauft wird. - oder -</li>".
-    "<li>eine Dienstleistung des Unternehmens, die Bewohnern des Staats Victoria angeboten wird. - oder -</li>" .
-    "<li>eine Veranstaltung im Staat Victoria, welche das Unternehmen organisiert oder fördert. - oder -</li>" .
-    "<li>eine Tätigkeit, die das Unternehmen im Staat Victoria erleichtert - oder -</li>" .
-    "<li>für die Bewohner des Staats Vicoria bereitgestellter Kurs oder bereitgestelltes Ausbildungsprogramm.</li></div>"
-);//
+    "<ul><li>Firmenname oder Name/Rufname/Pseudonym des Registranten, wobei der Firmenname bei der für den Geschäftsbereich zuständigen Behörde registiert sein muss,</li>" .
+    "<li>ein Produkt welches durch das assoziierte Unternehmen selbst hergestellt oder an Firmen und Privatkunden im Staat Victoria verkauft wird,</li>".
+    "<li>eine Dienstleistung des Unternehmens, die Bewohnern des Staats Victoria angeboten wird,</li>" .
+    "<li>eine Veranstaltung im Staat Victoria, welche das Unternehmen organisiert oder fördert,</li>" .
+    "<li>eine Tätigkeit, die das Unternehmen im Staat Victoria erleichtert,</li>" .
+    "<li>für die Bewohner des Staats Vicoria bereitgestellter Kurs oder bereitgestelltes Ausbildungsprogramm.</li></ul></div>"
+);
 
 // .MY
 $_LANG["hxflagsmytldregistrantorganisationtype"] = "Registrant, Unternehmenstyp";
@@ -441,7 +447,7 @@ $_LANG["hxflagsmytldregistrantorganisationtype27"] = "Landesregierungsbehörde/-
 $_LANG["hxflagsmytldregistrantorganisationtype28"] = "Handelsgesellschaft";
 $_LANG["hxflagsmytldregistrantorganisationtype29"] = "Treuhänder";
 $_LANG["hxflagsmytldregistrantorganisationtype30"] = "Universität unter Leitung des Bildungsministeriums";
-$_LANG["hxflagsmytldregistrantorganisationtype31"] = "Gutachter-/Sachverständigen-/Immobiliengunternehmen";
+$_LANG["hxflagsmytldregistrantorganisationtype31"] = "Gutachter-, Sachverständigen-, Immobiliengunternehmen";
 
 // .NYC
 // Options, Nexus Category
@@ -462,9 +468,11 @@ $_LANG["hxflagspttldroid"] = "ROID";
 $_LANG["hxflagsrotldregistrantvatiddescr"] = "(benötigt bei Staaten der EU, SOWIE bei rumänischen Registranten)";
 
 // .RU
-$_LANG["hxflagsrutldindividualsbirthday"] = "Registrant, Geburtstag";
-$_LANG["hxflagsrutldindividualspassportdata"] = "Registrant, Ausweisdaten";
-$_LANG["hxflagsrutldindividualspassportdatadescr"] = "(benötigt bei Privatpersonen; inkl. Reisepassnummer, Ausstellungsdatum u. -ort)<br/><br/>";
+$_LANG["hxflagsrutldlegaltypeindiv"] = "Privatperson";
+$_LANG["hxflagsrutldlegaltypeorg"] = "Unternehmen";
+$_LANG["hxflagsrutldregistrantbirthday"] = "Registrant, Geburtstag";
+$_LANG["hxflagsrutldregistrantpassportdata"] = "Registrant, Ausweisdaten";
+$_LANG["hxflagsrutldregistrantpassportdatadescr"] = "(benötigt bei Privatpersonen; inkl. Reisepassnummer, Ausstellungsdatum u. -ort)<br/><br/>";
 
 // .SE
 $_LANG["hxflagssetldidentificationnumberdescr"] = (
@@ -484,16 +492,37 @@ $_LANG["hxflagsswisstldregistrantenterpriseiddescr"] = "(muss mit `CHE` beginnen
 $_LANG["hxflagssydneytldnexuscategorya"] = "Kriterium A - Unternehmen von New South Wales";
 $_LANG["hxflagssydneytldnexuscategoryb"] = "Kriterium B - Bewohner von New South Wales";
 $_LANG["hxflagssydneytldnexuscategoryc"] = "Kriterium C - Assoziierte Unternehmen";
+$_LANG["hxflagssydneytldnexuscategorydescr"] = (
+    "Um einen ####TLD#### Domainnamen zu verlängern oder zu registrieren, muss der Antragsteller/Registrant eine der folgenden Kriterien A, B oder C erfüllen:<br/><br/>" .
+    "<b>Kriterium A – Unternehmen von New South Wales</b><br/>" .
+    "Der Antragsteller muss ein Unternehmen sein, welches über `Australian Securities and Investments Commission` registiert ist oder im Australischen Handelsregister eingetragen ist und " .
+    "hat im Staat New South Wales eine mit seiner ABN-, ACN-, RBN- oder ARBN-Nr. verknüpften Adresse oder eine dort gültige Firmenadresse.<br/>" .
+    "<b>Kriterium B – Bewohnt von New South Wales</b><br/>" .
+    "Der Antragsteller ist ein australischer Staatsbürger oder Bewohner mit gültiger Adresse im Staat New South Wales.<br/>" .
+    "<b>Kriterium C – Assoziierte Unternehmen</b><br/>" .
+    "Der Antragsteller muss ein assoziiertes Unternehmen sein und darf sich nur dann um einen Domainnamen bewerben, wenn dieser in Bezug folgender Punkte einer Abkürzung, einem Akronym oder " .
+    "einem direkten oder nur teilweisen Treffer entspricht:<br/>" .
+    "<ul><li>Firmenname oder Name/Rufname/Pseudonym des Registranten, wobei der Firmenname bei der für den Geschäftsbereich zuständigen Behörde registiert sein muss,</li>" .
+    "<li>ein Produkt welches durch das assoziierte Unternehmen selbst hergestellt oder an Firmen und Privatkunden im Staat New South Wales verkauft wird,</li>".
+    "<li>eine Dienstleistung des Unternehmens, die Bewohnern des Staats New Sout Wales angeboten wird,</li>" .
+    "<li>eine Veranstaltung im Staat New South Wales, welche das Unternehmen organisiert oder fördert,</li>" .
+    "<li>eine Tätigkeit, die das Unternehmen im Staat New Sout Wales erleichtert,</li>" .
+    "<li>für die Bewohner des Staats New South Wales bereitgestellter Kurs oder bereitgestelltes Ausbildungsprogramm.</li></ul>"
+);
 
 // .TEL
 // Legal Type, Options
-$_LANG["hxflagsteltldlegaltypenaturl"] = "Natürliche Person";
+$_LANG["hxflagsteltldlegaltypenatural"] = "Natürliche Person";
 $_LANG["hxflagsteltldlegaltypelegal"] = "Juristische Person";
-$_LANG["hxflagsteltldwhoisoptoutdescr"] = "(verfügbar für Rechtsform `Natürliche Person`. Wählen Sie `Nein` um WHOIS Daten auf den Name des Registranten zu beschränken.)";
+$_LANG["hxflagsteltldwhoisoptoutdescr"] = "(verfügbar für Rechtsform `Natürliche Person`. Wählen Sie `Nein` um WHOIS Daten auf den Namen des Registranten zu beschränken.)";
+$_LANG["hxflagsteltldyesnoy"] = "Ja";
+$_LANG["hxflagsteltldyesnon"] = "Nein";
 
 // .TRAVEL
-$_LANG["hxflagstraveltldtravelindustry"] = ".TRAVEL Branche";
+$_LANG["hxflagstraveltldtravelindustry"] = "Verbindung zur Reisebranche";
 $_LANG["hxflagstraveltldtravelindustrydescr"] = "(Wir bestätigen eine Verbindnung zur Reisebranche und daß wir an reisebezogenen Aktivitäten beteiligt sind oder dies planen.)";
+$_LANG["hxflagstraveltldyesno1"] = "Ja";
+$_LANG["hxflagstraveltldyesno0"] = "Nein";
 
 // .US
 // Options, Intended Use
@@ -506,22 +535,21 @@ $_LANG["hxflagsustldintendedusep5"] = "Regierungszwecke";
 $_LANG["hxflagsustldnexuscategoryc11"] = "Natürliche Person - Bürger der Vereinigten Staaten";
 $_LANG["hxflagsustldnexuscategoryc12"] = "Natürliche Person - Ständiger Wohnsitz in den USA oder in einem der zugehörigen Gebiete/Territorien";
 $_LANG["hxflagsustldnexuscategoryc21"] = (
-    "Eine U.S.-Organisation oder Firma; in einem der 50 U.S. Staaten / im Bezirk Columbien oder in einem der US-Gebiete/Territorien gegründet " .
-    "oder aufgebaut wurde / oder anderweitig unter der Gesetzen der USA / des Bezirks Columbien oder in einem der US-Gebiete/Territorien errichtet wurde " .
-    "oder eine U.S. Bundes- / Landes- / Kommunalbehörde oder eine Gebietskörperschaft davon."
+    "Eine U.S.-Organisation oder Firma; in einem der 50 U.S. Staaten, im Bezirk Columbien oder in einem der US-Gebiete/Territorien gegründet " .
+    "oder aufgebaut wurde, oder anderweitig unter der Gesetzen der USA, des Bezirks Columbien oder in einem der US-Gebiete/Territorien errichtet wurde " .
+    "oder eine U.S. Bundes-, Landes-, Kommunalbehörde oder eine Gebietskörperschaft davon."
 );
 $_LANG["hxflagsustldnexuscategoryc31"] = (
     "Eine ausländische Entität oder Firma mit gutgläubiger Präsenz in den USA oder in einem der zugehörigen Gebiete/Territorien, die sich regelmäßig mit ".
-    "gesetzlichen Angelegenheiten / Güterverkauf / Dienstleistungen oder sonstigen kommerziellen oder nicht-kommerziellen Geschäften befasst inkl. gemeinnützige Beziehungen zu den Vereinigte Staaten"
+    "gesetzlichen Angelegenheiten, Güterverkauf, Dienstleistungen oder sonstigen kommerziellen oder nicht-kommerziellen Geschäften befasst inkl. gemeinnützige Beziehungen zu den Vereinigte Staaten"
 );
 $_LANG["hxflagsustldnexuscategoryc32"] = "Ein ausländisches Unternehmen mit Büro oder Werk in den Vereinigten Staaten";
 $_LANG["hxflagsustldnexuscountrydescr"] = "<div>Geben Sie die ursprüngliche Staatsbürgerschaft des Registranten an (NUR benötigt für die letzen beiden Optionen der Nexus Kategorie (C31 or C32)).</div>";
 
 // .XXX
-$_LANG["hxflagsxxxtldresolvingdomain"] = "NICHT-Auflösende Domain";
-$_LANG["hxflagsxxxtldnonresolvingdomaindescr"] = "(Dieser .XXX Domainname soll <b>NICHT</b> auflösen!)";
+$_LANG["hxflagsxxxtldnonresolvingdomain"] = "NICHT-Auflösende Domain";
 $_LANG["hxflagsxxxtldmembershipid"] = ".XXX Mitgliedsnr.";
 $_LANG["hxflagsxxxtldmembershipiddescr"] = "(Benötigt, damit Ihre .XXX Domain auflöst)";
 // Options, Non-Resolving Domain
-$_LANG["hxflagsxxxtldnonresolvingdomain0"] = "Nein - diese Domain soll auflösen.";
-$_LANG["hxflagsxxxtldnonresolvingdomain1"] = "Ja - dies Domain soll NICHT auflösen";
+$_LANG["hxflagsxxxtldnonresolvingdomain0"] = "Nein - dieser Domainname SOLL auflösen.";
+$_LANG["hxflagsxxxtldnonresolvingdomain1"] = "Ja - dieser Domainname SOLL NICHT auflösen";

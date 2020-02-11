@@ -3197,8 +3197,7 @@ function ispapi_AdditionalDomainFields(array $params)
     // TODO Review in case params["type"] is no longer >>always<< "register";
     //      Review \ISPAPI\AdditionalFields::addToCMD method
     \ISPAPI\AdditionalFields::init($params["TestMode"] == "on");
-    $fields = \ISPAPI\AdditionalFields::getAdditionalDomainFields($params["tld"], $params["type"], $params["whmcsVersion"]);
-    return $fields;
+    return \ISPAPI\AdditionalFields::getAdditionalDomainFields($params);
 }
 
 /**

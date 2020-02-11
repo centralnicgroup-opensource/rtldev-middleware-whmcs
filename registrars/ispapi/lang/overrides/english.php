@@ -32,12 +32,12 @@ $_LANG["hxflagstachighlyregulateddescrnotac"] = (
     "TLD to ensure you continue to conform to the appropriate regulations and licensing requirements and generally conduct you activities in the " .
     "interests of the consumers you serve..</li></ol></div>"
 );
-$_LANG["hxflagstacindividualregulateddescrdefault"] = "Tick to confirm the <a href='####TAC####' target='_blank'>Terms for Individuals</a>";//
-$_LANG["hxflagstacregulateddescrdefault"] = "Tick to confirm that you agree to the <a href='####TAC####' target='_blank'>Registry Terms and Conditions of Registration</a> upon new registration of ####TLD#### domain names.";//
+$_LANG["hxflagstacindividualregulateddescrdefault"] = "Tick to confirm the <a href='####TAC####' target='_blank'>Terms for Individuals</a>";
+$_LANG["hxflagstacregulateddescrdefault"] = "Tick to confirm that you agree to the <a href='####TAC####' target='_blank'>Registry Terms and Conditions of Registration</a> upon new registration of ####TLD#### domain names.";
 $_LANG["hxflagstacregulateddescrngo"] = (
     "Tick to confirm that you agree to the <a href='####TAC####' target='_blank'>Registry Terms and Conditions of Registration</a> upon new registration of " .
-    "####TLD#### domain names.<div style='padding:10px 0px;'>The registration of a .NGO domain name is bundled with an .ONG domain name without additional costs. " .
-    "Changes on the .NGO Domain will be auto-applied to the .ONG Domain.</div>"
+    "####TLD#### domain names.<div style='padding:10px 0px;'>The registration of a ####TLD#### domain name is bundled with an .ONG domain name without additional costs. " .
+    "Changes on the ####TLD#### Domain will be auto-applied to the .ONG Domain. You won't find the .ONG domain therefore listed in your domain inventory.</div>"
 );
 $_LANG["hxflagstacregulateddescritsection3"] = (
     "Tick to confirm that you agree to <b><a href='####TAC####' target='_blank'>Section 3 - Declarations and assumptions of liability</a></b>.<br/>" .
@@ -46,10 +46,10 @@ $_LANG["hxflagstacregulateddescritsection3"] = (
     "<ul><li>in possession of the citizenship or resident in a country belonging to the European Union (in the case of registration for natural persons);</li>" .
     "<li>established in a country belonging to the European Union (in the case of registration for other organizations);</li>" .
     "<li>aware and accept that the registration and management of a domain name is subject to the 'Rules of assignment and management of domain names in ccTLD. it' " .
-    "and 'Regulations for the resolution of disputes in the ccTLD.it' and their subsequent amendments;</li>" .
+    "and 'Regulations for the resolution of disputes in the ccTLD ####TLD####' and their subsequent amendments;</li>" .
     "<li>entitled to the use and/or legal availability of the domain name applied for, and that they do not prejudice, with the request for registration, the rights of others;</li>" .
     "<li>aware that for the inclusion of personal data in the Database of assigned domain names, and their possible dissemination and accessibility via the Internet, consent must be " .
-    "given explicitly by ticking the appropriate boxes in the information below. See 'The policy of the .it Registry in the Whois Database' on the website of the Registry (http://www.nic.it);</li>" .
+    "given explicitly by ticking the appropriate boxes in the information below. See 'The policy of the ####TLD#### Registry in the Whois Database' on the website of the Registry (http://www.nic.it);</li>" .
     "<li>aware and agree that in the case of erroneous or false declarations in this request, the Registry shall immediately revoke the domain name, or proceed with other legal actions. " .
     "In such case the revocation shall not in any way give rise to claims against the Registry;</li>" .
     "<li>release the Registry from any liability resulting from the assignment and use of the domain name by the natural person that has made the request;</li>" .
@@ -73,7 +73,7 @@ $_LANG["hxflagstacregulateddescritsection7"] = (
     "<div style='text-align:justify;margin-bottom:10px;'>" .
     "For explicit acceptance, the interested party declares that they:" .
     "<ul><li>d) are aware and agree that the registration and management of a domain name is subject to the 'Rules of assignment and management of domain names " .
-    "in ccTLD .it' and 'Regulations for the resolution of disputes in the ccTLD .it' and their subsequent amendments;</li>" .
+    "in ccTLD ####TLD####' and 'Regulations for the resolution of disputes in the ccTLD ####TLD####' and their subsequent amendments;</li>" .
     "<li>e) are aware and agree that in the case of erroneous or false declarations in this request, the Registry shall immediately revoke the domain name, or " .
     "proceed with other legal actions. In such case the revocation shall not in any way give rise to claims against the Registry;</li>" .
     "<li>f) release the Registry from any liability resulting from the assignment and use of the domain name by the natural person that has made the request;</li>" .
@@ -109,7 +109,7 @@ $_LANG["hxflagsallocationtokendescr"] = (
 $_LANG["hxflagsnexuscategory"] = "Nexus Category";
 $_LANG["hxflagsnexuscountry"] = "Nexus Country";
 $_LANG["hxflagsfax"] = "Fax Required";
-$_LANG["hxflagsfaxdescr"] = "I confirm I will send <a href='####TAC####'>this form back</a> to complete the registration process.";
+$_LANG["hxflagsfaxdescr"] = "I confirm that after this registration request I will send <a href='####TAC####'>this form</a> back to complete the registration process.";
 $_LANG["hxflagsidentificationnumber"] = "Identification Number";
 $_LANG["hxflagswhoisoptout"] = "WHOIS Opt-out";
 $_LANG["hxflagsregistrantbirthdate"] = "Registrant Birthdate";
@@ -213,8 +213,8 @@ $_LANG["hxflagscombrtldidentificationnumberdescr"] = "Please provide your CPF or
 // .DE
 $_LANG["hxflagsdetldgeneralrequestcontact"] = "General Request Contact";
 $_LANG["hxflagsdetldabuseteamcontact"] = "Abuse Team Contact";
-$_LANG["hxflagsdetldgeneralrequestcontactdescr"] = "The registry will identify this as the general request contact information. You can provide an email address or a website url";
-$_LANG["hxflagsdetldabuseteamcontactdescr"] = "The registry will identify this as the abuse team contact information. You can provide an email address or a website url";
+$_LANG["hxflagsdetldgeneralrequestcontactdescr"] = "The registry will identify this as the general request contact information. You can provide an email address or a website url.";
+$_LANG["hxflagsdetldabuseteamcontactdescr"] = "The registry will identify this as the abuse team contact information. You can provide an email address or a website url.";
 
 // .DK
 $_LANG["hxflagsdktldregistrantcontact"] = "Registrant Contact";
@@ -273,12 +273,12 @@ $_LANG["hxflagsestldlegaltype878"] = "Designation of Origin Supervisory Council"
 $_LANG["hxflagsestldlegaltype879"] = "Entity Managing Natural Areas";
 $_LANG["hxflagsestldlegaltype877"] = "Others";
 // Options, Registrant ID Type
-$_LANG["hxflagsestldregistrantidtype0"] = "For non-spanish owner";
-$_LANG["hxflagsestldregistrantidtype1"] = "For Spanish Individual or Organization";
-$_LANG["hxflagsestldregistrantidtype3"] = "Alien registration card";
-$_LANG["hxflagsestldadminidtype0"] = "For non-spanish entity";
-$_LANG["hxflagsestldadminidtype1"] = "For Spanish Individual or Organization";
-$_LANG["hxflagsestldadminidtype3"] = "Alien registration card";
+$_LANG["hxflagsestldregistranttype0"] = "For non-spanish owner";
+$_LANG["hxflagsestldregistranttype1"] = "For Spanish Individual or Organization";
+$_LANG["hxflagsestldregistranttype3"] = "Alien registration card";
+$_LANG["hxflagsestldadmintype0"] = "For non-spanish entity";
+$_LANG["hxflagsestldadmintype1"] = "For Spanish Individual or Organization";
+$_LANG["hxflagsestldadmintype3"] = "Alien registration card";
 
 // .EU
 $_LANG["hxflagseutldregistrantcitizenship"] = "Registrant Citizenship";
@@ -341,8 +341,14 @@ $_LANG["hxflagsietldregistrantclassbloggerother"] = "Blogger/Other";
 
 // .IT
 $_LANG["hxflagsittldpin"] = "PIN";
+$_LANG["hxflagsittldacceptsection3"] = "Section 3 of .IT registrar contract";
+$_LANG["hxflagsittldacceptsection5"] = "Section 5 of .IT registrar contract";
+$_LANG["hxflagsittldacceptsection6"] = "Section 6 of .IT registrar contract";
+$_LANG["hxflagsittldacceptsection7"] = "Section 7 of .IT registrar contract";
 
 // .JOBS
+$_LANG["hxflagsjobstldyesnono"] = "No";
+$_LANG["hxflagsjobstldyesnoyes"] = "Yes";
 $_LANG["hxflagsjobstldwebsite"] = "Website";
 $_LANG["hxflagsjobstldindustryclassification"] = "Industry Classification";
 $_LANG["hxflagsjobstldmemberofahrassociation"] = "Member of a Human Resources Association";
@@ -441,7 +447,7 @@ $_LANG["hxflagsmytldregistrantorganisationtype27"] = "state government departmen
 $_LANG["hxflagsmytldregistrantorganisationtype28"] = "trade union";
 $_LANG["hxflagsmytldregistrantorganisationtype29"] = "trustee";
 $_LANG["hxflagsmytldregistrantorganisationtype30"] = "university under the administration of ministry of education";
-$_LANG["hxflagsmytldregistrantorganisationtype31"] = "valuer / appraiser / estate agent firm";
+$_LANG["hxflagsmytldregistrantorganisationtype31"] = "valuer, appraiser, estate agent firm";
 
 // .NYC
 // Options, Nexus Category
@@ -462,9 +468,11 @@ $_LANG["hxflagspttldroid"] = "ROID";
 $_LANG["hxflagsrotldregistrantvatiddescr"] = "(required for EU countries AND for romanian registrants)";
 
 // .RU
-$_LANG["hxflagsrutldindividualsbirthday"] = "Individuals Birthday";
-$_LANG["hxflagsrutldindividualspassportdata"] = "Individuals Passport Data";
-$_LANG["hxflagsrutldindividualspassportdatadescr"] = "(required for individuals; including passport number, issue date, and place of issue)<br/><br/>";
+$_LANG["hxflagsrutldlegaltypeindiv"] = "Individual";
+$_LANG["hxflagsrutldlegaltypeorg"] = "Organization";
+$_LANG["hxflagsrutldregistrantbirthday"] = "Individuals Birthday";
+$_LANG["hxflagsrutldregistrantpassportdata"] = "Individuals Passport Data";
+$_LANG["hxflagsrutldregistrantpassportdatadescr"] = "(required for individuals; including passport number, issue date, and place of issue)<br/><br/>";
 
 // .SE
 $_LANG["hxflagssetldidentificationnumberdescr"] = (
@@ -484,16 +492,34 @@ $_LANG["hxflagsswisstldregistrantenterpriseiddescr"] = "(must start with CHE and
 $_LANG["hxflagssydneytldnexuscategorya"] = "Criteria A - New South Wales Entities";
 $_LANG["hxflagssydneytldnexuscategoryb"] = "Criteria B - New South Wales Residents";
 $_LANG["hxflagssydneytldnexuscategoryc"] = "Criteria C - Associated Entities";
+$_LANG["hxflagssydneytldnexuscategorydescr"] = (
+    "In order to register or renew a domain name the Applicant or Registrant must satisfy one of the following Criteria A, B or C below:<br/><br/>" .
+    "<b>Criteria A – New South Wales Entities</b><br/>" .
+    "The Applicant must be an entity registered with the Australian Securities and Investments Commission or the Australian Business Register that:<br/>" .
+    "has an address in the State of New South Wales associated with its ABN, ACN, RBN or ARBN; or has a valid corporate address in the State of New South Wales.<br/>" .
+    "<b>Criteria B – New South Wales Residents</b><br/>" .
+    "The Applicant must be an Australian citizen or resident with a valid address in the State of New South Wales.<br/>" .
+    "<b>Criteria C – Associated Entities</b><br/>" .
+    "The Applicant must be an Associated Entity. The Applicant may only apply for a domain name that is an Exact Match or Partial Match to, or an Abbreviation, or an Acronym of:<br/>" .
+    "the business name of the Applicant, or name by which the Applicant is commonly known ( i.e. a nickname) and the business name must be registered with the appropriate authority in " .
+    "the jurisdiction in which that business is domiciled; or a product that the Associated Entity manufactures or sells to entities or individuals residing in the State of New South Wales;" .
+    "a service that the Associated Entity provides to residents of the State of New South Wales; an event that the Associated Entity organises or sponsors in the State of New South Wales;" .
+    "an activity that the Associated Entity facilitates in the State of New South Wales; or a course or training program that the Associated Entity provides to residents of the State of New South Wales."
+);
 
 // .TEL
 // Legal Type, Options
-$_LANG["hxflagsteltldlegaltypenaturl"] = "Natural Person";
+$_LANG["hxflagsteltldlegaltypenatural"] = "Natural Person";
 $_LANG["hxflagsteltldlegaltypelegal"] = "Legal Person";
 $_LANG["hxflagsteltldwhoisoptoutdescr"] = "(available for Legal Type `Natural`. Choose `No` to get WHOIS data limited to registrant name.)";
+$_LANG["hxflagsteltldyesnoy"] = "Yes";
+$_LANG["hxflagsteltldyesnon"] = "No";
 
 // .TRAVEL
-$_LANG["hxflagstraveltldtravelindustry"] = ".TRAVEL Industry";
+$_LANG["hxflagstraveltldtravelindustry"] = "Related to the Travel Industry";
 $_LANG["hxflagstraveltldtravelindustrydescr"] = "(We acknowledge a relationship to the travel industry and that we are engaged in or plan to engage in activities related to travel.)";
+$_LANG["hxflagstraveltldyesno1"] = "Yes";
+$_LANG["hxflagstraveltldyesno0"] = "No";
 
 // .US
 // Options, Intended Use
@@ -504,24 +530,23 @@ $_LANG["hxflagsustldintendedusep4"] = "Educational purposes";
 $_LANG["hxflagsustldintendedusep5"] = "Government purposes";
 // Options, Nexus Category, https://www.about.us/policies/ustld-nexus-codes
 $_LANG["hxflagsustldnexuscategoryc11"] = "A natural person who is a United States Citizen";
-$_LANG["hxflagsustldnexuscategoryc12"] = "A natural person who is a permanent resident of the United States of America / or any of its possessions or territories";
+$_LANG["hxflagsustldnexuscategoryc12"] = "A natural person who is a permanent resident of the United States of America, or any of its possessions or territories";
 $_LANG["hxflagsustldnexuscategoryc21"] = (
-    "A U.S.-based organization or company formed within one of the fifty (50) U.S. states / the District of Columbia / or any of the United States " .
-    "possessions or territories; or organized or otherwise constituted under the laws of a state of the United States of America / the District of " .
-    "Columbia or any of its possessions or territories or a U.S. federal / state / or local government entity or a political subdivision thereof"
+    "A U.S.-based organization or company formed within one of the fifty (50) U.S. states, the District of Columbia, or any of the United States " .
+    "possessions or territories; or organized or otherwise constituted under the laws of a state of the United States of America, the District of " .
+    "Columbia or any of its possessions or territories or a U.S. federal, state, or local government entity or a political subdivision thereof"
 );
 $_LANG["hxflagsustldnexuscategoryc31"] = (
     "A foreign entity or organization that has a bona fide presence in the United States of America or any of its possessions or territories who " .
-    "regularly engages in lawful activities / sales of goods or services or other business / commercial or non-commercial / including not-for-profit relations in the United States"
+    "regularly engages in lawful activities / sales of goods or services or other business, commercial or non-commercial, including not-for-profit relations in the United States"
 );
 $_LANG["hxflagsustldnexuscategoryc32"] = "A foreign entity that has an office or other facility in the United States";
 $_LANG["hxflagsustldnexuscountrydescr"] = "<div>Specify registrant's origin citizenship (in case of last two Nexus Category Options (C31 or C32)).</div>";
 
 // .XXX
-$_LANG["hxflagsxxxtldnonresolvingdomain"] = "Non-Resolving Domain";
-$_LANG["hxflagsxxxtldnonresolvingdomaindescr"] = "(This .XXX domain should <b>NOT</b> resolve!)";
+$_LANG["hxflagsxxxtldnonresolvingdomain"] = "NON-Resolving Domain";
 $_LANG["hxflagsxxxtldmembershipid"] = ".XXX Membership ID";
 $_LANG["hxflagsxxxtldmembershipiddescr"] = "(Required in order to make your .XXX domain resolving)";
 // Options, Non-Resolving Domain
-$_LANG["hxflagsxxxtldnonresolvingdomain0"] = "No - This domain should resolve";
-$_LANG["hxflagsxxxtldnonresolvingdomain1"] = "Yes - This domain should NOT resolve";
+$_LANG["hxflagsxxxtldnonresolvingdomain0"] = "No - This domain SHOULD resolve";
+$_LANG["hxflagsxxxtldnonresolvingdomain1"] = "Yes - This domain SHOULD NOT resolve";
