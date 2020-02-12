@@ -219,6 +219,8 @@ $_LANG["hxflagsdetldabuseteamcontactdescr"] = "The registry will identify this a
 // .DK
 $_LANG["hxflagsdktldregistrantcontact"] = "Registrant Contact";
 $_LANG["hxflagsdktldregistrantlegaltype"] = "Registrant Legal Type";
+$_LANG["hxflagsdktldregistrantvatiddescr"] = "(required in case of chosen option `Organization`)";
+$_LANG["hxflagsdktldadminvatiddescr"] = "(required in case of chosen option `Organization`)";
 $_LANG["hxflagsdktldregistrantlegaltypeindiv"] = "Individual";
 $_LANG["hxflagsdktldregistrantlegaltypeorg"] = "Organization";
 $_LANG["hxflagsdktldadmincontact"] = "Admin Contact";
@@ -471,6 +473,7 @@ $_LANG["hxflagsrotldregistrantvatiddescr"] = "(required for EU countries AND for
 $_LANG["hxflagsrutldlegaltypeindiv"] = "Individual";
 $_LANG["hxflagsrutldlegaltypeorg"] = "Organization";
 $_LANG["hxflagsrutldregistrantbirthday"] = "Individuals Birthday";
+$_LANG["hxflagsrutldregistrantbirthdaydescr"] = "(required for individuals)";
 $_LANG["hxflagsrutldregistrantpassportdata"] = "Individuals Passport Data";
 $_LANG["hxflagsrutldregistrantpassportdatadescr"] = "(required for individuals; including passport number, issue date, and place of issue)<br/><br/>";
 

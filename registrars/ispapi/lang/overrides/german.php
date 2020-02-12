@@ -219,13 +219,15 @@ $_LANG["hxflagsdetldabuseteamcontactdescr"] = "Sie können eine Email- oder Webs
 // .DK
 $_LANG["hxflagsdktldregistrantcontact"] = "Registrant, Kontakt";
 $_LANG["hxflagsdktldregistrantlegaltype"] = "Registrant, Rechtsform";
+$_LANG["hxflagsdktldregistrantvatiddescr"] = "(nur bei obiger Auswahl `Unternehmen` benötigt)";
+$_LANG["hxflagsdktldadminvatiddescr"] = "(nur bei obiger Auswahl `Unternehmen` benötigt)";
 $_LANG["hxflagsdktldregistrantlegaltypeindiv"] = "Privatperson";
 $_LANG["hxflagsdktldregistrantlegaltypeorg"] = "Unternehmen";
 $_LANG["hxflagsdktldadmincontact"] = "Admin, Kontakt";
 $_LANG["hxflagsdktldadminlegaltype"] = "Admin, Rechtsform";
 $_LANG["hxflagsdktldadminlegaltypeindiv"] = "Privatperson";
 $_LANG["hxflagsdktldadminlegaltypeorg"] = "Unternehmen";
-$_LANG["hxflagsdktldlegaltypedescr"] = "Wählen Sie bitte auch `Privatperson` im Falle eines Kleinunternehmens ohne Umsatzsteuer-ID-Nr. (Firmdaten werden dann bei der Registrierung unterdrückt).";
+$_LANG["hxflagsdktldlegaltypedescr"] = "Wählen Sie bitte auch `Privatperson` im Falle eines Kleinunternehmens ohne Umsatzsteuer-ID-Nr. (Firmendaten werden dann bei der Registrierung unterdrückt).";
 $_LANG["hxflagsdktldcontactdescr"] = "DK-HOSTMASTER Benutzer ID";
 
 // .ES
@@ -270,7 +272,7 @@ $_LANG["hxflagsestldlegaltype745"] = "Regionale öffentliche Einrichtung";
 $_LANG["hxflagsestldlegaltype746"] = "Nationale öffentliche Einrichtung";
 $_LANG["hxflagsestldlegaltype747"] = "Lokale öffentliche Einrichtung";
 $_LANG["hxflagsestldlegaltype878"] = "Herkunftsbezeichnung Aufsichtsrat";
-$_LANG["hxflagsestldlegaltype879"] = "Managing Naturräume verwaltenden Entität";
+$_LANG["hxflagsestldlegaltype879"] = "Naturräume verwaltende Entität";
 $_LANG["hxflagsestldlegaltype877"] = "Sonstiges";
 // Options, Registrant ID Type
 $_LANG["hxflagsestldregistranttype0"] = "Nicht-spanischer Besitzer";
@@ -471,6 +473,7 @@ $_LANG["hxflagsrotldregistrantvatiddescr"] = "(benötigt bei Staaten der EU, SOW
 $_LANG["hxflagsrutldlegaltypeindiv"] = "Privatperson";
 $_LANG["hxflagsrutldlegaltypeorg"] = "Unternehmen";
 $_LANG["hxflagsrutldregistrantbirthday"] = "Registrant, Geburtstag";
+$_LANG["hxflagsrutldregistrantbirthdaydescr"] = "(benötigt bei Privatpersonen)";
 $_LANG["hxflagsrutldregistrantpassportdata"] = "Registrant, Ausweisdaten";
 $_LANG["hxflagsrutldregistrantpassportdatadescr"] = "(benötigt bei Privatpersonen; inkl. Reisepassnummer, Ausstellungsdatum u. -ort)<br/><br/>";
 
@@ -544,7 +547,7 @@ $_LANG["hxflagsustldnexuscategoryc31"] = (
     "gesetzlichen Angelegenheiten, Güterverkauf, Dienstleistungen oder sonstigen kommerziellen oder nicht-kommerziellen Geschäften befasst inkl. gemeinnützige Beziehungen zu den Vereinigte Staaten"
 );
 $_LANG["hxflagsustldnexuscategoryc32"] = "Ein ausländisches Unternehmen mit Büro oder Werk in den Vereinigten Staaten";
-$_LANG["hxflagsustldnexuscountrydescr"] = "<div>Geben Sie die ursprüngliche Staatsbürgerschaft des Registranten an (NUR benötigt für die letzen beiden Optionen der Nexus Kategorie (C31 or C32)).</div>";
+$_LANG["hxflagsustldnexuscountrydescr"] = "<div>Geben Sie die ursprüngliche Staatsbürgerschaft des Registranten an (NUR benötigt für die letzen beiden Optionen der Nexus Kategorie (C31 oder C32)).</div>";
 
 // .XXX
 $_LANG["hxflagsxxxtldnonresolvingdomain"] = "NICHT-Auflösende Domain";
