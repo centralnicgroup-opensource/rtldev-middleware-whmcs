@@ -2209,7 +2209,7 @@ function ispapi_SaveContactDetails($params)
         );
 
         //some of the AFNIC TLDs(.fr, .pm, .re) require local presence. eg: "X-FR-ACCEPT-TRUSTEE-TAC" => 1
-        ispapi_query_additionalfields($params);
+        //ispapi_query_additionalfields($params); cleanup as of #CORE-13299 fixed this in WHMCS 7.8
         \ISPAPI\AdditionalFields::addToCMD($params, $command);
 
         //opt-out is not supported for AFNIC TLDs (eg: .FR)
@@ -2324,7 +2324,7 @@ function ispapi_SaveContactDetails($params)
             unset($command["OWNERCONTACT0"]);
         }
 
-        ispapi_query_additionalfields($params);
+        //ispapi_query_additionalfields($params); cleanup as of #CORE-13299 fixed this in WHMCS 7.8
         \ISPAPI\AdditionalFields::addToCMD($params, $command);
         //unset($command["X-CA-LEGALTYPE"]);
     }
@@ -3261,14 +3261,6 @@ function ispapi_get_contact_info($contact, &$params)
 // ------------------------------------------------------------------------------
 // ------- Helper functions and functions required to connect the API -----------
 // ------------------------------------------------------------------------------
-function ispapi_query_additionalfields(&$params)
-{
-    $result = mysql_query("SELECT name,value FROM tbldomainsadditionalfields
-		WHERE domainid='".mysql_real_escape_string($params["domainid"])."'");
-    while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
-        $params['additionalfields'][$row['name']] = $row['value'];
-    }
-}
 
 /**
  * Includes the corret additionl fields path based on the WHMCS vesion.
