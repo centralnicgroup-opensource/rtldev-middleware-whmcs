@@ -10,8 +10,8 @@ This Repository covers the WHMCS Registrar Module of HEXONET. It provides the fo
 ## Supported Features ##
 
 * TLD Pricing Import/Sync (WHMCS 7.10)
+* Additional domain fields (default configurations integrated!)
 * Domain Registration
-  * Additional domain fields (default configurations integrated!)
 * Domain Transfer (with AuthInfo code support)
 * Domain Management
   * Domain locking
@@ -77,6 +77,8 @@ Read the following to get more information ...
 
 For the latest WHMCS minimum system requirements, please refer to
 [https://docs.whmcs.com/System_Requirements](https://docs.whmcs.com/System_Requirements)
+
+Version >= v3.0.0 of our registrar `ISPAPI` module requires WHMCS 7.8 or newer!
 
 ## Contributing ##
 
