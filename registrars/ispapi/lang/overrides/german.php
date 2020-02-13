@@ -35,19 +35,19 @@ $_LANG["hxflagstachighlyregulateddescrnotac"] = (
 $_LANG["hxflagstacindividualregulateddescrdefault"] = "Bestätigen Sie die <a href='####TAC####' target='_blank'>Richtlinien für Privatpersonen</a> anzuerkennen.";
 $_LANG["hxflagstacregulateddescrdefault"] = "Bestätigen Sie die <a href='####TAC####' target='_blank'>Registrierungsbedingungen der Registrierungsstelle</a> bzgl. Neuregistrierung von ####TLD#### Domainnamen anzuerkennen.";
 $_LANG["hxflagstacregulateddescrngo"] = (
-    "Bestätigen Sie die <a href='####TAC####' target='_blank'>Registrierungsbedingungen der Registrierungsstelle</a> bzgl. Neuregistrierung von ####TLD#### Domainnamen anzuerkennen." .
+    $_LANG["hxflagstacregulateddescrdefault"] .
     "<div style='padding:10px 0px;'>Mit der Registrierung einer ####TLD#### Domain erhalten Sie auch gleichzeitig und ohne zusätzliche Kosten eine .ONG Domain. " .
     "Änderungen an der ####TLD#### Domain werden auch automatisch bei der .ONG Domain durchgeführt. Aus diesem Grund finden Sie die .ONG Domain auch nicht in Ihrem Domaininventar gelistet.</div>"
 );
 $_LANG["hxflagstacregulateddescritsection3"] = (
-    "Bestätigen Sie <b><a href='####TAC####' target='_blank'>Abschnitt 3 - Declarations and assumptions of liability</a></b> anzuerkennen.<br/>" .
+    "Bestätigen Sie <b><a href='####TAC####' target='_blank'>Abschnitt 3 - Declarations and Assumptions of Liability</a></b> anzuerkennen.<br/>" .
     "<div style='text-align:justify;margin-bottom:10px;'>" .
     "Der Registrant des betreffenden Domainnamens erklärt in eignerer Verantwortung folgende Punkte zu erfüllen:" .
     "<ul><li>Im Falle einer Registrierung für eine Privatperson: Im Besitz der Staatsbürgerschaft oder eines Wohnsitzes in der Europäischen Union zu sein</li>" .
     "<li>Im Falle einer Registrierung für andere Firmen: In der Europäischen Union etabliert zu sein.</li>" .
     "<li>Zu wissen und zu akzeptieren, dass die Registrierung und Verwaltung eines Domainnamens den <a href='https://www.nic.it/en/manage-your-it/forms-and-docs' target='_blank'>" .
-    "'Management of synchronous operations on domain names of the ccTLD.it - Guidelines'</a> und den <a href='https://www.nic.it/en/manage-your-it/forms-and-docs' target='_blank'>" .
-    "'Dispute resolution in the ccTLD.it - Regulations & Guidelines'</a> und deren späteren Änderungen unterliegt.</li>" .
+    "'Management of synchronous operations on domain names of the ccTLD ####TLD#### - Guidelines'</a> und den <a href='https://www.nic.it/en/manage-your-it/forms-and-docs' target='_blank'>" .
+    "'Dispute resolution in the ccTLD ####TLD#### - Regulations & Guidelines'</a> und deren späteren Änderungen unterliegt.</li>" .
     "<li>Zur Nutzung und/oder rechtliche Verwaltung des beantragten Domainnames berechtigt zu sein und den Rechten Anderer mit der Registrierungsanfrage nicht zu schaden.</li>" .
     "<li>Zu wissen, dass der Aufnahme persönlicher Daten in der Datenbank zugeordneter Domains, und deren möglicher Verbreitung und Einsehbarkeit über das Internet, explizit über die " .
     "Aktivierung entsprechenden Ankreuzfelder zugestimmt werden muss. Siehe <a href='https://www.nic.it/en/manage-your-it/forms-and-docs' target='_blank'>'DBNA and WHOIS Policy'</a>.</li>" .
@@ -73,8 +73,8 @@ $_LANG["hxflagstacregulateddescritsection7"] = (
     "<div style='text-align:justify;margin-bottom:10px;'>" .
     "Zur ausdrücklichen Zustimmung erklärt der Interessent:" .
     "<ul><li>d) zu wissen und zu akzeptieren, dass die Registrierung und Verwaltung eines Domainnamens den <a href='https://www.nic.it/en/manage-your-it/forms-and-docs' target='_blank'>" .
-    "'Management of synchronous operations on domain names of the ccTLD.it - Guidelines'</a> und den <a href='https://www.nic.it/en/manage-your-it/forms-and-docs' target='_blank'>" .
-    "'Dispute resolution in the ccTLD.it - Regulations & Guidelines'</a> und deren späteren Änderungen unterliegt.</li>" .
+    "'Management of synchronous operations on domain names of the ccTLD ####TLD#### - Guidelines'</a> und den <a href='https://www.nic.it/en/manage-your-it/forms-and-docs' target='_blank'>" .
+    "'Dispute resolution in the ccTLD ####TLD#### - Regulations & Guidelines'</a> und deren späteren Änderungen unterliegt.</li>" .
     "<li>e) Zu wissen und zu akzeptieren, dass die Registierungsstelle umgehend den Domainnamen im Falle fehlerhafter oder falscher Angaben in dieser Anfrage widerrufen wird oder andere " .
     "rechtliche Schritte einleiten wird. In einem solchen Fall wird der Widerruf in keinster Weise Anlass geben gegen die Registrierungsstelle zu klagen.</li>" .
     "<li>f) Die Registrierungsstelle von jeglicher Verantwortung entstehend aus der Zuweisung und Nutzung der Domainnamens durch die Privatperson, die die Anfrage gestellt hat, zu entbinden.</li>" .
@@ -235,45 +235,46 @@ $_LANG["hxflagsestldregistranttype"] = "Registrant, Typ";
 $_LANG["hxflagsestldregistrantidentificationnumber"] = "Registrant, Identifikationsnr.";
 $_LANG["hxflagsestldadmintype"] = "Admin-C, Typ";
 $_LANG["hxflagsestldadminidentificationnumber"] = "Admin-C, Identifikationsnr.";
+$_LANG["hxflagsestldregistrantlegaltype"] = "Registrant, Rechtsform";
 // Options, Legal Type
-$_LANG["hxflagsestldlegaltype1"] = "Privatperson";
-$_LANG["hxflagsestldlegaltype39"] = "Wirtschaftliche Interessenvereinigung";
-$_LANG["hxflagsestldlegaltype47"] = "Verband";
-$_LANG["hxflagsestldlegaltype59"] = "Sportverein";
-$_LANG["hxflagsestldlegaltype68"] = "Fachverband";
-$_LANG["hxflagsestldlegaltype124"] = "Sparkasse";
-$_LANG["hxflagsestldlegaltype150"] = "Gemeinschaftsgut";
-$_LANG["hxflagsestldlegaltype152"] = "Eigentümergemeinschaft";
-$_LANG["hxflagsestldlegaltype164"] = "Orden oder religiöse Einrichtung";
-$_LANG["hxflagsestldlegaltype181"] = "Konsulat";
-$_LANG["hxflagsestldlegaltype197"] = "Verband des öffentlichen Rechts";
-$_LANG["hxflagsestldlegaltype203"] = "Botschaft";
-$_LANG["hxflagsestldlegaltype229"] = "Komunalverwaltung";
-$_LANG["hxflagsestldlegaltype269"] = "Sportbund";
-$_LANG["hxflagsestldlegaltype286"] = "Stiftung";
-$_LANG["hxflagsestldlegaltype365"] = "Gegenseitigkeitsversicherungsgesellschaft";
-$_LANG["hxflagsestldlegaltype434"] = "Landesregierungsbehörde";
-$_LANG["hxflagsestldlegaltype436"] = "Zentrale Regierungsbehörde";
-$_LANG["hxflagsestldlegaltype439"] = "Politische Partei";
-$_LANG["hxflagsestldlegaltype476"] = "Handelsgesellschaft";
-$_LANG["hxflagsestldlegaltype510"] = "Landwirtschaftliche Partnerschaft";
-$_LANG["hxflagsestldlegaltype524"] = "Aktiengesellschaft";
-$_LANG["hxflagsestldlegaltype525"] = "Sportverein";
-$_LANG["hxflagsestldlegaltype554"] = "Zivilgesellschaft";
-$_LANG["hxflagsestldlegaltype560"] = "Allgemeine Partnerschaft";
-$_LANG["hxflagsestldlegaltype562"] = "Allgemeine und beschränkte Partnerschaft";
-$_LANG["hxflagsestldlegaltype566"] = "Genossenschaft";
-$_LANG["hxflagsestldlegaltype608"] = "Unternehmen im Belegschaftsbesitz";
-$_LANG["hxflagsestldlegaltype612"] = "Aktiengesellschaft";
-$_LANG["hxflagsestldlegaltype713"] = "Spanisches Amt";
-$_LANG["hxflagsestldlegaltype717"] = "Vorübergehende Unternehmenskooperation";
-$_LANG["hxflagsestldlegaltype744"] = "Aktiengesellschaft im Belegschaftsbesitz";
-$_LANG["hxflagsestldlegaltype745"] = "Regionale öffentliche Einrichtung";
-$_LANG["hxflagsestldlegaltype746"] = "Nationale öffentliche Einrichtung";
-$_LANG["hxflagsestldlegaltype747"] = "Lokale öffentliche Einrichtung";
-$_LANG["hxflagsestldlegaltype878"] = "Herkunftsbezeichnung Aufsichtsrat";
-$_LANG["hxflagsestldlegaltype879"] = "Naturräume verwaltende Entität";
-$_LANG["hxflagsestldlegaltype877"] = "Sonstiges";
+$_LANG["hxflagsestldregistrantlegaltype1"] = "Privatperson";
+$_LANG["hxflagsestldregistrantlegaltype39"] = "Wirtschaftliche Interessenvereinigung";
+$_LANG["hxflagsestldregistrantlegaltype47"] = "Verband";
+$_LANG["hxflagsestldregistrantlegaltype59"] = "Sportverein";
+$_LANG["hxflagsestldregistrantlegaltype68"] = "Fachverband";
+$_LANG["hxflagsestldregistrantlegaltype124"] = "Sparkasse";
+$_LANG["hxflagsestldregistrantlegaltype150"] = "Gemeinschaftsgut";
+$_LANG["hxflagsestldregistrantlegaltype152"] = "Eigentümergemeinschaft";
+$_LANG["hxflagsestldregistrantlegaltype164"] = "Orden oder religiöse Einrichtung";
+$_LANG["hxflagsestldregistrantlegaltype181"] = "Konsulat";
+$_LANG["hxflagsestldregistrantlegaltype197"] = "Verband des öffentlichen Rechts";
+$_LANG["hxflagsestldregistrantlegaltype203"] = "Botschaft";
+$_LANG["hxflagsestldregistrantlegaltype229"] = "Komunalverwaltung";
+$_LANG["hxflagsestldregistrantlegaltype269"] = "Sportbund";
+$_LANG["hxflagsestldregistrantlegaltype286"] = "Stiftung";
+$_LANG["hxflagsestldregistrantlegaltype365"] = "Gegenseitigkeitsversicherungsgesellschaft";
+$_LANG["hxflagsestldregistrantlegaltype434"] = "Landesregierungsbehörde";
+$_LANG["hxflagsestldregistrantlegaltype436"] = "Zentrale Regierungsbehörde";
+$_LANG["hxflagsestldregistrantlegaltype439"] = "Politische Partei";
+$_LANG["hxflagsestldregistrantlegaltype476"] = "Handelsgesellschaft";
+$_LANG["hxflagsestldregistrantlegaltype510"] = "Landwirtschaftliche Partnerschaft";
+$_LANG["hxflagsestldregistrantlegaltype524"] = "Aktiengesellschaft";
+$_LANG["hxflagsestldregistrantlegaltype525"] = "Sportverein";
+$_LANG["hxflagsestldregistrantlegaltype554"] = "Zivilgesellschaft";
+$_LANG["hxflagsestldregistrantlegaltype560"] = "Allgemeine Partnerschaft";
+$_LANG["hxflagsestldregistrantlegaltype562"] = "Allgemeine und beschränkte Partnerschaft";
+$_LANG["hxflagsestldregistrantlegaltype566"] = "Genossenschaft";
+$_LANG["hxflagsestldregistrantlegaltype608"] = "Unternehmen im Belegschaftsbesitz";
+$_LANG["hxflagsestldregistrantlegaltype612"] = "Aktiengesellschaft";
+$_LANG["hxflagsestldregistrantlegaltype713"] = "Spanisches Amt";
+$_LANG["hxflagsestldregistrantlegaltype717"] = "Vorübergehende Unternehmenskooperation";
+$_LANG["hxflagsestldregistrantlegaltype744"] = "Aktiengesellschaft im Belegschaftsbesitz";
+$_LANG["hxflagsestldregistrantlegaltype745"] = "Regionale öffentliche Einrichtung";
+$_LANG["hxflagsestldregistrantlegaltype746"] = "Nationale öffentliche Einrichtung";
+$_LANG["hxflagsestldregistrantlegaltype747"] = "Lokale öffentliche Einrichtung";
+$_LANG["hxflagsestldregistrantlegaltype878"] = "Herkunftsbezeichnung Aufsichtsrat";
+$_LANG["hxflagsestldregistrantlegaltype879"] = "Naturräume verwaltende Entität";
+$_LANG["hxflagsestldregistrantlegaltype877"] = "Sonstiges";
 // Options, Registrant ID Type
 $_LANG["hxflagsestldregistranttype0"] = "Nicht-spanischer Besitzer";
 $_LANG["hxflagsestldregistranttype1"] = "Spanische Privatperson oder Firma";
