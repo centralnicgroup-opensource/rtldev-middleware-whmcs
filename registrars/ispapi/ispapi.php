@@ -3051,16 +3051,6 @@ function ispapi_Sync($params)
         $values["active"] = true;
     }
 
-    // TODO:---------- EXCEPTION [BEGIN] --------
-    // EXPIRATIONDATE not available after successful Transfer in case Refresh Daemon
-    // did not yet run and complete. Corner case, but could happen [kschwarz]
-    // HBS-5362
-    $expirationdate = $r["EXPIRATIONDATE"][0];
-    if (empty($expirationdate)) {
-        return $values;
-    }
-    //--------------- EXCEPTION [END] -----------
-
     $expirationts = strtotime($expirationdate);
     $finalizationdate = $r["FINALIZATIONDATE"][0];
     $paiduntildate = $r["PAIDUNTILDATE"][0];
