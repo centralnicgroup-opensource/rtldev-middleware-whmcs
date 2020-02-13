@@ -1,3 +1,10 @@
+## [2.4.6](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.5...v2.4.6) (2020-02-13)
+
+
+### Bug Fixes
+
+* **sync:** cleanup temporary workaround for expiry date detection after transfer ([b13bcca](https://github.com/hexonet/whmcs-ispapi-registrar/commit/b13bcca8f107ec61e3cec5f87a5e1c65377c811c))
+
 ## [2.4.5](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.4...v2.4.5) (2020-01-22)
 
 
