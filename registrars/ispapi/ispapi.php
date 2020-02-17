@@ -18,6 +18,7 @@ use \WHMCS\Domains\Idna;
 
 require_once "lib/Helper.class.php";
 require_once "lib/AdditionalFields.class.php";
+require_once "lib/Ispapi.class.php";
 
 include_once(implode(DIRECTORY_SEPARATOR, [__DIR__, "lib", "Ispapi.class.php"]));
 
@@ -725,11 +726,11 @@ function ispapi_ClientAreaCustomButtonArray($params)
     $params = injectDomainObjectIfNecessary($params);
     /** @var \WHMCS\Domains\Domain $domain */
     $domain = $params["domainObj"];
-    $tld = strtoupper("." . preg_replace("/^.+\./", "", $domain->getTLD()));
+    $tld = strtoupper("." . $domain->getLastTLDSegment());
 
     $buttonarray = [];
     if ($params["idprotection"]) {
-        if (preg_match("/\.ca$/i", $tld)) {
+        if ($tld === ".ca") {
             //TODO: - no longer contact related, but domain related
             //      - can't we output that information on default page?
             $buttonarray[$tld . " WHOIS Privacy"] = "whoisprivacy_ca";
@@ -745,8 +746,7 @@ function ispapi_ClientAreaCustomButtonArray($params)
         // changes can be done by update; we need only a specific page in case domain fields are necessary
         // TODO check if Kontaktdata page supports additional fields now or still not
         $addflds = new \ISPAPI\AdditionalFields();
-        $addflds->setDomain($domain->getDomain())
-                ->setDomainType("update");//TODO override this method to allow for custom values
+        $addflds->setDomainType("update")->setDomain($domain->getDomain());
         if ($addflds->isMissingRequiredFields()) {
             //in case we have additional required domain fields for registration
             $buttonarray[$tld . " Change of Registrant"] = "registrantmodification";
@@ -3256,6 +3256,31 @@ function ispapi_get_contact_info($contact, &$params)
 // ------- Helper functions and functions required to connect the API -----------
 // ------------------------------------------------------------------------------
 
+function ispapi_get_contact_info2(&$command, $data, $map)
+{
+    foreach ($map as $ctype => $ptype) {
+        if (isset($data["contactdetails"][$ptype])) {
+            $p = $data["contactdetails"][$ptype];
+            $command[$ctype] = [
+                "FIRSTNAME" => html_entity_decode($p["First Name"], ENT_QUOTES),
+                "LASTNAME" => html_entity_decode($p["Last Name"], ENT_QUOTES),
+                "ORGANIZATION" => html_entity_decode($p["Company Name"], ENT_QUOTES),
+                "STREET" => html_entity_decode($p["Address"], ENT_QUOTES),
+                "CITY" => html_entity_decode($p["City"], ENT_QUOTES),
+                "STATE" => html_entity_decode($p["State"], ENT_QUOTES),
+                "ZIP" => html_entity_decode($p["Postcode"], ENT_QUOTES),
+                "COUNTRY" => html_entity_decode($p["Country"], ENT_QUOTES),
+                "PHONE" => html_entity_decode($p["Phone"], ENT_QUOTES),
+                "FAX" => html_entity_decode($p["Fax"], ENT_QUOTES),
+                "EMAIL" => html_entity_decode($p["Email"], ENT_QUOTES)
+            ];
+            if (strlen($p["Address 2"])) {
+                $command[$ctype]["STREET"] .= " , ".html_entity_decode($p["Address 2"], ENT_QUOTES);
+            }
+        }
+    }
+}
+
 /**
  * Return a special page for the registrant modification of a .CA domain name
  *
@@ -3276,8 +3301,7 @@ function ispapi_registrantmodification($params)
 
     $domain_data = (new WHMCS\Domains())->getDomainsDatabyID((int) $params["domainid"]);
     $addflds = new \ISPAPI\AdditionalFields();
-    $addflds->setDomain($domain_data["domain"])
-            ->setDomainType($domain_data["type"]);
+    $addflds->setDomainType("update")->setDomain($domain_data["domain"]);
     
     $r = ispapi_call([
         "COMMAND" => "StatusDomain",
@@ -3296,7 +3320,7 @@ function ispapi_registrantmodification($params)
     if (isset($_POST["submit"])) {
         $addflds->setFieldValues($_POST["domainfield"]);
         if ($addflds->isMissingRequiredFields()) {
-            $error = Lang::trans("carterrordomainconfigskipped");
+            $error = Lang::trans("errormissingfields");
             $missingfields = $addflds->getMissingRequiredFields();
         } else {
             $values["Registrant"] = $_POST["contactdetails"]["Registrant"];
@@ -3329,7 +3353,6 @@ function ispapi_registrantmodification($params)
         'vars' => array(
             'tld' => $domain->getLastTLDSegment(),
             'needsAdminC' => false,
-            'furtherDocsURL' => "",
             'error' => $error,
             'successful' => $successful,
             'values' => $values,
@@ -3360,8 +3383,7 @@ function ispapi_registrantmodificationtrade($params)
 
     $domain_data = (new WHMCS\Domains())->getDomainsDatabyID((int) $params["domainid"]);
     $addflds = new \ISPAPI\AdditionalFields();
-    $addflds->setDomain($domain_data["domain"])
-            ->setDomainType($domain_data["type"]);
+    $addflds->setDomainType("trade")->setDomain($domain_data["domain"]);
     
     $r = ispapi_call([
         "COMMAND" => "StatusDomain",
@@ -3376,7 +3398,7 @@ function ispapi_registrantmodificationtrade($params)
     $error = false;
     $successful = false;
     $missingfields = [];
-    $needsAdminC = ispapi_needsAdminContactInTrade($domain->getLastTLDSegment());
+    $needsAdminC = \ISPAPI\Ispapi::needsAdminContactInTrade($domain->getLastTLDSegment());
 
     if (isset($_POST["submit"])) {
         $addflds->setFieldValues($_POST["domainfield"]);
@@ -3416,7 +3438,6 @@ function ispapi_registrantmodificationtrade($params)
         'vars' => [
             'tld' => $domain->getLastTLDSegment(),
             'needsAdminC' => $needsAdminC,
-            'furtherDocsURL' => ispapi_getTradeFurtherDocsURL($domain->getDomain(), $domain->getLastTLDSegment()),
             'error' => $error,
             'successful' => $successful,
             'values' => $values,
@@ -3442,7 +3463,7 @@ function ispapi_needsTradeForRegistrantModification($domain, $params)
         "COMMAND" => "QueryDomainOptions",
         "DOMAIN0" => $domain->getDomain()
     ], ispapi_config($params));
-    return ($r["CODE"] == 200 && $r["PROPERTY"]["ZONEPOLICYREGISTRANTNAMECHANGEBY"][0] == "TRADE");
+    return ($r["CODE"] == 200 && "TRADE" === $r["PROPERTY"]["ZONEPOLICYREGISTRANTNAMECHANGEBY"][0]);
 }
 
 function ispapi_get_utf8_params($params)

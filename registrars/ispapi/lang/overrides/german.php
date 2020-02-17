@@ -45,12 +45,12 @@ $_LANG["hxflagstacregulateddescritsection3"] = (
     "Der Registrant des betreffenden Domainnamens erklärt in eignerer Verantwortung folgende Punkte zu erfüllen:" .
     "<ul><li>Im Falle einer Registrierung für eine Privatperson: Im Besitz der Staatsbürgerschaft oder eines Wohnsitzes in der Europäischen Union zu sein</li>" .
     "<li>Im Falle einer Registrierung für andere Firmen: In der Europäischen Union etabliert zu sein.</li>" .
-    "<li>Zu wissen und zu akzeptieren, dass die Registrierung und Verwaltung eines Domainnamens den <a href='https://www.nic.it/en/manage-your-it/forms-and-docs' target='_blank'>" .
-    "'Management of synchronous operations on domain names of the ccTLD ####TLD#### - Guidelines'</a> und den <a href='https://www.nic.it/en/manage-your-it/forms-and-docs' target='_blank'>" .
+    "<li>Zu wissen und zu akzeptieren, dass die Registrierung und Verwaltung eines Domainnamens den <a href='####TAC####' target='_blank'>" .
+    "'Management of synchronous operations on domain names of the ccTLD ####TLD#### - Guidelines'</a> und den <a href='####TAC####' target='_blank'>" .
     "'Dispute resolution in the ccTLD ####TLD#### - Regulations & Guidelines'</a> und deren späteren Änderungen unterliegt.</li>" .
     "<li>Zur Nutzung und/oder rechtliche Verwaltung des beantragten Domainnames berechtigt zu sein und den Rechten Anderer mit der Registrierungsanfrage nicht zu schaden.</li>" .
     "<li>Zu wissen, dass der Aufnahme persönlicher Daten in der Datenbank zugeordneter Domains, und deren möglicher Verbreitung und Einsehbarkeit über das Internet, explizit über die " .
-    "Aktivierung entsprechenden Ankreuzfelder zugestimmt werden muss. Siehe <a href='https://www.nic.it/en/manage-your-it/forms-and-docs' target='_blank'>'DBNA and WHOIS Policy'</a>.</li>" .
+    "Aktivierung entsprechenden Ankreuzfelder zugestimmt werden muss. Siehe <a href='####TAC####' target='_blank'>'DBNA and WHOIS Policy'</a>.</li>" .
     "<li>Zu wissen und zu akzeptieren, dass die Registierungsstelle umgehend den Domainnamen im Falle fehlerhafter oder falscher Angaben in dieser Anfrage widerrufen wird oder andere " .
     "rechtliche Schritte einleiten wird. In einem solchen Fall wird der Widerruf in keinster Weise Anlass geben gegen die Registrierungsstelle zu klagen.</li>" .
     "<li>Die Registrierungsstelle von jeglicher Verantwortung entstehend aus der Zuweisung und Nutzung der Domainnamens durch die Privatperson, die die Anfrage gestellt hat, zu entbinden.</li>" .
@@ -72,8 +72,8 @@ $_LANG["hxflagstacregulateddescritsection7"] = (
     "Bestätigen Sie <b><a href='####TAC####' target='_blank'>Abschnitt 7 - Explicit Acceptance of the following points</b></a> anzuerkennen.<br/>" .
     "<div style='text-align:justify;margin-bottom:10px;'>" .
     "Zur ausdrücklichen Zustimmung erklärt der Interessent:" .
-    "<ul><li>d) zu wissen und zu akzeptieren, dass die Registrierung und Verwaltung eines Domainnamens den <a href='https://www.nic.it/en/manage-your-it/forms-and-docs' target='_blank'>" .
-    "'Management of synchronous operations on domain names of the ccTLD ####TLD#### - Guidelines'</a> und den <a href='https://www.nic.it/en/manage-your-it/forms-and-docs' target='_blank'>" .
+    "<ul><li>d) zu wissen und zu akzeptieren, dass die Registrierung und Verwaltung eines Domainnamens den <a href='####TAC####' target='_blank'>" .
+    "'Management of synchronous operations on domain names of the ccTLD ####TLD#### - Guidelines'</a> und den <a href='####TAC####' target='_blank'>" .
     "'Dispute resolution in the ccTLD ####TLD#### - Regulations & Guidelines'</a> und deren späteren Änderungen unterliegt.</li>" .
     "<li>e) Zu wissen und zu akzeptieren, dass die Registierungsstelle umgehend den Domainnamen im Falle fehlerhafter oder falscher Angaben in dieser Anfrage widerrufen wird oder andere " .
     "rechtliche Schritte einleiten wird. In einem solchen Fall wird der Widerruf in keinster Weise Anlass geben gegen die Registrierungsstelle zu klagen.</li>" .
@@ -109,7 +109,9 @@ $_LANG["hxflagsallocationtokendescr"] = (
 $_LANG["hxflagsnexuscategory"] = "Nexus Kategorie";
 $_LANG["hxflagsnexuscountry"] = "Nexus Länderschlüssel";
 $_LANG["hxflagsfax"] = "Fax benötigt";
-$_LANG["hxflagsfaxdescr"] = "Ich versichere <a href='####TAC####'>dieses Formular</a> nach Übermittlung der Registrierung auszufüllen und zu übersenden, um den Registrierungsprozess abzuschließen.";
+$_LANG["hxflagsfaxregisterdescr"] = "Ich versichere <a href='####FAXFORM####'>dieses Formular</a> nach Übermittlung der Registrierungsanfrage auszufüllen und zu übersenden, um den Prozess abzuschließen.";
+$_LANG["hxflagsfaxtransferdescr"] = "Ich versichere <a href='####FAXFORM####'>dieses Formular</a> nach Übermittlung der Transferanfrage auszufüllen und zu übersenden, um den Prozess abzuschließen.";
+$_LANG["hxflagsfaxownerchangedescr"] = "Ich versichere <a href='####FAXFORM####'>dieses Formular</a> nach Übermittlung der Besitzerwechselanfrage auszufüllen und zu übersenden, um den Prozess abzuschließen.";
 $_LANG["hxflagsidentificationnumber"] = "Identifikationsnr.";
 $_LANG["hxflagswhoisoptout"] = "WHOIS Widerspruch";
 $_LANG["hxflagsregistrantbirthdate"] = "Registrant, Geburtsdatum";
@@ -147,6 +149,13 @@ $_LANG["hxflagsaerotldaerokey"] = ".AERO Key <sup style='cursor:help;' title='Hi
 // .CA
 $_LANG["hxflagscatldcontactlanguage"] = "Kontaktsprache";
 $_LANG["hxflagscatldwhoisoptoutdescr"] = "Ankreuzen, um Ihre Kontaktdaten im CIRA WHOIS auszublenden (nur für Privatpersonen)";
+$_LANG["hxflagscatldregistryinformation"] = "Information der Registrierungsstelle";
+$_LANG["hxflagscatldregistryinformationdescr"] = (
+    "Immer wenn Sie eine ####TLD#### Domain für einen neuen Registranten bestellen oder einen Besitzerwechsel zu einem neuen Registranten durchführen, so muss dieser neue Registrant die " .
+    "den Vereinbarungen für Registranten innerhalb von 7 Tagen zustimmen, damit die Domain aktiviert wird. Ansonsten wird die Domain seitens der Registrierungssteller ohne Rückerstattung gelöscht. ".
+    "<br/><b>Nur in einem solchen Fall erhält der Registrant eine Bestätigungemail mit allen durchzuführenden Schritten zum Akzeptieren dieser Vereinbarungen.</b><br/>" .
+    "Falls ein bereits bestätigter Registrant bei einer Bestellung/Inhaberänderung benutzt wird, so wird dieser Vorgang in Echtzeit verarbeitet."
+);
 // Options, Legal Type
 $_LANG["hxflagscatldlegaltypecco"] = "Unternehmen";
 $_LANG["hxflagscatldlegaltypecct"] = "Kanadischer Staatsbürger";
@@ -348,6 +357,16 @@ $_LANG["hxflagsittldacceptsection3"] = "Abschnitt 3 des .IT Registrarvertrags";
 $_LANG["hxflagsittldacceptsection5"] = "Abschnitt 5 des .IT Registrarvertrags";
 $_LANG["hxflagsittldacceptsection6"] = "Abschnitt 6 des .IT Registrarvertrags";
 $_LANG["hxflagsittldacceptsection7"] = "Abschnitt 7 des .IT Registrarvertrags";
+$_LANG["hxflagsittldregistrantnationality"] = "Registrant, Nationalität";
+$_LANG["hxflagsittldregistrantnationalitydescr"] = "(die Nationalität des Registranten, sofern diese vom Länderschlüssel abweicht.)";
+$_LANG["hxflagsittldregistrantlegaltype"] = "Registrant, Rechtsform";
+$_LANG["hxflagsittldregistrantlegaltype1"] = "[1] Italienische und ausländische natürliche Person";
+$_LANG["hxflagsittldregistrantlegaltype2"] = "[2] Italienisches Unternehmen / Ein-Mann-Firma";
+$_LANG["hxflagsittldregistrantlegaltype3"] = "[3] Italienischer freier Mitarbeiter / Fachpersonal ";
+$_LANG["hxflagsittldregistrantlegaltype4"] = "[4] Italienische gemeinnützige Organisation";
+$_LANG["hxflagsittldregistrantlegaltype5"] = "[5] Italienische öffentliche Organisation";
+$_LANG["hxflagsittldregistrantlegaltype6"] = "[6] Andere italienische Subjekte";
+$_LANG["hxflagsittldregistrantlegaltype7"] = "[7] Organisation aus anderen EU Mitgliedsstaaten (2 - 6 zutreffend)";
 
 // .JOBS
 $_LANG["hxflagsjobstldyesnono"] = "Nein";
@@ -501,17 +520,14 @@ $_LANG["hxflagssydneytldnexuscategorydescr"] = (
     "<b>Kriterium A – Unternehmen von New South Wales</b><br/>" .
     "Der Antragsteller muss ein Unternehmen sein, welches über `Australian Securities and Investments Commission` registiert ist oder im Australischen Handelsregister eingetragen ist und " .
     "hat im Staat New South Wales eine mit seiner ABN-, ACN-, RBN- oder ARBN-Nr. verknüpften Adresse oder eine dort gültige Firmenadresse.<br/>" .
-    "<b>Kriterium B – Bewohnt von New South Wales</b><br/>" .
-    "Der Antragsteller ist ein australischer Staatsbürger oder Bewohner mit gültiger Adresse im Staat New South Wales.<br/>" .
-    "<b>Kriterium C – Assoziierte Unternehmen</b><br/>" .
-    "Der Antragsteller muss ein assoziiertes Unternehmen sein und darf sich nur dann um einen Domainnamen bewerben, wenn dieser in Bezug folgender Punkte einer Abkürzung, einem Akronym oder " .
-    "einem direkten oder nur teilweisen Treffer entspricht:<br/>" .
+    "<b>Kriterium B – Bewohnt von New South Wales</b><br/>Der Antragsteller ist ein australischer Staatsbürger oder Bewohner mit gültiger Adresse im Staat New South Wales.<br/>" .
+    "<b>Kriterium C – Assoziierte Unternehmen</b><br/>Der Antragsteller muss ein assoziiertes Unternehmen sein und darf sich nur dann um einen Domainnamen bewerben, wenn dieser in Bezug " .
+    "folgender Punkte einer Abkürzung, einem Akronym oder einem direkten oder nur teilweisen Treffer entspricht:<br/>" .
     "<ul><li>Firmenname oder Name/Rufname/Pseudonym des Registranten, wobei der Firmenname bei der für den Geschäftsbereich zuständigen Behörde registiert sein muss,</li>" .
     "<li>ein Produkt welches durch das assoziierte Unternehmen selbst hergestellt oder an Firmen und Privatkunden im Staat New South Wales verkauft wird,</li>".
     "<li>eine Dienstleistung des Unternehmens, die Bewohnern des Staats New Sout Wales angeboten wird,</li>" .
     "<li>eine Veranstaltung im Staat New South Wales, welche das Unternehmen organisiert oder fördert,</li>" .
-    "<li>eine Tätigkeit, die das Unternehmen im Staat New Sout Wales erleichtert,</li>" .
-    "<li>für die Bewohner des Staats New South Wales bereitgestellter Kurs oder bereitgestelltes Ausbildungsprogramm.</li></ul>"
+    "<li>eine Tätigkeit, die das Unternehmen im Staat New Sout Wales erleichtert,</li><li>für die Bewohner des Staats New South Wales bereitgestellter Kurs oder bereitgestelltes Ausbildungsprogramm.</li></ul>"
 );
 
 // .TEL
@@ -557,3 +573,13 @@ $_LANG["hxflagsxxxtldmembershipiddescr"] = "(Benötigt, damit Ihre .XXX Domain a
 // Options, Non-Resolving Domain
 $_LANG["hxflagsxxxtldnonresolvingdomain0"] = "Nein - dieser Domainname SOLL auflösen.";
 $_LANG["hxflagsxxxtldnonresolvingdomain1"] = "Ja - dieser Domainname SOLL NICHT auflösen";
+
+// ----------------------------------------------------------------------
+// ----------------------- OWNER CHANGE ---------------------------------
+// ----------------------------------------------------------------------
+$_LANG["traderequestedsuccessfully"] = "Die Tradeanfrage wurde erfolgreich übermittelt.";
+$_LANG["ownerchangeproceduresimple"] = "Der Besitzerwechsel für diese TLD erfordert eine spezielle Prozedur namens `Trade`. Hier bei wird der Registrantkontakt ersetzt.";
+$_LANG["ownerchangeprocedureextended"] = "Der Besitzerwechsel für diese TLD erfordert eine spezielle Prozedur namens `Trade`. Hier bei werden Registrant- und Adminkontakt ersetzt.";
+$_LANG["ownerchange"] = "Besitzerwechsel";
+$_LANG["bttnsendtrade"] = "Trade übermitteln";
+$_LANG["errormissingfields"] = "Fehlende Angaben bei folgenden Mussfeldern:";

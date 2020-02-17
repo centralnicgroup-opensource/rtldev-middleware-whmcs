@@ -45,11 +45,11 @@ $_LANG["hxflagstacregulateddescritsection3"] = (
     "The Registrant of the domain name in question, declares under their own responsibility that they are:" .
     "<ul><li>in possession of the citizenship or resident in a country belonging to the European Union (in the case of registration for natural persons);</li>" .
     "<li>established in a country belonging to the European Union (in the case of registration for other organizations);</li>" .
-    "<li>aware and accept that the registration and management of a domain name is subject to the <a href='https://www.nic.it/en/manage-your-it/forms-and-docs' target='_blank'>'Management of synchronous operations on domain names of the ccTLD ####TLD#### - Guidelines'</a> " .
-    "and <a href='https://www.nic.it/en/manage-your-it/forms-and-docs' target='_blank'>'Dispute resolution in the ccTLD ####TLD#### - Regulations & Guidelines'</a> and their subsequent amendments;</li>" .
+    "<li>aware and accept that the registration and management of a domain name is subject to the <a href='####TAC####' target='_blank'>'Management of synchronous operations on domain names of the ccTLD ####TLD#### - Guidelines'</a> " .
+    "and <a href='####TAC####' target='_blank'>'Dispute resolution in the ccTLD ####TLD#### - Regulations & Guidelines'</a> and their subsequent amendments;</li>" .
     "<li>entitled to the use and/or legal availability of the domain name applied for, and that they do not prejudice, with the request for registration, the rights of others;</li>" .
     "<li>aware that for the inclusion of personal data in the Database of assigned domain names, and their possible dissemination and accessibility via the Internet, consent must be " .
-    "given explicitly by ticking the appropriate boxes in the information below. See the <a href='https://www.nic.it/en/manage-your-it/forms-and-docs' target='_blank'>'DBNA and WHOIS Policy'</a>;</li>" .
+    "given explicitly by ticking the appropriate boxes in the information below. See the <a href='####TAC####' target='_blank'>'DBNA and WHOIS Policy'</a>;</li>" .
     "<li>aware and agree that in the case of erroneous or false declarations in this request, the Registry shall immediately revoke the domain name, or proceed with other legal actions. " .
     "In such case the revocation shall not in any way give rise to claims against the Registry;</li>" .
     "<li>release the Registry from any liability resulting from the assignment and use of the domain name by the natural person that has made the request;</li>" .
@@ -72,8 +72,8 @@ $_LANG["hxflagstacregulateddescritsection7"] = (
     "Tick to confirm that you agree to <b><a href='####TAC####' target='_blank'>Section 7 - Explicit Acceptance of the following points</b></a><br/>" .
     "<div style='text-align:justify;margin-bottom:10px;'>" .
     "For explicit acceptance, the interested party declares that they:" .
-    "<ul><li>d) are aware and agree that the registration and management of a domain name is subject to the 'Rules of assignment and management of domain names " .
-    "in ccTLD ####TLD####' and 'Regulations for the resolution of disputes in the ccTLD ####TLD####' and their subsequent amendments;</li>" .
+    "<ul><li>d) are aware and agree that the registration and management of a domain name is subject to the <a href='####TAC####' target='_blank'>Rules of assignment and management of domain names " .
+    "in ccTLD ####TLD####'</a> and <a href='####TAC####' target='_blank'>Regulations for the resolution of disputes in the ccTLD ####TLD####'</a> and their subsequent amendments;</li>" .
     "<li>e) are aware and agree that in the case of erroneous or false declarations in this request, the Registry shall immediately revoke the domain name, or " .
     "proceed with other legal actions. In such case the revocation shall not in any way give rise to claims against the Registry;</li>" .
     "<li>f) release the Registry from any liability resulting from the assignment and use of the domain name by the natural person that has made the request;</li>" .
@@ -109,7 +109,9 @@ $_LANG["hxflagsallocationtokendescr"] = (
 $_LANG["hxflagsnexuscategory"] = "Nexus Category";
 $_LANG["hxflagsnexuscountry"] = "Nexus Country";
 $_LANG["hxflagsfax"] = "Fax Required";
-$_LANG["hxflagsfaxdescr"] = "I confirm that after this registration request I will send <a href='####TAC####'>this form</a> back to complete the registration process.";
+$_LANG["hxflagsfaxregistrationdescr"] = "I confirm that after this registration request I will send <a href='####FAXFORM####'>this form</a> back to complete the process.";
+$_LANG["hxflagsfaxtransferdescr"] = "I confirm that after this transfer request I will send <a href='####FAXFORM####'>this form</a> back to complete the process.";
+$_LANG["hxflagsfaxownerchangedescr"] = "I confirm that after this owner change request I will send <a href='####FAXFORM####'>this form</a> back to complete the process.";
 $_LANG["hxflagsidentificationnumber"] = "Identification Number";
 $_LANG["hxflagswhoisoptout"] = "WHOIS Opt-out";
 $_LANG["hxflagsregistrantbirthdate"] = "Registrant Birthdate";
@@ -146,7 +148,14 @@ $_LANG["hxflagsaerotldaerokey"] = ".AERO Key <sup style='cursor:help;' title='Ob
 
 // .CA
 $_LANG["hxflagscatldcontactlanguage"] = "Contact Language";
-$_LANG["hxflagscatldwhoisoptoutdescr"] = "Tick to hide your contact information in CIRA WHOIS (only available to individuals)";
+$_LANG["hxflagscatldwhoisoptoutdescr"] = "Tick to hide your contact information in registry WHOIS (only available to individuals)";
+$_LANG["hxflagscatldregistryinformation"] = "Registry Information";
+$_LANG["hxflagscatldregistryinformationdescr"] = (
+    "Whenever you register a ####TLD#### domain for a new registrant (or change the registrant to a new one), this new registrant has to agree to the " .
+    "registrant agreement within 7 days so that the domain becomes active. Otherwise the domain is getting deleted by the registry without any refund. ".
+    "<br/><b>Only in such a case, a confirmation email will be send out to the new registrant covering the necessary steps to accept this agreement.</b><br/>" .
+    "If the same (already confirmed) registrant contact is used to register another ####TLD#### domain then the domain will be registered in real-time."
+);
 // Options, Legal Type
 $_LANG["hxflagscatldlegaltypecco"] = "Corporation";
 $_LANG["hxflagscatldlegaltypecct"] = "Canadian Citizen";
@@ -348,6 +357,16 @@ $_LANG["hxflagsittldacceptsection3"] = "Section 3 of .IT registrar contract";
 $_LANG["hxflagsittldacceptsection5"] = "Section 5 of .IT registrar contract";
 $_LANG["hxflagsittldacceptsection6"] = "Section 6 of .IT registrar contract";
 $_LANG["hxflagsittldacceptsection7"] = "Section 7 of .IT registrar contract";
+$_LANG["hxflagsittldregistrantnationality"] = "Registrant Nationality";
+$_LANG["hxflagsittldregistrantnationalitydescr"] = "(the nationality of the registrant contact if it deviates from the country code.)";
+$_LANG["hxflagsittldregistrantlegaltype"] = "Registrant Legal Type";
+$_LANG["hxflagsittldregistrantlegaltype1"] = "[1] Italian and foreign natural persons";
+$_LANG["hxflagsittldregistrantlegaltype2"] = "[2] Italian Companies / One man companies";
+$_LANG["hxflagsittldregistrantlegaltype3"] = "[3] Italian Freelance workers / Professionals";
+$_LANG["hxflagsittldregistrantlegaltype4"] = "[4] Italian non-profit Organizations";
+$_LANG["hxflagsittldregistrantlegaltype5"] = "[5] Italian public Organizations";
+$_LANG["hxflagsittldregistrantlegaltype6"] = "[6] Other Italian Subjects";
+$_LANG["hxflagsittldregistrantlegaltype7"] = "[7] Other EU-member state Organisation (matching 2 - 6)";
 
 // .JOBS
 $_LANG["hxflagsjobstldyesnono"] = "No";
@@ -497,7 +516,7 @@ $_LANG["hxflagssydneytldnexuscategorya"] = "Criteria A - New South Wales Entitie
 $_LANG["hxflagssydneytldnexuscategoryb"] = "Criteria B - New South Wales Residents";
 $_LANG["hxflagssydneytldnexuscategoryc"] = "Criteria C - Associated Entities";
 $_LANG["hxflagssydneytldnexuscategorydescr"] = (
-    "In order to register or renew a domain name the Applicant or Registrant must satisfy one of the following Criteria A, B or C below:<br/><br/>" .
+    "In order to register or renew a ####TLD#### domain name the Applicant or Registrant must satisfy one of the following Criteria A, B or C below:<br/><br/>" .
     "<b>Criteria A – New South Wales Entities</b><br/>" .
     "The Applicant must be an entity registered with the Australian Securities and Investments Commission or the Australian Business Register that:<br/>" .
     "has an address in the State of New South Wales associated with its ABN, ACN, RBN or ARBN; or has a valid corporate address in the State of New South Wales.<br/>" .
@@ -554,3 +573,13 @@ $_LANG["hxflagsxxxtldmembershipiddescr"] = "(Required in order to make your .XXX
 // Options, Non-Resolving Domain
 $_LANG["hxflagsxxxtldnonresolvingdomain0"] = "No - This domain SHOULD resolve";
 $_LANG["hxflagsxxxtldnonresolvingdomain1"] = "Yes - This domain SHOULD NOT resolve";
+
+// ----------------------------------------------------------------------
+// ----------------------- OWNER CHANGE ---------------------------------
+// ----------------------------------------------------------------------
+$_LANG["traderequestedsuccessfully"] = "The Trade has been requested successfully.";
+$_LANG["ownerchangeproceduresimple"] = "The Change of Registrant for this TLD requires a special procedure called `Trade`. Registrant Contact will be replaced.";
+$_LANG["ownerchangeprocedureextended"] = "The Change of Registrant for this TLD requires a special procedure called `Trade`. Registrant and Admin Contact will be replaced.";
+$_LANG["ownerchange"] = "Change of Registrant";
+$_LANG["bttnsendtrade"] = "Send Trade";
+$_LANG["errormissingfields"] = "Missing data for the below mandatory fields:";
