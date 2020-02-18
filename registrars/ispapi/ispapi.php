@@ -733,23 +733,23 @@ function ispapi_ClientAreaCustomButtonArray($params)
         if ($tld === ".ca") {
             //TODO: - no longer contact related, but domain related
             //      - can't we output that information on default page?
-            $buttonarray[$tld . " WHOIS Privacy"] = "whoisprivacy_ca";
+            $buttonarray[\Lang::trans("hxwhoisprivacy")] = "whoisprivacy_ca";
             //$buttonarray[".CA Change of Registrant"] = "registrantmodification_ca";
         } else {
-            $buttonarray["WHOIS Privacy"] = "whoisprivacy";
+            $buttonarray[\Lang::trans("hxwhoisprivacy")] = "whoisprivacy";
         }
     }
 
     if (ispapi_needsTradeForRegistrantModification($domain, $params)) {
-        $buttonarray[$tld . " Change of Registrant"] = "registrantmodificationtrade";
+        $buttonarray[\Lang::trans("hxownerchange")] = "registrantmodificationtrade";
     } else {
         // changes can be done by update; we need only a specific page in case domain fields are necessary
         // TODO check if Kontaktdata page supports additional fields now or still not
         $addflds = new \ISPAPI\AdditionalFields();
         $addflds->setDomainType("update")->setDomain($domain->getDomain());
         if ($addflds->isMissingRequiredFields()) {
-            //in case we have additional required domain fields for registration
-            $buttonarray[$tld . " Change of Registrant"] = "registrantmodification";
+            //in case we have additional required domain fields for update
+            $buttonarray[\Lang::trans("hxownerchange")] = "registrantmodification";
         }
     }
 
@@ -758,7 +758,7 @@ function ispapi_ClientAreaCustomButtonArray($params)
     }
 
     if ($params["DNSSEC"] == "on") {
-        $buttonarray["DNSSEC Management"] = "dnssec";
+        $buttonarray[\Lang::trans("hxdnssecmanagement")] = "dnssec";
     }
 
     return $buttonarray;
@@ -3320,7 +3320,7 @@ function ispapi_registrantmodification($params)
     if (isset($_POST["submit"])) {
         $addflds->setFieldValues($_POST["domainfield"]);
         if ($addflds->isMissingRequiredFields()) {
-            $error = Lang::trans("errormissingfields");
+            $error = Lang::trans("hxerrormissingfields");
             $missingfields = $addflds->getMissingRequiredFields();
         } else {
             $values["Registrant"] = $_POST["contactdetails"]["Registrant"];
@@ -3403,7 +3403,7 @@ function ispapi_registrantmodificationtrade($params)
     if (isset($_POST["submit"])) {
         $addflds->setFieldValues($_POST["domainfield"]);
         if ($addflds->isMissingRequiredFields()) {
-            $error = Lang::trans("carterrordomainconfigskipped");
+            $error = Lang::trans("hxerrormissingfields");
             $missingfields = $addflds->getMissingRequiredFields();
         } else {
             $values["Registrant"] = $_POST["contactdetails"]["Registrant"];

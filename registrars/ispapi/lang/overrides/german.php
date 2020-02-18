@@ -10,7 +10,7 @@ $_LANG["hxflagstactrustee"] = "Treuhandservice";
 $_LANG["hxflagstachighlyregulated"] = "Stark Regulierte TLD";
 $_LANG["hxflagstachighlyregulateddescrdefault"] = (
     "Bestätigen Sie, daß der Registrant berechtigt ist diese Domain zu registrieren und daß alle angegebenen Daten korrekt und wahrheitsgemäß sind. " .
-    "Berechtigungskriterien können <a href='####TAC####' target='_blank'>hier</a> eingesehen werden."
+    "Berechtigungskriterien können <a href='{TAC}' target='_blank'>hier</a> eingesehen werden."
 );
 $_LANG["hxflagstachighlyregulateddescreco"] = (
     $_LANG["hxflagstachighlyregulateddescrdefault"] .
@@ -32,49 +32,49 @@ $_LANG["hxflagstachighlyregulateddescrnotac"] = (
     "</li>" .
     "</ol></div>"
 );
-$_LANG["hxflagstacindividualregulateddescrdefault"] = "Bestätigen Sie die <a href='####TAC####' target='_blank'>Richtlinien für Privatpersonen</a> anzuerkennen.";
-$_LANG["hxflagstacregulateddescrdefault"] = "Bestätigen Sie die <a href='####TAC####' target='_blank'>Registrierungsbedingungen der Registrierungsstelle</a> bzgl. Neuregistrierung von ####TLD#### Domainnamen anzuerkennen.";
+$_LANG["hxflagstacindividualregulateddescrdefault"] = "Bestätigen Sie die <a href='{TAC}' target='_blank'>Richtlinien für Privatpersonen</a> anzuerkennen.";
+$_LANG["hxflagstacregulateddescrdefault"] = "Bestätigen Sie die <a href='{TAC}' target='_blank'>Registrierungsbedingungen der Registrierungsstelle</a> bzgl. Neuregistrierung von {TLD} Domainnamen anzuerkennen.";
 $_LANG["hxflagstacregulateddescrngo"] = (
     $_LANG["hxflagstacregulateddescrdefault"] .
-    "<div style='padding:10px 0px;'>Mit der Registrierung einer ####TLD#### Domain erhalten Sie auch gleichzeitig und ohne zusätzliche Kosten eine .ONG Domain. " .
-    "Änderungen an der ####TLD#### Domain werden auch automatisch bei der .ONG Domain durchgeführt. Aus diesem Grund finden Sie die .ONG Domain auch nicht in Ihrem Domaininventar gelistet.</div>"
+    "<div style='padding:10px 0px;'>Mit der Registrierung einer {TLD} Domain erhalten Sie auch gleichzeitig und ohne zusätzliche Kosten eine .ONG Domain. " .
+    "Änderungen an der {TLD} Domain werden auch automatisch bei der .ONG Domain durchgeführt. Aus diesem Grund finden Sie die .ONG Domain auch nicht in Ihrem Domaininventar gelistet.</div>"
 );
 $_LANG["hxflagstacregulateddescritsection3"] = (
-    "Bestätigen Sie <b><a href='####TAC####' target='_blank'>Abschnitt 3 - Declarations and Assumptions of Liability</a></b> anzuerkennen.<br/>" .
+    "Bestätigen Sie <b><a href='{TAC}' target='_blank'>Abschnitt 3 - Declarations and Assumptions of Liability</a></b> anzuerkennen.<br/>" .
     "<div style='text-align:justify;margin-bottom:10px;'>" .
     "Der Registrant des betreffenden Domainnamens erklärt in eignerer Verantwortung folgende Punkte zu erfüllen:" .
     "<ul><li>Im Falle einer Registrierung für eine Privatperson: Im Besitz der Staatsbürgerschaft oder eines Wohnsitzes in der Europäischen Union zu sein</li>" .
     "<li>Im Falle einer Registrierung für andere Firmen: In der Europäischen Union etabliert zu sein.</li>" .
-    "<li>Zu wissen und zu akzeptieren, dass die Registrierung und Verwaltung eines Domainnamens den <a href='####TAC####' target='_blank'>" .
-    "'Management of synchronous operations on domain names of the ccTLD ####TLD#### - Guidelines'</a> und den <a href='####TAC####' target='_blank'>" .
-    "'Dispute resolution in the ccTLD ####TLD#### - Regulations & Guidelines'</a> und deren späteren Änderungen unterliegt.</li>" .
+    "<li>Zu wissen und zu akzeptieren, dass die Registrierung und Verwaltung eines Domainnamens den <a href='{TAC}' target='_blank'>" .
+    "'Management of synchronous operations on domain names of the ccTLD {TLD} - Guidelines'</a> und den <a href='{TAC}' target='_blank'>" .
+    "'Dispute resolution in the ccTLD {TLD} - Regulations & Guidelines'</a> und deren späteren Änderungen unterliegt.</li>" .
     "<li>Zur Nutzung und/oder rechtliche Verwaltung des beantragten Domainnames berechtigt zu sein und den Rechten Anderer mit der Registrierungsanfrage nicht zu schaden.</li>" .
     "<li>Zu wissen, dass der Aufnahme persönlicher Daten in der Datenbank zugeordneter Domains, und deren möglicher Verbreitung und Einsehbarkeit über das Internet, explizit über die " .
-    "Aktivierung entsprechenden Ankreuzfelder zugestimmt werden muss. Siehe <a href='####TAC####' target='_blank'>'DBNA and WHOIS Policy'</a>.</li>" .
+    "Aktivierung entsprechenden Ankreuzfelder zugestimmt werden muss. Siehe <a href='{TAC}' target='_blank'>'DBNA and WHOIS Policy'</a>.</li>" .
     "<li>Zu wissen und zu akzeptieren, dass die Registierungsstelle umgehend den Domainnamen im Falle fehlerhafter oder falscher Angaben in dieser Anfrage widerrufen wird oder andere " .
     "rechtliche Schritte einleiten wird. In einem solchen Fall wird der Widerruf in keinster Weise Anlass geben gegen die Registrierungsstelle zu klagen.</li>" .
     "<li>Die Registrierungsstelle von jeglicher Verantwortung entstehend aus der Zuweisung und Nutzung der Domainnamens durch die Privatperson, die die Anfrage gestellt hat, zu entbinden.</li>" .
     "<li>Italienische Rechtsprechung und Gesetze des Staates Italien zu akzeptieren.</li></ul></div>"
 );
 $_LANG["hxflagstacregulateddescritsection5"] = (
-    "Bestätigen Sie <b><a href='####TAC####' target='_blank'>Abschnitt 5 - Consent to the processing of personal data for registration</b></a> anzuerkennen.<br/>" .
+    "Bestätigen Sie <b><a href='{TAC}' target='_blank'>Abschnitt 5 - Consent to the processing of personal data for registration</b></a> anzuerkennen.<br/>" .
     "<div style='text-align:justify;margin-bottom:10px;'>" .
     "Der Interessent erteilt nach der Lektüre o.g. Veröffentlichung sein Einverständnis zur für die Registrierung notwendigen Datenverarbeitung, gemäß dieser Veröffentlichung." .
     "Die Einwilligung ist kein Muss. Wird diese nicht erteilt, so kann die Registrierung, Zuweisung und Verwaltung des Domainnamens nicht abgeschlossen werden.</div>"
 );
 $_LANG["hxflagstacregulateddescritsection6"] = (
-    "Bestätigen Sie <b><a href='####TAC####' target='_blank'>Abschnitt 6 - Consent to the processing of personal data for diffusion and accessibility via the Internet</b></a> anzuerkennen.<br/>" .
+    "Bestätigen Sie <b><a href='{TAC}' target='_blank'>Abschnitt 6 - Consent to the processing of personal data for diffusion and accessibility via the Internet</b></a> anzuerkennen.<br/>" .
     "<div style='text-align:justify;margin-bottom:10px;'>" .
     "Der Interessent erteilt nach Lektüre o.g. Veröffentlichung sein Einverständnis zur Verbreitung und Einsehbarkeit der Daten über das Internet gemäßt dieser Veröffentlichung." .
     "Die Einwilligung ist kein Muss. Wird diese nicht erteilt, ist die Verbreitung und Einsehbarkeit der Daten über das Internet nicht erlaubt.</div>"
 );
 $_LANG["hxflagstacregulateddescritsection7"] = (
-    "Bestätigen Sie <b><a href='####TAC####' target='_blank'>Abschnitt 7 - Explicit Acceptance of the following points</b></a> anzuerkennen.<br/>" .
+    "Bestätigen Sie <b><a href='{TAC}' target='_blank'>Abschnitt 7 - Explicit Acceptance of the following points</b></a> anzuerkennen.<br/>" .
     "<div style='text-align:justify;margin-bottom:10px;'>" .
     "Zur ausdrücklichen Zustimmung erklärt der Interessent:" .
-    "<ul><li>d) zu wissen und zu akzeptieren, dass die Registrierung und Verwaltung eines Domainnamens den <a href='####TAC####' target='_blank'>" .
-    "'Management of synchronous operations on domain names of the ccTLD ####TLD#### - Guidelines'</a> und den <a href='####TAC####' target='_blank'>" .
-    "'Dispute resolution in the ccTLD ####TLD#### - Regulations & Guidelines'</a> und deren späteren Änderungen unterliegt.</li>" .
+    "<ul><li>d) zu wissen und zu akzeptieren, dass die Registrierung und Verwaltung eines Domainnamens den <a href='{TAC}' target='_blank'>" .
+    "'Management of synchronous operations on domain names of the ccTLD {TLD} - Guidelines'</a> und den <a href='{TAC}' target='_blank'>" .
+    "'Dispute resolution in the ccTLD {TLD} - Regulations & Guidelines'</a> und deren späteren Änderungen unterliegt.</li>" .
     "<li>e) Zu wissen und zu akzeptieren, dass die Registierungsstelle umgehend den Domainnamen im Falle fehlerhafter oder falscher Angaben in dieser Anfrage widerrufen wird oder andere " .
     "rechtliche Schritte einleiten wird. In einem solchen Fall wird der Widerruf in keinster Weise Anlass geben gegen die Registrierungsstelle zu klagen.</li>" .
     "<li>f) Die Registrierungsstelle von jeglicher Verantwortung entstehend aus der Zuweisung und Nutzung der Domainnamens durch die Privatperson, die die Anfrage gestellt hat, zu entbinden.</li>" .
@@ -103,15 +103,15 @@ $_LANG["hxflagsbillingidnumber"] = "Billing-C, Identifikationsnr.";
 $_LANG["hxflagsregistrantidtype"] = "Registrant, Ursprung der Identifikationsnr.";
 $_LANG["hxflagsallocationtoken"] = "Bestellschlüssel der Registrierungsstelle";
 $_LANG["hxflagsallocationtokendescr"] = (
-    "Um eine ####TLD#### Domain zu registrieren, müssen Sie den durch die Registrierungsstelle ausgestellten Bestellschlüssel angeben. " .
-    "Füllen Sie bitte <a href='####TAC####' target='_blank'>hier</a> den Antrag aus, um den Schlüssel zu erhalten."
+    "Um eine {TLD} Domain zu registrieren, müssen Sie den durch die Registrierungsstelle ausgestellten Bestellschlüssel angeben. " .
+    "Füllen Sie bitte <a href='{TAC}' target='_blank'>hier</a> den Antrag aus, um den Schlüssel zu erhalten."
 );
 $_LANG["hxflagsnexuscategory"] = "Nexus Kategorie";
 $_LANG["hxflagsnexuscountry"] = "Nexus Länderschlüssel";
 $_LANG["hxflagsfax"] = "Fax benötigt";
-$_LANG["hxflagsfaxregisterdescr"] = "Ich versichere <a href='####FAXFORM####'>dieses Formular</a> nach Übermittlung der Registrierungsanfrage auszufüllen und zu übersenden, um den Prozess abzuschließen.";
-$_LANG["hxflagsfaxtransferdescr"] = "Ich versichere <a href='####FAXFORM####'>dieses Formular</a> nach Übermittlung der Transferanfrage auszufüllen und zu übersenden, um den Prozess abzuschließen.";
-$_LANG["hxflagsfaxownerchangedescr"] = "Ich versichere <a href='####FAXFORM####'>dieses Formular</a> nach Übermittlung der Besitzerwechselanfrage auszufüllen und zu übersenden, um den Prozess abzuschließen.";
+$_LANG["hxflagsfaxregisterdescr"] = "Ich versichere <a href='{FAXFORM}'>dieses Formular</a> nach Übermittlung der Registrierungsanfrage auszufüllen und zu übersenden, um den Prozess abzuschließen.";
+$_LANG["hxflagsfaxtransferdescr"] = "Ich versichere <a href='{FAXFORM}'>dieses Formular</a> nach Übermittlung der Transferanfrage auszufüllen und zu übersenden, um den Prozess abzuschließen.";
+$_LANG["hxflagsfaxownerchangedescr"] = "Ich versichere <a href='{FAXFORM}'>dieses Formular</a> nach Übermittlung der Besitzerwechselanfrage auszufüllen und zu übersenden, um den Prozess abzuschließen.";
 $_LANG["hxflagsidentificationnumber"] = "Identifikationsnr.";
 $_LANG["hxflagswhoisoptout"] = "WHOIS Widerspruch";
 $_LANG["hxflagsregistrantbirthdate"] = "Registrant, Geburtsdatum";
@@ -151,7 +151,7 @@ $_LANG["hxflagscatldcontactlanguage"] = "Kontaktsprache";
 $_LANG["hxflagscatldwhoisoptoutdescr"] = "Ankreuzen, um Ihre Kontaktdaten im CIRA WHOIS auszublenden (nur für Privatpersonen)";
 $_LANG["hxflagscatldregistryinformation"] = "Information der Registrierungsstelle";
 $_LANG["hxflagscatldregistryinformationdescr"] = (
-    "Immer wenn Sie eine ####TLD#### Domain für einen neuen Registranten bestellen oder einen Besitzerwechsel zu einem neuen Registranten durchführen, so muss dieser neue Registrant die " .
+    "Immer wenn Sie eine {TLD} Domain für einen neuen Registranten bestellen oder einen Besitzerwechsel zu einem neuen Registranten durchführen, so muss dieser neue Registrant die " .
     "den Vereinbarungen für Registranten innerhalb von 7 Tagen zustimmen, damit die Domain aktiviert wird. Ansonsten wird die Domain seitens der Registrierungssteller ohne Rückerstattung gelöscht. ".
     "<br/><b>Nur in einem solchen Fall erhält der Registrant eine Bestätigungemail mit allen durchzuführenden Schritten zum Akzeptieren dieser Vereinbarungen.</b><br/>" .
     "Falls ein bereits bestätigter Registrant bei einer Bestellung/Inhaberänderung benutzt wird, so wird dieser Vorgang in Echtzeit verarbeitet."
@@ -475,7 +475,7 @@ $_LANG["hxflagsmytldregistrantorganisationtype31"] = "Gutachter-, Sachverständi
 // Options, Nexus Category
 $_LANG["hxflagsnyctldnexuscategory1"] = "Natürliche Person mit primärem Wohnsitz in NYC";
 $_LANG["hxflagsnyctldnexuscategory2"] = "Entität oder Unternehmen mit primärem Wohnsitz in NYC";
-$_LANG["hxflagsnyctldnexuscategorydescr"] = "(Postfächer sind unzulässig, siehe <a href='####TAC####'>.NYC Nexus-Richtlinien</a>.)";
+$_LANG["hxflagsnyctldnexuscategorydescr"] = "(Postfächer sind unzulässig, siehe <a href='{TAC}'>.NYC Nexus-Richtlinien</a>.)";
 
 // .PRO
 $_LANG["hxflagsprotldprofession"] = "Beruf";
@@ -516,7 +516,7 @@ $_LANG["hxflagssydneytldnexuscategorya"] = "Kriterium A - Unternehmen von New So
 $_LANG["hxflagssydneytldnexuscategoryb"] = "Kriterium B - Bewohner von New South Wales";
 $_LANG["hxflagssydneytldnexuscategoryc"] = "Kriterium C - Assoziierte Unternehmen";
 $_LANG["hxflagssydneytldnexuscategorydescr"] = (
-    "Um einen ####TLD#### Domainnamen zu verlängern oder zu registrieren, muss der Antragsteller/Registrant eine der folgenden Kriterien A, B oder C erfüllen:<br/><br/>" .
+    "Um einen {TLD} Domainnamen zu verlängern oder zu registrieren, muss der Antragsteller/Registrant eine der folgenden Kriterien A, B oder C erfüllen:<br/><br/>" .
     "<b>Kriterium A – Unternehmen von New South Wales</b><br/>" .
     "Der Antragsteller muss ein Unternehmen sein, welches über `Australian Securities and Investments Commission` registiert ist oder im Australischen Handelsregister eingetragen ist und " .
     "hat im Staat New South Wales eine mit seiner ABN-, ACN-, RBN- oder ARBN-Nr. verknüpften Adresse oder eine dort gültige Firmenadresse.<br/>" .
@@ -577,9 +577,11 @@ $_LANG["hxflagsxxxtldnonresolvingdomain1"] = "Ja - dieser Domainname SOLL NICHT 
 // ----------------------------------------------------------------------
 // ----------------------- OWNER CHANGE ---------------------------------
 // ----------------------------------------------------------------------
-$_LANG["traderequestedsuccessfully"] = "Die Tradeanfrage wurde erfolgreich übermittelt.";
-$_LANG["ownerchangeproceduresimple"] = "Der Besitzerwechsel für diese TLD erfordert eine spezielle Prozedur namens `Trade`. Hier bei wird der Registrantkontakt ersetzt.";
-$_LANG["ownerchangeprocedureextended"] = "Der Besitzerwechsel für diese TLD erfordert eine spezielle Prozedur namens `Trade`. Hier bei werden Registrant- und Adminkontakt ersetzt.";
-$_LANG["ownerchange"] = "Besitzerwechsel";
-$_LANG["bttnsendtrade"] = "Trade übermitteln";
-$_LANG["errormissingfields"] = "Fehlende Angaben bei folgenden Mussfeldern:";
+$_LANG["hxtraderequestedsuccessfully"] = "Die Tradeanfrage wurde erfolgreich übermittelt.";
+$_LANG["hxownerchangeproceduresimple"] = "Der Besitzerwechsel für diese TLD erfordert eine spezielle Prozedur namens `Trade`. Hier bei wird der Registrantkontakt ersetzt.";
+$_LANG["hxownerchangeprocedureextended"] = "Der Besitzerwechsel für diese TLD erfordert eine spezielle Prozedur namens `Trade`. Hier bei werden Registrant- und Adminkontakt ersetzt.";
+$_LANG["hxownerchange"] = "Besitzerwechsel";
+$_LANG["hxbttnsendtrade"] = "Trade übermitteln";
+$_LANG["hxerrormissingfields"] = "Fehlende Angaben bei folgenden Mussfeldern:";
+$_LANG["hxwhoisprivacy"] = "WHOIS Datenschutz";
+$_LANG["hxdnssecmanagement"] = "DNSSEC Verwaltung";

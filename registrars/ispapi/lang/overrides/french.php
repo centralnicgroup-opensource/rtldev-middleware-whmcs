@@ -10,7 +10,7 @@ $_LANG["hxflagstactrustee"] = "Service de Présence Locale";
 $_LANG["hxflagstachighlyregulated"] = "TLD hautement réglementé";
 $_LANG["hxflagstachighlyregulateddescrdefault"] = (
     "Cochez cette case pour confirmer que vous certifiez que le titulaire est admissible à enregistrer ce domaine et que toutes les " .
-    "informations fournies sont véridiques et exactes. Critères d'admissibilité peuvent être consultés <a href='####TAC####' target='_blank'>ici</a>."
+    "informations fournies sont véridiques et exactes. Critères d'admissibilité peuvent être consultés <a href='{TAC}' target='_blank'>ici</a>."
 );
 $_LANG["hxflagstachighlyregulateddescreco"] = (
     $_LANG["hxflagstachighlyregulateddescrdefault"] .
@@ -32,24 +32,24 @@ $_LANG["hxflagstachighlyregulateddescrnotac"] = (
     "le secteur associé au TLD hautement réglementé afin de vous assurer de continuer à vous conformer aux réglementations et exigences de licence appropriées " .
     "et de mener généralement vos activités dans l'intérêt des consommateurs que vous servez..</li></ol></div>"
 );
-$_LANG["hxflagstacindividualregulateddescrdefault"] = "Cochez pour confirmer les <a href='####TAC####' target='_blank'>Conditions pour les Particuliers</a>";
-$_LANG["hxflagstacregulateddescrdefault"] = "Cochez cette case pour confirmer que vous acceptez les <a href='####TAC####' target='_blank'>conditions D'enregistrement du Registre</a> lors d'un nouvel enregistrement de noms de domaine ####TLD####.";
+$_LANG["hxflagstacindividualregulateddescrdefault"] = "Cochez pour confirmer les <a href='{TAC}' target='_blank'>Conditions pour les Particuliers</a>";
+$_LANG["hxflagstacregulateddescrdefault"] = "Cochez cette case pour confirmer que vous acceptez les <a href='{TAC}' target='_blank'>conditions D'enregistrement du Registre</a> lors d'un nouvel enregistrement de noms de domaine {TLD}.";
 $_LANG["hxflagstacregulateddescrngo"] = (
     $_LANG["hxflagstacregulateddescrdefault"] .
-    "<div style='padding:10px 0px;'>L'enregistrement d'un nom de domaine ####TLD#### est livré avec un nom de domaine .ONG sans frais supplémentaires. Les modifications ".
-    "sur le domaine ####TLD#### seront automatiquement appliquées au domaine .ONG. Vous ne trouverez donc pas le domaine .ONG répertorié dans votre inventaire de domaines.</div>"
+    "<div style='padding:10px 0px;'>L'enregistrement d'un nom de domaine {TLD} est livré avec un nom de domaine .ONG sans frais supplémentaires. Les modifications ".
+    "sur le domaine {TLD} seront automatiquement appliquées au domaine .ONG. Vous ne trouverez donc pas le domaine .ONG répertorié dans votre inventaire de domaines.</div>"
 );
 $_LANG["hxflagstacregulateddescritsection3"] = (
-    "Cochez cette case pour confirmer que vous acceptez la <b><a href='####TAC####' target='_blank'>Section 3 - Declarations and Assumptions of Liability</a></b>.<br/>" .
+    "Cochez cette case pour confirmer que vous acceptez la <b><a href='{TAC}' target='_blank'>Section 3 - Declarations and Assumptions of Liability</a></b>.<br/>" .
     "<div style='text-align:justify;margin-bottom:10px;'>" .
     "Le titulaire du nom de domaine en question déclare sous sa propre responsabilité qu'il:" .
     "<ul><li>en possession de la citoyenneté ou résident dans un pays appartenant à l'Union européenne (dans le cas de l'enregistrement des personnes physiques);</li>" .
     "<li>établi dans un pays appartenant à l'Union Européenne (dans le cas de l'enregistrement pour d'autres organisations);</li>" .
-    "<li>sachant et acceptez que l'enregistrement et la gestion d'un nom de domaine sont soumis aux <a href='####TAC####' target='_blank'>'Management of synchronous operations on domain names of the ccTLD ####TLD#### - Guidelines'</a> " .
-    "et aux <a href='####TAC####' target='_blank'>'Dispute resolution in the ccTLD ####TLD#### - Regulations & Guidelines'</a> et leurs modifications ultérieures;</li>" .
+    "<li>sachant et acceptez que l'enregistrement et la gestion d'un nom de domaine sont soumis aux <a href='{TAC}' target='_blank'>'Management of synchronous operations on domain names of the ccTLD {TLD} - Guidelines'</a> " .
+    "et aux <a href='{TAC}' target='_blank'>'Dispute resolution in the ccTLD {TLD} - Regulations & Guidelines'</a> et leurs modifications ultérieures;</li>" .
     "<li>le droit à l'utilisation et/ou de la disponibilité du nom de domaine demandé, et qu'ils ne portent pas atteinte, à la demande d'enregistrement, les droits d'autrui;</li>" .
     "<li>sachant que pour l'inclusion de données à caractère personnel dans la base de données des noms de domaine attribués, et leur éventuelle diffusion et accessibilité via Internet, le consentement doit être " .
-    "donné explicitement en cochant les cases appropriées dans les informations ci-dessous. Voir: <a href='####TAC####' target='_blank'>'the DBNA and WHOIS Policy'</a>;</li>" .
+    "donné explicitement en cochant les cases appropriées dans les informations ci-dessous. Voir: <a href='{TAC}' target='_blank'>'the DBNA and WHOIS Policy'</a>;</li>" .
     "<li>conscient et accepter qu'en cas de déclarations erronées ou fausses dans cette demande, le Registre doit immédiatement révoquer le nom de domaine, ou procéder à d'autres actions en justice. " .
     "Dans ce cas la révocation ne peut en aucune façon donner lieu à des réclamations contre le Registre;</li>" .
     "<li>relâchez le Registre de toute responsabilité résultant de l'attribution et l'utilisation du nom de domaine par la personne physique qui en a fait la demande;</li>" .
@@ -57,23 +57,23 @@ $_LANG["hxflagstacregulateddescritsection3"] = (
     "</div>"
 );
 $_LANG["hxflagstacregulateddescritsection5"] = (
-    "Cocher la case pour confirmer que vous acceptez la <b><a href='####TAC####' target='_blank'>Section 5 - Consent to the processing of personal data for registration</b></a><br/>" .
+    "Cocher la case pour confirmer que vous acceptez la <b><a href='{TAC}' target='_blank'>Section 5 - Consent to the processing of personal data for registration</b></a><br/>" .
     "<div style='text-align:justify;margin-bottom:10px;'>" .
     "La partie intéressée, après avoir lu la divulgation ci-dessus, donne son consentement au traitement des informations requises pour l'enregistrement, tel que défini dans la divulgation ci-dessus. " .
     "Le consentement est facultatif, mais si aucun consentement n'est donné, il ne sera pas possible de finaliser l'enregistrement, la cession et la gestion du nom de domaine.</div>"
 );
 $_LANG["hxflagstacregulateddescritsection6"] = (
-    "Cocher la case pour confirmer que vous acceptez la <b><a href='####TAC####' target='_blank'>Section 6 - Consent to the processing of personal data for diffusion and accessibility via the Internet</b></a><br/>" .
+    "Cocher la case pour confirmer que vous acceptez la <b><a href='{TAC}' target='_blank'>Section 6 - Consent to the processing of personal data for diffusion and accessibility via the Internet</b></a><br/>" .
     "<div style='text-align:justify;margin-bottom:10px;'>" .
     "La partie intéressée, après avoir lu la divulgation ci-dessus, donne son consentement à la diffusion et à l'accessibilité via Internet, telles que définies dans la divulgation ci-dessus. Le consentement est " .
     "facultatif, mais l'absence de consentement ne permet pas la diffusion et l'accessibilité des données Internet.</div>"
 );
 $_LANG["hxflagstacregulateddescritsection7"] = (
-    "Cocher la case pour confirmer que vous acceptez la <b><a href='####TAC####' target='_blank'>Section 7 - Explicit Acceptance of the following points</b></a><br/>" .
+    "Cocher la case pour confirmer que vous acceptez la <b><a href='{TAC}' target='_blank'>Section 7 - Explicit Acceptance of the following points</b></a><br/>" .
     "<div style='text-align:justify;margin-bottom:10px;'>" .
     "Pour l'acceptation explicite, l'intéressé déclare qu'ils:" .
-    "<ul><li>d) sont conscients et conviennent que l'enregistrement et la gestion d'un nom de domaine sont soumis aux règles <a href='####TAC####' target='_blank'>'Management of " .
-    "synchronous operations on domain names of the ccTLD ####TLD#### - Guidelines'</a> et <a href='####TAC####' target='_blank'>'Dispute resolution in the ccTLD ####TLD#### - " .
+    "<ul><li>d) sont conscients et conviennent que l'enregistrement et la gestion d'un nom de domaine sont soumis aux règles <a href='{TAC}' target='_blank'>'Management of " .
+    "synchronous operations on domain names of the ccTLD {TLD} - Guidelines'</a> et <a href='{TAC}' target='_blank'>'Dispute resolution in the ccTLD {TLD} - " .
     "Regulations & Guidelines'</a> et leurs modifications ultérieures;</li>"  .
     "<li>e) sont conscients et conviennent qu'en cas de déclarations erronées ou fausses dans cette demande, le Registre doit immédiatement révoquer le nom de domaine, ou procéder à d'autres actions en justice. " .
     "Dans ce cas la révocation ne peut en aucune façon donner lieu à des réclamations contre le Registre;</li>" .
@@ -103,15 +103,15 @@ $_LANG["hxflagsbillingidnumber"] = "N° d'identification du contact facturation"
 $_LANG["hxflagsregistrantidtype"] = "Type de N° d'identification du déclarant";
 $_LANG["hxflagsallocationtoken"] = "Jeton d'Allocation de Registre";
 $_LANG["hxflagsallocationtokendescr"] = (
-    "Pour enregistrer un domaine ####TLD####, vous devez fournir le jeton d'allocation émis par le registre. " .
-    "Veuillez remplir la demande d'enregistration  <a href='####TAC####' target='_blank'>ici</a> pour obtenir le jeton."
+    "Pour enregistrer un domaine {TLD}, vous devez fournir le jeton d'allocation émis par le registre. " .
+    "Veuillez remplir la demande d'enregistration  <a href='{TAC}' target='_blank'>ici</a> pour obtenir le jeton."
 );
 $_LANG["hxflagsnexuscategory"] = "Catégorie Nexus";
 $_LANG["hxflagsnexuscountry"] = "Pays Nexus";
 $_LANG["hxflagsfax"] = "Fax Requis";
-$_LANG["hxflagsfaxregisterdescr"] = "Je confirme qu'après cette demande d'enregistration, je vais envoyer <a href='####FAXFORM####'>ce formulaire</a> à compléter ce processus.";
-$_LANG["hxflagsfaxtransferdescr"] = "Je confirme qu'après cette demande de transfér, je vais envoyer <a href='####FAXFORM####'>ce formulaire</a> à compléter ce processus.";
-$_LANG["hxflagsfaxownerchangedescr"] = "Je confirme qu'après cette demande de changement de titulaire, je vais envoyer <a href='####FAXFORM####'>ce formulaire</a> à compléter ce processus.";
+$_LANG["hxflagsfaxregisterdescr"] = "Je confirme qu'après cette demande d'enregistration, je vais envoyer <a href='{FAXFORM}'>ce formulaire</a> à compléter ce processus.";
+$_LANG["hxflagsfaxtransferdescr"] = "Je confirme qu'après cette demande de transfér, je vais envoyer <a href='{FAXFORM}'>ce formulaire</a> à compléter ce processus.";
+$_LANG["hxflagsfaxownerchangedescr"] = "Je confirme qu'après cette demande de changement de titulaire, je vais envoyer <a href='{FAXFORM}'>ce formulaire</a> à compléter ce processus.";
 $_LANG["hxflagsidentificationnumber"] = "N° d'identification";
 $_LANG["hxflagswhoisoptout"] = "Désactivation du WHOIS";
 $_LANG["hxflagsregistrantbirthdate"] = "Date de naissance du déclarant";
@@ -151,10 +151,10 @@ $_LANG["hxflagscatldcontactlanguage"] = "Langue de Contact";
 $_LANG["hxflagscatldwhoisoptoutdescr"] = "Cochez cette case pour masquer vos coordonnées dans CIRA WHOIS (uniquement disponible pour les particuliers)";
 $_LANG["hxflagscatldregistryinformation"] = "Information du Registre";
 $_LANG["hxflagscatldregistryinformationdescr"] = (
-    "Chaque fois que vous enregistrez un domaine ####TLD#### pour un nouveau titulaire (ou changez le titulaire pour un nouveau), ce nouveau titulaire doit " .
+    "Chaque fois que vous enregistrez un domaine {TLD} pour un nouveau titulaire (ou changez le titulaire pour un nouveau), ce nouveau titulaire doit " .
     "accepter le contrat de titulaire en 7 jours pour que le domaine devienne actif. Sinon, le domaine est supprimé par le registre sans aucun remboursement. " .
     "<br/><b>Ce n'est que dans un tel cas qu'un courriel de confirmation sera envoyé au nouveau titulaire couvrant les étapes nécessaires pour accepter le présent contrat.</b><br/>" .
-    "Si le même contact du titulaire (déjà confirmé) est utilisé pour enregistrer un autre domaine ####TLD####, le domaine sera enregistré en temps réel."
+    "Si le même contact du titulaire (déjà confirmé) est utilisé pour enregistrer un autre domaine {TLD}, le domaine sera enregistré en temps réel."
 );
 // Options, Legal Type
 $_LANG["hxflagscatldlegaltypecco"] = "Corporation";
@@ -475,7 +475,7 @@ $_LANG["hxflagsmytldregistrantorganisationtype31"] = "évaluateur, cabinet d'age
 // Options, Nexus Category
 $_LANG["hxflagsnyctldnexuscategory1"] = "Personne physique - domicile principal avec adresse physique à NYC";
 $_LANG["hxflagsnyctldnexuscategory2"] = "Entité ou organisation - domicile principal avec adresse physique à NYC";
-$_LANG["hxflagsnyctldnexuscategorydescr"] = "(Les boîtes postales sont interdites, voir <a href='####TAC####'>.NYC Politiques Nexus</a>.)";
+$_LANG["hxflagsnyctldnexuscategorydescr"] = "(Les boîtes postales sont interdites, voir <a href='{TAC}'>.NYC Politiques Nexus</a>.)";
 
 // .PRO
 $_LANG["hxflagsprotldprofession"] = "Profession";
@@ -516,7 +516,7 @@ $_LANG["hxflagssydneytldnexuscategorya"] = "Critère A - Entités de Nouvelle-Ga
 $_LANG["hxflagssydneytldnexuscategoryb"] = "Critère B - Résidents de la Nouvelle-Galles du Sud";
 $_LANG["hxflagssydneytldnexuscategoryc"] = "Critère C - Entités associées";
 $_LANG["hxflagssydneytldnexuscategorydescr"] = (
-    "Pour enregistrer ou renouveler un nom de domaine ####TLD####, le demandeur ou le titulaire doit satisfaire à l'un des critères A, B ou C ci-dessous.:<br/><br/>" .
+    "Pour enregistrer ou renouveler un nom de domaine {TLD}, le demandeur ou le titulaire doit satisfaire à l'un des critères A, B ou C ci-dessous.:<br/><br/>" .
     "<b>Critère A - Entités de Nouvelle-Galles du Sud</b><br/>" .
     "Le demandeur doit être une entité enregistrée auprès de la Australian Securities and Investments Commission ou du Australian Business Register qui:<br/>" .
     "a une adresse dans l'État de Nouvelle-Galles du Sud associée à son ABN, ACN, RBN ou ARBN; ou a une adresse d'entreprise valide dans l'État de Nouvelle-Galles du Sud.<br/>" .
@@ -577,9 +577,11 @@ $_LANG["hxflagsxxxtldnonresolvingdomain1"] = "Oui - Ce domaine NE DEVRAIT PAS r�
 // ----------------------------------------------------------------------
 // ----------------------- OWNER CHANGE ---------------------------------
 // ----------------------------------------------------------------------
-$_LANG["traderequestedsuccessfully"] = "Le changement de titulaire a été demandé avec succès.";
-$_LANG["ownerchangeproceduresimple"] = "Le changement de titulaire pour ce TLD nécessite une procédure spéciale appelée `Trade`. Le contact du titulaire sera remplacé.";
-$_LANG["ownerchangeprocedureextended"] = "Le changement de titulaire pour ce TLD nécessite une procédure spéciale appelée `Trade`. Le titulaire et le contact administratif seront remplacés.";
-$_LANG["ownerchange"] = "Changement de Titulaire";
-$_LANG["bttnsendtrade"] = "Soumettre";
-$_LANG["errormissingfields"] = "Données manquantes pour les champs de saisie obligatoires ci-dessous:";
+$_LANG["hxtraderequestedsuccessfully"] = "Le changement de titulaire a été demandé avec succès.";
+$_LANG["hxownerchangeproceduresimple"] = "Le changement de titulaire pour ce TLD nécessite une procédure spéciale appelée `Trade`. Le contact du titulaire sera remplacé.";
+$_LANG["hxownerchangeprocedureextended"] = "Le changement de titulaire pour ce TLD nécessite une procédure spéciale appelée `Trade`. Le titulaire et le contact administratif seront remplacés.";
+$_LANG["hxownerchange"] = "Changement de Titulaire";
+$_LANG["hxbttnsendtrade"] = "Soumettre";
+$_LANG["hxerrormissingfields"] = "Données manquantes pour les champs de saisie obligatoires ci-dessous:";
+$_LANG["hxwhoisprivacy"] = "Confidentialité WHOIS";
+$_LANG["hxdnssecmanagement"] = "Gestion DNSSEC";

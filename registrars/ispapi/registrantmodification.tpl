@@ -7,12 +7,12 @@
 {/literal}
 
 <div id="ispapiownerchange">
-	<h3>{$LANG.ownerchange} - {$domain}</h3>
+	<h3>{$LANG.hxownerchange} - {$domain}</h3>
 	{if $type == "trade"}
 		{if $needsAdminC}
-			<p>{$LANG.ownerchangeproceduresimple}</p>
+			<p>{$LANG.hxownerchangeproceduresimple}</p>
 		{else}
-			<p>{$LANG.ownerchangeprocedureextended}</p>
+			<p>{$LANG.hxownerchangeprocedureextended}</p>
 		{/if}
 		<br/>
 	{/if}
@@ -20,9 +20,9 @@
 	{if $successful}
 		<div class="alert alert-success text-center">
 			{if type == "trade"}
-				<p>{$LANG.traderequestedsuccessfully}</p>
+				<p>{$LANG.hxtraderequestedsuccessfully}</p>
 			{else}
-				<p>{$LANG.changessavedsuccessfully}</p>
+				<p>{$LANG.hxchangessavedsuccessfully}</p>
 			{/if}
 		</div><br/>
 	{/if}
@@ -57,7 +57,7 @@
 		{/foreach}
 
 		<p class="text-center">
-			<input class="btn btn-large btn-primary" type="submit" value="{if $type == 'trade'}{$LANG.bttnsendtrade}{else}{$LANG.clientareasavechanges}{/if}"/>
+			<input class="btn btn-large btn-primary" type="submit" value="{if $type == 'trade'}{$LANG.hxbttnsendtrade}{else}{$LANG.clientareasavechanges}{/if}"/>
 		</p>
 	</form>
 </div>
