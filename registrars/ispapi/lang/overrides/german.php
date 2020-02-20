@@ -109,9 +109,9 @@ $_LANG["hxflagsallocationtokendescr"] = (
 $_LANG["hxflagsnexuscategory"] = "Nexus Kategorie";
 $_LANG["hxflagsnexuscountry"] = "Nexus Länderschlüssel";
 $_LANG["hxflagsfax"] = "Fax benötigt";
-$_LANG["hxflagsfaxregisterdescr"] = "Ich versichere <a href='{FAXFORM}'>dieses Formular</a> nach Übermittlung der Registrierungsanfrage auszufüllen und zu übersenden, um den Prozess abzuschließen.";
-$_LANG["hxflagsfaxtransferdescr"] = "Ich versichere <a href='{FAXFORM}'>dieses Formular</a> nach Übermittlung der Transferanfrage auszufüllen und zu übersenden, um den Prozess abzuschließen.";
-$_LANG["hxflagsfaxownerchangedescr"] = "Ich versichere <a href='{FAXFORM}'>dieses Formular</a> nach Übermittlung der Besitzerwechselanfrage auszufüllen und zu übersenden, um den Prozess abzuschließen.";
+$_LANG["hxflagsfaxregisterdescr"] = "Ich versichere <a href='{FAXFORM}' target='_blank'>dieses Formular</a> nach Übermittlung der Registrierungsanfrage auszufüllen und zu übersenden, um den Prozess abzuschließen.";
+$_LANG["hxflagsfaxtransferdescr"] = "Ich versichere <a href='{FAXFORM}' target='_blank'>dieses Formular</a> nach Übermittlung der Transferanfrage auszufüllen und zu übersenden, um den Prozess abzuschließen.";
+$_LANG["hxflagsfaxownerchangedescr"] = "Ich versichere <a href='{FAXFORM}' target='_blank'>dieses Formular</a> nach Übermittlung der Besitzerwechselanfrage auszufüllen und zu übersenden, um den Prozess abzuschließen.";
 $_LANG["hxflagsidentificationnumber"] = "Identifikationsnr.";
 $_LANG["hxflagswhoisoptout"] = "WHOIS Widerspruch";
 $_LANG["hxflagsregistrantbirthdate"] = "Registrant, Geburtsdatum";
@@ -148,7 +148,7 @@ $_LANG["hxflagsaerotldaerokey"] = ".AERO Key <sup style='cursor:help;' title='Hi
 
 // .CA
 $_LANG["hxflagscatldcontactlanguage"] = "Kontaktsprache";
-$_LANG["hxflagscatldwhoisoptoutdescr"] = "Ankreuzen, um Ihre Kontaktdaten im CIRA WHOIS auszublenden (nur für Privatpersonen)";
+$_LANG["hxflagscatldwhoisoptoutdescr"] = "Ankreuzen, um Ihre Kontaktdaten im CIRA WHOIS auszublenden (nur für Privatpersonen, s.o.)";
 $_LANG["hxflagscatldregistryinformation"] = "Information der Registrierungsstelle";
 $_LANG["hxflagscatldregistryinformationdescr"] = (
     "Immer wenn Sie eine {TLD} Domain für einen neuen Registranten bestellen oder einen Besitzerwechsel zu einem neuen Registranten durchführen, so muss dieser neue Registrant die " .
@@ -175,6 +175,19 @@ $_LANG["hxflagscatldlegaltypeinb"] = "Durch den Indian Act Kanadas anerkannter I
 $_LANG["hxflagscatldlegaltypelgr"] = "Rechtlicher Vertreter eines kanadischen Staatsbürgers oder ständigen Bewohners";
 $_LANG["hxflagscatldlegaltypeomk"] = "Offzielle in Kanada registrierte Marke";
 $_LANG["hxflagscatldlegaltypemaj"] = "Ihre Majestät die Königin";
+// Legal Type Description, don't move it up.
+$_LANG["hxflagscatldlegaltypedescr"] = (
+    "<p>Die kanadische Registrierungsstelle (`CIRA`) verpflichtet sich, die Privatsphäre personenbezogener Daten während des Betriebs und der Verwaltung des Domainnamens zu schützen.</p>" .
+    "<p>Registranten mit folgender kanadischer Präsenzkategorisierung werden als Privatpersonen eingestuft:</p>" .
+    "<ul>" .
+        "<li>" . $_LANG["hxflagscatldlegaltypecct"] . "</li>" .
+        "<li>" . $_LANG["hxflagscatldlegaltyperes"] . "</li>" .
+        "<li>" . $_LANG["hxflagscatldlegaltypelgr"] . "</li>" .
+        "<li>" . $_LANG["hxflagscatldlegaltypeabo"] . "</li>" .
+    "</ul>" .
+    "<p>Alle anderen Kategorien werden nicht als Privatperson eingestuft und können aufgrunddessen Ihre WHOIS Datenschutzeinstellungen nicht ändern. In dem Fall werden die Kontaktdaten " .
+    "seitens der Registrierungsstelle im WHOIS veröffentlicht und sind somit öffentlich einsehbar. Privatpersonen hingegen können dies über das Feld `" . $_LANG["hxflagswhoisoptout"] . "` untersagen.</p>"
+);
 
 // .CN
 // Options, Registrant ID Type
@@ -475,7 +488,7 @@ $_LANG["hxflagsmytldregistrantorganisationtype31"] = "Gutachter-, Sachverständi
 // Options, Nexus Category
 $_LANG["hxflagsnyctldnexuscategory1"] = "Natürliche Person mit primärem Wohnsitz in NYC";
 $_LANG["hxflagsnyctldnexuscategory2"] = "Entität oder Unternehmen mit primärem Wohnsitz in NYC";
-$_LANG["hxflagsnyctldnexuscategorydescr"] = "(Postfächer sind unzulässig, siehe <a href='{TAC}'>.NYC Nexus-Richtlinien</a>.)";
+$_LANG["hxflagsnyctldnexuscategorydescr"] = "(Postfächer sind unzulässig, siehe <a href='{TAC}' target='_blank'>.NYC Nexus-Richtlinien</a>.)";
 
 // .PRO
 $_LANG["hxflagsprotldprofession"] = "Beruf";
@@ -529,14 +542,6 @@ $_LANG["hxflagssydneytldnexuscategorydescr"] = (
     "<li>eine Veranstaltung im Staat New South Wales, welche das Unternehmen organisiert oder fördert,</li>" .
     "<li>eine Tätigkeit, die das Unternehmen im Staat New Sout Wales erleichtert,</li><li>für die Bewohner des Staats New South Wales bereitgestellter Kurs oder bereitgestelltes Ausbildungsprogramm.</li></ul>"
 );
-
-// .TEL
-// Legal Type, Options
-$_LANG["hxflagsteltldlegaltypenatural"] = "Natürliche Person";
-$_LANG["hxflagsteltldlegaltypelegal"] = "Juristische Person";
-$_LANG["hxflagsteltldwhoisoptoutdescr"] = "(verfügbar für Rechtsform `Natürliche Person`. Wählen Sie `Nein` um WHOIS Daten auf den Namen des Registranten zu beschränken.)";
-$_LANG["hxflagsteltldyesnoy"] = "Ja";
-$_LANG["hxflagsteltldyesnon"] = "Nein";
 
 // .TRAVEL
 $_LANG["hxflagstraveltldtravelindustry"] = "Verbindung zur Reisebranche";

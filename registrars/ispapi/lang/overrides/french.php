@@ -109,9 +109,9 @@ $_LANG["hxflagsallocationtokendescr"] = (
 $_LANG["hxflagsnexuscategory"] = "Catégorie Nexus";
 $_LANG["hxflagsnexuscountry"] = "Pays Nexus";
 $_LANG["hxflagsfax"] = "Fax Requis";
-$_LANG["hxflagsfaxregisterdescr"] = "Je confirme qu'après cette demande d'enregistration, je vais envoyer <a href='{FAXFORM}'>ce formulaire</a> à compléter ce processus.";
-$_LANG["hxflagsfaxtransferdescr"] = "Je confirme qu'après cette demande de transfér, je vais envoyer <a href='{FAXFORM}'>ce formulaire</a> à compléter ce processus.";
-$_LANG["hxflagsfaxownerchangedescr"] = "Je confirme qu'après cette demande de changement de titulaire, je vais envoyer <a href='{FAXFORM}'>ce formulaire</a> à compléter ce processus.";
+$_LANG["hxflagsfaxregisterdescr"] = "Je confirme qu'après cette demande d'enregistration, je vais envoyer <a href='{FAXFORM}' target='_blank'>ce formulaire</a> à compléter ce processus.";
+$_LANG["hxflagsfaxtransferdescr"] = "Je confirme qu'après cette demande de transfér, je vais envoyer <a href='{FAXFORM}' target='_blank'>ce formulaire</a> à compléter ce processus.";
+$_LANG["hxflagsfaxownerchangedescr"] = "Je confirme qu'après cette demande de changement de titulaire, je vais envoyer <a href='{FAXFORM}' target='_blank'>ce formulaire</a> à compléter ce processus.";
 $_LANG["hxflagsidentificationnumber"] = "N° d'identification";
 $_LANG["hxflagswhoisoptout"] = "Désactivation du WHOIS";
 $_LANG["hxflagsregistrantbirthdate"] = "Date de naissance du déclarant";
@@ -148,7 +148,7 @@ $_LANG["hxflagsaerotldaerokey"] = ".AERO Key <sup style='cursor:help;' title='Ob
 
 // .CA
 $_LANG["hxflagscatldcontactlanguage"] = "Langue de Contact";
-$_LANG["hxflagscatldwhoisoptoutdescr"] = "Cochez cette case pour masquer vos coordonnées dans CIRA WHOIS (uniquement disponible pour les particuliers)";
+$_LANG["hxflagscatldwhoisoptoutdescr"] = "Cochez cette case pour masquer vos coordonnées dans CIRA WHOIS (uniquement disponible pour les particuliers, voir au dessus)";
 $_LANG["hxflagscatldregistryinformation"] = "Information du Registre";
 $_LANG["hxflagscatldregistryinformationdescr"] = (
     "Chaque fois que vous enregistrez un domaine {TLD} pour un nouveau titulaire (ou changez le titulaire pour un nouveau), ce nouveau titulaire doit " .
@@ -175,6 +175,19 @@ $_LANG["hxflagscatldlegaltypeinb"] = "Bande indienne reconnue par la Loi sur les
 $_LANG["hxflagscatldlegaltypelgr"] = "Représentant légal d'un citoyen canadien ou d'un résident permanent";
 $_LANG["hxflagscatldlegaltypeomk"] = "Marque officielle enregistrée au Canada";
 $_LANG["hxflagscatldlegaltypemaj"] = "Sa Majesté la Reine";
+// Legal Type Description, don't move it up.
+$_LANG["hxflagscatldlegaltypedescr"] = (
+    "<p>Le Registre canadien (`CIRA`) s'engage à protéger la confidentialité des renseignements personnels dans le cadre de son fonctionnement et de l'administration du nom de domaine.</p>" .
+    "<p>Les personnes inscrites dans les catégories de présence canadienne suivantes sont considérées comme des individus:</p>" .
+    "<ul>" .
+        "<li>" . $_LANG["hxflagscatldlegaltypecct"] . "</li>" .
+        "<li>" . $_LANG["hxflagscatldlegaltyperes"] . "</li>" .
+        "<li>" . $_LANG["hxflagscatldlegaltypelgr"] . "</li>" .
+        "<li>" . $_LANG["hxflagscatldlegaltypeabo"] . "</li>" .
+    "</ul>" .
+    "<p>Toutes les autres catégories sont considérées comme des déclarants non individuels et ne sont pas autorisées à modifier leurs paramètres de confidentialité WHOIS. Pour les non-particuliers, " .
+    "les données de contact sont publiques et sont publiées dans WHOIS par le registre. Les individus peuvent décider en utilisant le champ `" . $_LANG["hxflagswhoisoptout"] . "` ci-dessous.</p>"
+);
 
 // .CN
 // Options, Registrant ID Type
@@ -421,8 +434,8 @@ $_LANG["hxflagsmelbournetldnexuscategoryc"] = "Entités associées";
 $_LANG["hxflagsmelbournetldnexuscategorydescr"] = (
     "<div style='padding:10px 0px;text-align:justify'><b>Admissibilité à l'inscription</b><br/>" .
     "Pour enregistrer ou renouveler un nom de domaine, le demandeur ou le titulaire doit satisfaire à l'un des critères A, B ou C ci-dessous.:<br/><br/>".
-    "<b>Critère A - Entités victoriennes</b><br/>Le demandeur doit être une entité enregistrée auprès de la Australian Securities and " .
-    "Investments Commission ou du Australian Business Register qui:<ul>" .
+    "<b>Critère A - Entités victoriennes</b><br/>Le demandeur doit être une entité enregistrée auprès de la `<a href='https://asic.gov.au/' target='_blank'>Australian Securities and " .
+    "Investments Commission</a>` ou du `<a href='https://register.business.gov.au/' target='_blank'>Australian Business Register</a>` qui:<ul>" .
     "<li>possède une adresse dans l'État de Victoria associée à son ABN, ACN, RBN ou ARBN; ou</li><li>a une adresse d'entreprise valide dans l'État de Victoria.</li></ul><br/>" .
     "<b>Critère B - Résidents victoriens</b><br/>Le demandeur doit être un citoyen australien ou un résident ayant une adresse valide dans l'État de Victoria.<br/><br/>" .
     "<b>Critère C - Entités associées</b><br/>Le demandeur doit être une entité associée. Le demandeur peut demander un nom de domaine qui est une correspondance exacte ou " .
@@ -475,7 +488,7 @@ $_LANG["hxflagsmytldregistrantorganisationtype31"] = "évaluateur, cabinet d'age
 // Options, Nexus Category
 $_LANG["hxflagsnyctldnexuscategory1"] = "Personne physique - domicile principal avec adresse physique à NYC";
 $_LANG["hxflagsnyctldnexuscategory2"] = "Entité ou organisation - domicile principal avec adresse physique à NYC";
-$_LANG["hxflagsnyctldnexuscategorydescr"] = "(Les boîtes postales sont interdites, voir <a href='{TAC}'>.NYC Politiques Nexus</a>.)";
+$_LANG["hxflagsnyctldnexuscategorydescr"] = "(Les boîtes postales sont interdites, voir <a href='{TAC}' target='_blank'>.NYC Politiques Nexus</a>.)";
 
 // .PRO
 $_LANG["hxflagsprotldprofession"] = "Profession";
@@ -529,14 +542,6 @@ $_LANG["hxflagssydneytldnexuscategorydescr"] = (
     "un service que l'entité associée fournit aux résidents de l'État de Nouvelle-Galles du Sud; un événement que l'entité associée organise ou parraine dans l'État de la Nouvelle-Galles du Sud;" .
     "une activité que l'entité associée facilite dans l'État de Nouvelle-Galles du Sud; ou un cours ou programme de formation que l'entité associée propose aux résidents de l'État de Nouvelle-Galles du Sud."
 );
-
-// .TEL
-// Legal Type, Options
-$_LANG["hxflagsteltldlegaltypenatural"] = "Personne naturelle";
-$_LANG["hxflagsteltldlegaltypelegal"] = "Personne morale";
-$_LANG["hxflagsteltldwhoisoptoutdescr"] = "(disponible pour le type légal `Personne naturelle`. Choisissez `Non` pour que les données WHOIS soient limitées au nom du titulaire.)";
-$_LANG["hxflagsteltldyesnoy"] = "Oui";
-$_LANG["hxflagsteltldyesnon"] = "Non";
 
 // .TRAVEL
 $_LANG["hxflagstraveltldtravelindustry"] = "Liés à l'industrie du voyage";

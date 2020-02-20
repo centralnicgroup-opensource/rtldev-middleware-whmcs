@@ -109,9 +109,9 @@ $_LANG["hxflagsallocationtokendescr"] = (
 $_LANG["hxflagsnexuscategory"] = "Nexus Category";
 $_LANG["hxflagsnexuscountry"] = "Nexus Country";
 $_LANG["hxflagsfax"] = "Fax Required";
-$_LANG["hxflagsfaxregistrationdescr"] = "I confirm that after this registration request I will send <a href='{FAXFORM}'>this form</a> back to complete the process.";
-$_LANG["hxflagsfaxtransferdescr"] = "I confirm that after this transfer request I will send <a href='{FAXFORM}'>this form</a> back to complete the process.";
-$_LANG["hxflagsfaxownerchangedescr"] = "I confirm that after this owner change request I will send <a href='{FAXFORM}'>this form</a> back to complete the process.";
+$_LANG["hxflagsfaxregistrationdescr"] = "I confirm that after this registration request I will send <a href='{FAXFORM}' target='_blank'>this form</a> back to complete the process.";
+$_LANG["hxflagsfaxtransferdescr"] = "I confirm that after this transfer request I will send <a href='{FAXFORM}' target='_blank'>this form</a> back to complete the process.";
+$_LANG["hxflagsfaxownerchangedescr"] = "I confirm that after this owner change request I will send <a href='{FAXFORM}' target='_blank'>this form</a> back to complete the process.";
 $_LANG["hxflagsidentificationnumber"] = "Identification Number";
 $_LANG["hxflagswhoisoptout"] = "WHOIS Opt-out";
 $_LANG["hxflagsregistrantbirthdate"] = "Registrant Birthdate";
@@ -148,7 +148,7 @@ $_LANG["hxflagsaerotldaerokey"] = ".AERO Key <sup style='cursor:help;' title='Ob
 
 // .CA
 $_LANG["hxflagscatldcontactlanguage"] = "Contact Language";
-$_LANG["hxflagscatldwhoisoptoutdescr"] = "Tick to hide your contact information in registry WHOIS (only available to individuals)";
+$_LANG["hxflagscatldwhoisoptoutdescr"] = "Tick to hide your contact information in registry WHOIS (only available to individuals, read above.)";
 $_LANG["hxflagscatldregistryinformation"] = "Registry Information";
 $_LANG["hxflagscatldregistryinformationdescr"] = (
     "Whenever you register a {TLD} domain for a new registrant (or change the registrant to a new one), this new registrant has to agree to the " .
@@ -175,6 +175,19 @@ $_LANG["hxflagscatldlegaltypeinb"] = "Indian Band recognized by the Indian Act o
 $_LANG["hxflagscatldlegaltypelgr"] = "Legal Representative of a Canadian Citizen or Permanent Resident";
 $_LANG["hxflagscatldlegaltypeomk"] = "Official mark registered in Canada";
 $_LANG["hxflagscatldlegaltypemaj"] = "Her Majesty the Queen";
+// Legal Type Description, don't move it up.
+$_LANG["hxflagscatldlegaltypedescr"] = (
+    "<p>The canadian Registry (`CIRA`) is committed to protecting the privacy of personal information in the course of its operation and administration of the domain name.</p>" .
+    "<p>Registrants with the following canadian presence categories are considered to be individuals:</p>" .
+    "<ul>" .
+        "<li>" . $_LANG["hxflagscatldlegaltypecct"] . "</li>" .
+        "<li>" . $_LANG["hxflagscatldlegaltyperes"] . "</li>" .
+        "<li>" . $_LANG["hxflagscatldlegaltypelgr"] . "</li>" .
+        "<li>" . $_LANG["hxflagscatldlegaltypeabo"] . "</li>" .
+    "</ul>" .
+    "<p>All other categories are considered to be non-individual registrants and are not permitted to change their WHOIS privacy settings. For non-individuals " .
+    "contact data is public and is published in WHOIS by the registry. Individuals can decide by using the `" . $_LANG["hxflagswhoisoptout"] . "` field below.</p>"
+);
 
 // .CN
 // Options, Registrant ID Type
@@ -421,8 +434,8 @@ $_LANG["hxflagsmelbournetldnexuscategoryc"] = "Associated Entities";
 $_LANG["hxflagsmelbournetldnexuscategorydescr"] = (
     "<div style='padding:10px 0px;text-align:justify'><b>Registration Eligibility</b><br/>In order to register or ".
     "renew a domain name the Applicant or Registrant must satisfy one of the following Criteria A, B or C below:<br/><br/>".
-    "<b>Criteria A – Victorian Entities</b><br/>The Applicant must be an entity registered with the Australian Securities " .
-    "and Investments Commission or the Australian Business Register that:<ul>" .
+    "<b>Criteria A – Victorian Entities</b><br/>The Applicant must be an entity registered with the `<a href='https://asic.gov.au/' target='_blank'>Australian Securities " .
+    "and Investments Commission</a>` or the `<a href='https://register.business.gov.au/' target='_blank'>Australian Business Register</a>` that:<ul>" .
     "<li>has an address in the State of Victoria associated with its ABN, ACN, RBN or ARBN; or</li><li>has a valid corporate address in the State of Victoria.</li></ul><br/>" .
     "<b>Criteria B – Victorian Residents</b><br/>The Applicant must be an Australian citizen or resident with a valid address in the State of Victoria.<br/><br/>" .
     "<b>Criteria C – Associated Entities</b><br/>The Applicant must be an Associated Entity. The Applicant may only apply for a domain name that is an Exact Match " .
@@ -475,7 +488,7 @@ $_LANG["hxflagsmytldregistrantorganisationtype31"] = "valuer, appraiser, estate 
 // Options, Nexus Category
 $_LANG["hxflagsnyctldnexuscategory1"] = "Natural Person - primary domicile with physical address in NYC";
 $_LANG["hxflagsnyctldnexuscategory2"] = "Entity or Organization - primary domicile with physical address in NYC";
-$_LANG["hxflagsnyctldnexuscategorydescr"] = "(P.O Boxes are prohibited, see <a href='{TAC}'>.nyc Nexus Policies</a>.)";
+$_LANG["hxflagsnyctldnexuscategorydescr"] = "(P.O Boxes are prohibited, see <a href='{TAC}' target='_blank'>.nyc Nexus Policies</a>.)";
 
 // .PRO
 $_LANG["hxflagsprotldprofession"] = "Profession";
@@ -529,14 +542,6 @@ $_LANG["hxflagssydneytldnexuscategorydescr"] = (
     "a service that the Associated Entity provides to residents of the State of New South Wales; an event that the Associated Entity organises or sponsors in the State of New South Wales;" .
     "an activity that the Associated Entity facilitates in the State of New South Wales; or a course or training program that the Associated Entity provides to residents of the State of New South Wales."
 );
-
-// .TEL
-// Legal Type, Options
-$_LANG["hxflagsteltldlegaltypenatural"] = "Natural Person";
-$_LANG["hxflagsteltldlegaltypelegal"] = "Legal Person";
-$_LANG["hxflagsteltldwhoisoptoutdescr"] = "(available for Legal Type `Natural`. Choose `No` to get WHOIS data limited to registrant name.)";
-$_LANG["hxflagsteltldyesnoy"] = "Yes";
-$_LANG["hxflagsteltldyesnon"] = "No";
 
 // .TRAVEL
 $_LANG["hxflagstraveltldtravelindustry"] = "Related to the Travel Industry";
