@@ -314,11 +314,11 @@ $_LANG["hxflagsfitldregistrantidnumberdescr"] = (
     "<ul><li>Unternehmen: Bitte die Handelsregistrierungsnr. angeben.</li>" .
     "<li>Privatpersonen aus Finland: Bitte die Ausweisnr. angeben.</li>" .
     "<li>Sonstige Privatpersonen: Nichts angeben.</li></ul>" .
-    "Die Eingabe für Privatpersonen muss aus elf Zeichen der Form TTMMJJCZZZQ erfolgen. " .
-    "<ul><li>TTMMJJ: Geburtsdatum</li>" .
-    "<li>C: Jahrhundertzeichen `+` für 1800–1899, `-` für 1900–1999 oder `A` für 2000-2099</li>" .
-    "<li>ZZZ: die Individuelle Nummer - ungerade für Männer, gerade für Frauen und für in Finland Geborene der Bereich 002-899 (In Ausnahmefällen auch größere Nummern).</li>" .
-    "<li>Q: das Kontrollzeichen (Prüfsumme).</li></ul>Beispiel für eine gültige Kennung: 311280-888Y."
+    "Die Eingabe für Privatpersonen muss aus elf Zeichen der Form `TTMMJJCZZZQ` erfolgen. Dabei entspricht `TTMMJJ` dem Geburtsdatum; " .
+    "`C` dem Jahrhundertzeichen: `+` für 1800–1899, `-` für 1900–1999 oder `A` für 2000-2099;" .
+    "`ZZZ` der Individuellen Nummer: ungerade für Männer, gerade für Frauen und für in Finland Geborene der Bereich 002-899 " .
+    "(In Ausnahmefällen auch größere Nummern);" .
+    "`Q` dem Kontrollzeichen (Prüfsumme). Beispiel für eine gültige Kennung: 311280-888Y."
 );
 $_LANG["hxflagsfitldregistrantbirthdatedescr"] = "(YYYY-MM-DD; only required for Individuals not from Finland)";
 
