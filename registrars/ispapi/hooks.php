@@ -2,42 +2,6 @@
 
 use WHMCS\View\Menu\Item as MenuItem;
 
-/**
- * Auto-Prefill VAT-ID, X-DK-REGISTRANT/ADMIN additional domain field when provided in client data
- */
-add_hook('ClientAreaHeadOutput', 1, function ($vars) {
-    $vatid = $vars['clientsdetails']['tax_id'];
-    $dkid = '';
-
-    if (function_exists('getCustomFields')) {
-        $cfs = getCustomFields("client", "", $vars['clientsdetails']['userid'], "on", "");
-        foreach ($cfs as $cf) {
-            if ("dkhostmasteruserid" === $cf['textid'] && !empty($cf['value'])) {
-                $dkid = $cf['value'];
-            }
-        }
-    }
-
-    if ($vatid || $dkid) {
-        return <<<HTML
-            <script type="text/javascript">
-                const vatid = '$vatid';
-                const dkid = '$dkid';
-                $(document).ready(function () {
-                    $('#frmConfigureDomains .row .col-sm-4').each(function () {
-                        if(vatid && $(this).text().match(/VAT ID|VATID/i)){
-                            $(this).siblings().children(':input').val(vatid);
-                        }
-                        else if (dkid && $(this).text().match(/^(registrant|admin) contact\:$/i)) {
-                            $(this).siblings().children(':input').val(dkid);
-                        }
-                    });
-                });
-            </script>
-HTML;
-    }
-});
-
 /*
  * ONLY FOR .SWISS
  * saves the .swiss application ID in the admin note

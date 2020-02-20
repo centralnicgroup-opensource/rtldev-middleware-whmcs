@@ -557,18 +557,19 @@ $_LANG["hxflagsustldintendedusep3"] = "Personal Use";
 $_LANG["hxflagsustldintendedusep4"] = "Educational purposes";
 $_LANG["hxflagsustldintendedusep5"] = "Government purposes";
 // Options, Nexus Category, https://www.about.us/policies/ustld-nexus-codes
-$_LANG["hxflagsustldnexuscategoryc11"] = "A natural person who is a United States Citizen";
-$_LANG["hxflagsustldnexuscategoryc12"] = "A natural person who is a permanent resident of the United States of America, or any of its possessions or territories";
-$_LANG["hxflagsustldnexuscategoryc21"] = (
-    "A U.S.-based organization or company formed within one of the fifty (50) U.S. states, the District of Columbia, or any of the United States " .
+$_LANG["hxflagsustldnexuscategoryc11"] = "[C11] A natural person who is a US Citizen";
+$_LANG["hxflagsustldnexuscategoryc12"] = "[C12] A natural person who is a permanent resident of the USA, or any of its possessions or territories";
+$_LANG["hxflagsustldnexuscategoryc21"] = "[C21] A U.S.-based organization or company; explained in detail below";
+$_LANG["hxflagsustldnexuscategoryc31"] = "[C31] A foreign entity or organization; explained in detail below";
+$_LANG["hxflagsustldnexuscategoryc32"] = "[C32] A foreign entity that has an office or other facility in the US";
+$_LANG["hxflagsustldnexuscategorycdescr"] = (
+    "<ul><li>[C21]: A U.S.-based organization or company formed within one of the fifty (50) U.S. states, the District of Columbia, or any of the United States " .
     "possessions or territories; or organized or otherwise constituted under the laws of a state of the United States of America, the District of " .
-    "Columbia or any of its possessions or territories or a U.S. federal, state, or local government entity or a political subdivision thereof"
+    "Columbia or any of its possessions or territories or a U.S. federal, state, or local government entity or a political subdivision thereof</li>" .
+    "<li>[C31]: A foreign entity or organization that has a bona fide presence in the United States of America or any of its possessions or territories who " .
+    "regularly engages in lawful activities / sales of goods or services or other business, commercial or non-commercial, including not-for-profit relations in ".
+    "the United States</li></ul>"
 );
-$_LANG["hxflagsustldnexuscategoryc31"] = (
-    "A foreign entity or organization that has a bona fide presence in the United States of America or any of its possessions or territories who " .
-    "regularly engages in lawful activities / sales of goods or services or other business, commercial or non-commercial, including not-for-profit relations in the United States"
-);
-$_LANG["hxflagsustldnexuscategoryc32"] = "A foreign entity that has an office or other facility in the United States";
 $_LANG["hxflagsustldnexuscountrydescr"] = "<div>Specify registrant's origin citizenship (in case of last two Nexus Category Options (C31 or C32)).</div>";
 
 // .XXX

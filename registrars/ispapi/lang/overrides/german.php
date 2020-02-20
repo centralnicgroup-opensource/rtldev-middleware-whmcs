@@ -557,18 +557,19 @@ $_LANG["hxflagsustldintendedusep3"] = "Privatgebrauch";
 $_LANG["hxflagsustldintendedusep4"] = "Bildungszwecke";
 $_LANG["hxflagsustldintendedusep5"] = "Regierungszwecke";
 // Options, Nexus Category, https://www.about.us/policies/ustld-nexus-codes
-$_LANG["hxflagsustldnexuscategoryc11"] = "Natürliche Person - Bürger der Vereinigten Staaten";
-$_LANG["hxflagsustldnexuscategoryc12"] = "Natürliche Person - Ständiger Wohnsitz in den USA oder in einem der zugehörigen Gebiete/Territorien";
-$_LANG["hxflagsustldnexuscategoryc21"] = (
-    "Eine U.S.-Organisation oder Firma; in einem der 50 U.S. Staaten, im Bezirk Columbien oder in einem der US-Gebiete/Territorien gegründet " .
+$_LANG["hxflagsustldnexuscategoryc11"] = "[C11] Natürliche Person - Bürger der Vereinigten Staaten";
+$_LANG["hxflagsustldnexuscategoryc12"] = "[C12] Natürliche Person - Ständiger Wohnsitz in den USA oder in einem der zugehörigen Gebiete/Territorien";
+$_LANG["hxflagsustldnexuscategoryc21"] = "[C21] Eine U.S.-Organisation oder Firma; Details s.u.";
+$_LANG["hxflagsustldnexuscategoryc31"] = "[C31] Eine ausländische Entität oder Firma; Details s.u.";
+$_LANG["hxflagsustldnexuscategoryc32"] = "[C32] Ein ausländisches Unternehmen mit Büro oder Werk in den Vereinigten Staaten";
+$_LANG["hxflagsustldnexuscategorycdescr"] = (
+    "<ul><li>[C21]: Eine U.S.-Organisation oder Firma; in einem der 50 U.S. Staaten, im Bezirk Columbien oder in einem der US-Gebiete/Territorien gegründet " .
     "oder aufgebaut wurde, oder anderweitig unter der Gesetzen der USA, des Bezirks Columbien oder in einem der US-Gebiete/Territorien errichtet wurde " .
-    "oder eine U.S. Bundes-, Landes-, Kommunalbehörde oder eine Gebietskörperschaft davon."
+    "oder eine U.S. Bundes-, Landes-, Kommunalbehörde oder eine Gebietskörperschaft davon.</li>" .
+    "<li>[C31]: Eine ausländische Entität oder Firma mit echter Präsenz in den USA oder in einem der zugehörigen Gebiete/Territorien, die sich regelmäßig mit " .
+    "gesetzlichen Angelegenheiten, Güterverkauf, Dienstleistungen oder sonstigen kommerziellen oder nicht-kommerziellen Geschäften befasst inkl. gemeinnützige " .
+    "Beziehungen zu den Vereinigte Staaten</li></ul>"
 );
-$_LANG["hxflagsustldnexuscategoryc31"] = (
-    "Eine ausländische Entität oder Firma mit gutgläubiger Präsenz in den USA oder in einem der zugehörigen Gebiete/Territorien, die sich regelmäßig mit ".
-    "gesetzlichen Angelegenheiten, Güterverkauf, Dienstleistungen oder sonstigen kommerziellen oder nicht-kommerziellen Geschäften befasst inkl. gemeinnützige Beziehungen zu den Vereinigte Staaten"
-);
-$_LANG["hxflagsustldnexuscategoryc32"] = "Ein ausländisches Unternehmen mit Büro oder Werk in den Vereinigten Staaten";
 $_LANG["hxflagsustldnexuscountrydescr"] = "<div>Geben Sie die ursprüngliche Staatsbürgerschaft des Registranten an (NUR benötigt für die letzen beiden Optionen der Nexus Kategorie (C31 oder C32)).</div>";
 
 // .XXX

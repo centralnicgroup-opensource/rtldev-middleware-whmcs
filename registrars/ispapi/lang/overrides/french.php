@@ -557,18 +557,19 @@ $_LANG["hxflagsustldintendedusep3"] = "Usage personnel";
 $_LANG["hxflagsustldintendedusep4"] = "Un but éducatif";
 $_LANG["hxflagsustldintendedusep5"] = "Objectifs gouvernementaux";
 // Options, Nexus Category, https://www.about.us/policies/ustld-nexus-codes
-$_LANG["hxflagsustldnexuscategoryc11"] = "Une personne physique qui est un citoyen américain";
-$_LANG["hxflagsustldnexuscategoryc12"] = "Une personne physique qui est un résident permanent des États-Unis d'Amérique ou de l'un de ses biens ou territoires";
-$_LANG["hxflagsustldnexuscategoryc21"] = (
-    "Une organisation ou entreprise basée aux États-Unis formée dans l'un des cinquante (50) États américains, le District de Columbia ou l'un des possessions ou territoires des États-Unis; " .
+$_LANG["hxflagsustldnexuscategoryc11"] = "[C11] Une personne physique qui est un citoyen américain";
+$_LANG["hxflagsustldnexuscategoryc12"] = "[C12] Une personne physique qui est un résident permanent des États-Unis d'Amérique ou de l'un de ses biens ou territoires";
+$_LANG["hxflagsustldnexuscategoryc21"] = "[C21] Une organisation ou entreprise basée aux États-Unis; voir si-dessous";
+$_LANG["hxflagsustldnexuscategoryc31"] = "[C31] Une entité ou organisation étrangère; voir si-dessous";
+$_LANG["hxflagsustldnexuscategoryc32"] = "[C32] Une entité étrangère qui a un bureau ou une autre installation aux États-Unis";
+$_LANG["hxflagsustldnexuscategorycdescr"] = (
+    "<ul><li>[C21]: Une organisation ou entreprise basée aux États-Unis formée dans l'un des cinquante (50) États américains, le District de Columbia ou l'un des possessions ou territoires des États-Unis; " .
     "ou organisé ou autrement constitué en vertu des lois d'un État des États-Unis d'Amérique, le district de " .
-    "Columbia ou de l'un quelconque de ses biens ou territoires ou d'une entité gouvernementale fédérale, d'État ou locale des États-Unis ou d'une de ses subdivisions politiques"
+    "Columbia ou de l'un quelconque de ses biens ou territoires ou d'une entité gouvernementale fédérale, d'État ou locale des États-Unis ou d'une de ses subdivisions politiques</li>" .
+    "<li>[C31]: Une entité ou organisation étrangère qui a une présence de bonne foi aux États-Unis d'Amérique ou dans l'un de ses biens ou territoires et qui se livre régulièrement à des " .
+    "activités / ventes licites de biens ou de services ou d'autres activités commerciales ou non commerciales, y compris à but non lucratif à but lucratif aux États-Unis" .
+    "</li></ul>"
 );
-$_LANG["hxflagsustldnexuscategoryc31"] = (
-    "Une entité ou organisation étrangère qui a une présence de bonne foi aux États-Unis d'Amérique ou dans l'un de ses biens ou territoires et qui se livre régulièrement à des " .
-    "activités / ventes licites de biens ou de services ou d'autres activités commerciales ou non commerciales, y compris à but non lucratif à but lucratif aux États-Unis"
-);
-$_LANG["hxflagsustldnexuscategoryc32"] = "Une entité étrangère qui a un bureau ou une autre installation aux États-Unis";
 $_LANG["hxflagsustldnexuscountrydescr"] = "<div>préciser la nationalité d'origine du titulaire (dans le cas des deux dernières options de catégorie Nexus (C31 ou C32)).</div>";
 
 // .XXX
