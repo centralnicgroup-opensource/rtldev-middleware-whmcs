@@ -894,47 +894,49 @@ function ispapi_dnssec($params)
  */
 function ispapi_whoisprivacy($params)
 {
-    $values = array();
+    $params = injectDomainObjectIfNecessary($params);
+    /** @var \WHMCS\Domains\Domain $domain */
+    $domain = $params["domainObj"];
+
     if (isset($params["original"])) {
         $params = $params["original"];
     }
+    
     $error = false;
-    $domain = $params["sld"].".".$params["tld"];
-
     if (isset($_REQUEST["idprotection"])) {
-        $command = array(
-            "COMMAND" => "ModifyDomain",
-            "DOMAIN" => $domain,
-            "X-ACCEPT-WHOISTRUSTEE-TAC" => ($_REQUEST["idprotection"] == 'enable')? '1' : '0'
-        );
-        $response = ispapi_call($command, ispapi_config($params));
-        if ($response["CODE"] == 200) {
-            return false;
-        } else {
-            $error = $response["DESCRIPTION"];
+        $r = ispapi_IDProtectToggle($params);        
+        if ($r["error"]) {
+            $error = $r["DESCRIPTION"];
         }
     }
 
-    $command = array(
+    $r = ispapi_call([
         "COMMAND" => "StatusDomain",
-        "DOMAIN" => $domain
-    );
+        "DOMAIN" => $domain->getDomain()
+    ], ispapi_config($params));
+
+    $addflds = new \ISPAPI\AdditionalFields();
+    $addflds->setDomainType("register")
+            ->setDomain($domain->getDomain())
+            ->getFieldValuesFromDatabase($params["domainid"]);
+    $protectable = $addflds->isWhoisProtectable(); 
+
+    //$addflds->setFieldValuesFromAPI($r);
+
     $protected = 0;
-    $response = ispapi_call($command, ispapi_config($params));
-    if ($response["CODE"] == 200) {
-        if (isset($response["PROPERTY"]["X-ACCEPT-WHOISTRUSTEE-TAC"])) {
-            if ($response["PROPERTY"]["X-ACCEPT-WHOISTRUSTEE-TAC"][0]) {
-                $protected = 1;
-            }
-        }
-    } elseif (!$error) {
-        $error = $response["DESCRIPTION"];
+    if ($r["CODE"] == 200 && isset($r["PROPERTY"]["X-ACCEPT-WHOISTRUSTEE-TAC"]) && $r["PROPERTY"]["X-ACCEPT-WHOISTRUSTEE-TAC"][0]) {
+        $protected = 1;
+    } elseif (!$error && $r["CODE"] != 200) {
+        $error = $r["DESCRIPTION"];
     }
 
-    return array(
+    return [
         'templatefile' => "whoisprivacy",
-        'vars' => array('error' => $error, 'protected' => $protected),
-    );
+        'vars' => [
+            'error' => $error,
+            'protected' => $protected
+        ]
+    ];
 }
 
 /**
@@ -2031,6 +2033,7 @@ function ispapi_DeleteNameserver($params)
  */
 function ispapi_IDProtectToggle($params)
 {
+    // TODO don't we need to save idprotection status in whmcs?
     $values = array();
     if (isset($params["original"])) {
         $params = $params["original"];
@@ -2906,9 +2909,8 @@ function ispapi_registrantmodification($params)
         $params = $params["original"];
     }
 
-    $domain_data = (new WHMCS\Domains())->getDomainsDatabyID((int) $params["domainid"]);
     $addflds = new \ISPAPI\AdditionalFields();
-    $addflds->setDomainType("update")->setDomain($domain_data["domain"]);
+    $addflds->setDomainType("update")->setDomain($domain->getDomain());
     
     $r = ispapi_call([
         "COMMAND" => "StatusDomain",
@@ -2988,9 +2990,8 @@ function ispapi_registrantmodificationtrade($params)
         $params = $params["original"];
     }
 
-    $domain_data = (new WHMCS\Domains())->getDomainsDatabyID((int) $params["domainid"]);
     $addflds = new \ISPAPI\AdditionalFields();
-    $addflds->setDomainType("trade")->setDomain($domain_data["domain"]);
+    $addflds->setDomainType("trade")->setDomain($domain->getDomain());
     
     $r = ispapi_call([
         "COMMAND" => "StatusDomain",
