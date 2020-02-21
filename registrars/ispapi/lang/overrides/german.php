@@ -589,5 +589,26 @@ $_LANG["hxownerchangeprocedureextended"] = "Der Besitzerwechsel für diese TLD e
 $_LANG["hxownerchange"] = "Besitzerwechsel";
 $_LANG["hxbttnsendtrade"] = "Trade übermitteln";
 $_LANG["hxerrormissingfields"] = "Fehlende Angaben bei folgenden Mussfeldern:";
+
+// ----------------------------------------------------------------------
+// ----------------------- WHOIS PRIVACY --------------------------------
+// ----------------------------------------------------------------------
 $_LANG["hxwhoisprivacy"] = "WHOIS Datenschutz";
+$_LANG["hxwhoisprivacyrequestsuccess"] = "Änderungen für WHOIS Datenschutzdienst ausgerollt.";
+$_LANG["hxwhoisprivacywhy"] = "Warum ist WHOIS Datenschutz so wichtig?";
+$_LANG["hxwhoisprivacyreason"] = (
+    "Bei der Registrierung von Domainnamen müssen persönliche Daten angegeben werden, welche dauerhaft von WHOIS Servern von Drittanbietern verwaltet werden. " .
+    "Das bedeutet, dass Ihr Name, Ihre Adresse / Telefonnummer / Email-Adresse ohne Einschränkung gespeichert und vorgehalten werden. Ein WHOIS Datenschutzdienst " .
+    "ermöglicht es all diese Informationen sicher zu ersetzen und für Dritte uneinsehbar zu machen."
+);
+$_LANG["hxwhoisprivacystatus"] = "WHOIS Datenschutz, Status";
+$_LANG["hxwhoisprivacystatus1"] = "Ihre WHOIS Daten sind derzeit geschützt";
+$_LANG["hxwhoisprivacystatus0"] = "Ihre WHOIS Daten sind derzeit ungeschützt";
+$_LANG["hxwhoisprivacystatusnp"] = "Der WHOIS Datenschutzdienst ist für diese Endung nicht verfügbar";
+$_LANG["hxwhoisprivacybttnenable"] = "Aktivieren";
+$_LANG["hxwhoisprivacybttndisable"] = "Deaktivieren";
+
+// ----------------------------------------------------------------------
+// ----------------------- DNSSEC MANAGEMENT ----------------------------
+// ----------------------------------------------------------------------
 $_LANG["hxdnssecmanagement"] = "DNSSEC Verwaltung";
