@@ -1,3 +1,10 @@
+## [2.4.7](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.6...v2.4.7) (2020-02-26)
+
+
+### Bug Fixes
+
+* **savecontactdetails:** reintroduce fallback to $params["original"] as of broken idn domain name ([e356cdf](https://github.com/hexonet/whmcs-ispapi-registrar/commit/e356cdfb0dd2f270c36e1299619e309874ad286d))
+
 ## [2.4.6](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.5...v2.4.6) (2020-02-13)
 
 
