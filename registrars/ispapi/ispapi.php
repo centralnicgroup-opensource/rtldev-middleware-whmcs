@@ -1426,7 +1426,7 @@ function ispapi_SaveRegistrarLock($params)
  *
  * @return array $values - returns true
  */
-function ispapi_IsAfectedByIRTP($domain, $params)
+function ispapi_IsAffectedByIRTP($domain, $params)
 {
     $command = array(
         "COMMAND" => "QueryDomainOptions",
@@ -1483,7 +1483,7 @@ function ispapi_GetDomainInformation($params)
     }
 
     //IRTP handling
-    $isAfectedByIRTP = ispapi_IsAfectedByIRTP($domain, $params);
+    $isAfectedByIRTP = ispapi_IsAffectedByIRTP($domain, $params);
     if (preg_match('/Designated Agent/', $params['IRTP']) && $isAfectedByIRTP) {
         //setIsIrtpEnabled
         $values['setIsIrtpEnabled'] = true;
@@ -2122,6 +2122,14 @@ function ispapi_GetContactDetails($params)
  */
 function ispapi_SaveContactDetails($params)
 {
+    // TODO:---------- EXCEPTION [BEGIN] --------
+    // $params has invalid chars for idn domain names where $params["original"] is fine [kschwarz]
+    // JIRA #HM-709
+    // WHMCS #YOV-471189 (unconfirmed)
+    $origparams = $params;
+    $params = ispapi_get_utf8_params($params);
+    //--------------- EXCEPTION [END] -----------
+
     $params = injectDomainObjectIfNecessary($params);
     $domain = $params["domainObj"]->getDomain();
 
@@ -2131,13 +2139,13 @@ function ispapi_SaveContactDetails($params)
     $status_response = ispapi_call([
         "COMMAND" => "StatusDomain",
         "DOMAIN" => $domain
-    ], ispapi_config($params));
+    ], ispapi_config($origparams));
     if ($status_response["CODE"] != 200) {
         return [
             "error" => $status_response["DESCRIPTION"]
         ];
     }
-    $isAfectedByIRTP = ispapi_IsAfectedByIRTP($domain, $params);
+    $isAfectedByIRTP = ispapi_IsAffectedByIRTP($domain, $params);
 
     $registrant = ispapi_get_contact_info($status_response["PROPERTY"]["OWNERCONTACT"][0], $params);
     if (isset($params["contactdetails"]["Registrant"])) {
@@ -2169,7 +2177,7 @@ function ispapi_SaveContactDetails($params)
         $queryDomainOptions_response = ispapi_call([
             "COMMAND" => "QueryDomainOptions",
             "DOMAIN0" => $domain
-        ], ispapi_config($params));
+        ], ispapi_config($origparams));
         //AFNIC TLDs => pm, tf, wf, yt, fr, re
         if (!preg_match("/AFNIC/i", $queryDomainOptions_response["PROPERTY"]["REPOSITORY"][0])) {
             if ($params["irtpOptOut"]) {
@@ -2230,10 +2238,10 @@ function ispapi_SaveContactDetails($params)
         unset($command["OWNERCONTACT0"]["ORGANIZATION"]);
 
         $status_command = array(
-                "COMMAND" => "StatusDomain",
-                "DOMAIN" => $domain
+            "COMMAND" => "StatusDomain",
+            "DOMAIN" => $domain
         );
-        $status_response = ispapi_call($status_command, ispapi_config($params));
+        $status_response = ispapi_call($status_command, ispapi_config($origparams));
 
         if ($status_response["CODE"] != 200) {
             return [
@@ -2254,7 +2262,7 @@ function ispapi_SaveContactDetails($params)
             "COMMAND" => "StatusDomain",
             "DOMAIN" => $domain
         );
-        $status_response = ispapi_call($status_command, ispapi_config($params));
+        $status_response = ispapi_call($status_command, ispapi_config($origparams));
 
         if ($status_response["CODE"] != 200) {
             $values["error"] = $status_response["DESCRIPTION"];
@@ -2268,7 +2276,7 @@ function ispapi_SaveContactDetails($params)
             unset($registrant_command["FIRSTNAME"]);
             unset($registrant_command["LASTNAME"]);
             unset($registrant_command["ORGANIZATION"]);
-            $registrant_response = ispapi_call($registrant_command, ispapi_config($params));
+            $registrant_response = ispapi_call($registrant_command, ispapi_config($origparams));
 
             if ($registrant_response["CODE"] != 200) {
                 $values["error"] = $registrant_response["DESCRIPTION"];
@@ -2282,7 +2290,7 @@ function ispapi_SaveContactDetails($params)
         unset($command["X-CA-LEGALTYPE"]);
     }
 
-    $response = ispapi_call($command, ispapi_config($params));
+    $response = ispapi_call($command, ispapi_config($origparams));
     
     if ($response["CODE"] != 200) {
         return [
