@@ -589,5 +589,26 @@ $_LANG["hxownerchangeprocedureextended"] = "Le changement de titulaire pour ce T
 $_LANG["hxownerchange"] = "Changement de Titulaire";
 $_LANG["hxbttnsendtrade"] = "Soumettre";
 $_LANG["hxerrormissingfields"] = "Données manquantes pour les champs de saisie obligatoires ci-dessous:";
+
+// ----------------------------------------------------------------------
+// ----------------------- WHOIS PRIVACY --------------------------------
+// ----------------------------------------------------------------------
 $_LANG["hxwhoisprivacy"] = "Confidentialité WHOIS";
+$_LANG["hxwhoisprivacyrequestsuccess"] = "Les modifications apportées au service de confidentialité WHOIS ont été appliquées avec succès.";
+$_LANG["hxwhoisprivacywhy"] = "Pourquoi la confidentialité WHOIS est importante";
+$_LANG["hxwhoisprivacyreason"] = (
+    "L'enregistrement de nom de domaine nécessite la fourniture d'informations de contact personnelles pour un stockage permanent géré par des serveurs tiers pour WHOIS. " .
+    "Cela signifie que votre nom, adresse, numéro de téléphone et e-mail sont enregistrés et détenus par des tiers sans restriction. Notre service de confidentialité WHOIS " .
+    "remplace en toute sécurité toutes ces informations et protège complètement toutes les données WHOIS de tous les tiers."
+);
+$_LANG["hxwhoisprivacystatus"] = "Statut de confidentialité WHOIS";
+$_LANG["hxwhoisprivacystatus1"] = "Vos informations WHOIS sont actuellement protégées";
+$_LANG["hxwhoisprivacystatus0"] = "Vos informations WHOIS ne sont actuellement pas protégées";
+$_LANG["hxwhoisprivacystatusnp"] = "Le service de confidentialité WHOIS n'est pas disponible pour cette extension de domaine";
+$_LANG["hxwhoisprivacybttnenable"] = "Activer";
+$_LANG["hxwhoisprivacybttndisable"] = "Désactiver";
+
+// ----------------------------------------------------------------------
+// ----------------------- DNSSEC MANAGEMENT ----------------------------
+// ----------------------------------------------------------------------
 $_LANG["hxdnssecmanagement"] = "Gestion DNSSEC";
