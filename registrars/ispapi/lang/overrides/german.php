@@ -148,7 +148,6 @@ $_LANG["hxflagsaerotldaerokey"] = ".AERO Key <sup style='cursor:help;' title='Hi
 
 // .CA
 $_LANG["hxflagscatldcontactlanguage"] = "Kontaktsprache";
-$_LANG["hxflagscatldwhoisoptoutdescr"] = "Ankreuzen, um Ihre Kontaktdaten im CIRA WHOIS auszublenden (nur für Privatpersonen, s.o.)";
 $_LANG["hxflagscatldregistryinformation"] = "Information der Registrierungsstelle";
 $_LANG["hxflagscatldregistryinformationdescr"] = (
     "Immer wenn Sie eine {TLD} Domain für einen neuen Registranten bestellen oder einen Besitzerwechsel zu einem neuen Registranten durchführen, so muss dieser neue Registrant die " .
@@ -598,13 +597,13 @@ $_LANG["hxwhoisprivacyrequestsuccess"] = "Änderungen für WHOIS Datenschutzdien
 $_LANG["hxwhoisprivacywhy"] = "Warum ist WHOIS Datenschutz so wichtig?";
 $_LANG["hxwhoisprivacyreason"] = (
     "Bei der Registrierung von Domainnamen müssen persönliche Daten angegeben werden, welche dauerhaft von WHOIS Servern von Drittanbietern verwaltet werden. " .
-    "Das bedeutet, dass Ihr Name, Ihre Adresse / Telefonnummer / Email-Adresse ohne Einschränkung gespeichert und vorgehalten werden. Ein WHOIS Datenschutzdienst " .
-    "ermöglicht es all diese Informationen sicher zu ersetzen und für Dritte uneinsehbar zu machen."
+    "Das bedeutet, dass Ihr Name, Ihre Adresse / Telefonnummer / Email-Adresse ohne Einschränkung gespeichert und vorgehalten werden. Einige Registrierungsstellen bieten Ihren eigenen " .
+    "kostenlosen WHOIS Datenschutzdienst an, welcher es ermöglicht WHOIS Informationen für Dritte uneinsehbar zu machen."
 );
 $_LANG["hxwhoisprivacystatus"] = "WHOIS Datenschutz, Status";
 $_LANG["hxwhoisprivacystatus1"] = "Ihre WHOIS Daten sind derzeit geschützt";
 $_LANG["hxwhoisprivacystatus0"] = "Ihre WHOIS Daten sind derzeit ungeschützt";
-$_LANG["hxwhoisprivacystatusnp"] = "Der WHOIS Datenschutzdienst ist für diese Endung nicht verfügbar";
+$_LANG["hxwhoisprivacystatusnp"] = "Der WHOIS Datenschutzdienst ist NUR für Privatpersonen verfügbar";
 $_LANG["hxwhoisprivacybttnenable"] = "Aktivieren";
 $_LANG["hxwhoisprivacybttndisable"] = "Deaktivieren";
 

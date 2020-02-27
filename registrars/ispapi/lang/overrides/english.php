@@ -148,7 +148,6 @@ $_LANG["hxflagsaerotldaerokey"] = ".AERO Key <sup style='cursor:help;' title='Ob
 
 // .CA
 $_LANG["hxflagscatldcontactlanguage"] = "Contact Language";
-$_LANG["hxflagscatldwhoisoptoutdescr"] = "Tick to hide your contact information in registry WHOIS (only available to individuals, read above.)";
 $_LANG["hxflagscatldregistryinformation"] = "Registry Information";
 $_LANG["hxflagscatldregistryinformationdescr"] = (
     "Whenever you register a {TLD} domain for a new registrant (or change the registrant to a new one), this new registrant has to agree to the " .
@@ -598,13 +597,13 @@ $_LANG["hxwhoisprivacyrequestsuccess"] = "WHOIS Privacy Service changes applied 
 $_LANG["hxwhoisprivacywhy"] = "Why WHOIS Privacy is important";
 $_LANG["hxwhoisprivacyreason"] = (
     "Domain name registration requires personal contact information be provided for permanent storage managed by third party servers for WHOIS. " .
-    "This means that your name, address, phone number and email is recorded and held by third parties without restriction. Our WHOIS Privacy service " .
-    "securely replaces all of this information and completely shields all WHOIS data from all third parties."
+    "This means that your name, address, phone number and email is recorded and held by third parties without restriction. Some registries offer their own WHOIS Privacy service " .
+    "for free that allows to shield WHOIS data from all third parties."
 );
 $_LANG["hxwhoisprivacystatus"] = "WHOIS Privacy Status";
 $_LANG["hxwhoisprivacystatus1"] = "Your WHOIS information is currently protected";
 $_LANG["hxwhoisprivacystatus0"] = "Your WHOIS information is currently unprotected";
-$_LANG["hxwhoisprivacystatusnp"] = "WHOIS Privacy Service is not available for this domain extension";
+$_LANG["hxwhoisprivacystatusnp"] = "WHOIS Privacy Service is ONLY available for Individuals";
 $_LANG["hxwhoisprivacybttnenable"] = "Enable WHOIS Privacy";
 $_LANG["hxwhoisprivacybttndisable"] = "Disable WHOIS Privacy";
 

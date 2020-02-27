@@ -17,16 +17,6 @@
 		<br/>
 	{/if}
 
-	{if $successful}
-		<div class="alert alert-success text-center">
-			{if type == "trade"}
-				<p>{$LANG.hxtraderequestedsuccessfully}</p>
-			{else}
-				<p>{$LANG.hxchangessavedsuccessfully}</p>
-			{/if}
-		</div><br/>
-	{/if}
-
 	{if $error}
 		<div class="alert alert-danger text-center">
 			<p>{$error}</p>

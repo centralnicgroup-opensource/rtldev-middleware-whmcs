@@ -148,7 +148,6 @@ $_LANG["hxflagsaerotldaerokey"] = ".AERO Key <sup style='cursor:help;' title='Ob
 
 // .CA
 $_LANG["hxflagscatldcontactlanguage"] = "Langue de Contact";
-$_LANG["hxflagscatldwhoisoptoutdescr"] = "Cochez cette case pour masquer vos coordonnées dans CIRA WHOIS (uniquement disponible pour les particuliers, voir au dessus)";
 $_LANG["hxflagscatldregistryinformation"] = "Information du Registre";
 $_LANG["hxflagscatldregistryinformationdescr"] = (
     "Chaque fois que vous enregistrez un domaine {TLD} pour un nouveau titulaire (ou changez le titulaire pour un nouveau), ce nouveau titulaire doit " .
@@ -598,13 +597,13 @@ $_LANG["hxwhoisprivacyrequestsuccess"] = "Les modifications apportées au servic
 $_LANG["hxwhoisprivacywhy"] = "Pourquoi la confidentialité WHOIS est importante";
 $_LANG["hxwhoisprivacyreason"] = (
     "L'enregistrement de nom de domaine nécessite la fourniture d'informations de contact personnelles pour un stockage permanent géré par des serveurs tiers pour WHOIS. " .
-    "Cela signifie que votre nom, adresse, numéro de téléphone et e-mail sont enregistrés et détenus par des tiers sans restriction. Notre service de confidentialité WHOIS " .
-    "remplace en toute sécurité toutes ces informations et protège complètement toutes les données WHOIS de tous les tiers."
+    "Cela signifie que votre nom, adresse, numéro de téléphone et e-mail sont enregistrés et détenus par des tiers sans restriction. Certains registres proposent leur " .
+    "propre service de confidentialité WHOIS gratuitement qui permet de protéger les données WHOIS de tous les tiers."
 );
 $_LANG["hxwhoisprivacystatus"] = "Statut de confidentialité WHOIS";
 $_LANG["hxwhoisprivacystatus1"] = "Vos informations WHOIS sont actuellement protégées";
 $_LANG["hxwhoisprivacystatus0"] = "Vos informations WHOIS ne sont actuellement pas protégées";
-$_LANG["hxwhoisprivacystatusnp"] = "Le service de confidentialité WHOIS n'est pas disponible pour cette extension de domaine";
+$_LANG["hxwhoisprivacystatusnp"] = "Le service de confidentialité WHOIS est UNIQUEMENT disponible pour les individus";
 $_LANG["hxwhoisprivacybttnenable"] = "Activer";
 $_LANG["hxwhoisprivacybttndisable"] = "Désactiver";
 
