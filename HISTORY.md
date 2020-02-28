@@ -1,3 +1,10 @@
+## [2.4.8](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.7...v2.4.8) (2020-02-28)
+
+
+### Bug Fixes
+
+* **domain import:** fixed price import for normal domain names ([907187f](https://github.com/hexonet/whmcs-ispapi-registrar/commit/907187f5d993bea97043f0eddd2cf3ae20e6d4da))
+
 ## [2.4.7](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.6...v2.4.7) (2020-02-26)
 
 
