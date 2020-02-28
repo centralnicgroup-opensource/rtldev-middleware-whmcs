@@ -1,3 +1,10 @@
+## [2.4.9](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.8...v2.4.9) (2020-02-28)
+
+
+### Bug Fixes
+
+* **sync:** fixed expirationdate calculation ([87d1654](https://github.com/hexonet/whmcs-ispapi-registrar/commit/87d16542ed7d8de8e7ccb5398fa7d4e01ac4d399))
+
 ## [2.4.8](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.7...v2.4.8) (2020-02-28)
 
 
