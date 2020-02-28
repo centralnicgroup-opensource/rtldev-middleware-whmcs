@@ -3059,8 +3059,9 @@ function ispapi_Sync($params)
         $values["active"] = true;
     }
 
+    $expirationdate = $r["EXPIRATIONDATE"][0];
     $expirationts = strtotime($expirationdate);
-    $finalizationdate = $r["FINALIZATIONDATE"][0];
+    $finalizationdate = $r["FINALIZATIONDATE"][0];// 2020-04-26 21:59:59
     $paiduntildate = $r["PAIDUNTILDATE"][0];
     $accountingdate = $r["ACCOUNTINGDATE"][0];
     $failuredate = $r["FAILUREDATE"][0];
