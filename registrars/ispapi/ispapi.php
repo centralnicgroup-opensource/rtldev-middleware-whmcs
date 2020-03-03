@@ -757,6 +757,10 @@ function ispapi_ClientAreaCustomButtonArray($params)
         $buttonarray[".SG Change of Registrant"] = "registrantmodification_tld";
     }
 
+    if ($data && (preg_match('/\.nu$/i', $data["domain"]))) {
+        $buttonarray[".NU Change of Registrant"] = "registrantmodification_tld";
+    }
+
     if ($params["DNSSEC"] == "on") {
         $buttonarray["DNSSEC Management"] = "dnssec";
     }
@@ -1047,6 +1051,33 @@ function ispapi_registrantmodification_tld($params)
     if ($response["CODE"] == 200) {
         $values["Registrant"] = ispapi_get_contact_info($response["PROPERTY"]["OWNERCONTACT"][0], $params);
     }
+
+    //handle additionaldomainfields
+    //------------------------------------------------------------------------------
+    ispapi_include_additionaladditionalfields();
+
+    $myadditionalfields = array();
+    if (is_array($additionaldomainfields) && isset($additionaldomainfields[".".$params["tld"]])) {
+        $myadditionalfields = $additionaldomainfields[".".$params["tld"]];
+    }
+
+    foreach ($myadditionalfields as $field_index => $field) {
+        if (!is_array($field["Ispapi-Replacements"])) {
+            $field["Ispapi-Replacements"] = array();
+        }
+        if (isset($field["Ispapi-Options"]) && isset($field["Options"])) {
+            $options = explode(",", $field["Options"]);
+            foreach (explode(",", $field["Ispapi-Options"]) as $index => $new_option) {
+                $option = $options[$index];
+                if (!isset($field["Ispapi-Replacements"][$option])) {
+                    $field["Ispapi-Replacements"][$option] = $new_option;
+                }
+            }
+        }
+        $myadditionalfields[$field_index] = $field;
+    }
+
+    //------------------------------------------------------------------------------
 
     if (isset($_POST["submit"])) {
             $newvalues["Registrant"] = $_POST["contactdetails"]["Registrant"];
