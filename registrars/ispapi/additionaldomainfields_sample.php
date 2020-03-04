@@ -6,23 +6,37 @@
 ##
 
 ## .NU DOMAIN REQUIREMENTS ##
-## remove default whmcs fields ##
-$additionaldomainfields[".nu"][] = array("Name" => "Identification Number", "Remove" => true);
-$additionaldomainfields[".nu"][] = array("Name" => "VAT Number",  "Remove" => true);
-
+## remove default whmcs fields #
+$additionaldomainfields['.nu'][] = array('Name' => 'Identification Number', "Remove" => true);
+$additionaldomainfields['.nu'][] = array('Name' => 'VAT Number', "Remove" => true);
+ 
 ## add ispapi additional fields ##
 $additionaldomainfields[".nu"][] = array(
-        "Name" => "Registrant ID number",
+        "Name" => "Registrant ID Number",
         "Type" => "text",
         "Required" => true,
-        "Ispapi-Name" => "X-REGISTRANT-IDNUMBER"
+        "Description" => "<b>For individuals or companies located in Sweden</b> a valid Swedish
+                        personal or organizational number must be stated.
+                        <b>For individuals and companies outside of Sweden</b> the ID number (e.g. Civic
+                        registration number, company registration number, or the equivalent) must be stated.",
+        "Ispapi-Name" => "X-REGISTRANT-IDNUMBER",
 );
 $additionaldomainfields[".nu"][] = array(
-        "Name" => "Vat ID",
+        "Name" => "Registrant VAT ID",
         "Type" => "text",
+        "Required" => false,
+        "Description" => "(Only required for companies that are located inside the European
+                        Union but outside Sweden)",
+        "Ispapi-Name" => "X-VATID",
+);
+$additionaldomainfields[".nu"][] = array(
+        "Name" => "Agreement",
+        "Type" => "tickbox",
+        "Description" => "Tick to confirm that you agree to the Registry Terms and Conditions of Registration (link below) upon new registration of .NU domain names.
+        <br><a href='https://internetstiftelsen.se/app/uploads/2019/02/terms-and-conditions-nu.pdf' target=\"_blank\">Registry Terms and Conditions</a>",
         "Required" => true,
-        "Ispapi-Name" => "X-VATID"
-
+        "Ispapi-Name" => "X-NU-ACCEPT-REGISTRATION-TAC",
+        "Ispapi-Eval" => 'if ( $value ) { $value = "1"; } else { $value = ""; }'
 );
 
 ## .VOTE DOMAIN REQUIREMENTS
