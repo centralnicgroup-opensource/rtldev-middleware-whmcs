@@ -1922,19 +1922,11 @@ function ispapi_IDProtectToggle($params)
     /** @var \WHMCS\Domains\Domain $domain */
     $domain = $params["domainObj"];
 
-    $command = [
+    $r = ispapi_call([
         "COMMAND" => "ModifyDomain",
-        "DOMAIN" => $domain->getDomain()
-    ];
-
-    // load the additional fields
-    // we use them to map the id protection service to our api command parameter
-    $addflds = new \ISPAPI\AdditionalFields($params["TestMode"] == "on");
-    $addflds->setDomainType("whoisprivacy")
-            ->setTLD('.default_fallback')
-            ->setFieldValues([  ($params["protectenable"])? "1" : "0" ])
-            ->addToCommand($command);
-    $r = ispapi_call($command, ispapi_config($params));
+        "DOMAIN" => $domain->getDomain(),
+        "X-ACCEPT-WHOISTRUSTEE-TAC" => $params["protectenable"] ? "1" : "0"
+    ], ispapi_config($params));
 
     if ($r["CODE"] != 200) {
         return [
