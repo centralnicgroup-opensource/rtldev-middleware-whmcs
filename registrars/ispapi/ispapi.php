@@ -1121,6 +1121,7 @@ function ispapi_registrantmodification_tld($params)
                 }
             }
             if (!$error) {
+                $params["additionalfields"] = $_POST["additionalfields"];
                 ispapi_use_additionalfields($params, $command);
                 $response = ispapi_call($command, ispapi_config($origparams));
 
