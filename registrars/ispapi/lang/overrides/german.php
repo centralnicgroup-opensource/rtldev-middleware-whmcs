@@ -483,6 +483,13 @@ $_LANG["hxflagsmytldregistrantorganisationtype29"] = "Treuhänder";
 $_LANG["hxflagsmytldregistrantorganisationtype30"] = "Universität unter Leitung des Bildungsministeriums";
 $_LANG["hxflagsmytldregistrantorganisationtype31"] = "Gutachter-, Sachverständigen-, Immobiliengunternehmen";
 
+// .NU
+$_LANG["hxflagsnutldregistrantidnumberdescr"] = (
+    "<b>Für in Schweden ansässige Privatpersonen und Unternehmen</b> muss eine gültige swedische Personalausweisnr. oder gleichwertige Firmennr. angegeben werden.<br/>" .
+    "<b>Für Privatpersonen und Unternehmen mit Sitz außerhalb von Schweden</b> muss eine Kennnr. angegeben werden (e.g. Personalausweisnr., Handelsregisternr. o.ä.)."
+);
+$_LANG["hxflagsnutldvatiddescr"] = "(Nur benötigt für Unternehmen mit Sitz in der EU, aber außerhalb von Schweden)";
+
 // .NYC
 // Options, Nexus Category
 $_LANG["hxflagsnyctldnexuscategory1"] = "Natürliche Person mit primärem Wohnsitz in NYC";

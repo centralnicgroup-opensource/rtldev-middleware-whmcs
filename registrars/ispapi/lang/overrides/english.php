@@ -483,6 +483,13 @@ $_LANG["hxflagsmytldregistrantorganisationtype29"] = "trustee";
 $_LANG["hxflagsmytldregistrantorganisationtype30"] = "university under the administration of ministry of education";
 $_LANG["hxflagsmytldregistrantorganisationtype31"] = "valuer, appraiser, estate agent firm";
 
+// .NU
+$_LANG["hxflagsnutldregistrantidnumberdescr"] = (
+    "<b>For individuals or companies located in Sweden</b> a valid Swedish personal or organizational number must be stated.<br/>" .
+    "<b>For individuals and companies outside of Sweden</b> the ID number (e.g. Civic registration number, company registration number, or the equivalent) must be stated."
+);
+$_LANG["hxflagsnutldvatiddescr"] = "(Only required for companies that are located inside the European Union but outside Sweden)";
+
 // .NYC
 // Options, Nexus Category
 $_LANG["hxflagsnyctldnexuscategory1"] = "Natural Person - primary domicile with physical address in NYC";
