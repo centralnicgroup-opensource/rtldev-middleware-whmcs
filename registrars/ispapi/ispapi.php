@@ -973,7 +973,6 @@ function ispapi_IsAffectedByIRTP($domain, $params)
 function ispapi_GetDomainInformation($params)
 {
     $values = array();
-    $params = ispapi_get_utf8_params($params);
     if (isset($params["original"])) {
         $params = $params["original"];
     }
@@ -1651,7 +1650,9 @@ function ispapi_SaveContactDetails($params)
     // $params has invalid chars for idn domain names where $params["original"] is fine [kschwarz]
     // JIRA #HM-709
     // WHMCS #YOV-471189 (unconfirmed)
-    $params = ispapi_get_utf8_params($params);
+    if (isset($params["original"])) {
+        $params = $params["original"];
+    }
     //--------------- EXCEPTION [END] -----------
 
     $params = injectDomainObjectIfNecessary($params);
@@ -3019,6 +3020,15 @@ function ispapi_needsTradeForRegistrantModification($domain, $params)
     return ($r["CODE"] == 200 && "TRADE" === $r["PROPERTY"]["ZONEPOLICYREGISTRANTNAMECHANGEBY"][0]);
 }
 
+
+/**
+ * Fallback to $params["original"] / fix utf-8 encoding issues
+ * @param array $params common module parameters
+ *
+ * @see https://developers.whmcs.com/domain-registrars/module-parameters/
+ *
+ * @return array
+ */
 function ispapi_get_utf8_params($params)
 {
     if (isset($params["original"])) {
@@ -3096,6 +3106,10 @@ function ispapi_get_utf8_params($params)
     return $params;
 }
 
+/**
+ * Return registrar configuration used for api communication
+ * @return array
+ */
 function ispapi_config($params)
 {
     $hostname = "api.ispapi.net";
@@ -3118,11 +3132,26 @@ function ispapi_config($params)
     return $config;
 }
 
+/**
+ * Make API Call and return the result
+ * @param array $command the api command to request
+ * @param array $config the registrar configuration to be used
+ * @see ispapi_config()
+ * @return array
+ */
 function ispapi_call($command, $config)
 {
     return ispapi_parse_response(ispapi_call_raw($command, $config));
 }
 
+/**
+ * Make API Call and return the unparsed plain result
+ * NOTE: For internal use only
+ * @param array $command the api command to request
+ * @param array $config the registrar configuration to be used
+ * @see ispapi_config()
+ * @return array
+ */
 function ispapi_call_raw($command, $config)
 {
     global $ispapi_module_version;
@@ -3229,6 +3258,11 @@ function ispapi_call_raw($command, $config)
     return $response;
 }
 
+/**
+ * IDN Conversion based on PHP
+ * @param string $domain domain name
+ * @return string the punycode format of the domain name in case of success
+ */
 function ispapi_to_punycode($domain)
 {
     if (!strlen($domain)) {
@@ -3248,6 +3282,12 @@ function ispapi_to_punycode($domain)
     return $domain;
 }
 
+/**
+ * Flatten the command array to plain text for API communication
+ * NOTE: For internal use only
+ * @param array $commandarray
+ * @return string
+ */
 function ispapi_encode_command($commandarray)
 {
     if (!is_array($commandarray)) {
@@ -3269,6 +3309,12 @@ function ispapi_encode_command($commandarray)
     return $command;
 }
 
+/**
+ * Parse plain API response into associative array
+ * NOTE: For internal use only
+ * @param string|array $response API response to be parsed. if already array, just return it.
+ * @return array
+ */
 function ispapi_parse_response($response)
 {
     if (is_array($response)) {
@@ -3311,6 +3357,16 @@ function ispapi_parse_response($response)
     return $hash;
 }
 
+/**
+ * Log Module Call
+ * NOTE: For internal use only
+ * @param string $registrar Registrar
+ * @param string $action Action
+ * @param string $requeststring Request String
+ * @param string $responsedata Response Data
+ * @param string $processeddata optional processed data
+ * @param array $replacevars optional list of vars to replace
+ */
 function ispapi_logModuleCall($registrar, $action, $requeststring, $responsedata, $processeddata = null, $replacevars = null)
 {
     if (!function_exists('logModuleCall')) {
