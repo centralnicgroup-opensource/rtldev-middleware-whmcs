@@ -1,3 +1,10 @@
+## [2.4.11](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.10...v2.4.11) (2020-03-04)
+
+
+### Bug Fixes
+
+* **Change of Registrant:** added additional fields support ([af26be1](https://github.com/hexonet/whmcs-ispapi-registrar/commit/af26be189b910b5b25d2e1a140dbe74a09943b7f))
+
 ## [2.4.10](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.9...v2.4.10) (2020-03-04)
 
 
