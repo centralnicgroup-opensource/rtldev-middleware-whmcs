@@ -463,6 +463,14 @@ $_LANG["hxflagsmytldregistrantorganisationtype29"] = "الوصي";
 $_LANG["hxflagsmytldregistrantorganisationtype30"] = "جامعة تحت إدارة وزارة التعليم";
 $_LANG["hxflagsmytldregistrantorganisationtype31"] = "مثمن ، مخمن ، شركة الوكيل العقاري";
 
+// .NU
+$_LANG["hxflagsnutldregistrantidnumberdescr"] = (
+    "<b> للأفراد أو الشركات الموجودة في السويد </ b> ، يجب ذكر رقم شخصي أو  رقم منظمه صالح.<br/>" .
+    "<b> للأفراد والشركات خارج السويد </ b> ، يجب ذكر رقم الهوية (مثل رقم السجل المدني أو رقم تسجيل الشركة أو ما يعادلها)."
+);
+$_LANG["hxflagsnutldvatiddescr"] = "(مطلوب فقط للشركات التي تقع داخل الاتحاد الأوروبي ولكن خارج السويد)";
+
+
 // .NYC
 // Options, Nexus Category
 $_LANG["hxflagsnyctldnexuscategory1"] = "الشخص الطبيعي - الموطن الرئيسي مع عنوان فعلياً في مدينة نيويورك";
@@ -525,7 +533,7 @@ $_LANG["hxflagssydneytldnexuscategorydescr"] = (
 // .TRAVEL
 $_LANG["hxflagstraveltldtravelindustry"] = "المتعلقة بقطاع السفر";
 $_LANG["hxflagstraveltldtravelindustrydescr"] = "(نحن نعترف بوجود علاقة بقطاع السفر وأننا نشارك أو نخطط للمشاركة في الأنشطة المتعلقة بالسفر.)";
-$_LANG["hxflagstraveltldyesno1"] = "نعغم";
+$_LANG["hxflagstraveltldyesno1"] = "نعم";
 $_LANG["hxflagstraveltldyesno0"] = "لا";
 
 // .US
