@@ -2696,8 +2696,6 @@ function ispapi_getTLDPricing($params)
  */
 function ispapi_AdditionalDomainFields(array $params)
 {
-    // TODO Review in case params["type"] is no longer >>always<< "register";
-    //      Review \ISPAPI\AdditionalFields::addToCMD method
     \ISPAPI\AdditionalFields::init($params["TestMode"] == "on");
     return \ISPAPI\AdditionalFields::getAdditionalDomainFields($params);
 }

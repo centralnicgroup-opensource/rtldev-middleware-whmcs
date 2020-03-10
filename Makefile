@@ -2,6 +2,8 @@ VERSION := $(shell node -p "require('./release.json').version")
 REPOID := whmcs-ispapi-registrar
 FOLDER := pkg/$(REPOID)-$(VERSION)
 LIBFOLDER := $(FOLDER)/install/modules/registrars/ispapi/lib
+LANGFOLDER := $(FOLDER)/install/modules/registrars/ispapi/lang/overrides
+LANGS := azerbaijani catalan chinese croatian czech danish dutch estonian farsi hebrew hungarian italian macedonian norwegian portuguese-br portugues-pt romanian russian spanish swedish turkish ukranian
 
 clean:
 	rm -rf $(FOLDER)
@@ -15,7 +17,11 @@ buildsources:
 	git clone https://github.com/hexonet/$(REPOID).wiki.git /tmp/$(REPOID)
 	# Copy files (archive contents)
 	cp -a registrars/ispapi $(FOLDER)/install/modules/registrars
-	cp README.md HISTORY.md HISTORY.old CONTRIBUTING.md LICENSE /tmp/$(REPOID)/*.md $(FOLDER)/docs
+	cp README.md HISTORY.md HISTORY.old CONTRIBUTING.md LICENSE $(LIBFOLDER)/ADDITIONALFIELDS.md /tmp/$(REPOID)/*.md $(FOLDER)/docs
+	# Auto-create language fallback files to english
+	for lang in $(LANGS); do \
+        cp $(LANGFOLDER)/english.php $(LANGFOLDER)/$$lang.php  ; \
+    done
 	# Clean up files
 	rm -rf $(FOLDER)/docs/_*.md $(FOLDER)/docs/Home.md /tmp/$(REPOID) $(LIBFOLDER)/.dependabot $(LIBFOLDER)/AdditionalFields.class.php $(LIBFOLDER)/Country.class.php
 	find $(LIBFOLDER) ! -name "*.class.php" -type f -exec rm -f {} \;
