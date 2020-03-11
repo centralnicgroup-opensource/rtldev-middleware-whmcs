@@ -3002,7 +3002,7 @@ function ispapi_Sync($params)
         "DOMAIN" => $domain->getDomain()
     ], ispapi_config($params));
            
-    if ($response["CODE"] == 531 || $response["CODE"] == 545) {
+    if ($r["CODE"] == 531 || $r["CODE"] == 545) {
         return [
             "transferredAway" => true
         ];
