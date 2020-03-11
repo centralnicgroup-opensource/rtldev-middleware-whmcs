@@ -1,3 +1,10 @@
+## [2.4.12](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.11...v2.4.12) (2020-03-11)
+
+
+### Bug Fixes
+
+* **sync:** fixed sync of domain status for outbound transfers ([95a2428](https://github.com/hexonet/whmcs-ispapi-registrar/commit/95a24289494a3b87657d7b0a7aac290009f9d6f4))
+
 ## [2.4.11](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.10...v2.4.11) (2020-03-04)
 
 
