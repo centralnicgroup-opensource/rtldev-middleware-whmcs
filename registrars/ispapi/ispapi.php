@@ -640,7 +640,7 @@ function ispapi_getConfigArray($params)
                 if (preg_match("/^ispapi/i", $module)) {
                     $widget->load($module);
                     $tmp = explode("_", $module);
-                    $widgetClass = "\\ISPAPI\\" . ucfirst($tmp[0]) . ucfirst($tmp[1]) . "Widget";
+                    $widgetClass = "\\WHMCS\Module\Widget\\" . ucfirst($tmp[0]) . ucfirst($tmp[1]) . "Widget";
                     $mname=$tmp[0]."widget".$tmp[1];
                     if (class_exists($widgetClass) && defined("$widgetClass::VERSION")) {
                         $values[$mname] = $widgetClass::VERSION;
