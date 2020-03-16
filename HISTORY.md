@@ -1,3 +1,10 @@
+## [2.4.13](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.12...v2.4.13) (2020-03-16)
+
+
+### Bug Fixes
+
+* **namespace:** changed namespace to fix widget refresh ([71f26f8](https://github.com/hexonet/whmcs-ispapi-registrar/commit/71f26f844c8c369ca8dd4abb9315ae59625838f8))
+
 ## [2.4.12](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.11...v2.4.12) (2020-03-11)
 
 
