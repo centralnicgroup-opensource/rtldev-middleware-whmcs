@@ -17,7 +17,7 @@ buildsources:
 	cp -a registrars/ispapi $(FOLDER)/install/modules/registrars
 	cp README.md HISTORY.md HISTORY.old CONTRIBUTING.md LICENSE /tmp/$(REPOID)/*.md $(FOLDER)/docs
 	# Clean up files
-	rm -rf $(FOLDER)/docs/_*.md $(FOLDER)/docs/Home.md /tmp/$(REPOID)
+	rm -rf $(FOLDER)/docs/_*.md $(FOLDER)/docs/Home.md /tmp/$(REPOID) $(LIBFOLDER)/.dependabot $(LIBFOLDER)/AdditionalFields.class.php $(LIBFOLDER)/Country.class.php
 	find $(LIBFOLDER) ! -name "*.class.php" -type f -exec rm -f {} \;
 	# convert all necessary files to html
 	find $(FOLDER)/docs -maxdepth 1 -name "*.md" -exec bash -c 'pandoc "$${0}" -f markdown -t html -s --self-contained -o "$${0/\.md/}.html"' {} \;
