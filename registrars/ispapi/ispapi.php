@@ -15,6 +15,8 @@ use WHMCS\Database\Capsule;
 use WHMCS\Domain\Registrar\Domain;
 use WHMCS\Carbon;
 
+include_once(implode(DIRECTORY_SEPARATOR, [__DIR__, "lib", "Ispapi.class.php"]));
+
 /**
  * Check the availability of domains using HEXONET's fast API
  *
@@ -3121,6 +3123,59 @@ function ispapi_Sync($params)
         $values["expired"] = gmmktime() > $expirationts;
     }
     return $values;
+}
+
+function ispapi_getTLDPricing($params)
+{
+    \ISPAPI\Ispapi::init(ispapi_config($params));
+
+    // fetch list of tlds offerable by reseller
+    $tlds = \ISPAPI\Ispapi::getTLDs();
+    if (isset($tlds["error"])) {
+        return $tlds;
+    }
+    if (empty($tlds)) {
+        return new \WHMCS\Results\ResultsList;
+    }
+
+    // fetch tld configurations for offerable tlds
+    $cfgs = \ISPAPI\Ispapi::getTLDConfigurations($tlds);
+    if (isset($cfgs["error"])) {
+        return $cfgs;
+    }
+
+    // fetch prices for offerable tlds
+    $prices = \ISPAPI\Ispapi::getTLDPrices(array_flip($tlds), $cfgs);
+    if (isset($prices["error"])) {
+        return $prices;
+    }
+
+    $results = new \WHMCS\Results\ResultsList;
+    foreach ($prices as $tld => $p) {
+        $cfg = $cfgs[$tld];
+        if (!isset($p["registration"]) || is_null($p["registration"])) {
+            // there are of course TLDs in management which we no longer offer for registration in public
+            // e.g. .ar.com, .hu.com, .kr.com, .md, .no.com, .qc.com, .se.com, .uy.com, .zone
+            continue;
+        }
+        if (empty($cfg->periods["registration"])) {
+            throw new \Exception("Missing entry for $tld. Contact support, we will release a new version immediately.");
+        }
+        // All the set methods can be chained and utilised together.
+        $results[] = (new \WHMCS\Domain\TopLevel\ImportItem)
+            ->setExtension($tld)
+            //->setMinYears($cfg->getMinRegistrationPeriod())
+            //->setMaxYears($cfg->getMaxRegistrationPeriod())
+            //->setYearsStep($cfg->getYearsStep())
+            ->setYears($cfg->periods["registration"])
+            ->setRegisterPrice($p['registration'])
+            ->setRenewPrice($p['renewal'])
+            ->setTransferPrice($p['transfer'])
+            ->setRedemptionFeePrice($p['redemption'])
+            ->setCurrency($p['currency'])
+            ->setEppRequired($cfg->authRequired === 1);
+    }
+    return $results;
 }
 
 /**
