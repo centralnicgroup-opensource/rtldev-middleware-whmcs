@@ -1,3 +1,10 @@
+## [2.4.15](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.14...v2.4.15) (2020-03-20)
+
+
+### Bug Fixes
+
+* **transferdomain:** consider additional fields for .CA ([a42a311](https://github.com/hexonet/whmcs-ispapi-registrar/commit/a42a31139fa912e135bb7e164f39f9633697cd86))
+
 ## [2.4.14](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.13...v2.4.14) (2020-03-20)
 
 
