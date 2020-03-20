@@ -5,7 +5,7 @@
  * @author HEXONET GmbH <support@hexonet.net>
  */
 
-$module_version = "2.4.13";
+$module_version = "2.4.14";
 
 use WHMCS\Module\Server;
 use WHMCS\Module\Addon;

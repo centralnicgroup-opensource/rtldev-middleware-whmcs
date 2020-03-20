@@ -1,3 +1,10 @@
+## [2.4.14](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.13...v2.4.14) (2020-03-20)
+
+
+### Bug Fixes
+
+* **savecontactdetails:** reactivating X-CA-LEGALTYPE ([7459e68](https://github.com/hexonet/whmcs-ispapi-registrar/commit/7459e6878cd84849e0d84fde613995669a1def26))
+
 ## [2.4.13](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.12...v2.4.13) (2020-03-16)
 
 
