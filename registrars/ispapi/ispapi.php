@@ -2319,7 +2319,7 @@ function ispapi_SaveContactDetails($params)
 
         ispapi_query_additionalfields($params);
         ispapi_use_additionalfields($params, $command);
-        unset($command["X-CA-LEGALTYPE"]);
+        //unset($command["X-CA-LEGALTYPE"]);
     }
 
     $response = ispapi_call($command, ispapi_config($origparams));
