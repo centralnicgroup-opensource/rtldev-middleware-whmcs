@@ -1,3 +1,10 @@
+## [2.4.16](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.15...v2.4.16) (2020-03-25)
+
+
+### Bug Fixes
+
+* **registerdomain:** remove transfer lock for premium domain and .swiss registrations ([046aee5](https://github.com/hexonet/whmcs-ispapi-registrar/commit/046aee51d1468a416f9c0f6aad74e4517d1c797b))
+
 ## [2.4.15](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.14...v2.4.15) (2020-03-20)
 
 
