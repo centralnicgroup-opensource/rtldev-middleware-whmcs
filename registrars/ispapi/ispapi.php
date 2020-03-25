@@ -2527,9 +2527,11 @@ function ispapi_RegisterDomain($params)
     if (preg_match('/\.swiss$/i', $domain)) {
         $command["COMMAND"] = "AddDomainApplication";
         $command["CLASS"] = "GOLIVE";
-        //INTERNALDNS and WHOIS privacy service parameter is not supported in AddDomainApplication command
+        //INTERNALDNS, WHOIS privacy service, transferlock parameter is not supported in AddDomainApplication command
+        //TODO: we need to sync transfer lock later
         unset($command["INTERNALDNS"]);
         unset($command["X-ACCEPT-WHOISTRUSTEE-TAC"]);
+        unset($command["TRANSFERLOCK"]);
     }
 
     ispapi_use_additionalfields($params, $command);
@@ -2555,9 +2557,10 @@ function ispapi_RegisterDomain($params)
                     $command["CLASS"] =  $registrar_premium_domain_class;
                     $command["PRICE"] =  $premiumDomainsCost;
                     $command["CURRENCY"] = $registrar_premium_domain_currency;
-                    //INTERNALDNS and WHOIS privacy service parameter is not supported in AddDomainApplication command
+                    //INTERNALDNS, WHOIS privacy service, transferlock parameter is not supported in AddDomainApplication command
                     unset($command["INTERNALDNS"]);
                     unset($command["X-ACCEPT-WHOISTRUSTEE-TAC"]);
+                    unset($command["TRANSFERLOCK"]);
                 }
             }
         }
