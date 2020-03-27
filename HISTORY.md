@@ -1,3 +1,10 @@
+# [2.5.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.16...v2.5.0) (2020-03-27)
+
+
+### Features
+
+* **pricingsync:** WHMCS 7.10 feature integration for TLD Pricing Import/Sync ([1bd13e6](https://github.com/hexonet/whmcs-ispapi-registrar/commit/1bd13e6898656cb44104b5ae5e9ef8a410ad15de))
+
 ## [2.4.16](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.15...v2.4.16) (2020-03-25)
 
 
