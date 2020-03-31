@@ -2214,7 +2214,7 @@ function ispapi_SaveContactDetails($params)
         ], ispapi_config($origparams));
         //AFNIC TLDs => pm, tf, wf, yt, fr, re
         if (!preg_match("/AFNIC/i", $queryDomainOptions_response["PROPERTY"]["REPOSITORY"][0])) {
-            if ($params["irtpOptOut"]) {
+            if ($origparams["irtpOptOut"]) { //HM-735
                 $command["X-REQUEST-OPT-OUT-TRANSFERLOCK"] = 1;
             } else {
                 $command["X-REQUEST-OPT-OUT-TRANSFERLOCK"] = 0;
