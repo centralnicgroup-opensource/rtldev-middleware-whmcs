@@ -1,3 +1,10 @@
+## [2.5.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.5.0...v2.5.1) (2020-04-01)
+
+
+### Bug Fixes
+
+* **IRTP:** minor fix to support opt-out option ([fc6772c](https://github.com/hexonet/whmcs-ispapi-registrar/commit/fc6772c7adfe9f32d103851213672c55d5f6df2b))
+
 # [2.5.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.16...v2.5.0) (2020-03-27)
 
 
