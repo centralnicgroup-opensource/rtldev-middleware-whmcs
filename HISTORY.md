@@ -1,3 +1,10 @@
+# [2.6.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.5.2...v2.6.0) (2020-04-02)
+
+
+### Features
+
+* **additional fields:** prefill X-CA-LANGUAGE with configured client language ([fa8597c](https://github.com/hexonet/whmcs-ispapi-registrar/commit/fa8597c53acd807d27325ffea53a61a2979c29f7))
+
 ## [2.5.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.5.1...v2.5.2) (2020-04-02)
 
 
