@@ -6,6 +6,7 @@ use WHMCS\View\Menu\Item as MenuItem;
  * Auto-Prefill VAT-ID, X-DK-REGISTRANT/ADMIN additional domain field when provided in client data
  */
 add_hook('ClientAreaHeadOutput', 1, function ($vars) {
+    $lang = $vars['clientsdetails']['language'];
     $vatid = $vars['clientsdetails']['tax_id'];
     $dkid = '';
 
@@ -18,11 +19,12 @@ add_hook('ClientAreaHeadOutput', 1, function ($vars) {
         }
     }
 
-    if ($vatid || $dkid) {
+    if ($vatid || $dkid || $lang) {
         return <<<HTML
             <script type="text/javascript">
                 const vatid = '$vatid';
                 const dkid = '$dkid';
+                const lang = '$lang';
                 $(document).ready(function () {
                     $('#frmConfigureDomains .row .col-sm-4').each(function () {
                         if(vatid && $(this).text().match(/VAT ID|VATID/i)){
@@ -30,6 +32,13 @@ add_hook('ClientAreaHeadOutput', 1, function ($vars) {
                         }
                         else if (dkid && $(this).text().match(/^(registrant|admin) contact\:$/i)) {
                             $(this).siblings().children(':input').val(dkid);
+                        }
+                        if ($(this).text().match(/^Contact Language\:$/i)) {
+                            if (/^(english|french)$/i.test(lang)){
+                                const mylang = lang.charAt(0).toUpperCase() + lang.slice(1);
+                                $(this).siblings().find('select option').prop('selected', false);
+                                $(this).siblings().find('select option[value="' + mylang + '"]').prop('selected', true);
+                            }
                         }
                     });
                 });
