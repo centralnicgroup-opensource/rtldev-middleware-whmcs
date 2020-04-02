@@ -36,7 +36,7 @@ function ispapi_CheckAvailability($params)
     $tldslist = $params['tldsToInclude'];
     $premiumEnabled = (bool) $params['premiumEnabled'];
     $domainslist = array();
-    $results = new WHMCS\Domains\DomainLookup\ResultsList();
+    $results = new \WHMCS\Domains\DomainLookup\ResultsList();
 
     foreach ($tldslist as $tld) {
         if (!empty($tld[0])) {
@@ -143,7 +143,7 @@ function ispapi_GetDomainSuggestions($params)
 
     //RETURN EMPTY ResultsList OBJECT WHEN SUGGESTIONS ARE DEACTIVATED
     if (empty($params['suggestionSettings']['suggestions'])) {
-        return new ResultsList();
+        return new \WHMCS\Domains\DomainLookup\ResultsList();
     }
 
     if ($params['isIdnDomain']) {
