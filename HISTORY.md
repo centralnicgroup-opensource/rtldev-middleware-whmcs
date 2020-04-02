@@ -1,3 +1,10 @@
+## [2.5.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.5.1...v2.5.2) (2020-04-02)
+
+
+### Bug Fixes
+
+* **checkavailability:** fixed namespace usage of ResultsList ([bddd8aa](https://github.com/hexonet/whmcs-ispapi-registrar/commit/bddd8aaa999098a282b2f81b87d079067a4eb542))
+
 ## [2.5.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.5.0...v2.5.1) (2020-04-01)
 
 
