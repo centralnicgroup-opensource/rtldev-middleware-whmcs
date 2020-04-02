@@ -50,6 +50,7 @@ This Repository covers the WHMCS Registrar Module of HEXONET. It provides the fo
 * Auto-Prefill additional domain fields
   * VAT ID
   * DK Hostmaster User ID
+  * Contact Language (.ca)
 
 ... and MORE!
 
