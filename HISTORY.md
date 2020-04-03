@@ -1,3 +1,10 @@
+## [2.6.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.6.0...v2.6.1) (2020-04-03)
+
+
+### Bug Fixes
+
+* **dep-bump:** upgrade whmcs-ispapi-helper to the latest release (fixed path issue) ([8b6c2b2](https://github.com/hexonet/whmcs-ispapi-registrar/commit/8b6c2b20df1eadc1b5870579d7388fd9676a161d))
+
 # [2.6.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.5.2...v2.6.0) (2020-04-02)
 
 
