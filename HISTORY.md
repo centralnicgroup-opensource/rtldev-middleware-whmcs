@@ -1,3 +1,10 @@
+## [2.6.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.6.1...v2.6.2) (2020-04-03)
+
+
+### Bug Fixes
+
+* **makefile:** missing additionalfields file in package ([2506c6b](https://github.com/hexonet/whmcs-ispapi-registrar/commit/2506c6bd4f7f6a26ef327a6b3b289c9ace45575d))
+
 ## [2.6.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.6.0...v2.6.1) (2020-04-03)
 
 
