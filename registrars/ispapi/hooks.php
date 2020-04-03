@@ -1,6 +1,6 @@
 <?php
 
-use WHMCS\View\Menu\Item as MenuItem;
+use WHMCS\Module\Registrar\Ispapi\Ispapi;
 
 /**
  * Auto-Prefill VAT-ID, X-DK-REGISTRANT/ADMIN additional domain field when provided in client data
@@ -71,7 +71,6 @@ add_hook('DailyCronJob', 1, function ($vars) {
     if (file_exists(dirname(__FILE__)."/ispapi.php")) {
         require_once(dirname(__FILE__)."/ispapi.php");
         $registrarconfigoptions = getregistrarconfigoptions("ispapi");
-        $ispapi_config = ispapi_config($registrarconfigoptions);
 
         $result = mysql_query("SELECT * from tbldomains WHERE additionalnotes!='' and registrar='ispapi' and status='Pending'");
         while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
@@ -83,7 +82,7 @@ add_hook('DailyCronJob', 1, function ($vars) {
                     "COMMAND" => "StatusDomainApplication",
                     "APPLICATION" => $application_id
                  );
-                 $response = ispapi_call($command, $ispapi_config);
+                 $response = Ispapi::call($command, $registrarconfigoptions);
                 if ($response["PROPERTY"]["STATUS"][0] == "SUCCESSFUL") {
                     //echo $row["domain"]." > Status:".$response["PROPERTY"]["STATUS"][0];
                     mysql_query("UPDATE tbldomains SET status='Active' WHERE id=".$row["id"]);
@@ -102,29 +101,23 @@ add_hook('DailyCronJob', 1, function ($vars) {
  * remove 'Registrar Lock' option and error message (on 'overview') on client area domain details page.
  */
 add_hook('ClientAreaPageDomainDetails', 1, function ($vars) {
-
-    $domain          = Menu::context('domain');
-    $this_domain     = $domain->domain;
-    $this_registrar  = $domain->registrar;//ispapi
-        
-    if ($this_registrar == "ispapi") {
-        $registrarconfigoptions = getregistrarconfigoptions("ispapi");
-        $ispapi_config = ispapi_config($registrarconfigoptions);
-
-        $commandQueryDomainList = array(
+    $domain = Menu::context('domain');
+    
+    if ($domain->registrar == "ispapi") {
+        $r = Ispapi::call([
             "COMMAND" => "QueryDomainList",
-            "DOMAIN" => $this_domain,
-            "WIDE" => 1
-        );
-        $responseQueryDomainList = ispapi_call($commandQueryDomainList, $ispapi_config);
+            "VERSION" => 2,
+            "DOMAIN" => $domain->domain,
+            "WIDE" => 1,
+            "NOTOTAL" => 1
+        ], getregistrarconfigoptions("ispapi"));
 
-        if (($responseQueryDomainList['CODE'] == 200) && ($responseQueryDomainList['PROPERTY']['DOMAINTRANSFERLOCK'] && $responseQueryDomainList['PROPERTY']['DOMAINTRANSFERLOCK'][0] == "")) {
+        if (($r['CODE'] == 200) && ($r['PROPERTY']['DOMAINTRANSFERLOCK'] && $r['PROPERTY']['DOMAINTRANSFERLOCK'][0] == "")) {
             $vars['managementoptions']['locking'] = false;
             $vars['lockstatus'] = false;
-
-            if (!is_null($vars['primarySidebar']->getChild('Domain Details Management'))) {
-                $vars['primarySidebar']->getChild('Domain Details Management')
-                                        ->removeChild('Registrar Lock Status');
+            $menu = $vars['primarySidebar']->getChild('Domain Details Management');
+            if (!is_null($menu)) {
+                $menu->removeChild('Registrar Lock Status');
             }
         }
 
