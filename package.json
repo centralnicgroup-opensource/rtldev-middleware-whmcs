@@ -44,8 +44,8 @@
   ],
   "devDependencies": {
     "npm": ">=6.13.4",
-    "semantic-release": "^17.0.2",
-    "@hexonet/semantic-release-github-whmcs-config": "^1.0.0"
+    "semantic-release": "^17.0.7",
+    "@hexonet/semantic-release-github-whmcs-config": "^1.2.0"
   },
   "scripts": {
     "codeCheck": "phpcs --standard=PSR1,PSR2 -q -n --colors --ignore=registrars/ispapi/lib registrars",

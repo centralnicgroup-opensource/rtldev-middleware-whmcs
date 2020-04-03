@@ -19,7 +19,7 @@ buildsources:
 	# Clean up files
 	rm -rf $(FOLDER)/docs/_*.md $(FOLDER)/docs/Home.md /tmp/$(REPOID) $(LIBFOLDER)/.dependabot $(LIBFOLDER)/Country.php $(LIBFOLDER)/sdk/.dependabot
 	rm -rf $(LIBFOLDER)/sdk/create-phar.php $(LIBFOLDER)/sdk/build $(LIBFOLDER)/sdk/tests
-	find $(LIBFOLDER) ! -name "*.class.php" -type f -exec rm -f {} \;
+	find $(LIBFOLDER) ! -name "*.php" -type f -exec rm -f {} \;
 	# convert all necessary files to html
 	find $(FOLDER)/docs -maxdepth 1 -name "*.md" -exec bash -c 'pandoc "$${0}" -f markdown -t html -s --self-contained -o "$${0/\.md/}.html"' {} \;
 	pandoc $(FOLDER)/docs/LICENSE -t html -s --self-contained -o $(FOLDER)/docs/LICENSE.html
