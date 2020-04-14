@@ -1,3 +1,10 @@
+# [2.7.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.6.2...v2.7.0) (2020-04-14)
+
+
+### Features
+
+* **pricingsync:** added redemptionfee/gracefee settings to TLD & Pricing Sync mechanism ([4dec7da](https://github.com/hexonet/whmcs-ispapi-registrar/commit/4dec7da76dd9995eae181bef38588cb7056748f1))
+
 ## [2.6.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.6.1...v2.6.2) (2020-04-03)
 
 
