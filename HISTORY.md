@@ -1,3 +1,10 @@
+## [3.0.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.0...v3.0.1) (2020-04-27)
+
+
+### Bug Fixes
+
+* **dep-bump:** upgrade helper module ([0b30051](https://github.com/hexonet/whmcs-ispapi-registrar/commit/0b300518a12a122b34cec5b610d868868956795d))
+
 # [3.0.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.7.1...v3.0.0) (2020-04-27)
 
 
