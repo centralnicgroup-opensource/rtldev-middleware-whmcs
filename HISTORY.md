@@ -1,3 +1,10 @@
+## [3.0.3](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.2...v3.0.3) (2020-04-27)
+
+
+### Bug Fixes
+
+* **tld & pricing sync:** support maria db (unsupported column type `json`) - follow-up fix ([4146a06](https://github.com/hexonet/whmcs-ispapi-registrar/commit/4146a0630dfaba0d5291b4df380caaf0c0c27c73))
+
 ## [3.0.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.1...v3.0.2) (2020-04-27)
 
 
