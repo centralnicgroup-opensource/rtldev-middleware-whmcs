@@ -6,36 +6,36 @@ use WHMCS\View\Menu\Item as MenuItem;
  * Auto-Prefill VAT-ID, X-DK-REGISTRANT/ADMIN additional domain field when provided in client data
  */
 add_hook('ClientAreaHeadOutput', 1, function ($vars) {
-    $lang = $vars['clientsdetails']['language'];
-    $vatid = $vars['clientsdetails']['tax_id'];
-    $dkid = '';
+    $ispapilang = $vars['clientsdetails']['language'];
+    $ispapivatid = $vars['clientsdetails']['tax_id'];
+    $ispapidkid = '';
 
     if (function_exists('getCustomFields')) {
         $cfs = getCustomFields("client", "", $vars['clientsdetails']['userid'], "on", "");
         foreach ($cfs as $cf) {
             if ("dkhostmasteruserid" === $cf['textid'] && !empty($cf['value'])) {
-                $dkid = $cf['value'];
+                $ispapidkid = $cf['value'];
             }
         }
     }
 
-    if ($vatid || $dkid || $lang) {
+    if ($ispapivatid || $ispapidkid || $ispapilang) {
         return <<<HTML
             <script type="text/javascript">
-                const vatid = '$vatid';
-                const dkid = '$dkid';
-                const lang = '$lang';
+                const ispapi_vatid = '$ispapivatid';
+                const ispapi_dkid = '$ispapidkid';
+                const ispapi_lang = '$ispapilang';
                 $(document).ready(function () {
                     $('#frmConfigureDomains .row .col-sm-4').each(function () {
-                        if(vatid && $(this).text().match(/VAT ID|VATID/i)){
-                            $(this).siblings().children(':input').val(vatid);
+                        if(ispapi_vatid && $(this).text().match(/VAT ID|VATID/i)){
+                            $(this).siblings().children(':input').val(ispapi_vatid);
                         }
-                        else if (dkid && $(this).text().match(/^(registrant|admin) contact\:$/i)) {
-                            $(this).siblings().children(':input').val(dkid);
+                        if (ispapi_dkid && $(this).text().match(/^(registrant|admin) contact\:$/i)) {
+                            $(this).siblings().children(':input').val(ispapi_dkid);
                         }
                         if ($(this).text().match(/^Contact Language\:$/i)) {
-                            if (/^(english|french)$/i.test(lang)){
-                                const mylang = lang.charAt(0).toUpperCase() + lang.slice(1);
+                            if (/^(english|french)$/i.test(ispapi_lang)){
+                                const mylang = ispapi_lang.charAt(0).toUpperCase() + ispapi_lang.slice(1);
                                 $(this).siblings().find('select option').prop('selected', false);
                                 $(this).siblings().find('select option[value="' + mylang + '"]').prop('selected', true);
                             }
