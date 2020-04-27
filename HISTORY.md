@@ -1,3 +1,10 @@
+## [2.7.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.7.0...v2.7.1) (2020-04-27)
+
+
+### Bug Fixes
+
+* **hooks:** renaming variable names (conflicting with stripe payment gateway for any reason) ([76ce8ea](https://github.com/hexonet/whmcs-ispapi-registrar/commit/76ce8eaa19de99286d1d2d8bd50a17dced0a3538))
+
 # [2.7.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.6.2...v2.7.0) (2020-04-14)
 
 
