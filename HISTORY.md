@@ -1,3 +1,16 @@
+# [3.0.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.7.1...v3.0.0) (2020-04-27)
+
+
+### improvement
+
+* **php-sdk:** migrate to PHP-SDK to get connector code replaced ([870b6b3](https://github.com/hexonet/whmcs-ispapi-registrar/commit/870b6b321a54684e741dc970926118f4abcbe2cf))
+
+
+### BREAKING CHANGES
+
+* **php-sdk:** replaced connector code with the use of our PHP-SDK which is built for that
+purpose.
+
 ## [2.7.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.7.0...v2.7.1) (2020-04-27)
 
 
