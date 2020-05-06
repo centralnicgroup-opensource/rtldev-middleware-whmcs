@@ -40,8 +40,7 @@ This Repository covers the WHMCS Registrar Module of HEXONET. It provides the fo
 * Support for all bulk update operations
 * Support for IDNs
   * automatically selects IDNA2008 if supported by TLD (e.g. .de)
-  * uses API based IDN conversion by default
-  * can be configured to use PHP method instead
+  * uses API based IDN conversion in background
 * Support for new domain sync method (_Sync)
   * Workaround for ccTLDs that need to get renewed before expiration
 * Support for .SWISS registrations
