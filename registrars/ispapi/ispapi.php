@@ -1407,9 +1407,6 @@ function ispapi_GetDomainInformation($params)
     $values = array();
     $origparams = $params;
     $params = ispapi_get_utf8_params($params);
-    if (isset($params["original"])) {
-        $params = $params["original"];
-    }
     $domain = $params["sld"].".".$params["tld"];
 
     $command = array(
@@ -2107,8 +2104,8 @@ function ispapi_SaveContactDetails($params)
     $isAfectedByIRTP = ispapi_IsAffectedByIRTP($domain, $params);
 
     $registrant = ispapi_get_contact_info($status_response["PROPERTY"]["OWNERCONTACT"][0], $params);
-    if (isset($params["contactdetails"]["Registrant"])) {
-        $new_registrant = $params["contactdetails"]["Registrant"];
+    if (isset($origparams["contactdetails"]["Registrant"])) {
+        $new_registrant = $origparams["contactdetails"]["Registrant"];
     }
 
     //the following conditions must be true to trigger registrant change request (IRTP)
@@ -2170,7 +2167,7 @@ function ispapi_SaveContactDetails($params)
         if (array_key_exists("First Name", $unstrippedparams["contactdetails"][$ptype])) {
             $p = $unstrippedparams["contactdetails"][$ptype];
         } else {
-            $p = $params["contactdetails"][$ptype];
+            $p = $origparams["contactdetails"][$ptype];
         }
 
         $command[$ctype] = array(
@@ -2387,42 +2384,38 @@ function ispapi_RegisterDomain($params)
 
     $params = ispapi_get_utf8_params($params);
 
-    if (isset($params["original"])) {
-        $params = $params["original"];
-    }
-
     $domain = $params["sld"].".".$params["tld"];
 
     $registrant = array(
-        "FIRSTNAME" => $params["firstname"],
-        "LASTNAME" => $params["lastname"],
-        "ORGANIZATION" => $params["companyname"],
-        "STREET" => $params["address1"],
-        "CITY" => $params["city"],
-        "STATE" => $params["state"],
-        "ZIP" => $params["postcode"],
-        "COUNTRY" => $params["country"],
-        "PHONE" => $params["phonenumber"],
-        "EMAIL" => $params["email"]
+        "FIRSTNAME" => $origparams["firstname"],
+        "LASTNAME" => $origparams["lastname"],
+        "ORGANIZATION" => $origparams["companyname"],
+        "STREET" => $origparams["address1"],
+        "CITY" => $origparams["city"],
+        "STATE" => $origparams["state"],
+        "ZIP" => $origparams["postcode"],
+        "COUNTRY" => $origparams["country"],
+        "PHONE" => $origparams["phonenumber"],
+        "EMAIL" => $origparams["email"]
     );
-    if (strlen($params["address2"])) {
-        $registrant["STREET"] .= " , ".$params["address2"];
+    if (strlen($origparams["address2"])) {
+        $registrant["STREET"] .= " , ".$origparams["address2"];
     }
 
     $admin = array(
-        "FIRSTNAME" => $params["adminfirstname"],
-        "LASTNAME" => $params["adminlastname"],
-        "ORGANIZATION" => $params["admincompanyname"],
-        "STREET" => $params["adminaddress1"],
-        "CITY" => $params["admincity"],
-        "STATE" => $params["adminstate"],
-        "ZIP" => $params["adminpostcode"],
-        "COUNTRY" => $params["admincountry"],
-        "PHONE" => $params["adminphonenumber"],
-        "EMAIL" => $params["adminemail"]
+        "FIRSTNAME" => $origparams["adminfirstname"],
+        "LASTNAME" => $origparams["adminlastname"],
+        "ORGANIZATION" => $origparams["admincompanyname"],
+        "STREET" => $origparams["adminaddress1"],
+        "CITY" => $origparams["admincity"],
+        "STATE" => $origparams["adminstate"],
+        "ZIP" => $origparams["adminpostcode"],
+        "COUNTRY" => $origparams["admincountry"],
+        "PHONE" => $origparams["adminphonenumber"],
+        "EMAIL" => $origparams["adminemail"]
     );
-    if (strlen($params["adminaddress2"])) {
-        $admin["STREET"] .= " , ".$params["adminaddress2"];
+    if (strlen($origparams["adminaddress2"])) {
+        $admin["STREET"] .= " , ".$origparams["adminaddress2"];
     }
 
     $command = array(
