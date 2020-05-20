@@ -1,3 +1,10 @@
+## [3.0.5](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.4...v3.0.5) (2020-05-20)
+
+
+### Bug Fixes
+
+* **registerdomain:** revert previous change (customer issue was a missing whmcs config) ([4355d2c](https://github.com/hexonet/whmcs-ispapi-registrar/commit/4355d2c79e61d343c1156397bb890a77c1272db0))
+
 ## [3.0.4](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.3...v3.0.4) (2020-05-20)
 
 
