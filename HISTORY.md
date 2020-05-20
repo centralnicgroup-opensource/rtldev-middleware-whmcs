@@ -1,3 +1,10 @@
+## [3.0.4](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.3...v3.0.4) (2020-05-20)
+
+
+### Bug Fixes
+
+* **registerdomain, savecontactdetails:** use $origparams instead of $params ([37b2ee5](https://github.com/hexonet/whmcs-ispapi-registrar/commit/37b2ee5724136625c57bf051890922d29eee7661))
+
 ## [3.0.3](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.2...v3.0.3) (2020-04-27)
 
 
