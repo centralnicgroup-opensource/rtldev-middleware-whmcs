@@ -2387,35 +2387,35 @@ function ispapi_RegisterDomain($params)
     $domain = $params["sld"].".".$params["tld"];
 
     $registrant = array(
-        "FIRSTNAME" => $origparams["firstname"],
-        "LASTNAME" => $origparams["lastname"],
-        "ORGANIZATION" => $origparams["companyname"],
-        "STREET" => $origparams["address1"],
-        "CITY" => $origparams["city"],
-        "STATE" => $origparams["state"],
-        "ZIP" => $origparams["postcode"],
-        "COUNTRY" => $origparams["country"],
-        "PHONE" => $origparams["phonenumber"],
-        "EMAIL" => $origparams["email"]
+        "FIRSTNAME" => $params["firstname"],
+        "LASTNAME" => $params["lastname"],
+        "ORGANIZATION" => $params["companyname"],
+        "STREET" => $params["address1"],
+        "CITY" => $params["city"],
+        "STATE" => $params["state"],
+        "ZIP" => $params["postcode"],
+        "COUNTRY" => $params["country"],
+        "PHONE" => $params["phonenumber"],
+        "EMAIL" => $params["email"]
     );
-    if (strlen($origparams["address2"])) {
-        $registrant["STREET"] .= " , ".$origparams["address2"];
+    if (strlen($params["address2"])) {
+        $registrant["STREET"] .= " , ".$params["address2"];
     }
 
     $admin = array(
-        "FIRSTNAME" => $origparams["adminfirstname"],
-        "LASTNAME" => $origparams["adminlastname"],
-        "ORGANIZATION" => $origparams["admincompanyname"],
-        "STREET" => $origparams["adminaddress1"],
-        "CITY" => $origparams["admincity"],
-        "STATE" => $origparams["adminstate"],
-        "ZIP" => $origparams["adminpostcode"],
-        "COUNTRY" => $origparams["admincountry"],
-        "PHONE" => $origparams["adminphonenumber"],
-        "EMAIL" => $origparams["adminemail"]
+        "FIRSTNAME" => $params["adminfirstname"],
+        "LASTNAME" => $params["adminlastname"],
+        "ORGANIZATION" => $params["admincompanyname"],
+        "STREET" => $params["adminaddress1"],
+        "CITY" => $params["admincity"],
+        "STATE" => $params["adminstate"],
+        "ZIP" => $params["adminpostcode"],
+        "COUNTRY" => $params["admincountry"],
+        "PHONE" => $params["adminphonenumber"],
+        "EMAIL" => $params["adminemail"]
     );
-    if (strlen($origparams["adminaddress2"])) {
-        $admin["STREET"] .= " , ".$origparams["adminaddress2"];
+    if (strlen($params["adminaddress2"])) {
+        $admin["STREET"] .= " , ".$params["adminaddress2"];
     }
 
     $command = array(
