@@ -5,7 +5,7 @@
  * @author HEXONET GmbH <support@hexonet.net>
  */
 
-define('ISPAPI_MODULE_VERSION', '3.0.5');
+define("ISPAPI_MODULE_VERSION", "3.0.5");
 
 if (!defined("WHMCS")) {
     die("This file cannot be accessed directly");
@@ -24,20 +24,20 @@ use WHMCS\Module\Registrar\Ispapi\Helper;
  */
 function ispapi_CheckAvailability($params)
 {
-    if ($params['isIdnDomain']) {
-        $label = empty($params['punyCodeSearchTerm']) ? strtolower($params['searchTerm']) : strtolower($params['punyCodeSearchTerm']);
+    if ($params["isIdnDomain"]) {
+        $label = empty($params["punyCodeSearchTerm"]) ? strtolower($params["searchTerm"]) : strtolower($params["punyCodeSearchTerm"]);
     } else {
-        $label = strtolower($params['searchTerm']);
+        $label = strtolower($params["searchTerm"]);
     }
 
-    $tldslist = $params['tldsToInclude'];
-    $premiumEnabled = (bool) $params['premiumEnabled'];
+    $tldslist = $params["tldsToInclude"];
+    $premiumEnabled = (bool) $params["premiumEnabled"];
     $domainslist = array();
     $results = new \WHMCS\Domains\DomainLookup\ResultsList();
 
     foreach ($tldslist as $tld) {
         if (!empty($tld[0])) {
-            if ($tld[0] != '.') {
+            if ($tld[0] != ".") {
                 $tld = ".".$tld;
             }
             $domain = $label.$tld;
@@ -80,16 +80,16 @@ function ispapi_CheckAvailability($params)
 
         foreach ($domainslist["list"] as $index => $domain) {
             $registerprice = $renewprice = $currency = $status = "";
-            $sr = new \WHMCS\Domains\DomainLookup\SearchResult($domain['sld'], $domain['tld']);
+            $sr = new \WHMCS\Domains\DomainLookup\SearchResult($domain["sld"], $domain["tld"]);
             $sr->setStatus($sr::STATUS_REGISTERED);
-            if (preg_match('/549/', $check["PROPERTY"]["DOMAINCHECK"][$index])) {
+            if (preg_match("/549/", $check["PROPERTY"]["DOMAINCHECK"][$index])) {
                 //TLD NOT SUPPORTED AT HEXONET USE A FALLBACK TO THE WHOIS LOOKUP.
-                $whois = localAPI("DomainWhois", array("domain" => $domain['sld'].$domain['tld']));
+                $whois = localAPI("DomainWhois", array("domain" => $domain["sld"].$domain["tld"]));
                 if ($whois["status"] == "available") {
                     //DOMAIN AVAILABLE
                     $sr->setStatus($sr::STATUS_NOT_REGISTERED);
                 }
-            } elseif (preg_match('/^210 .+$/', $check["PROPERTY"]["DOMAINCHECK"][$index])) {
+            } elseif (preg_match("/^210 .+$/", $check["PROPERTY"]["DOMAINCHECK"][$index])) {
                 //DOMAIN AVAILABLE
                 $sr->setStatus($sr::STATUS_NOT_REGISTERED);
             } elseif (!empty($check["PROPERTY"]["PREMIUMCHANNEL"][$index]) || !empty($check["PROPERTY"]["CLASS"][$index])) {
@@ -133,22 +133,22 @@ function ispapi_CheckAvailability($params)
 function ispapi_GetDomainSuggestions($params)
 {
     //GET THE TLD OF THE SEARCHED VALUE
-    if (isset($_REQUEST["domain"]) && preg_match('/\./', $_REQUEST["domain"])) {
+    if (isset($_REQUEST["domain"]) && preg_match("/\./", $_REQUEST["domain"])) {
         $search = preg_split("/\./", $_REQUEST["domain"], 2);
         $searched_zone = $search[1];
     }
 
     //RETURN EMPTY ResultsList OBJECT WHEN SUGGESTIONS ARE DEACTIVATED
-    if (empty($params['suggestionSettings']['suggestions'])) {
+    if (empty($params["suggestionSettings"]["suggestions"])) {
         return new \WHMCS\Domains\DomainLookup\ResultsList();
     }
 
-    if ($params['isIdnDomain']) {
-           $label = empty($params['punyCodeSearchTerm']) ? strtolower($params['searchTerm']) : strtolower($params['punyCodeSearchTerm']);
+    if ($params["isIdnDomain"]) {
+           $label = empty($params["punyCodeSearchTerm"]) ? strtolower($params["searchTerm"]) : strtolower($params["punyCodeSearchTerm"]);
     } else {
-           $label = strtolower($params['searchTerm']);
+           $label = strtolower($params["searchTerm"]);
     }
-    $tldslist = $params['tldsToInclude'];
+    $tldslist = $params["tldsToInclude"];
     $zones = array();
     foreach ($tldslist as $tld) {
         #IGNORE 3RD LEVEL TLDS - NOT FULLY SUPPORTED BY QueryDomainSuggestionList
@@ -184,29 +184,29 @@ function ispapi_GetDomainSuggestions($params)
  */
 function ispapi_DomainSuggestionOptions($params)
 {
-    if ($params['whmcsVersion'] < 7.6) {
-        $marginleft = '60px';
+    if ($params["whmcsVersion"] < 7.6) {
+        $marginleft = "60px";
     } else {
-        $marginleft = '220px';
+        $marginleft = "220px";
     }
 
     return array(
-        'information' => array(
-            'FriendlyName' => '<b>Don\'t have a HEXONET Account yet?</b>',
-            'Description' => 'Get one here: <a target="_blank" href="https://www.hexonet.net/sign-up">https://www.hexonet.net/sign-up</a><br><br>
+        "information" => array(
+            "FriendlyName" => "<b>Don't have a HEXONET Account yet?</b>",
+            "Description" => "Get one here: <a target=\"_blank\" href=\"https://www.hexonet.net/sign-up\">https://www.hexonet.net/sign-up</a><br><br>
 			<b>The HEXONET Lookup Provider provides the following features:</b>
-			<ul style="text-align:left;margin-left:'.$marginleft.';margin-top:5px;">
+			<ul style=\"text-align:left;margin-left:".$marginleft.";margin-top:5px;\">
 			<li>High Performance availability checks using our fast API</li>
 			<li>Suggestion Engine</li>
 			<li>Aftermarket and Registry Premium Domains support</li>
 			<li>Fallback to WHOIS Lookup for non-supported TLDs</li>
 			</ul>
-            ',
+            ",
         ),
-        'suggestions' => array(
-            'FriendlyName' => '<b style="color:#FF6600;">Suggestion Engine based on search term:</b>',
-            'Type' => 'yesno',
-            'Description' => 'Tick to activate (recommended)',
+        "suggestions" => array(
+            "FriendlyName" => "<b style=\"color:#FF6600;\">Suggestion Engine based on search term:</b>",
+            "Type" => "yesno",
+            "Description" => "Tick to activate (recommended)",
         ),
     );
 }
@@ -303,7 +303,7 @@ function ispapi_GetPremiumPrice($params)
  */
 function ispapi_getPremiumCurrency($params, $class)
 {
-    if (!preg_match('/\:/', $class)) {
+    if (!preg_match("/\:/", $class)) {
         //REGISTRY PREMIUM DOMAIN (e.g. PREMIUM_DATE_F)
         return  ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_".$class."_CURRENCY");
     }
@@ -323,7 +323,7 @@ function ispapi_getPremiumCurrency($params, $class)
  */
 function ispapi_getPremiumRegisterPrice($params, $class, $registerprice, $cur_id)
 {
-    if (!preg_match('/\:/', $class)) {
+    if (!preg_match("/\:/", $class)) {
         //REGISTRY PREMIUM DOMAIN (e.g. PREMIUM_DATE_F)
         return $registerprice;// looking up relations not necessary API provided the prices
     }
@@ -360,7 +360,7 @@ function ispapi_getPremiumRegisterPrice($params, $class, $registerprice, $cur_id
  */
 function ispapi_getPremiumTransferPrice($params, $class, $cur_id)
 {
-    if (!preg_match('/\:/', $class)) {
+    if (!preg_match("/\:/", $class)) {
         //REGISTRY PREMIUM DOMAIN (e.g. PREMIUM_DATE_F)
         $currency = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_".$class."_CURRENCY");
         if ($currency === false) {
@@ -410,7 +410,7 @@ function ispapi_getPremiumTransferPrice($params, $class, $cur_id)
  */
 function ispapi_getPremiumRenewPrice($params, $class, $cur_id)
 {
-    if (!preg_match('/\:/', $class)) {
+    if (!preg_match("/\:/", $class)) {
         //REGISTRY PREMIUM DOMAIN (e.g. PREMIUM_DATE_F)
         $currency = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_".$class."_CURRENCY");
         if ($currency === false) {
@@ -471,7 +471,7 @@ function ispapi_getRenewPrice($params, $class, $cur_id, $tld)
         }
         return false;
         //API COMMAND GetTLDPricing IS TRIGERING JS ERROR AND IS UNUSABLE.
-        // $gettldpricing_res = localAPI('GetTLDPricing', array('currencyid' => $cur_id));
+        // $gettldpricing_res = localAPI("GetTLDPricing", array("currencyid" => $cur_id));
         // $renewprice = $gettldpricing_res["pricing"][$tld]["renew"][1];
         //return !empty($renewprice) ? $renewprice : false;
     }
@@ -540,14 +540,27 @@ function ispapi_getConfigArray($params)
 {
     $configarray = array(
         "FriendlyName" => array("Type" => "System", "Value"=>"ISPAPI v". ISPAPI_MODULE_VERSION),
-        "Description" => array("Type" => "System", "Value"=>"The Official ISPAPI Registrar Module. <a target='blank_' href='https://www.hexonet.net'>www.hexonet.net</a>"),
-        "Username" => array( "Type" => "text", "Size" => "20", "Description" => "Enter your ISPAPI Login ID", ),
-        "Password" => array( "Type" => "password", "Size" => "20", "Description" => "Enter your ISPAPI Password ", ),
+        "Description" => array("Type" => "System", "Value"=>"The Official ISPAPI Registrar Module. <a target=\"blank_\" href=\"https://www.hexonet.net\">www.hexonet.net</a>"),
+        "Username" => array( "Type" => "text", "Size" => "20", "Description" => "Enter your ISPAPI Login ID" ),
+        "Password" => array( "Type" => "password", "Size" => "20", "Description" => "Enter your ISPAPI Password" ),
         "TestMode" => array( "Type" => "yesno", "Description" => "Connect to OT&amp;E (Test Environment)" ),
         "ProxyServer" => array( "Type" => "text", "Description" => "Optional (HTTP(S) Proxy Server)" ),
         "DNSSEC" => array( "Type" => "yesno", "Description" => "Display the DNSSEC Management functionality in the domain details" ),
         "TRANSFERLOCK" => array( "Type" => "yesno", "Description" => "Locks automatically a domain after a new registration" ),
-        "IRTP" => array( "Type" => "radio", "Options" => "Check to use IRTP feature from our API., Check to act as Designated Agent for all contact changes. Ensure you understand your role and responsibilities before checking this option.", "Default" => "Check to use IRTP feature from our API.", "Description" => "General info about IRTP can be found <a target='blank_' href='https://wiki.hexonet.net/wiki/IRTP' style='border-bottom: 1px solid blue; color: blue'>here</a>. Documentation about option one can be found <a target='blank_' href='https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#option-one' style='border-bottom: 1px solid blue; color: blue'>here</a> and option two <a target='blank_' href='https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#option-two' style='border-bottom: 1px solid blue; color: blue'>here</a>"),
+        "IRTP" => array(
+            "Type" => "radio",
+            "Options" => (
+                "Check to use IRTP feature from our API., Check to act as Designated Agent for all contact changes. " .
+                "Ensure you understand your role and responsibilities before checking this option."
+            ),
+            "Default" => "Check to use IRTP feature from our API.",
+            "Description" => (
+                "General info about IRTP can be found <a target=\"blank_\" href=\"https://wiki.hexonet.net/wiki/IRTP\" style=\"border-bottom: 1px solid blue; color: blue\">here</a>. " .
+                "Documentation about option one can be found <a target=\"blank_\" href=\"https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#option-one\" " .
+                "style=\"border-bottom: 1px solid blue; color: blue\">here</a> and option two <a target=\"blank_\" href=\"https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#option-two\" " .
+                "style=\"border-bottom: 1px solid blue; color: blue\">here</a>"
+            )
+        )
     );
 
     if (!empty($params["Username"])) {
@@ -560,10 +573,20 @@ function ispapi_getConfigArray($params)
 
         $mode_text = ($params["TestMode"]=="on") ? "to OT&E environment" : "to PRODUCTION environment";
         if ($response["CODE"] == 200) {
-            $configarray[""] = array( "Description" => "<div class='alert alert-success' style='font-size:medium;margin-bottom:0px;'>Connected ".$mode_text.".</div>" );
+            $configarray[""] = array(
+                "Description" => "<div class=\"alert alert-success\" style=\"font-size:medium;margin-bottom:0px;\">Connected ".$mode_text.".</div>"
+            );
         } else {
-            $configarray["Your Server-IP"] = array("Description" => $_SERVER["SERVER_ADDR"]);
-            $configarray[""] = array( "Description" => "<div class='alert alert-danger' style='margin-bottom:0px;'><h2 style='color:inherit;'>Connection failed. <small>(".$response["CODE"]." " .$response["DESCRIPTION"].")</small></h2><p>Read <a href='https://github.com/hexonet/whmcs-ispapi-registrar/wiki/FAQs#49-login-failed-in-registrar-module' target='_blank' class='alert-link'>here</a> for possible reasons.</p></div>" );
+            $configarray["Your Server-IP"] = array(
+                "Description" => $_SERVER["SERVER_ADDR"]
+            );
+            $configarray[""] = array(
+                "Description" => (
+                    "<div class=\"alert alert-danger\" style=\"margin-bottom:0px;\"><h2 style=\"color:inherit;\">Connection failed. <small>(" .
+                    $response["CODE"] . " " . $response["DESCRIPTION"] . ")</small></h2><p>Read <a href=\"https://github.com/hexonet/whmcs-ispapi-registrar/wiki/FAQs#49-login-failed-in-registrar-module\" " .
+                    "target=\"_blank\" class=\"alert-link\">here</a> for possible reasons.</p></div>"
+                )
+            );
         }
 
         //Save information about module versions in the environment
@@ -3242,7 +3265,7 @@ function ispapi_get_utf8_params($params)
         return $params["original"];
     }
     $config = [];
-    $r = Helper::SQLCall("SELECT setting, value FROM tblconfiguration;", null, "fetchall");
+    $r = Helper::SQLCall("SELECT setting, value FROM tblconfiguration", null, "fetchall");
     if ($r["success"]){
         foreach ($r["result"] as $row) {
             $config[strtolower($row["setting"])] = $row["value"];
@@ -3261,7 +3284,7 @@ function ispapi_get_utf8_params($params)
     }
 
     $data = [
-        ":id" => $r["result"]['orderid']
+        ":id" => $r["result"]["orderid"]
     ];
     $r = Helper::SQLCall("SELECT userid,contactid FROM tblorders WHERE id=:id LIMIT 1", $data, "fetch");
     if (!$r["success"]){
@@ -3292,30 +3315,30 @@ function ispapi_get_utf8_params($params)
         }
     }
 
-    if ($config['registraradminuseclientdetails']) {
-        $params['adminfirstname'] = $params['firstname'];
-        $params['adminlastname'] = $params['lastname'];
-        $params['admincompanyname'] = $params['companyname'];
-        $params['adminemail'] = $params['email'];
-        $params['adminaddress1'] = $params['address1'];
-        $params['adminaddress2'] = $params['address2'];
-        $params['admincity'] = $params['city'];
-        $params['adminstate'] = $params['state'];
-        $params['adminpostcode'] = $params['postcode'];
-        $params['admincountry'] = $params['country'];
-        $params['adminphonenumber'] = $params['phonenumber'];
+    if ($config["registraradminuseclientdetails"]) {
+        $params["adminfirstname"] = $params["firstname"];
+        $params["adminlastname"] = $params["lastname"];
+        $params["admincompanyname"] = $params["companyname"];
+        $params["adminemail"] = $params["email"];
+        $params["adminaddress1"] = $params["address1"];
+        $params["adminaddress2"] = $params["address2"];
+        $params["admincity"] = $params["city"];
+        $params["adminstate"] = $params["state"];
+        $params["adminpostcode"] = $params["postcode"];
+        $params["admincountry"] = $params["country"];
+        $params["adminphonenumber"] = $params["phonenumber"];
     } else {
-        $params['adminfirstname'] = $config['registraradminfirstname'];
-        $params['adminlastname'] = $config['registraradminlastname'];
-        $params['admincompanyname'] = $config['registraradmincompanyname'];
-        $params['adminemail'] = $config['registraradminemailaddress'];
-        $params['adminaddress1'] = $config['registraradminaddress1'];
-        $params['adminaddress2'] = $config['registraradminaddress2'];
-        $params['admincity'] = $config['registraradmincity'];
-        $params['adminstate'] = $config['registraradminstateprovince'];
-        $params['adminpostcode'] = $config['registraradminpostalcode'];
-        $params['admincountry'] = $config['registraradmincountry'];
-        $params['adminphonenumber'] = $config['registraradminphone'];
+        $params["adminfirstname"] = $config["registraradminfirstname"];
+        $params["adminlastname"] = $config["registraradminlastname"];
+        $params["admincompanyname"] = $config["registraradmincompanyname"];
+        $params["adminemail"] = $config["registraradminemailaddress"];
+        $params["adminaddress1"] = $config["registraradminaddress1"];
+        $params["adminaddress2"] = $config["registraradminaddress2"];
+        $params["admincity"] = $config["registraradmincity"];
+        $params["adminstate"] = $config["registraradminstateprovince"];
+        $params["adminpostcode"] = $config["registraradminpostalcode"];
+        $params["admincountry"] = $config["registraradmincountry"];
+        $params["adminphonenumber"] = $config["registraradminphone"];
     }
 
     $data = [
