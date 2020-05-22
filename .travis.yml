@@ -31,8 +31,9 @@ install:
   - (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`)
   - source ~/.nvm/nvm.sh
   - nvm install $TRAVIS_NODE_VERSION
-  - travis_retry composer global require squizlabs/php_codesniffer
+  - travis_retry composer global require dealerdirect/phpcodesniffer-composer-installer roave/security-advisories:dev-master squizlabs/php_codesniffer phpcompatibility/php-compatibility
 script:
+  - npm run phpCompatibility
   - npm run codeCheck
 jobs:
   include:

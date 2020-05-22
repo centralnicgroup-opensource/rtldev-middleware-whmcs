@@ -49,6 +49,7 @@
   },
   "scripts": {
     "codeCheck": "phpcs --standard=PSR1,PSR2 -q -n --colors --ignore=registrars/ispapi/lib registrars",
-    "codeFix": "phpcbf --standard=PSR1,PSR2 -q --ignore=registrars/ispapi/lib registrars"
+    "codeFix": "phpcbf --standard=PSR1,PSR2 -q --ignore=registrars/ispapi/lib registrars",
+    "phpCompatibility": "./scripts/phpcompatibility.sh"
   }
 }
