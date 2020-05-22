@@ -1,28 +1,26 @@
-language: php
-dist: xenial
+language: generic
+
 notifications:
   email:
     recipients:
       - middleware@hexonet.net
     on_success: never
     on_failure: always
-php:
-  - 5.6
-  - 7.2
-  - 7.3
-# Trigger a push build on master, next and dependabot branches + PRs build on every branches
-# Avoid double build on PRs (See https://github.com/travis-ci/travis-ci/issues/1147)
+
+addons:
+  apt:
+    update: true
+
 branches:
   only:
     - master
     - next
     - /^dependabot.*$/
+
 before_install:
   - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
   - export TRAVIS_NODE_VERSION="lts/*"
-addons:
-  apt:
-    update: true
+
 install:
   - wget https://github.com/jgm/pandoc/releases/download/2.7.3/pandoc-2.7.3-1-amd64.deb
   - sudo dpkg -i pandoc-2.7.3-1-amd64.deb
@@ -32,11 +30,37 @@ install:
   - source ~/.nvm/nvm.sh
   - nvm install $TRAVIS_NODE_VERSION
   - travis_retry composer global require squizlabs/php_codesniffer
+
 script:
   - npm run codeCheck
+
 jobs:
   include:
+    - os: linux
+      dist: xenial
+      php: 5.6
+    - os: linux
+      dist: xenial
+      php: 7.2
+    - os: linux
+      dist: xenial
+      php: 7.3
+    - os: windows
+      php: 5.6
+    - os: windows
+      php: 7.2
+    - os: windows
+      php: 7.3
+    - os: osx
+      php: 5.6
+    - os: osx
+      php: 7.2
+    - os: osx
+      php: 7.3
+
     - stage: release
+      os: linux
+      dist: xenial
       node_js: lts/*
       script:
         - npm prune
