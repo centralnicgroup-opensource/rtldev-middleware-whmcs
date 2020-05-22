@@ -12,6 +12,7 @@ if (!defined("WHMCS")) {
 }
 
 use WHMCS\Module\Registrar\Ispapi\Ispapi;
+use WHMCS\Module\Registrar\Ispapi\Helper;
 
 /**
  * Check the availability of domains using HEXONET's fast API
@@ -603,34 +604,31 @@ function ispapi_getConfigArray($params)
  */
 function ispapi_ClientArea($params)
 {
+    global $smarty;
+
     if (isset($params["original"])) {
         $params = $params["original"];
     }
-    global $smarty;
-
     $domain = $params["sld"].".".$params["tld"];
-    $premium = false;
 
-    $result = mysql_query("select g.name from tblproductgroups g, tblproducts p, tblhosting h where p.id = h.packageid and p.gid = g.id and h.domain = '".$domain."'");
-    $data = mysql_fetch_array($result);
-    if (!empty($data) && $data["name"]=="PREMIUM DOMAIN") {
-        $premium = true;
-    }
-
-    if ($premium) {
-        $command = array(
+    $data = [
+        ":domain" => $domain
+    ];
+    $result = Helper::SQLCall("SELECT g.name FROM tblproductgroups g, tblproducts p, tblhosting h WHERE p.id = h.packageid AND p.gid = g.id AND h.domain = :domain", $data, "fetch");
+    if ($result["success"]) {
+        $data = $result["result"];
+        if ($data["name"]=="PREMIUM DOMAIN") {
+            $response = Ispapi::call([
                 "COMMAND" => "StatusDomain",
                 "DOMAIN" => $domain
-        );
-        $response = Ispapi::call($command, $params);
-
-        if ($response["CODE"] == 200) {
-            $smarty->assign("statusdomain", $response["PROPERTY"]);
-        }
-
-        return array(
+            ], $params);
+            if ($response["CODE"] == 200) {
+                $smarty->assign("statusdomain", $response["PROPERTY"]);
+            }
+            return array(
                 'templatefile' => 'clientarea_premium'
-        );
+            );
+        }
     }
 }
 
@@ -653,45 +651,26 @@ function ispapi_ClientAreaCustomButtonArray($params)
     } else {
         $domainid = $_REQUEST["id"];
     }
-    $result = select_query('tbldomains', 'idprotection,domain', array ('id' => $domainid));
-    $data = mysql_fetch_array($result);
-
-    if ($data && ($data["idprotection"])) {
-        $buttonarray["WHOIS Privacy"] = "whoisprivacy";
+    $r = Helper::SQLCall("SELECT idprotection, domain FROM tbldomains WHERE id=:id", [':id' => $domainid], "fetch");
+    if ($r["success"]) {
+        $data = $r["result"];
+        if ($data["idprotection"]){
+            $buttonarray["WHOIS Privacy"] = "whoisprivacy";
+        }
+        if (preg_match('/\.ca$/i', $data["domain"])) {
+            $buttonarray[".CA Registrant WHOIS Privacy"] = "whoisprivacy_ca";
+            $buttonarray[".CA Change of Registrant"] = "registrantmodification_ca";
+        }
+        elseif (preg_match('/\.it$/i', $data["domain"])) {
+            $buttonarray[".IT Change of Registrant"] = "registrantmodification_it";
+        }
+        elseif (preg_match('/\.(ch|li|se|sg|nu)$/i', $data["domain"])) {
+            $buttonarray[".CH Change of Registrant"] = "registrantmodification_tld";
+        }
     }
-    
-    if ($data && (preg_match('/\.ca$/i', $data["domain"]))) {
-        $buttonarray[".CA Registrant WHOIS Privacy"] = "whoisprivacy_ca";
-        $buttonarray[".CA Change of Registrant"] = "registrantmodification_ca";
-    }
-
-    if ($data && (preg_match('/\.it$/i', $data["domain"]))) {
-        $buttonarray[".IT Change of Registrant"] = "registrantmodification_it";
-    }
-    if ($data && (preg_match('/\.ch$/i', $data["domain"]))) {
-        $buttonarray[".CH Change of Registrant"] = "registrantmodification_tld";
-    }
-
-    if ($data && (preg_match('/\.li$/i', $data["domain"]))) {
-        $buttonarray[".LI Change of Registrant"] = "registrantmodification_tld";
-    }
-
-    if ($data && (preg_match('/\.se$/i', $data["domain"]))) {
-        $buttonarray[".SE Change of Registrant"] = "registrantmodification_tld";
-    }
-
-    if ($data && (preg_match('/\.sg$/i', $data["domain"]))) {
-        $buttonarray[".SG Change of Registrant"] = "registrantmodification_tld";
-    }
-
-    if ($data && (preg_match('/\.nu$/i', $data["domain"]))) {
-        $buttonarray[".NU Change of Registrant"] = "registrantmodification_tld";
-    }
-
     if ($params["DNSSEC"] == "on") {
         $buttonarray["DNSSEC Management"] = "dnssec";
     }
-
     return $buttonarray;
 }
 
@@ -3166,10 +3145,14 @@ function ispapi_get_contact_info($contact, &$params)
 
 function ispapi_query_additionalfields(&$params)
 {
-    $result = mysql_query("SELECT name,value FROM tbldomainsadditionalfields
-		WHERE domainid='".mysql_real_escape_string($params["domainid"])."'");
-    while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
-        $params['additionalfields'][$row['name']] = $row['value'];
+    $data = [
+        ":domainid" => $params["domainid"]
+    ];
+    $r = Helper::SQLCall("SELECT name, value FROM tbldomainsadditionalfields WHERE domainid=:domainid", $data, "fetchall");
+    if ($r["success"]){
+        foreach ($r["result"] as $row) {
+            $params["additionalfields"][$row["name"]] = $row["value"];
+        }
     }
 }
 
@@ -3258,39 +3241,53 @@ function ispapi_get_utf8_params($params)
     if (isset($params["original"])) {
         return $params["original"];
     }
-    $config = array();
-    $result = mysql_query("SELECT setting, value FROM tblconfiguration;");
-    while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
-        $config[strtolower($row['setting'])] = $row['value'];
+    $config = [];
+    $r = Helper::SQLCall("SELECT setting, value FROM tblconfiguration;", null, "fetchall");
+    if ($r["success"]){
+        foreach ($r["result"] as $row) {
+            $config[strtolower($row["setting"])] = $row["value"];
+        }
     }
-    if ((strtolower($config["charset"]) != "utf-8") && (strtolower($config["charset"]) != "utf8")) {
+    if (!preg_match("/^utf-?8$/i", $config["charset"])) {
         return $params;
     }
 
-    $result = mysql_query("SELECT orderid FROM tbldomains WHERE id='".mysql_real_escape_string($params["domainid"])."' LIMIT 1;");
-    if (!($row = mysql_fetch_array($result, MYSQL_ASSOC))) {
+    $data = [
+        ":id" => $params["domainid"]
+    ];
+    $r = Helper::SQLCall("SELECT orderid FROM tbldomains WHERE id=:id LIMIT 1", $data, "fetch");
+    if (!$r["success"]){
         return $params;
     }
 
-    $result = mysql_query("SELECT userid,contactid FROM tblorders WHERE id='".mysql_real_escape_string($row['orderid'])."' LIMIT 1;");
-    if (!($row = mysql_fetch_array($result, MYSQL_ASSOC))) {
+    $data = [
+        ":id" => $r["result"]['orderid']
+    ];
+    $r = Helper::SQLCall("SELECT userid,contactid FROM tblorders WHERE id=:id LIMIT 1", $data, "fetch");
+    if (!$r["success"]){
         return $params;
     }
 
-    if ($row['contactid']) {
-        $result = mysql_query("SELECT firstname, lastname, companyname, email, address1, address2, city, state, postcode, country, phonenumber FROM tblcontacts WHERE id='".mysql_real_escape_string($row['contactid'])."' LIMIT 1;");
-        if (!($row = mysql_fetch_array($result, MYSQL_ASSOC))) {
+    if ($r["result"]["contactid"]) {
+        $data = [
+            ":id" => $r["result"]["contactid"]
+        ];
+        $r = Helper::SQLCall("SELECT firstname, lastname, companyname, email, address1, address2, city, state, postcode, country, phonenumber FROM tblcontacts WHERE id=:id LIMIT 1", $data, "fetch");
+        if (!$r["success"]) {
             return $params;
         }
-        foreach ($row as $key => $value) {
+        foreach ($r["result"] as $key => $value) {
             $params[$key] = $value;
         }
-    } elseif ($row['userid']) {
-        $result = mysql_query("SELECT firstname, lastname, companyname, email, address1, address2, city, state, postcode, country, phonenumber FROM tblclients WHERE id='".mysql_real_escape_string($row['userid'])."' LIMIT 1;");
-        if (!($row = mysql_fetch_array($result, MYSQL_ASSOC))) {
+    } elseif ($r["result"]["userid"]) {
+        $data = [
+            ":id" => $r["result"]["userid"]
+        ];
+        $r = Helper::SQLCall("SELECT firstname, lastname, companyname, email, address1, address2, city, state, postcode, country, phonenumber FROM tblclients WHERE id=:id LIMIT 1", $data, "fetch");
+        if (!$r["success"]) {
             return $params;
         }
-        foreach ($row as $key => $value) {
+        foreach ($r["result"] as $key => $value) {
             $params[$key] = $value;
         }
     }
@@ -3321,11 +3318,14 @@ function ispapi_get_utf8_params($params)
         $params['adminphonenumber'] = $config['registraradminphone'];
     }
 
-    $result = mysql_query("SELECT name,value FROM tbldomainsadditionalfields
-		WHERE domainid='".mysql_real_escape_string($params["domainid"])."'");
-    while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
-        $params['additionalfields'][$row['name']] = $row['value'];
+    $data = [
+        ":id" => $params["domainid"]
+    ];
+    $r = Helper::SQLCall("SELECT name, value FROM tbldomainsadditionalfields WHERE domainid=:id", $data, "fetchall");
+    if ($r["success"]){
+        foreach($r["result"] as $row) {
+            $params["additionalfields"][$row["name"]] = $row["value"];
+        }
     }
-
     return $params;
 }
