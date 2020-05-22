@@ -83,7 +83,7 @@ add_hook('DailyCronJob', 1, function ($vars) {
         ];
         $r = Helper::SQLCall("SELECT id, additionalnotes FROM tbldomains WHERE additionalnotes!='' AND registrar=:registrar AND status=:stat", $data, "fetchall");
         if ($r["success"]) {
-            foreach($r["result"] as $row) {
+            foreach ($r["result"] as $row) {
                 preg_match('/APPLICATION:(.+?)(?:$|\n)/i', $row["additionalnotes"], $matches);
                 if (isset($matches[1])) {
                     $data = [

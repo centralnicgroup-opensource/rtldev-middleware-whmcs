@@ -677,17 +677,15 @@ function ispapi_ClientAreaCustomButtonArray($params)
     $r = Helper::SQLCall("SELECT idprotection, domain FROM tbldomains WHERE id=:id", [':id' => $domainid], "fetch");
     if ($r["success"]) {
         $data = $r["result"];
-        if ($data["idprotection"]){
+        if ($data["idprotection"]) {
             $buttonarray["WHOIS Privacy"] = "whoisprivacy";
         }
         if (preg_match('/\.ca$/i', $data["domain"])) {
             $buttonarray[".CA Registrant WHOIS Privacy"] = "whoisprivacy_ca";
             $buttonarray[".CA Change of Registrant"] = "registrantmodification_ca";
-        }
-        elseif (preg_match('/\.it$/i', $data["domain"])) {
+        } elseif (preg_match('/\.it$/i', $data["domain"])) {
             $buttonarray[".IT Change of Registrant"] = "registrantmodification_it";
-        }
-        elseif (preg_match('/\.(ch|li|se|sg|nu)$/i', $data["domain"])) {
+        } elseif (preg_match('/\.(ch|li|se|sg|nu)$/i', $data["domain"])) {
             $buttonarray[".CH Change of Registrant"] = "registrantmodification_tld";
         }
     }
@@ -3172,7 +3170,7 @@ function ispapi_query_additionalfields(&$params)
         ":domainid" => $params["domainid"]
     ];
     $r = Helper::SQLCall("SELECT name, value FROM tbldomainsadditionalfields WHERE domainid=:domainid", $data, "fetchall");
-    if ($r["success"]){
+    if ($r["success"]) {
         foreach ($r["result"] as $row) {
             $params["additionalfields"][$row["name"]] = $row["value"];
         }
@@ -3266,7 +3264,7 @@ function ispapi_get_utf8_params($params)
     }
     $config = [];
     $r = Helper::SQLCall("SELECT setting, value FROM tblconfiguration", null, "fetchall");
-    if ($r["success"]){
+    if ($r["success"]) {
         foreach ($r["result"] as $row) {
             $config[strtolower($row["setting"])] = $row["value"];
         }
@@ -3279,7 +3277,7 @@ function ispapi_get_utf8_params($params)
         ":id" => $params["domainid"]
     ];
     $r = Helper::SQLCall("SELECT orderid FROM tbldomains WHERE id=:id LIMIT 1", $data, "fetch");
-    if (!$r["success"]){
+    if (!$r["success"]) {
         return $params;
     }
 
@@ -3287,7 +3285,7 @@ function ispapi_get_utf8_params($params)
         ":id" => $r["result"]["orderid"]
     ];
     $r = Helper::SQLCall("SELECT userid,contactid FROM tblorders WHERE id=:id LIMIT 1", $data, "fetch");
-    if (!$r["success"]){
+    if (!$r["success"]) {
         return $params;
     }
 
@@ -3345,8 +3343,8 @@ function ispapi_get_utf8_params($params)
         ":id" => $params["domainid"]
     ];
     $r = Helper::SQLCall("SELECT name, value FROM tbldomainsadditionalfields WHERE domainid=:id", $data, "fetchall");
-    if ($r["success"]){
-        foreach($r["result"] as $row) {
+    if ($r["success"]) {
+        foreach ($r["result"] as $row) {
             $params["additionalfields"][$row["name"]] = $row["value"];
         }
     }
