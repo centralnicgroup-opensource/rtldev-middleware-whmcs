@@ -1,6 +1,7 @@
 <?php
 
 use WHMCS\Module\Registrar\Ispapi\Ispapi;
+use WHMCS\Module\Registrar\Ispapi\Helper;
 
 /**
  * Auto-Prefill VAT-ID, X-DK-REGISTRANT/ADMIN additional domain field when provided in client data
@@ -58,7 +59,11 @@ add_hook('AfterRegistrarRegistrationFailed', 1, function ($vars) {
         preg_match('/<#(.+?)#>/i', $vars["error"], $matches);
         if (isset($matches[1])) {
             $application_id=$matches[1];
-            $result = mysql_query("UPDATE tbldomains SET additionalnotes='### DO NOT DELETE ANYTHING BELOW THIS LINE \nAPPLICATION:".$application_id."\n' WHERE id=".$params["domainid"]);
+            $data = [
+                ":id" => $params["domainid"],
+                ":notes" => '### DO NOT DELETE ANYTHING BELOW THIS LINE \nAPPLICATION:".$application_id."\n'
+            ];
+            Helper::SQLCall("UPDATE tbldomains SET additionalnotes=:notes WHERE id=:id", $data, "execute");
         }
     }
 });
@@ -72,24 +77,32 @@ add_hook('DailyCronJob', 1, function ($vars) {
         require_once(dirname(__FILE__)."/ispapi.php");
         $registrarconfigoptions = getregistrarconfigoptions("ispapi");
 
-        $result = mysql_query("SELECT * from tbldomains WHERE additionalnotes!='' and registrar='ispapi' and status='Pending'");
-        while ($row = mysql_fetch_array($result, MYSQL_ASSOC)) {
-            preg_match('/APPLICATION:(.+?)(?:$|\n)/i', $row["additionalnotes"], $matches);
-            if (isset($matches[1])) {
-                $application_id=$matches[1];
-
-                $command = array(
-                    "COMMAND" => "StatusDomainApplication",
-                    "APPLICATION" => $application_id
-                 );
-                 $response = Ispapi::call($command, $registrarconfigoptions);
-                if ($response["PROPERTY"]["STATUS"][0] == "SUCCESSFUL") {
-                    //echo $row["domain"]." > Status:".$response["PROPERTY"]["STATUS"][0];
-                    mysql_query("UPDATE tbldomains SET status='Active' WHERE id=".$row["id"]);
-                }
-                if ($response["PROPERTY"]["STATUS"][0] == "FAILED") {
-                      //echo $row["domain"]." > Status:".$response["PROPERTY"]["STATUS"][0];
-                      mysql_query("UPDATE tbldomains SET status='Cancelled' WHERE id=".$row["id"]);
+        $data = [
+            ":registrar" => "ispapi",
+            ":stat" => "Pending"
+        ];
+        $r = Helper::SQLCall("SELECT id, additionalnotes FROM tbldomains WHERE additionalnotes!='' AND registrar=:registrar AND status=:stat", $data, "fetchall");
+        if ($r["success"]) {
+            foreach($r["result"] as $row) {
+                preg_match('/APPLICATION:(.+?)(?:$|\n)/i', $row["additionalnotes"], $matches);
+                if (isset($matches[1])) {
+                    $data = [
+                        ":id" => $row["id"]
+                    ];
+                    $response = Ispapi::call([
+                        "COMMAND" => "StatusDomainApplication",
+                        "APPLICATION" => $matches[1]
+                    ], $registrarconfigoptions);
+                    if ($response["PROPERTY"]["STATUS"][0] == "SUCCESSFUL") {
+                        //echo $row["domain"]." > Status:".$response["PROPERTY"]["STATUS"][0];
+                        $data[":stat"] = "Active";
+                        Helper::SQLCall("UPDATE tbldomains SET status=:stat WHERE id=:id", $data, "execute");
+                    }
+                    if ($response["PROPERTY"]["STATUS"][0] == "FAILED") {
+                        //echo $row["domain"]." > Status:".$response["PROPERTY"]["STATUS"][0];
+                        $data[":stat"] = "Cancelled";
+                        Helper::SQLCall("UPDATE tbldomains SET status=:stat WHERE id=:id", $data, "execute");
+                    }
                 }
             }
         }
