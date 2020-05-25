@@ -1,3 +1,12 @@
+## [3.0.6](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.5...v3.0.6) (2020-05-25)
+
+
+### Bug Fixes
+
+* **phpcompatibility:** added process to check for PHP compatibility ([4bacc24](https://github.com/hexonet/whmcs-ispapi-registrar/commit/4bacc2495a6e0fa6d81504b861a8ffcd2393aab6))
+* **phpcompatibility:** use of PDO instead of mysql_* functions (up to now to a problem) ([b52d0bf](https://github.com/hexonet/whmcs-ispapi-registrar/commit/b52d0bfa15b72332781574397a9bf3162475d31b))
+* **phpstyle:** use double quotes instead of single quotes ([2c1e7d0](https://github.com/hexonet/whmcs-ispapi-registrar/commit/2c1e7d09f2f3ead7ff3a378969d6a2b38fd55a4e))
+
 ## [3.0.5](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.4...v3.0.5) (2020-05-20)
 
 
