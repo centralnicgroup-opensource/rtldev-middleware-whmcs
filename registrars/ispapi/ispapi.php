@@ -1473,8 +1473,8 @@ function ispapi_GetDomainInformation($params)
         }
     }
     
-    return (new \WHMCS\Domain\Registrar\Domain)
-        ->setNameservers($values['nameservers'])
+    $domain = new \WHMCS\Domain\Registrar\Domain();
+    $domain->setNameservers($values['nameservers'])
         ->setTransferLock($values['transferlock'])
         ->setIsIrtpEnabled($values['setIsIrtpEnabled'])
         ->setIrtpTransferLock($values['setIrtpTransferLock'])
@@ -1488,9 +1488,10 @@ function ispapi_GetDomainInformation($params)
                     'Last Name',
                     'Organization Name',
                     'Email',
-                ],
+                ]
             ]
         );
+    return $domain;
 }
 /**
  * Resend verification email
@@ -2949,10 +2950,16 @@ function ispapi_Sync($params)
     // TODO:---------- EXCEPTION [BEGIN] --------
     // Missing/Empty contact handles after Transfer over THIN Registry [kschwarz]
     // shared with _TransferSync method to cover existing domains in addition
-    // Ticket#: 485677 DeskPro
+    // Ticket#: 2020041508019251 OTRS
     if (preg_match("/^(com|net|cc|tv)$/", $domain->getTLD())) {
-        $domain_data = (new \WHMCS\Domains())->getDomainsDatabyID($params["domainid"]);
+        if (!function_exists("convertStateToCode") || !function_exists("getClientsDetails")) {
+            require implode(DIRECTORY_SEPARATOR, [ROOTDIR, "include", "clientfunctions.php"]);
+        }
+        // --- fetch client details of current domain
+        $d = new \WHMCS\Domains();
+        $domain_data = $d->getDomainsDatabyID($params["domainid"]);
         $p = getClientsDetails($domain_data["userid"]);
+
         $cmdparams = [
             "FIRSTNAME" => html_entity_decode($p["firstname"], ENT_QUOTES),
             "LASTNAME" => html_entity_decode($p["lastname"], ENT_QUOTES),
@@ -2963,40 +2970,67 @@ function ispapi_Sync($params)
             "ZIP" => html_entity_decode($p["postcode"], ENT_QUOTES),
             "COUNTRY" => html_entity_decode($p["country"], ENT_QUOTES),
             "PHONE" => html_entity_decode($p["phonenumber"], ENT_QUOTES),
-            //"FAX" => html_entity_decode($p["Fax"], ENT_QUOTES), n/a in whmcs
-            "EMAIL" => html_entity_decode($p["email"], ENT_QUOTES),
+            "EMAIL" => html_entity_decode($p["email"], ENT_QUOTES)
+            //"FAX" => n/a in whmcs
         ];
         if (strlen($p["address2"])) {
             $cmdparams["STREET"] .= " , ".html_entity_decode($p["address2"], ENT_QUOTES);
         }
-        if (!empty($r["OWNERCONTACT"][0]) && preg_match("/^AUTO-.+$/", $r["OWNERCONTACT"][0])) {
-            $rc = Ispapi::call([
-                "COMMAND" => "StatusContact",
-                "CONTACT" => $r["OWNERCONTACT"][0]
-            ], $params);
-            if ($rc["CODE"] == 200) {
-                if (empty($rc["PROPERTY"]["NAME"][0]) &&
-                    empty($rc["PROPERTY"]["EMAIL"][0]) &&
-                    //empty($rc["PROPERTY"]["ORGANIZATION"][0]) && // with data
-                    empty($rc["PROPERTY"]["PHONE"][0]) &&
-                    //empty($rc["PROPERTY"]["COUNTRY"][0]) && // with data
-                    empty($rc["PROPERTY"]["CITY"][0]) &&
-                    empty($rc["PROPERTY"]["STREET"][0]) &&
-                    empty($rc["PROPERTY"]["ZIP"][0])
-                ) {
+
+        // only run auto-update mechanism in case a non-empty email address is given
+        // otherwise it would keep trying to update on each run
+        if (!empty($cmdparams["EMAIL"])) {
+            // --- check if current registrant data is invalid/broken as of active ID Protection
+            // --- and thus parsing data out of whois failed in transfer process
+            if (empty($r["OWNERCONTACT"][0])) {
+                $command["OWNERCONTACT0"] = $cmdparams;
+            } elseif (preg_match("/^AUTO-.+$/", $r["OWNERCONTACT"][0])) {
+                $rc = Ispapi::call([
+                    "COMMAND" => "StatusContact",
+                    "CONTACT" => $r["OWNERCONTACT"][0]
+                ], $params);
+                if ($rc["CODE"] == 200 && empty($rc["PROPERTY"]["EMAIL"][0])) {
                     $command["OWNERCONTACT0"] = $cmdparams;
                 }
             }
-        }
-        $map = [
-            "OWNERCONTACT",
-            "ADMINCONTACT",
-            "TECHCONTACT",
-            "BILLINGCONTACT"
-        ];
-        foreach ($map as $ctype) {
-            if (empty($r[$ctype][0])) {
-                $command[$ctype."0"] = $cmdparams;
+
+            // --- also auto-add admin/tech/billing-c in case whmcs admin data is present
+            $admindata = false;
+            if (\WHMCS\Config\Setting::getValue("RegistrarAdminUseClientDetails") == "on") {
+                $admindata = $cmdparams;
+            } else {
+                $admindata = [
+                    "FIRSTNAME" => html_entity_decode(\WHMCS\Config\Setting::getValue("RegistrarAdminFirstName"), ENT_QUOTES),
+                    "LASTNAME" => html_entity_decode(\WHMCS\Config\Setting::getValue("RegistrarAdminLastName"), ENT_QUOTES),
+                    "ORGANIZATION" => html_entity_decode(\WHMCS\Config\Setting::getValue("RegistrarAdminCompanyName"), ENT_QUOTES),
+                    "STREET" => html_entity_decode(\WHMCS\Config\Setting::getValue("RegistrarAdminAddress1"), ENT_QUOTES),
+                    "CITY" => html_entity_decode(\WHMCS\Config\Setting::getValue("RegistrarAdminCity"), ENT_QUOTES),
+                    "STATE" => html_entity_decode(convertStateToCode(
+                        \WHMCS\Config\Setting::getValue("RegistrarAdminStateProvince"),
+                        \WHMCS\Config\Setting::getValue("RegistrarAdminCountry")
+                    ), ENT_QUOTES),
+                    "ZIP" => html_entity_decode(\WHMCS\Config\Setting::getValue("RegistrarAdminPostalCode"), ENT_QUOTES),
+                    "COUNTRY" => html_entity_decode(\WHMCS\Config\Setting::getValue("RegistrarAdminCountry"), ENT_QUOTES),
+                    "PHONE" => html_entity_decode(\WHMCS\Config\Setting::getValue("RegistrarAdminPhone"), ENT_QUOTES),
+                    "EMAIL" => html_entity_decode(\WHMCS\Config\Setting::getValue("RegistrarAdminEmailAddress"), ENT_QUOTES)
+                    //"FAX" => n/a in whmcs
+                ];
+                $street2 = \WHMCS\Config\Setting::getValue("RegistrarAdminAddress2");
+                if (strlen($street2)) {
+                    $admindata["STREET"] .= " , ".html_entity_decode($street2, ENT_QUOTES);
+                }
+            }
+            if ($admindata) {
+                $map = [
+                    "ADMINCONTACT",
+                    "TECHCONTACT",
+                    "BILLINGCONTACT"
+                ];
+                foreach ($map as $ctype) {
+                    if (empty($r[$ctype][0])) {
+                        $command[$ctype."0"] = $admindata;
+                    }
+                }
             }
         }
     }
@@ -3086,8 +3120,8 @@ function ispapi_getTLDPricing($params)
             throw new \Exception("Missing entry for $tld. Contact support, we will release a new version immediately.");
         }
         // All the set methods can be chained and utilised together.
-        $results[] = (new \WHMCS\Domain\TopLevel\ImportItem)
-            ->setExtension($tld)
+        $item = new \WHMCS\Domain\TopLevel\ImportItem();
+        $item->setExtension($tld)
             ->setYears($cfg->periods["registration"])
             ->setRegisterPrice($p['registration'])
             ->setRenewPrice($p['renewal'])
@@ -3098,6 +3132,7 @@ function ispapi_getTLDPricing($params)
             ->setRedemptionFeePrice($p['redemption'])
             ->setCurrency($p['currency'])
             ->setEppRequired($cfg->authRequired === 1);
+        $results[] = $item;
     }
     return $results;
 }
