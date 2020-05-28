@@ -1,3 +1,10 @@
+## [3.0.8](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.7...v3.0.8) (2020-05-28)
+
+
+### Bug Fixes
+
+* **ci:** fixed version update process ([7ce9773](https://github.com/hexonet/whmcs-ispapi-registrar/commit/7ce97735333f3779a4a5da6b1579dc4239541360)), closes [#148](https://github.com/hexonet/whmcs-ispapi-registrar/issues/148)
+
 ## [3.0.7](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.6...v3.0.7) (2020-05-28)
 
 
