@@ -1,3 +1,10 @@
+## [3.0.7](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.6...v3.0.7) (2020-05-28)
+
+
+### Bug Fixes
+
+* **statistics:** review how to better load addon module versions ([013117e](https://github.com/hexonet/whmcs-ispapi-registrar/commit/013117e3fadfef563475d158b59b6be07acd7126))
+
 ## [3.0.6](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.5...v3.0.6) (2020-05-25)
 
 
