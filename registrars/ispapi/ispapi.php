@@ -551,14 +551,14 @@ function ispapi_getConfigArray($params)
         "IRTP" => array(
             "Type" => "radio",
             "Options" => (
-                "Check to use IRTP feature from our API., Check to act as Designated Agent for all contact changes. " .
-                "Ensure you understand your role and responsibilities before checking this option."
+                "Check to act as Designated Agent for all contact changes. Ensure you understand your role and responsibilities before checking this option.," .
+                "Check to use IRTP feature from our API."
             ),
-            "Default" => "Check to use IRTP feature from our API.",
+            "Default" => "Check to act as Designated Agent for all contact changes. Ensure you understand your role and responsibilities before checking this option.",
             "Description" => (
                 "General info about IRTP can be found <a target=\"blank_\" href=\"https://wiki.hexonet.net/wiki/IRTP\" style=\"border-bottom: 1px solid blue; color: blue\">here</a>. " .
-                "Documentation about option one can be found <a target=\"blank_\" href=\"https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#option-one\" " .
-                "style=\"border-bottom: 1px solid blue; color: blue\">here</a> and option two <a target=\"blank_\" href=\"https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#option-two\" " .
+                "Documentation about option one can be found <a target=\"blank_\" href=\"https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#option-two\" " .
+                "style=\"border-bottom: 1px solid blue; color: blue\">here</a> and option two <a target=\"blank_\" href=\"https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#option-one\" " .
                 "style=\"border-bottom: 1px solid blue; color: blue\">here</a>"
             )
         )
