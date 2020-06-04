@@ -184,7 +184,8 @@ function ispapi_GetDomainSuggestions($params)
  */
 function ispapi_DomainSuggestionOptions($params)
 {
-    if ($params["whmcsVersion"] < 7.6) {
+    $version = implode(".", array_slice(explode(".", $params["whmcsVersion"]), 0, 2));
+    if (version_compare($version, "7.6") === -1) {
         $marginleft = "60px";
     } else {
         $marginleft = "220px";
