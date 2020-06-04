@@ -1,3 +1,10 @@
+## [3.0.11](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.10...v3.0.11) (2020-06-04)
+
+
+### Bug Fixes
+
+* **ci:** fixes missing whmcs.json in release commit ([5ace85d](https://github.com/hexonet/whmcs-ispapi-registrar/commit/5ace85dd9270cdc0d19b05967097067c17470990))
+
 ## [3.0.10](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.9...v3.0.10) (2020-06-04)
 
 
