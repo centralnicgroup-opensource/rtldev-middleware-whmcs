@@ -1,3 +1,12 @@
+## [3.0.10](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.9...v3.0.10) (2020-06-04)
+
+
+### Bug Fixes
+
+* **domainsuggestionoptions:** fixed logic to compare whmcs version ([5e024d1](https://github.com/hexonet/whmcs-ispapi-registrar/commit/5e024d129f001f98aaf05fc161bca053129c85f7))
+* **irtp:** review configuration to by default suggest the WHMCS way for IRTP ([2cb942d](https://github.com/hexonet/whmcs-ispapi-registrar/commit/2cb942d8202a8923ea5bad6c9a29ad1d28a4b6b2))
+* **whmcs.json:** added file and logo.png ([fd05041](https://github.com/hexonet/whmcs-ispapi-registrar/commit/fd0504196533dcd35f40796d07986d69921a932f))
+
 ## [3.0.9](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.8...v3.0.9) (2020-06-02)
 
 
