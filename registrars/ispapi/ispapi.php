@@ -649,9 +649,9 @@ function ispapi_ClientArea($params)
             if ($response["CODE"] == 200) {
                 $smarty->assign("statusdomain", $response["PROPERTY"]);
             }
-            return array(
-                'templatefile' => 'clientarea_premium'
-            );
+            return [
+                "templatefile" => "tpl_ca_premium"
+            ];
         }
     }
 }
@@ -690,6 +690,7 @@ function ispapi_ClientAreaCustomButtonArray($params)
             $buttonarray[".CH Change of Registrant"] = "registrantmodification_tld";
         }
     }
+
     if ($params["DNSSEC"] == "on") {
         $buttonarray["DNSSEC Management"] = "dnssec";
     }
@@ -818,10 +819,16 @@ function ispapi_dnssec($params)
         array_push($secdnskey_newformat, array("flags" => $flags, "protocol" => $protocol, "alg" => $alg, "pubkey" => $pubkey));
     }
 
-    return array(
-            'templatefile' => "dnssec",
-            'vars' => array('error' => $error, 'successful' => $successful, 'secdnsds' => $secdnsds_newformat, 'secdnskey' => $secdnskey_newformat, 'maxsiglife' => $maxsiglife )
-    );
+    return [
+        "templatefile" => "tpl_ca_dnssec",
+        "vars" => [
+            "error" => $error,
+            "successful" => $successful,
+            "secdnsds" => $secdnsds_newformat,
+            "secdnskey" => $secdnskey_newformat,
+            "maxsiglife" => $maxsiglife
+        ]
+    ];
 }
 
 /**
@@ -943,10 +950,15 @@ function ispapi_registrantmodification_it($params)
         }
     }
 
-    return array(
-            'templatefile' => "registrantmodification_it",
-            'vars' => array('error' => $error, 'successful' => $successful, 'values' => $values, 'additionalfields' => $myadditionalfields),
-    );
+    return [
+        "templatefile" => "tpl_ca_regmod_it",
+        "vars" => [
+            "error" => $error,
+            "successful" => $successful,
+            "values" => $values,
+            "additionalfields" => $myadditionalfields
+        ]
+    ];
 }
 
 /**
@@ -1061,10 +1073,15 @@ function ispapi_registrantmodification_tld($params)
             }
     }
 
-    return array(
-            'templatefile' => "registrantmodification_tld",
-            'vars' => array('error' => $error, 'successful' => $successful, 'values' => $values, 'additionalfields' => $myadditionalfields),
-    );
+    return [
+        "templatefile" => "tpl_ca_regmod",
+        "vars" => [
+            "error" => $error,
+            "successful" => $successful,
+            "values" => $values,
+            "additionalfields" => $myadditionalfields
+        ]
+    ];
 }
 
 /**
@@ -1198,10 +1215,15 @@ function ispapi_registrantmodification_ca($params)
         $values = $newvalues;
     }
 
-    return array(
-            'templatefile' => "registrantmodification_ca",
-            'vars' => array('error' => $error, 'successful' => $successful, 'values' => $values, 'additionalfields' => $myadditionalfields),
-    );
+    return [
+        "templatefile" => "tpl_ca_regmod_ca",
+        "vars" => [
+            "error" => $error,
+            "successful" => $successful,
+            "values" => $values,
+            "additionalfields" => $myadditionalfields
+        ]
+    ];
 }
 
 
@@ -1251,10 +1273,13 @@ function ispapi_whoisprivacy($params)
         $error = $response["DESCRIPTION"];
     }
 
-    return array(
-        'templatefile' => "whoisprivacy",
-        'vars' => array('error' => $error, 'protected' => $protected),
-    );
+    return [
+        "templatefile" => "tpl_ca_whoisprivacy",
+        "vars" => [
+            "error" => $error,
+            "protected" => $protected
+        ]
+    ];
 }
 
 /**
@@ -1303,15 +1328,15 @@ function ispapi_whoisprivacy_ca($params)
             $error = $r["DESCRIPTION"];
         }
     }
-    return array(
-        'templatefile' => "whoisprivacy_ca",
-        'vars' => array(
-            'error' => $error,
-            'protected' => $protected,
-            'protectable' => $protectable,
-            'legaltype' => $legaltype
-        )
-    );
+    return [
+        "templatefile" => "tpl_ca_whoisprivacy_ca",
+        "vars" => [
+            "error" => $error,
+            "protected" => $protected,
+            "protectable" => $protectable,
+            "legaltype" => $legaltype
+        ]
+    ];
 }
 
 /**
