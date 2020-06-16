@@ -22,6 +22,14 @@ add_hook('ClientAreaHeadOutput', 1, function ($vars) {
 
     if ($ispapivatid || $ispapidkid || $ispapilang) {
         return <<<HTML
+            <style>
+                img.webappthumb {
+                    width: 115px;
+                    padding: 4px;
+                    border: 1px solid #ddd;
+                    border-radius: 4px;
+                }
+            </style>
             <script type="text/javascript">
                 const ispapi_vatid = '$ispapivatid';
                 const ispapi_dkid = '$ispapidkid';
