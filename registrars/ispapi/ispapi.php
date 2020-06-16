@@ -13,6 +13,7 @@ if (!defined("WHMCS")) {
 
 use WHMCS\Module\Registrar\Ispapi\Ispapi;
 use WHMCS\Module\Registrar\Ispapi\Helper;
+use WHMCS\Module\Registrar\Ispapi\WebApps;
 
 /**
  * Check the availability of domains using HEXONET's fast API
@@ -213,13 +214,12 @@ function ispapi_DomainSuggestionOptions($params)
 }
 /**
  * Get Premium Price for given domain,
- * @see call of this method in \WHMCS\DOMAINS\DOMAIN::getPremiumPricing
- * $pricing = $registrarModule->call("GetPremiumPrice", array(
- *      "domain" => $this,
- *      "sld" => $this->getSecondLevel(),
- *      "tld" => $this->getDotTopLevel(),
- *      "type" => $type
- * ));
+ * $params -> array(
+ *      "domain" => ...,
+ *      "sld" => ...
+ *      "tld" => ...
+ *      "type" => ...
+ * );
  * @throws Exception in case currency configuration is missing
  */
 function ispapi_GetPremiumPrice($params)
@@ -539,16 +539,42 @@ function ispapi_getUserRelations($params)
  */
 function ispapi_getConfigArray($params)
 {
-    $configarray = array(
-        "FriendlyName" => array("Type" => "System", "Value"=>"ISPAPI v". ISPAPI_MODULE_VERSION),
-        "Description" => array("Type" => "System", "Value"=>"The Official ISPAPI Registrar Module. <a target=\"blank_\" href=\"https://www.hexonet.net\">www.hexonet.net</a>"),
-        "Username" => array( "Type" => "text", "Size" => "20", "Description" => "Enter your ISPAPI Login ID" ),
-        "Password" => array( "Type" => "password", "Size" => "20", "Description" => "Enter your ISPAPI Password" ),
-        "TestMode" => array( "Type" => "yesno", "Description" => "Connect to OT&amp;E (Test Environment)" ),
-        "ProxyServer" => array( "Type" => "text", "Description" => "Optional (HTTP(S) Proxy Server)" ),
-        "DNSSEC" => array( "Type" => "yesno", "Description" => "Display the DNSSEC Management functionality in the domain details" ),
-        "TRANSFERLOCK" => array( "Type" => "yesno", "Description" => "Locks automatically a domain after a new registration" ),
-        "IRTP" => array(
+    $configarray = [
+        "FriendlyName" => [
+            "Type" => "System",
+            "Value"=>"ISPAPI v". ISPAPI_MODULE_VERSION
+        ],
+        "Description" => [
+            "Type" => "System",
+            "Value" => "The Official ISPAPI Registrar Module. <a target=\"_blank\" href=\"https://www.hexonet.net\">www.hexonet.net</a>"
+        ],
+        "Username" => [
+            "Type" => "text",
+            "Size" => "20",
+            "Description" => "Enter your ISPAPI Login ID"
+        ],
+        "Password" => [
+            "Type" => "password",
+            "Size" => "20",
+            "Description" => "Enter your ISPAPI Password"
+        ],
+        "TestMode" => [
+            "Type" => "yesno",
+            "Description" => "Connect to OT&amp;E (Test Environment)"
+        ],
+        "ProxyServer" => [
+            "Type" => "text",
+            "Description" => "Optional (HTTP(S) Proxy Server)"
+        ],
+        "DNSSEC" => [
+            "Type" => "yesno",
+            "Description" => "Display the DNSSEC Management functionality in the domain details"
+        ],
+        "TRANSFERLOCK" => [
+            "Type" => "yesno",
+            "Description" => "Locks automatically a domain after a new registration"
+        ],
+        "IRTP" => [
             "Type" => "radio",
             "Options" => (
                 "Check to act as Designated Agent for all contact changes. Ensure you understand your role and responsibilities before checking this option.," .
@@ -556,13 +582,19 @@ function ispapi_getConfigArray($params)
             ),
             "Default" => "Check to act as Designated Agent for all contact changes. Ensure you understand your role and responsibilities before checking this option.",
             "Description" => (
-                "General info about IRTP can be found <a target=\"blank_\" href=\"https://wiki.hexonet.net/wiki/IRTP\" style=\"border-bottom: 1px solid blue; color: blue\">here</a>. " .
-                "Documentation about option one can be found <a target=\"blank_\" href=\"https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#option-two\" " .
-                "style=\"border-bottom: 1px solid blue; color: blue\">here</a> and option two <a target=\"blank_\" href=\"https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#option-one\" " .
+                "General info about IRTP can be found <a target=\"_blank\" href=\"https://wiki.hexonet.net/wiki/IRTP\" style=\"border-bottom: 1px solid blue; color: blue\">here</a>. " .
+                "Documentation about option one can be found <a target=\"_blank\" href=\"https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#option-two\" " .
+                "style=\"border-bottom: 1px solid blue; color: blue\">here</a> and option two <a target=\"_blank\" href=\"https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#option-one\" " .
                 "style=\"border-bottom: 1px solid blue; color: blue\">here</a>"
             )
-        )
-    );
+        ]
+    ];
+    if (Ispapi::canUse("WEBAPPS", $params, false)) {
+        $configarray["WebApps"] = [
+            "Type" => "yesno",
+            "Description" => "Enable Offering Web Apps. Read <a href=\"https://www.hexonet.net/de/products/webapps\" target=\"_blank\" style=\"border-bottom: 1px solid blue; color: blue\">here</a>."
+        ];
+    }
 
     if (!empty($params["Username"])) {
         //Check authentication
@@ -665,7 +697,8 @@ function ispapi_ClientArea($params)
  */
 function ispapi_ClientAreaCustomButtonArray($params)
 {
-    $buttonarray = array();
+    $params = injectDomainObjectIfNecessary($params);
+    $buttonarray = [];
 
     if (isset($params["domainid"])) {
         $domainid = $params["domainid"];
@@ -675,26 +708,48 @@ function ispapi_ClientAreaCustomButtonArray($params)
     } else {
         $domainid = $_REQUEST["id"];
     }
-    $r = Helper::SQLCall("SELECT idprotection, domain FROM tbldomains WHERE id=:id", [':id' => $domainid], "fetch");
-    if ($r["success"]) {
-        $data = $r["result"];
-        if ($data["idprotection"]) {
-            $buttonarray["WHOIS Privacy"] = "whoisprivacy";
-        }
-        if (preg_match('/\.ca$/i', $data["domain"])) {
-            $buttonarray[".CA Registrant WHOIS Privacy"] = "whoisprivacy_ca";
-            $buttonarray[".CA Change of Registrant"] = "registrantmodification_ca";
-        } elseif (preg_match('/\.it$/i', $data["domain"])) {
-            $buttonarray[".IT Change of Registrant"] = "registrantmodification_it";
-        } elseif (preg_match('/\.(ch|li|se|sg|nu)$/i', $data["domain"])) {
-            $buttonarray[".CH Change of Registrant"] = "registrantmodification_tld";
+    if (!isset($params["idprotection"], $params["dnsmanagement"])) {
+        $r = Helper::SQLCall("SELECT idprotection, dnsmanagement FROM tbldomains WHERE id=:id", [':id' => $domainid], "fetch");
+        if ($r["success"]) {
+            $params["idprotection"] = $r["result"]["idprotection"];
+            $params["dnsmanagement"] = $r["result"]["dnsmanagement"];
         }
     }
-
-    if ($params["DNSSEC"] == "on") {
-        $buttonarray["DNSSEC Management"] = "dnssec";
+    if ($params["idprotection"]) {
+        $buttonarray["WHOIS Privacy"] = "whoisprivacy";
+    }
+    $domain = $params["domainObj"]->getDomain();
+    if (preg_match("/\.ca$/i", $domain)) {
+        $buttonarray[".CA Registrant WHOIS Privacy"] = "whoisprivacy_ca";
+        $buttonarray[".CA Change of Registrant"] = "registrantmodification_ca";
+    } elseif (preg_match("/\.it$/i", $domain)) {
+        $buttonarray[".IT Change of Registrant"] = "registrantmodification_it";
+    } elseif (preg_match("/\.(ch|li|se|sg|nu)$/i", $domain)) {
+        $tld = strtoupper(preg_replace("/.+\./", ".", $domain));
+        $buttonarray[$tld . " Change of Registrant"] = "registrantmodification_tld";
+    }
+    if ($params["dnsmanagement"]) {
+        if ($params["DNSSEC"] == "on") {
+            $buttonarray["DNSSEC Management"] = "dnssec";
+        }
+        if (Ispapi::canUse("WEBAPPS", $params, true)) {
+            $buttonarray["Web Apps"] = "webapps";
+        }
     }
     return $buttonarray;
+}
+
+
+/**
+ * Handle the WebApps management page of a domain
+ *
+ * @param array $params common module parameters
+ *
+ * @return array an array with a template name
+ */
+function ispapi_webapps($params)
+{
+    return WebApps::getPage($params);
 }
 
 /**
