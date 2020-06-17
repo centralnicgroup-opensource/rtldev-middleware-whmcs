@@ -2953,6 +2953,7 @@ function ispapi_Sync($params)
     // shared with _TransferSync method to cover existing domains in addition
     // Ticket#: 2020041508019251 OTRS
     if (preg_match("/^(com|net|cc|tv)$/", $domain->getTLD())) {
+        $contacts = [];
         if (!function_exists("convertStateToCode") || !function_exists("getClientsDetails")) {
             require implode(DIRECTORY_SEPARATOR, [ROOTDIR, "include", "clientfunctions.php"]);
         }
@@ -2960,7 +2961,6 @@ function ispapi_Sync($params)
         $d = new \WHMCS\Domains();
         $domain_data = $d->getDomainsDatabyID($params["domainid"]);
         $p = getClientsDetails($domain_data["userid"]);
-
         $cmdparams = [
             "FIRSTNAME" => html_entity_decode($p["firstname"], ENT_QUOTES),
             "LASTNAME" => html_entity_decode($p["lastname"], ENT_QUOTES),
@@ -2977,7 +2977,6 @@ function ispapi_Sync($params)
         if (strlen($p["address2"])) {
             $cmdparams["STREET"] .= " , ".html_entity_decode($p["address2"], ENT_QUOTES);
         }
-
         // only run auto-update mechanism in case a non-empty email address is given
         // otherwise it would keep trying to update on each run
         if (!empty($cmdparams["EMAIL"])) {
@@ -2986,10 +2985,13 @@ function ispapi_Sync($params)
             if (empty($r["OWNERCONTACT"][0])) {
                 $command["OWNERCONTACT0"] = $cmdparams;
             } elseif (preg_match("/^AUTO-.+$/", $r["OWNERCONTACT"][0])) {
-                $rc = Ispapi::call([
-                    "COMMAND" => "StatusContact",
-                    "CONTACT" => $r["OWNERCONTACT"][0]
-                ], $params);
+                if (!isset($contacts[$r["OWNERCONTACT"][0]])) {
+                    $contacts[$r["OWNERCONTACT"][0]] = Ispapi::call([
+                        "COMMAND" => "StatusContact",
+                        "CONTACT" => $r["OWNERCONTACT"][0]
+                    ], $params);
+                }
+                $rc = $contacts[$r["OWNERCONTACT"][0]];
                 if ($rc["CODE"] == 200 && empty($rc["PROPERTY"]["EMAIL"][0])) {
                     $command["OWNERCONTACT0"] = $cmdparams;
                 }
@@ -3030,6 +3032,17 @@ function ispapi_Sync($params)
                 foreach ($map as $ctype) {
                     if (empty($r[$ctype][0])) {
                         $command[$ctype."0"] = $admindata;
+                    } elseif (preg_match("/^AUTO-.+$/", $r[$ctype][0])) {
+                        if (!isset($contacts[$r[$ctype][0]])) {
+                            $contacts[$r[$ctype][0]] = Ispapi::call([
+                                "COMMAND" => "StatusContact",
+                                "CONTACT" => $r[$ctype][0]
+                            ], $params);
+                        }
+                        $rc = $contacts[$r[$ctype][0]];
+                        if ($rc["CODE"] == 200 && empty($rc["PROPERTY"]["EMAIL"][0])) {
+                            $command[$ctype . "0"] = $admindata;
+                        }
                     }
                 }
             }
