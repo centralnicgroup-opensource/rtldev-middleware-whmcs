@@ -1,3 +1,10 @@
+## [3.0.12](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.11...v3.0.12) (2020-06-22)
+
+
+### Bug Fixes
+
+* **sync:** update admin/tech/billing-c with client data (empty email) ([ac77de6](https://github.com/hexonet/whmcs-ispapi-registrar/commit/ac77de6e90588fb2b725fdbd160f29762cfc81ca))
+
 ## [3.0.11](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.10...v3.0.11) (2020-06-04)
 
 
