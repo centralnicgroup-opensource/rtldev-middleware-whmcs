@@ -2080,6 +2080,9 @@ function ispapi_GetContactDetails($params)
  */
 function ispapi_SaveContactDetails($params)
 {
+    if (!function_exists("convertStateToCode")) {
+        require implode(DIRECTORY_SEPARATOR, [ROOTDIR, "include", "clientfunctions.php"]);
+    }
     // TODO:---------- EXCEPTION [BEGIN] --------
     // $params has invalid chars for idn domain names where $params["original"] is fine [kschwarz]
     // JIRA #HM-709
@@ -2161,6 +2164,7 @@ function ispapi_SaveContactDetails($params)
     //bug in WHMCS since 6.1, $params["original"] is completely stripped, we will take the $_POST array to have the unstipped version
     $unstrippedparams = $_POST;
 
+    $isCA = preg_match("/\.ca$/i", $domain);
     foreach ($map as $ctype => $ptype) {
         //when using "Use Existing Contact" function in WHMCS, the $_POST array is empty, so we have to use the $params version.
         //in this case the special characters will be replaced due to the default transliteration hook. (https://docs.whmcs.com/Custom_Transliteration)
@@ -2188,6 +2192,12 @@ function ispapi_SaveContactDetails($params)
         if (strlen($p["Address 2"])) {
             $command[$ctype]["STREET"] .= " , ".html_entity_decode($p["Address 2"], ENT_QUOTES | ENT_XML1, 'UTF-8');
         }
+        $command[$ctype]["STATE"] = convertStateToCode($command[$ctype]["STATE"], $command[$ctype]["COUNTRY"]);
+        if ($isCA) {//converttociracode
+            if ($command[$ctype]["STATE"] == "YT") {
+                $command[$ctype]["STATE"] = "YK";
+            }
+        }
     }
 
     if (preg_match('/\.(it|ch|li|se|sg)$/i', $domain)) {
@@ -2213,7 +2223,7 @@ function ispapi_SaveContactDetails($params)
         $command["OWNERCONTACT0"]["ORGANIZATION"] = $registrant["Company Name"];
     }
 
-    if (preg_match('/\.ca$/i', $domain)) {
+    if ($isCA) {
         $registrant_command = $command["OWNERCONTACT0"];
 
         $status_command = array(
