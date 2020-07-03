@@ -1,3 +1,10 @@
+## [3.0.13](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.12...v3.0.13) (2020-07-03)
+
+
+### Bug Fixes
+
+* **savecontactdetails:** fixes .CA contact details update (state to code mapping) ([7cd2291](https://github.com/hexonet/whmcs-ispapi-registrar/commit/7cd2291f01b2fdc44c22adf7d372aae828d9ed90))
+
 ## [3.0.12](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.11...v3.0.12) (2020-06-22)
 
 
