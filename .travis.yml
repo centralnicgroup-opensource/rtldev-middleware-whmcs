@@ -16,8 +16,6 @@ addons:
 before_install:
   - export PATH="$HOME/.config/composer/vendor/bin:$PATH"
 install:
-  - wget https://github.com/jgm/pandoc/releases/download/2.7.3/pandoc-2.7.3-1-amd64.deb
-  - sudo dpkg -i pandoc-2.7.3-1-amd64.deb
   - travis_retry composer global require dealerdirect/phpcodesniffer-composer-installer roave/security-advisories:dev-master squizlabs/php_codesniffer phpcompatibility/php-compatibility
 script:
   - npm run phpCompatibility
@@ -29,12 +27,14 @@ jobs:
       before_install:
         - export TRAVIS_NODE_VERSION="lts/*"
       install:
+        - wget https://github.com/jgm/pandoc/releases/download/2.7.3/pandoc-2.7.3-1-amd64.deb
+        - sudo dpkg -i pandoc-2.7.3-1-amd64.deb
         - rm -rf ~/.nvm
         - git clone https://github.com/creationix/nvm.git ~/.nvm
         - (cd ~/.nvm && git checkout `git describe --abbrev=0 --tags`)
         - source ~/.nvm/nvm.sh
         - nvm install $TRAVIS_NODE_VERSION
-      script:
         - npm prune
         - travis_retry npm i
+      script:
         - npx semantic-release
