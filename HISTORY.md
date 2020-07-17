@@ -1,3 +1,10 @@
+## [3.0.14](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.13...v3.0.14) (2020-07-17)
+
+
+### Bug Fixes
+
+* **sdk:** upgrade to 5.8.5 (fixes logger log call in http error case) ([da30aa0](https://github.com/hexonet/whmcs-ispapi-registrar/commit/da30aa0415d7e94e1961b9978427f8686f478eb5))
+
 ## [3.0.13](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.12...v3.0.13) (2020-07-03)
 
 
