@@ -1,3 +1,10 @@
+# [3.1.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.14...v3.1.0) (2020-07-22)
+
+
+### Features
+
+* **webapps:** offer G-Suite integration ([ac937f5](https://github.com/hexonet/whmcs-ispapi-registrar/commit/ac937f5bf8aed3d0e8b5d60f6212d3251fb09002))
+
 ## [3.0.14](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.13...v3.0.14) (2020-07-17)
 
 
