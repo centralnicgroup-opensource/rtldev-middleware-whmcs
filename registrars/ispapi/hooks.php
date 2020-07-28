@@ -3,10 +3,8 @@
 use WHMCS\Module\Registrar\Ispapi\Ispapi;
 use WHMCS\Module\Registrar\Ispapi\Helper;
 
-/**
- * Auto-Prefill VAT-ID, X-DK-REGISTRANT/ADMIN additional domain field when provided in client data
- */
 add_hook('ClientAreaHeadOutput', 1, function ($vars) {
+    // Auto-Prefill VAT-ID, X-DK-REGISTRANT/ADMIN additional domain field when provided in client data
     $ispapilang = $vars['clientsdetails']['language'];
     $ispapivatid = $vars['clientsdetails']['tax_id'];
     $ispapidkid = '';
@@ -56,17 +54,14 @@ HTML;
     }
 });
 
-/*
- * ONLY FOR .SWISS
- * saves the .swiss application ID in the admin note
- */
 add_hook('AfterRegistrarRegistrationFailed', 1, function ($vars) {
+    // ONLY FOR .SWISS: saves the .swiss application ID in the admin note
     $params = $vars["params"];
-    $domain = $params["sld"].".".$params["tld"];
+    $domain = $params["sld"] . "." . $params["tld"];
     if (preg_match('/[.]swiss$/i', $domain)) {
         preg_match('/<#(.+?)#>/i', $vars["error"], $matches);
         if (isset($matches[1])) {
-            $application_id=$matches[1];
+            $application_id = $matches[1];
             $data = [
                 ":id" => $params["domainid"],
                 ":notes" => '### DO NOT DELETE ANYTHING BELOW THIS LINE \nAPPLICATION:".$application_id."\n'
@@ -76,13 +71,10 @@ add_hook('AfterRegistrarRegistrationFailed', 1, function ($vars) {
     }
 });
 
-/*
- * ONLY FOR .SWISS
- * runs over all pending applications to check if the registration was successful or not.
- */
 add_hook('DailyCronJob', 1, function ($vars) {
-    if (file_exists(dirname(__FILE__)."/ispapi.php")) {
-        require_once(dirname(__FILE__)."/ispapi.php");
+    // ONLY FOR .SWISS: runs over all pending applications to check if the registration was successful or not.
+    if (file_exists(dirname(__FILE__) . "/ispapi.php")) {
+        require_once(dirname(__FILE__) . "/ispapi.php");
         $registrarconfigoptions = getregistrarconfigoptions("ispapi");
 
         $data = [
@@ -117,11 +109,8 @@ add_hook('DailyCronJob', 1, function ($vars) {
     }
 });
 
-/*
- * for TLDs those do not support Transfer/Registrar lock
- * remove 'Registrar Lock' option and error message (on 'overview') on client area domain details page.
- */
 add_hook('ClientAreaPageDomainDetails', 1, function ($vars) {
+    // TLDs not supporting Transfer Lock: remove 'Registrar Lock' menu entry.
     $domain = Menu::context('domain');
     
     if ($domain->registrar == "ispapi") {
