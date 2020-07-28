@@ -48,8 +48,8 @@
     "@hexonet/semantic-release-github-whmcs-config": "^1.3.0"
   },
   "scripts": {
-    "codeCheck": "phpcs --standard=PSR1,PSR2 -q -n --colors --ignore=registrars/ispapi/lib registrars",
-    "codeFix": "phpcbf --standard=PSR1,PSR2 -q --ignore=registrars/ispapi/lib registrars",
+    "codeCheck": "phpcs --standard=PSR12 -q -n --colors --ignore=registrars/ispapi/lib registrars",
+    "codeFix": "phpcbf --standard=PSR12 -q --ignore=registrars/ispapi/lib registrars",
     "phpCompatibility": "./scripts/phpcompatibility.sh"
   }
 }
