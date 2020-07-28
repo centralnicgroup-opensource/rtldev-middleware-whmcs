@@ -14,6 +14,8 @@ if (!defined("WHMCS")) {
 use WHMCS\Module\Registrar\Ispapi\Ispapi;
 use WHMCS\Module\Registrar\Ispapi\Helper;
 use WHMCS\Module\Registrar\Ispapi\WebApps;
+use WHMCS\Module\Registrar\Ispapi\DomainTransfer as HXDomainTransfer;
+use WHMCS\Module\Registrar\Ispapi\Domain as HXDomain;
 
 /**
  * Check the availability of domains using HEXONET's fast API
@@ -2905,95 +2907,55 @@ function ispapi_TransferSync($params)
         $domain_idn = strtolower($r["PROPERTY"]["IDN"][0]);
     }
 
-    $r = Ispapi::call([//events will be available for 30d
-        "COMMAND" => "QueryEventList",
-        "CLASS" => "DOMAIN_TRANSFER",
-        "SUBCLASS" => "TRANSFER_SUCCESSFUL",
-        "ORDERBY" => "EVENTDATEDESC",
-        "LIMIT" => 100000,
-        "WIDE" => 1
-    ], $params);
+    $now = date("Y-m-d");
+    $command = [
+        "COMMAND" => "QueryObjectlogList",
+        "OBJECTID" => $domain_pc,
+        "OBJECTCLASS" => "DOMAIN",
+        "MINDATE" => date("Y-m-d", strtotime($now . " -5 day")),
+        "MAXDATE" => $now,
+        "OPERATIONTYPE" => "INBOUND_TRANSFER",
+        "ORDERBY" => "LOGDATEDESC",
+        "LIMIT" => 1
+    ];
 
-    if ($r["CODE"] != 200 || !isset($r["PROPERTY"]["EVENTDATA0"])) {
+    //check if transfer succeeded
+    $command["OPERATIONSTATUS"] = "SUCCESSFUL";
+    $r = Ispapi::call($command, $params);
+    if ($r["CODE"] != "200") {
         return [];
     }
-
-    $success = false;
-    $r = $r["PROPERTY"];
-    foreach ($r["EVENTDATA0"] as $idx => &$d) {
-        $tmp = strtolower($d);
-        if ("domain:" . $domain_pc == $tmp || "domain:" . $domain_idn == $tmp) {
-            if (strtoupper($r["EVENTSUBCLASS"][$idx])=="TRANSFER_SUCCESSFUL") {
-                $success = true;
-                break;
-            }
-        }
-    }
-
-    if ($success) {
-        # WHMCS will fallback to _Sync method if expirydate not returned
+    if ($r["PROPERTY"]["COUNT"][0]>0) {
+        // WHMCS fallbacks to _Sync method when not returning expirydate
         return [
             'completed' => true
         ];
     }
     
-    $r = Ispapi::call([
-        "COMMAND" => "QueryEventList",
-        "CLASS" => "DOMAIN_TRANSFER",
-        "SUBCLASS" => "TRANSFER_FAILED",
-        "ORDERBY" => "EVENTDATEDESC",
-        "LIMIT" => 100000,
-        "WIDE" => 1
-    ], $params);
-
-    if ($r["CODE"] != 200 || !isset($r["PROPERTY"]["EVENTDATA0"])) {
+    // check if transfer failed
+    $command["OPERATIONSTATUS"] = "FAILED";
+    $r = Ispapi::call($command, $params);
+    if ($r["CODE"] != "200") {
         return [];
     }
-
-    $failed = false;
-    $r = $r["PROPERTY"];
-    foreach ($r["EVENTDATA0"] as $idx => &$d) {
-        $tmp = strtolower($d);
-        if ("domain:" . $domain_pc == $tmp || "domain:" . $domain_idn == $tmp) {
-            if (strtoupper($r["EVENTSUBCLASS"][$idx])=="TRANSFER_FAILED") {
-                $failed = true;
-                break;
-            }
-        }
-    }
-
-    if ($failed) {
+    if ($r["PROPERTY"]["COUNT"][0]>0) {
         $values = [
             'failed' => true,
             'reason' => "Transfer Failed"
         ];
-        $rloglist = Ispapi::call([
-            "COMMAND" => "QueryObjectLogList",
-            "OBJECTCLASS" => "DOMAIN",
-            "OBJECTID" => $domain_pc,
-            "ORDERBY" => "LOGDATEDESC",
-            "LIMIT" => 1
-        ], $params);
-    
-        if (isset($rloglist["PROPERTY"]["LOGINDEX"])) {
-            $rloglist = $rloglist["PROPERTY"];
-            foreach ($rloglist["LOGINDEX"] as $index => $logindex) {
-                if (($rloglist["OPERATIONTYPE"][$index] == "INBOUND_TRANSFER") &&
-                    ($rloglist["OPERATIONSTATUS"][$index] == "FAILED")
-                ) {
-                    $rlog = Ispapi::call([
-                        "COMMAND" => "StatusObjectLog",
-                        "LOGINDEX" => $logindex
-                    ], $params);
-                    if ($rlog["CODE"] == 200) {
-                        $values['reason'] .= "\n" . implode("\n", $rlog["PROPERTY"]["OPERATIONINFO"]);
-                    }
-                }
+        if (isset($r["PROPERTY"]["LOGINDEX"])) {
+            $r = Ispapi::call([
+                "COMMAND" => "StatusObjectLog",
+                "LOGINDEX" => $r["PROPERTY"]["LOGINDEX"][0]
+            ], $params);
+            if ($r["CODE"] == "200" && isset($r["PROPERTY"]["OPERATIONINFO"])) {
+                $values["reason"] .= PHP_EOL . implode(PHP_EOL, $r["PROPERTY"]["OPERATIONINFO"]);
             }
         }
         return $values;
     }
-    
+
+    // still pending
     return [];
 }
 
