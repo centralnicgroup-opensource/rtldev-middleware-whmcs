@@ -2926,6 +2926,20 @@ function ispapi_TransferSync($params)
         return [];
     }
     if ($r["PROPERTY"]["COUNT"][0]>0) {
+        // AUTO-UPDATE ns after transfer
+        $newns = HXDomainTransfer::getRequestNameservers($params, $domain_pc);
+        $currentns = HXDomain::getNameservers($params, $domain_pc);
+        if ($currentns["success"] && $newns["success"]) {
+            sort($currentns["nameservers"]);
+            sort($newns["nameservers"]);
+            if ($currentns !== $newns) {
+                Ispapi::call([
+                    "COMMAND" => "ModifyDomain",
+                    "DOMAIN" => $domain_pc,
+                    "NAMESERVER" => $newns["nameservers"]
+                ], $params);
+            }
+        }
         // WHMCS fallbacks to _Sync method when not returning expirydate
         return [
             'completed' => true
