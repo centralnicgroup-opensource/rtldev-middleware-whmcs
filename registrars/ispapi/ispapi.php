@@ -2935,7 +2935,7 @@ function ispapi_TransferSync($params)
         if ($currentns["success"] && $newns["success"]) {
             sort($currentns["nameservers"]);
             sort($newns["nameservers"]);
-            if ($currentns !== $newns) {
+            if ($currentns !== $newns && !empty($newns["nameservers"])) {
                 Ispapi::call([
                     "COMMAND" => "ModifyDomain",
                     "DOMAIN" => $domain_pc,
