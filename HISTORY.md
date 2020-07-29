@@ -1,3 +1,25 @@
+# [4.0.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.1.0...v4.0.0) (2020-07-29)
+
+
+### Bug Fixes
+
+* **statistics:** submit PHP Version without extra data ([a6a4a40](https://github.com/hexonet/whmcs-ispapi-registrar/commit/a6a4a409ffa457bebf3a338398153134e7390b2c))
+* **transfersync:** fixed issue detecting requested nameservers ([1b3bb1c](https://github.com/hexonet/whmcs-ispapi-registrar/commit/1b3bb1c1db9f2dcbc44dc9e3d934db861b4df5dd))
+* **transfersync:** replace queryeventlist with queryobjectloglist; more reliable and performant ([793c2c3](https://github.com/hexonet/whmcs-ispapi-registrar/commit/793c2c3796c15f282efa6bc99625aa6e3c09bcf2))
+
+
+### Features
+
+* **transfersync:** auto-update nameservers to the requested ones after successful transfer ([999b3fa](https://github.com/hexonet/whmcs-ispapi-registrar/commit/999b3fa92ff869195dd88752d9c8fda48281857e))
+
+
+### BREAKING CHANGES
+
+* **transfersync:** WHMCS provides specifying new Nameservers within domain transfer process. This is
+not compliant with EPP standard of the most registries and not working for the most TLDs using the
+HEXONET API. Therefore we care about updating on WHMCS-side. As this is a completely different
+module behavior, we trigger a new major release.
+
 # [3.1.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.14...v3.1.0) (2020-07-22)
 
 
