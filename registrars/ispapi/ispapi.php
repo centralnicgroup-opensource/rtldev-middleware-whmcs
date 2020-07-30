@@ -21,109 +21,115 @@ use WHMCS\Module\Registrar\Ispapi\Domain as HXDomain;
 /**
  * Check the availability of domains using HEXONET's fast API
  *
- * @param array $params common module parameters
+ * Availability Premium Enabled CODE    DESCRIPTION                                 CLASS   PRICE   CURRENCY    PREMIUMCHANNEL
+ * NO               NO          211     Premium Domain name not available [PREMIUM] YES     N/A     N/A         N/A
+ *                 YES          211     Premium Domain name not available [PREMIUM] YES     N/A     N/A         N/A
+ * YES              NO          211     Premium Domain name available [PREMIUM]     YES     N/A     N/A         N/A
+ *                 YES          211     Premium Domain name available [PREMIUM]     YES     YES     YES         YES
  *
+ * @param array $params common module parameters *
  * @return \WHMCS\Domains\DomainLookup\ResultsList An ArrayObject based collection of \WHMCS\Domains\DomainLookup\SearchResult results
  * @see https://confluence.hexonet.net/pages/viewpage.action?pageId=8589377 for diagram
+ * @throws \Exception in case of an error
  */
 function ispapi_CheckAvailability($params)
 {
+    $maxGroupSize = 25;
+    $premiumEnabled = (bool) $params["premiumEnabled"];
+
     if ($params["isIdnDomain"]) {
         $label = empty($params["punyCodeSearchTerm"]) ? strtolower($params["searchTerm"]) : strtolower($params["punyCodeSearchTerm"]);
     } else {
         $label = strtolower($params["searchTerm"]);
     }
-
-    $tldslist = $params["tldsToInclude"];
-    $premiumEnabled = (bool) $params["premiumEnabled"];
-    $domainslist = array();
-    $results = new \WHMCS\Domains\DomainLookup\ResultsList();
-
-    foreach ($tldslist as $tld) {
-        if (!empty($tld[0])) {
-            if ($tld[0] != ".") {
-                $tld = "." . $tld;
-            }
-            $domain = $label . $tld;
-            if (!in_array($domain, $domainslist["all"])) {
-                $domainslist["all"][] = $domain;
-                $domainslist["list"][] = array("sld" => $label, "tld" => $tld);
-            }
-        }
-    }
-
-    //ONLY FOR SUGGESTIONS
-    if (isset($params["suggestions"]) && !empty($params["suggestions"])) {
-        $domainslist["all"] = array();
-        $domainslist["list"] = array();
-        foreach ($params["suggestions"] as $suggestion) {
-            if (!in_array($suggestion, $domainslist["all"])) {
-                $domainslist["all"][] = $suggestion;
-                $suggested_domain = preg_split("/\./", $suggestion, 2);
-                $domainslist["list"][] = array("sld" => $suggested_domain[0], "tld" => "." . $suggested_domain[1]);
-            }
-        }
-    }
-
-    //TODO: chunk this as
-    // * only ~250 are allowed at once and
-    // * requesting all at once is probably quite slower
-    $command = array(
+    
+    $command = [
         "COMMAND" => "CheckDomains",
-        "DOMAIN" => $domainslist["all"],
-        "PREMIUMCHANNELS" => "*"
-    );
-    $check = Ispapi::call($command, $params);
+        "PREMIUMCHANNELS" => $premiumEnabled ? "*" : ""
+    ];
 
-    if ($check["CODE"] == 200) {
-        //GET AN ARRAY OF ALL TLDS CONFIGURED WITH HEXONET
-        $pdo = \WHMCS\Database\Capsule::connection()->getPdo();
-        $stmt = $pdo->prepare("SELECT extension FROM tbldomainpricing WHERE autoreg REGEXP '^(ispapi|hexonet)$'");
-        $stmt->execute();
-        $ispapi_tlds = $stmt->fetchAll(PDO::FETCH_COLUMN, 0);
+    // build domainlist to check
+    if (!empty($params["suggestions"])) {
+        // for domain name suggestion mode (we get already a list of domains)
+        // remove duplicates and empty ones
+        $tocheck = array_values(array_unique(array_filter($params["suggestions"])));
+    } else {
+        // for common availability checks (we get just a search label and list of tlds)
+        // remove duplicates and empty ones
+        $tocheck = array_values(array_unique(array_filter($params["tldsToInclude"])));
+        $tocheck = array_map(function ($tld) use ($label) {
+            return $label  . "." . ltrim($tld, ".");
+        }, $tocheck);
+    }
 
-        foreach ($domainslist["list"] as $index => $domain) {
-            $registerprice = $renewprice = $currency = $status = "";
-            $sr = new \WHMCS\Domains\DomainLookup\SearchResult($domain["sld"], $domain["tld"]);
-            $sr->setStatus($sr::STATUS_REGISTERED);
-            if (preg_match("/549/", $check["PROPERTY"]["DOMAINCHECK"][$index])) {
-                //TLD NOT SUPPORTED AT HEXONET USE A FALLBACK TO THE WHOIS LOOKUP.
-                $whois = localAPI("DomainWhois", array("domain" => $domain["sld"] . $domain["tld"]));
-                if ($whois["status"] == "available") {
-                    //DOMAIN AVAILABLE
-                    $sr->setStatus($sr::STATUS_NOT_REGISTERED);
-                }
-            } elseif (preg_match("/^210 .+$/", $check["PROPERTY"]["DOMAINCHECK"][$index])) {
-                //DOMAIN AVAILABLE
-                $sr->setStatus($sr::STATUS_NOT_REGISTERED);
-            } elseif (!empty($check["PROPERTY"]["PREMIUMCHANNEL"][$index]) || !empty($check["PROPERTY"]["CLASS"][$index])) {
-                //IF PREMIUM DOMAIN ENABLED IN WHMCS - DISPLAY AVAILABLE + PRICE
-                if (!$premiumEnabled) {
-                    $sr->setStatus($sr::STATUS_RESERVED);
-                } else {
-                    $params["AvailabilityCheckResult"] = $check;
-                    $params["AvailabilityCheckResultIndex"] = $index;
-                    $prices = ispapi_GetPremiumPrice($params);
-                    $sr->setPremiumDomain(true);
-                    $sr->setPremiumCostPricing($prices);
-                    if (empty($prices)) {
-                        $sr->setStatus($sr::STATUS_RESERVED);
-                    } elseif (isset($prices["register"])) {
-                        $sr->setStatus($sr::STATUS_NOT_REGISTERED);
-                    }
-                }
+    // build the result list for WHMCS
+    // chunk the check list, only ~250 are allowed at once
+    $results = new \WHMCS\Domains\DomainLookup\ResultsList();
+    $grps = array_chunk($tocheck, $maxGroupSize);
+    foreach ($grps as $grp) {
+        $command["DOMAIN"] = $grp;
+        $r = Ispapi::call($command, $params);
+        if ($r["CODE"] != "200") {
+            throw new \Exception($r["DESCRIPTION"]);
+        }
+        foreach ($r["PROPERTY"]["DOMAINCHECK"] as $idx => $dc) {
+            if ($dc === "") {
+                $dc = "549 Check impossible";
             }
+            $check = substr($dc, 3);
+            $parts = preg_split("/\./", $command["DOMAIN"][$idx], 2);
+            $sr = new \WHMCS\Domains\DomainLookup\SearchResult($parts[0], $parts[1]);
 
-            if (isset($params["suggestions"])) {
-                //ONLY RETURNS AVAILABLE DOMAINS FOR SUGGESTIONS
-                if ($sr->getStatus() != $sr::STATUS_REGISTERED) {
-                    $results->append($sr);
-                }
-            } else {
+            switch (substr($dc, 0, 3)) {
+                case "549": //TLD not supported at HEXONET or check failed; ask WHMCS to make whois lookup
+                    $sr->setStatus($sr::STATUS_TLD_NOT_SUPPORTED);
+                    break;
+                case "210": //DOMAIN AVAILABLE
+                    $sr->setStatus($sr::STATUS_NOT_REGISTERED);
+                    break;
+                case "211":
+                    if (preg_match("/block/", $r["PROPERTY"]["REASON"][$idx])) {// CASE: DOMAIN BLOCK
+                        $sr->setStatus($sr::STATUS_REGISTERED);
+                    } elseif (preg_match("/^Collision Domain name available \{/i", $r["PROPERTY"]["DOMAINCHECK"][$idx])) {// CASE: NXD DOMAIN
+                        $sr->setStatus($sr::STATUS_RESERVED);
+                    } elseif (!empty($r["PROPERTY"]["PREMIUMCHANNEL"][$idx])) {// CASE: PREMIUM
+                        $params["AvailabilityCheckResult"] = $r;
+                        $params["AvailabilityCheckResultIndex"] = $idx;
+                        $prices = ispapi_GetPremiumPrice($params);
+                        $sr->setPremiumDomain(true);
+                        $sr->setPremiumCostPricing($prices);
+                        if (empty($prices)) {
+                            $sr->setStatus($sr::STATUS_RESERVED);
+                        } elseif (isset($prices["register"])) {
+                            //PREMIUM DOMAIN AVAILABLE
+                            $sr->setStatus($sr::STATUS_NOT_REGISTERED);
+                        } else {
+                            $sr->setStatus($sr::STATUS_REGISTERED);
+                        }
+                    } elseif (!empty($r["PROPERTY"]["CLASS"][$idx])) { // CASE: RESERVED or PREMIUM? BACKORDER
+                        if (stripos($r["PROPERTY"]["REASON"][$idx], "reserved")) {//RESERVED
+                            $sr->setStatus($sr::STATUS_RESERVED);
+                        } else {
+                            $sr->setStatus($sr::STATUS_REGISTERED);
+                        }
+                    } else {
+                        $sr->setStatus($sr::STATUS_REGISTERED);
+                    }
+                    break;
+                default:
+                    // set by default to `REGISTERED`
+                    $sr->setStatus($sr::STATUS_REGISTERED);
+                    break;
+            }
+                    
+            //ONLY RETURNS AVAILABLE DOMAINS FOR DOMAIN NAME SUGGESTIONS MODE
+            //AND ALL RESULTS OTHERWISE
+            if (!isset($params["suggestions"]) || $sr->getStatus() == $sr::STATUS_NOT_REGISTERED) {
                 $results->append($sr);
             }
         }
     }
+
     return $results;
 }
 
@@ -152,9 +158,8 @@ function ispapi_GetDomainSuggestions($params)
     } else {
            $label = strtolower($params["searchTerm"]);
     }
-    $tldslist = $params["tldsToInclude"];
     $zones = array();
-    foreach ($tldslist as $tld) {
+    foreach ($params["tldsToInclude"] as $tld) {
         #IGNORE 3RD LEVEL TLDS - NOT FULLY SUPPORTED BY QueryDomainSuggestionList
         if (!preg_match("/\./", $tld)) {
             $zones[] = $tld;
