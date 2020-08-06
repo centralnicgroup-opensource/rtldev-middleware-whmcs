@@ -2972,6 +2972,18 @@ function ispapi_TransferSync($params)
         return $values;
     }
 
+    // Success-Case Fallback to allow status sync even without transfer logic
+    $r = Ispapi::call([
+        "COMMAND" => "StatusDomain",
+        "DOMAIN" => $domain_pc
+    ], $params);
+    if ($r["CODE"] == "200") {
+        // WHMCS fallbacks to _Sync method when not returning expirydate
+        return [
+            'completed' => true
+        ];
+    }
+
     // still pending
     return [];
 }
