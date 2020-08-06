@@ -1,3 +1,10 @@
+## [4.0.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.0.0...v4.0.1) (2020-08-06)
+
+
+### Bug Fixes
+
+* **registrartldsync:** add missing configuration for .geek.nz ([4a2d34c](https://github.com/hexonet/whmcs-ispapi-registrar/commit/4a2d34c4def684de1a10e47dfe5f3dfc0a9ef581))
+
 # [4.0.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.1.0...v4.0.0) (2020-07-29)
 
 
