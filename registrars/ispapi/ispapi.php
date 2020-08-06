@@ -47,12 +47,11 @@ function ispapi_CheckAvailability($params)
         "COMMAND" => "CheckDomains",
         "PREMIUMCHANNELS" => $premiumEnabled ? "*" : ""
     ];
-
     // build domainlist to check
     if (!empty($params["suggestions"])) {
         // for domain name suggestion mode (we get already a list of domains)
         // remove duplicates and empty ones
-        $tocheck = array_values(array_unique(array_filter($params["suggestions"])));
+        $tocheck = $params["suggestions"];
     } else {
         // for common availability checks (we get just a search label and list of tlds)
         // remove duplicates and empty ones
@@ -65,22 +64,21 @@ function ispapi_CheckAvailability($params)
     // build the result list for WHMCS
     // chunk the check list, only ~250 are allowed at once
     $results = new \WHMCS\Domains\DomainLookup\ResultsList();
-    $grps = array_chunk($tocheck, $maxGroupSize);
-    foreach ($grps as $grp) {
-        $command["DOMAIN"] = $grp;
+    foreach (array_chunk($tocheck, $maxGroupSize) as $command["DOMAIN"]) {
         $r = Ispapi::call($command, $params);
-        if ($r["CODE"] != "200") {
-            throw new \Exception($r["DESCRIPTION"]);
-        }
-        foreach ($r["PROPERTY"]["DOMAINCHECK"] as $idx => $dc) {
-            if ($dc === "") {
-                $dc = "549 Check impossible";
-            }
-            $check = substr($dc, 3);
-            $parts = preg_split("/\./", $command["DOMAIN"][$idx], 2);
+        foreach ($command["DOMAIN"] as $idx => $domain) {
+            $parts = preg_split("/\./", $domain, 2);
             $sr = new \WHMCS\Domains\DomainLookup\SearchResult($parts[0], $parts[1]);
-
+            if ($r["CODE"] != "200" || empty($r["PROPERTY"]["DOMAINCHECK"][$idx])) {
+                $dc = "421 Temporary issue";
+            } else {
+                $dc = $r["PROPERTY"]["DOMAINCHECK"][$idx];
+            }
+        
             switch (substr($dc, 0, 3)) {
+                case "421":
+                    $sr->setStatus($sr::STATUS_UNKNOWN);
+                    break;
                 case "549": //TLD not supported at HEXONET or check failed; ask WHMCS to make whois lookup
                     $sr->setStatus($sr::STATUS_TLD_NOT_SUPPORTED);
                     break;
@@ -90,7 +88,7 @@ function ispapi_CheckAvailability($params)
                 case "211":
                     if (preg_match("/block/", $r["PROPERTY"]["REASON"][$idx])) {// CASE: DOMAIN BLOCK
                         $sr->setStatus($sr::STATUS_REGISTERED);
-                    } elseif (preg_match("/^Collision Domain name available \{/i", $r["PROPERTY"]["DOMAINCHECK"][$idx])) {// CASE: NXD DOMAIN
+                    } elseif (preg_match("/^Collision Domain name available \{/i", substr($dc, 3))) {// CASE: NXD DOMAIN
                         $sr->setStatus($sr::STATUS_RESERVED);
                     } elseif (!empty($r["PROPERTY"]["PREMIUMCHANNEL"][$idx])) {// CASE: PREMIUM
                         $params["AvailabilityCheckResult"] = $r;
@@ -129,7 +127,6 @@ function ispapi_CheckAvailability($params)
             }
         }
     }
-
     return $results;
 }
 
@@ -142,48 +139,68 @@ function ispapi_CheckAvailability($params)
  */
 function ispapi_GetDomainSuggestions($params)
 {
-    //GET THE TLD OF THE SEARCHED VALUE
-    if (isset($_REQUEST["domain"]) && preg_match("/\./", $_REQUEST["domain"])) {
-        $search = preg_split("/\./", $_REQUEST["domain"], 2);
-        $searched_zone = $search[1];
-    }
-
-    //RETURN EMPTY ResultsList OBJECT WHEN SUGGESTIONS ARE DEACTIVATED
+    // go through configuration settings
     if (empty($params["suggestionSettings"]["suggestions"])) {
         return new \WHMCS\Domains\DomainLookup\ResultsList();
     }
-
-    if ($params["isIdnDomain"]) {
-           $label = empty($params["punyCodeSearchTerm"]) ? strtolower($params["searchTerm"]) : strtolower($params["punyCodeSearchTerm"]);
-    } else {
-           $label = strtolower($params["searchTerm"]);
+    $suppressWeigthed = $params["suggestionSettings"]["suggestionsnoweighted"];
+    $suggestionsLimit = 100;
+    if (!empty($params["suggestionSettings"]["suggstionsamount"])) {
+        $suggestionsLimit = $params["suggestionSettings"]["suggstionsamount"];
     }
-    $zones = array();
+
+    // build search label
+    if ($params["isIdnDomain"]) {
+        $label = empty($params["punyCodeSearchTerm"]) ? $params["searchTerm"] : $params["punyCodeSearchTerm"];
+    } else {
+        $label = $params["searchTerm"];
+    }
+    $label = strtolower($label);
+
+    // build zone list parameter
+    $zones = [];
     foreach ($params["tldsToInclude"] as $tld) {
-        #IGNORE 3RD LEVEL TLDS - NOT FULLY SUPPORTED BY QueryDomainSuggestionList
-        if (!preg_match("/\./", $tld)) {
+        // IGNORE 3RD LEVEL TLDS - NOT FULLY SUPPORTED BY QueryDomainSuggestionList
+        // Suppress .com, .net by configuration
+        if (!preg_match("/\./", $tld) && (!$suppressWeigthed || !preg_match("/^(com|net)$/", $tld))) {
             $zones[] = $tld;
         }
     }
 
-    //IF SEARCHED VALUE CONTAINS TLD THEN ONLY DISPLAY SUGGESTIONS WITH THIS TLD
-    //$zones_for_suggestions = isset($searched_zone) ? array($searched_zone) : $zones;
-
-    $command = array(
-            "COMMAND" => "QueryDomainSuggestionList",
-            "KEYWORD" => $label,
-            "ZONE" => $zones,
-            "SOURCE" => "ISPAPI-SUGGESTIONS",
-    );
-    $suggestions = Ispapi::call($command, $params);
-
-    $domains = array();
-    if ($suggestions["CODE"] == 200) {
-        $domains = $suggestions["PROPERTY"]["DOMAIN"];
-    }
-    $params["suggestions"] = $domains;
-
-    return ispapi_CheckAvailability($params);
+    // request domain name suggestions from engine
+    $first = 0;
+    $command = [
+        "COMMAND" => "QueryDomainSuggestionList",
+        "KEYWORD" => $label,
+        "ZONE" => $zones,
+        "SOURCE" => "ISPAPI-SUGGESTIONS",
+        "LIMIT" => $suggestionsLimit
+    ];
+    $results = new \WHMCS\Domains\DomainLookup\ResultsList();
+    do {
+        // get domain name suggestions
+        $command["FIRST"] = $first;
+        $r = Ispapi::call($command, $params);
+        if ($r["CODE"] != 200 || empty($r["PROPERTY"]["DOMAIN"])) {
+            break;//leave while and return $results
+        }
+        // check the availability, as also taken/reserved/blocked domains could be returned
+        $params["suggestions"] = array_values(array_unique(array_filter($r["PROPERTY"]["DOMAIN"])));
+        $tmp = ispapi_CheckAvailability($params);
+        // add entries to the list of entries to return
+        $resultsCount = count($results);
+        $resultsFilled = $resultsCount >= $suggestionsLimit;
+        foreach ($tmp as $sr) {
+            if ($resultsFilled) {
+                break 2;//leave foreach and while
+            }
+            $results->append($sr);
+            $resultsCount++;
+            $resultsFilled = $resultsCount >= $suggestionsLimit;
+        }
+        $first += $suggestionsLimit;
+    } while (!$resultsFilled && ($r["PROPERTY"]["TOTAL"][0] > $first));
+    return $results;
 }
 
 /**
@@ -200,8 +217,25 @@ function ispapi_DomainSuggestionOptions($params)
         $marginleft = "220px";
     }
 
-    return array(
-        "information" => array(
+    /*$r = Ispapi::call([
+        "COMMAND" => "QueryDomainSuggestionList",
+        "SOURCE" => "ISPAPI-CATEGORIES"
+    ], $params);
+    $categories = ["" => "Not set (default)"];
+    if ($r["CODE"] != "200") {
+        $r["PROPERTY"]["CATEGORY"] = [ // 06-08-2020
+            "professions", "geographic", "education", "entertainment", "business", "adult", "travel", "technology", "realEstate", "community",
+            "identity", "arts", "shopping", "other", "financial", "food", "fitness", "lifestyle", "culture", "popular", "health", "idns"
+        ];
+    }
+    sort($r["PROPERTY"]["CATEGORY"]);
+    foreach ($r["PROPERTY"]["CATEGORY"] as $category) {
+        $categories[$category] = $category;
+    }
+
+    $languages = ["" => "Not set (default)"];*/
+    return [
+        "information" => [
             "FriendlyName" => "<b>Don't have a HEXONET Account yet?</b>",
             "Description" => "Get one here: <a target=\"_blank\" href=\"https://www.hexonet.net/sign-up\">https://www.hexonet.net/sign-up</a><br><br>
 			<b>The HEXONET Lookup Provider provides the following features:</b>
@@ -210,15 +244,59 @@ function ispapi_DomainSuggestionOptions($params)
 			<li>Suggestion Engine</li>
 			<li>Aftermarket and Registry Premium Domains support</li>
 			<li>Fallback to WHOIS Lookup for non-supported TLDs</li>
-			</ul>
-            ",
-        ),
-        "suggestions" => array(
+			</ul>"
+        ],
+        "suggestions" => [
             "FriendlyName" => "<b style=\"color:#FF6600;\">Suggestion Engine based on search term:</b>",
             "Type" => "yesno",
-            "Description" => "Tick to activate (recommended)",
-        ),
-    );
+            "Description" => AdminLang::trans("global.ticktoenable") . " (" . AdminLang::trans("global.recommended") . ")"
+        ],
+        "suggstionsamount" => [
+            "FriendlyName" => "<b style=\"color:#FF6600;\">" . AdminLang::trans("general.maxsuggestions") . "</b>",
+            "Type" => "dropdown",
+            "Options" => [
+                10 => "10",
+                25 => "25",
+                50 => "50",
+                75 => "75",
+                100 => "100 (" . AdminLang::trans("global.recommended") . ")",
+                150 => "150",
+                200 => "200"
+            ],
+            "Default" => "100",
+            "Description" => ""
+        ],
+        /*"suggestionscategories" => [
+            "FriendlyName" => "<b style=\"color:#FF6600;\">Category-based suggestions:</b>",
+            "Type" => "dropdown",
+            "Multiple" => true,
+            "Size" => 5,
+            "Options" => $categories,
+            "Default" => "",
+            "Description" => "<br/>Get Suggestions related to the selected categories."
+        ],
+        "suggestionslangs" => [
+            "FriendlyName" => "<b style=\"color:#FF6600;\">Language-dependent Suggestions:</b>",
+            "Type" => "dropdown",
+            "Multiple" => true,
+            "Size" => 3,
+            "Options" => $languages,
+            "Default" => "",
+            "Description" => "<br/>(Better localized Suggestions)"
+        ],
+        "suggestionsip" => [
+            "FriendlyName" => "<b style=\"color:#FF6600;\">Use IP Address for region-dependent Suggestions:</b>",
+            "Type" => "yesno",
+            "Default" => "",
+            "Description" => AdminLang::trans("global.ticktoenable") . " (Better localized Suggestions)"
+        ],*/
+        "suggestionsnoweighted" => [
+            "FriendlyName" => "<b style=\"color:#FF6600;\">Suppress .com and .net:</b>",
+            "Type" => "yesno",
+            "Default" => "",
+            "Description" => AdminLang::trans("global.ticktoenable") . "<br/>.com and .net have by default a very high weight."
+        ]
+    ];
 }
 /**
  * Get Premium Price for given domain,
