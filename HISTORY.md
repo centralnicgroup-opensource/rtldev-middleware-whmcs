@@ -1,3 +1,10 @@
+# [4.1.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.0.1...v4.1.0) (2020-08-06)
+
+
+### Features
+
+* **transfersync:** sync status to active in case object is accessible ([6c36512](https://github.com/hexonet/whmcs-ispapi-registrar/commit/6c36512490589acc788867cb35ce17a418254d5d))
+
 ## [4.0.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.0.0...v4.0.1) (2020-08-06)
 
 
