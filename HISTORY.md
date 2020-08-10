@@ -1,3 +1,15 @@
+# [4.2.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.1.0...v4.2.0) (2020-08-10)
+
+
+### Features
+
+* **domainnamesuggestions:** extended configuration possibilities ([a4c091f](https://github.com/hexonet/whmcs-ispapi-registrar/commit/a4c091f5c0436bd87e5f73df1a42e13f65cb75fc))
+
+
+### Performance Improvements
+
+* **checkavailability:** reviewed for better performance (chunked checks) and code structure ([c460afe](https://github.com/hexonet/whmcs-ispapi-registrar/commit/c460afe910bafccdf8a954683bd3024789a17178))
+
 # [4.1.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.0.1...v4.1.0) (2020-08-06)
 
 
