@@ -1,3 +1,10 @@
+# [4.3.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.2.1...v4.3.0) (2020-08-12)
+
+
+### Features
+
+* **whmcs8 beta3:** registrar TLD Sync allowing IDN TLDs [Pending uncritical  Bug Report SMT-386450] ([8337eff](https://github.com/hexonet/whmcs-ispapi-registrar/commit/8337efffc9e7aa724370bce1d1fefab73ffd871b))
+
 ## [4.2.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.2.0...v4.2.1) (2020-08-12)
 
 
