@@ -1,3 +1,10 @@
+## [4.2.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.2.0...v4.2.1) (2020-08-12)
+
+
+### Bug Fixes
+
+* **registrartldsync:** tables now using primary key (otherwise backup solutions might complain) ([a621f35](https://github.com/hexonet/whmcs-ispapi-registrar/commit/a621f35ba3d409c0d04d0f2330db00dadf09cd81))
+
 # [4.2.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.1.0...v4.2.0) (2020-08-10)
 
 
