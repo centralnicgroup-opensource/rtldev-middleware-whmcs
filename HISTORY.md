@@ -1,3 +1,10 @@
+## [4.3.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.3.0...v4.3.1) (2020-08-13)
+
+
+### Bug Fixes
+
+* **whmcs8 beta3:** review IDN TLD support in Registrar TLD Sync based on WHMCS Ticket #SMT-38645 ([b692d2e](https://github.com/hexonet/whmcs-ispapi-registrar/commit/b692d2e531d0770566d1bdd25e1bf542434fde2c)), closes [#SMT-38645](https://github.com/hexonet/whmcs-ispapi-registrar/issues/SMT-38645)
+
 # [4.3.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.2.1...v4.3.0) (2020-08-12)
 
 
