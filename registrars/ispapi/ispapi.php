@@ -2983,37 +2983,36 @@ function ispapi_TransferSync($params)
     /** @var \WHMCS\Domains\Domain $domain */
     $domain = $params["domainObj"];
 
-    $domain_pc = $domain_idn = $domain->getDomain();
-    $r = Ispapi::call([
-        "COMMAND" => "ConvertIDN",
-        "DOMAIN0" => $domain_pc
-    ], $params);
-    if ($r["CODE"] == 200 && isset($r["PROPERTY"]["ACE"][0])) {
-        $domain_pc = strtolower($r["PROPERTY"]["ACE"][0]);
-        $domain_idn = strtolower($r["PROPERTY"]["IDN"][0]);
+    // domain name conversion
+    $r = HXDomain::convert($params, $domain->getDomain());
+    $domain_pc = $r["punycode"];
+    $domain_idn = $r["idn"];
+
+    // check if the domain is already on account
+    $r = HXDomain::getStatus($params, $domain_pc);
+    if ($r["success"]) {
+        // WHMCS fallbacks to _Sync method when not returning expirydate
+        return [
+            "completed" => true
+        ];
     }
 
-    $now = date("Y-m-d");
-    $command = [
-        "COMMAND" => "QueryObjectlogList",
-        "OBJECTID" => $domain_pc,
-        "OBJECTCLASS" => "DOMAIN",
-        "MINDATE" => date("Y-m-d", strtotime($now . " -5 day")),
-        "MAXDATE" => $now,
-        "OPERATIONTYPE" => "INBOUND_TRANSFER",
-        "ORDERBY" => "LOGDATEDESC",
-        "LIMIT" => 1
-    ];
-
-    //check if transfer succeeded
-    $command["OPERATIONSTATUS"] = "SUCCESSFUL";
-    $r = Ispapi::call($command, $params);
-    if ($r["CODE"] != "200") {
+    // get date of last transfer request
+    $r = HXDomainTransfer::getRequestLog($params, $domain_pc);
+    if (!$r["success"] || $r["data"]["COUNT"][0] == "0") {
+        // no transfer request found/error -> still pending
         return [];
     }
-    if ($r["PROPERTY"]["COUNT"][0] > 0) {
+
+    // exiting transfer request
+    // check for related success entry
+    $logdate = $r["data"]["LOGDATE"][0];
+    $logindex = $r["data"]["LOGINDEX"][0];
+    $r = HXDomainTransfer::getSuccessLog($params, $domain, $logdate);
+    if ($r["success"] && $r["data"]["COUNT"][0] != "0") {
         // AUTO-UPDATE ns after transfer
-        $newns = HXDomainTransfer::getRequestNameservers($params, $domain_pc);
+        // TODO: Move this to hook "DomainTransferCompleted" to keep code better readable
+        $newns = HXDomainTransfer::getRequestNameservers($params, $domain_pc, $logindex);
         $currentns = HXDomain::getNameservers($params, $domain_pc);
         if ($currentns["success"] && $newns["success"]) {
             sort($currentns["nameservers"]);
@@ -3028,45 +3027,25 @@ function ispapi_TransferSync($params)
         }
         // WHMCS fallbacks to _Sync method when not returning expirydate
         return [
-            'completed' => true
+            "completed" => true
         ];
     }
     
-    // check if transfer failed
-    $command["OPERATIONSTATUS"] = "FAILED";
-    $r = Ispapi::call($command, $params);
-    if ($r["CODE"] != "200") {
-        return [];
-    }
-    if ($r["PROPERTY"]["COUNT"][0] > 0) {
+    // check for related failure entry
+    $r = HXDomainTransfer::getFailureLog($params, $domain, $logdate);
+    if ($r["success"] && $r["data"]["COUNT"][0] != "0") {
         $values = [
-            'failed' => true,
-            'reason' => "Transfer Failed"
+            "failed" => true,
+            "reason" => "Transfer Failed"
         ];
-        if (isset($r["PROPERTY"]["LOGINDEX"])) {
-            $r = Ispapi::call([
-                "COMMAND" => "StatusObjectLog",
-                "LOGINDEX" => $r["PROPERTY"]["LOGINDEX"][0]
-            ], $params);
-            if ($r["CODE"] == "200" && isset($r["PROPERTY"]["OPERATIONINFO"])) {
-                $values["reason"] .= PHP_EOL . implode(PHP_EOL, $r["PROPERTY"]["OPERATIONINFO"]);
+        if (isset($r["data"]["LOGINDEX"])) {
+            $r = HXDomainTransfer::getLogDetails($params, $r["data"]["LOGINDEX"][0]);
+            if ($r["success"] && isset($r["data"]["OPERATIONINFO"])) {
+                $values["reason"] .= PHP_EOL . implode(PHP_EOL, $r["data"]["OPERATIONINFO"]);
             }
         }
         return $values;
     }
-
-    // Success-Case Fallback to allow status sync even without transfer logic
-    $r = Ispapi::call([
-        "COMMAND" => "StatusDomain",
-        "DOMAIN" => $domain_pc
-    ], $params);
-    if ($r["CODE"] == "200") {
-        // WHMCS fallbacks to _Sync method when not returning expirydate
-        return [
-            'completed' => true
-        ];
-    }
-
     // still pending
     return [];
 }
