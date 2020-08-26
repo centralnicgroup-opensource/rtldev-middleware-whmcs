@@ -56,7 +56,7 @@ This Repository covers the WHMCS Registrar Module of HEXONET. It provides the fo
 
 ## Resources ##
 
-* [Usage Guide](https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide)
+* [Our Guide](https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Start-selling-domains-with-HEXONET-&-WHMCS)
 * [Release Notes](https://github.com/hexonet/whmcs-ispapi-registrar/releases)
 * [Development Guide](https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Development-Guide)
 
@@ -68,11 +68,7 @@ NOTE: We introduced sematic-release starting with v1.0.63. This is why older Rel
 
 Download the ZIP archive including the latest release version [here](https://github.com/hexonet/whmcs-ispapi-registrar/raw/master/whmcs-ispapi-registrar-latest.zip).
 
-Read the following to get more information ...
-
-* [Installation](https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#installation)
-* [Configuration](https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#configuration)
-* [Cronjob configuration](https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#cronjob-configuration)
+Use [this Guide](https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Start-selling-domains-with-HEXONET-&-WHMCS) to get started.
 
 ## Minimum Requirements ##
 
@@ -85,9 +81,9 @@ Please read [our development guide](https://github.com/hexonet/whmcs-ispapi-regi
 
 ## Authors ##
 
-* **Anthony Schneider** - *development* - [AnthonySchn](https://github.com/anthonyschn)
-* **Kai Schwarz** - *development* - [PapaKai](https://github.com/papakai)
-* **Tulasi Seelamkurthi** - *development* - [Tulsi91](https://github.com/tulsi91)
+* **Kai Schwarz** - *lead developer* - [PapaKai](https://github.com/papakai)
+* **Anthony Schneider** - *former lead developer* - [AnthonySchn](https://github.com/anthonyschn)
+* **Tulasi Seelamkurthi** - *former developer* - [Tulsi91](https://github.com/tulsi91)
 
 See also the list of [contributors](https://github.com/hexonet/whmcs-ispapi-registrar/graphs/contributors) who participated in this project.
 
