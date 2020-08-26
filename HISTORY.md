@@ -1,3 +1,10 @@
+## [4.3.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.3.1...v4.3.2) (2020-08-26)
+
+
+### Bug Fixes
+
+* **transfersync:** refactor transfersync and fixed issue with status detection ([3107545](https://github.com/hexonet/whmcs-ispapi-registrar/commit/31075452df5099162161f52e7c3bc0b004f8e7c6))
+
 ## [4.3.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.3.0...v4.3.1) (2020-08-13)
 
 
