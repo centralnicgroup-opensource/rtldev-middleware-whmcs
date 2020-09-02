@@ -17,6 +17,7 @@ use WHMCS\Module\Registrar\Ispapi\Helper;
 use WHMCS\Module\Registrar\Ispapi\WebApps;
 use WHMCS\Module\Registrar\Ispapi\DomainTransfer as HXDomainTransfer;
 use WHMCS\Module\Registrar\Ispapi\Domain as HXDomain;
+use Illuminate\Database\Capsule\Manager as DB;
 
 /**
  * Check the availability of domains using HEXONET's fast API
@@ -626,6 +627,18 @@ function ispapi_getUserRelations($params)
  */
 function ispapi_getConfigArray($params)
 {
+    $oldModule = "hexonet";
+    $newModule = "ispapi";
+    if (@$_GET['migrate']) {
+        DB::table("tbldomains")->where("registrar", $oldModule)->update(["registrar" => $newModule]);
+        DB::table("tbldomainpricing")->where("autoreg", $oldModule)->update(["autoreg" => $newModule]);
+        DB::table("tblregistrars")->where("registrar", $oldModule)->delete();
+    }
+    $migrate = (
+        DB::table("tbldomains")->where("registrar", $oldModule)->get()->count() > 0
+        || DB::table("tbldomainpricing")->where("autoreg", $oldModule)->get()->count() > 0
+    );
+    
     $configarray = [
         "FriendlyName" => [
             "Type" => "System",
@@ -633,7 +646,10 @@ function ispapi_getConfigArray($params)
         ],
         "Description" => [
             "Type" => "System",
-            "Value" => "The Official ISPAPI Registrar Module. <a target=\"_blank\" href=\"https://www.hexonet.net\">www.hexonet.net</a>"
+            "Value" => (
+                "<a target=\"_blank\" href=\"https://www.hexonet.net\">HEXONET</a>'s official maintained white-label ISPAPI Registrar Module." .
+                ($migrate ? "<br /><a href=\"configregistrars.php?migrate=true&amp;saved=true\" class=\"btn btn-sm btn-default\" title=\"Click here to automatically migrate domains and TLD pricings related to Hexonet to this module!\">Migrate from HEXONET module</a>" : "")
+            )
         ],
         "Username" => [
             "Type" => "text",
