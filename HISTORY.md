@@ -1,3 +1,10 @@
+# [4.4.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.3.2...v4.4.0) (2020-09-02)
+
+
+### Features
+
+* **configuration:** offer automigration possibility from HEXONET to ISPAPI ([b1fc532](https://github.com/hexonet/whmcs-ispapi-registrar/commit/b1fc532f35da3ed4d0c8371c88ae47c6fdb21d9c))
+
 ## [4.3.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.3.1...v4.3.2) (2020-08-26)
 
 
