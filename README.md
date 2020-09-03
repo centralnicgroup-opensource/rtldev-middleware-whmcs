@@ -9,7 +9,8 @@ This Repository covers the WHMCS Registrar Module of HEXONET. It provides the fo
 
 ## Supported Features ##
 
-* **NEW v3.1.0** Web Apps: G Suite supported
+* 1-Click Migration from HEXONET registrar module
+* Web Apps: G Suite supported
 * TLD Pricing Import/Sync (WHMCS 7.10)
 * Domain Registration
   * Additional domain fields (default configurations integrated!)
