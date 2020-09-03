@@ -635,8 +635,8 @@ function ispapi_getConfigArray($params)
         DB::table("tblregistrars")->where("registrar", $oldModule)->delete();
     }
     $migrate = (
-        DB::table("tbldomains")->where("registrar", $oldModule)->get()->count() > 0
-        || DB::table("tbldomainpricing")->where("autoreg", $oldModule)->get()->count() > 0
+        DB::table("tbldomains")->where("registrar", $oldModule)->count() > 0
+        || DB::table("tbldomainpricing")->where("autoreg", $oldModule)->count() > 0
     );
     
     $configarray = [
