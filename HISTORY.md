@@ -1,3 +1,10 @@
+## [4.4.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.4.1...v4.4.2) (2020-09-03)
+
+
+### Bug Fixes
+
+* **configuration:** change order of use statements and explicitely assign aliases ([1f15194](https://github.com/hexonet/whmcs-ispapi-registrar/commit/1f151944bb5c35125e585c9993c85ca83c0699f4))
+
 ## [4.4.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.4.0...v4.4.1) (2020-09-03)
 
 
