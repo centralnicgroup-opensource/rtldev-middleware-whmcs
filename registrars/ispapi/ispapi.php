@@ -12,12 +12,12 @@ if (!defined("WHMCS")) {
     die("This file cannot be accessed directly");
 }
 
-use WHMCS\Module\Registrar\Ispapi\Ispapi;
-use WHMCS\Module\Registrar\Ispapi\Helper;
-use WHMCS\Module\Registrar\Ispapi\WebApps;
+use Illuminate\Database\Capsule\Manager as DB;
+use WHMCS\Module\Registrar\Ispapi\Ispapi as Ispapi;
+use WHMCS\Module\Registrar\Ispapi\Helper as Helper;
+use WHMCS\Module\Registrar\Ispapi\WebApps as WebApps;
 use WHMCS\Module\Registrar\Ispapi\DomainTransfer as HXDomainTransfer;
 use WHMCS\Module\Registrar\Ispapi\Domain as HXDomain;
-use Illuminate\Database\Capsule\Manager as DB;
 
 /**
  * Check the availability of domains using HEXONET's fast API
