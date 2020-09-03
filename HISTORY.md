@@ -1,3 +1,10 @@
+## [4.4.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.4.0...v4.4.1) (2020-09-03)
+
+
+### Bug Fixes
+
+* **configuration:** fixes DB calls to be downward compatible ([edc2867](https://github.com/hexonet/whmcs-ispapi-registrar/commit/edc28672bb116c3552ddca23738fd21f512332eb))
+
 # [4.4.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.3.2...v4.4.0) (2020-09-02)
 
 
