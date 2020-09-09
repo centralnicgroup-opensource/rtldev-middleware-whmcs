@@ -2439,7 +2439,6 @@ function ispapi_SaveContactDetails($params)
 
         ispapi_query_additionalfields($params);
         ispapi_use_additionalfields($params, $command);
-        //unset($command["X-CA-LEGALTYPE"]);
     }
 
     $response = Ispapi::call($command, $origparams);
