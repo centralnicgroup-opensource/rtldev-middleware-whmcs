@@ -647,37 +647,34 @@ function ispapi_getConfigArray($params)
         "Description" => [
             "Type" => "System",
             "Value" => (
-                "<a target=\"_blank\" href=\"https://www.hexonet.net\">HEXONET</a>'s official maintained white-label ISPAPI Registrar Module." .
+                "<a target=\"_blank\" href=\"https://www.hexonet.net\">HEXONET</a>'s official maintained white-label Registrar Module." .
                 ($migrate ? "<br /><a href=\"configregistrars.php?migrate=true&amp;saved=true\" class=\"btn btn-sm btn-default\" title=\"Click here to automatically migrate domains and TLD pricings related to Hexonet to this module!\">Migrate from HEXONET module</a>" : "")
             )
         ],
         "Username" => [
+            "FriendlyName" => "Username",
             "Type" => "text",
             "Size" => "20",
             "Description" => "Enter your ISPAPI Login ID"
         ],
         "Password" => [
+            "FriendlyName" => "Password",
             "Type" => "password",
             "Size" => "20",
             "Description" => "Enter your ISPAPI Password"
         ],
         "TestMode" => [
+            "FriendlyName" => "Use Test Environment",
             "Type" => "yesno",
             "Description" => "Connect to OT&amp;E (Test Environment)"
         ],
         "ProxyServer" => [
+            "FriendlyName" => "Proxy Server",
             "Type" => "text",
             "Description" => "Optional (HTTP(S) Proxy Server)"
         ],
-        "DNSSEC" => [
-            "Type" => "yesno",
-            "Description" => "Display the DNSSEC Management functionality in the domain details"
-        ],
-        "TRANSFERLOCK" => [
-            "Type" => "yesno",
-            "Description" => "Locks automatically a domain after a new registration"
-        ],
         "IRTP" => [
+            "FriendlyName" => "IRTP (Inter-Registrar Transfer Policy)",
             "Type" => "radio",
             "Options" => (
                 "Check to act as Designated Agent for all contact changes. Ensure you understand your role and responsibilities before checking this option.," .
@@ -686,16 +683,32 @@ function ispapi_getConfigArray($params)
             "Default" => "Check to act as Designated Agent for all contact changes. Ensure you understand your role and responsibilities before checking this option.",
             "Description" => (
                 "General info about IRTP can be found <a target=\"_blank\" href=\"https://wiki.hexonet.net/wiki/IRTP\" style=\"border-bottom: 1px solid blue; color: blue\">here</a>. " .
-                "Documentation about option one can be found <a target=\"_blank\" href=\"https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#option-two\" " .
-                "style=\"border-bottom: 1px solid blue; color: blue\">here</a> and option two <a target=\"_blank\" href=\"https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Usage-Guide#option-one\" " .
+                "Documentation about option one can be found <a target=\"_blank\" href=\"https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Start-selling-domains-with-HEXONET-&-WHMCS#option-one\" " .
+                "style=\"border-bottom: 1px solid blue; color: blue\">here</a> and option two <a target=\"_blank\" href=\"https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Start-selling-domains-with-HEXONET-&-WHMCS#option-two\" " .
                 "style=\"border-bottom: 1px solid blue; color: blue\">here</a>"
             )
+        ],
+        "TRANSFERLOCK" => [
+            "FriendlyName" => "Automatic Transfer Lock",
+            "Type" => "yesno",
+            "Description" => "Automatically locks a Domain after Registration"
+        ],
+        "NSUpdTransfer" => [
+            "FriendlyName" => "Automatic NS Update",
+            "Type" => "yesno",
+            "Description" => "Automatically update the domain's nameservers after successful transfer to the ones submitted with the order.<br/>NOTE: By default WHMCS suggests your configured Defaultnameservers in the configuration step of the shopping cart."
+        ],
+        "DNSSEC" => [
+            "FriendlyName" => "Offer DNSSEC / Secure DNS",
+            "Type" => "yesno",
+            "Description" => "Display the DNSSEC Management functionality in the Domain Details View."
         ]
     ];
     if (Ispapi::canUse("WEBAPPS", $params, false)) {
         $configarray["WebApps"] = [
+            "FriendlyName" => "Offer Web Apps",
             "Type" => "yesno",
-            "Description" => "Enable Offering Web Apps. Read <a href=\"https://www.hexonet.net/de/products/webapps\" target=\"_blank\" style=\"border-bottom: 1px solid blue; color: blue\">here</a>."
+            "Description" => "Enable Offering Web Apps in Domain Details View. Read <a href=\"https://www.hexonet.net/de/products/webapps\" target=\"_blank\" style=\"border-bottom: 1px solid blue; color: blue\">here</a>."
         ];
     }
 
@@ -3027,17 +3040,19 @@ function ispapi_TransferSync($params)
     if ($r["success"] && $r["data"]["COUNT"][0] != "0") {
         // AUTO-UPDATE ns after transfer
         // TODO: Move this to hook "DomainTransferCompleted" to keep code better readable
-        $newns = HXDomainTransfer::getRequestNameservers($params, $domain_pc, $logindex);
-        $currentns = HXDomain::getNameservers($params, $domain_pc);
-        if ($currentns["success"] && $newns["success"]) {
-            sort($currentns["nameservers"]);
-            sort($newns["nameservers"]);
-            if ($currentns !== $newns && !empty($newns["nameservers"])) {
-                Ispapi::call([
-                    "COMMAND" => "ModifyDomain",
-                    "DOMAIN" => $domain_pc,
-                    "NAMESERVER" => $newns["nameservers"]
-                ], $params);
+        if ($params["NSUpdTransfer"] == "on") {
+            $newns = HXDomainTransfer::getRequestNameservers($params, $domain_pc, $logindex);
+            $currentns = HXDomain::getNameservers($params, $domain_pc);
+            if ($currentns["success"] && $newns["success"]) {
+                sort($currentns["nameservers"]);
+                sort($newns["nameservers"]);
+                if ($currentns !== $newns && !empty($newns["nameservers"])) {
+                    Ispapi::call([
+                        "COMMAND" => "ModifyDomain",
+                        "DOMAIN" => $domain_pc,
+                        "NAMESERVER" => $newns["nameservers"]
+                    ], $params);
+                }
             }
         }
         // WHMCS fallbacks to _Sync method when not returning expirydate
