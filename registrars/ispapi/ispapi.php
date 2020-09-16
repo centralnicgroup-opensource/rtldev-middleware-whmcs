@@ -3223,13 +3223,14 @@ function ispapi_Sync($params)
     }
     //--------------- EXCEPTION [END] -----------
 
+
     //activate the whoistrustee if set to 1 in WHMCS
-    if (
+    /*if (
         ($params["idprotection"] == "1" || $params["idprotection"] == "on") &&
         empty($r["X-ACCEPT-WHOISTRUSTEE-TAC"][0]) // doesn't exist, "" or 0
     ) {
         $command["X-ACCEPT-WHOISTRUSTEE-TAC"] = 1;
-    }
+    }*/
     //check if domain update is necessary
     if (count(array_keys($command)) > 2) {
         Ispapi::call($command, $params);
