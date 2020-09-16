@@ -1,3 +1,10 @@
+## [4.4.3](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.4.2...v4.4.3) (2020-09-16)
+
+
+### Bug Fixes
+
+* **transfersync:** added configuration option to turn nameserver update after transfer on/off ([952de92](https://github.com/hexonet/whmcs-ispapi-registrar/commit/952de927f14e71b7d68cb83e22bf370445e4ab32))
+
 ## [4.4.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.4.1...v4.4.2) (2020-09-03)
 
 
