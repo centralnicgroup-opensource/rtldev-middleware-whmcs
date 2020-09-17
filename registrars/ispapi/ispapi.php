@@ -3095,9 +3095,7 @@ function ispapi_TransferSync($params)
  */
 function ispapi_Sync($params)
 {
-    logActivity("WHMCS Debug 1: " . print_r($params, true));
     $params = injectDomainObjectIfNecessary($params);
-    logActivity("WHMCS Debug 2: " . print_r($params, true));
     /** @var \WHMCS\Domains\Domain $domain */
     $domain = $params["domainObj"];
 
@@ -3225,12 +3223,11 @@ function ispapi_Sync($params)
     }
     //--------------- EXCEPTION [END] -----------
 
-    logActivity("WHMCS Debug 3: " . print_r($params, true));
     //activate the whoistrustee if set to 1 in WHMCS
     if ($params["idprotection"] && empty($r["X-ACCEPT-WHOISTRUSTEE-TAC"][0])) { // doesn't exist, "" or 0
         $command["X-ACCEPT-WHOISTRUSTEE-TAC"] = 1;
     }
-    
+
     //check if domain update is necessary
     if (count(array_keys($command)) > 2) {
         Ispapi::call($command, $params);
