@@ -10,7 +10,7 @@
 
 ### Bug Fixes
 
-* **transfersync:** wHMCS incorrectly forwards idprotection as active. commenting sync partially out ([33a4223](https://github.com/hexonet/whmcs-ispapi-registrar/commit/33a422312786fbe4b44d6a94f94cbc053cf69476))
+* **transfersync:** idprotection incorrectly considered as active. commenting sync partially out ([33a4223](https://github.com/hexonet/whmcs-ispapi-registrar/commit/33a422312786fbe4b44d6a94f94cbc053cf69476))
 
 ## [4.4.3](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.4.2...v4.4.3) (2020-09-16)
 
