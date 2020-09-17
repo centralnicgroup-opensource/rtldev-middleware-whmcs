@@ -1,3 +1,10 @@
+## [4.4.5](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.4.4...v4.4.5) (2020-09-17)
+
+
+### Bug Fixes
+
+* **transfersync:** reactivating fixed whois privacy service sync/auto-update ([337a102](https://github.com/hexonet/whmcs-ispapi-registrar/commit/337a102d38e5e24f9d0bd7fa90cddee673270170))
+
 ## [4.4.4](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.4.3...v4.4.4) (2020-09-16)
 
 
