@@ -1,3 +1,10 @@
+# [4.5.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.4.5...v4.5.0) (2020-09-18)
+
+
+### Features
+
+* **additionalfields:** added additional fields configuration code for .GAY ([57f5a92](https://github.com/hexonet/whmcs-ispapi-registrar/commit/57f5a92c7229997e2ae707b222d157e83f8efe4c))
+
 ## [4.4.5](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.4.4...v4.4.5) (2020-09-17)
 
 
