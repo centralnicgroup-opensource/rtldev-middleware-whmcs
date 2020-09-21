@@ -13,7 +13,8 @@ $additionaldomainfields['.gay'][] = [
         "Description" => "I agree I will not use the domain to incite violence, harassment, threats or hate speech on LGBTQ individuals or groups. 
                         I understand that DotGay donates 20% from each new domain registered to their partners, GLAAD and CenterLink.",
         "Required" => true,
-        "Ispapi-Name" => "X-GAY-ACCEPT-REQUIREMENTS"
+        "Ispapi-Name" => "X-GAY-ACCEPT-REQUIREMENTS",
+	"Ispapi-Eval" => 'if ( $value ) { $value = "1"; } else { $value = ""; }'
 ];
 
 ## .NU DOMAIN REQUIREMENTS ##
