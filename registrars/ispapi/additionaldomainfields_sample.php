@@ -14,7 +14,7 @@ $additionaldomainfields['.gay'][] = [
                         I understand that DotGay donates 20% from each new domain registered to their partners, GLAAD and CenterLink.",
         "Required" => true,
         "Ispapi-Name" => "X-GAY-ACCEPT-REQUIREMENTS",
-	"Ispapi-Eval" => 'if ( $value ) { $value = "1"; } else { $value = ""; }'
+    "Ispapi-Eval" => 'if ( $value ) { $value = "1"; } else { $value = ""; }'
 ];
 
 ## .NU DOMAIN REQUIREMENTS ##
