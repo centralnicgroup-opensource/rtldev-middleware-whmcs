@@ -1,3 +1,10 @@
+## [4.5.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.0...v4.5.1) (2020-09-24)
+
+
+### Bug Fixes
+
+* **transfersync:** use status check and just leave corner cases to log lookup mechanism ([da0c6f7](https://github.com/hexonet/whmcs-ispapi-registrar/commit/da0c6f704a811edf5817be079f867fb7f76cb725))
+
 # [4.5.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.4.5...v4.5.0) (2020-09-18)
 
 
