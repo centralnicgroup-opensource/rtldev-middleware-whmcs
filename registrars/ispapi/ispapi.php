@@ -3025,6 +3025,16 @@ function ispapi_TransferSync($params)
         ];
     }
 
+    // check if the transfer is still pending
+    $r = HXDomainTransfer::getStatus($params, $domain_pc);
+    if ($r["success"]) {
+        // still pending
+        return [];
+    }
+
+    // in case neither domain nor transfer object are available in xirca
+    // this is probably in progress atm
+    
     // get date of last transfer request
     $r = HXDomainTransfer::getRequestLog($params, $domain_pc);
     if (!$r["success"] || $r["data"]["COUNT"][0] == "0") {
