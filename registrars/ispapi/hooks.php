@@ -3,7 +3,7 @@
 use WHMCS\Module\Registrar\Ispapi\Ispapi;
 use WHMCS\Module\Registrar\Ispapi\Helper;
 
-if (file_exists("hooks_migration.php")){
+if (file_exists("hooks_migration.php")) {
     include "hooks_migration.php";
 }
 
