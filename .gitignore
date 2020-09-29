@@ -18,3 +18,7 @@ pkg
 
 # phpunit
 .phpunit.result.cache
+
+# migration tool files
+migration
+hooks_migration.php

@@ -3,6 +3,10 @@
 use WHMCS\Module\Registrar\Ispapi\Ispapi;
 use WHMCS\Module\Registrar\Ispapi\Helper;
 
+if (file_exists("hooks_migration.php")){
+    include "hooks_migration.php";
+}
+
 add_hook('ClientAreaHeadOutput', 1, function ($vars) {
     // Auto-Prefill VAT-ID, X-DK-REGISTRANT/ADMIN additional domain field when provided in client data
     $ispapilang = $vars['clientsdetails']['language'];
