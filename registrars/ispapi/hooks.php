@@ -3,8 +3,9 @@
 use WHMCS\Module\Registrar\Ispapi\Ispapi;
 use WHMCS\Module\Registrar\Ispapi\Helper;
 
-if (file_exists("hooks_migration.php")) {
-    include "hooks_migration.php";
+$path = implode(DIRECTORY_SEPARATOR, [__DIR__, "hooks_migration.php"]);
+if (file_exists($path)) {
+    include $path;
 }
 
 add_hook('ClientAreaHeadOutput', 1, function ($vars) {
