@@ -844,10 +844,10 @@ function ispapi_ClientAreaCustomButtonArray($params)
         $tld = strtoupper(preg_replace("/.+\./", ".", $domain));
         $buttonarray[$tld . " Change of Registrant"] = "registrantmodification_tld";
     }
+    if ($params["DNSSEC"] == "on") {
+        $buttonarray["DNSSEC Management"] = "dnssec";
+    }
     if ($params["dnsmanagement"]) {
-        if ($params["DNSSEC"] == "on") {
-            $buttonarray["DNSSEC Management"] = "dnssec";
-        }
         if (Ispapi::canUse("WEBAPPS", $params, true)) {
             $buttonarray["Web Apps"] = "webapps";
         }
