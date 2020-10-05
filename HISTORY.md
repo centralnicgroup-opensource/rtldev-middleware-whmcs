@@ -1,3 +1,10 @@
+## [4.5.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.1...v4.5.2) (2020-10-05)
+
+
+### Bug Fixes
+
+* **dnssec:** offer DNSSEC/Secure DNS also non-DNS Management cases ([6495de3](https://github.com/hexonet/whmcs-ispapi-registrar/commit/6495de398c712fa64cc584722c3fc84106ef050f))
+
 ## [4.5.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.0...v4.5.1) (2020-09-24)
 
 
