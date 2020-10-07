@@ -9,7 +9,7 @@
 ## TODO: THE FOLLOWING TLDS REQUIRE ADDITIONAL FIELDS
 ## IF YOU NEED ONE OF THEM LET US KNOW. WE'LL PROVIDE THIS ASAP!
 ## -- REGISTRATION --
-## .BOATS, .BROKER, .CAT, .CFD,
+## .BROKER, .CAT, .CFD,
 ## .DENTIST, .FOREX, .HEALTH, .HOMES, .ID, .INSURANCE, .LOTTO, .LV, .LAW, .LAWYER,
 ## .MADRID, .MAKEUP, .MARKETS, .MELBOURNE, .MK, .MY, .NGO, .PARIS, .RU, .SPORT,
 ## .SPREADBETTING, .SYDNEY, .TRADING, .XXX, .NET.ZA, .ORG.ZA, .рф, .香港
@@ -77,15 +77,12 @@ $additionaldomainfields[".attorney"][] = array(
 );
 
 ## .COM.AU DOMAIN REQUIREMENTS ##
-## remove default whmcs fields ##
 $additionaldomainfields[".com.au"][] = array("Name" => "Registrant Name", "Remove" => true);
 $additionaldomainfields[".com.au"][] = array("Name" => "Eligibility Name", "Remove" => true);
 $additionaldomainfields[".com.au"][] = array("Name" => "Eligibility ID", "Remove" => true);
 $additionaldomainfields[".com.au"][] = array("Name" => "Eligibility ID Type", "Remove" => true);
 $additionaldomainfields[".com.au"][] = array("Name" => "Eligibility Type", "Remove" => true);
 $additionaldomainfields[".com.au"][] = array("Name" => "Eligibility Reason", "Remove" => true);
-
-## add ispapi additional fields ##
 $additionaldomainfields[".com.au"][] = array(
     "Name" => "Registrant ID",
     "Type" => "text",
@@ -148,6 +145,19 @@ $additionaldomainfields[".berlin"][] = array(
     "Options" => ",Registrant and/or Admin-C are domiciled in Berlin / Use Local Presence Service",
     "Ispapi-Name" => "X-BERLIN-ACCEPT-TRUSTEE-TAC",
     "Ispapi-Options" => ",1"
+);
+
+## .BOATS
+$additionaldomainfields[".boats"] = [];
+$additionaldomainfields[".boats"][] = array(
+    "Name" => "Highly Regulated TLD",
+    "Type" => "tickbox",
+    "Required" => true,
+    "Description" => (
+        "Tick to confirm that you certify that the Registrant is eligibile to register this domain and that all provided information is " .
+        "true and accurate. Eligibility criteria may be viewed <a href='https://get.boats/policies/' target='_blank'>here</a>."
+    ),
+    "Ispapi-Name" => "X-BOATS-ACCEPT-HIGHLY-REGULATED-TAC"
 );
 
 ## .CA DOMAIN REQUIREMENTS ##
