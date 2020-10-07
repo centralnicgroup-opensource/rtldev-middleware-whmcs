@@ -9,7 +9,7 @@
 ## TODO: THE FOLLOWING TLDS REQUIRE ADDITIONAL FIELDS
 ## IF YOU NEED ONE OF THEM LET US KNOW. WE'LL PROVIDE THIS ASAP!
 ## -- REGISTRATION --
-## .BARCELONA, .BOATS, .BROKER, .CAT, .CFD,
+## .BOATS, .BROKER, .CAT, .CFD,
 ## .DENTIST, .FOREX, .HEALTH, .HOMES, .ID, .INSURANCE, .LOTTO, .LV, .LAW, .LAWYER,
 ## .MADRID, .MAKEUP, .MARKETS, .MELBOURNE, .MK, .MY, .NGO, .PARIS, .RU, .SPORT,
 ## .SPREADBETTING, .SYDNEY, .TRADING, .XXX, .NET.ZA, .ORG.ZA, .рф, .香港
@@ -119,6 +119,15 @@ $additionaldomainfields[".bank"][] = [
         "Please complete the registrant application <a href='https://www.register.bank/get-started/' target='_blank'>here</a> to obtain the token."
     ),
     "Ispapi-Name" => "X-ALLOCATIONTOKEN"
+];
+
+## .BARCELONA
+$additionaldomainfields[".barcelona"] = [];
+$additionaldomainfields[".barcelona"][] = [
+    "Name" => "Intended Use",
+    "Type" => "text",
+    "Required" => true,
+    "Ispapi-Name" => "X-CORE-INTENDED-USE"
 ];
 
 ## .BAYERN DOMAIN REQUIREMENTS ##
