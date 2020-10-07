@@ -9,7 +9,7 @@
 ## TODO: THE FOLLOWING TLDS REQUIRE ADDITIONAL FIELDS
 ## IF YOU NEED ONE OF THEM LET US KNOW. WE'LL PROVIDE THIS ASAP!
 ## -- REGISTRATION --
-## .BROKER, .CAT, .CFD,
+## .CAT, .CFD,
 ## .DENTIST, .FOREX, .HEALTH, .HOMES, .ID, .INSURANCE, .LOTTO, .LV, .LAW, .LAWYER,
 ## .MADRID, .MAKEUP, .MARKETS, .MELBOURNE, .MK, .MY, .NGO, .PARIS, .RU, .SPORT,
 ## .SPREADBETTING, .SYDNEY, .TRADING, .XXX, .NET.ZA, .ORG.ZA, .рф, .香港
@@ -158,6 +158,19 @@ $additionaldomainfields[".boats"][] = array(
         "true and accurate. Eligibility criteria may be viewed <a href='https://get.boats/policies/' target='_blank'>here</a>."
     ),
     "Ispapi-Name" => "X-BOATS-ACCEPT-HIGHLY-REGULATED-TAC"
+);
+
+## .BROKER
+$additionaldomainfields[".broker"] = [];
+$additionaldomainfields[".broker"][] = array(
+    "Name" => "Highly Regulated TLD",
+    "Type" => "tickbox",
+    "Required" => true,
+    "Description" => (
+        "Tick to confirm that you certify that the Registrant is eligibile to register this domain and that all provided information is " .
+        "true and accurate. Eligibility criteria may be viewed <a href='https://nic.broker/' target='_blank'>here</a>."
+    ),
+    "Ispapi-Name" => "X-BROKER-ACCEPT-HIGHLY-REGULATED-TAC"
 );
 
 ## .CA DOMAIN REQUIREMENTS ##
