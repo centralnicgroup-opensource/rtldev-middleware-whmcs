@@ -9,7 +9,6 @@
 ## TODO: THE FOLLOWING TLDS REQUIRE ADDITIONAL FIELDS
 ## IF YOU NEED ONE OF THEM LET US KNOW. WE'LL PROVIDE THIS ASAP!
 ## -- REGISTRATION --
-## .CAT, .CFD,
 ## .DENTIST, .FOREX, .HEALTH, .HOMES, .ID, .INSURANCE, .LOTTO, .LV, .LAW, .LAWYER,
 ## .MADRID, .MAKEUP, .MARKETS, .MELBOURNE, .MK, .MY, .NGO, .PARIS, .RU, .SPORT,
 ## .SPREADBETTING, .SYDNEY, .TRADING, .XXX, .NET.ZA, .ORG.ZA, .рф, .香港
@@ -223,6 +222,19 @@ $additionaldomainfields[".cat"][] = [
     "Required" => true,
     "Ispapi-Name" => "X-CORE-INTENDED-USE"
 ];
+
+## .CFD
+$additionaldomainfields[".cfd"] = [];
+$additionaldomainfields[".cfd"][] = array(
+    "Name" => "Highly Regulated TLD",
+    "Type" => "tickbox",
+    "Required" => true,
+    "Description" => (
+        "Tick to confirm that you certify that the Registrant is eligibile to register this domain and that all provided information is " .
+        "true and accurate. Eligibility criteria may be viewed <a href='https://nic.cfd/' target='_blank'>here</a>."
+    ),
+    "Ispapi-Name" => "X-CFD-ACCEPT-HIGHLY-REGULATED-TAC"
+);
 
 ## .CN DOMAIN REQUIREMENTS ##
 ## remove default whmcs fields ##
