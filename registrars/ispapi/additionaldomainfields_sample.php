@@ -9,7 +9,7 @@
 ## TODO: THE FOLLOWING TLDS REQUIRE ADDITIONAL FIELDS
 ## IF YOU NEED ONE OF THEM LET US KNOW. WE'LL PROVIDE THIS ASAP!
 ## -- REGISTRATION --
-## .BANK, .BARCELONA, .BOATS, .BROKER, .CAT, .CFD,
+## .BARCELONA, .BOATS, .BROKER, .CAT, .CFD,
 ## .DENTIST, .FOREX, .HEALTH, .HOMES, .ID, .INSURANCE, .LOTTO, .LV, .LAW, .LAWYER,
 ## .MADRID, .MAKEUP, .MARKETS, .MELBOURNE, .MK, .MY, .NGO, .PARIS, .RU, .SPORT,
 ## .SPREADBETTING, .SYDNEY, .TRADING, .XXX, .NET.ZA, .ORG.ZA, .рф, .香港
@@ -107,6 +107,19 @@ $additionaldomainfields[".asn.au"] = $additionaldomainfields[".com.au"];
 $additionaldomainfields[".net.au"] = $additionaldomainfields[".com.au"];
 $additionaldomainfields[".org.au"] = $additionaldomainfields[".com.au"];
 $additionaldomainfields[".id.au"] = $additionaldomainfields[".com.au"];
+
+## .BANK
+$additionaldomainfields[".bank"] = [];
+$additionaldomainfields[".bank"][] = [
+    "Name" => "Registry's Allocation Token",
+    "Type" => "text",
+    "Required" => true,
+    "Description" => (
+        "To register a .BANK domain, you must provide the allocation token issued by the registry. " .
+        "Please complete the registrant application <a href='https://www.register.bank/get-started/' target='_blank'>here</a> to obtain the token."
+    ),
+    "Ispapi-Name" => "X-ALLOCATIONTOKEN"
+];
 
 ## .BAYERN DOMAIN REQUIREMENTS ##
 $additionaldomainfields[".bayern"] = array();
