@@ -9,11 +9,24 @@
 ## TODO: THE FOLLOWING TLDS REQUIRE ADDITIONAL FIELDS
 ## IF YOU NEED ONE OF THEM LET US KNOW. WE'LL PROVIDE THIS ASAP!
 ## -- REGISTRATION --
-## .ABOGADO, .AE, .ATTORNEY, .BANK, .BARCELONA, .BOATS, .BROKER, .CAT, .CFD, .COM.BR,
+## .AE, .ATTORNEY, .BANK, .BARCELONA, .BOATS, .BROKER, .CAT, .CFD,
 ## .DENTIST, .FOREX, .HEALTH, .HOMES, .ID, .INSURANCE, .LOTTO, .LV, .LAW, .LAWYER,
 ## .MADRID, .MAKEUP, .MARKETS, .MELBOURNE, .MK, .MY, .NGO, .PARIS, .RU, .SPORT,
 ## .SPREADBETTING, .SYDNEY, .TRADING, .XXX, .NET.ZA, .ORG.ZA, .рф, .香港
 ## -- TRANSFER / TRADE -- (to cover when WHMCS' design is ready for it)
+
+## .ABOGADO
+$additionaldomainfields[".abogado"] = [];
+$additionaldomainfields[".abogado"][] = array(
+    "Name" => "Highly Regulated TLD",
+    "Type" => "tickbox",
+    "Required" => true,
+    "Description" => (
+        "Tick to confirm that you certify that the Registrant is eligibile to register this domain and that all provided information is " .
+        "true and accurate. Eligibility criteria may be viewed <a href='http://nic.law/eligibilitycriteria/' target='_blank'>here</a>."
+    ),
+    "Ispapi-Name" => "X-ABOGADO-ACCEPT-HIGHLY-REGULATED-TAC"
+);
 
 ## .AERO DOMAIN REQUIREMENTS ##
 ## remove default whmcs fields ##
