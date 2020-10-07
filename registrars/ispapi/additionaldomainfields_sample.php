@@ -205,6 +205,25 @@ $additionaldomainfields[".ca"][] = array(
     "Ispapi-Eval" => 'if ( $value ) { $value = "0"; } else { $value = "1"; }'
 );
 
+## .CAT
+$additionaldomainfields[".cat"] = [];
+$additionaldomainfields[".cat"][] = array(
+    "Name" => "Highly Regulated TLD",
+    "Type" => "tickbox",
+    "Required" => true,
+    "Description" => (
+        "Tick to confirm that you certify that the Registrant is eligibile to register this domain and that all provided information is " .
+        "true and accurate. Eligibility criteria may be viewed <a href='http://domini.cat/en/domini/rules-cat-domain' target='_blank'>here</a>."
+    ),
+    "Ispapi-Name" => "X-CAT-ACCEPT-HIGHLY-REGULATED-TAC"
+);
+$additionaldomainfields[".cat"][] = [
+    "Name" => "Intended Use",
+    "Type" => "text",
+    "Required" => true,
+    "Ispapi-Name" => "X-CORE-INTENDED-USE"
+];
+
 ## .CN DOMAIN REQUIREMENTS ##
 ## remove default whmcs fields ##
 $additionaldomainfields[".cn"][] = array("Name" => "cnhosting", "Remove" => true);
