@@ -9,7 +9,7 @@
 ## TODO: THE FOLLOWING TLDS REQUIRE ADDITIONAL FIELDS
 ## IF YOU NEED ONE OF THEM LET US KNOW. WE'LL PROVIDE THIS ASAP!
 ## -- REGISTRATION --
-## .ATTORNEY, .BANK, .BARCELONA, .BOATS, .BROKER, .CAT, .CFD,
+## .BANK, .BARCELONA, .BOATS, .BROKER, .CAT, .CFD,
 ## .DENTIST, .FOREX, .HEALTH, .HOMES, .ID, .INSURANCE, .LOTTO, .LV, .LAW, .LAWYER,
 ## .MADRID, .MAKEUP, .MARKETS, .MELBOURNE, .MK, .MY, .NGO, .PARIS, .RU, .SPORT,
 ## .SPREADBETTING, .SYDNEY, .TRADING, .XXX, .NET.ZA, .ORG.ZA, .рф, .香港
@@ -39,11 +39,8 @@ $additionaldomainfields[".ae"][] = [
 ];
 
 ## .AERO DOMAIN REQUIREMENTS ##
-## remove default whmcs fields ##
 $additionaldomainfields['.aero'][] = array('Name' => '.AERO ID', "Remove" => true);
 $additionaldomainfields['.aero'][] = array('Name' => '.AERO Key', "Remove" => true);
-
-## add ispapi additional fields ##
 $additionaldomainfields[".aero"][] = array(
     "Name" => ".aero ID",
     "Type" => "text",
@@ -55,6 +52,28 @@ $additionaldomainfields[".aero"][] = array(
     "Type" => "text",
     "Required" => true,
     "Ispapi-Name" => "X-AERO-ENS-AUTH-KEY",
+);
+
+## .ATTORNEY
+$additionaldomainfields[".attorney"] = [];
+$additionaldomainfields[".attorney"][] = array(
+    "Name" => "Highly Regulated TLD",
+    "Type" => "tickbox",
+    "Required" => true,
+    "Description" => (
+        "Tick to confirm the <b>Safeguards for Highly-regulated TLDs</b>:<br/>" .
+        "<div style='text-align:justify'>You understand and agree that you will abide by and be compliant with these additional terms:" .
+        "<ol><li>Administrative Contact Information. You agree to provide administrative contact information, which must be kept up-to-date, " .
+        "for the notification of complaints or reports of registration abuse, as well as the contact details of the relevant regulatory, or " .
+        "industry selfregulatory, bodies in their main place of business.</li>" .
+        "<li>Representation. You confirm and represent that you possesses any necessary authorizations, charters, licenses and/or other related " .
+        "credentials for participation in the sector associated with such Highly-Regulated TLD.</li>" .
+        "<li>Report of Changes of Authorization, Charters, Licenses, Credentials. You agree to report any material changes to the validity of " .
+        "your authorizations, charters, licenses and/or other related credentials for participation in the sector associated with the Highly-Regulated " .
+        "TLD to ensure you continue to conform to the appropriate regulations and licensing requirements and generally conduct you activities in the " .
+        "interests of the consumers you serve..</li></ol></div>"
+    ),
+    "Ispapi-Name" => "X-ATTORNEY-ACCEPT-HIGHLY-REGULATED-TAC"
 );
 
 ## .COM.AU DOMAIN REQUIREMENTS ##
