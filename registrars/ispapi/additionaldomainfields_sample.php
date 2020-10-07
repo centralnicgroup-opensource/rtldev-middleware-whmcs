@@ -9,7 +9,7 @@
 ## TODO: THE FOLLOWING TLDS REQUIRE ADDITIONAL FIELDS
 ## IF YOU NEED ONE OF THEM LET US KNOW. WE'LL PROVIDE THIS ASAP!
 ## -- REGISTRATION --
-## .AE, .ATTORNEY, .BANK, .BARCELONA, .BOATS, .BROKER, .CAT, .CFD,
+## .ATTORNEY, .BANK, .BARCELONA, .BOATS, .BROKER, .CAT, .CFD,
 ## .DENTIST, .FOREX, .HEALTH, .HOMES, .ID, .INSURANCE, .LOTTO, .LV, .LAW, .LAWYER,
 ## .MADRID, .MAKEUP, .MARKETS, .MELBOURNE, .MK, .MY, .NGO, .PARIS, .RU, .SPORT,
 ## .SPREADBETTING, .SYDNEY, .TRADING, .XXX, .NET.ZA, .ORG.ZA, .рф, .香港
@@ -27,6 +27,16 @@ $additionaldomainfields[".abogado"][] = array(
     ),
     "Ispapi-Name" => "X-ABOGADO-ACCEPT-HIGHLY-REGULATED-TAC"
 );
+
+## .AE
+$additionaldomainfields[".ae"] = [];
+$additionaldomainfields[".ae"][] = [
+    "Name" => "Agreement",
+    "Type" => "tickbox",
+    "Description" => "Tick to confirm the <a href='https://www.nic.ae/content.jsp?action=termcond_ae' target='_blank'>Terms for Individuals</a>",
+    "Required" => true,
+    "Ispapi-Name" => "X-AE-ACCEPT-REGISTRATION-TAC"
+];
 
 ## .AERO DOMAIN REQUIREMENTS ##
 ## remove default whmcs fields ##
