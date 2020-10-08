@@ -1265,6 +1265,31 @@ $additionaldomainfields[".swiss"][] = array(
     "Ispapi-Name" => "X-CORE-INTENDED-USE",
 );
 
+## .SYDNEY
+$additionaldomainfields[".sydney"] = [];
+$additionaldomainfields[".sydney"][] = [
+    "Name" => "Nexus Category",
+    "Type" => "dropdown",
+    "Required" => true,
+    "Options" =>  "A|New South Wales Entities,B|New South Wales Residents,C|Associated Entities",
+    "Default" => "A",
+    "Ispapi-Name" => "X-SYDNEY-NEXUS-CATEGORY",
+    "Description" => (
+        "In order to register or renew a .SYDNEY domain name the Applicant or Registrant must satisfy one of the following Criteria A, B or C below:<br/><br/>" .
+        "<b>Criteria A – New South Wales Entities</b><br/>" .
+        "The Applicant must be an entity registered with the Australian Securities and Investments Commission or the Australian Business Register that:<br/>" .
+        "has an address in the State of New South Wales associated with its ABN, ACN, RBN or ARBN; or has a valid corporate address in the State of New South Wales.<br/>" .
+        "<b>Criteria B – New South Wales Residents</b><br/>" .
+        "The Applicant must be an Australian citizen or resident with a valid address in the State of New South Wales.<br/>" .
+        "<b>Criteria C – Associated Entities</b><br/>" .
+        "The Applicant must be an Associated Entity. The Applicant may only apply for a domain name that is an Exact Match or Partial Match to, or an Abbreviation, or an Acronym of:<br/>" .
+        "the business name of the Applicant, or name by which the Applicant is commonly known ( i.e. a nickname) and the business name must be registered with the appropriate authority in " .
+        "the jurisdiction in which that business is domiciled; or a product that the Associated Entity manufactures or sells to entities or individuals residing in the State of New South Wales;" .
+        "a service that the Associated Entity provides to residents of the State of New South Wales; an event that the Associated Entity organises or sponsors in the State of New South Wales;" .
+        "an activity that the Associated Entity facilitates in the State of New South Wales; or a course or training program that the Associated Entity provides to residents of the State of New South Wales."
+    )
+];
+
 ## .TRAVEL DOMAIN REQUIREMENTS ##
 ## remove default whmcs fields ##
 $additionaldomainfields['.travel'][] = array('Name' => 'Trustee Service', "Remove" => true);
