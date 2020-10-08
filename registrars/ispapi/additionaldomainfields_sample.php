@@ -9,7 +9,6 @@
 ## TODO: THE FOLLOWING TLDS REQUIRE ADDITIONAL FIELDS
 ## IF YOU NEED ONE OF THEM LET US KNOW. WE'LL PROVIDE THIS ASAP!
 ## -- REGISTRATION --
-## .LV, .LAW, .LAWYER,
 ## .MADRID, .MAKEUP, .MARKETS, .MELBOURNE, .MK, .MY, .NGO, .PARIS, .RU, .SPORT,
 ## .SPREADBETTING, .SYDNEY, .TRADING, .XXX, .NET.ZA, .ORG.ZA, .рф, .香港
 ## -- TRANSFER / TRADE -- (to cover when WHMCS' design is ready for it)
@@ -70,7 +69,7 @@ $additionaldomainfields[".attorney"][] = array(
         "<li>Report of Changes of Authorization, Charters, Licenses, Credentials. You agree to report any material changes to the validity of " .
         "your authorizations, charters, licenses and/or other related credentials for participation in the sector associated with the Highly-Regulated " .
         "TLD to ensure you continue to conform to the appropriate regulations and licensing requirements and generally conduct you activities in the " .
-        "interests of the consumers you serve..</li></ol></div>"
+        "interests of the consumers you serve.</li></ol></div>"
     ),
     "Ispapi-Name" => "X-ATTORNEY-ACCEPT-HIGHLY-REGULATED-TAC"
 );
@@ -304,7 +303,7 @@ $additionaldomainfields[".dentist"][] = array(
         "<li>Report of Changes of Authorization, Charters, Licenses, Credentials. You agree to report any material changes to the validity of " .
         "your authorizations, charters, licenses and/or other related credentials for participation in the sector associated with the Highly-Regulated " .
         "TLD to ensure you continue to conform to the appropriate regulations and licensing requirements and generally conduct you activities in the " .
-        "interests of the consumers you serve..</li></ol></div>"
+        "interests of the consumers you serve.</li></ol></div>"
     ),
     "Ispapi-Name" => "X-DENTIST-ACCEPT-HIGHLY-REGULATED-TAC"
 );
@@ -817,6 +816,41 @@ $additionaldomainfields[".jp"][] = array(
     "Ispapi-Name" => "X-JP-ACCEPT-TRUSTEE-TAC",
     "Ispapi-Options" => ",1"
 );*/
+
+## .LAW
+$additionaldomainfields[".law"] = [];
+$additionaldomainfields[".law"][] = array(
+    "Name" => "Highly Regulated TLD",
+    "Type" => "tickbox",
+    "Required" => true,
+    "Description" => (
+        "Tick to confirm that you certify that the Registrant is eligibile to register this domain and that all provided information is " .
+        "true and accurate. Eligibility criteria may be viewed <a href='http://nic.law/eligibilitycriteria/' target='_blank'>here</a>."
+    ),
+    "Ispapi-Name" => "X-LAW-ACCEPT-HIGHLY-REGULATED-TAC"
+);
+
+## .LAWYER
+$additionaldomainfields[".lawyer"] = [];
+$additionaldomainfields[".lawyer"][] = array(
+    "Name" => "Highly Regulated TLD",
+    "Type" => "tickbox",
+    "Required" => true,
+    "Description" => (
+        "Tick to confirm the <b>Safeguards for Highly-regulated TLDs</b>:<br/>" .
+        "<div style='text-align:justify'>You understand and agree that you will abide by and be compliant with these additional terms:" .
+        "<ol><li>Administrative Contact Information. You agree to provide administrative contact information, which must be kept up-to-date, " .
+        "for the notification of complaints or reports of registration abuse, as well as the contact details of the relevant regulatory, or " .
+        "industry selfregulatory, bodies in their main place of business.</li>" .
+        "<li>Representation. You confirm and represent that you possesses any necessary authorizations, charters, licenses and/or other related " .
+        "credentials for participation in the sector associated with such Highly-Regulated TLD.</li>" .
+        "<li>Report of Changes of Authorization, Charters, Licenses, Credentials. You agree to report any material changes to the validity of " .
+        "your authorizations, charters, licenses and/or other related credentials for participation in the sector associated with the Highly-Regulated " .
+        "TLD to ensure you continue to conform to the appropriate regulations and licensing requirements and generally conduct you activities in the " .
+        "interests of the consumers you serve.</li></ol></div>"
+    ),
+    "Ispapi-Name" => "X-LAWYER-ACCEPT-HIGHLY-REGULATED-TAC"
+);
 
 ## .LOTTO
 $additionaldomainfields[".lotto"] = [];
