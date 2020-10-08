@@ -9,7 +9,7 @@
 ## TODO: THE FOLLOWING TLDS REQUIRE ADDITIONAL FIELDS
 ## IF YOU NEED ONE OF THEM LET US KNOW. WE'LL PROVIDE THIS ASAP!
 ## -- REGISTRATION --
-## .LOTTO, .LV, .LAW, .LAWYER,
+## .LV, .LAW, .LAWYER,
 ## .MADRID, .MAKEUP, .MARKETS, .MELBOURNE, .MK, .MY, .NGO, .PARIS, .RU, .SPORT,
 ## .SPREADBETTING, .SYDNEY, .TRADING, .XXX, .NET.ZA, .ORG.ZA, .рф, .香港
 ## -- TRANSFER / TRADE -- (to cover when WHMCS' design is ready for it)
@@ -127,24 +127,28 @@ $additionaldomainfields[".barcelona"][] = [
 ];
 
 ## .BAYERN DOMAIN REQUIREMENTS ##
-$additionaldomainfields[".bayern"] = array();
+## NOTE: Activate trustee service / local presence service just in case you have reflected the service costs
+## in the TLD prices otherwise your customers do not pay for it. This is a missing Domain Add-On in WHMCS.
+/*$additionaldomainfields[".bayern"] = array();
 $additionaldomainfields[".bayern"][] = array(
     "Name" => "Local Presence",
     "Type" => "dropdown",
     "Options" => ",Registrant and/or Admin-C are domiciled in Bayern / Use Local Presence Service",
     "Ispapi-Name" => "X-BAYERN-ACCEPT-TRUSTEE-TAC",
     "Ispapi-Options" => ",1"
-);
+);*/
 
 ## .BERLIN DOMAIN REQUIREMENTS ##
-$additionaldomainfields[".berlin"] = array();
+## NOTE: Activate trustee service / local presence service just in case you have reflected the service costs
+## in the TLD prices otherwise your customers do not pay for it. This is a missing Domain Add-On in WHMCS.
+/*$additionaldomainfields[".berlin"] = array();
 $additionaldomainfields[".berlin"][] = array(
     "Name" => "Local Presence",
     "Type" => "dropdown",
     "Options" => ",Registrant and/or Admin-C are domiciled in Berlin / Use Local Presence Service",
     "Ispapi-Name" => "X-BERLIN-ACCEPT-TRUSTEE-TAC",
     "Ispapi-Options" => ",1"
-);
+);*/
 
 ## .BOATS
 $additionaldomainfields[".boats"] = [];
@@ -272,14 +276,16 @@ $additionaldomainfields[".com.br"][] = array(
 $additionaldomainfields[".de"][] = array("Name" => "Tax ID", "Remove" => true);
 $additionaldomainfields[".de"][] = array("Name" => "Address Confirmation", "Remove" => true);
 $additionaldomainfields[".de"][] = array("Name" => "Agree to DE Terms", "Remove" => true);
-$additionaldomainfields[".de"][] = array(
+## NOTE: Activate trustee service / local presence service just in case you have reflected the service costs
+## in the TLD prices otherwise your customers do not pay for it. This is a missing Domain Add-On in WHMCS.
+/*$additionaldomainfields[".de"][] = array(
     "Name" => "Local Presence",
     "Type" => "dropdown",
     "Options" => ",Registrant and/or Admin-C are domiciled in Germany / Use Local Presence Service",
     "Ispapi-IgnoreForCountries" => "DE",
     "Ispapi-Name" => "X-DE-ACCEPT-TRUSTEE-TAC",
     "Ispapi-Options" => ",1"
-);
+);*/
 
 ## .DENTIST
 $additionaldomainfields[".dentist"] = [];
@@ -401,7 +407,9 @@ $additionaldomainfields[".es"][] = array(
 );
 
 ## .EU DOMAIN REQUIREMENTS ##
-$additionaldomainfields[".eu"] = array();
+## NOTE: Activate trustee service / local presence service just in case you have reflected the service costs
+## in the TLD prices otherwise your customers do not pay for it. This is a missing Domain Add-On in WHMCS.
+/*$additionaldomainfields[".eu"] = array();
 $additionaldomainfields[".eu"][] = array(
     "Name" => "Local Presence",
     "Type" => "dropdown",
@@ -409,7 +417,7 @@ $additionaldomainfields[".eu"][] = array(
     "Ispapi-IgnoreForCountries" => "AT,BE,BG,CZ,CY,DE,DK,ES,EE,FI,FR,GR,GB,HU,IE,IT,LT,LU,LV,MT,NL,PL,PT,RO,SE,SK,SI,AX,GF,GI,GP,MQ,RE",
     "Ispapi-Name" => "X-EU-ACCEPT-TRUSTEE-TAC",
     "Ispapi-Options" => ",1"
-);
+);*/
 
 ## .FI DOMAIN REQUIREMENTS ##
 $additionaldomainfields[".fi"][] = array();
@@ -439,7 +447,9 @@ $additionaldomainfields[".fr"][] = array("Name" => "SIRET Number", "Remove" => t
 $additionaldomainfields[".fr"][] = array("Name" => "DUNS Number", "Remove" => true);
 $additionaldomainfields[".fr"][] = array("Name" => "VAT Number", "Remove" => true);
 $additionaldomainfields[".fr"][] = array("Name" => "Trademark Number", "Remove" => true);
-$additionaldomainfields[".fr"][] = array(
+## NOTE: Activate trustee service / local presence service just in case you have reflected the service costs
+## in the TLD prices otherwise your customers do not pay for it. This is a missing Domain Add-On in WHMCS.
+/*$additionaldomainfields[".fr"][] = array(
     "Name" => "Local Presence",
     "Type" => "dropdown",
     "Options" => ",Registrant and/or Admin-C are domiciled in France / Use Local Presence Service",
@@ -447,7 +457,7 @@ $additionaldomainfields[".fr"][] = array(
     "Ispapi-IgnoreForCountries" => "FR",
     "Ispapi-Name" => "X-FR-ACCEPT-TRUSTEE-TAC",
     "Ispapi-Options" => ",1"
-);
+);*/
 $additionaldomainfields[".fr"][] = array(
     "Name" => "Date of Birth",
     "Type" => "text",
@@ -539,14 +549,16 @@ $additionaldomainfields['.gay'][] = [
 ];
 
 ## .HAMBURG DOMAIN REQUIREMENTS ##
-$additionaldomainfields[".hamburg"] = array();
+## NOTE: Activate trustee service / local presence service just in case you have reflected the service costs
+## in the TLD prices otherwise your customers do not pay for it. This is a missing Domain Add-On in WHMCS.
+/*$additionaldomainfields[".hamburg"] = array();
 $additionaldomainfields[".hamburg"][] = array(
     "Name" => "Local Presence",
     "Type" => "dropdown",
     "Options" => ",Registrant and/or Admin-C are domiciled in Hamburg / Use Local Presence Service",
     "Ispapi-Name" => "X-HAMBURG-ACCEPT-TRUSTEE-TAC",
     "Ispapi-Options" => ",1"
-);
+);*/
 
 ## .HEALTH
 $additionaldomainfields[".health"] = [];
@@ -688,13 +700,15 @@ $additionaldomainfields[".it"][] = array("Name" => "Accept Section 6 of .IT regi
 $additionaldomainfields[".it"][] = array("Name" => "Accept Section 7 of .IT registrar contract", "Remove" => true);
 
 ## add ispapi additional fields ##
-$additionaldomainfields[".it"][] = array(
+## NOTE: Activate trustee service / local presence service just in case you have reflected the service costs
+## in the TLD prices otherwise your customers do not pay for it. This is a missing Domain Add-On in WHMCS.
+/*$additionaldomainfields[".it"][] = array(
     "Name" => "Local Presence",
     "Type" => "dropdown",
     "Options" => ",Registrant is domiciled in the EU (PIN required) / Use Local Presence Service",
     "Ispapi-Name" => "X-IT-ACCEPT-TRUSTEE-TAC",
     "Ispapi-Options" => ",1"
-);
+);*/
 $additionaldomainfields[".it"][] = array(
     "Name" => "PIN",
     "Type" => "text",
@@ -792,7 +806,9 @@ $additionaldomainfields[".jobs"][] = array(
 );
 
 ## .JP DOMAIN REQUIREMENTS ##
-$additionaldomainfields[".jp"] = array();
+## NOTE: Activate trustee service / local presence service just in case you have reflected the service costs
+## in the TLD prices otherwise your customers do not pay for it. This is a missing Domain Add-On in WHMCS.
+/*$additionaldomainfields[".jp"] = array();
 $additionaldomainfields[".jp"][] = array(
     "Name" => "Local Presence",
     "Type" => "dropdown",
@@ -800,7 +816,7 @@ $additionaldomainfields[".jp"][] = array(
     "Ispapi-IgnoreForCountries" => "JP",
     "Ispapi-Name" => "X-JP-ACCEPT-TRUSTEE-TAC",
     "Ispapi-Options" => ",1"
-);
+);*/
 
 ## .LV DOMAIN REQUIREMENTS ##
 $additionaldomainfields[".lv"] = array();
@@ -972,14 +988,16 @@ $additionaldomainfields[".ro"][] = array(
 );
 
 ## .RUHR DOMAIN REQUIREMENTS ##
-$additionaldomainfields[".ruhr"] = array();
+## NOTE: Activate trustee service / local presence service just in case you have reflected the service costs
+## in the TLD prices otherwise your customers do not pay for it. This is a missing Domain Add-On in WHMCS.
+/*$additionaldomainfields[".ruhr"] = array();
 $additionaldomainfields[".ruhr"][] = array(
     "Name" => "Local Presence",
     "Type" => "dropdown",
     "Options" => ",Registrant and/or Admin-C are domiciled in Ruhr / Use Local Presence Service",
     "Ispapi-Name" => "X-RUHR-ACCEPT-TRUSTEE-TAC",
     "Ispapi-Options" => ",1"
-);
+);*/
 
 ## .SCOT DOMAIN REQUIREMENTS ##
 $additionaldomainfields[".scot"] = array();
@@ -1030,7 +1048,9 @@ $additionaldomainfields[".sg"][] = array("Name" => "RCB Singapore ID", "Remove" 
 $additionaldomainfields[".sg"][] = array("Name" => "Registrant Type",  "Remove" => true);
 
 ## add ispapi additional fields ##
-$additionaldomainfields[".sg"][] = array(
+## NOTE: Activate trustee service / local presence service just in case you have reflected the service costs
+## in the TLD prices otherwise your customers do not pay for it. This is a missing Domain Add-On in WHMCS.
+/*$additionaldomainfields[".sg"][] = array(
     "Name" => "Local Presence",
     "Type" => "dropdown",
     "Options" => ",Registrant and/or Admin-C are domiciled in Singapore / Use Local Presence Service",
@@ -1039,7 +1059,7 @@ $additionaldomainfields[".sg"][] = array(
     "Ispapi-IgnoreForCountries" => "SG",
     "Ispapi-Name" => "X-SG-ACCEPT-TRUSTEE-TAC",
     "Ispapi-Options" => ",1"
-);
+);*/
 $additionaldomainfields[".sg"][] = array(
     "Name" => "RCB/Singapore ID",
     "Type" => "text",
