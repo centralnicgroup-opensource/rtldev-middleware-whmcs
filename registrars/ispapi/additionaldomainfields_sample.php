@@ -818,6 +818,21 @@ $additionaldomainfields[".jp"][] = array(
     "Ispapi-Options" => ",1"
 );*/
 
+## .LOTTO
+$additionaldomainfields[".lotto"] = [];
+$additionaldomainfields[".lotto"][] = [
+    "Name" => "Membership Contact ID",
+    "Type" => "text",
+    "Required" => true,
+    "Ispapi-Name" => "X-ASSOCIATION-ID"
+];
+$additionaldomainfields[".lotto"][] = [
+    "Name" => "Verification Code",
+    "Type" => "text",
+    "Required" => true,
+    "Ispapi-Name" => "X-ASSOCIATION-AUTH"
+];
+
 ## .LV DOMAIN REQUIREMENTS ##
 $additionaldomainfields[".lv"] = array();
 $additionaldomainfields[".lv"][] = array(
