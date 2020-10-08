@@ -9,8 +9,7 @@
 ## TODO: THE FOLLOWING TLDS REQUIRE ADDITIONAL FIELDS
 ## IF YOU NEED ONE OF THEM LET US KNOW. WE'LL PROVIDE THIS ASAP!
 ## -- REGISTRATION --
-## .MK, .MY, .RU,
-## .XXX, .NET.ZA, .ORG.ZA, .рф, .香港
+## .MK, .MY, .RU, .XXX, .рф, .香港
 ## -- TRANSFER / TRADE -- (to cover when WHMCS' design is ready for it)
 
 ## .ABOGADO
@@ -1365,3 +1364,17 @@ $additionaldomainfields[".voto"] = array(
     "Required" => true,
     "Ispapi-Name" => "X-VOTO-ACCEPT-HIGHLY-REGULATED-TAC"
 );
+
+## .ZA (.NET.ZA, .ORG.ZA)
+$additionaldomainfields[".net.za"] = [];
+$additionaldomainfields[".net.za"][] = array(
+    "Name" => "Highly Regulated TLD",
+    "Type" => "tickbox",
+    "Required" => true,
+    "Description" => (
+        "Tick to confirm that you certify that the Registrant is eligibile to register this domain and that all provided information is " .
+        "true and accurate. Eligibility criteria may be viewed <a href='https://www.zadna.org.za/' target='_blank'>here</a>."
+    ),
+    "Ispapi-Name" => "X-ZA-ACCEPT-HIGHLY-REGULATED-TAC"
+);
+$additionaldomainfields[".org.za"] = $additionaldomainfields[".net.za"];
