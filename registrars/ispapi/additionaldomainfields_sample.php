@@ -9,7 +9,7 @@
 ## TODO: THE FOLLOWING TLDS REQUIRE ADDITIONAL FIELDS
 ## IF YOU NEED ONE OF THEM LET US KNOW. WE'LL PROVIDE THIS ASAP!
 ## -- REGISTRATION --
-## .FOREX, .HEALTH, .HOMES, .ID, .INSURANCE, .LOTTO, .LV, .LAW, .LAWYER,
+## .HEALTH, .HOMES, .ID, .INSURANCE, .LOTTO, .LV, .LAW, .LAWYER,
 ## .MADRID, .MAKEUP, .MARKETS, .MELBOURNE, .MK, .MY, .NGO, .PARIS, .RU, .SPORT,
 ## .SPREADBETTING, .SYDNEY, .TRADING, .XXX, .NET.ZA, .ORG.ZA, .рф, .香港
 ## -- TRANSFER / TRADE -- (to cover when WHMCS' design is ready for it)
@@ -429,7 +429,6 @@ $additionaldomainfields[".fi"][] = array(
 );
 
 ## .FR DOMAIN REQUIREMENTS ##
-## remove default whmcs fields ##
 $additionaldomainfields[".fr"][] = array("Name" => "Legal Type", "Remove" => true);
 $additionaldomainfields[".fr"][] = array("Name" => "Info", "Remove" => true);
 $additionaldomainfields[".fr"][] = array("Name" => "Birthdate","Remove" => true);
@@ -440,8 +439,6 @@ $additionaldomainfields[".fr"][] = array("Name" => "SIRET Number", "Remove" => t
 $additionaldomainfields[".fr"][] = array("Name" => "DUNS Number", "Remove" => true);
 $additionaldomainfields[".fr"][] = array("Name" => "VAT Number", "Remove" => true);
 $additionaldomainfields[".fr"][] = array("Name" => "Trademark Number", "Remove" => true);
-
-## add ispapi additional fields ##
 $additionaldomainfields[".fr"][] = array(
     "Name" => "Local Presence",
     "Type" => "dropdown",
@@ -469,21 +466,18 @@ $additionaldomainfields[".fr"][] = array(
     "Ispapi-Name" => "X-FR-REGISTRANT-LEGAL-ID",
     "Description" => "(Only for companies with VATID or SIREN/SIRET number)",
 );
-
 $additionaldomainfields[".fr"][] = array(
     "Name" => "Trademark Number",
     "Type" => "text",
     "Ispapi-Name" => "X-FR-REGISTRANT-TRADEMARK-NUMBER",
     "Description" => "(Only for companies with a European trademark)",
 );
-
 $additionaldomainfields[".fr"][] = array(
     "Name" => "DUNS number",
     "Type" => "text",
     "Ispapi-Name" => "X-FR-REGISTRANT-DUNS-NUMBER",
     "Description" => "(Only for companies with DUNS number)",
 );
-
 $additionaldomainfields[".fr"][] = array(
     "Name" => "Local ID",
     "Type" => "text",
@@ -519,6 +513,19 @@ $additionaldomainfields[".re"] = $additionaldomainfields[".fr"];
 $additionaldomainfields[".tf"] = $additionaldomainfields[".fr"];
 $additionaldomainfields[".wf"] = $additionaldomainfields[".fr"];
 $additionaldomainfields[".yt"] = $additionaldomainfields[".fr"];
+
+## .FOREX
+$additionaldomainfields[".forex"] = [];
+$additionaldomainfields[".forex"][] = array(
+    "Name" => "Highly Regulated TLD",
+    "Type" => "tickbox",
+    "Required" => true,
+    "Description" => (
+        "Tick to confirm that you certify that the Registrant is eligibile to register this domain and that all provided information is " .
+        "true and accurate. Eligibility criteria may be viewed <a href='https://nic.forex/' target='_blank'>here</a>."
+    ),
+    "Ispapi-Name" => "X-FOREX-ACCEPT-HIGHLY-REGULATED-TAC"
+);
 
 ## .GAY DOMAIN REQUIREMENTS ##
 $additionaldomainfields['.gay'][] = [
