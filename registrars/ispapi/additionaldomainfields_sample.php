@@ -9,7 +9,7 @@
 ## TODO: THE FOLLOWING TLDS REQUIRE ADDITIONAL FIELDS
 ## IF YOU NEED ONE OF THEM LET US KNOW. WE'LL PROVIDE THIS ASAP!
 ## -- REGISTRATION --
-## .MARKETS, .MELBOURNE, .MK, .MY, .NGO, .PARIS, .RU, .SPORT,
+## .MELBOURNE, .MK, .MY, .NGO, .PARIS, .RU, .SPORT,
 ## .SPREADBETTING, .SYDNEY, .TRADING, .XXX, .NET.ZA, .ORG.ZA, .рф, .香港
 ## -- TRANSFER / TRADE -- (to cover when WHMCS' design is ready for it)
 
@@ -920,6 +920,19 @@ $additionaldomainfields[".makeup"][] = array(
         "interests of the consumers you serve.</li></ol></div>"
     ),
     "Ispapi-Name" => "X-MAKEUP-ACCEPT-HIGHLY-REGULATED-TAC"
+);
+
+## .MARKETS
+$additionaldomainfields[".markets"] = [];
+$additionaldomainfields[".markets"][] = array(
+    "Name" => "Highly Regulated TLD",
+    "Type" => "tickbox",
+    "Required" => true,
+    "Description" => (
+        "Tick to confirm that you certify that the Registrant is eligibile to register this domain and that all provided information is " .
+        "true and accurate. Eligibility criteria may be viewed <a href='https://nic.markets/' target='_blank'>here</a>."
+    ),
+    "Ispapi-Name" => "X-MARKETS-ACCEPT-HIGHLY-REGULATED-TAC"
 );
 
 ## .NO DOMAIN REQUIREMENTS ##
