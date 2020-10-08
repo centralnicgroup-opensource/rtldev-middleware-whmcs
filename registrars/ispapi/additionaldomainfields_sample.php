@@ -9,7 +9,7 @@
 ## TODO: THE FOLLOWING TLDS REQUIRE ADDITIONAL FIELDS
 ## IF YOU NEED ONE OF THEM LET US KNOW. WE'LL PROVIDE THIS ASAP!
 ## -- REGISTRATION --
-## .MK, .MY, .PARIS, .RU, .SPORT,
+## .MK, .MY, .RU,
 ## .SPREADBETTING, .SYDNEY, .TRADING, .XXX, .NET.ZA, .ORG.ZA, .рф, .香港
 ## -- TRANSFER / TRADE -- (to cover when WHMCS' design is ready for it)
 
@@ -1209,6 +1209,16 @@ $additionaldomainfields[".edu.sg"] = $additionaldomainfields[".sg"];
 $additionaldomainfields[".net.sg"] = $additionaldomainfields[".sg"];
 $additionaldomainfields[".org.sg"] = $additionaldomainfields[".sg"];
 $additionaldomainfields[".per.sg"] = $additionaldomainfields[".sg"];
+
+
+## .SPORT
+$additionaldomainfields[".sport"] = [];
+$additionaldomainfields[".sport"][] = [
+    "Name" => "Intended Use",
+    "Type" => "text",
+    "Required" => true,
+    "Ispapi-Name" => "X-CORE-INTENDED-USE"
+];
 
 ## .SWISS DOMAIN REQUIREMENTS ##
 $additionaldomainfields[".swiss"] = array();
