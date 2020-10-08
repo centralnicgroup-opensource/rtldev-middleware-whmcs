@@ -10,7 +10,7 @@
 ## IF YOU NEED ONE OF THEM LET US KNOW. WE'LL PROVIDE THIS ASAP!
 ## -- REGISTRATION --
 ## .MK, .MY, .RU,
-## .SPREADBETTING, .SYDNEY, .TRADING, .XXX, .NET.ZA, .ORG.ZA, .рф, .香港
+## .SYDNEY, .TRADING, .XXX, .NET.ZA, .ORG.ZA, .рф, .香港
 ## -- TRANSFER / TRADE -- (to cover when WHMCS' design is ready for it)
 
 ## .ABOGADO
@@ -941,9 +941,26 @@ $additionaldomainfields[".melbourne"][] = [
     "Name" => "Nexus Category",
     "Type" => "dropdown",
     "Required" => true,
-    "Options" =>  "A,B,C",
+    "Options" =>  "A|Victorian Entities,B|Victorian Residents,C|Associated Entities",
     "Default" => "A",
-    "Ispapi-Name" => "X-MELBOURNE-NEXUS-CATEGORY"
+    "Ispapi-Name" => "X-MELBOURNE-NEXUS-CATEGORY",
+    "Description" => (
+        "<div style='padding:10px 0px;text-align:justify'><b>Registration Eligibility</b><br/>In order to register or " .
+        "renew a domain name the Applicant or Registrant must satisfy one of the following Criteria A, B or C below:<br/><br/>" .
+        "<b>Criteria A – Victorian Entities</b><br/>The Applicant must be an entity registered with the `<a href='https://asic.gov.au/' target='_blank'>Australian Securities " .
+        "and Investments Commission</a>` or the `<a href='https://register.business.gov.au/' target='_blank'>Australian Business Register</a>` that:<ul>" .
+        "<li>has an address in the State of Victoria associated with its ABN, ACN, RBN or ARBN; or</li><li>has a valid corporate address in the State of Victoria.</li></ul><br/>" .
+        "<b>Criteria B – Victorian Residents</b><br/>The Applicant must be an Australian citizen or resident with a valid address in the State of Victoria.<br/><br/>" .
+        "<b>Criteria C – Associated Entities</b><br/>The Applicant must be an Associated Entity. The Applicant may only apply for a domain name that is an Exact Match " .
+        "or Partial Match to, or an Abbreviation, or an Acronym of:" .
+        "<ul><li>the business name of the Applicant, or name by which the Applicant is commonly known ( i.e. a nickname) and the business name must be registered with the " .
+        "appropriate authority in the jurisdiction in which that business is domiciled; or</li>" .
+        "<li>a product that the Associated Entity manufactures or sells to entities or individuals residing in the State of Victoria;</li>" .
+        "<li>a service that the Associated Entity provides to residents of the State of Victoria;</li>" .
+        "<li>an event that the Associated Entity organises or sponsors in the State of Victoria;</li>" .
+        "<li>an activity that the Associated Entity facilitates in the State of Victoria; or</li>" .
+        "<li>a course or training program that the Associated Entity provides to residents of the State of Victoria.</li></div>"
+    )
 ];
 
 ## .NGO
@@ -952,7 +969,7 @@ $additionaldomainfields[".ngo"][] = [
     "Name" => "Agreement",
     "Type" => "tickbox",
     "Description" => (
-        "Tick to confirm that you agree to the <a href='https://thenew.org/org-people/about-pir/policies/policies-ngo-ong/' target='_blank'>Registry Terms and Conditions of Registration</a> upon new registration of {TLD} domain names." .
+        "Tick to confirm that you agree to the <a href='https://thenew.org/org-people/about-pir/policies/policies-ngo-ong/' target='_blank'>Registry Terms and Conditions of Registration</a> upon new registration of .NGO domain names." .
         "<div style='padding:10px 0px;'>The registration of a .NGO domain name is bundled with an .ONG domain name without additional costs. " .
         "Changes on the .NGO Domain will be auto-applied to the .ONG Domain. You won't find the .ONG domain therefore listed in your domain inventory.</div>"
     ),
