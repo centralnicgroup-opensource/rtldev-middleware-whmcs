@@ -9,7 +9,7 @@
 ## TODO: THE FOLLOWING TLDS REQUIRE ADDITIONAL FIELDS
 ## IF YOU NEED ONE OF THEM LET US KNOW. WE'LL PROVIDE THIS ASAP!
 ## -- REGISTRATION --
-## .HEALTH, .HOMES, .ID, .INSURANCE, .LOTTO, .LV, .LAW, .LAWYER,
+## .HOMES, .ID, .INSURANCE, .LOTTO, .LV, .LAW, .LAWYER,
 ## .MADRID, .MAKEUP, .MARKETS, .MELBOURNE, .MK, .MY, .NGO, .PARIS, .RU, .SPORT,
 ## .SPREADBETTING, .SYDNEY, .TRADING, .XXX, .NET.ZA, .ORG.ZA, .рф, .香港
 ## -- TRANSFER / TRADE -- (to cover when WHMCS' design is ready for it)
@@ -546,6 +546,19 @@ $additionaldomainfields[".hamburg"][] = array(
     "Options" => ",Registrant and/or Admin-C are domiciled in Hamburg / Use Local Presence Service",
     "Ispapi-Name" => "X-HAMBURG-ACCEPT-TRUSTEE-TAC",
     "Ispapi-Options" => ",1"
+);
+
+## .HEALTH
+$additionaldomainfields[".health"] = [];
+$additionaldomainfields[".health"][] = array(
+    "Name" => "Highly Regulated TLD",
+    "Type" => "tickbox",
+    "Required" => true,
+    "Description" => (
+        "Tick to confirm that you certify that the Registrant is eligibile to register this domain and that all provided information is " .
+        "true and accurate. Eligibility criteria may be viewed <a href='https://get.health/registration-policies' target='_blank'>here</a>."
+    ),
+    "Ispapi-Name" => "X-HEALTH-ACCEPT-HIGHLY-REGULATED-TAC"
 );
 
 ## .HK DOMAIN REQUIREMENTS ##
