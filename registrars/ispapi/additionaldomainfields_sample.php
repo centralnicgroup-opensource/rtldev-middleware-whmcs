@@ -891,6 +891,15 @@ $additionaldomainfields[".lv"][] = array(
     "Ispapi-Name" => "X-IDNUMBER"
 );
 
+## .MADRID
+$additionaldomainfields[".madrid"] = [];
+$additionaldomainfields[".madrid"][] = array(
+    "Name" => "Intended Use",
+    "Type" => "text",
+    "Required" => true,
+    "Ispapi-Name" => "X-CORE-INTENDED-USE"
+);
+
 ## .NO DOMAIN REQUIREMENTS ##
 $additionaldomainfields[".no"] = array();
 $additionaldomainfields[".no"][] = array(
@@ -1012,10 +1021,7 @@ $additionaldomainfields[".pt"][] = array(
 );
 
 ## .QUEBEC DOMAIN REQUIREMENTS ##
-## remove default whmcs fields ##
 $additionaldomainfields[".quebec"][] = array("Name" => "Info", "Remove" => true);
-
-## add ispapi additional fields ##
 $additionaldomainfields[".quebec"][] = array(
     "Name" => "Intended Use",
     "Type" => "text",
