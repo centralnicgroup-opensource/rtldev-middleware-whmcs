@@ -9,7 +9,7 @@
 ## TODO: THE FOLLOWING TLDS REQUIRE ADDITIONAL FIELDS
 ## IF YOU NEED ONE OF THEM LET US KNOW. WE'LL PROVIDE THIS ASAP!
 ## -- REGISTRATION --
-## .ID, .INSURANCE, .LOTTO, .LV, .LAW, .LAWYER,
+## .INSURANCE, .LOTTO, .LV, .LAW, .LAWYER,
 ## .MADRID, .MAKEUP, .MARKETS, .MELBOURNE, .MK, .MY, .NGO, .PARIS, .RU, .SPORT,
 ## .SPREADBETTING, .SYDNEY, .TRADING, .XXX, .NET.ZA, .ORG.ZA, .рф, .香港
 ## -- TRANSFER / TRADE -- (to cover when WHMCS' design is ready for it)
@@ -631,6 +631,20 @@ $additionaldomainfields[".homes"][] = array(
     ),
     "Ispapi-Name" => "X-HOMES-ACCEPT-HIGHLY-REGULATED-TAC"
 );
+
+## .ID
+$additionaldomainfields[".id"] = [];
+$additionaldomainfields[".id"][] = array(
+    "Name" => "Highly Regulated TLD",
+    "Type" => "tickbox",
+    "Required" => true,
+    "Description" => (
+        "Tick to confirm that you certify that the Registrant is eligibile to register this domain and that all provided information is " .
+        "true and accurate. Eligibility criteria may be viewed <a href='https://pandi.id/regulasi/' target='_blank'>here</a>."
+    ),
+    "Ispapi-Name" => "X-ID-ACCEPT-HIGHLY-REGULATED-TAC"
+);
+
 
 ## .IE DOMAIN REQUIREMENTS ##
 $additionaldomainfields[".ie"][] = array(
