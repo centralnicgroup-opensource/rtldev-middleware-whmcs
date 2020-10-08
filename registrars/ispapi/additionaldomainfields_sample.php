@@ -9,7 +9,7 @@
 ## TODO: THE FOLLOWING TLDS REQUIRE ADDITIONAL FIELDS
 ## IF YOU NEED ONE OF THEM LET US KNOW. WE'LL PROVIDE THIS ASAP!
 ## -- REGISTRATION --
-## .INSURANCE, .LOTTO, .LV, .LAW, .LAWYER,
+## .LOTTO, .LV, .LAW, .LAWYER,
 ## .MADRID, .MAKEUP, .MARKETS, .MELBOURNE, .MK, .MY, .NGO, .PARIS, .RU, .SPORT,
 ## .SPREADBETTING, .SYDNEY, .TRADING, .XXX, .NET.ZA, .ORG.ZA, .рф, .香港
 ## -- TRANSFER / TRADE -- (to cover when WHMCS' design is ready for it)
@@ -663,6 +663,19 @@ $additionaldomainfields[".ie"][] = array(
     "Required" => true,
     "Ispapi-Name" => "X-IE-REGISTRANT-REMARKS",
 );
+
+## .INSURANCE
+$additionaldomainfields[".insurance"] = [];
+$additionaldomainfields[".insurance"][] = [
+    "Name" => "Registry's Allocation Token",
+    "Type" => "text",
+    "Required" => true,
+    "Description" => (
+        "To register a .INSURANCE domain, you must provide the allocation token issued by the registry. " .
+        "Please complete the registrant application <a href='https://www.register.insurance/get-started/' target='_blank'>here</a> to obtain the token."
+    ),
+    "Ispapi-Name" => "X-ALLOCATIONTOKEN"
+];
 
 ## .IT DOMAIN REQUIREMENTS ##
 ## remove default whmcs fields ##
