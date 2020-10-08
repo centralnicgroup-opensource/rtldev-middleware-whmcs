@@ -9,7 +9,7 @@
 ## TODO: THE FOLLOWING TLDS REQUIRE ADDITIONAL FIELDS
 ## IF YOU NEED ONE OF THEM LET US KNOW. WE'LL PROVIDE THIS ASAP!
 ## -- REGISTRATION --
-## .MADRID, .MAKEUP, .MARKETS, .MELBOURNE, .MK, .MY, .NGO, .PARIS, .RU, .SPORT,
+## .MAKEUP, .MARKETS, .MELBOURNE, .MK, .MY, .NGO, .PARIS, .RU, .SPORT,
 ## .SPREADBETTING, .SYDNEY, .TRADING, .XXX, .NET.ZA, .ORG.ZA, .рф, .香港
 ## -- TRANSFER / TRADE -- (to cover when WHMCS' design is ready for it)
 
@@ -865,6 +865,15 @@ $additionaldomainfields[".lotto"][] = [
     "Type" => "text",
     "Required" => true,
     "Ispapi-Name" => "X-ASSOCIATION-AUTH"
+];
+
+## .LT
+$additionaldomainfields[".lt"] = [];
+$additionaldomainfields[".lt"][] = [
+    "Name" => "Legal Entity Identification Code",
+    "Type" => "text",
+    "Required" => false,
+    "Ispapi-Name" => "X-LT-REGISTRANT-LEGAL-ID"
 ];
 
 ## .LV DOMAIN REQUIREMENTS ##
