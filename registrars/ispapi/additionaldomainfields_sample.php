@@ -1020,6 +1020,16 @@ $additionaldomainfields[".nyc"][] = array(
     "Ispapi-Options" => ",1,2",
 );
 
+## .PARIS
+$additionaldomainfields[".paris"] = [];
+$additionaldomainfields[".paris"] = [
+    "Name" => "Agreement",
+    "Type" => "tickbox",
+    "Description" => "Tick to confirm that you agree to the <a href='http://bienvenue.paris/registry-policies-paris/' target='_blank'>Registry Terms and Conditions of Registration</a> upon new registration of .PARIS domain names.",
+    "Required" => true,
+    "Ispapi-Name" => "X-PARIS-ACCEPT-REGISTRATION-TAC"
+];
+
 ## .PRO DOMAIN REQUIREMENTS ##
 ## remove default whmcs fields ##
 $additionaldomainfields[".pro"][] = array("Name" => "Profession", "Remove" => true);
