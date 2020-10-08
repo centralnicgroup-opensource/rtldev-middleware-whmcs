@@ -10,7 +10,7 @@
 ## IF YOU NEED ONE OF THEM LET US KNOW. WE'LL PROVIDE THIS ASAP!
 ## -- REGISTRATION --
 ## .MK, .MY, .RU,
-## .SYDNEY, .TRADING, .XXX, .NET.ZA, .ORG.ZA, .рф, .香港
+## .XXX, .NET.ZA, .ORG.ZA, .рф, .香港
 ## -- TRANSFER / TRADE -- (to cover when WHMCS' design is ready for it)
 
 ## .ABOGADO
@@ -1290,14 +1290,25 @@ $additionaldomainfields[".sydney"][] = [
     )
 ];
 
+## .TRADING
+$additionaldomainfields[".trading"] = [];
+$additionaldomainfields[".trading"][] = array(
+    "Name" => "Highly Regulated TLD",
+    "Type" => "tickbox",
+    "Required" => true,
+    "Description" => (
+        "Tick to confirm that you certify that the Registrant is eligibile to register this domain and that all provided information is " .
+        "true and accurate. Eligibility criteria may be viewed <a href='https://nic.trading/' target='_blank'>here</a>."
+    ),
+    "Ispapi-Name" => "X-TRADING-ACCEPT-HIGHLY-REGULATED-TAC"
+);
+
 ## .TRAVEL DOMAIN REQUIREMENTS ##
 ## remove default whmcs fields ##
 $additionaldomainfields['.travel'][] = array('Name' => 'Trustee Service', "Remove" => true);
 $additionaldomainfields['.travel'][] = array('Name' => '.TRAVEL UIN Code', "Remove" => true);
 $additionaldomainfields['.travel'][] = array('Name' => 'Trustee Service Agreement ', "Remove" => true);
 $additionaldomainfields['.travel'][] = array('Name' => '.TRAVEL Usage Agreement', "Remove" => true);
-
-#$additionaldomainfields[".travel"] = array();
 $additionaldomainfields[".travel"][] = array(
     "Name" => ".travel Industry",
     "Type" => "text",
