@@ -9,7 +9,7 @@
 ## TODO: THE FOLLOWING TLDS REQUIRE ADDITIONAL FIELDS
 ## IF YOU NEED ONE OF THEM LET US KNOW. WE'LL PROVIDE THIS ASAP!
 ## -- REGISTRATION --
-## .MELBOURNE, .MK, .MY, .NGO, .PARIS, .RU, .SPORT,
+## .MK, .MY, .NGO, .PARIS, .RU, .SPORT,
 ## .SPREADBETTING, .SYDNEY, .TRADING, .XXX, .NET.ZA, .ORG.ZA, .рф, .香港
 ## -- TRANSFER / TRADE -- (to cover when WHMCS' design is ready for it)
 
@@ -935,6 +935,17 @@ $additionaldomainfields[".markets"][] = array(
     "Ispapi-Name" => "X-MARKETS-ACCEPT-HIGHLY-REGULATED-TAC"
 );
 
+## .MELBOURNE
+$additionaldomainfields[".melbourne"] = [];
+$additionaldomainfields[".melbourne"][] = [
+    "Name" => "Nexus Category",
+    "Type" => "dropdown",
+    "Required" => true,
+    "Options" =>  "A,B,C",
+    "Default" => "A",
+    "Ispapi-Name" => "X-MELBOURNE-NEXUS-CATEGORY"
+];
+
 ## .NO DOMAIN REQUIREMENTS ##
 $additionaldomainfields[".no"] = array();
 $additionaldomainfields[".no"][] = array(
@@ -944,7 +955,6 @@ $additionaldomainfields[".no"][] = array(
     "Required" => true,
     "Ispapi-Name" => "X-NO-REGISTRANT-IDENTITY"
 );
-
 $additionaldomainfields[".no"][] = array(
     "Name" => "Fax required",
     "Type" => "tickbox",
@@ -954,11 +964,8 @@ $additionaldomainfields[".no"][] = array(
 );
 
 ## .NU DOMAIN REQUIREMENTS ##
-## remove default whmcs fields #
 $additionaldomainfields['.nu'][] = array('Name' => 'Identification Number', "Remove" => true);
 $additionaldomainfields['.nu'][] = array('Name' => 'VAT Number', "Remove" => true);
- 
-## add ispapi additional fields ##
 $additionaldomainfields[".nu"][] = array(
     "Name" => "Registrant ID Number",
     "Type" => "text",
