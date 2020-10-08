@@ -9,7 +9,7 @@
 ## TODO: THE FOLLOWING TLDS REQUIRE ADDITIONAL FIELDS
 ## IF YOU NEED ONE OF THEM LET US KNOW. WE'LL PROVIDE THIS ASAP!
 ## -- REGISTRATION --
-## .HOMES, .ID, .INSURANCE, .LOTTO, .LV, .LAW, .LAWYER,
+## .ID, .INSURANCE, .LOTTO, .LV, .LAW, .LAWYER,
 ## .MADRID, .MAKEUP, .MARKETS, .MELBOURNE, .MK, .MY, .NGO, .PARIS, .RU, .SPORT,
 ## .SPREADBETTING, .SYDNEY, .TRADING, .XXX, .NET.ZA, .ORG.ZA, .рф, .香港
 ## -- TRANSFER / TRADE -- (to cover when WHMCS' design is ready for it)
@@ -562,7 +562,6 @@ $additionaldomainfields[".health"][] = array(
 );
 
 ## .HK DOMAIN REQUIREMENTS ##
-## remove default whmcs fields ##
 $additionaldomainfields[".hk"][] = array("Name" => "Registrant Type", "Remove" => true);
 $additionaldomainfields[".hk"][] = array('Name' => 'Organizations Name in Chinese', "Remove" => true);
 $additionaldomainfields[".hk"][] = array('Name' => 'Organizations Supporting Documentation', "Remove" => true);
@@ -573,8 +572,6 @@ $additionaldomainfields[".hk"][] = array('Name' => 'Individuals Supporting Docum
 $additionaldomainfields[".hk"][] = array('Name' => 'Individuals Document Number', "Remove" => true);
 $additionaldomainfields[".hk"][] = array('Name' => 'Individuals Issuing Country', "Remove" => true);
 $additionaldomainfields[".hk"][] = array('Name' => 'Individuals Under 18', "Remove" => true);
-
-## add ispapi additional fields ##
 $additionaldomainfields[".hk"][] = array(
     "Name" => "Registrant Document Type",
     "Type" => "dropdown",
@@ -620,6 +617,19 @@ $additionaldomainfields[".hk"][] = array(
     "Options" => "on",
     "Ispapi-Name" => "X-HK-ACCEPT-INDIVIDUAL-REGISTRATION-TAC",
     "Ispapi-Replacements" => array("on" => "1"),
+);
+
+## .HOMES
+$additionaldomainfields[".homes"] = [];
+$additionaldomainfields[".homes"][] = array(
+    "Name" => "Highly Regulated TLD",
+    "Type" => "tickbox",
+    "Required" => true,
+    "Description" => (
+        "Tick to confirm that you certify that the Registrant is eligibile to register this domain and that all provided information is " .
+        "true and accurate. Eligibility criteria may be viewed <a href='https://domains.homes/Policies/' target='_blank'>here</a>."
+    ),
+    "Ispapi-Name" => "X-HOMES-ACCEPT-HIGHLY-REGULATED-TAC"
 );
 
 ## .IE DOMAIN REQUIREMENTS ##
