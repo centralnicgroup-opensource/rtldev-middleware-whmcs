@@ -9,7 +9,7 @@
 ## TODO: THE FOLLOWING TLDS REQUIRE ADDITIONAL FIELDS
 ## IF YOU NEED ONE OF THEM LET US KNOW. WE'LL PROVIDE THIS ASAP!
 ## -- REGISTRATION --
-## .MK, .MY, .NGO, .PARIS, .RU, .SPORT,
+## .MK, .MY, .PARIS, .RU, .SPORT,
 ## .SPREADBETTING, .SYDNEY, .TRADING, .XXX, .NET.ZA, .ORG.ZA, .рф, .香港
 ## -- TRANSFER / TRADE -- (to cover when WHMCS' design is ready for it)
 
@@ -944,6 +944,20 @@ $additionaldomainfields[".melbourne"][] = [
     "Options" =>  "A,B,C",
     "Default" => "A",
     "Ispapi-Name" => "X-MELBOURNE-NEXUS-CATEGORY"
+];
+
+## .NGO
+$additionaldomainfields[".ngo"] = array();
+$additionaldomainfields[".ngo"][] = [
+    "Name" => "Agreement",
+    "Type" => "tickbox",
+    "Description" => (
+        "Tick to confirm that you agree to the <a href='https://thenew.org/org-people/about-pir/policies/policies-ngo-ong/' target='_blank'>Registry Terms and Conditions of Registration</a> upon new registration of {TLD} domain names." .
+        "<div style='padding:10px 0px;'>The registration of a .NGO domain name is bundled with an .ONG domain name without additional costs. " .
+        "Changes on the .NGO Domain will be auto-applied to the .ONG Domain. You won't find the .ONG domain therefore listed in your domain inventory.</div>"
+    ),
+    "Required" => true,
+    "Ispapi-Name" => "X-NGO-ACCEPT-REGISTRATION-TAC"
 ];
 
 ## .NO DOMAIN REQUIREMENTS ##
