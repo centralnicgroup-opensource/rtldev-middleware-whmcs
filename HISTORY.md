@@ -1,3 +1,10 @@
+## [4.5.3](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.2...v4.5.3) (2020-10-29)
+
+
+### Bug Fixes
+
+* **transfersync:** partially missing automatic ns update ([560a424](https://github.com/hexonet/whmcs-ispapi-registrar/commit/560a4245ac8119c3bd9e6961890e5fe1bfa0f5ef))
+
 ## [4.5.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.1...v4.5.2) (2020-10-05)
 
 
