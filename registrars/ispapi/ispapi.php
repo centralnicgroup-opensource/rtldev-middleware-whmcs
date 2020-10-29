@@ -3019,6 +3019,38 @@ function ispapi_TransferSync($params)
     // check if the domain is already on account
     $r = HXDomain::getStatus($params, $domain_pc);
     if ($r["success"]) {
+        if ($params["NSUpdTransfer"] == "on") {
+            // AUTO-UPDATE ns after transfer
+            // TODO: Move this to hook "DomainTransferCompleted" to keep code better readable
+
+            // get date of last transfer request
+            $r = HXDomainTransfer::getRequestLog($params, $domain_pc);
+            if (!$r["success"] || $r["data"]["COUNT"][0] == "0") {
+                // no transfer request found/error -> still pending
+                return [];
+            }
+            // exiting transfer request
+            // check for related success entry
+            $logdate = $r["data"]["LOGDATE"][0];
+            $logindex = $r["data"]["LOGINDEX"][0];
+            $r = HXDomainTransfer::getSuccessLog($params, $domain, $logdate);
+
+            if ($r["success"] && $r["data"]["COUNT"][0] != "0") {
+                $newns = HXDomainTransfer::getRequestNameservers($params, $domain_pc, $logindex);
+                $currentns = HXDomain::getNameservers($params, $domain_pc);
+                if ($currentns["success"] && $newns["success"]) {
+                    sort($currentns["nameservers"]);
+                    sort($newns["nameservers"]);
+                    if ($currentns !== $newns && !empty($newns["nameservers"])) {
+                        Ispapi::call([
+                            "COMMAND" => "ModifyDomain",
+                            "DOMAIN" => $domain_pc,
+                            "NAMESERVER" => $newns["nameservers"]
+                        ], $params);
+                    }
+                }
+            }
+        }
         // WHMCS fallbacks to _Sync method when not returning expirydate
         return [
             "completed" => true
