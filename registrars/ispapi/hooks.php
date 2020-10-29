@@ -117,7 +117,7 @@ add_hook('DailyCronJob', 1, function ($vars) {
 add_hook('ClientAreaPageDomainDetails', 1, function ($vars) {
     // TLDs not supporting Transfer Lock: remove 'Registrar Lock' menu entry.
     $domain = Menu::context('domain');
-    
+
     if ($domain->registrar == "ispapi") {
         $r = Ispapi::call([
             "COMMAND" => "QueryDomainList",

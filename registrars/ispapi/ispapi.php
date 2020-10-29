@@ -43,7 +43,7 @@ function ispapi_CheckAvailability($params)
     } else {
         $label = strtolower($params["searchTerm"]);
     }
-    
+
     $command = [
         "COMMAND" => "CheckDomains",
         "PREMIUMCHANNELS" => $premiumEnabled ? "*" : ""
@@ -75,7 +75,7 @@ function ispapi_CheckAvailability($params)
             } else {
                 $dc = $r["PROPERTY"]["DOMAINCHECK"][$idx];
             }
-        
+
             switch (substr($dc, 0, 3)) {
                 case "421":
                     $sr->setStatus($sr::STATUS_UNKNOWN);
@@ -120,7 +120,7 @@ function ispapi_CheckAvailability($params)
                     $sr->setStatus($sr::STATUS_REGISTERED);
                     break;
             }
-                    
+
             //ONLY RETURNS AVAILABLE DOMAINS FOR DOMAIN NAME SUGGESTIONS MODE
             //AND ALL RESULTS OTHERWISE
             if (!isset($params["suggestions"]) || $sr->getStatus() == $sr::STATUS_NOT_REGISTERED) {
@@ -366,7 +366,7 @@ function ispapi_GetPremiumPrice($params)
             }
             $prices["CurrencyCode"] = $racc["PROPERTY"]["CURRENCY"][0];
         }
-        
+
         $currency = \WHMCS\Billing\Currency::where("code", $prices["CurrencyCode"])->first();
         if (!$currency) {
             throw new Exception("Missing currency configuration for: " . $prices["CurrencyCode"]);
@@ -638,7 +638,7 @@ function ispapi_getConfigArray($params)
         DB::table("tbldomains")->where("registrar", $oldModule)->count() > 0
         || DB::table("tbldomainpricing")->where("autoreg", $oldModule)->count() > 0
     );
-    
+
     $configarray = [
         "FriendlyName" => [
             "Type" => "System",
@@ -1571,7 +1571,7 @@ function ispapi_SaveRegistrarLock($params)
     if ($response["CODE"] != 200) {
         $values["error"] = $response["DESCRIPTION"];
     }
-    
+
     return $values;
 }
 
@@ -1625,7 +1625,7 @@ function ispapi_GetDomainInformation($params)
         for ($i = 1; $i <= 5; $i++) {
             $values['nameservers']['ns' . $i] = $response["PROPERTY"]["NAMESERVER"][$i - 1];
         }
-        
+
         //transferlock settings
         $values['transferlock'] = "";
         if (isset($response["PROPERTY"]["TRANSFERLOCK"])) {
@@ -1669,7 +1669,7 @@ function ispapi_GetDomainInformation($params)
             }
         }
     }
-    
+
     $domain = new \WHMCS\Domain\Registrar\Domain();
     $domain->setNameservers($values['nameservers'])
         ->setTransferLock($values['transferlock'])
@@ -1708,7 +1708,7 @@ function ispapi_ResendIRTPVerificationEmail($params)
         "DOMAIN" => $domain
     );
     $response = Ispapi::call($command, $params);
-    
+
     if ($response["CODE"] == 200) {
         return ['success' => true];
     } else {
@@ -2455,7 +2455,7 @@ function ispapi_SaveContactDetails($params)
     }
 
     $response = Ispapi::call($command, $origparams);
-    
+
     if ($response["CODE"] != 200) {
         return [
             "error" => $response["DESCRIPTION"]
@@ -2750,7 +2750,7 @@ function ispapi_TransferDomain($params)
             "error" => "Invaild Authorization Code"
         ];
     }
-    
+
     if (isset($r["PROPERTY"]["TRANSFERLOCK"]) && $r["PROPERTY"]["TRANSFERLOCK"][0] == "1") {
         // return custom error message
         return [
@@ -2845,7 +2845,7 @@ function ispapi_TransferDomain($params)
     if ($premiumDomainsEnabled && !empty($premiumDomainsCost)) {
         //check if premium domain functionality is enabled by the admin
         //check if the domain has a premium price
-        
+
         //checkdomaintransfer
         if ($r["CODE"] == 200 && !empty($r['PROPERTY']['CLASS'][0])) {
             //check if the price displayed to the customer is equal to the real cost at the registar
@@ -2909,7 +2909,7 @@ function ispapi_RenewDomain($params)
                 "PROPERTIES" => "PRICE"
             );
             $statusDomainResponse = Ispapi::call($statusCommand, $params);
-    
+
             if ($statusDomainResponse["CODE"] == 200 && !empty($statusDomainResponse['PROPERTY']['SUBCLASS'][0])) {
                 if ($premiumDomainsCost == $statusDomainResponse['PROPERTY']['RENEWALPRICE'][0]) { //check if the renewal price displayed to the customer is equal to the real cost at the registar
                     $command["CLASS"] = $statusDomainResponse['PROPERTY']['SUBCLASS'][0];
@@ -3066,7 +3066,7 @@ function ispapi_TransferSync($params)
 
     // in case neither domain nor transfer object are available in xirca
     // this is probably in progress atm
-    
+
     // get date of last transfer request
     $r = HXDomainTransfer::getRequestLog($params, $domain_pc);
     if (!$r["success"] || $r["data"]["COUNT"][0] == "0") {
@@ -3102,7 +3102,7 @@ function ispapi_TransferSync($params)
             "completed" => true
         ];
     }
-    
+
     // check for related failure entry
     $r = HXDomainTransfer::getFailureLog($params, $domain, $logdate);
     if ($r["success"] && $r["data"]["COUNT"][0] != "0") {
@@ -3145,7 +3145,7 @@ function ispapi_Sync($params)
         "COMMAND" => "StatusDomain",
         "DOMAIN" => $domain->getDomain()
     ], $params);
-           
+
     if ($r["CODE"] == 531 || $r["CODE"] == 545) {
         return [
             "transferredAway" => true
