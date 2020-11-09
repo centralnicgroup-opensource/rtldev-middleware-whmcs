@@ -1,3 +1,10 @@
+## [4.5.4](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.3...v4.5.4) (2020-11-09)
+
+
+### Bug Fixes
+
+* **path issues:** fixed in savecontactdetails, sync methods ([56b4e02](https://github.com/hexonet/whmcs-ispapi-registrar/commit/56b4e02ce41d675e8af0df72b73bb2c28f979874))
+
 ## [4.5.3](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.2...v4.5.3) (2020-10-29)
 
 
