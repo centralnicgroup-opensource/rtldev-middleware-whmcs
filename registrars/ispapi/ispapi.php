@@ -2277,7 +2277,7 @@ function ispapi_GetContactDetails($params)
 function ispapi_SaveContactDetails($params)
 {
     if (!function_exists("convertStateToCode")) {
-        require implode(DIRECTORY_SEPARATOR, [ROOTDIR, "include", "clientfunctions.php"]);
+        require implode(DIRECTORY_SEPARATOR, [ROOTDIR, "includes", "clientfunctions.php"]);
     }
     // TODO:---------- EXCEPTION [BEGIN] --------
     // $params has invalid chars for idn domain names where $params["original"] is fine [kschwarz]
@@ -3170,7 +3170,7 @@ function ispapi_Sync($params)
     if (preg_match("/^(com|net|cc|tv)$/", $domain->getTLD())) {
         $contacts = [];
         if (!function_exists("convertStateToCode") || !function_exists("getClientsDetails")) {
-            require implode(DIRECTORY_SEPARATOR, [ROOTDIR, "include", "clientfunctions.php"]);
+            require implode(DIRECTORY_SEPARATOR, [ROOTDIR, "includes", "clientfunctions.php"]);
         }
         // --- fetch client details of current domain
         $d = new \WHMCS\Domains();
