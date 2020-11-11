@@ -1,3 +1,10 @@
+## [4.5.5](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.4...v4.5.5) (2020-11-11)
+
+
+### Performance Improvements
+
+* **getconfigarray:** reviewed for better performance (affected list of registered domains) ([722a538](https://github.com/hexonet/whmcs-ispapi-registrar/commit/722a5386df0d0cbc77c5781d11fdf50f722a6d2a))
+
 ## [4.5.4](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.3...v4.5.4) (2020-11-09)
 
 
