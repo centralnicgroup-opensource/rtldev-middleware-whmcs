@@ -18,6 +18,7 @@ use WHMCS\Module\Registrar\Ispapi\Helper as Helper;
 use WHMCS\Module\Registrar\Ispapi\WebApps as WebApps;
 use WHMCS\Module\Registrar\Ispapi\DomainTransfer as HXDomainTransfer;
 use WHMCS\Module\Registrar\Ispapi\Domain as HXDomain;
+use WHMCS\Module\Registrar\Ispapi\AdditionalFields as HXAdditionalFields;
 
 /**
  * Check the availability of domains using HEXONET's fast API
@@ -817,32 +818,32 @@ function ispapi_ClientAreaCustomButtonArray($params)
     $domain = $params["domainObj"];
     $tld = strtoupper("." . $domain->getLastTLDSegment());
 
-    $addflds = new \ISPAPI\AdditionalFields($params["TestMode"] === "on");
+    $addflds = new HXAdditionalFields($params["TestMode"] === "on");
     $addflds->setDomainType("whoisprivacy")->setDomain($domain->getDomain());
 
     $buttonarray = [];
     if (!empty($addflds->getFields())) {
         // registry-specific id protection (free of charge, don't cover it over _IDProtectToggle/ID Protection Addon)
-        $buttonarray["WHOIS Privacy"] = "whoisprivacy";
+        $buttonarray[\Lang::trans("hxwhoisprivacy")] = "whoisprivacy";
     }
     if (Ispapi::needsTradeForRegistrantModification($params, $domain)) {
-        $buttonarray["Change of Registrant"] = "registrantmodificationtrade";
+        $buttonarray[\Lang::trans("hxownerchange")] = "registrantmodificationtrade";
     } else {
         // changes can be done by update; we need only a specific page in case domain fields are necessary
         // TODO check if Kontaktdata page supports additional fields now or still not
-        $addflds = new \ISPAPI\AdditionalFields($params["TestMode"] == "on");
+        $addflds = new HXAdditionalFields($params["TestMode"] == "on");
         $addflds->setDomainType("update")->setDomain($domain->getDomain());
         if ($addflds->isMissingRequiredFields()) {
             //in case we have additional required domain fields for update
-            $buttonarray["Change of Registrant"] = "registrantmodification";
+            $buttonarray[\Lang::trans("hxownerchange")] = "registrantmodification";
         }
     }
     if ($params["DNSSEC"] == "on") {//TODO ...
-        $buttonarray["DNSSEC Management"] = "dnssec";
+        $buttonarray[\Lang::trans("hxdnssecmanagement")] = "dnssec";
     }
     if ($params["dnsmanagement"]) {
         if (Ispapi::canUse("WEBAPPS", $params, true)) {
-            $buttonarray["Web Apps"] = "webapps";
+            $buttonarray[\Lang::trans("hxwebapps")] = "webapps";//TODO ......................
         }
     }
 
@@ -1012,7 +1013,7 @@ function ispapi_registrantmodificationtrade($params)
     /** @var \WHMCS\Domains\Domain $domain */
     $domain = $params["domainObj"];
 
-    $addflds = new \ISPAPI\AdditionalFields($params["TestMode"] == "on");
+    $addflds = new HXAdditionalFields($params["TestMode"] == "on");
     $addflds->setDomainType("trade")->setDomain($domain->getDomain());
 
     $r = Ispapi::call([
@@ -1095,7 +1096,7 @@ function ispapi_registrantmodification($params)
     /** @var \WHMCS\Domains\Domain $domain */
     $domain = $params["domainObj"];
 
-    $addflds = new \ISPAPI\AdditionalFields($params["TestMode"] == "on");
+    $addflds = new HXAdditionalFields($params["TestMode"] == "on");
     $addflds->setDomainType("update")->setDomain($domain->getDomain());
 
     $r = Ispapi::call([
@@ -1175,7 +1176,7 @@ function ispapi_whoisprivacy($params)
     /** @var \WHMCS\Domains\Domain $domain */
     $domain = $params["domainObj"];
 
-    $addflds = new \ISPAPI\AdditionalFields($params["TestMode"] == "on");
+    $addflds = new HXAdditionalFields($params["TestMode"] == "on");
     $addflds->setDomainType("whoisprivacy")->setDomain($domain->getDomain());
 
     $error = false;
