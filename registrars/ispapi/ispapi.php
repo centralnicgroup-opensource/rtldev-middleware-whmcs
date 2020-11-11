@@ -712,7 +712,11 @@ function ispapi_getConfigArray($params)
         ];
     }
 
-    if (!empty($params["Username"])) {
+    if (
+        isset($_REQUEST["saved"])
+        && (bool)$_REQUEST["saved"] === true
+        && !empty($params["Username"])
+    ) {
         //Check authentication
         $response = Ispapi::call([
             "COMMAND" => "CheckAuthentication",
@@ -725,6 +729,25 @@ function ispapi_getConfigArray($params)
             $configarray[""] = array(
                 "Description" => "<div class=\"alert alert-success\" style=\"font-size:medium;margin-bottom:0px;\">Connected " . $mode_text . ".</div>"
             );
+            //Save information about module versions in the environment
+            //workarround to call that only 1 time.
+            static $included = false;
+            if (!$included) {
+                $included = true;
+                $values = WHMCS\Module\Registrar\Ispapi\Ispapi::getStatisticsData($params);
+
+                $command = array(
+                    "COMMAND" => "SetEnvironment",
+                );
+                $i = 0;
+                foreach ($values as $key => $value) {
+                    $command["ENVIRONMENTKEY$i"] = "middleware/whmcs/" . $_SERVER["HTTP_HOST"];
+                    $command["ENVIRONMENTNAME$i"] = $key;
+                    $command["ENVIRONMENTVALUE$i"] = $value;
+                    $i++;
+                }
+                Ispapi::call($command, $params);
+            }
         } else {
             $configarray["Your Server-IP"] = array(
                 "Description" => $_SERVER["SERVER_ADDR"]
@@ -736,29 +759,6 @@ function ispapi_getConfigArray($params)
                     "target=\"_blank\" class=\"alert-link\">here</a> for possible reasons.</p></div>"
                 )
             );
-        }
-
-        //Save information about module versions in the environment
-        if ($response["CODE"] == 200) {
-            //workarround to call that only 1 time.
-            static $included = false;
-
-            if (!$included) {
-                $included = true;
-                $values = WHMCS\Module\Registrar\Ispapi\Ispapi::getStatisticsData($params);
-
-                $command = array(
-                        "COMMAND" => "SetEnvironment",
-                );
-                $i = 0;
-                foreach ($values as $key => $value) {
-                    $command["ENVIRONMENTKEY$i"] = "middleware/whmcs/" . $_SERVER["HTTP_HOST"];
-                    $command["ENVIRONMENTNAME$i"] = $key;
-                    $command["ENVIRONMENTVALUE$i"] = $value;
-                    $i++;
-                }
-                Ispapi::call($command, $params);
-            }
         }
     }
     return $configarray;
