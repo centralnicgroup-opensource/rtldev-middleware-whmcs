@@ -1,3 +1,10 @@
+## [4.5.6](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.5...v4.5.6) (2020-11-12)
+
+
+### Performance Improvements
+
+* **getconfigarray:** dependency reviewed to avoid loading prices ([67f6e7e](https://github.com/hexonet/whmcs-ispapi-registrar/commit/67f6e7eeb0b238ebdaa6bfa29f2e9a01f08921e3))
+
 ## [4.5.5](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.4...v4.5.5) (2020-11-11)
 
 
