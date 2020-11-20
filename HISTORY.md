@@ -1,3 +1,10 @@
+## [4.5.10](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.9...v4.5.10) (2020-11-20)
+
+
+### Bug Fixes
+
+* **dk hostmaster contact:** cast the additional domain field values to uppercase format explicitely ([4d71861](https://github.com/hexonet/whmcs-ispapi-registrar/commit/4d71861a1ede527e6f2d4428c9db9bf35deb9e26))
+
 ## [4.5.9](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.8...v4.5.9) (2020-11-20)
 
 
