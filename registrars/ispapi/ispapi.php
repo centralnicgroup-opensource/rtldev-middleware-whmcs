@@ -3489,6 +3489,13 @@ function ispapi_use_additionalfields($params, &$command)
             }
         }
     }
+
+    foreach ($command as $key => $value) {
+        // Ticket#2020111708017183
+        if (preg_match("/^X-DK-(REGISTRANT|ADMIN)-CONTACT$/", $key)) {
+            $command[$key] = strtoupper($value);
+        }
+    }
 }
 
 function ispapi_get_utf8_params($params)
