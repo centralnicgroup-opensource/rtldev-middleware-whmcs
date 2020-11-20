@@ -704,7 +704,9 @@ function ispapi_getConfigArray($params)
             "Description" => "Display the DNSSEC Management functionality in the Domain Details View."
         ]
     ];
-    if (Ispapi::canUse("WEBAPPS", $params, false)) {
+
+    $authOk = Ispapi::checkAuth($params); //keep this line here as it generates the canUse object
+    if ($authOk["WEBAPPS"]) {
         $configarray["WebApps"] = [
             "FriendlyName" => "Offer Web Apps",
             "Type" => "yesno",
@@ -712,54 +714,23 @@ function ispapi_getConfigArray($params)
         ];
     }
 
-    if (
-        isset($_REQUEST["saved"])
-        && (bool)$_REQUEST["saved"] === true
-        && !empty($params["Username"])
-    ) {
-        //Check authentication
-        $response = Ispapi::call([
-            "COMMAND" => "CheckAuthentication",
-            "SUBUSER" => $params["Username"],
-            "PASSWORD" => $params["Password"]
-        ], $params);
-
-        $mode_text = ($params["TestMode"] == "on") ? "to OT&E environment" : "to PRODUCTION environment";
-        if ($response["CODE"] == 200) {
-            $configarray[""] = array(
-                "Description" => "<div class=\"alert alert-success\" style=\"font-size:medium;margin-bottom:0px;\">Connected " . $mode_text . ".</div>"
-            );
-            //Save information about module versions in the environment
-            //workarround to call that only 1 time.
-            static $included = false;
-            if (!$included) {
-                $included = true;
-                $values = WHMCS\Module\Registrar\Ispapi\Ispapi::getStatisticsData($params);
-
-                $command = array(
-                    "COMMAND" => "SetEnvironment",
-                );
-                $i = 0;
-                foreach ($values as $key => $value) {
-                    $command["ENVIRONMENTKEY$i"] = "middleware/whmcs/" . $_SERVER["HTTP_HOST"];
-                    $command["ENVIRONMENTNAME$i"] = $key;
-                    $command["ENVIRONMENTVALUE$i"] = $value;
-                    $i++;
-                }
-                Ispapi::call($command, $params);
-            }
-        } else {
-            $configarray["Your Server-IP"] = array(
-                "Description" => $_SERVER["SERVER_ADDR"]
-            );
-            $configarray[""] = array(
-                "Description" => (
-                    "<div class=\"alert alert-danger\" style=\"margin-bottom:0px;\"><h2 style=\"color:inherit;\">Connection failed. <small>(" .
-                    $response["CODE"] . " " . $response["DESCRIPTION"] . ")</small></h2><p>Read <a href=\"https://github.com/hexonet/whmcs-ispapi-registrar/wiki/FAQs#49-login-failed-in-registrar-module\" " .
-                    "target=\"_blank\" class=\"alert-link\">here</a> for possible reasons.</p></div>"
-                )
-            );
-        }
+    $mode_text = ($params["TestMode"] == "on") ? "to OT&E environment" : "to PRODUCTION environment";
+    if ($authOk) {
+        $configarray[""] = [
+            "Description" => "<div class=\"alert alert-success\" style=\"font-size:medium;margin-bottom:0px;\">Connected " . $mode_text . ".</div>"
+        ];
+    } else {
+        $parts = parse_url(\WHMCS\Config\Setting::getValue("SystemURL"));
+        $configarray["Your Server-IP"] = [
+            "Description" => gethostbyname($parts["host"])
+        ];
+        $configarray[""] = [
+            "Description" => (
+                "<div class=\"alert alert-danger\" style=\"margin-bottom:0px;\"><h2 style=\"color:inherit;\">Connection failed. <small>(" .
+                Ispapi::getAuthError() . ")</small></h2><p>Read <a href=\"https://github.com/hexonet/whmcs-ispapi-registrar/wiki/FAQs#49-login-failed-in-registrar-module\" " .
+                "target=\"_blank\" class=\"alert-link\">here</a> for possible reasons.</p></div>"
+            )
+        ];
     }
     return $configarray;
 }
@@ -848,7 +819,7 @@ function ispapi_ClientAreaCustomButtonArray($params)
         $buttonarray["DNSSEC Management"] = "dnssec";
     }
     if ($params["dnsmanagement"]) {
-        if (Ispapi::canUse("WEBAPPS", $params, true)) {
+        if ($params["WebApps"] && Ispapi::canUse("WEBAPPS", $params)) {
             $buttonarray["Web Apps"] = "webapps";
         }
     }

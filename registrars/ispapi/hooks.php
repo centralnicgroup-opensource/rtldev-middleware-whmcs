@@ -77,37 +77,40 @@ add_hook('AfterRegistrarRegistrationFailed', 1, function ($vars) {
 });
 
 add_hook('DailyCronJob', 1, function ($vars) {
-    // ONLY FOR .SWISS: runs over all pending applications to check if the registration was successful or not.
-    if (file_exists(dirname(__FILE__) . "/ispapi.php")) {
-        require_once(dirname(__FILE__) . "/ispapi.php");
-        $registrarconfigoptions = getregistrarconfigoptions("ispapi");
+    // Submit Statistics
+    $authOk = Ispapi::checkAuth();
+    if (!$authOk) {
+        return;
+    }
+    //Save information about module versions in the environment
+    Ispapi::sendStatisticsData();
 
-        $data = [
-            ":registrar" => "ispapi",
-            ":stat" => "Pending"
-        ];
-        $r = Helper::SQLCall("SELECT id, additionalnotes FROM tbldomains WHERE additionalnotes!='' AND registrar=:registrar AND status=:stat", $data, "fetchall");
-        if ($r["success"]) {
-            foreach ($r["result"] as $row) {
-                preg_match('/APPLICATION:(.+?)(?:$|\n)/i', $row["additionalnotes"], $matches);
-                if (isset($matches[1])) {
-                    $data = [
-                        ":id" => $row["id"]
-                    ];
-                    $response = Ispapi::call([
-                        "COMMAND" => "StatusDomainApplication",
-                        "APPLICATION" => $matches[1]
-                    ], $registrarconfigoptions);
-                    if ($response["PROPERTY"]["STATUS"][0] == "SUCCESSFUL") {
-                        //echo $row["domain"]." > Status:".$response["PROPERTY"]["STATUS"][0];
-                        $data[":stat"] = "Active";
-                        Helper::SQLCall("UPDATE tbldomains SET status=:stat WHERE id=:id", $data, "execute");
-                    }
-                    if ($response["PROPERTY"]["STATUS"][0] == "FAILED") {
-                        //echo $row["domain"]." > Status:".$response["PROPERTY"]["STATUS"][0];
-                        $data[":stat"] = "Cancelled";
-                        Helper::SQLCall("UPDATE tbldomains SET status=:stat WHERE id=:id", $data, "execute");
-                    }
+    // ONLY FOR .SWISS: runs over all pending applications to check if the registration was successful or not.
+    $data = [
+        ":registrar" => "ispapi",
+        ":stat" => "Pending"
+    ];
+    $r = Helper::SQLCall("SELECT id, additionalnotes FROM tbldomains WHERE additionalnotes!='' AND registrar=:registrar AND status=:stat", $data, "fetchall");
+    if ($r["success"]) {
+        foreach ($r["result"] as $row) {
+            preg_match('/APPLICATION:(.+?)(?:$|\n)/i', $row["additionalnotes"], $matches);
+            if (isset($matches[1])) {
+                $data = [
+                    ":id" => $row["id"]
+                ];
+                $response = Ispapi::call([
+                    "COMMAND" => "StatusDomainApplication",
+                    "APPLICATION" => $matches[1]
+                ]);
+                if ($response["PROPERTY"]["STATUS"][0] == "SUCCESSFUL") {
+                    //echo $row["domain"]." > Status:".$response["PROPERTY"]["STATUS"][0];
+                    $data[":stat"] = "Active";
+                    Helper::SQLCall("UPDATE tbldomains SET status=:stat WHERE id=:id", $data, "execute");
+                }
+                if ($response["PROPERTY"]["STATUS"][0] == "FAILED") {
+                    //echo $row["domain"]." > Status:".$response["PROPERTY"]["STATUS"][0];
+                    $data[":stat"] = "Cancelled";
+                    Helper::SQLCall("UPDATE tbldomains SET status=:stat WHERE id=:id", $data, "execute");
                 }
             }
         }
