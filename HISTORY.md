@@ -1,3 +1,10 @@
+## [4.5.9](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.8...v4.5.9) (2020-11-20)
+
+
+### Bug Fixes
+
+* **dk hostmaster id:** prefilling happens always using the uppercase value ([810e3f1](https://github.com/hexonet/whmcs-ispapi-registrar/commit/810e3f18eb03f6de5b9f5d71f270e32592dc9441))
+
 ## [4.5.8](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.7...v4.5.8) (2020-11-20)
 
 
