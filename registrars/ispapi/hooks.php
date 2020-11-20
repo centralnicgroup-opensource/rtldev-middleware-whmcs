@@ -18,7 +18,7 @@ add_hook('ClientAreaHeadOutput', 1, function ($vars) {
         $cfs = getCustomFields("client", "", $vars['clientsdetails']['userid'], "on", "");
         foreach ($cfs as $cf) {
             if ("dkhostmasteruserid" === $cf['textid'] && !empty($cf['value'])) {
-                $ispapidkid = $cf['value'];
+                $ispapidkid = strtoupper($cf['value']);
             }
         }
     }
