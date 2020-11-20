@@ -1,3 +1,10 @@
+## [4.5.8](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.7...v4.5.8) (2020-11-20)
+
+
+### Bug Fixes
+
+* **dependency:** fixed missing dependency upgrade ([d76a09c](https://github.com/hexonet/whmcs-ispapi-registrar/commit/d76a09cd87fdf949cdde09fc32e707e8ccf36cb3))
+
 ## [4.5.7](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.6...v4.5.7) (2020-11-20)
 
 
