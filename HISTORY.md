@@ -1,3 +1,10 @@
+## [4.5.7](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.6...v4.5.7) (2020-11-20)
+
+
+### Performance Improvements
+
+* **getconfigarray:** better performance; moved stats to daily sync; fixed server ip output ([0014829](https://github.com/hexonet/whmcs-ispapi-registrar/commit/0014829d904aebb58f757b45a6fd85e52561ba37))
+
 ## [4.5.6](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.5...v4.5.6) (2020-11-12)
 
 
