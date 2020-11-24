@@ -1,3 +1,10 @@
+## [4.5.11](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.10...v4.5.11) (2020-11-24)
+
+
+### Bug Fixes
+
+* **web apps:** list of connectable Web Apps empty (issue in archive build process) ([95e786b](https://github.com/hexonet/whmcs-ispapi-registrar/commit/95e786b0dc3dd953a2f3a0d9f67fafe81b53a4be))
+
 ## [4.5.10](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.9...v4.5.10) (2020-11-20)
 
 
