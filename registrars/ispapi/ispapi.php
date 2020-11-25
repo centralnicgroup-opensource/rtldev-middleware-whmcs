@@ -3490,12 +3490,16 @@ function ispapi_use_additionalfields($params, &$command)
         }
     }
 
+    // Ticket#2020111708017183 - START
     foreach ($command as $key => $value) {
-        // Ticket#2020111708017183
         if (preg_match("/^X-DK-(REGISTRANT|ADMIN)-CONTACT$/", $key)) {
             $command[$key] = strtoupper($value);
         }
+        if (preg_match("/^X-DK-AGREEMENT-ACCEPTEDDATE$/", $key) && $value === "on") {
+            $command[$key] = gmdate("Y-m-d H:i:s");
+        }
     }
+    // Ticket#2020111708017183 - END
 }
 
 function ispapi_get_utf8_params($params)

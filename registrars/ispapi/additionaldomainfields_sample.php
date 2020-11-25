@@ -309,6 +309,25 @@ $additionaldomainfields[".dentist"][] = array(
 
 ## .DK DOMAIN REQUIREMENTS ##
 $additionaldomainfields[".dk"] = array();
+/*
+// START OF X-DK-AGREEMENT-ACCEPTEDDATE
+// ++++++++++++++++++ NOTE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// READ: https://wiki.hexonet.net/wiki/DK#Registrations_alternative_registration_method_with_registrants_entering_into_an_agreement_with_DK_hostmaster_on_a_resellers_website
+// Follow Method 1 of https://www.dk-hostmaster.dk/en/implementation-guide-registration-dk
+// If you use the below additional domain field, we will use an UTC timestamp in the domain registration command as required if the checkbox got checked
+// CAUTION: WHMCS has right now no possibility to separate additional fields for registration and transfer
+// This additional field below will result in transfer errors
+// ++++++++++++++++++ NOTE ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+$additionaldomainfields[".dk"][] = array(
+        "Name" => "Agreement",
+        "Type" => "tickbox",
+        "Description" => "I confirm that I have read and understood the <a href='https://www.dk-hostmaster.dk/en/terms' target='_blank' style='text-decoration:underline;'> DK Hostmaster's terms of use</a> for a .dk domain.",
+        "Default" => "",
+        "Required" => true,
+        "Ispapi-Name" => "X-DK-AGREEMENT-ACCEPTEDDATE"
+);
+// END OF X-DK-AGREEMENT-ACCEPTEDDATE
+*/
 $additionaldomainfields[".dk"][] = array(
     "Name" => "Registrant VAT ID",
     "Type" => "text",
@@ -330,7 +349,6 @@ $additionaldomainfields[".dk"][] = array(
     "Description" => "(DK-HOSTMASTER User ID)",
     "Ispapi-Name" => "X-DK-REGISTRANT-CONTACT",
 );
-
 $additionaldomainfields[".dk"][] = array(
     "Name" => "Admin contact",
     "Type" => "text",
