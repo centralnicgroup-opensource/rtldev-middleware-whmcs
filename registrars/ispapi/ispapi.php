@@ -650,17 +650,57 @@ HTML
  */
 function ispapi_getConfigArray($params)
 {
-    $oldModule = "hexonet";
     $newModule = "ispapi";
-    if (@$_GET['migrate']) {
-        DB::table("tbldomains")->where("registrar", $oldModule)->update(["registrar" => $newModule]);
-        DB::table("tbldomainpricing")->where("autoreg", $oldModule)->update(["autoreg" => $newModule]);
-        DB::table("tblregistrars")->where("registrar", $oldModule)->delete();
+    $oldModule = "hexonet";
+    $oldConfig = \getregistrarconfigoptions($oldModule);
+
+    if (@$_GET["migrate"]) {
+        $migrate = false;
+        // migrate registrar module settings
+        if (!$params["Username"]) {
+            $isLowerWHMCS8 = version_compare($params["whmcsVersion"], "8.0.0") === -1;
+            foreach ($oldConfig as $key => $val) {
+                $tmp = $val;
+                if (!$isLowerWHMCS8) {
+                    $r = localAPI('EncryptPassword', [
+                        'password2' => $val
+                    ]);
+                    if ($r["result"] === "success") {
+                        $tmp = $r["password"];
+                    }
+                }
+
+                DB::table('tblregistrars')
+                    ->where('registrar', $newModule)
+                    ->where('setting', $key)
+                    ->update([
+                        'value' => $tmp
+                    ]);
+            }
+            // reassign domains
+            DB::table("tbldomains")->where("registrar", $oldModule)->update(["registrar" => $newModule]);
+            // reassign pricing settings
+            DB::table("tbldomainpricing")->where("autoreg", $oldModule)->update(["autoreg" => $newModule]);
+            // deactivate built-in hexonet module
+            DB::table("tblregistrars")->where("registrar", $oldModule)->delete();
+        }
+    } else {
+        $matchingConfig = false;
+        if ($params["Username"]) {
+            $matchingConfig = (
+                !empty($oldConfig)
+                && ($oldConfig["Username"] === $params["Username"])
+                && ($oldConfig["Password"] === $params["Password"])
+                && ($oldConfig["TestMode"] === $params["TestMode"])
+            );
+        }
+        $migrate = (
+            (!$params["Username"] || $matchingConfig) && (
+                DB::table("tbldomains")->where("registrar", $oldModule)->count() > 0
+                || DB::table("tbldomainpricing")->where("autoreg", $oldModule)->count() > 0
+            )
+        );
     }
-    $migrate = (
-        DB::table("tbldomains")->where("registrar", $oldModule)->count() > 0
-        || DB::table("tbldomainpricing")->where("autoreg", $oldModule)->count() > 0
-    );
 
     $configarray = [
         "FriendlyName" => [
