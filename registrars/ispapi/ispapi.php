@@ -619,6 +619,29 @@ function ispapi_getUserRelations($params)
 }
 
 /**
+ * Undocumented function to validate user inputs in getConfigArray's form - only invoked if configuration settings are submitted
+ * @link https://www.whmcs.com/members/viewticket.php?tid=ESD-183344&c=wjZ1LjOs #ESD-183344
+ * @param array $params common module parameters
+ * @throws Exception if estabilishing the API connection failed
+ */
+function ispapi_config_validate($params)
+{
+    $authOk = Ispapi::checkAuth($params);
+    if (!$authOk) {
+        $parts = parse_url(\WHMCS\Config\Setting::getValue("SystemURL"));
+        $ip = gethostbyname($parts["host"]);
+        $error = Ispapi::getAuthError();
+        $url = "https://github.com/hexonet/whmcs-ispapi-registrar/wiki/FAQs#49-login-failed-in-registrar-module";
+        throw new \Exception(
+            <<<HTML
+            <h2>Connection failed. <small>({$error})</small></h2>
+            <p>Read <a href="{$url}" target="_blank" style="text-decoration:underline;">here</a> for possible reasons. <b>Your Server IP Address</b>: {$ip}</p>
+HTML
+        );
+    }
+}
+
+/**
  * Return the configuration array of the module (Setup > Products / Services > Domain Registrars > ISPAPI > Configure)
  *
  * @param array $params common module parameters
@@ -714,24 +737,6 @@ function ispapi_getConfigArray($params)
         ];
     }
 
-    $mode_text = ($params["TestMode"] == "on") ? "to OT&E environment" : "to PRODUCTION environment";
-    if ($authOk) {
-        $configarray[""] = [
-            "Description" => "<div class=\"alert alert-success\" style=\"font-size:medium;margin-bottom:0px;\">Connected " . $mode_text . ".</div>"
-        ];
-    } else {
-        $parts = parse_url(\WHMCS\Config\Setting::getValue("SystemURL"));
-        $configarray["Your Server-IP"] = [
-            "Description" => gethostbyname($parts["host"])
-        ];
-        $configarray[""] = [
-            "Description" => (
-                "<div class=\"alert alert-danger\" style=\"margin-bottom:0px;\"><h2 style=\"color:inherit;\">Connection failed. <small>(" .
-                Ispapi::getAuthError() . ")</small></h2><p>Read <a href=\"https://github.com/hexonet/whmcs-ispapi-registrar/wiki/FAQs#49-login-failed-in-registrar-module\" " .
-                "target=\"_blank\" class=\"alert-link\">here</a> for possible reasons.</p></div>"
-            )
-        ];
-    }
     return $configarray;
 }
 
