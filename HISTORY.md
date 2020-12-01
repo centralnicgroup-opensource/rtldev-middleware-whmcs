@@ -1,3 +1,16 @@
+## [4.5.12](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.11...v4.5.12) (2020-12-01)
+
+
+### Bug Fixes
+
+* **migrate button:** reviewed appearance and extended usage (taking over settings from hx module) ([0d4a5f0](https://github.com/hexonet/whmcs-ispapi-registrar/commit/0d4a5f0e1566a31d38281765af5b846bfc3b56a1))
+* **tld & pricing sync:** not offerable TLDs appeared with registration price 0.00 (not critical!) ([d5c4b56](https://github.com/hexonet/whmcs-ispapi-registrar/commit/d5c4b56776becfa36cfda76f991e3fce38f1f120))
+
+
+### Performance Improvements
+
+* **configuration validation:** use undocumented method _config_validate as replacement ([5b2bb92](https://github.com/hexonet/whmcs-ispapi-registrar/commit/5b2bb92eca08d668b238aea85968bc38850bcdf8)), closes [#ESD-183344](https://github.com/hexonet/whmcs-ispapi-registrar/issues/ESD-183344)
+
 ## [4.5.11](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.10...v4.5.11) (2020-11-24)
 
 
