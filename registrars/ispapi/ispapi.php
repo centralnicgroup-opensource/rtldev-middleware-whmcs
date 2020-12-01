@@ -3355,9 +3355,10 @@ function ispapi_getTLDPricing($params)
     $results = new \WHMCS\Results\ResultsList();
     foreach ($prices as $tld => $p) {
         $cfg = $cfgs[$tld];
-        if (!isset($p["registration"]) || is_null($p["registration"])) {
+        if (is_null($p["registration"])) {
             // there are of course TLDs in management which we no longer offer for registration in public
-            // e.g. .ar.com, .hu.com, .kr.com, .md, .no.com, .qc.com, .se.com, .uy.com, .zone
+            // e.g. .ar.com, .hu.com, .kr.com, .md, .no.com, .qc.com, .se.com, .uy.com, .zone, .plc.uk, .ltd.uk
+            // WHMCS doesn't offer the possibility to import registerPrice as null, therefore leaving out
             continue;
         }
         if (empty($cfg->periods["registration"])) {
