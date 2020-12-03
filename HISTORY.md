@@ -1,3 +1,10 @@
+## [4.5.14](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.13...v4.5.14) (2020-12-03)
+
+
+### Bug Fixes
+
+* **dep-bump:** missing dependency upgrade ([d6d60b7](https://github.com/hexonet/whmcs-ispapi-registrar/commit/d6d60b7c6f9cdc10f4732cc01a6e75a2ad2a939d))
+
 ## [4.5.13](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.12...v4.5.13) (2020-12-03)
 
 
