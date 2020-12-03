@@ -620,14 +620,15 @@ function ispapi_getUserRelations($params)
 
 /**
  * Undocumented function to validate user inputs in getConfigArray's form - only invoked if configuration settings are submitted
+ * commenting out as things are cached, not reliable to use
  * @link https://www.whmcs.com/members/viewticket.php?tid=ESD-183344&c=wjZ1LjOs #ESD-183344
  * @param array $params common module parameters
  * @throws Exception if estabilishing the API connection failed
  */
-function ispapi_config_validate($params)
+/*function ispapi_config_validate($params)
 {
     $authOk = Ispapi::checkAuth($params);
-    if (!$authOk) {
+    if ($authOk===false) {
         $parts = parse_url(\WHMCS\Config\Setting::getValue("SystemURL"));
         $ip = gethostbyname($parts["host"]);
         $error = Ispapi::getAuthError();
@@ -639,7 +640,7 @@ function ispapi_config_validate($params)
 HTML
         );
     }
-}
+}*/
 
 /**
  * Return the configuration array of the module (Setup > Products / Services > Domain Registrars > ISPAPI > Configure)
@@ -776,6 +777,36 @@ function ispapi_getConfigArray($params)
             "Description" => "Enable Offering Web Apps in Domain Details View. Read <a href=\"https://www.hexonet.net/de/products/webapps\" target=\"_blank\" style=\"border-bottom: 1px solid blue; color: blue\">here</a>."
         ];
     }
+
+    $system = $params["TestMode"] === "on" ? "OT&E" : "LIVE";
+    $parts = parse_url(\WHMCS\Config\Setting::getValue("SystemURL"));
+    $ip = gethostbyname($parts["host"]);
+
+    if ($authOk === false) {
+        $error = Ispapi::getAuthError();
+        $url = "https://github.com/hexonet/whmcs-ispapi-registrar/wiki/FAQs#49-login-failed-in-registrar-module";
+        $configarray[""] = [
+            "Description" => (
+                <<<HTML
+                <div class="alert alert-danger" style="font-size:medium;margin-bottom:0px;">
+                    <h2>Connecting to the {$system} Environment failed. <small>({$error})</small></h2>
+                    <p>Read <a href="{$url}" target="_blank" class="alert-link">here</a> for possible reasons. <b>Your Server IP Address</b>: {$ip}</p>
+                </div>
+HTML
+            )
+        ];
+    } else {
+        $configarray[""] = [
+            "Description" => (
+                <<<HTML
+                <div class="alert alert-success" style="font-size:medium;margin-bottom:0px;">
+                    <h2>Connection to the {$system} Environment established.</h2><b>Your Server IP Address</b>: {$ip}
+                </div>
+HTML
+            )
+        ];
+    }
+
 
     return $configarray;
 }
