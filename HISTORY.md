@@ -1,3 +1,10 @@
+## [4.5.13](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.12...v4.5.13) (2020-12-03)
+
+
+### Bug Fixes
+
+* **_config_validate:** not reliable to use (caches results, core bug reported to WHMCS) ([b8c6f48](https://github.com/hexonet/whmcs-ispapi-registrar/commit/b8c6f482b0f3a1b2a429e5f4a8fc74546e2c3c46))
+
 ## [4.5.12](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.11...v4.5.12) (2020-12-01)
 
 
