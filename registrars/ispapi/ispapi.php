@@ -2374,7 +2374,7 @@ function ispapi_SaveContactDetails($params)
             "X-CONFIRM-DA-NEW-REGISTRANT" => 1,
         );
 
-        //some of the AFNIC TLDs(.fr, .pm, .re) require local presence. eg: "X-FR-ACCEPT-TRUSTEE-TAC" => 1
+        //some of the AFNIC TLDs(.fr, .pm, .re, .pm, .tf, .yt) require local presence. eg: "X-FR-ACCEPT-TRUSTEE-TAC" => 1
         ispapi_query_additionalfields($params);
         ispapi_use_additionalfields($params, $command);
 
@@ -2866,7 +2866,7 @@ function ispapi_TransferDomain($params)
     }
 
     //don't send owner billing contact for .FR domains
-    if (preg_match('/\.fr$/i', $domain->getDomain())) {
+    if (preg_match('/\.(fr|pm|re|tf|wf|yt)$/i', $domain->getDomain())) {
         unset($command["OWNERCONTACT0"]);
         unset($command["BILLINGCONTACT0"]);
     }
