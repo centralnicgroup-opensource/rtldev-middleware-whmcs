@@ -1,12 +1,10 @@
 ## [4.5.15](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.14...v4.5.15) (2020-12-04)
 
-
 ### Bug Fixes
 
-* **transferdomain:** fixed issue with AFNIC TLDs (exclude registrant & admin-c) ([bbd777c](https://github.com/hexonet/whmcs-ispapi-registrar/commit/bbd777cae99b0eee62bf3e57e9e2e2e3916a0344))
+* **transferdomain:** fixed issue with AFNIC TLDs (exclude registrant & billing-c) ([bbd777c](https://github.com/hexonet/whmcs-ispapi-registrar/commit/bbd777cae99b0eee62bf3e57e9e2e2e3916a0344))
 
 ## [4.5.14](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.13...v4.5.14) (2020-12-03)
-
 
 ### Bug Fixes
 
@@ -14,19 +12,16 @@
 
 ## [4.5.13](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.12...v4.5.13) (2020-12-03)
 
-
 ### Bug Fixes
 
 * **_config_validate:** not reliable to use (caches results, core bug reported to WHMCS) ([b8c6f48](https://github.com/hexonet/whmcs-ispapi-registrar/commit/b8c6f482b0f3a1b2a429e5f4a8fc74546e2c3c46))
 
 ## [4.5.12](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.11...v4.5.12) (2020-12-01)
 
-
 ### Bug Fixes
 
 * **migrate button:** reviewed appearance and extended usage (taking over settings from hx module) ([0d4a5f0](https://github.com/hexonet/whmcs-ispapi-registrar/commit/0d4a5f0e1566a31d38281765af5b846bfc3b56a1))
 * **tld & pricing sync:** not offerable TLDs appeared with registration price 0.00 (not critical!) ([d5c4b56](https://github.com/hexonet/whmcs-ispapi-registrar/commit/d5c4b56776becfa36cfda76f991e3fce38f1f120))
-
 
 ### Performance Improvements
 
@@ -34,13 +29,11 @@
 
 ## [4.5.11](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.10...v4.5.11) (2020-11-24)
 
-
 ### Bug Fixes
 
 * **web apps:** list of connectable Web Apps empty (issue in archive build process) ([95e786b](https://github.com/hexonet/whmcs-ispapi-registrar/commit/95e786b0dc3dd953a2f3a0d9f67fafe81b53a4be))
 
 ## [4.5.10](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.9...v4.5.10) (2020-11-20)
-
 
 ### Bug Fixes
 
@@ -48,13 +41,11 @@
 
 ## [4.5.9](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.8...v4.5.9) (2020-11-20)
 
-
 ### Bug Fixes
 
 * **dk hostmaster id:** prefilling happens always using the uppercase value ([810e3f1](https://github.com/hexonet/whmcs-ispapi-registrar/commit/810e3f18eb03f6de5b9f5d71f270e32592dc9441))
 
 ## [4.5.8](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.7...v4.5.8) (2020-11-20)
-
 
 ### Bug Fixes
 
@@ -62,13 +53,11 @@
 
 ## [4.5.7](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.6...v4.5.7) (2020-11-20)
 
-
 ### Performance Improvements
 
 * **getconfigarray:** better performance; moved stats to daily sync; fixed server ip output ([0014829](https://github.com/hexonet/whmcs-ispapi-registrar/commit/0014829d904aebb58f757b45a6fd85e52561ba37))
 
 ## [4.5.6](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.5...v4.5.6) (2020-11-12)
-
 
 ### Performance Improvements
 
@@ -76,13 +65,11 @@
 
 ## [4.5.5](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.4...v4.5.5) (2020-11-11)
 
-
 ### Performance Improvements
 
 * **getconfigarray:** reviewed for better performance (affected list of registered domains) ([722a538](https://github.com/hexonet/whmcs-ispapi-registrar/commit/722a5386df0d0cbc77c5781d11fdf50f722a6d2a))
 
 ## [4.5.4](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.3...v4.5.4) (2020-11-09)
-
 
 ### Bug Fixes
 
@@ -90,13 +77,11 @@
 
 ## [4.5.3](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.2...v4.5.3) (2020-10-29)
 
-
 ### Bug Fixes
 
 * **transfersync:** partially missing automatic ns update ([560a424](https://github.com/hexonet/whmcs-ispapi-registrar/commit/560a4245ac8119c3bd9e6961890e5fe1bfa0f5ef))
 
 ## [4.5.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.1...v4.5.2) (2020-10-05)
-
 
 ### Bug Fixes
 
@@ -104,13 +89,11 @@
 
 ## [4.5.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.0...v4.5.1) (2020-09-24)
 
-
 ### Bug Fixes
 
 * **transfersync:** use status check and just leave corner cases to log lookup mechanism ([da0c6f7](https://github.com/hexonet/whmcs-ispapi-registrar/commit/da0c6f704a811edf5817be079f867fb7f76cb725))
 
 # [4.5.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.4.5...v4.5.0) (2020-09-18)
-
 
 ### Features
 
@@ -118,13 +101,11 @@
 
 ## [4.4.5](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.4.4...v4.4.5) (2020-09-17)
 
-
 ### Bug Fixes
 
 * **transfersync:** reactivating fixed whois privacy service sync/auto-update ([337a102](https://github.com/hexonet/whmcs-ispapi-registrar/commit/337a102d38e5e24f9d0bd7fa90cddee673270170))
 
 ## [4.4.4](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.4.3...v4.4.4) (2020-09-16)
-
 
 ### Bug Fixes
 
@@ -132,13 +113,11 @@
 
 ## [4.4.3](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.4.2...v4.4.3) (2020-09-16)
 
-
 ### Bug Fixes
 
 * **transfersync:** added configuration option to turn nameserver update after transfer on/off ([952de92](https://github.com/hexonet/whmcs-ispapi-registrar/commit/952de927f14e71b7d68cb83e22bf370445e4ab32))
 
 ## [4.4.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.4.1...v4.4.2) (2020-09-03)
-
 
 ### Bug Fixes
 
@@ -146,13 +125,11 @@
 
 ## [4.4.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.4.0...v4.4.1) (2020-09-03)
 
-
 ### Bug Fixes
 
 * **configuration:** fixes DB calls to be downward compatible ([edc2867](https://github.com/hexonet/whmcs-ispapi-registrar/commit/edc28672bb116c3552ddca23738fd21f512332eb))
 
 # [4.4.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.3.2...v4.4.0) (2020-09-02)
-
 
 ### Features
 
@@ -160,13 +137,11 @@
 
 ## [4.3.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.3.1...v4.3.2) (2020-08-26)
 
-
 ### Bug Fixes
 
 * **transfersync:** refactor transfersync and fixed issue with status detection ([3107545](https://github.com/hexonet/whmcs-ispapi-registrar/commit/31075452df5099162161f52e7c3bc0b004f8e7c6))
 
 ## [4.3.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.3.0...v4.3.1) (2020-08-13)
-
 
 ### Bug Fixes
 
@@ -174,13 +149,11 @@
 
 # [4.3.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.2.1...v4.3.0) (2020-08-12)
 
-
 ### Features
 
 * **whmcs8 beta3:** registrar TLD Sync allowing IDN TLDs [Pending uncritical  Bug Report SMT-386450] ([8337eff](https://github.com/hexonet/whmcs-ispapi-registrar/commit/8337efffc9e7aa724370bce1d1fefab73ffd871b))
 
 ## [4.2.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.2.0...v4.2.1) (2020-08-12)
-
 
 ### Bug Fixes
 
@@ -188,11 +161,9 @@
 
 # [4.2.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.1.0...v4.2.0) (2020-08-10)
 
-
 ### Features
 
 * **domainnamesuggestions:** extended configuration possibilities ([a4c091f](https://github.com/hexonet/whmcs-ispapi-registrar/commit/a4c091f5c0436bd87e5f73df1a42e13f65cb75fc))
-
 
 ### Performance Improvements
 
@@ -200,13 +171,11 @@
 
 # [4.1.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.0.1...v4.1.0) (2020-08-06)
 
-
 ### Features
 
 * **transfersync:** sync status to active in case object is accessible ([6c36512](https://github.com/hexonet/whmcs-ispapi-registrar/commit/6c36512490589acc788867cb35ce17a418254d5d))
 
 ## [4.0.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.0.0...v4.0.1) (2020-08-06)
-
 
 ### Bug Fixes
 
@@ -214,18 +183,15 @@
 
 # [4.0.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.1.0...v4.0.0) (2020-07-29)
 
-
 ### Bug Fixes
 
 * **statistics:** submit PHP Version without extra data ([a6a4a40](https://github.com/hexonet/whmcs-ispapi-registrar/commit/a6a4a409ffa457bebf3a338398153134e7390b2c))
 * **transfersync:** fixed issue detecting requested nameservers ([1b3bb1c](https://github.com/hexonet/whmcs-ispapi-registrar/commit/1b3bb1c1db9f2dcbc44dc9e3d934db861b4df5dd))
 * **transfersync:** replace queryeventlist with queryobjectloglist; more reliable and performant ([793c2c3](https://github.com/hexonet/whmcs-ispapi-registrar/commit/793c2c3796c15f282efa6bc99625aa6e3c09bcf2))
 
-
 ### Features
 
 * **transfersync:** auto-update nameservers to the requested ones after successful transfer ([999b3fa](https://github.com/hexonet/whmcs-ispapi-registrar/commit/999b3fa92ff869195dd88752d9c8fda48281857e))
-
 
 ### BREAKING CHANGES
 
@@ -236,13 +202,11 @@ module behavior, we trigger a new major release.
 
 # [3.1.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.14...v3.1.0) (2020-07-22)
 
-
 ### Features
 
 * **webapps:** offer G-Suite integration ([ac937f5](https://github.com/hexonet/whmcs-ispapi-registrar/commit/ac937f5bf8aed3d0e8b5d60f6212d3251fb09002))
 
 ## [3.0.14](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.13...v3.0.14) (2020-07-17)
-
 
 ### Bug Fixes
 
@@ -250,13 +214,11 @@ module behavior, we trigger a new major release.
 
 ## [3.0.13](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.12...v3.0.13) (2020-07-03)
 
-
 ### Bug Fixes
 
 * **savecontactdetails:** fixes .CA contact details update (state to code mapping) ([7cd2291](https://github.com/hexonet/whmcs-ispapi-registrar/commit/7cd2291f01b2fdc44c22adf7d372aae828d9ed90))
 
 ## [3.0.12](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.11...v3.0.12) (2020-06-22)
-
 
 ### Bug Fixes
 
@@ -264,13 +226,11 @@ module behavior, we trigger a new major release.
 
 ## [3.0.11](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.10...v3.0.11) (2020-06-04)
 
-
 ### Bug Fixes
 
 * **ci:** fixes missing whmcs.json in release commit ([5ace85d](https://github.com/hexonet/whmcs-ispapi-registrar/commit/5ace85dd9270cdc0d19b05967097067c17470990))
 
 ## [3.0.10](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.9...v3.0.10) (2020-06-04)
-
 
 ### Bug Fixes
 
@@ -280,13 +240,11 @@ module behavior, we trigger a new major release.
 
 ## [3.0.9](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.8...v3.0.9) (2020-06-02)
 
-
 ### Bug Fixes
 
 * **sync:** review auto-update mechanism ([c239d78](https://github.com/hexonet/whmcs-ispapi-registrar/commit/c239d7891ac570cbb9ec8cbdf9bbe6a4a60f45dc))
 
 ## [3.0.8](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.7...v3.0.8) (2020-05-28)
-
 
 ### Bug Fixes
 
@@ -294,13 +252,11 @@ module behavior, we trigger a new major release.
 
 ## [3.0.7](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.6...v3.0.7) (2020-05-28)
 
-
 ### Bug Fixes
 
 * **statistics:** review how to better load addon module versions ([013117e](https://github.com/hexonet/whmcs-ispapi-registrar/commit/013117e3fadfef563475d158b59b6be07acd7126))
 
 ## [3.0.6](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.5...v3.0.6) (2020-05-25)
-
 
 ### Bug Fixes
 
@@ -310,13 +266,11 @@ module behavior, we trigger a new major release.
 
 ## [3.0.5](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.4...v3.0.5) (2020-05-20)
 
-
 ### Bug Fixes
 
 * **registerdomain:** revert previous change (customer issue was a missing whmcs config) ([4355d2c](https://github.com/hexonet/whmcs-ispapi-registrar/commit/4355d2c79e61d343c1156397bb890a77c1272db0))
 
 ## [3.0.4](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.3...v3.0.4) (2020-05-20)
-
 
 ### Bug Fixes
 
@@ -324,13 +278,11 @@ module behavior, we trigger a new major release.
 
 ## [3.0.3](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.2...v3.0.3) (2020-04-27)
 
-
 ### Bug Fixes
 
 * **tld & pricing sync:** support maria db (unsupported column type `json`) - follow-up fix ([4146a06](https://github.com/hexonet/whmcs-ispapi-registrar/commit/4146a0630dfaba0d5291b4df380caaf0c0c27c73))
 
 ## [3.0.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.1...v3.0.2) (2020-04-27)
-
 
 ### Bug Fixes
 
@@ -338,18 +290,15 @@ module behavior, we trigger a new major release.
 
 ## [3.0.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v3.0.0...v3.0.1) (2020-04-27)
 
-
 ### Bug Fixes
 
 * **dep-bump:** upgrade helper module ([0b30051](https://github.com/hexonet/whmcs-ispapi-registrar/commit/0b300518a12a122b34cec5b610d868868956795d))
 
 # [3.0.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.7.1...v3.0.0) (2020-04-27)
 
-
 ### improvement
 
 * **php-sdk:** migrate to PHP-SDK to get connector code replaced ([870b6b3](https://github.com/hexonet/whmcs-ispapi-registrar/commit/870b6b321a54684e741dc970926118f4abcbe2cf))
-
 
 ### BREAKING CHANGES
 
@@ -358,13 +307,11 @@ purpose.
 
 ## [2.7.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.7.0...v2.7.1) (2020-04-27)
 
-
 ### Bug Fixes
 
 * **hooks:** renaming variable names (conflicting with stripe payment gateway for any reason) ([76ce8ea](https://github.com/hexonet/whmcs-ispapi-registrar/commit/76ce8eaa19de99286d1d2d8bd50a17dced0a3538))
 
 # [2.7.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.6.2...v2.7.0) (2020-04-14)
-
 
 ### Features
 
@@ -372,13 +319,11 @@ purpose.
 
 ## [2.6.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.6.1...v2.6.2) (2020-04-03)
 
-
 ### Bug Fixes
 
 * **makefile:** missing additionalfields file in package ([2506c6b](https://github.com/hexonet/whmcs-ispapi-registrar/commit/2506c6bd4f7f6a26ef327a6b3b289c9ace45575d))
 
 ## [2.6.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.6.0...v2.6.1) (2020-04-03)
-
 
 ### Bug Fixes
 
@@ -386,13 +331,11 @@ purpose.
 
 # [2.6.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.5.2...v2.6.0) (2020-04-02)
 
-
 ### Features
 
 * **additional fields:** prefill X-CA-LANGUAGE with configured client language ([fa8597c](https://github.com/hexonet/whmcs-ispapi-registrar/commit/fa8597c53acd807d27325ffea53a61a2979c29f7))
 
 ## [2.5.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.5.1...v2.5.2) (2020-04-02)
-
 
 ### Bug Fixes
 
@@ -400,13 +343,11 @@ purpose.
 
 ## [2.5.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.5.0...v2.5.1) (2020-04-01)
 
-
 ### Bug Fixes
 
 * **IRTP:** minor fix to support opt-out option ([fc6772c](https://github.com/hexonet/whmcs-ispapi-registrar/commit/fc6772c7adfe9f32d103851213672c55d5f6df2b))
 
 # [2.5.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.16...v2.5.0) (2020-03-27)
-
 
 ### Features
 
@@ -414,13 +355,11 @@ purpose.
 
 ## [2.4.16](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.15...v2.4.16) (2020-03-25)
 
-
 ### Bug Fixes
 
 * **registerdomain:** remove transfer lock for premium domain and .swiss registrations ([046aee5](https://github.com/hexonet/whmcs-ispapi-registrar/commit/046aee51d1468a416f9c0f6aad74e4517d1c797b))
 
 ## [2.4.15](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.14...v2.4.15) (2020-03-20)
-
 
 ### Bug Fixes
 
@@ -428,13 +367,11 @@ purpose.
 
 ## [2.4.14](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.13...v2.4.14) (2020-03-20)
 
-
 ### Bug Fixes
 
 * **savecontactdetails:** reactivating X-CA-LEGALTYPE ([7459e68](https://github.com/hexonet/whmcs-ispapi-registrar/commit/7459e6878cd84849e0d84fde613995669a1def26))
 
 ## [2.4.13](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.12...v2.4.13) (2020-03-16)
-
 
 ### Bug Fixes
 
@@ -442,13 +379,11 @@ purpose.
 
 ## [2.4.12](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.11...v2.4.12) (2020-03-11)
 
-
 ### Bug Fixes
 
 * **sync:** fixed sync of domain status for outbound transfers ([95a2428](https://github.com/hexonet/whmcs-ispapi-registrar/commit/95a24289494a3b87657d7b0a7aac290009f9d6f4))
 
 ## [2.4.11](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.10...v2.4.11) (2020-03-04)
-
 
 ### Bug Fixes
 
@@ -456,13 +391,11 @@ purpose.
 
 ## [2.4.10](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.9...v2.4.10) (2020-03-04)
 
-
 ### Bug Fixes
 
 * **Change of Registrant:** fix for missing additional fields in the Change of Registrant page ([3aca746](https://github.com/hexonet/whmcs-ispapi-registrar/commit/3aca746940fcf810be24562c74111b34a7370098))
 
 ## [2.4.9](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.8...v2.4.9) (2020-02-28)
-
 
 ### Bug Fixes
 
@@ -470,13 +403,11 @@ purpose.
 
 ## [2.4.8](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.7...v2.4.8) (2020-02-28)
 
-
 ### Bug Fixes
 
 * **domain import:** fixed price import for normal domain names ([907187f](https://github.com/hexonet/whmcs-ispapi-registrar/commit/907187f5d993bea97043f0eddd2cf3ae20e6d4da))
 
 ## [2.4.7](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.6...v2.4.7) (2020-02-26)
-
 
 ### Bug Fixes
 
@@ -484,13 +415,11 @@ purpose.
 
 ## [2.4.6](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.5...v2.4.6) (2020-02-13)
 
-
 ### Bug Fixes
 
 * **sync:** cleanup temporary workaround for expiry date detection after transfer ([b13bcca](https://github.com/hexonet/whmcs-ispapi-registrar/commit/b13bcca8f107ec61e3cec5f87a5e1c65377c811c))
 
 ## [2.4.5](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.4...v2.4.5) (2020-01-22)
-
 
 ### Bug Fixes
 
@@ -498,13 +427,11 @@ purpose.
 
 ## [2.4.4](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.3...v2.4.4) (2020-01-16)
 
-
 ### Bug Fixes
 
 * **authentication:** review output ([ceaef9f](https://github.com/hexonet/whmcs-ispapi-registrar/commit/ceaef9fd8eea48952f7911f36d6fd6489f470fe3)), closes [#129](https://github.com/hexonet/whmcs-ispapi-registrar/issues/129) [#128](https://github.com/hexonet/whmcs-ispapi-registrar/issues/128)
 
 ## [2.4.3](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.2...v2.4.3) (2020-01-13)
-
 
 ### Bug Fixes
 
@@ -512,13 +439,11 @@ purpose.
 
 ## [2.4.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.1...v2.4.2) (2020-01-03)
 
-
 ### Bug Fixes
 
 * **sync:** do not return expirydate if not available on API side ([3a32573](https://github.com/hexonet/whmcs-ispapi-registrar/commit/3a32573ed2d80117f7f82dc81f529a2640fc9ca2))
 
 ## [2.4.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.4.0...v2.4.1) (2020-01-02)
-
 
 ### Bug Fixes
 
@@ -526,13 +451,11 @@ purpose.
 
 # [2.4.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.3.0...v2.4.0) (2020-01-02)
 
-
 ### Features
 
 * **.dk additional fields:** auto-prefill DK-Hostmaster User ID input fields ([10a642c](https://github.com/hexonet/whmcs-ispapi-registrar/commit/10a642cebc5a76913431b6a3630ffc8f17051fba))
 
 # [2.3.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.2.3...v2.3.0) (2019-12-19)
-
 
 ### Features
 
@@ -540,13 +463,11 @@ purpose.
 
 ## [2.2.3](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.2.2...v2.2.3) (2019-12-19)
 
-
 ### Bug Fixes
 
 * **transfersync:** review to improve in direction of huge transfer lists ([73537aa](https://github.com/hexonet/whmcs-ispapi-registrar/commit/73537aaa151706f71c464234f0f5588d17d37dcf))
 
 ## [2.2.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.2.1...v2.2.2) (2019-12-16)
-
 
 ### Bug Fixes
 
@@ -554,13 +475,11 @@ purpose.
 
 ## [2.2.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.2.0...v2.2.1) (2019-12-13)
 
-
 ### Bug Fixes
 
 * **transferdomain:** to consider renamed field eppcode (formerly known as transfersecret) ([5235f7a](https://github.com/hexonet/whmcs-ispapi-registrar/commit/5235f7a4cd740ef397dffced7557c30edc7c6f07))
 
 # [2.2.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.1.1...v2.2.0) (2019-12-11)
-
 
 ### Features
 
@@ -568,13 +487,11 @@ purpose.
 
 ## [2.1.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.1.0...v2.1.1) (2019-12-11)
 
-
 ### Bug Fixes
 
 * **dep-bump:** fix currency conversion for premium imports ([ce4a3f6](https://github.com/hexonet/whmcs-ispapi-registrar/commit/ce4a3f67fcbe91dc85ef49d4c0cbc6b8557f8aea))
 
 # [2.1.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v2.0.0...v2.1.0) (2019-12-10)
-
 
 ### Features
 
@@ -582,11 +499,9 @@ purpose.
 
 # [2.0.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.12.4...v2.0.0) (2019-12-04)
 
-
 ### Bug Fixes
 
 * **CheckAvailability:** review premium price/transfer detection ([546ecf4](https://github.com/hexonet/whmcs-ispapi-registrar/commit/546ecf4c8cf71ec6aae9ad8fab90a034ffd17045))
-
 
 ### BREAKING CHANGES
 
@@ -594,13 +509,11 @@ purpose.
 
 ## [1.12.4](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.12.3...v1.12.4) (2019-12-03)
 
-
 ### Bug Fixes
 
 * **savenameservers:** review case "Missing required attribute; TOO FEW ADMIN CONTACTS (min=1)" ([6a30604](https://github.com/hexonet/whmcs-ispapi-registrar/commit/6a306043d33bd0b662e2d4594ea089bc01a58dd1))
 
 ## [1.12.3](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.12.2...v1.12.3) (2019-12-03)
-
 
 ### Bug Fixes
 
@@ -609,13 +522,11 @@ purpose.
 
 ## [1.12.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.12.1...v1.12.2) (2019-11-04)
 
-
 ### Bug Fixes
 
 * **transfer:** change period auto-detection to apply for only 0Y ([5fb61bb](https://github.com/hexonet/whmcs-ispapi-registrar/commit/5fb61bbfa820812c539e3a8ddc8baac12a3bf9fe))
 
 ## [1.12.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.12.0...v1.12.1) (2019-10-22)
-
 
 ### Bug Fixes
 
@@ -623,13 +534,11 @@ purpose.
 
 # [1.12.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.11.4...v1.12.0) (2019-10-09)
 
-
 ### Features
 
 * **IRTP:** support for IRTP ([552c9a7](https://github.com/hexonet/whmcs-ispapi-registrar/commit/552c9a7e34d5bf3df50eeb366ebfc21eb7bcaea9))
 * **IRTP:** support handling opt-out for AFNIC TLDs ([6c1ef85](https://github.com/hexonet/whmcs-ispapi-registrar/commit/6c1ef85caa75a1996f0efab8a23f7293b459bd90))
 * **TransferDomain:** domain transfer pre-check ([28104bc](https://github.com/hexonet/whmcs-ispapi-registrar/commit/28104bc8cf9a7b2beeab06c13437a74058471dc7))
-
 
 ### Performance Improvements
 
@@ -637,13 +546,11 @@ purpose.
 
 ## [1.11.4](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.11.3...v1.11.4) (2019-09-18)
 
-
 ### Bug Fixes
 
 * **release process:** review from scratch ([41dd3b5](https://github.com/hexonet/whmcs-ispapi-registrar/commit/41dd3b5))
 
 ## [1.11.3](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.11.2...v1.11.3) (2019-09-13)
-
 
 ### Bug Fixes
 
@@ -651,13 +558,11 @@ purpose.
 
 ## [1.11.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.11.1...v1.11.2) (2019-09-06)
 
-
 ### Bug Fixes
 
 * **RegistrarLock:** update hook for Registrar Lock ([ffb8522](https://github.com/hexonet/whmcs-ispapi-registrar/commit/ffb8522))
 
 ## [1.11.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.11.0...v1.11.1) (2019-09-04)
-
 
 ### Performance Improvements
 
@@ -665,13 +570,11 @@ purpose.
 
 # [1.11.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.10.0...v1.11.0) (2019-09-04)
 
-
 ### Features
 
 * **premium domain:** added support for renewals ([149d010](https://github.com/hexonet/whmcs-ispapi-registrar/commit/149d010))
 
 # [1.10.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.9.0...v1.10.0) (2019-08-22)
-
 
 ### Features
 
@@ -679,13 +582,11 @@ purpose.
 
 # [1.9.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.8.5...v1.9.0) (2019-08-20)
 
-
 ### Features
 
 * **feature:** remove 'Registrar lock' option for unsupported TLDs ([db963fb](https://github.com/hexonet/whmcs-ispapi-registrar/commit/db963fb))
 
 ## [1.8.5](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.8.4...v1.8.5) (2019-08-16)
-
 
 ### Bug Fixes
 
@@ -693,13 +594,11 @@ purpose.
 
 ## [1.8.4](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.8.3...v1.8.4) (2019-08-06)
 
-
 ### Bug Fixes
 
 * **.ca:** review additional fields ([b18a9cb](https://github.com/hexonet/whmcs-ispapi-registrar/commit/b18a9cb))
 
 ## [1.8.3](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.8.2...v1.8.3) (2019-07-12)
-
 
 ### Bug Fixes
 
@@ -707,13 +606,11 @@ purpose.
 
 ## [1.8.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.8.1...v1.8.2) (2019-06-17)
 
-
 ### Bug Fixes
 
 * **Data Sync:** Review (properties: expirydate, expired) ([bcbc005](https://github.com/hexonet/whmcs-ispapi-registrar/commit/bcbc005)), closes [#82](https://github.com/hexonet/whmcs-ispapi-registrar/issues/82)
 
 ## [1.8.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.8.0...v1.8.1) (2019-06-04)
-
 
 ### Bug Fixes
 
@@ -721,13 +618,11 @@ purpose.
 
 # [1.8.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.7.5...v1.8.0) (2019-06-04)
 
-
 ### Features
 
 * **call_raw:** skip built-in idn conversion by SKIPIDNCONVERT parameter ([aa6acc5](https://github.com/hexonet/whmcs-ispapi-registrar/commit/aa6acc5))
 
 ## [1.7.5](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.7.4...v1.7.5) (2019-06-04)
-
 
 ### Bug Fixes
 
@@ -735,13 +630,11 @@ purpose.
 
 ## [1.7.4](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.7.3...v1.7.4) (2019-06-04)
 
-
 ### Bug Fixes
 
 * **config:** connect to api.ispapi.net in both cases (http, https) ([fef06f6](https://github.com/hexonet/whmcs-ispapi-registrar/commit/fef06f6))
 
 ## [1.7.3](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.7.2...v1.7.3) (2019-05-07)
-
 
 ### Bug Fixes
 
@@ -749,13 +642,11 @@ purpose.
 
 ## [1.7.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.7.1...v1.7.2) (2019-05-07)
 
-
 ### Bug Fixes
 
 * **dep-bump:** shared-libs to v2.1.2 ([3889a2c](https://github.com/hexonet/whmcs-ispapi-registrar/commit/3889a2c))
 
 ## [1.7.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.7.0...v1.7.1) (2019-05-02)
-
 
 ### Bug Fixes
 
@@ -763,13 +654,11 @@ purpose.
 
 # [1.7.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.6.2...v1.7.0) (2019-05-02)
 
-
 ### Features
 
 * **pkg:** add shared libraries for restructuring ([226711c](https://github.com/hexonet/whmcs-ispapi-registrar/commit/226711c))
 
 ## [1.6.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.6.1...v1.6.2) (2019-04-11)
-
 
 ### Bug Fixes
 
@@ -777,23 +666,20 @@ purpose.
 
 ## [1.6.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.6.0...v1.6.1) (2019-01-28)
 
-
 ### Bug Fixes
 
-* **pkg:** update(https://github.com/hexonet/whmcs-ispapi-registrar/commit/bd332ff))
+* **pkg:** update(<https://github.com/hexonet/whmcs-ispapi-registrar/commit/bd332ff>))
   * UpdateDNSZone command updated with RESOLVETTLCONFLICTS=1
   * TransferLock adaptation for unsupported TLDs
   * Removed unsupported INTERNALDNS parameter in AddDommainApplication
 
 # [1.6.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.5.0...v1.6.0) (2018-11-16)
 
-
 ### Bug Fixes
 
 * **additionaldomainfields:** updated .ie additional domain fields ([0095827](https://github.com/hexonet/whmcs-ispapi-registrar/commit/0095827))
 * **symlinks:** improvement of integration of the module via symlinks ([579c52b](https://github.com/hexonet/whmcs-ispapi-registrar/commit/579c52b))
 * **transfers:** fix for .es transfer issues ([66cb048](https://github.com/hexonet/whmcs-ispapi-registrar/commit/66cb048))
-
 
 ### Features
 
@@ -804,7 +690,6 @@ purpose.
 
 # [1.4.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.3.0...v1.4.0) (2018-10-19)
 
-
 ### Features
 
 * **releaseInfo:** add json file covering repository info ([488a3b4](https://github.com/hexonet/whmcs-ispapi-registrar/commit/488a3b4))
@@ -813,13 +698,11 @@ purpose.
 
 ## [1.2.10](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.2.9...v1.2.10) (2018-10-17)
 
-
 ### Bug Fixes
 
 * **dependabot:** minor release on build commit msg ([1447ddf](https://github.com/hexonet/whmcs-ispapi-registrar/commit/1447ddf))
 
 ## [1.2.9](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.2.8...v1.2.9) (2018-10-15)
-
 
 ### Bug Fixes
 
@@ -827,13 +710,11 @@ purpose.
 
 ## [1.2.8](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.2.7...v1.2.8) (2018-10-15)
 
-
 ### Bug Fixes
 
 * **pkg:** Bug fix for Domain WHOIS Lookup ([8c77f81](https://github.com/hexonet/whmcs-ispapi-registrar/commit/8c77f81))
 
 ## [1.2.7](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.2.6...v1.2.7) (2018-10-11)
-
 
 ### Bug Fixes
 
@@ -841,20 +722,17 @@ purpose.
 
 ## [1.2.6](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.2.5...v1.2.6) (2018-10-10)
 
-
 ### Bug Fixes
 
 * **pkg:** provide latest zip archive ([ac40231](https://github.com/hexonet/whmcs-ispapi-registrar/commit/ac40231))
 
 ## [1.2.5](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.2.4...v1.2.5) (2018-10-10)
 
-
 ### Bug Fixes
 
 * **assets:** replace 'v' in current module version ([b68bf5a](https://github.com/hexonet/whmcs-ispapi-registrar/commit/b68bf5a))
 
 ## [1.2.4](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.2.3...v1.2.4) (2018-10-10)
-
 
 ### Bug Fixes
 
@@ -863,13 +741,11 @@ purpose.
 
 ## [1.2.3](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.2.2...v1.2.3) (2018-10-10)
 
-
 ### Bug Fixes
 
 * **widget:** review latest version detection ([0c36b0f](https://github.com/hexonet/whmcs-ispapi-registrar/commit/0c36b0f))
 
 ## [1.2.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.2.1...v1.2.2) (2018-10-09)
-
 
 ### Bug Fixes
 
@@ -877,18 +753,15 @@ purpose.
 
 ## [1.2.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.2.0...v1.2.1) (2018-10-09)
 
-
 ### Bug Fixes
 
 * **archives:** path of .tar.gz asset ([40bcf26](https://github.com/hexonet/whmcs-ispapi-registrar/commit/40bcf26))
 
 # [1.2.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.1.1...v1.2.0) (2018-10-09)
 
-
 ### Bug Fixes
 
 * **archives:** remove typo in package.json ([b6fa06e](https://github.com/hexonet/whmcs-ispapi-registrar/commit/b6fa06e))
-
 
 ### Features
 
@@ -896,13 +769,11 @@ purpose.
 
 ## [1.1.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.1.0...v1.1.1) (2018-10-09)
 
-
 ### Bug Fixes
 
 * **pkg:** test release process ([5c7b081](https://github.com/hexonet/whmcs-ispapi-registrar/commit/5c7b081))
 
 # [1.1.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.0.62...v1.1.0) (2018-10-09)
-
 
 ### Bug Fixes
 
@@ -910,13 +781,11 @@ purpose.
 * **pkg:** introduce PSR2 standard; unit tests; CI/CD ([c82adb5](https://github.com/hexonet/whmcs-ispapi-registrar/commit/c82adb5))
 * **readme:** add old entries to old changelog ([755da3e](https://github.com/hexonet/whmcs-ispapi-registrar/commit/755da3e))
 
-
 ### Features
 
 * **version:** trigger new feature release test ([311c4ed](https://github.com/hexonet/whmcs-ispapi-registrar/commit/311c4ed))
 
 ## [1.0.63](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.0.62...v1.0.63) (2018-10-09)
-
 
 ### Bug Fixes
 
@@ -925,7 +794,6 @@ purpose.
 * **readme:** add old entries to old changelog ([802efd8](https://github.com/hexonet/whmcs-ispapi-registrar/commit/802efd8))
 
 ## [1.0.47](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v1.0.46...v1.0.47) (2018-10-08)
-
 
 ### Bug Fixes
 
