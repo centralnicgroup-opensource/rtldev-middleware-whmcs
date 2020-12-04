@@ -1,3 +1,10 @@
+## [4.5.15](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.14...v4.5.15) (2020-12-04)
+
+
+### Bug Fixes
+
+* **transferdomain:** fixed issue with AFNIC TLDs (exclude registrant & admin-c) ([bbd777c](https://github.com/hexonet/whmcs-ispapi-registrar/commit/bbd777cae99b0eee62bf3e57e9e2e2e3916a0344))
+
 ## [4.5.14](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.13...v4.5.14) (2020-12-03)
 
 
