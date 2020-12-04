@@ -274,16 +274,18 @@ $additionaldomainfields[".com.br"][] = array(
 $additionaldomainfields[".de"][] = array("Name" => "Tax ID", "Remove" => true);
 $additionaldomainfields[".de"][] = array("Name" => "Address Confirmation", "Remove" => true);
 $additionaldomainfields[".de"][] = array("Name" => "Agree to DE Terms", "Remove" => true);
-## NOTE: Activate trustee service / local presence service just in case you have reflected the service costs
-## in the TLD prices otherwise your customers do not pay for it. This is a missing Domain Add-On in WHMCS.
-/*$additionaldomainfields[".de"][] = array(
-    "Name" => "Local Presence",
-    "Type" => "dropdown",
-    "Options" => ",Registrant and/or Admin-C are domiciled in Germany / Use Local Presence Service",
-    "Ispapi-IgnoreForCountries" => "DE",
-    "Ispapi-Name" => "X-DE-ACCEPT-TRUSTEE-TAC",
-    "Ispapi-Options" => ",1"
-);*/
+$additionaldomainfields[".de"][] = array(
+    "Name" => "General Request Contact",
+    "Type" => "text",
+    "Description" => "The registry will identify this as the general request contact information. You can provide an email address or a website url",
+    "Ispapi-Name" => "X-DE-GENERAL-REQUEST"
+);
+$additionaldomainfields[".de"][] = array(
+    "Name" => "Abuse Team Contact",
+    "Type" => "text",
+    "Description" => "The registry will identify this as the abuse team contact information. You can provide an email address or a website url.",
+    "Ispapi-Name" => "X-DE-ABUSE-CONTACT"
+);
 
 ## .DENTIST
 $additionaldomainfields[".dentist"] = [];
