@@ -1,3 +1,10 @@
+## [4.5.16](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.15...v4.5.16) (2020-12-08)
+
+
+### Bug Fixes
+
+* **transfer:** 0Y transfer only if regperiod transfer not supported (e.g. .NZ, .ES, .NO, .NU) ([a912e58](https://github.com/hexonet/whmcs-ispapi-registrar/commit/a912e58476c8e2701097438546001879a0dce5d8))
+
 ## [4.5.15](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.14...v4.5.15) (2020-12-04)
 
 ### Bug Fixes
