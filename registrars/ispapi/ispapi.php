@@ -2871,20 +2871,24 @@ function ispapi_TransferDomain($params)
         unset($command["BILLINGCONTACT0"]);
     }
 
-    //auto-detect default transfer period
-    //for example, es, no, nu tlds require period value as zero (free transfers).
-    //in WHMCS the default value is 1
+    // BEGIN------------------------------------------------------------------------
+    // auto-detect default transfer period
+    // for example, .ES, .NO, .NU tlds require period value as zero (free transfers).
+    // in WHMCS the default value is 1
     $qr = Ispapi::call([
         "COMMAND" => "QueryDomainOptions",
         "DOMAIN0" => $domain->getDomain()
     ], $params);
 
     if ($qr["CODE"] == 200) {
-        $period_arry = explode(",", $qr['PROPERTY']['ZONETRANSFERPERIODS'][0]);
-        if (preg_match("/^0(Y|M)?$/i", $period_arry[0])) {// set period 0 - specific case.
-            $command["PERIOD"] = $period_arry[0];//TODO: in corner-cases execute a regperiod renewal
+        $period_array = explode(",", $qr['PROPERTY']['ZONETRANSFERPERIODS'][0]);
+        // if transfer for free is supported and regperiod not listed in supported periods
+        if (!in_array($params["regperiod"] . "Y", $period_array) && preg_match("/^0(Y|M)?$/i", $period_array[0])) {
+            $command["PERIOD"] = $period_array[0];
+            //TODO: in 0Y cases execute a regperiod renewal
         }
     }
+    // END ------------------------------------------------------------------------
 
     //#####################################################################
     //##################### PREMIUM DOMAIN HANDLING #######################
