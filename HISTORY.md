@@ -1,3 +1,10 @@
+## [4.5.17](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.16...v4.5.17) (2020-12-11)
+
+
+### Bug Fixes
+
+* **transferdomain:** fallback to 0Y if supported and WHMCS' provided period is not supported ([9af4592](https://github.com/hexonet/whmcs-ispapi-registrar/commit/9af45927444e36b768446eec6fe0fe3d1958c038))
+
 ## [4.5.16](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.15...v4.5.16) (2020-12-08)
 
 
