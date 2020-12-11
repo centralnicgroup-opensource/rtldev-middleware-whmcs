@@ -2873,8 +2873,8 @@ function ispapi_TransferDomain($params)
 
     // BEGIN------------------------------------------------------------------------
     // auto-detect default transfer period
-    // for example, .ES, .NO, .NU tlds require period value as zero (free transfers).
-    // in WHMCS the default value is 1
+    // for example, .NO, .NU tlds require period value as zero (free transfers).
+    // in WHMCS the default value is 1 (1Y)
     $qr = Ispapi::call([
         "COMMAND" => "QueryDomainOptions",
         "DOMAIN0" => $domain->getDomain()
@@ -2883,9 +2883,9 @@ function ispapi_TransferDomain($params)
     if ($qr["CODE"] == 200) {
         $period_array = explode(",", $qr['PROPERTY']['ZONETRANSFERPERIODS'][0]);
         // if transfer for free is supported and regperiod not listed in supported periods
-        if (!in_array($params["regperiod"] . "Y", $period_array) && preg_match("/^0(Y|M)?$/i", $period_array[0])) {
-            $command["PERIOD"] = $period_array[0];
-            //TODO: in 0Y cases execute a regperiod renewal
+        if (!in_array($params["regperiod"] . "Y", $period_array) && in_array("0Y", $period_array)) {
+                $command["PERIOD"] = "0Y";
+                //TODO: in 0Y cases execute a regperiod renewal
         }
     }
     // END ------------------------------------------------------------------------
