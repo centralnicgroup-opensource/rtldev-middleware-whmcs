@@ -1,3 +1,10 @@
+## [4.5.18](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.17...v4.5.18) (2020-12-14)
+
+
+### Bug Fixes
+
+* **checkavailability:** fallback to whois lookup for unsupported TLDs ([f0f5028](https://github.com/hexonet/whmcs-ispapi-registrar/commit/f0f5028153713ba429992ffbb37a7eb34e23b972))
+
 ## [4.5.17](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.16...v4.5.17) (2020-12-11)
 
 
