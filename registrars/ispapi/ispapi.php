@@ -80,8 +80,14 @@ function ispapi_CheckAvailability($params)
                 case "421":
                     $sr->setStatus($sr::STATUS_UNKNOWN);
                     break;
-                case "549": //TLD not supported at HEXONET or check failed; ask WHMCS to make whois lookup
-                    $sr->setStatus($sr::STATUS_TLD_NOT_SUPPORTED);
+                case "549": //TLD not supported at HEXONET or check failed; fallback to whois lookup
+                    $whois = localAPI("DomainWhois", ["domain" => $domain]);
+                    if ($whois["status"] === "available") {
+                        //DOMAIN AVAILABLE
+                        $sr->setStatus($sr::STATUS_NOT_REGISTERED);
+                    } else {
+                        $sr->setStatus($sr::STATUS_TLD_NOT_SUPPORTED);
+                    }
                     break;
                 case "210": //DOMAIN AVAILABLE
                     $sr->setStatus($sr::STATUS_NOT_REGISTERED);
