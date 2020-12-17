@@ -1,3 +1,10 @@
+## [4.5.19](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.18...v4.5.19) (2020-12-17)
+
+
+### Bug Fixes
+
+* **tld & pricing sync:** add missing 3rd level TLD .com.fr ([5df8088](https://github.com/hexonet/whmcs-ispapi-registrar/commit/5df8088d2bdbfe2bdb455e6a9aef14e5ad7ad81d))
+
 ## [4.5.18](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.17...v4.5.18) (2020-12-14)
 
 
