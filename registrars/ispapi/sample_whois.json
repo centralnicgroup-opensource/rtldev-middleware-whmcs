@@ -1,0 +1,7 @@
+[
+    {
+        "extensions": ".bo",
+        "uri": "socket://whois.nic.bo",
+        "available": "whois.nic.bo solo acepta consultas con dominios .bo"
+    }
+]
