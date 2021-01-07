@@ -1,3 +1,10 @@
+## [4.5.20](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.19...v4.5.20) (2021-01-07)
+
+
+### Bug Fixes
+
+* **variable fee premium domains:** fix currency lookup regexp ([168b57a](https://github.com/hexonet/whmcs-ispapi-registrar/commit/168b57acd82526e4cef43bc9dd27d364daa67e7e))
+
 ## [4.5.19](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.18...v4.5.19) (2020-12-17)
 
 
