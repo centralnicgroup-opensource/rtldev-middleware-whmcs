@@ -403,7 +403,7 @@ function ispapi_getPremiumCurrency($params, $class)
         return  ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_" . $class . "_CURRENCY");
     }
     //VARIABLE FEE PREMIUM DOMAINS (e.g. PREMIUM_TOP_CNY:24:2976)
-    return preg_replace("/(^.+_|:.+$)", "", $class);
+    return preg_replace("/(^.+_|:.+$)/", "", $class);
 }
 
 /**
