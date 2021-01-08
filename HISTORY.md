@@ -1,3 +1,10 @@
+## [4.5.21](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.20...v4.5.21) (2021-01-08)
+
+
+### Bug Fixes
+
+* **statistics:** fixed WHMCS Version lookup ([36afdf1](https://github.com/hexonet/whmcs-ispapi-registrar/commit/36afdf18499163552d6cf66b93e29a9b30b12fef))
+
 ## [4.5.20](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.19...v4.5.20) (2021-01-07)
 
 
