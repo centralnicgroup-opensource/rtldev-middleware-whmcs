@@ -1,3 +1,10 @@
+## [4.5.22](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.21...v4.5.22) (2021-01-11)
+
+
+### Bug Fixes
+
+* **statistics data:** auto-cleanup old entries ([c7ce418](https://github.com/hexonet/whmcs-ispapi-registrar/commit/c7ce418013c3bd95b9bc415648327749550c7075))
+
 ## [4.5.21](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.20...v4.5.21) (2021-01-08)
 
 
