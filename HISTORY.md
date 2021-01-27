@@ -1,3 +1,10 @@
+## [4.5.23](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.22...v4.5.23) (2021-01-27)
+
+
+### Bug Fixes
+
+* **ci:** migration to github actions and gulp; reviewed folder structure ([f61cd23](https://github.com/hexonet/whmcs-ispapi-registrar/commit/f61cd239841c2a11e5675623f03bea3d7bacbc23))
+
 ## [4.5.22](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.21...v4.5.22) (2021-01-11)
 
 
