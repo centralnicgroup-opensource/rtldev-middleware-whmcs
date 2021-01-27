@@ -44,12 +44,17 @@
     "application"
   ],
   "devDependencies": {
-    "semantic-release": "^17.0.7",
-    "@hexonet/semantic-release-github-whmcs-config": "^1.3.4"
+    "semantic-release": "^17.3.7",
+    "@hexonet/semantic-release-github-whmcs-config": "^1.3.7",
+    "gulp": "^4.0.2",
+    "gulp-clean": "^0.4.0",
+    "gulp-tar": "^3.1.0",
+    "gulp-gzip": "^1.4.2",
+    "gulp-zip": "^5.0.2"
   },
   "scripts": {
-    "codeCheck": "phpcs --standard=PSR12 -q -n --colors --ignore=registrars/ispapi/lib,registrars/ispapi/migration,registrars/ispapi/hooks_migration registrars",
-    "codeFix": "phpcbf --standard=PSR12 -q --ignore=registrars/ispapi/lib,registrars/ispapi/migration,registrars/ispapi/hooks_migration registrars",
+    "codeCheck": "phpcs --standard=PSR12 -q -n --colors --ignore=node_modules,vendor,templates_c,modules/registrars/ispapi/lib,modules/registrars/ispapi/migration,modules/registrars/ispapi/hooks_migration .",
+    "codeFix": "phpcbf --standard=PSR12 -q --ignore=node_modules,vendor,templates_c,modules/registrars/ispapi/lib,modules/registrars/ispapi/migration,modules/registrars/ispapi/hooks_migration .",
     "phpCompatibility": "./scripts/phpcompatibility.sh"
   }
 }

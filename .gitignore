@@ -15,6 +15,7 @@ report
 
 # Generated Archives
 pkg
+build
 
 # phpunit
 .phpunit.result.cache
