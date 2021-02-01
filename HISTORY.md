@@ -1,3 +1,11 @@
+## [4.5.25](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.24...v4.5.25) (2021-02-01)
+
+
+### Bug Fixes
+
+* **github actions:** checkout including submodules ([fa8c4ab](https://github.com/hexonet/whmcs-ispapi-registrar/commit/fa8c4ab903f0153e687b04bbbcf9c89ce5aa5096))
+* **github actions:** checkout including submodules in release step ([fc1b5a0](https://github.com/hexonet/whmcs-ispapi-registrar/commit/fc1b5a04022f06cbf17b7fa26bf17eec726157fe))
+
 ## [4.5.24](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.23...v4.5.24) (2021-02-01)
 
 
