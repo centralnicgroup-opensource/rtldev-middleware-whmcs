@@ -1,3 +1,10 @@
+## [4.5.24](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.23...v4.5.24) (2021-02-01)
+
+
+### Bug Fixes
+
+* **github actions:** add submodules checkout (this worked in Travis CI by default) ([8dac6a4](https://github.com/hexonet/whmcs-ispapi-registrar/commit/8dac6a48aeb991677dbf7562dffbe1be259f83d6))
+
 ## [4.5.23](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.22...v4.5.23) (2021-01-27)
 
 
