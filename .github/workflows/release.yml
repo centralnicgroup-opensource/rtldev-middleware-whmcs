@@ -44,6 +44,7 @@ jobs:
         with:
           fetch-depth: 0
           persist-credentials: false
+          submodules: recursive
       - name: Setup NodeJS LTS
         uses: actions/setup-node@v2
       - name: Install dependencies
