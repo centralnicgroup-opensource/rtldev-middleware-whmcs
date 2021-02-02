@@ -2781,6 +2781,11 @@ function ispapi_TransferDomain($params)
     $premiumDomainsEnabled = (bool) $params['premiumEnabled'];
     $premiumDomainsCost = $params['premiumCost'];
 
+    localAPI("DomainUpdateLockingStatus", [
+        "domainid" => $params["domainid"],
+        "lockstatus" => false
+    ]);
+
     //domain transfer pre-check
     $command = [
         "COMMAND" => "CheckDomainTransfer",
