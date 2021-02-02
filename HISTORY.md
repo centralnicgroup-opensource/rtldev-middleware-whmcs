@@ -1,3 +1,10 @@
+# [4.6.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.25...v4.6.0) (2021-02-02)
+
+
+### Features
+
+* **transferdomain:** auto-unlock domain (behavior still losing registrar dependent) ([c479efd](https://github.com/hexonet/whmcs-ispapi-registrar/commit/c479efde359b9ad41e69d88f69645e9954c501c2))
+
 ## [4.5.25](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.24...v4.5.25) (2021-02-01)
 
 
