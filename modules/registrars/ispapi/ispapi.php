@@ -3166,7 +3166,7 @@ function ispapi_TransferSync($params)
     }
 
     // check for related failure entry
-    $r = HXDomainTransfer::getFailureLog($params, $domain, $logdate);
+    $r = HXDomainTransfer::getFailureLog($params, $domain_pc, $logdate);
     if ($r["success"] && $r["data"]["COUNT"][0] != "0") {
         $values = [
             "failed" => true,
