@@ -1,3 +1,10 @@
+## [4.6.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.6.0...v4.6.1) (2021-02-05)
+
+
+### Bug Fixes
+
+* **transfersync:** fixed wrong var usage ([f818f88](https://github.com/hexonet/whmcs-ispapi-registrar/commit/f818f8823260b51bca74b55d3b40b133c36a2697))
+
 # [4.6.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.5.25...v4.6.0) (2021-02-02)
 
 
