@@ -130,7 +130,7 @@ add_hook('ClientAreaPageDomainDetails', 1, function ($vars) {
             "NOTOTAL" => 1
         ], getregistrarconfigoptions("ispapi"));
 
-        if (($r['CODE'] == 200) && ($r['PROPERTY']['DOMAINTRANSFERLOCK'] && $r['PROPERTY']['DOMAINTRANSFERLOCK'][0] == "")) {
+        if (($r['CODE'] == 200) && ($r['PROPERTY']['TRANSFERLOCK'] && $r['PROPERTY']['TRANSFERLOCK'][0] == "")) {
             $vars['managementoptions']['locking'] = false;
             $vars['lockstatus'] = false;
             $menu = $vars['primarySidebar']->getChild('Domain Details Management');
