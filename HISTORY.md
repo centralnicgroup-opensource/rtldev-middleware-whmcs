@@ -1,3 +1,10 @@
+## [4.6.3](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.6.2...v4.6.3) (2021-02-09)
+
+
+### Bug Fixes
+
+* **transferlock:** refactored; remove `Registrar Lock` menu if not supported ([e301f7a](https://github.com/hexonet/whmcs-ispapi-registrar/commit/e301f7af936c8de2bc94e75d756c1de1017ef4a1)), closes [#164](https://github.com/hexonet/whmcs-ispapi-registrar/issues/164)
+
 ## [4.6.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.6.1...v4.6.2) (2021-02-05)
 
 
