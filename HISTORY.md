@@ -1,3 +1,10 @@
+## [4.6.4](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.6.3...v4.6.4) (2021-02-09)
+
+
+### Bug Fixes
+
+* **typo:** removed typo from code ([b91052a](https://github.com/hexonet/whmcs-ispapi-registrar/commit/b91052a4a2dc745e11337692079f4e81f9e97947))
+
 ## [4.6.3](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.6.2...v4.6.3) (2021-02-09)
 
 
