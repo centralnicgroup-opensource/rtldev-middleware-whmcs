@@ -1665,7 +1665,7 @@ function ispapi_IsAffectedByIRTP($domain, $params)
  *
  * @return array $values - returns true
  */
-function ispapi_GetAAAAAAAAAAAAAAAAAAAAAAAAAAADomainInformation($params)
+function ispapi_GetDomainInformation($params)
 {
     $values = [];
     $origparams = $params;
