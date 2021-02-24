@@ -32,11 +32,15 @@ jobs:
         run: phpcs --standard=PHPCompatibility -q -n --colors --runtime-set testVersion ${{ matrix.php-version }} --extensions=php --ignore=node_modules,vendor,templates_c,modules/registrars/ispapi/lib,modules/registrars/ispapi/migration,modules/registrars/ispapi/hooks_migration .
       - name: Check PSR12 Standard
         run: phpcs --standard=PSR12 -q -n --colors --extensions=php,inc,lib --ignore=node_modules,vendor,templates_c,modules/registrars/ispapi/lib,modules/registrars/ispapi/migration,modules/registrars/ispapi/hooks_migration .
+  build:
+    needs:
+      - test
   release:
     name: Release @ NodeJS LTS - x86 - ubuntu-latest
     runs-on: ubuntu-latest
     needs:
       - test
+      - build
     if: github.ref == 'refs/heads/master' && github.event_name == 'push'
     steps:
       - name: Checkout
