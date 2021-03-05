@@ -1,3 +1,10 @@
+## [4.6.5](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.6.4...v4.6.5) (2021-03-05)
+
+
+### Bug Fixes
+
+* **premium domains:** premium renewal in some cases not working (currency different) ([dad18e8](https://github.com/hexonet/whmcs-ispapi-registrar/commit/dad18e8638c758fe19e15dc460d071044cc037c4))
+
 ## [4.6.4](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.6.3...v4.6.4) (2021-02-09)
 
 
