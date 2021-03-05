@@ -2972,25 +2972,23 @@ function ispapi_RenewDomain($params)
 
     // renew premium domain
     $premiumDomainsEnabled = (bool) $params['premiumEnabled'];
-    $premiumDomainsCost = $params['premiumCost'];
-
     if ($premiumDomainsEnabled) { //check if premium domain functionality is enabled by the admin
+        $premiumDomainsCost = $params['premiumCost'];
         if (!empty($premiumDomainsCost)) { //check if the domain has a premium price
-            $statusCommand = array(
+            $statusDomainResponse = Ispapi::call([
                 "COMMAND" => "StatusDomain",
-                "DOMAIN" => $domain,
-                "PROPERTIES" => "PRICE"
-            );
-            $statusDomainResponse = Ispapi::call($statusCommand, $params);
+                "DOMAIN" => $domain
+                //"PROPERTIES" => "PRICES" //not an option as account currency is different
+            ], $params);
 
             if ($statusDomainResponse["CODE"] == 200 && !empty($statusDomainResponse['PROPERTY']['SUBCLASS'][0])) {
-                if ($premiumDomainsCost == $statusDomainResponse['PROPERTY']['RENEWALPRICE'][0]) { //check if the renewal price displayed to the customer is equal to the real cost at the registar
+                $prices = ispapi_GetPremiumPrice($params);
+                if ($premiumDomainsCost === $prices["renew"]) { //check if WHMCS' price fits to the API one
                     $command["CLASS"] = $statusDomainResponse['PROPERTY']['SUBCLASS'][0];
                 }
             }
         }
     }
-
     $response = Ispapi::call($command, $params);
 
     if ($response["CODE"] == 510) {

@@ -23,3 +23,4 @@ build
 # migration tool files
 migration
 hooks_migration.php
+hooks_migration.php.old
