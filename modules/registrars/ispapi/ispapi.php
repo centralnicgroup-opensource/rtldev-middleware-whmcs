@@ -3104,7 +3104,7 @@ function ispapi_TransferSync($params)
             // check for related success entry
             $logdate = $r["data"]["LOGDATE"][0];
             $logindex = $r["data"]["LOGINDEX"][0];
-            $r = HXDomainTransfer::getSuccessLog($params, $domain, $logdate);
+            $r = HXDomainTransfer::getSuccessLog($params, $domain_pc, $logdate);
 
             if ($r["success"] && $r["data"]["COUNT"][0] != "0") {
                 $newns = HXDomainTransfer::getRequestNameservers($params, $domain_pc, $logindex);
