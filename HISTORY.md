@@ -1,3 +1,10 @@
+## [4.6.6](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.6.5...v4.6.6) (2021-03-08)
+
+
+### Bug Fixes
+
+* **transfer sync:** wrong parameter type used for method getSuccessLog ([a7b56e7](https://github.com/hexonet/whmcs-ispapi-registrar/commit/a7b56e77c5bbdfbd6e91e7b5821b64e4af146473)), closes [#168](https://github.com/hexonet/whmcs-ispapi-registrar/issues/168)
+
 ## [4.6.5](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.6.4...v4.6.5) (2021-03-05)
 
 
