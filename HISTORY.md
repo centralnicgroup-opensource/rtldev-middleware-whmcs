@@ -1,3 +1,10 @@
+## [4.6.7](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.6.6...v4.6.7) (2021-03-09)
+
+
+### Bug Fixes
+
+* **dep-bump:** upgrade helper library to get array_map error fixed ([ec69daa](https://github.com/hexonet/whmcs-ispapi-registrar/commit/ec69daaf980ad39dd9ea126ae61b6c398ccf5029)), closes [#169](https://github.com/hexonet/whmcs-ispapi-registrar/issues/169)
+
 ## [4.6.6](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.6.5...v4.6.6) (2021-03-08)
 
 
