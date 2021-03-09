@@ -3563,8 +3563,9 @@ function ispapi_use_additionalfields($params, &$command)
     }
 
     foreach ($myadditionalfields as $field) {
-        if (isset($params['additionalfields'][$field["Name"]])) {
-            $value = $params['additionalfields'][$field["Name"]];
+        $name = $field["Name"];
+        if (isset($params['additionalfields'][$name])) {
+            $value = $params['additionalfields'][$name];
 
             $ignore_countries = array();
             if (isset($field["Ispapi-IgnoreForCountries"])) {
@@ -3582,25 +3583,35 @@ function ispapi_use_additionalfields($params, &$command)
                     eval($field["Ispapi-Eval"]);
                 }
 
-                if (isset($field["Ispapi-Name"])) {
-                    if (strlen($value)) {
-                        $command[$field["Ispapi-Name"]] = $value;
+                if (isset($field["Ispapi-Name"]) && strlen($value) > 0) {
+                    $key = $field["Ispapi-Name"];
+
+                    // Ticket#2020111708017183 - START
+                    // + GH #167
+                    if (preg_match("/^X-DK-(REGISTRANT|ADMIN)-CONTACT$/", $key)) {
+                        $command[$key] = strtoupper($value);
+                    } elseif (preg_match("/^X-DK-AGREEMENT-ACCEPTEDDATE$/", $key) && $value === "on") {
+                        $command[$key] = gmdate("Y-m-d H:i:s");
+                    } elseif (preg_match("/^X-DE-(GENERAL-REQUEST|ABUSE-CONTACT)$/", $key) && !preg_match("/^mailto:|https?:\/\//", $value)) {
+                        $command[$key] = (preg_match("/@/", $value) ? "mailto:" : "https://") . $value;
+                    } else {
+                        $command[$key] = $value;
                     }
+
+                    //Reflect these changes also in WHMCS DB but just for free-text inputs
+                    if ($field["Type"] === "text" && $value !== $command[$key]) {
+                        $result = DB::table('tbldomainsadditionalfields')
+                            ->where([
+                                [ 'domainid', '=', $params["domainid"] ],
+                                [ 'name', '=', $name ]
+                            ])
+                            ->update(["value" => $command[$key]]);
+                    }
+                    // Ticket#2020111708017183 - END
                 }
             }
         }
     }
-
-    // Ticket#2020111708017183 - START
-    foreach ($command as $key => $value) {
-        if (preg_match("/^X-DK-(REGISTRANT|ADMIN)-CONTACT$/", $key)) {
-            $command[$key] = strtoupper($value);
-        }
-        if (preg_match("/^X-DK-AGREEMENT-ACCEPTEDDATE$/", $key) && $value === "on") {
-            $command[$key] = gmdate("Y-m-d H:i:s");
-        }
-    }
-    // Ticket#2020111708017183 - END
 }
 
 function ispapi_get_utf8_params($params)
