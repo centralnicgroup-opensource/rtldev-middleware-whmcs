@@ -1,3 +1,10 @@
+# [4.7.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.6.7...v4.7.0) (2021-03-09)
+
+
+### Features
+
+* **.de:** autocomplete additional field values in case protocol is missing ([1038d5c](https://github.com/hexonet/whmcs-ispapi-registrar/commit/1038d5ce0c83c292e493711c975530cce1d64d08)), closes [#167](https://github.com/hexonet/whmcs-ispapi-registrar/issues/167)
+
 ## [4.6.7](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.6.6...v4.6.7) (2021-03-09)
 
 
