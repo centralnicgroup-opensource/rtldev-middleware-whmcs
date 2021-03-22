@@ -1,3 +1,10 @@
+## [4.7.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.7.0...v4.7.1) (2021-03-22)
+
+
+### Bug Fixes
+
+* **transfersync:** reviewed TransferSync in direction of status sync issues ([b3c27c3](https://github.com/hexonet/whmcs-ispapi-registrar/commit/b3c27c3a3b1269883b29c48664b4263d9ab3c280))
+
 # [4.7.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.6.7...v4.7.0) (2021-03-09)
 
 
