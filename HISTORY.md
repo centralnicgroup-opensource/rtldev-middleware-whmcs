@@ -1,3 +1,10 @@
+## [4.7.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.7.1...v4.7.2) (2021-03-22)
+
+
+### Bug Fixes
+
+* **getdomaininformation:** fixed issue showing registrar lock as always turned on ([3040af4](https://github.com/hexonet/whmcs-ispapi-registrar/commit/3040af4cc3cdc8413fa9ad67bc8ad2b2a03f00c1)), closes [#170](https://github.com/hexonet/whmcs-ispapi-registrar/issues/170)
+
 ## [4.7.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.7.0...v4.7.1) (2021-03-22)
 
 
