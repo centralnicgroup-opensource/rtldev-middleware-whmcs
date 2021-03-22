@@ -1620,18 +1620,16 @@ function ispapi_GetRegistrarLock($params)
  */
 function ispapi_SaveRegistrarLock($params)
 {
-    $values = array();
     if (isset($params["original"])) {
         $params = $params["original"];
     }
     $doLock = ($params["lockenabled"] === "locked");
     $domain = $params["sld"] . "." . $params["tld"];
-    $command = array(
+    $response = Ispapi::call([
         "COMMAND" => "ModifyDomain",
         "DOMAIN" => $domain,
         "TRANSFERLOCK" => $doLock ? "1" : "0"
-    );
-    $response = Ispapi::call($command, $params);
+    ], $params);
     if ($response["CODE"] != 200) {
         logActivity($domain . ": Unable to " . ($doLock ? "set" : "remove")  . " registrar lock. [" . $response["DESCRIPTION"] . "]");
         return [
@@ -1639,7 +1637,9 @@ function ispapi_SaveRegistrarLock($params)
         ];
     }
     logActivity($domain . ": Successfully " . ($doLock ? "set" : "removed")  . " registrar lock.");
-    return $values;
+    return [
+        "success" => "success"
+    ];
 }
 
 /**
@@ -1681,7 +1681,7 @@ function ispapi_GetDomainInformation($params)
         "DOMAIN" => $domain
     ], $params);
 
-    if ($r["CODE"] == "200") {
+    if ($r["CODE"] === "200") {
         $r = $r["PROPERTY"];
         //setIrtpTransferLock
         if (isset($r["TRADE-TRANSFERLOCK-EXPIRATIONDATE"][0])) {
@@ -1697,9 +1697,9 @@ function ispapi_GetDomainInformation($params)
         }
 
         //transferlock settings
-        $values["transferlock"] = "unlocked";
-        if (isset($response["PROPERTY"]["TRANSFERLOCK"][0]) && $response["PROPERTY"]["TRANSFERLOCK"][0] == "1") {
-            $values["transferlock"] = "locked";
+        $values["transferlock"] = false;
+        if (isset($r["TRANSFERLOCK"][0]) && $r["TRANSFERLOCK"][0] === "1") {
+            $values["transferlock"] = true;
         }
     }
 
