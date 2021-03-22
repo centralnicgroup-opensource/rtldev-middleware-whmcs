@@ -1624,17 +1624,21 @@ function ispapi_SaveRegistrarLock($params)
     if (isset($params["original"])) {
         $params = $params["original"];
     }
+    $doLock = ($params["lockenabled"] === "locked");
     $domain = $params["sld"] . "." . $params["tld"];
     $command = array(
         "COMMAND" => "ModifyDomain",
         "DOMAIN" => $domain,
-        "TRANSFERLOCK" => ($params["lockenabled"] == "locked") ? "1" : "0"
+        "TRANSFERLOCK" => $doLock ? "1" : "0"
     );
     $response = Ispapi::call($command, $params);
     if ($response["CODE"] != 200) {
-        $values["error"] = $response["DESCRIPTION"];
+        logActivity($domain . ": Unable to " . ($doLock ? "set" : "remove")  . " registrar lock. [" . $response["DESCRIPTION"] . "]");
+        return [
+            "error" => $response["DESCRIPTION"]
+        ];
     }
-
+    logActivity($domain . ": Successfully " . ($doLock ? "set" : "removed")  . " registrar lock.");
     return $values;
 }
 
@@ -2792,11 +2796,6 @@ function ispapi_TransferDomain($params)
     $premiumDomainsEnabled = (bool) $params['premiumEnabled'];
     $premiumDomainsCost = $params['premiumCost'];
 
-    localAPI("DomainUpdateLockingStatus", [
-        "domainid" => $params["domainid"],
-        "lockstatus" => false
-    ]);
-
     //domain transfer pre-check
     $command = [
         "COMMAND" => "CheckDomainTransfer",
@@ -3087,73 +3086,31 @@ function ispapi_TransferSync($params)
     $domain_pc = $r["punycode"];
     $domain_idn = $r["idn"];
 
+    // check if the transfer is still pending
+    $r = HXDomainTransfer::getStatus($params, $domain_pc);
+    if ($r["success"]) {
+        logActivity($domain_pc . ': Domain Transfer is still pending (Existing Request).');
+        return [];//still pending
+    }
+
+    // get date of last transfer request
+    $r = HXDomainTransfer::getRequestLog($params, $domain_pc);
+    if (!$r["success"] || $r["data"]["COUNT"][0] === "0") {
+        logActivity($domain_pc . ': Domain Transfer is still pending (No Request Log found).');
+        return [];//still pending
+    }
+
+    // existing transfer request
+    // check for related failed entry
+    $logdate = $r["data"]["LOGDATE"][0];
+    $logindex = $r["data"]["LOGINDEX"][0];
+
     // check if the domain is already on account
     $r = HXDomain::getStatus($params, $domain_pc);
     if ($r["success"]) {
         if ($params["NSUpdTransfer"] == "on") {
             // AUTO-UPDATE ns after transfer
-            // TODO: Move this to hook "DomainTransferCompleted" to keep code better readable
-
-            // get date of last transfer request
-            $r = HXDomainTransfer::getRequestLog($params, $domain_pc);
-            if (!$r["success"] || $r["data"]["COUNT"][0] == "0") {
-                // no transfer request found/error -> still pending
-                return [];
-            }
-            // exiting transfer request
-            // check for related success entry
-            $logdate = $r["data"]["LOGDATE"][0];
-            $logindex = $r["data"]["LOGINDEX"][0];
-            $r = HXDomainTransfer::getSuccessLog($params, $domain_pc, $logdate);
-
-            if ($r["success"] && $r["data"]["COUNT"][0] != "0") {
-                $newns = HXDomainTransfer::getRequestNameservers($params, $domain_pc, $logindex);
-                $currentns = HXDomain::getNameservers($params, $domain_pc);
-                if ($currentns["success"] && $newns["success"]) {
-                    sort($currentns["nameservers"]);
-                    sort($newns["nameservers"]);
-                    if ($currentns !== $newns && !empty($newns["nameservers"])) {
-                        Ispapi::call([
-                            "COMMAND" => "ModifyDomain",
-                            "DOMAIN" => $domain_pc,
-                            "NAMESERVER" => $newns["nameservers"]
-                        ], $params);
-                    }
-                }
-            }
-        }
-        // WHMCS fallbacks to _Sync method when not returning expirydate
-        return [
-            "completed" => true
-        ];
-    }
-
-    // check if the transfer is still pending
-    $r = HXDomainTransfer::getStatus($params, $domain_pc);
-    if ($r["success"]) {
-        // still pending
-        return [];
-    }
-
-    // in case neither domain nor transfer object are available in xirca
-    // this is probably in progress atm
-
-    // get date of last transfer request
-    $r = HXDomainTransfer::getRequestLog($params, $domain_pc);
-    if (!$r["success"] || $r["data"]["COUNT"][0] == "0") {
-        // no transfer request found/error -> still pending
-        return [];
-    }
-
-    // exiting transfer request
-    // check for related success entry
-    $logdate = $r["data"]["LOGDATE"][0];
-    $logindex = $r["data"]["LOGINDEX"][0];
-    $r = HXDomainTransfer::getSuccessLog($params, $domain_pc, $logdate);
-    if ($r["success"] && $r["data"]["COUNT"][0] != "0") {
-        // AUTO-UPDATE ns after transfer
-        // TODO: Move this to hook "DomainTransferCompleted" to keep code better readable
-        if ($params["NSUpdTransfer"] == "on") {
+            // existing transfer request
             $newns = HXDomainTransfer::getRequestNameservers($params, $domain_pc, $logindex);
             $currentns = HXDomain::getNameservers($params, $domain_pc);
             if ($currentns["success"] && $newns["success"]) {
@@ -3168,15 +3125,19 @@ function ispapi_TransferSync($params)
                 }
             }
         }
+        logActivity($domain_pc . ': Domain Transfer finished.');
         // WHMCS fallbacks to _Sync method when not returning expirydate
         return [
             "completed" => true
         ];
     }
 
+    // in case neither domain nor transfer object are available in xirca
+    // this is probably in progress atm or has failed
+
     // check for related failure entry
     $r = HXDomainTransfer::getFailureLog($params, $domain_pc, $logdate);
-    if ($r["success"] && $r["data"]["COUNT"][0] != "0") {
+    if ($r["success"] && (int)$r["data"]["COUNT"][0] > 0) {
         $values = [
             "failed" => true,
             "reason" => "Transfer Failed"
@@ -3187,10 +3148,12 @@ function ispapi_TransferSync($params)
                 $values["reason"] .= PHP_EOL . implode(PHP_EOL, $r["data"]["OPERATIONINFO"]);
             }
         }
+        logActivity($domain_pc . ': Domain Transfer failed.');
         return $values;
     }
-    // still pending
-    return [];
+
+    logActivity($domain_pc . ': Domain Transfer is still pending.');
+    return [];// still pending
 }
 
 /**
