@@ -1,3 +1,11 @@
+## [4.7.3](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.7.2...v4.7.3) (2021-03-23)
+
+
+### Bug Fixes
+
+* **additional domain fields:** fixed wrong .ca WHOIS Opt-Out Description ([4cba7ad](https://github.com/hexonet/whmcs-ispapi-registrar/commit/4cba7ad31c1afc196a0287e5990dd81eded6dd50))
+* **registerdomain:** transferlock not active for domain registrations ([42daf4b](https://github.com/hexonet/whmcs-ispapi-registrar/commit/42daf4b42c5dfa1d80a7e122e9baabe551a8e302))
+
 ## [4.7.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.7.1...v4.7.2) (2021-03-22)
 
 
