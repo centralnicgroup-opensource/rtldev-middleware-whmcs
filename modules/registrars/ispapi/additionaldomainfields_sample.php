@@ -201,7 +201,7 @@ $additionaldomainfields[".ca"][] = array(
     "Name" => "WHOIS Opt-out",
     "LangVar" => "catldwhoisoptout",
     "Type" => "tickbox",
-    "Description" => "Tick to hide your contact information in CIRA WHOIS (only available to individuals)",
+    "Description" => "Tick to show your contact information in CIRA WHOIS (only applies to Individuals)",
     "Ispapi-Name" => "X-CA-DISCLOSE",
     "Ispapi-Eval" => 'if ( $value ) { $value = "0"; } else { $value = "1"; }'
 );
