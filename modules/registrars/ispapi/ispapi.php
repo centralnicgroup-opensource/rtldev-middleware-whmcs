@@ -2707,15 +2707,12 @@ function ispapi_RegisterDomain($params)
         "TECHCONTACT0" => $admin,
         "BILLINGCONTACT0" => $admin
     );
-
-    if ($origparams["TRANSFERLOCK"]) {
+    if ($params["TRANSFERLOCK"]) {
         $command["TRANSFERLOCK"] = 1;
     }
-
     if ($params["dnsmanagement"]) {
         $command["INTERNALDNS"] = 1;
     }
-
     if ($params["idprotection"]) {
         $command["X-ACCEPT-WHOISTRUSTEE-TAC"] = 1;
     }
@@ -2762,7 +2759,6 @@ function ispapi_RegisterDomain($params)
         }
     }
     //#####################################################################
-
     $response = Ispapi::call($command, $origparams);
 
     if ($response["CODE"] != 200) {
