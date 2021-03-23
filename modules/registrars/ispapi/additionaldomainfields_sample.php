@@ -198,7 +198,7 @@ $additionaldomainfields[".ca"][] = array(
 );
 $additionaldomainfields['.ca'][] = array('Name' => 'CIRA Agreement', "Remove" => true);
 $additionaldomainfields[".ca"][] = array(
-    "Name" => "WHOIS Opt-out",
+    "Name" => "WHOIS Privacy Opt-out",
     "LangVar" => "catldwhoisoptout",
     "Type" => "tickbox",
     "Description" => "Tick to show your contact information in CIRA WHOIS (only applies to Individuals)",
