@@ -176,6 +176,7 @@ $additionaldomainfields[".broker"][] = array(
 
 ## .CA DOMAIN REQUIREMENTS ##
 ## add ispapi additional fields ##
+$additionaldomainfields['.ca'][] = array('Name' => 'CIRA Agreement', "Remove" => true);
 $additionaldomainfields[".ca"][] = array(
     "Name" => "Legal Type",
     "LangVar" => "catldlegaltype",
@@ -195,15 +196,6 @@ $additionaldomainfields[".ca"][] = array(
     "Required" => true,
     "Ispapi-Name" => "X-CA-LANGUAGE",
     "Ispapi-Options" => "EN,FR"
-);
-$additionaldomainfields['.ca'][] = array('Name' => 'CIRA Agreement', "Remove" => true);
-$additionaldomainfields[".ca"][] = array(
-    "Name" => "WHOIS Privacy Opt-out",
-    "LangVar" => "catldwhoisoptout",
-    "Type" => "tickbox",
-    "Description" => "Tick to show your contact information in CIRA WHOIS (only applies to Individuals)",
-    "Ispapi-Name" => "X-CA-DISCLOSE",
-    "Ispapi-Eval" => 'if ( $value ) { $value = "0"; } else { $value = "1"; }'
 );
 
 ## .CAT
