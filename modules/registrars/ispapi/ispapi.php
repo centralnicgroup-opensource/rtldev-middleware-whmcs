@@ -930,8 +930,6 @@ function ispapi_webapps($params)
  */
 function ispapi_dnssec($params)
 {
-    $origparams = $params;
-
     if (isset($params["original"])) {
         $params = $params["original"];
     }
@@ -940,107 +938,91 @@ function ispapi_dnssec($params)
     $domain = $params["sld"] . "." . $params["tld"];
 
     if (isset($_POST["submit"])) {
-        $command = array(
+        $command = [
             "COMMAND" => "ModifyDomain",
             "DOMAIN" => $domain,
             "SECDNS-MAXSIGLIFE" => $_POST["MAXSIGLIFE"],
-            //"SECDNS-URGENT" => $_POST["URGENT"]
-        );
+            "SECDNS-DS" => [],
+            "SECDNS-KEY" => []
+        ];
 
-        //add DS records
-        $command["SECDNS-DS"] = array();
-        if (isset($_POST["SECDNS-DS"])) {
-            foreach ($_POST["SECDNS-DS"] as $dnssecrecord) {
-                $everything_empty = true;
-                foreach ($dnssecrecord as $attribute) {
-                    if (!empty($attribute)) {
-                        $everything_empty = false;
+        //add DS and KEY records
+        foreach (["SECDNS-DS", "SECDNS-KEY"] as $keyname) {
+            if (isset($_POST[$keyname])) {
+                foreach ($_POST[$keyname] as $dnssecrecord) {
+                    $everything_empty = true;
+                    foreach ($dnssecrecord as $attribute) {
+                        if (!empty($attribute)) {
+                            $everything_empty = false;
+                        }
                     }
-                }
-                if (!$everything_empty) {
-                    array_push($command["SECDNS-DS"], implode(" ", $dnssecrecord));
+                    if (!$everything_empty) {
+                        $command[$keyname][] = implode(" ", $dnssecrecord);
+                    }
                 }
             }
         }
 
-
-        //remove DS records - bugfix
+        //remove DS records - bugfix (REASON? TICKET?)
         if (empty($command["SECDNS-DS"])) {
             unset($command["SECDNS-DS"]);
-            $secdnsds = array();
-            $command2 = array(
-                    "COMMAND" => "StatusDomain",
-                    "DOMAIN" => $domain
-            );
-            $response = Ispapi::call($command2, $params);
-            if ($response["CODE"] == 200) {
-                    $secdnsds = (isset($response["PROPERTY"]["SECDNS-DS"])) ? $response["PROPERTY"]["SECDNS-DS"] : array();
-            }
-            $command["DELSECDNS-DS"] = array();
-            foreach ($secdnsds as $item) {
-                array_push($command["DELSECDNS-DS"], $item);
+            $r = Ispapi::call([
+                "COMMAND" => "StatusDomain",
+                "DOMAIN" => $domain
+            ], $params);
+            if ($r["CODE"] == 200) {
+                $command["DELSECDNS-DS"] = $r["PROPERTY"]["SECDNS-DS"];
             }
         }
 
-        //add KEY records
-        $command["SECDNS-KEY"] = array();
-        if (isset($_POST["SECDNS-KEY"])) {
-            foreach ($_POST["SECDNS-KEY"] as $dnssecrecord) {
-                $everything_empty = true;
-                foreach ($dnssecrecord as $attribute) {
-                    if (!empty($attribute)) {
-                        $everything_empty = false;
-                    }
-                }
-                if (!$everything_empty) {
-                    array_push($command["SECDNS-KEY"], implode(" ", $dnssecrecord));
-                }
-            }
-        }
-        $response = Ispapi::call($command, $params);
-        if ($response["CODE"] == 200) {
-            $successful = $response["DESCRIPTION"];
+        //process domain update
+        $r = Ispapi::call($command, $params);
+        if ($r["CODE"] == 200) {
+            $successful = $r["DESCRIPTION"];
         } else {
-            $error = $response["DESCRIPTION"];
+            $error = $r["DESCRIPTION"];
         }
     }
 
-    $secdnsds = array();
-    $secdnskey = array();
     $maxsiglife = "";
-    $command = array(
-            "COMMAND" => "StatusDomain",
-            "DOMAIN" => $domain
-    );
-    $response = Ispapi::call($command, $params);
+    $secdnsds_newformat = [];
+    $secdnskey_newformat = [];
 
-    if ($response["CODE"] == 200) {
-            $maxsiglife = (isset($response["PROPERTY"]["SECDNS-MAXSIGLIFE"])) ? $response["PROPERTY"]["SECDNS-MAXSIGLIFE"][0] : "";
-            $secdnsds = (isset($response["PROPERTY"]["SECDNS-DS"])) ? $response["PROPERTY"]["SECDNS-DS"] : array();
-            $secdnskey = (isset($response["PROPERTY"]["SECDNS-KEY"])) ? $response["PROPERTY"]["SECDNS-KEY"] : array();
-            //delete empty KEY records
-            $secdnskeynew = array();
-        foreach ($secdnskey as $k) {
-            if (!empty($k)) {
-                $secdnskeynew[] = $k;
-            }
+    $r = Ispapi::call([
+        "COMMAND" => "StatusDomain",
+        "DOMAIN" => $domain
+    ], $params);
+
+    if ($r["CODE"] == 200) {
+        $r = $r["PROPERTY"];
+        $maxsiglife = (isset($r["SECDNS-MAXSIGLIFE"])) ? $r["SECDNS-MAXSIGLIFE"][0] : "";
+        $secdnsds = (isset($r["SECDNS-DS"])) ? $r["SECDNS-DS"] : [];
+        //delete empty KEY records, if cb fn not provided, array_filter will remove empty entries
+        $secdnskey = (isset($r["SECDNS-KEY"])) ? array_values(array_filter($r["SECDNS-KEY"])) : [];
+
+        //split in different fields
+        foreach ($secdnskey as $key) {
+            list($flags, $protocol, $alg, $pubkey) = preg_split("/\s+/", $key);
+            $secdnskey_newformat[] = [
+                "flags" => $flags,
+                "protocol" => $protocol,
+                "alg" => $alg,
+                "pubkey" => $pubkey
+            ];
         }
-            $secdnskey = $secdnskeynew;
+
+        //split in different fields
+        foreach ($secdnsds as $ds) {
+            list($keytag, $alg, $digesttype, $digest) = preg_split("/\s+/", $ds);
+            $secdnsds_newformat[] = [
+                "keytag" => $keytag,
+                "alg" => $alg,
+                "digesttype" => $digesttype,
+                "digest" => $digest
+            ];
+        }
     } else {
-        $error = $response["DESCRIPTION"];
-    }
-
-    //split in different fields
-    $secdnsds_newformat = array();
-    foreach ($secdnsds as $ds) {
-        list($keytag, $alg, $digesttype, $digest) = preg_split('/\s+/', $ds);
-        array_push($secdnsds_newformat, array("keytag" => $keytag, "alg" => $alg, "digesttype" => $digesttype, "digest" => $digest));
-    }
-
-    $secdnskey_newformat = array();
-    foreach ($secdnskey as $key) {
-        list($flags, $protocol, $alg, $pubkey) = preg_split('/\s+/', $key);
-        array_push($secdnskey_newformat, array("flags" => $flags, "protocol" => $protocol, "alg" => $alg, "pubkey" => $pubkey));
+        $error = $r["DESCRIPTION"];
     }
 
     return [
