@@ -3152,18 +3152,67 @@ function ispapi_Sync($params)
     $params = injectDomainObjectIfNecessary($params);
     /** @var \WHMCS\Domains\Domain $domain */
     $domain = $params["domainObj"];
+    $domainstr = $domain->getDomain();
 
     $r = Ispapi::call([
         "COMMAND" => "StatusDomain",
-        "DOMAIN" => $domain->getDomain()
+        "DOMAIN" => $domainstr
     ], $params);
 
-    if ($r["CODE"] == 531 || $r["CODE"] == 545) {
+    if ($r["CODE"] === "531") {
         return [
             "transferredAway" => true
         ];
     }
-    if ($r["CODE"] != 200) {
+    if ($r["CODE"] === "545") {
+        $r = Ispapi::call([
+            "COMMAND" => "ConvertIDN",
+            "DOMAIN0" => $domainstr
+        ], $params);
+        if ($r["CODE"] === "200" && !empty($r["PROPERTY"]["ACE"][0])) {
+            $domainstr = $r["PROPERTY"]["ACE"][0];
+        }
+        $r = Ispapi::call([
+            "COMMAND" => "QueryObjectList",
+            "OBJECTCLASS" => "DELETEDDOMAIN",
+            "OBJECTID" => $domainstr
+        ], $params);
+        if ($r["CODE"] === "545") {
+            return [
+                "transferredAway" => true
+            ];
+        }
+        if ($r["CODE"] === "200" && $r["PROPERTY"]["COUNT"][0] > 0) {
+            $expirationdate = $r["PROPERTY"]["UPDATEDDATE"][0];
+            $failureperiod = 0;
+            $r = Ispapi::call([
+                "COMMAND" => "QueryDomainRepositoryInfo",
+                "DOMAIN" => $domainstr
+            ], $params);
+            if ($r["CODE"] === "200" && !empty($r["PROPERTY"]["ZONERENEWALFAILUREPERIOD"][0])) {
+                $failureperiod = intval($r["PROPERTY"]["ZONERENEWALFAILUREPERIOD"][0]) * 86400;//days to s
+            }
+            $expirationts = strtotime($expirationdate) - $failureperiod;
+            return [
+                "expirydate" => date("Y-m-d", $expirationts),
+                "expired" => gmmktime() > $expirationts
+            ];
+        }
+        if ($r["CODE"] === "200" && $r["PROPERTY"]["COUNT"][0] === "0") {
+            // deleted, not restorable
+            DB::table('tbldomains')
+                ->where([
+                    [ 'domainid', '=', $params["domainid"] ]
+                ])
+                ->update(["status" => "Expired"]);
+            return [
+                "expired" => true// this doesn't change anything that's why we update the status
+            ];
+        }
+        return [
+        ]; // whmcs should show a curl error
+    }
+    if ($r["CODE"] !== "200") {
         return [
             "error" => $r["DESCRIPTION"]
         ];
@@ -3173,7 +3222,7 @@ function ispapi_Sync($params)
 
     $command = [
         "COMMAND" => "ModifyDomain",
-        "DOMAIN" => $domain->getDomain()
+        "DOMAIN" => $domainstr
     ];
     // TODO:---------- EXCEPTION [BEGIN] --------
     // Missing/Empty contact handles after Transfer over THIN Registry [kschwarz]
@@ -3219,7 +3268,7 @@ function ispapi_Sync($params)
                     ], $params);
                 }
                 $rc = $contacts[$r["OWNERCONTACT"][0]];
-                if ($rc["CODE"] == 200 && empty($rc["PROPERTY"]["EMAIL"][0])) {
+                if ($rc["CODE"] === "200" && empty($rc["PROPERTY"]["EMAIL"][0])) {
                     $command["OWNERCONTACT0"] = $cmdparams;
                 }
             }
@@ -3267,7 +3316,7 @@ function ispapi_Sync($params)
                             ], $params);
                         }
                         $rc = $contacts[$r[$ctype][0]];
-                        if ($rc["CODE"] == 200 && empty($rc["PROPERTY"]["EMAIL"][0])) {
+                        if ($rc["CODE"] === "200" && empty($rc["PROPERTY"]["EMAIL"][0])) {
                             $command[$ctype . "0"] = $admindata;
                         }
                     }
