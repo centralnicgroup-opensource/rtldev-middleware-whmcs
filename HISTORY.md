@@ -1,3 +1,10 @@
+## [4.7.4](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.7.3...v4.7.4) (2021-04-08)
+
+
+### Bug Fixes
+
+* **sync:** improved status sync around and after expiration ([a192a2b](https://github.com/hexonet/whmcs-ispapi-registrar/commit/a192a2bc95db3b86e9d4ff8c69ae8c1c1f848590))
+
 ## [4.7.3](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.7.2...v4.7.3) (2021-03-23)
 
 
