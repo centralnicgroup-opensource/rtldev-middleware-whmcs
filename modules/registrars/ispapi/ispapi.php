@@ -2014,7 +2014,6 @@ function ispapi_GetDNS($params)
  */
 function ispapi_SaveDNS($params)
 {
-    $values = array();
     if (isset($params["original"])) {
         $params = $params["original"];
     }
@@ -2160,9 +2159,13 @@ function ispapi_SaveDNS($params)
     }
 
     if ($response["CODE"] != 200) {
-        $values["error"] = $response["DESCRIPTION"];
+        return [
+            "error" => $response["DESCRIPTION"]
+        ];
     }
-    return $values;
+    return [
+        'success' => 'success'
+    ];
 }
 
 /**
