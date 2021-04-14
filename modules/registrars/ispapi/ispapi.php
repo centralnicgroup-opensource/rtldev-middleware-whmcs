@@ -100,16 +100,19 @@ function ispapi_CheckAvailability($params)
                     } elseif (!empty($r["PROPERTY"]["PREMIUMCHANNEL"][$idx])) {// CASE: PREMIUM
                         $params["AvailabilityCheckResult"] = $r;
                         $params["AvailabilityCheckResultIndex"] = $idx;
-                        $prices = ispapi_GetPremiumPrice($params);
                         $sr->setPremiumDomain(true);
-                        $sr->setPremiumCostPricing($prices);
-                        if (empty($prices)) {
+                        try {
+                            $prices = ispapi_GetPremiumPrice($params);
+                            $sr->setPremiumCostPricing($prices);
+                            if (isset($prices["register"])) {
+                                //PREMIUM DOMAIN AVAILABLE
+                                $sr->setStatus($sr::STATUS_NOT_REGISTERED);
+                            } else {
+                                $sr->setStatus($sr::STATUS_REGISTERED);
+                            }
+                        } catch (\Exception $e) {
+                            $sr->setPremiumCostPricing([]);
                             $sr->setStatus($sr::STATUS_RESERVED);
-                        } elseif (isset($prices["register"])) {
-                            //PREMIUM DOMAIN AVAILABLE
-                            $sr->setStatus($sr::STATUS_NOT_REGISTERED);
-                        } else {
-                            $sr->setStatus($sr::STATUS_REGISTERED);
                         }
                     } elseif (!empty($r["PROPERTY"]["CLASS"][$idx])) { // CASE: RESERVED or PREMIUM? BACKORDER
                         if (stripos($r["PROPERTY"]["REASON"][$idx], "reserved")) {//RESERVED
