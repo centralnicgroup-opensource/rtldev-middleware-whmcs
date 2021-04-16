@@ -1608,23 +1608,11 @@ function ispapi_SaveRegistrarLock($params)
     if (isset($params["original"])) {
         $params = $params["original"];
     }
-    $doLock = ($params["lockenabled"] === "locked");
     $domain = $params["sld"] . "." . $params["tld"];
-    $response = Ispapi::call([
-        "COMMAND" => "ModifyDomain",
-        "DOMAIN" => $domain,
-        "TRANSFERLOCK" => $doLock ? "1" : "0"
-    ], $params);
-    if ($response["CODE"] != 200) {
-        logActivity($domain . ": Unable to " . ($doLock ? "set" : "remove")  . " registrar lock. [" . $response["DESCRIPTION"] . "]");
-        return [
-            "error" => $response["DESCRIPTION"]
-        ];
-    }
-    logActivity($domain . ": Successfully " . ($doLock ? "set" : "removed")  . " registrar lock.");
-    return [
-        "success" => "success"
-    ];
+
+    $result = HXDomain::saveRegistrarLock($params, $domain);
+    logActivity(isset($result["error"]) ? $result["error"] : $result["success"]);
+    return $result;
 }
 
 /**
@@ -1779,45 +1767,11 @@ function ispapi_ResendIRTPVerificationEmail($params)
  */
 function ispapi_GetEPPCode($params)
 {
-    $values = array();
     if (isset($params["original"])) {
         $params = $params["original"];
     }
     $domain = $params["sld"] . "." . $params["tld"];
-
-    if ($params["tld"] == "de") {
-        $command = array(
-            "COMMAND" => "DENIC_CreateAuthInfo1",
-            "DOMAIN" => $domain
-        );
-        $response = Ispapi::call($command, $params);
-    }
-
-    if ($params["tld"] == "eu") {
-        $command = array(
-            "COMMAND" => "RequestDomainAuthInfo",
-            "DOMAIN" => $domain
-        );
-        $response = Ispapi::call($command, $params);
-    } else {
-        $command = array(
-            "COMMAND" => "StatusDomain",
-            "DOMAIN" => $domain
-        );
-        $response = Ispapi::call($command, $params);
-    }
-
-    if ($response["CODE"] == 200) {
-        if (strlen($response["PROPERTY"]["AUTH"][0])) {
-            //htmlspecialchars -> fixed in (#5070 @ 6.2.0 GA) / (#4166 @ 5.3.0)
-            $values["eppcode"] = $response["PROPERTY"]["AUTH"][0];
-        } else {
-            $values["error"] = "No AuthInfo code assigned to this domain!";
-        }
-    } else {
-        $values["error"] = $response["DESCRIPTION"];
-    }
-    return $values;
+    return HXDomain::getAuthCode($params, $domain);
 }
 
 /**
