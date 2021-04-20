@@ -1,3 +1,10 @@
+## [4.7.5](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.7.4...v4.7.5) (2021-04-20)
+
+
+### Bug Fixes
+
+* **transfersync:** return expirydate to avoid call of Sync ([42ca56c](https://github.com/hexonet/whmcs-ispapi-registrar/commit/42ca56c716c8fbbdd0aadddb66d8e71fa8934513))
+
 ## [4.7.4](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.7.3...v4.7.4) (2021-04-08)
 
 
