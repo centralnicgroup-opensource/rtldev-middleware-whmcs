@@ -3072,15 +3072,15 @@ function ispapi_TransferSync($params)
 
     // check if the transfer is still pending
     $r = HXDomainTransfer::getStatus($params, $domain_pc);
-    if ($r["success"]) {
-        logActivity($domain_pc . ': Domain Transfer is still pending (Existing Request).');
+    if ($r["success"] === true) {
+        logActivity($domain_idn . ': Domain Transfer is still pending (Existing Request).');
         return [];//still pending
     }
 
     // get date of last transfer request
     $r = HXDomainTransfer::getRequestLog($params, $domain_pc);
-    if (!$r["success"] || $r["data"]["COUNT"][0] === "0") {
-        logActivity($domain_pc . ': Domain Transfer is still pending (No Request Log found).');
+    if ($r["success"] === false || $r["data"]["COUNT"][0] === "0") {
+        logActivity($domain_idn . ': Domain Transfer is still pending (No Request Log found).');
         return [];//still pending
     }
 
@@ -3091,8 +3091,8 @@ function ispapi_TransferSync($params)
 
     // check if the domain is already on account
     $r = HXDomain::getStatus($params, $domain_pc);
-    if ($r["success"]) {
-        if ($params["NSUpdTransfer"] == "on") {
+    if ($r["success"] === true) {
+        if ($params["NSUpdTransfer"] === "on") {
             // AUTO-UPDATE ns after transfer
             // existing transfer request
             $newns = HXDomainTransfer::getRequestNameservers($params, $domain_pc, $logindex);
@@ -3109,10 +3109,10 @@ function ispapi_TransferSync($params)
                 }
             }
         }
-        logActivity($domain_pc . ': Domain Transfer finished.');
-        // WHMCS fallbacks to _Sync method when not returning expirydate
+        logActivity($domain_idn . ': Domain Transfer finished.');
         return [
-            "completed" => true
+            "completed" => true,
+            "expirydate" => preg_replace("/ .+$/", "", $logdate) //YYYY-MM-DD
         ];
     }
 
@@ -3132,11 +3132,11 @@ function ispapi_TransferSync($params)
                 $values["reason"] .= PHP_EOL . implode(PHP_EOL, $r["data"]["OPERATIONINFO"]);
             }
         }
-        logActivity($domain_pc . ': Domain Transfer failed.');
+        logActivity($domain_idn . ': Domain Transfer failed.');
         return $values;
     }
 
-    logActivity($domain_pc . ': Domain Transfer is still pending.');
+    logActivity($domain_idn . ': Domain Transfer is still pending.');
     return [];// still pending
 }
 
