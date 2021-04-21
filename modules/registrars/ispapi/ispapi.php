@@ -2963,57 +2963,33 @@ function ispapi_TransferDomain($params)
 }
 
 /**
- * Renew a domain name
+ * Renew (or restore) a Domain Name
  *
  * @param array $params common module parameters
  *
- * @return array $values - an array with command response description
+ * @return array
  */
 function ispapi_RenewDomain($params)
 {
-    $values = array();
     if (isset($params["original"])) {
         $params = $params["original"];
     }
     $domain = $params["sld"] . "." . $params["tld"];
 
-    $command = array(
-        "COMMAND" => "RenewDomain",
-        "DOMAIN" => $domain,
-        "PERIOD" => $params["regperiod"]
-    );
-
-    // renew premium domain
-    $premiumDomainsEnabled = (bool) $params['premiumEnabled'];
-    if ($premiumDomainsEnabled) { //check if premium domain functionality is enabled by the admin
-        $premiumDomainsCost = $params['premiumCost'];
-        if (!empty($premiumDomainsCost)) { //check if the domain has a premium price
-            $statusDomainResponse = Ispapi::call([
-                "COMMAND" => "StatusDomain",
-                "DOMAIN" => $domain
-                //"PROPERTIES" => "PRICES" //not an option as account currency is different
-            ], $params);
-
-            if ($statusDomainResponse["CODE"] == 200 && !empty($statusDomainResponse['PROPERTY']['SUBCLASS'][0])) {
-                $prices = ispapi_GetPremiumPrice($params);
-                if ($premiumDomainsCost === $prices["renew"]) { //check if WHMCS' price fits to the API one
-                    $command["CLASS"] = $statusDomainResponse['PROPERTY']['SUBCLASS'][0];
-                }
-            }
+    // --- Domain Restore
+    if ($params["isInRedemptionGracePeriod"]) {
+        $r = HXDomain::restore($params, $domain);
+        logActivity($domain . ": " . (isset($r["error"]) ? $r["error"] : $r["message"]));
+        if (!isset($r["periodLeft"])) {
+            return $r;
         }
-    }
-    $response = Ispapi::call($command, $params);
-
-    if ($response["CODE"] == 510) {
-        $command["COMMAND"] = "PayDomainRenewal";
-        $response = Ispapi::call($command, $params);
+        // continue with renewal below based on renewal period difference
+        $params["regperiod"] = $r["periodLeft"];
     }
 
-    if ($response["CODE"] != 200) {
-        $values["error"] = $response["DESCRIPTION"];
-    }
-
-    return $values;
+    $r = HXDomain::renew($params, $domain);
+    logActivity($domain . ": " . $r["message"]);
+    return $r;
 }
 
 /**
