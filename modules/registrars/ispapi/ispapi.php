@@ -18,6 +18,7 @@ use WHMCS\Module\Registrar\Ispapi\Helper as Helper;
 use WHMCS\Module\Registrar\Ispapi\WebApps as WebApps;
 use WHMCS\Module\Registrar\Ispapi\DomainTransfer as HXDomainTransfer;
 use WHMCS\Module\Registrar\Ispapi\Domain as HXDomain;
+use WHMCS\Domains\DomainLookup\SearchResult as SR;
 
 /**
  * Check the availability of domains using HEXONET's fast API
@@ -69,7 +70,7 @@ function ispapi_CheckAvailability($params)
         $r = Ispapi::call($command, $params);
         foreach ($command["DOMAIN"] as $idx => $domain) {
             $parts = preg_split("/\./", $domain, 2);
-            $sr = new \WHMCS\Domains\DomainLookup\SearchResult($parts[0], $parts[1]);
+            $sr = new SR($parts[0], $parts[1]);
             if ($r["CODE"] != "200" || empty($r["PROPERTY"]["DOMAINCHECK"][$idx])) {
                 $dc = "421 Temporary issue";
             } else {
@@ -1649,31 +1650,91 @@ function ispapi_GetDomainInformation($params)
     $params = ispapi_get_utf8_params($params);
     $domain = $params["sld"] . "." . $params["tld"];
 
-    $r = Ispapi::call([
-        "COMMAND" => "StatusDomain",
-        "DOMAIN" => $domain
-    ], $params);
-
-    if ($r["CODE"] === "200") {
-        $r = $r["PROPERTY"];
-        //setIrtpTransferLock
-        if (isset($r["TRADE-TRANSFERLOCK-EXPIRATIONDATE"][0])) {
-            $values["setIrtpTransferLock"] = true;
+    $r = HXDomain::getStatus($params, $domain);
+    if ($r["success"] !== true) {
+        if ($r["errorcode"] === "531") {
+            throw new \Exception("Domain no longer in management - probably transferred away.");
+        } elseif ($r["errorcode"] !== "545") {
+            throw new \Exception("Loading Domain information failed. You may retry in few minutes.<br/><small>" . $r["errorcode"] . " " . $r["error"] . "</small>");
+        } else {
+            $domainstr = $domain;
+            $r = Ispapi::call([
+                "COMMAND" => "ConvertIDN",
+                "DOMAIN0" => $domain
+            ], $params);
+            if ($r["CODE"] === "200" && !empty($r["PROPERTY"]["ACE"][0])) {
+                $domainstr = $r["PROPERTY"]["ACE"][0];
+            }
+            $r = Ispapi::call([
+                "COMMAND" => "QueryObjectList",
+                "OBJECTCLASS" => "DELETEDDOMAIN",
+                "OBJECTID" => $domainstr
+            ], $params);
+            if ($r["CODE"] === "545") {
+                throw new \Exception("Domain no longer in management - probably transferred away.");
+            }
+            if ($r["CODE"] === "200" && $r["PROPERTY"]["COUNT"][0] > 0) {
+                $expirationdate = $r["PROPERTY"]["UPDATEDDATE"][0];
+                $failureperiod = 0;
+                $r = Ispapi::call([
+                    "COMMAND" => "QueryDomainRepositoryInfo",
+                    "DOMAIN" => $domainstr
+                ], $params);
+                if ($r["CODE"] === "200" && !empty($r["PROPERTY"]["ZONERENEWALFAILUREPERIOD"][0])) {
+                    $failureperiod = intval($r["PROPERTY"]["ZONERENEWALFAILUREPERIOD"][0]) * 86400;//days to s
+                }
+                $expirationts = strtotime($expirationdate) - $failureperiod;
+                if (gmmktime() > $expirationts) { // domain really expired
+                    throw new \Exception("Domain expired, but is still renewable leading to redemption fees.");
+                }
+                throw new \Exception("Domain expired, but is still renewable.");
+            }
+            if ($r["CODE"] === "200" && $r["PROPERTY"]["COUNT"][0] === "0") {
+                $params["searchTerm"] = $params["sld"];
+                $params["tldsToInclude"] = [$params["tld"]];
+                $r = ispapi_CheckAvailability($params);
+                $r = array_pop($r->toArray());
+                $msg = "Domain expired and released. ";
+                switch ($r["status"]) {
+                    case SR::STATUS_NOT_REGISTERED:
+                        $msg .= "Available for registration.";
+                        break;
+                    case SR::STATUS_RESERVED:
+                        $msg .= "Reserved Domain Name.";
+                        break;
+                    case SR::STATUS_TLD_NOT_SUPPORTED:
+                        $msg .= "TLD not supported.";
+                        break;
+                    case SR::STATUS_REGISTERED:
+                        $msg .= "Not available for registration.";
+                        break;
+                    default:
+                        $msg = "Eventually available for registration.";
+                        break;
+                }
+                throw new \Exception($msg);
+            }
         }
+    }
 
-        //code optimization on getting nameservers and transferLock setting (applicable since WHMCS 7.6)
-        //we kept the GetNameservers(), GetRegistrarLock() for the users with < WHMCS 7.6
-        //nameservers
-        //no findings for htmlspecialchars in other registrar modules, looks like this got fixed
-        for ($i = 1; $i <= 5; $i++) {
-            $values["nameservers"]["ns" . $i] = $r["NAMESERVER"][$i - 1];
-        }
+    $r = $r["data"];
+    //setIrtpTransferLock
+    if (isset($r["TRADE-TRANSFERLOCK-EXPIRATIONDATE"][0])) {
+        $values["setIrtpTransferLock"] = true;
+    }
 
-        //transferlock settings
-        $values["transferlock"] = false;
-        if (isset($r["TRANSFERLOCK"][0]) && $r["TRANSFERLOCK"][0] === "1") {
-            $values["transferlock"] = true;
-        }
+    //code optimization on getting nameservers and transferLock setting (applicable since WHMCS 7.6)
+    //we kept the GetNameservers(), GetRegistrarLock() for the users with < WHMCS 7.6
+    //nameservers
+    //no findings for htmlspecialchars in other registrar modules, looks like this got fixed
+    for ($i = 1; $i <= 5; $i++) {
+        $values["nameservers"]["ns" . $i] = $r["NAMESERVER"][$i - 1];
+    }
+
+    //transferlock settings
+    $values["transferlock"] = false;
+    if (isset($r["TRANSFERLOCK"][0]) && $r["TRANSFERLOCK"][0] === "1") {
+        $values["transferlock"] = true;
     }
 
     //IRTP handling
@@ -1711,14 +1772,29 @@ function ispapi_GetDomainInformation($params)
         }
     }
 
-    $domain = new \WHMCS\Domain\Registrar\Domain();
-    $domain->setNameservers($values["nameservers"])
+    // Docs:
+    // https://classdocs.whmcs.com/8.1/WHMCS/Domain/Registrar/Domain.html
+    // https://developers.whmcs.com/domain-registrars/domain-information/
+    $thedomain = new \WHMCS\Domain\Registrar\Domain();
+    $thedomain
+        ->setDomain($domain)
+        ->setNameservers($values["nameservers"])
+        //->setRegistrationStatus($response["status"])
         ->setTransferLock($values["transferlock"])
+        //->setTransferLockExpiryDate(null)
+        //->setExpiryDate(Carbon::createFromFormat('Y-m-d', $response['expirydate'])) // $response['expirydate'] = YYYY-MM-DD
+        //->setRestorable(false)
+        //->setIdProtectionStatus($response['addons']['hasidprotect'])
+        //->setDnsManagementStatus($response['addons']['hasdnsmanagement'])
+        //->setEmailForwardingStatus($response['addons']['hasemailforwarding'])
         ->setIsIrtpEnabled($values["setIsIrtpEnabled"])
         ->setIrtpTransferLock($values["setIrtpTransferLock"])
+        //->IrtpTransferLockExpiryDate($irtpTransferLockExpiryDate)
+        //-- ->setIrtpOptOutStatus(false)
         ->setDomainContactChangePending($values["setDomainContactChangePending"])
         ->setPendingSuspension($values["setPendingSuspension"])
         ->setDomainContactChangeExpiryDate($values["setDomainContactChangeExpiryDate"] ? \WHMCS\Carbon::createFromFormat("!Y-m-d", $values["setDomainContactChangeExpiryDate"]) : null)
+        //->setRegistrantEmailAddress($response['registrant']['email'])
         ->setIrtpVerificationTriggerFields(
             [
                 "Registrant" => [
@@ -1729,7 +1805,7 @@ function ispapi_GetDomainInformation($params)
                 ]
             ]
         );
-    return $domain;
+    return $thedomain;
 }
 /**
  * Resend verification email
