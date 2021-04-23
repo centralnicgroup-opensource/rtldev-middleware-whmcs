@@ -1,3 +1,10 @@
+## [4.7.6](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.7.5...v4.7.6) (2021-04-23)
+
+
+### Performance Improvements
+
+* **review epp:** improved existing logic of epp code ([36e3270](https://github.com/hexonet/whmcs-ispapi-registrar/commit/36e32707de92ebb819026043f7d387e890e3e597))
+
 ## [4.7.5](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.7.4...v4.7.5) (2021-04-20)
 
 
