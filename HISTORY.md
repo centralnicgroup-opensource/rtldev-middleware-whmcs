@@ -1,3 +1,15 @@
+# [4.8.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.7.6...v4.8.0) (2021-04-26)
+
+
+### Bug Fixes
+
+* **domaininformation:** reviewed GetDomainInformation to improve in direction of expired domains ([4757d6b](https://github.com/hexonet/whmcs-ispapi-registrar/commit/4757d6becffbe67bf4d2e33a62455113b8b72afc))
+
+
+### Features
+
+* **restore:** introduce domain restores ([e6f8c48](https://github.com/hexonet/whmcs-ispapi-registrar/commit/e6f8c48e16a28247f79c99496b53a4a37e50e56c))
+
 ## [4.7.6](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.7.5...v4.7.6) (2021-04-23)
 
 
