@@ -1617,26 +1617,6 @@ function ispapi_SaveRegistrarLock($params)
 }
 
 /**
- * Return true if the TLD is affected by the IRTP
- *
- * @param array $params common module parameters
- *
- * @return array $values - returns true
- */
-function ispapi_IsAffectedByIRTP($domain, $params)
-{
-    $r = Ispapi::call([
-        "COMMAND" => "QueryDomainOptions",
-        "DOMAIN0" => $domain
-    ], $params);
-
-    return (
-        $r["CODE"] == "200"
-        && isset($r['PROPERTY']['ZONEPOLICYREGISTRANTNAMECHANGEBY'][0])
-        && $r['PROPERTY']['ZONEPOLICYREGISTRANTNAMECHANGEBY'][0] === 'ICANN-TRADE'
-    );
-}
-/**
  * Returns domain's information
  *
  * @param array $params common module parameters
@@ -1738,7 +1718,7 @@ function ispapi_GetDomainInformation($params)
     }
 
     //IRTP handling
-    $isAffectedByIRTP = ispapi_IsAffectedByIRTP($domain, $params);
+    $isAffectedByIRTP = HXDomain::needsIRTPForRegistrantModification($domain, $params);
     if (preg_match('/Designated Agent/', $params['IRTP']) && $isAffectedByIRTP) {
         //setIsIrtpEnabled
         $values["setIsIrtpEnabled"] = true;
@@ -2388,7 +2368,7 @@ function ispapi_SaveContactDetails($params)
             "error" => $status_response["DESCRIPTION"]
         ];
     }
-    $isAffectedByIRTP = ispapi_IsAffectedByIRTP($domain, $params);
+    $isAffectedByIRTP = HXDomain::needsIRTPForRegistrantModification($domain, $params);
 
     $registrant = ispapi_get_contact_info($status_response["PROPERTY"]["OWNERCONTACT"][0], $params);
     if (isset($origparams["contactdetails"]["Registrant"])) {
