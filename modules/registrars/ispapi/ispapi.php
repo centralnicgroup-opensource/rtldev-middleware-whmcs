@@ -673,19 +673,19 @@ function ispapi_getConfigArray($params)
             foreach ($oldConfig as $key => $val) {
                 $tmp = $val;
                 if (!$isLowerWHMCS8) {
-                    $r = localAPI('EncryptPassword', [
-                        'password2' => $val
+                    $r = localAPI("EncryptPassword", [
+                        "password2" => $val
                     ]);
                     if ($r["result"] === "success") {
                         $tmp = $r["password"];
                     }
                 }
 
-                DB::table('tblregistrars')
-                    ->where('registrar', $newModule)
-                    ->where('setting', $key)
+                DB::table("tblregistrars")
+                    ->where("registrar", $newModule)
+                    ->where("setting", $key)
                     ->update([
-                        'value' => $tmp
+                        "value" => $tmp
                     ]);
             }
             // reassign domains
@@ -780,7 +780,7 @@ function ispapi_getConfigArray($params)
     ];
 
     $authOk = Ispapi::checkAuth($params); //keep this line here as it generates the canUse object
-    if ($authOk["WEBAPPS"]) {
+    if ($authOk !== false && $authOk["WEBAPPS"]) {
         $configarray["WebApps"] = [
             "FriendlyName" => "Offer Web Apps",
             "Type" => "yesno",
@@ -882,7 +882,7 @@ function ispapi_ClientAreaCustomButtonArray($params)
         $domainid = $_REQUEST["id"];
     }
     if (!isset($params["idprotection"], $params["dnsmanagement"])) {
-        $r = Helper::SQLCall("SELECT idprotection, dnsmanagement FROM tbldomains WHERE id=:id", [':id' => $domainid], "fetch");
+        $r = Helper::SQLCall("SELECT idprotection, dnsmanagement FROM tbldomains WHERE id=:id", [":id" => $domainid], "fetch");
         if ($r["success"]) {
             $params["idprotection"] = $r["result"]["idprotection"];
             $params["dnsmanagement"] = $r["result"]["dnsmanagement"];
@@ -1264,9 +1264,9 @@ function ispapi_registrantmodification_tld($params)
                 }
             }
 
-            if (preg_match('/\.se$/i', $domain)) {
+            if (preg_match("/\.se$/i", $domain)) {
                 //check if the checkbox has been checked.
-                if (!$_POST['se-checkbox'] == "on") {
+                if (!$_POST["se-checkbox"] == "on") {
                     $error = "Please confirm that you will send the form back to complete the process";
                 }
             }
@@ -1457,7 +1457,7 @@ function ispapi_whoisprivacy($params)
         $command = array(
             "COMMAND" => "ModifyDomain",
             "DOMAIN" => $domain,
-            "X-ACCEPT-WHOISTRUSTEE-TAC" => ($_REQUEST["idprotection"] == 'enable') ? '1' : '0'
+            "X-ACCEPT-WHOISTRUSTEE-TAC" => ($_REQUEST["idprotection"] == "enable") ? "1" : "0"
         );
         $response = Ispapi::call($command, $params);
         if ($response["CODE"] == 200) {
@@ -1523,14 +1523,14 @@ function ispapi_whoisprivacy_ca($params)
     } else {
         $error = $r["DESCRIPTION"];
     }
-    if (preg_match('/^(CCT|RES|ABO|LGR)$/i', $legaltype)) {
+    if (preg_match("/^(CCT|RES|ABO|LGR)$/i", $legaltype)) {
         $protectable = 1;
     }
     if (isset($_REQUEST["idprotection"])) {
         $r = Ispapi::call(array(
             "COMMAND" => "ModifyDomain",
             "DOMAIN" => $domain,
-            "X-CA-DISCLOSE" => ($_REQUEST["idprotection"] == 'enable') ? '0' : '1'//inverse logic???
+            "X-CA-DISCLOSE" => ($_REQUEST["idprotection"] == "enable") ? "0" : "1"//inverse logic???
         ), $apicfg);
         if ($r["CODE"] == 200) {
             return false;
@@ -1563,38 +1563,9 @@ function ispapi_GetRegistrarLock($params)
     }
     $domain = $params["sld"] . "." . $params["tld"];
 
-    $r = Ispapi::call([
-        "COMMAND" => "QueryDomainList",
-        "VERSION" => 2,
-        "NOTOTAL" => 1,
-        "DOMAIN" => $domain,
-        "WIDE" => 1
-    ], $params);
-
     // NOTE: returning an error still shows up as "unlocked"
     // Removing the menu entry by hook therefore ftw.
-    if ($r["CODE"] == 200) {
-        $r = $r["PROPERTY"];
-        if (isset($r["TRANSFERLOCK"])) {
-            if ($r["TRANSFERLOCK"][0] === "1") {
-                return "locked";
-            }
-            if ($r["TRANSFERLOCK"][0] === "0") {
-                return "unlocked";
-            }
-            // empty string
-            return [
-                "error" => "Registrar Lock unsupported for this TLD."
-            ];
-        }
-        // list command always returns 200, but maybe no data
-        return [
-            "error" => "Domain Name not found."
-        ];
-    }
-    return [
-        "error" => $r["DESCRIPTION"]
-    ];
+    return HXDomain::getRegistrarLock($params, $domain);
 }
 
 /**
@@ -1616,26 +1587,6 @@ function ispapi_SaveRegistrarLock($params)
     return $result;
 }
 
-/**
- * Return true if the TLD is affected by the IRTP
- *
- * @param array $params common module parameters
- *
- * @return array $values - returns true
- */
-function ispapi_IsAffectedByIRTP($domain, $params)
-{
-    $r = Ispapi::call([
-        "COMMAND" => "QueryDomainOptions",
-        "DOMAIN0" => $domain
-    ], $params);
-
-    return (
-        $r["CODE"] == "200"
-        && isset($r['PROPERTY']['ZONEPOLICYREGISTRANTNAMECHANGEBY'][0])
-        && $r['PROPERTY']['ZONEPOLICYREGISTRANTNAMECHANGEBY'][0] === 'ICANN-TRADE'
-    );
-}
 /**
  * Returns domain's information
  *
@@ -1738,8 +1689,8 @@ function ispapi_GetDomainInformation($params)
     }
 
     //IRTP handling
-    $isAffectedByIRTP = ispapi_IsAffectedByIRTP($domain, $params);
-    if (preg_match('/Designated Agent/', $params['IRTP']) && $isAffectedByIRTP) {
+    $isAffectedByIRTP = HXDomain::needsIRTPForRegistrantModification($params, $domain);
+    if (preg_match("/Designated Agent/", $params["IRTP"]) && $isAffectedByIRTP) {
         //setIsIrtpEnabled
         $values["setIsIrtpEnabled"] = true;
 
@@ -1782,11 +1733,11 @@ function ispapi_GetDomainInformation($params)
         //->setRegistrationStatus($response["status"])
         ->setTransferLock($values["transferlock"])
         //->setTransferLockExpiryDate(null)
-        //->setExpiryDate(Carbon::createFromFormat('Y-m-d', $response['expirydate'])) // $response['expirydate'] = YYYY-MM-DD
+        //->setExpiryDate(Carbon::createFromFormat("Y-m-d", $response["expirydate"])) // $response["expirydate"] = YYYY-MM-DD
         //->setRestorable(false)
-        //->setIdProtectionStatus($response['addons']['hasidprotect'])
-        //->setDnsManagementStatus($response['addons']['hasdnsmanagement'])
-        //->setEmailForwardingStatus($response['addons']['hasemailforwarding'])
+        //->setIdProtectionStatus($response["addons"]["hasidprotect"])
+        //->setDnsManagementStatus($response["addons"]["hasdnsmanagement"])
+        //->setEmailForwardingStatus($response["addons"]["hasemailforwarding"])
         ->setIsIrtpEnabled($values["setIsIrtpEnabled"])
         ->setIrtpTransferLock($values["setIrtpTransferLock"])
         //->IrtpTransferLockExpiryDate($irtpTransferLockExpiryDate)
@@ -1794,7 +1745,7 @@ function ispapi_GetDomainInformation($params)
         ->setDomainContactChangePending($values["setDomainContactChangePending"])
         ->setPendingSuspension($values["setPendingSuspension"])
         ->setDomainContactChangeExpiryDate($values["setDomainContactChangeExpiryDate"] ? \WHMCS\Carbon::createFromFormat("!Y-m-d", $values["setDomainContactChangeExpiryDate"]) : null)
-        //->setRegistrantEmailAddress($response['registrant']['email'])
+        //->setRegistrantEmailAddress($response["registrant"]["email"])
         ->setIrtpVerificationTriggerFields(
             [
                 "Registrant" => [
@@ -1818,7 +1769,7 @@ function ispapi_ResendIRTPVerificationEmail($params)
 {
     //perform API call to initiate resending of the IRTP Verification Email
     $success = true;
-    $errorMessage = '';
+    $errorMessage = "";
     $domain = $params["sld"] . "." . $params["tld"];
     $command = array(
         "COMMAND" => "ResendDomainTransferConfirmationEmails",
@@ -1827,10 +1778,10 @@ function ispapi_ResendIRTPVerificationEmail($params)
     $response = Ispapi::call($command, $params);
 
     if ($response["CODE"] == 200) {
-        return ['success' => true];
+        return ["success" => true];
     } else {
         $errorMessage = $response["DESCRIPTION"];
-        return ['error' => $errorMessage];
+        return ["error" => $errorMessage];
     }
 }
 
@@ -1961,7 +1912,7 @@ function ispapi_GetDNS($params)
 
             if ($rrtype == "A") {
                 $hostrecords[$i] = array( "hostname" => $domain, "type" => $rrtype, "address" => $fields[0], );
-                if (preg_match('/^mxe-host-for-ip-(\d+)-(\d+)-(\d+)-(\d+)$/i', $domain, $m)) {
+                if (preg_match("/^mxe-host-for-ip-(\d+)-(\d+)-(\d+)-(\d+)$/i", $domain, $m)) {
                     unset($hostrecords[$i]);
                     $i--;
                 }
@@ -1990,7 +1941,7 @@ function ispapi_GetDNS($params)
             }
 
             if ($rrtype == "X-HTTP") {
-                if (preg_match('/^\//', $fields[0])) {
+                if (preg_match("/^\//", $fields[0])) {
                     $domain .= array_shift($fields);
                     /*while(substr($domain, -1)=="/"){
                         $domain = substr_replace($domain, "", -1);
@@ -2023,7 +1974,7 @@ function ispapi_GetDNS($params)
                 $rrtype = array_shift($fields);
 
                 if ($rrtype == "MX") {
-                    if (preg_match('/^mxe-host-for-ip-(\d+)-(\d+)-(\d+)-(\d+)($|\.)/i', $fields[1], $m)) {
+                    if (preg_match("/^mxe-host-for-ip-(\d+)-(\d+)-(\d+)-(\d+)($|\.)/i", $fields[1], $m)) {
                         $hostrecords[$i] = array( "hostname" => $domain, "type" => "MXE", "address" => $m[1] . "." . $m[2] . "." . $m[3] . "." . $m[4], );
                     } else {
                         $hostrecords[$i] = array( "hostname" => $domain, "type" => $rrtype, "address" => $fields[1], "priority" => $fields[0] );
@@ -2092,15 +2043,15 @@ function ispapi_SaveDNS($params)
             }
             if ($type == "MXE") {
                 $mxpref = 100;
-                if (preg_match('/^([0-9]+) (.*)$/', $address, $m)) {
+                if (preg_match("/^([0-9]+) (.*)$/", $address, $m)) {
                     $mxpref = $m[1];
                     $address = $m[2];
                 }
-                if (preg_match('/^([0-9]+)$/', $priority)) {
+                if (preg_match("/^([0-9]+)$/", $priority)) {
                     $mxpref = $priority;
                 }
 
-                if (preg_match('/^(\d+)\.(\d+)\.(\d+)\.(\d+)$/', $address, $m)) {
+                if (preg_match("/^(\d+)\.(\d+)\.(\d+)\.(\d+)$/", $address, $m)) {
                     $mxe_host = "mxe-host-for-ip-$m[1]-$m[2]-$m[3]-$m[4]";
                     $ip = $m[1] . "." . $m[2] . "." . $m[3] . "." . $m[4];
                     $mxe_hosts[$ip] = $mxe_host;
@@ -2112,11 +2063,11 @@ function ispapi_SaveDNS($params)
             }
             if ($type == "MX") {
                 $mxpref = 100;
-                if (preg_match('/^([0-9]+) (.*)$/', $address, $m)) {
+                if (preg_match("/^([0-9]+) (.*)$/", $address, $m)) {
                     $mxpref = $m[1];
                     $address = $m[2];
                 }
-                if (preg_match('/^([0-9]+)$/', $priority)) {
+                if (preg_match("/^([0-9]+)$/", $priority)) {
                     $mxpref = $priority;
                 }
 
@@ -2124,7 +2075,7 @@ function ispapi_SaveDNS($params)
             }
             if ($type == "FRAME") {
                 $redirect = "FRAME";
-                if (preg_match('/^([^\/]+)(.*)$/', $hostname, $m)) {
+                if (preg_match("/^([^\/]+)(.*)$/", $hostname, $m)) {
                     $hostname = $m[1];
                     $redirect = $m[2] . " " . $redirect;
                 }
@@ -2132,7 +2083,7 @@ function ispapi_SaveDNS($params)
             }
             if ($type == "URL") {
                 $redirect = "REDIRECT";
-                if (preg_match('/^([^\/]+)(.*)$/', $hostname, $m)) {
+                if (preg_match("/^([^\/]+)(.*)$/", $hostname, $m)) {
                     $hostname = $m[1];
                     $redirect = $m[2] . " " . $redirect;
                 }
@@ -2197,7 +2148,7 @@ function ispapi_SaveDNS($params)
         ];
     }
     return [
-        'success' => 'success'
+        "success" => "success"
     ];
 }
 
@@ -2235,7 +2186,7 @@ function ispapi_GetEmailForwarding($params)
             $rrtype = array_shift($fields);
 
             if (($rrtype == "X-SMTP") && ($fields[1] == "MAILFORWARD")) {
-                if (preg_match('/^(.*)\@$/', $fields[0], $m)) {
+                if (preg_match("/^(.*)\@$/", $fields[0], $m)) {
                     $address = $m[1];
                     if (!strlen($address)) {
                         $address = "*";
@@ -2344,7 +2295,7 @@ function ispapi_GetContactDetails($params)
         $values["Admin"] = ispapi_get_contact_info($response["PROPERTY"]["ADMINCONTACT"][0], $params);
         $values["Technical"] = ispapi_get_contact_info($response["PROPERTY"]["TECHCONTACT"][0], $params);
         $values["Billing"] = ispapi_get_contact_info($response["PROPERTY"]["BILLINGCONTACT"][0], $params);
-        if (preg_match('/\.(ca|it|ch|li|se|sg)$/i', $domain)) {
+        if (preg_match("/\.(ca|it|ch|li|se|sg)$/i", $domain)) {
             unset($values["Registrant"]["First Name"]);
             unset($values["Registrant"]["Last Name"]);
             unset($values["Registrant"]["Company Name"]);
@@ -2388,7 +2339,7 @@ function ispapi_SaveContactDetails($params)
             "error" => $status_response["DESCRIPTION"]
         ];
     }
-    $isAffectedByIRTP = ispapi_IsAffectedByIRTP($domain, $params);
+    $isAffectedByIRTP = HXDomain::needsIRTPForRegistrantModification($params, $domain);
 
     $registrant = ispapi_get_contact_info($status_response["PROPERTY"]["OWNERCONTACT"][0], $params);
     if (isset($origparams["contactdetails"]["Registrant"])) {
@@ -2397,12 +2348,12 @@ function ispapi_SaveContactDetails($params)
 
     //the following conditions must be true to trigger registrant change request (IRTP)
     if (
-        preg_match('/Designated Agent/', $params["IRTP"]) &&
+        preg_match("/Designated Agent/", $params["IRTP"]) &&
         $isAffectedByIRTP && (
-            $registrant['First Name'] != $new_registrant['First Name'] ||
-            $registrant['Last Name'] != $new_registrant['Last Name'] ||
-            $registrant['Company Name'] != $new_registrant['Company Name'] ||
-            $registrant['Email'] != $new_registrant['Email']
+            $registrant["First Name"] != $new_registrant["First Name"] ||
+            $registrant["Last Name"] != $new_registrant["Last Name"] ||
+            $registrant["Company Name"] != $new_registrant["Company Name"] ||
+            $registrant["Email"] != $new_registrant["Email"]
         )
     ) {
         $command = array(
@@ -2460,20 +2411,20 @@ function ispapi_SaveContactDetails($params)
         }
 
         $command[$ctype] = array(
-            "FIRSTNAME" => html_entity_decode($p["First Name"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
-            "LASTNAME" => html_entity_decode($p["Last Name"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
-            "ORGANIZATION" => html_entity_decode($p["Company Name"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
-            "STREET" => html_entity_decode($p["Address"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
-            "CITY" => html_entity_decode($p["City"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
-            "STATE" => html_entity_decode($p["State"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
-            "ZIP" => html_entity_decode($p["Postcode"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
-            "COUNTRY" => html_entity_decode($p["Country"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
-            "PHONE" => html_entity_decode($p["Phone"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
-            "FAX" => html_entity_decode($p["Fax"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
-            "EMAIL" => html_entity_decode($p["Email"], ENT_QUOTES | ENT_XML1, 'UTF-8'),
+            "FIRSTNAME" => html_entity_decode($p["First Name"], ENT_QUOTES | ENT_XML1, "UTF-8"),
+            "LASTNAME" => html_entity_decode($p["Last Name"], ENT_QUOTES | ENT_XML1, "UTF-8"),
+            "ORGANIZATION" => html_entity_decode($p["Company Name"], ENT_QUOTES | ENT_XML1, "UTF-8"),
+            "STREET" => html_entity_decode($p["Address"], ENT_QUOTES | ENT_XML1, "UTF-8"),
+            "CITY" => html_entity_decode($p["City"], ENT_QUOTES | ENT_XML1, "UTF-8"),
+            "STATE" => html_entity_decode($p["State"], ENT_QUOTES | ENT_XML1, "UTF-8"),
+            "ZIP" => html_entity_decode($p["Postcode"], ENT_QUOTES | ENT_XML1, "UTF-8"),
+            "COUNTRY" => html_entity_decode($p["Country"], ENT_QUOTES | ENT_XML1, "UTF-8"),
+            "PHONE" => html_entity_decode($p["Phone"], ENT_QUOTES | ENT_XML1, "UTF-8"),
+            "FAX" => html_entity_decode($p["Fax"], ENT_QUOTES | ENT_XML1, "UTF-8"),
+            "EMAIL" => html_entity_decode($p["Email"], ENT_QUOTES | ENT_XML1, "UTF-8"),
         );
         if (strlen($p["Address 2"])) {
-            $command[$ctype]["STREET"] .= " , " . html_entity_decode($p["Address 2"], ENT_QUOTES | ENT_XML1, 'UTF-8');
+            $command[$ctype]["STREET"] .= " , " . html_entity_decode($p["Address 2"], ENT_QUOTES | ENT_XML1, "UTF-8");
         }
         $command[$ctype]["STATE"] = convertStateToCode($command[$ctype]["STATE"], $command[$ctype]["COUNTRY"]);
         if ($isCA) {//converttociracode
@@ -2483,7 +2434,7 @@ function ispapi_SaveContactDetails($params)
         }
     }
 
-    if (preg_match('/\.(it|ch|li|se|sg)$/i', $domain)) {
+    if (preg_match("/\.(it|ch|li|se|sg)$/i", $domain)) {
         unset($command["OWNERCONTACT0"]["FIRSTNAME"]);
         unset($command["OWNERCONTACT0"]["LASTNAME"]);
         unset($command["OWNERCONTACT0"]["ORGANIZATION"]);
@@ -2523,7 +2474,7 @@ function ispapi_SaveContactDetails($params)
         $registrant_command["COMMAND"] = "ModifyContact";
         $registrant_command["CONTACT"] = $status_response["PROPERTY"]["OWNERCONTACT"][0];
 
-        if (!preg_match('/^AUTO\-/i', $registrant_command["CONTACT"])) {
+        if (!preg_match("/^AUTO\-/i", $registrant_command["CONTACT"])) {
             unset($registrant_command["FIRSTNAME"]);
             unset($registrant_command["LASTNAME"]);
             unset($registrant_command["ORGANIZATION"]);
@@ -2673,8 +2624,8 @@ function ispapi_RegisterDomain($params)
     $values = array();
     $origparams = $params;
 
-    $premiumDomainsEnabled = (bool) $params['premiumEnabled'];
-    $premiumDomainsCost = $params['premiumCost'];
+    $premiumDomainsEnabled = (bool) $params["premiumEnabled"];
+    $premiumDomainsCost = $params["premiumCost"];
 
     $params = ispapi_get_utf8_params($params);
 
@@ -2735,7 +2686,7 @@ function ispapi_RegisterDomain($params)
         $command["X-ACCEPT-WHOISTRUSTEE-TAC"] = 1;
     }
 
-    if (preg_match('/\.swiss$/i', $domain)) {
+    if (preg_match("/\.swiss$/i", $domain)) {
         $command["COMMAND"] = "AddDomainApplication";
         $command["CLASS"] = "GOLIVE";
         //INTERNALDNS, WHOIS privacy service, transferlock parameter is not supported in AddDomainApplication command
@@ -2783,7 +2734,7 @@ function ispapi_RegisterDomain($params)
         $values["error"] = $response["DESCRIPTION"];
     }
 
-    if (preg_match('/\.swiss$/i', $domain)) {
+    if (preg_match("/\.swiss$/i", $domain)) {
         if ($response["CODE"] == 200) {
             $application_id = $response["PROPERTY"]["APPLICATION"][0];
             $values["error"] = "APPLICATION <#" . $application_id . "#> SUCCESSFULLY SUBMITTED. STATUS SET TO PENDING UNTIL THE SWISS REGISTRATION PROCESS IS COMPLETED";
@@ -2807,8 +2758,8 @@ function ispapi_TransferDomain($params)
     /** @var \WHMCS\Domains\Domain $domain */
     $domain = $params["domainObj"];
 
-    $premiumDomainsEnabled = (bool) $params['premiumEnabled'];
-    $premiumDomainsCost = $params['premiumCost'];
+    $premiumDomainsEnabled = (bool) $params["premiumEnabled"];
+    $premiumDomainsCost = $params["premiumCost"];
 
     //domain transfer pre-check
     $command = [
@@ -2893,7 +2844,7 @@ function ispapi_TransferDomain($params)
 
     //1) don't send owner admin tech billing contact for .NU .DK .CA, .US, .PT, .NO, .SE, .ES domains
     //2) do not send contact information for gTLD (Including nTLDs)
-    if (preg_match('/\.([a-z]{3,}|nu|dk|ca|us|pt|no|se|es)$/i', $domain->getDomain())) {
+    if (preg_match("/\.([a-z]{3,}|nu|dk|ca|us|pt|no|se|es)$/i", $domain->getDomain())) {
         unset($command["OWNERCONTACT0"]);
         unset($command["ADMINCONTACT0"]);
         unset($command["TECHCONTACT0"]);
@@ -2901,7 +2852,7 @@ function ispapi_TransferDomain($params)
     }
 
     //don't send owner billing contact for .FR domains
-    if (preg_match('/\.(fr|pm|re|tf|wf|yt)$/i', $domain->getDomain())) {
+    if (preg_match("/\.(fr|pm|re|tf|wf|yt)$/i", $domain->getDomain())) {
         unset($command["OWNERCONTACT0"]);
         unset($command["BILLINGCONTACT0"]);
     }
@@ -2916,7 +2867,7 @@ function ispapi_TransferDomain($params)
     ], $params);
 
     if ($qr["CODE"] == 200) {
-        $period_array = explode(",", $qr['PROPERTY']['ZONETRANSFERPERIODS'][0]);
+        $period_array = explode(",", $qr["PROPERTY"]["ZONETRANSFERPERIODS"][0]);
         // if transfer for free is supported and regperiod not listed in supported periods
         if (!in_array($params["regperiod"] . "Y", $period_array) && in_array("0Y", $period_array)) {
                 $command["PERIOD"] = "0Y";
@@ -2933,11 +2884,11 @@ function ispapi_TransferDomain($params)
         //check if the domain has a premium price
 
         //checkdomaintransfer
-        if ($r["CODE"] == 200 && !empty($r['PROPERTY']['CLASS'][0])) {
+        if ($r["CODE"] == 200 && !empty($r["PROPERTY"]["CLASS"][0])) {
             //check if the price displayed to the customer is equal to the real cost at the registar
-            $price = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_" . $r['PROPERTY']['CLASS'][0] . "_TRANSFER");
+            $price = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_" . $r["PROPERTY"]["CLASS"][0] . "_TRANSFER");
             if ($price !== false && $premiumDomainsCost == $price) {
-                $command["CLASS"] = $r['PROPERTY']['CLASS'][0];
+                $command["CLASS"] = $r["PROPERTY"]["CLASS"][0];
             } else {
                 return [
                     "error" => "Price mismatch. Got $premiumDomainsCost, but expected $price."
@@ -3079,14 +3030,14 @@ function ispapi_TransferSync($params)
     // check if the transfer is still pending
     $r = HXDomainTransfer::getStatus($params, $domain_pc);
     if ($r["success"] === true) {
-        logActivity($domain_idn . ': Domain Transfer is still pending (Existing Request).');
+        logActivity($domain_idn . ": Domain Transfer is still pending (Existing Request).");
         return [];//still pending
     }
 
     // get date of last transfer request
     $r = HXDomainTransfer::getRequestLog($params, $domain_pc);
     if ($r["success"] === false || $r["data"]["COUNT"][0] === "0") {
-        logActivity($domain_idn . ': Domain Transfer is still pending (No Request Log found).');
+        logActivity($domain_idn . ": Domain Transfer is still pending (No Request Log found).");
         return [];//still pending
     }
 
@@ -3115,7 +3066,7 @@ function ispapi_TransferSync($params)
                 }
             }
         }
-        logActivity($domain_idn . ': Domain Transfer finished.');
+        logActivity($domain_idn . ": Domain Transfer finished.");
         return [
             "completed" => true,
             "expirydate" => preg_replace("/ .+$/", "", $logdate) //YYYY-MM-DD
@@ -3138,11 +3089,11 @@ function ispapi_TransferSync($params)
                 $values["reason"] .= PHP_EOL . implode(PHP_EOL, $r["data"]["OPERATIONINFO"]);
             }
         }
-        logActivity($domain_idn . ': Domain Transfer failed.');
+        logActivity($domain_idn . ": Domain Transfer failed.");
         return $values;
     }
 
-    logActivity($domain_idn . ': Domain Transfer is still pending.');
+    logActivity($domain_idn . ": Domain Transfer is still pending.");
     return [];// still pending
 }
 
@@ -3212,9 +3163,9 @@ function ispapi_Sync($params)
         }
         if ($r["CODE"] === "200" && $r["PROPERTY"]["COUNT"][0] === "0") {
             // deleted, not restorable
-            DB::table('tbldomains')
+            DB::table("tbldomains")
                 ->where([
-                    [ 'domainid', '=', $params["domainid"] ]
+                    [ "domainid", "=", $params["domainid"] ]
                 ])
                 ->update(["status" => "Expired"]);
             return [
@@ -3425,14 +3376,14 @@ function ispapi_getTLDPricing($params)
         $item = new \WHMCS\Domain\TopLevel\ImportItem();
         $item->setExtension($tld)
             ->setYears($cfg->periods["registration"])
-            ->setRegisterPrice($p['registration'])
-            ->setRenewPrice($p['renewal'])
-            ->setTransferPrice($p['transfer'])
+            ->setRegisterPrice($p["registration"])
+            ->setRenewPrice($p["renewal"])
+            ->setTransferPrice($p["transfer"])
             ->setGraceFeeDays($cfg->periods["gracedays"])
-            ->setGraceFeePrice($p['grace'])
+            ->setGraceFeePrice($p["grace"])
             ->setRedemptionFeeDays($cfg->periods["redemptiondays"])
-            ->setRedemptionFeePrice($p['redemption'])
-            ->setCurrency($p['currency'])
+            ->setRedemptionFeePrice($p["redemption"])
+            ->setCurrency($p["currency"])
             ->setEppRequired($cfg->authRequired === 1);
         $results[] = $item;
     }
@@ -3566,8 +3517,8 @@ function ispapi_use_additionalfields($params, &$command)
 
     foreach ($myadditionalfields as $field) {
         $name = $field["Name"];
-        if (isset($params['additionalfields'][$name])) {
-            $value = $params['additionalfields'][$name];
+        if (isset($params["additionalfields"][$name])) {
+            $value = $params["additionalfields"][$name];
 
             $ignore_countries = array();
             if (isset($field["Ispapi-IgnoreForCountries"])) {
@@ -3602,10 +3553,10 @@ function ispapi_use_additionalfields($params, &$command)
 
                     //Reflect these changes also in WHMCS DB but just for free-text inputs
                     if ($field["Type"] === "text" && $value !== $command[$key]) {
-                        $result = DB::table('tbldomainsadditionalfields')
+                        $result = DB::table("tbldomainsadditionalfields")
                             ->where([
-                                [ 'domainid', '=', $params["domainid"] ],
-                                [ 'name', '=', $name ]
+                                [ "domainid", "=", $params["domainid"] ],
+                                [ "name", "=", $name ]
                             ])
                             ->update(["value" => $command[$key]]);
                     }
