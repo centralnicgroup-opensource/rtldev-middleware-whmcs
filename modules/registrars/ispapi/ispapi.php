@@ -2928,7 +2928,7 @@ function ispapi_RenewDomain($params)
     $domain = $params["sld"] . "." . $params["tld"];
 
     // --- Domain Restore
-    if ($params["isInRedemptionGracePeriod"]) {
+    if (isset($params["isInRedemptionGracePeriod"]) && $params["isInRedemptionGracePeriod"]) {
         $r = HXDomain::restore($params, $domain);
         logActivity($domain . ": " . (isset($r["error"]) ? $r["error"] : $r["message"]));
         if (!isset($r["periodLeft"])) {
@@ -3375,7 +3375,7 @@ function ispapi_getTLDPricing($params)
         // All the set methods can be chained and utilised together.
         $item = new \WHMCS\Domain\TopLevel\ImportItem();
         $item->setExtension($tld)
-            ->setYears($cfg->periods["registration"])
+            ->setYears($cfg->periods["registration"])// 1st one is the minimum period also used for transfers
             ->setRegisterPrice($p["registration"])
             ->setRenewPrice($p["renewal"])
             ->setTransferPrice($p["transfer"])
