@@ -3066,7 +3066,7 @@ function ispapi_TransferSync($params)
                 }
             }
         }
-        $expirationdatets = strtotime($logdate);
+        $expirationdatets = strtotime($r["data"]["EXPIRATIONDATE"][0]);
         $expirationdate = date("Y-m-d", $expirationdatets);
         logActivity($domain_idn . ": Domain Transfer finished. expirydate: " . $expirationdate);
         return [
