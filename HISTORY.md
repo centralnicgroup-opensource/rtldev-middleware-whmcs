@@ -1,3 +1,10 @@
+# [4.9.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.8.2...v4.9.0) (2021-04-29)
+
+
+### Features
+
+* **private nameservers:** added listing of domain related private nameservers ([2517350](https://github.com/hexonet/whmcs-ispapi-registrar/commit/2517350b8cdf64e3033afacce0530c963e3d4706))
+
 ## [4.8.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.8.1...v4.8.2) (2021-04-28)
 
 
