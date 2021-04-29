@@ -4,9 +4,6 @@ on: [push, pull_request]
 jobs:
   test:
     name: Test @ PHP ${{ matrix.php-version }} - x86 - ubuntu-latest
-    # Support [skip ci] out of box with github actions Workaround
-    # Only works for push https://github.com/actions/runner/issues/774
-    if: github.event_name == 'pull_request' || (github.event_name == 'push' && contains(toJson(github.event.commits), '[skip ci]') == false)
     strategy:
       matrix:
         php-version:
@@ -15,21 +12,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-        with:
-          submodules: recursive
-      - name: Setup NodeJS LTS
-        uses: actions/setup-node@v2
-      - name: Install dependencies
-        run: |
-          npm prune
-          npm i
       - name: Install Dependencies::PHP${{ matrix.php-version }}
         run: |
           echo "$HOME/.composer/vendor/bin" >> $GITHUB_PATH
           composer global require dealerdirect/phpcodesniffer-composer-installer roave/security-advisories:dev-master squizlabs/php_codesniffer phpcompatibility/php-compatibility
         # TODO migrate the below to gulp calls
       - name: Check PHP Compatibility
-        run: phpcs --standard=PHPCompatibility -q -n --colors --runtime-set testVersion ${{ matrix.php-version }} --extensions=php --ignore=node_modules,vendor,templates_c,modules/registrars/ispapi/lib,modules/registrars/ispapi/migration,modules/registrars/ispapi/hooks_migration .
+        run: phpcs --standard=PHPCompatibility -q -n --colors --runtime-set testVersion ${{ matrix.php-version }} --extensions=php,inc,lib --ignore=node_modules,vendor,templates_c,modules/registrars/ispapi/lib,modules/registrars/ispapi/migration,modules/registrars/ispapi/hooks_migration .
       - name: Check PSR12 Standard
         run: phpcs --standard=PSR12 -q -n --colors --extensions=php,inc,lib --ignore=node_modules,vendor,templates_c,modules/registrars/ispapi/lib,modules/registrars/ispapi/migration,modules/registrars/ispapi/hooks_migration .
   release:
@@ -57,5 +46,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           WHMCSMP_LOGIN: ${{ secrets.WHMCSMP_LOGIN }}
           WHMCSMP_PASSWORD: ${{ secrets.WHMCSMP_PASSWORD }}
-          WHMCSMP_PRODUCTID: ${{ secrets.WHMCSMP_PRODUCTID_ISPAPI_REGISTRAR }}
+          WHMCSMP_PRODUCTID: ${{ secrets.WHMCSMP_PRODUCTID }}
         run: npx semantic-release
