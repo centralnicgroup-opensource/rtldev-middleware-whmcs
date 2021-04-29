@@ -122,22 +122,36 @@ add_hook("DailyCronJob", 1, function ($vars) {
     }
 });
 
-add_hook("ClientAreaPageDomainDetails", 1, function ($vars) {
+function ispapi_domainMenuUpdate($vars)
+{
     // TLDs not supporting Transfer Lock: remove "Registrar Lock" menu entry.
     $domain = Menu::context("domain");
 
     if ($domain->registrar == "ispapi") {
-        $r = HXDomain::getRegistrarLock(getregistrarconfigoptions("ispapi"), $domain->domain);
+        $menu = $vars["primarySidebar"]->getChild("Domain Details Management");
 
+        $r = HXDomain::getRegistrarLock(getregistrarconfigoptions("ispapi"), $domain->domain);
         if (isset($r["error"])) {
             $vars["managementoptions"]["locking"] = false;
             $vars["lockstatus"] = false;
-            $menu = $vars["primarySidebar"]->getChild("Domain Details Management");
             if (!is_null($menu)) {
                 $menu->removeChild("Registrar Lock Status");
             }
         }
 
+        if (!is_null($menu)) {
+            $menuItem = $menu->getChild("Private Nameservers List");
+            if (!is_null($menuItem)) {
+                $menuItem->moveUp()->moveUp()->moveUp();
+            }
+        }
+
         return $vars;
     }
-});
+}
+
+add_hook("ClientAreaPageDomainDNSManagement", 1, ispapi_domainMenuUpdate);
+add_hook("ClientAreaPageDomainEPPCode", 1, ispapi_domainMenuUpdate);
+add_hook("ClientAreaPageDomainContacts", 1, ispapi_domainMenuUpdate);
+add_hook("ClientAreaPageDomainRegisterNameservers", 1, ispapi_domainMenuUpdate);
+add_hook("ClientAreaPageDomainDetails", 1, ispapi_domainMenuUpdate);

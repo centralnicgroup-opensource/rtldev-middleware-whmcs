@@ -892,6 +892,7 @@ function ispapi_ClientAreaCustomButtonArray($params)
         $buttonarray["WHOIS Privacy"] = "whoisprivacy";
     }
     $domain = $params["domainObj"]->getDomain();
+
     if (preg_match("/\.ca$/i", $domain)) {
         $buttonarray[".CA Registrant WHOIS Privacy"] = "whoisprivacy_ca";
         $buttonarray[".CA Change of Registrant"] = "registrantmodification_ca";
@@ -909,9 +910,26 @@ function ispapi_ClientAreaCustomButtonArray($params)
             $buttonarray["Web Apps"] = "webapps";
         }
     }
+    $buttonarray["Private Nameservers List"] = "pnslist";
     return $buttonarray;
 }
 
+/**
+ * Handle the WebApps management page of a domain
+ *
+ * @param array $params common module parameters
+ *
+ * @return array an array with a template name
+ */
+function ispapi_pnslist($params)
+{
+    $params = injectDomainObjectIfNecessary($params);
+    $r = HXDomain::getStatus($params, $params["domainObj"]->getDomain(), true);
+    return [
+        "templatefile" => "tpl_ca_pnslist",
+        "vars" => $r
+    ];
+}
 
 /**
  * Handle the WebApps management page of a domain
