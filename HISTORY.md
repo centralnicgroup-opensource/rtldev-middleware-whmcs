@@ -1,3 +1,10 @@
+## [4.9.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.9.0...v4.9.1) (2021-05-03)
+
+
+### Bug Fixes
+
+* **geteppcode:** add logging to System Activity Log ([23f0e28](https://github.com/hexonet/whmcs-ispapi-registrar/commit/23f0e28f8e74e82dbf88bc701f9cfd927678c8f8))
+
 # [4.9.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.8.2...v4.9.0) (2021-04-29)
 
 
