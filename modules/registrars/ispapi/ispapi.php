@@ -1816,7 +1816,9 @@ function ispapi_GetEPPCode($params)
         $params = $params["original"];
     }
     $domain = $params["sld"] . "." . $params["tld"];
-    return HXDomain::getAuthCode($params, $domain);
+    $r = HXDomain::getAuthCode($params, $domain);
+    logActivity($domain . ": " . (isset($r["error"]) ? $r["error"] : "Successfully loaded the epp code."));
+    return $r;
 }
 
 /**
