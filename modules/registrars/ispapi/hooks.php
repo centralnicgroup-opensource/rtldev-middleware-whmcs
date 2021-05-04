@@ -122,8 +122,7 @@ add_hook("DailyCronJob", 1, function ($vars) {
     }
 });
 
-function ispapi_domainMenuUpdate($vars)
-{
+$ispapi_domainMenuUpdate = function ($vars) {
     // TLDs not supporting Transfer Lock: remove "Registrar Lock" menu entry.
     $domain = Menu::context("domain");
 
@@ -148,10 +147,10 @@ function ispapi_domainMenuUpdate($vars)
 
         return $vars;
     }
-}
+};
 
-add_hook("ClientAreaPageDomainDNSManagement", 1, ispapi_domainMenuUpdate);
-add_hook("ClientAreaPageDomainEPPCode", 1, ispapi_domainMenuUpdate);
-add_hook("ClientAreaPageDomainContacts", 1, ispapi_domainMenuUpdate);
-add_hook("ClientAreaPageDomainRegisterNameservers", 1, ispapi_domainMenuUpdate);
-add_hook("ClientAreaPageDomainDetails", 1, ispapi_domainMenuUpdate);
+add_hook("ClientAreaPageDomainDNSManagement", 1, $ispapi_domainMenuUpdate);
+add_hook("ClientAreaPageDomainEPPCode", 1, $ispapi_domainMenuUpdate);
+add_hook("ClientAreaPageDomainContacts", 1, $ispapi_domainMenuUpdate);
+add_hook("ClientAreaPageDomainRegisterNameservers", 1, $ispapi_domainMenuUpdate);
+add_hook("ClientAreaPageDomainDetails", 1, $ispapi_domainMenuUpdate);
