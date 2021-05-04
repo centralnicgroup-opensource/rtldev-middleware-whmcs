@@ -1,3 +1,10 @@
+## [4.9.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.9.1...v4.9.2) (2021-05-04)
+
+
+### Bug Fixes
+
+* **hooks.php:** fixed php warning regarding unknown constant ([58dce8c](https://github.com/hexonet/whmcs-ispapi-registrar/commit/58dce8cb84aafd621c95c1932b0f3b72d4ad3903))
+
 ## [4.9.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.9.0...v4.9.1) (2021-05-03)
 
 
