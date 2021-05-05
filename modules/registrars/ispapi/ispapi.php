@@ -3086,12 +3086,11 @@ function ispapi_TransferSync($params)
                 }
             }
         }
-        $expirationdatets = strtotime($r["data"]["EXPIRATIONDATE"][0]);
-        $expirationdate = date("Y-m-d", $expirationdatets);
-        logActivity($domain_idn . ": Domain Transfer finished. expirydate: " . $expirationdate);
+        $expdate = Ispapi::castDate($r["data"]["EXPIRATIONDATE"][0]);
+        logActivity($domain_idn . ": Domain Transfer finished. expirydate: " . $expdate["long"]);
         return [
             "completed" => true,
-            "expirydate" => $expirationdate
+            "expirydate" => $expdate["short"]
         ];
     }
 
