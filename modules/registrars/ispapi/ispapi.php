@@ -3086,12 +3086,13 @@ function ispapi_TransferSync($params)
                 }
             }
         }
-        $expdate = Ispapi::castDate($r["data"]["EXPIRATIONDATE"][0]);
-        logActivity($domain_idn . ": Domain Transfer finished. expirydate: " . $expdate["long"]);
-        return [
-            "completed" => true,
-            "expirydate" => $expdate["short"]
-        ];
+        $values = Ispapi::castExpirationDate(
+            $r["data"]["EXPIRATIONDATE"][0],
+            $r["data"]["STATUS"][0]
+        );
+        $values["completed"] = true;
+        logActivity($domain_idn . ": Domain Transfer finished. expirydate: " . $values["expirydate"]);
+        return $values;
     }
 
     // in case neither domain nor transfer object are available in xirca
@@ -3144,6 +3145,7 @@ function ispapi_Sync($params)
     ], $params);
 
     if ($r["CODE"] === "531") {
+        logActivity($domainstr . ": Domain Sync finished. Status updated to `Transferred Away`");
         return [
             "transferredAway" => true
         ];
@@ -3162,12 +3164,13 @@ function ispapi_Sync($params)
             "OBJECTID" => $domainstr
         ], $params);
         if ($r["CODE"] === "545") {
+            logActivity($domainstr . ": Domain Sync finished. Status updated to `Transferred Away`");
             return [
                 "transferredAway" => true
             ];
         }
         if ($r["CODE"] === "200" && $r["PROPERTY"]["COUNT"][0] > 0) {
-            $expirationdate = $r["PROPERTY"]["UPDATEDDATE"][0];
+            $expdate = Ispapi::castDate($r["PROPERTY"]["UPDATEDDATE"][0]);
             $failureperiod = 0;
             $r = Ispapi::call([
                 "COMMAND" => "QueryDomainRepositoryInfo",
@@ -3176,11 +3179,10 @@ function ispapi_Sync($params)
             if ($r["CODE"] === "200" && !empty($r["PROPERTY"]["ZONERENEWALFAILUREPERIOD"][0])) {
                 $failureperiod = intval($r["PROPERTY"]["ZONERENEWALFAILUREPERIOD"][0]) * 86400;//days to s
             }
-            $expirationts = strtotime($expirationdate) - $failureperiod;
-            return [
-                "expirydate" => date("Y-m-d", $expirationts),
-                "expired" => gmmktime() > $expirationts
-            ];
+            // TODO: use EXPIRATIONDATE after RSRBE-4110 got covered
+            $values = Ispapi::castExpirationDate($expdate["ts"] + $failureperiod);
+            logActivity($domainstr . ": Domain Sync finished. Updated expirydate: " . $values["expirydate"]);
+            return $values;
         }
         if ($r["CODE"] === "200" && $r["PROPERTY"]["COUNT"][0] === "0") {
             // deleted, not restorable
@@ -3189,21 +3191,23 @@ function ispapi_Sync($params)
                     [ "domainid", "=", $params["domainid"] ]
                 ])
                 ->update(["status" => "Expired"]);
+            logActivity($domainstr . ": Domain Sync finished. Status updated to `Expired` (not restorable).");
             return [
                 "expired" => true// this doesn't change anything that's why we update the status
             ];
         }
+        logActivity($domainstr . ": Domain Sync finished. Status Detection failed - probably a temporary issue.");
         return [
         ]; // whmcs should show a curl error
     }
     if ($r["CODE"] !== "200") {
+        logActivity($domainstr . ": Domain Sync failed. See Module Log.");
         return [
             "error" => $r["DESCRIPTION"]
         ];
     }
 
     $r = $r["PROPERTY"];
-
     $command = [
         "COMMAND" => "ModifyDomain",
         "DOMAIN" => $domainstr
@@ -3320,33 +3324,8 @@ function ispapi_Sync($params)
         Ispapi::call($command, $params);
     }
 
-    $values = [];
-    if (preg_match("/ACTIVE/i", $r["STATUS"][0])) {
-        $values["active"] = true;
-    }
-
-    $expirationdate = $r["EXPIRATIONDATE"][0];
-    $expirationts = strtotime($expirationdate);
-    $finalizationdate = $r["FINALIZATIONDATE"][0];// 2020-04-26 21:59:59
-    $paiduntildate = $r["PAIDUNTILDATE"][0];
-    $accountingdate = $r["ACCOUNTINGDATE"][0];
-    $failuredate = $r["FAILUREDATE"][0];
-    if (preg_match("/DELETE/i", $r["STATUS"][0])) {
-        $values["expirydate"] = preg_replace("/ .*$/", "", $expirationdate);
-        $values["expired"] = gmmktime() > $expirationts;
-    }
-
-    if ($failuredate > $paiduntildate) {
-        $values["expirydate"] = preg_replace("/ .*$/", "", $paiduntildate);
-        $values["expired"] = gmmktime() > strtotime($paiduntildate);
-    } else {
-        // https://github.com/hexonet/whmcs-ispapi-registrar/issues/82
-        $finalizationts = strtotime($finalizationdate);
-        $paiduntilts = strtotime($paiduntildate);
-        $expirationts = $finalizationts + ($paiduntilts - $expirationts);
-        $values["expirydate"] = date("Y-m-d", $expirationts);
-        $values["expired"] = gmmktime() > $expirationts;
-    }
+    $values = Ispapi::castExpirationDate($r["EXPIRATIONDATE"][0], $r["STATUS"][0]);
+    logActivity($domainstr . ": Domain Sync finished. Updated expirydate: " . $values["expirydate"]);
     return $values;
 }
 
