@@ -1614,8 +1614,9 @@ function ispapi_SaveRegistrarLock($params)
  */
 function ispapi_GetDomainInformation($params)
 {
+    //code optimization on getting nameservers and transferLock setting (applicable since WHMCS 7.6)
+    //we kept the GetNameservers(), GetRegistrarLock() for the users with < WHMCS 7.6
     $values = [];
-    $origparams = $params;
     $params = ispapi_get_utf8_params($params);
     $domain = $params["sld"] . "." . $params["tld"];
 
@@ -1624,7 +1625,7 @@ function ispapi_GetDomainInformation($params)
         $thedomain = new \WHMCS\Domain\Registrar\Domain();
         $thedomain
             ->setDomain($domain)
-            ->setNameservers($r["data"]["NAMESERVER"]);
+            ->setNameservers(Ispapi::castNameservers($r["data"]["NAMESERVER"]));
         return $thedomain;
     }
 
@@ -1696,47 +1697,33 @@ function ispapi_GetDomainInformation($params)
     }
 
     $r = $r["data"];
-    //setIrtpTransferLock
-    if (isset($r["TRADE-TRANSFERLOCK-EXPIRATIONDATE"][0])) {
-        $values["setIrtpTransferLock"] = true;
-    }
-
-    //code optimization on getting nameservers and transferLock setting (applicable since WHMCS 7.6)
-    //we kept the GetNameservers(), GetRegistrarLock() for the users with < WHMCS 7.6
     //nameservers
-    //no findings for htmlspecialchars in other registrar modules, looks like this got fixed
-    for ($i = 1; $i <= 5; $i++) {
-        $values["nameservers"]["ns" . $i] = $r["NAMESERVER"][$i - 1];
-    }
-
+    $values["nameservers"] = Ispapi::castNameservers($r["NAMESERVER"]);
     //transferlock settings
-    $values["transferlock"] = false;
-    if (isset($r["TRANSFERLOCK"][0]) && $r["TRANSFERLOCK"][0] === "1") {
-        $values["transferlock"] = true;
-    }
-
-
+    $values["setIrtpTransferLock"] = isset($r["TRADE-TRANSFERLOCK-EXPIRATIONDATE"][0]);
+    $values["transferlock"] = (isset($r["TRANSFERLOCK"][0]) && $r["TRANSFERLOCK"][0] === "1");
+    //expirydate
     $values["expirydate"] = Ispapi::castDate($r["EXPIRATIONDATE"][0]);
     $values["expirydate"] = \WHMCS\Carbon::createFromFormat("Y-m-d H:i:s", $values["expirydate"]["long"]);
 
     //IRTP handling
     $isAffectedByIRTP = HXDomain::needsIRTPForRegistrantModification($params, $domain);
     $values["contactChangeExpiryDate"] = null;
-    $values["setIsIrtpEnabled"] = false;
     $values["setDomainContactChangePending"] = false;
     $values["setPendingSuspension"] = false;
+    $values["setIsIrtpEnabled"] = false;
     if (preg_match("/Designated Agent/", $params["IRTP"]) && $isAffectedByIRTP) {
         //setIsIrtpEnabled
         $values["setIsIrtpEnabled"] = true;
 
         //setDomainContactChangePending
-        $r = Ispapi::call([
+        $r2 = Ispapi::call([
             "COMMAND" => "QueryDomainPendingRegistrantVerificationList",
             "DOMAIN" => $domain
         ], $params);
 
-        if ($r["CODE"] === "200") {
-            $r = $r["PROPERTY"];
+        if ($r2["CODE"] === "200") {
+            $r2 = $r2["PROPERTY"];
             //check if registrant change has been requested
             $rTrade = Ispapi::call([
                 "COMMAND" => "StatusDomainTrade",
@@ -1744,15 +1731,15 @@ function ispapi_GetDomainInformation($params)
             ], $params);
             if (
                 ($rTrade["CODE"] === "200")
-                && isset($r["X-REGISTRANT-VERIFICATION-STATUS"][0])
-                && preg_match("/^(PENDING|OVERDUE)$/i", $r["X-REGISTRANT-VERIFICATION-STATUS"][0])
+                && isset($r2["X-REGISTRANT-VERIFICATION-STATUS"][0])
+                && preg_match("/^(PENDING|OVERDUE)$/i", $r2["X-REGISTRANT-VERIFICATION-STATUS"][0])
             ) {
                 $values["setDomainContactChangePending"] = true;
                 $values["setPendingSuspension"] = true;
             }
             //setDomainContactChangeExpiryDate
             if (isset($r["X-REGISTRANT-VERIFICATION-DUEDATE"][0])) {
-                $values["contactChangeExpiryDate"] = Ispapi::castDate($r["X-REGISTRANT-VERIFICATION-DUEDATE"][0]);
+                $values["contactChangeExpiryDate"] = Ispapi::castDate($r2["X-REGISTRANT-VERIFICATION-DUEDATE"][0]);
                 $values["contactChangeExpiryDate"] = \WHMCS\Carbon::createFromFormat("Y-m-d H:i:s", $values["contactChangeExpiryDate"]["long"]);
             }
         }
@@ -1848,28 +1835,20 @@ function ispapi_GetEPPCode($params)
  */
 function ispapi_GetNameservers($params)
 {
-    $values = array();
     if (isset($params["original"])) {
         $params = $params["original"];
     }
-    $domain = $params["sld"] . "." . $params["tld"];
-
-    $command = array(
+    $r = Ispapi::call([
         "COMMAND" => "StatusDomain",
-        "DOMAIN" => $domain
-    );
-    $response = Ispapi::call($command, $params);
-    if ($response["CODE"] == 200) {
+        "DOMAIN" => $params["sld"] . "." . $params["tld"]
+    ], $params);
+    if ($r["CODE"] === "200") {
         //no findings for htmlspecialchars in other registrar modules, looks like this got fixed
-        $values["ns1"] = $response["PROPERTY"]["NAMESERVER"][0];
-        $values["ns2"] = $response["PROPERTY"]["NAMESERVER"][1];
-        $values["ns3"] = $response["PROPERTY"]["NAMESERVER"][2];
-        $values["ns4"] = $response["PROPERTY"]["NAMESERVER"][3];
-        $values["ns5"] = $response["PROPERTY"]["NAMESERVER"][4];
-    } else {
-        $values["error"] = $response["DESCRIPTION"];
+        return Ispapi::castNameservers($r["PROPERTY"]["NAMESERVER"]);
     }
-    return $values;
+    return [
+        "error" => $r["DESCRIPTION"]
+    ];
 }
 
 /**
@@ -1890,7 +1869,7 @@ function ispapi_SaveNameservers($params)
     $command = array(
         "COMMAND" => "ModifyDomain",
         "DOMAIN" => $domain,
-        "NAMESERVER" => array($params["ns1"], $params["ns2"], $params["ns3"], $params["ns4"], $params["ns5"]),
+        "NAMESERVER" => Ispapi::castNameserversBE($params),
         "INTERNALDNS" => 1
     );
     $response = Ispapi::call($command, $params);
@@ -2553,11 +2532,10 @@ function ispapi_RegisterNameserver($params)
     if (isset($params["original"])) {
         $params = $params["original"];
     }
-    $nameserver = $params["nameserver"];
 
     $command = array(
         "COMMAND" => "AddNameserver",
-        "NAMESERVER" => $nameserver,
+        "NAMESERVER" => $params["nameserver"],
         "IPADDRESS0" => $params["ipaddress"],
     );
     $response = Ispapi::call($command, $params);
@@ -2580,11 +2558,10 @@ function ispapi_ModifyNameserver($params)
     if (isset($params["original"])) {
         $params = $params["original"];
     }
-    $nameserver = $params["nameserver"];
 
     $command = array(
         "COMMAND" => "ModifyNameserver",
-        "NAMESERVER" => $nameserver,
+        "NAMESERVER" => $params["nameserver"],
         "DELIPADDRESS0" => $params["currentipaddress"],
         "ADDIPADDRESS0" => $params["newipaddress"],
     );
@@ -2608,11 +2585,10 @@ function ispapi_DeleteNameserver($params)
     if (isset($params["original"])) {
         $params = $params["original"];
     }
-    $nameserver = $params["nameserver"];
 
     $command = array(
         "COMMAND" => "DeleteNameserver",
-        "NAMESERVER" => $nameserver,
+        "NAMESERVER" => $params["nameserver"]
     );
     $response = Ispapi::call($command, $params);
     if ($response["CODE"] != 200) {
@@ -2705,10 +2681,7 @@ function ispapi_RegisterDomain($params)
         "COMMAND" => "AddDomain",
         "DOMAIN" => $domain,
         "PERIOD" => $params["regperiod"],
-        "NAMESERVER0" => $params["ns1"],
-        "NAMESERVER1" => $params["ns2"],
-        "NAMESERVER2" => $params["ns3"],
-        "NAMESERVER3" => $params["ns4"],
+        "NAMESERVER" => Ispapi::castNameserversBE($params),
         "OWNERCONTACT0" => $registrant,
         "ADMINCONTACT0" => $admin,
         "TECHCONTACT0" => $admin,
@@ -2865,10 +2838,7 @@ function ispapi_TransferDomain($params)
         "COMMAND" => "TransferDomain",
         "DOMAIN" => $domain->getDomain(),
         "PERIOD" => $params["regperiod"],
-        "NAMESERVER0" => $params["ns1"],
-        "NAMESERVER1" => $params["ns2"],
-        "NAMESERVER2" => $params["ns3"],
-        "NAMESERVER3" => $params["ns4"],
+        "NAMESERVER" => Ispapi::castNameserversBE($params),
         "OWNERCONTACT0" => $registrant,
         "ADMINCONTACT0" => $admin,
         "TECHCONTACT0" => $admin,
