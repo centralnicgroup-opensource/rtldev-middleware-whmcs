@@ -1643,7 +1643,7 @@ function ispapi_GetDomainInformation($params)
                 throw new \Exception("Domain no longer in management - probably transferred away.");
             }
             if ($r["CODE"] === "200" && $r["PROPERTY"]["COUNT"][0] > 0) {
-                $expirationdate = $r["PROPERTY"]["UPDATEDDATE"][0];
+                $expdate = Ispapi::castDate($r["PROPERTY"]["UPDATEDDATE"][0]);
                 $failureperiod = 0;
                 $r = Ispapi::call([
                     "COMMAND" => "QueryDomainRepositoryInfo",
@@ -1652,8 +1652,8 @@ function ispapi_GetDomainInformation($params)
                 if ($r["CODE"] === "200" && !empty($r["PROPERTY"]["ZONERENEWALFAILUREPERIOD"][0])) {
                     $failureperiod = intval($r["PROPERTY"]["ZONERENEWALFAILUREPERIOD"][0]) * 86400;//days to s
                 }
-                $expirationts = strtotime($expirationdate) - $failureperiod;
-                if (gmmktime() > $expirationts) { // domain really expired
+                $expdate = Ispapi::castExpirationDate($expdate["ts"] + $failureperiod);
+                if ($expdate["expired"]) { // domain really expired
                     throw new \Exception("Domain expired, but is still renewable leading to redemption fees.");
                 }
                 throw new \Exception("Domain expired, but is still renewable.");
@@ -1706,8 +1706,16 @@ function ispapi_GetDomainInformation($params)
         $values["transferlock"] = true;
     }
 
+
+    $values["expirydate"] = Ispapi::castDate($r["EXPIRATIONDATE"][0]);
+    $values["expirydate"] = \WHMCS\Carbon::createFromFormat("Y-m-d H:i:s", $values["expirydate"]["long"]);
+
     //IRTP handling
     $isAffectedByIRTP = HXDomain::needsIRTPForRegistrantModification($params, $domain);
+    $values["contactChangeExpiryDate"] = null;
+    $values["setIsIrtpEnabled"] = false;
+    $values["setDomainContactChangePending"] = false;
+    $values["setPendingSuspension"] = false;
     if (preg_match("/Designated Agent/", $params["IRTP"]) && $isAffectedByIRTP) {
         //setIsIrtpEnabled
         $values["setIsIrtpEnabled"] = true;
@@ -1718,7 +1726,7 @@ function ispapi_GetDomainInformation($params)
             "DOMAIN" => $domain
         ], $params);
 
-        if ($r["CODE"] == 200) {
+        if ($r["CODE"] === "200") {
             $r = $r["PROPERTY"];
             //check if registrant change has been requested
             $rTrade = Ispapi::call([
@@ -1726,7 +1734,7 @@ function ispapi_GetDomainInformation($params)
                 "DOMAIN" => $domain
             ], $params);
             if (
-                ($rTrade["CODE"] == 200)
+                ($rTrade["CODE"] === "200")
                 && isset($r["X-REGISTRANT-VERIFICATION-STATUS"][0])
                 && preg_match("/^(PENDING|OVERDUE)$/i", $r["X-REGISTRANT-VERIFICATION-STATUS"][0])
             ) {
@@ -1735,8 +1743,8 @@ function ispapi_GetDomainInformation($params)
             }
             //setDomainContactChangeExpiryDate
             if (isset($r["X-REGISTRANT-VERIFICATION-DUEDATE"][0])) {
-                $setDomainContactChangeExpiryDate = preg_replace("/ .*/", "", $r["X-REGISTRANT-VERIFICATION-DUEDATE"][0]);
-                $values["setDomainContactChangeExpiryDate"] = trim($setDomainContactChangeExpiryDate);
+                $values["contactChangeExpiryDate"] = Ispapi::castDate($r["X-REGISTRANT-VERIFICATION-DUEDATE"][0]);
+                $values["contactChangeExpiryDate"] = \WHMCS\Carbon::createFromFormat("Y-m-d H:i:s", $values["contactChangeExpiryDate"]["long"]);
             }
         }
     }
@@ -1744,6 +1752,7 @@ function ispapi_GetDomainInformation($params)
     // Docs:
     // https://classdocs.whmcs.com/8.1/WHMCS/Domain/Registrar/Domain.html
     // https://developers.whmcs.com/domain-registrars/domain-information/
+    // https://carbon.nesbot.com/docs/
     $thedomain = new \WHMCS\Domain\Registrar\Domain();
     $thedomain
         ->setDomain($domain)
@@ -1751,9 +1760,9 @@ function ispapi_GetDomainInformation($params)
         //->setRegistrationStatus($response["status"])
         ->setTransferLock($values["transferlock"])
         //->setTransferLockExpiryDate(null)
-        //->setExpiryDate(Carbon::createFromFormat("Y-m-d", $response["expirydate"])) // $response["expirydate"] = YYYY-MM-DD
+        ->setExpiryDate($values["expirydate"])
         //->setRestorable(false)
-        //->setIdProtectionStatus($response["addons"]["hasidprotect"])
+        ->setIdProtectionStatus($values["idprotection"])
         //->setDnsManagementStatus($response["addons"]["hasdnsmanagement"])
         //->setEmailForwardingStatus($response["addons"]["hasemailforwarding"])
         ->setIsIrtpEnabled($values["setIsIrtpEnabled"])
@@ -1762,7 +1771,7 @@ function ispapi_GetDomainInformation($params)
         //-- ->setIrtpOptOutStatus(false)
         ->setDomainContactChangePending($values["setDomainContactChangePending"])
         ->setPendingSuspension($values["setPendingSuspension"])
-        ->setDomainContactChangeExpiryDate($values["setDomainContactChangeExpiryDate"] ? \WHMCS\Carbon::createFromFormat("!Y-m-d", $values["setDomainContactChangeExpiryDate"]) : null)
+        ->setDomainContactChangeExpiryDate($values["contactChangeExpiryDate"])
         //->setRegistrantEmailAddress($response["registrant"]["email"])
         ->setIrtpVerificationTriggerFields(
             [
@@ -3086,10 +3095,7 @@ function ispapi_TransferSync($params)
                 }
             }
         }
-        $values = Ispapi::castExpirationDate(
-            $r["data"]["EXPIRATIONDATE"][0],
-            $r["data"]["STATUS"][0]
-        );
+        $values = Ispapi::castExpirationDate($r["data"]["EXPIRATIONDATE"][0], $r["data"]["STATUS"][0]);
         $values["completed"] = true;
         logActivity($domain_idn . ": Domain Transfer finished. expirydate: " . $values["expirydate"]);
         return $values;
