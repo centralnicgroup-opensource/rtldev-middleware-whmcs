@@ -1619,6 +1619,15 @@ function ispapi_GetDomainInformation($params)
     $params = ispapi_get_utf8_params($params);
     $domain = $params["sld"] . "." . $params["tld"];
 
+    $r = HXDomainTransfer::getStatus($params, $domain);
+    if ($r["success"]) {
+        $thedomain = new \WHMCS\Domain\Registrar\Domain();
+        $thedomain
+            ->setDomain($domain)
+            ->setNameservers($r["data"]["NAMESERVER"]);
+        return $thedomain;
+    }
+
     $r = HXDomain::getStatus($params, $domain);
     if ($r["success"] !== true) {
         if ($r["errorcode"] === "531") {
