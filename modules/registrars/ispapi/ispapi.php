@@ -1664,7 +1664,7 @@ function ispapi_GetDomainInformation($params)
                 $params["tldsToInclude"] = [$params["tld"]];
                 $r = ispapi_CheckAvailability($params);
                 $r = array_pop($r->toArray());
-                $msg = "Domain expired and released. ";
+                $msg = "Domain not found in Registrar's System. ";
                 switch ($r["status"]) {
                     case SR::STATUS_NOT_REGISTERED:
                         $msg .= "Available for registration.";
