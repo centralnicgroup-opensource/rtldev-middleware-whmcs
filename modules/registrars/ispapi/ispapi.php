@@ -2948,32 +2948,34 @@ function ispapi_RenewDomain($params)
  * This feature currently works for .DE domains (DENIC Transit), .UK domains (.UK detagging), .VE domains, .IS domains and .AT domains (.AT Billwithdraw).
  *
  * @param array $params common module parameters
- *
- * @return array $values - an array with command response description
+ * @return array
  */
 function ispapi_ReleaseDomain($params)
 {
-    $values = array();
     if (isset($params["original"])) {
         $params = $params["original"];
     }
     $domain = $params["sld"] . "." . $params["tld"];
-    $target = $params["transfertag"];
-
-    $command = array(
+    $command = [
         "COMMAND" => "PushDomain",
         "DOMAIN" => $domain
-    );
-    if (!empty($target)) {
-        $command["TARGET"] = $target;
+    ];
+    if (!empty($params["transfertag"])) {
+        $command["TARGET"] = $params["transfertag"];
     }
+    $r = Ispapi::call($command, $params);
 
-    $response = Ispapi::call($command, $params);
-
-    if ($response["CODE"] != 200) {
-        $values["error"] = $response["DESCRIPTION"];
+    if ($r["CODE"] !== "200") {
+        $msg = "Releasing failed. (" . $r["DESCRIPTION"] . ")";
+        logActivity($domain . ": " . $msg);
+        return [
+            "error" => $msg
+        ];
     }
-    return $values;
+    logActivity($domain . ": Releasing succeeded.");
+    return [
+        "success" => "success"
+    ];
 }
 
 /**
