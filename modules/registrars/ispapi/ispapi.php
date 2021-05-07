@@ -1653,16 +1653,7 @@ function ispapi_GetDomainInformation($params)
                 throw new \Exception("Domain no longer in management - probably transferred away.");
             }
             if ($r["CODE"] === "200" && $r["PROPERTY"]["COUNT"][0] > 0) {
-                $expdate = Ispapi::castDate($r["PROPERTY"]["UPDATEDDATE"][0]);
-                $failureperiod = 0;
-                $r = Ispapi::call([
-                    "COMMAND" => "QueryDomainRepositoryInfo",
-                    "DOMAIN" => $domainstr
-                ], $params);
-                if ($r["CODE"] === "200" && !empty($r["PROPERTY"]["ZONERENEWALFAILUREPERIOD"][0])) {
-                    $failureperiod = intval($r["PROPERTY"]["ZONERENEWALFAILUREPERIOD"][0]) * 86400;//days to s
-                }
-                $expdate = Ispapi::castExpirationDate($expdate["ts"] + $failureperiod);
+                $expdate = Ispapi::castExpirationDate($r["PROPERTY"]["EXPIRATIONDATE"][0]);
                 if ($expdate["expired"]) { // domain really expired
                     throw new \Exception("Domain expired, but is still renewable leading to redemption fees.");
                 }
@@ -3155,17 +3146,7 @@ function ispapi_Sync($params)
             ];
         }
         if ($r["CODE"] === "200" && $r["PROPERTY"]["COUNT"][0] > 0) {
-            $expdate = Ispapi::castDate($r["PROPERTY"]["UPDATEDDATE"][0]);
-            $failureperiod = 0;
-            $r = Ispapi::call([
-                "COMMAND" => "QueryDomainRepositoryInfo",
-                "DOMAIN" => $domainstr
-            ], $params);
-            if ($r["CODE"] === "200" && !empty($r["PROPERTY"]["ZONERENEWALFAILUREPERIOD"][0])) {
-                $failureperiod = intval($r["PROPERTY"]["ZONERENEWALFAILUREPERIOD"][0]) * 86400;//days to s
-            }
-            // TODO: use EXPIRATIONDATE after RSRBE-4110 got covered
-            $values = Ispapi::castExpirationDate($expdate["ts"] + $failureperiod);
+            $values = Ispapi::castExpirationDate($r["PROPERTY"]["EXPIRATIONDATE"][0]);
             logActivity($domainstr . ": Domain Sync finished. Updated expirydate: " . $values["expirydate"]);
             return $values;
         }
