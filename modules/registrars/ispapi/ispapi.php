@@ -2952,10 +2952,20 @@ function ispapi_RenewDomain($params)
  */
 function ispapi_ReleaseDomain($params)
 {
+    $r = ispapi_GetRegistrarLock($params);
     if (isset($params["original"])) {
         $params = $params["original"];
     }
     $domain = $params["sld"] . "." . $params["tld"];
+
+    if ($r === "locked") {
+        $msg = "Releasing impossible. Please remove the Registrar Lock first.";
+        logActivity($domain . ": " . $msg);
+        return [
+            "error" => $msg
+        ];
+    }
+
     $command = [
         "COMMAND" => "PushDomain",
         "DOMAIN" => $domain
