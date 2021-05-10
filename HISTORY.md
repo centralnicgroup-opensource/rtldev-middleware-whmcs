@@ -1,3 +1,19 @@
+## [4.9.3](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.9.2...v4.9.3) (2021-05-10)
+
+
+### Bug Fixes
+
+* **expirydate:** reviewed Sync method ([547f7b9](https://github.com/hexonet/whmcs-ispapi-registrar/commit/547f7b9dd4117e8bb7918fd05471f274ed629769))
+* **getdomaininformation:** expirydate and contactChangeExpiryDate reviewed ([15a0a3a](https://github.com/hexonet/whmcs-ispapi-registrar/commit/15a0a3acff9f149523421a36a876c722617ed65a))
+* **getdomaininformation:** review in direction of pending transfers ([0fbf7a7](https://github.com/hexonet/whmcs-ispapi-registrar/commit/0fbf7a773f8b739e09c45dab9c7c5465c6295976))
+* **releasedomain:** add check for active registrar lock before trying to release ([3d29679](https://github.com/hexonet/whmcs-ispapi-registrar/commit/3d29679f4244f1e4c174d8e0fd560c8f76aa3396))
+* **transfersync:** convert UTC expirydate to WHMCS' timezone ([8f38cee](https://github.com/hexonet/whmcs-ispapi-registrar/commit/8f38cee80d64ed2e99e611aa92963deccc988d40))
+
+
+### Performance Improvements
+
+* **expirydate:** rewrite to consider newly introduced backend response' property (QueryObjectList) ([f63d7b5](https://github.com/hexonet/whmcs-ispapi-registrar/commit/f63d7b527e5bac4daf74e6be08c459770d97fe30))
+
 ## [4.9.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.9.1...v4.9.2) (2021-05-04)
 
 
