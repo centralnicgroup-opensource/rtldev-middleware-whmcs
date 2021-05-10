@@ -1,3 +1,10 @@
+## [4.9.4](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.9.3...v4.9.4) (2021-05-10)
+
+
+### Bug Fixes
+
+* **menu:** move private nameservers menu entries to the bottom ([95130b1](https://github.com/hexonet/whmcs-ispapi-registrar/commit/95130b13fd1c95269ffc2df55bbd2a2c5e26f3c1))
+
 ## [4.9.3](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.9.2...v4.9.3) (2021-05-10)
 
 
