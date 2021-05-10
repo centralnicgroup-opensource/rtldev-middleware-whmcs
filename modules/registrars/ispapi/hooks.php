@@ -139,9 +139,13 @@ $ispapi_domainMenuUpdate = function ($vars) {
         }
 
         if (!is_null($menu)) {
+            $menuItem = $menu->getChild("Manage Private Nameservers");
+            if (!is_null($menuItem)) {
+                $menuItem->moveToBack();
+            }
             $menuItem = $menu->getChild("Private Nameservers List");
             if (!is_null($menuItem)) {
-                $menuItem->moveUp()->moveUp()->moveUp();
+                $menuItem->moveToBack();
             }
         }
 
