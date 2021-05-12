@@ -126,7 +126,7 @@ $ispapi_domainMenuUpdate = function ($vars) {
     // TLDs not supporting Transfer Lock: remove "Registrar Lock" menu entry.
     $domain = Menu::context("domain");
 
-    if ($domain->registrar == "ispapi") {
+    if ($domain->registrar === "ispapi") {
         $menu = $vars["primarySidebar"]->getChild("Domain Details Management");
 
         $r = HXDomain::getRegistrarLock(getregistrarconfigoptions("ispapi"), $domain->domain);
@@ -149,6 +149,23 @@ $ispapi_domainMenuUpdate = function ($vars) {
             }
         }
 
+        $menu = $vars["secondarySidebar"]->getChild("Domain Details Actions");
+        if (!is_null($menu)) {
+            $r = Ispapi::call([
+                "COMMAND" => "QueryDomainRepositoryInfo",
+                "DOMAIN"  => $domain->domain
+            ]);
+            if ($r["CODE"] === "200" && $r["PROPERTY"]["REGISTRYEXPLICITRENEWAL"][0] === "NO") {
+                $pp = (int)$r["PROPERTY"]["ZONERENEWALPAYMENTPERIOD"][0];
+                if ($pp < 0) {
+                    $pp = $pp * -1;
+                }
+                $nd = $domain->expirydate->subDays($pp);
+                if ($nd->isFuture()) {
+                    $menu->removeChild("Renew Domain");
+                }
+            }
+        }
         return $vars;
     }
 };
