@@ -1,3 +1,10 @@
+# [4.10.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.9.4...v4.10.0) (2021-05-12)
+
+
+### Features
+
+* **domain renew:** hide "Renew" menu entry if timestamp does not yet allow for it (TLDs like .dk) ([939ddc4](https://github.com/hexonet/whmcs-ispapi-registrar/commit/939ddc4dc8eb24a13d429466f73225b18f5926c8))
+
 ## [4.9.4](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.9.3...v4.9.4) (2021-05-10)
 
 
