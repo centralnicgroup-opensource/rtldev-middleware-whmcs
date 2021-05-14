@@ -78,11 +78,6 @@ add_hook("AfterRegistrarRegistrationFailed", 1, function ($vars) {
 });
 
 add_hook("DailyCronJob", 1, function ($vars) {
-    // Submit Statistics
-    $authOk = Ispapi::checkAuth();
-    if (!$authOk) {
-        return;
-    }
     //Save information about module versions in the environment
     Ispapi::sendStatisticsData();
 
