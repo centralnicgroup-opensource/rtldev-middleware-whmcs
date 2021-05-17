@@ -3339,6 +3339,7 @@ function ispapi_getTLDPricing($params)
     }
 
     $results = new \WHMCS\Results\ResultsList();
+    //$tmp = "";
     foreach ($prices as $tld => $p) {
         $cfg = $cfgs[$tld];
         if (is_null($p["registration"])) {
@@ -3364,7 +3365,16 @@ function ispapi_getTLDPricing($params)
             ->setCurrency($p["currency"])
             ->setEppRequired($cfg->authRequired === 1);
         $results[] = $item;
+        /*$r = Ispapi::call([
+            "COMMAND" => "QueryDomainRepositoryInfo",
+            "DOMAIN" => "example" . $tld
+        ], $params);
+        if ($r["PROPERTY"]["REGISTRYEXPLICITRENEWAL"][0] === "NO"){
+            $pp = -1 * (int)$r["PROPERTY"]["ZONERENEWALPAYMENTPERIOD"][0];
+            $tmp .= "\$DomainRenewalMinimums[\"" . $tld . "\"] = \"" . $pp . "\";\n";
+        }*/
     }
+    //mail("kschwarz@hexonet.net", "tlds", $tmp);
     return $results;
 }
 
