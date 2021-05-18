@@ -1,3 +1,22 @@
+# [5.0.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.10.0...v5.0.0) (2021-05-18)
+
+
+### Bug Fixes
+
+* **domain renew:** rollback menu entry removal. Correct way added to our docs ([ad79042](https://github.com/hexonet/whmcs-ispapi-registrar/commit/ad790426cdba10744c5a5e92b7b9904fbc643d76))
+* **sync:** correctly cover outbound transfers ([5d69f25](https://github.com/hexonet/whmcs-ispapi-registrar/commit/5d69f2514e0b16e13dadf1c365395133604b0ac9))
+
+
+### Code Refactoring
+
+* **auto contact update:** config option for auto-contact update plus reviewed process ([50c60bd](https://github.com/hexonet/whmcs-ispapi-registrar/commit/50c60bd21925c9342167995044a511aff2467788))
+
+
+### BREAKING CHANGES
+
+* **auto contact update:** The automatic contact update had been always active and also been part of Domain
+Synchronization which is now no longer the case to avoid mass suspensions as of possible IRTP.
+
 # [4.10.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.9.4...v4.10.0) (2021-05-12)
 
 
