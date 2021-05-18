@@ -143,24 +143,6 @@ $ispapi_domainMenuUpdate = function ($vars) {
                 $menuItem->moveToBack();
             }
         }
-
-        $menu = $vars["secondarySidebar"]->getChild("Domain Details Actions");
-        if (!is_null($menu)) {
-            $r = Ispapi::call([
-                "COMMAND" => "QueryDomainRepositoryInfo",
-                "DOMAIN"  => $domain->domain
-            ]);
-            if ($r["CODE"] === "200" && $r["PROPERTY"]["REGISTRYEXPLICITRENEWAL"][0] === "NO") {
-                $pp = (int)$r["PROPERTY"]["ZONERENEWALPAYMENTPERIOD"][0];
-                if ($pp < 0) {
-                    $pp = $pp * -1;
-                }
-                $nd = $domain->expirydate->subDays($pp);
-                if ($nd->isFuture()) {
-                    $menu->removeChild("Renew Domain");
-                }
-            }
-        }
         return $vars;
     }
 };
