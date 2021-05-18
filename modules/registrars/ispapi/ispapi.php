@@ -3059,8 +3059,8 @@ function ispapi_TransferSync($params)
 
     // existing transfer request
     // check for related failed entry
-    $logdate = $r["data"]["LOGDATE"][0];
-    $logindex = $r["data"]["LOGINDEX"][0];
+    $logdate = $r["data"]["LOGDATE"][0]; // 2019-11-15 12:25:05
+    $logindex = $r["data"]["LOGINDEX"][0]; // 627992982
 
     // check if the domain is already on account
     $r = HXDomain::getStatus($params, $domain_pc);
@@ -3167,6 +3167,12 @@ function ispapi_Sync($params)
         ], $params);
         if ($r["CODE"] === "200" && !empty($r["PROPERTY"]["ACE"][0])) {
             $domainstr = $r["PROPERTY"]["ACE"][0];
+        }
+        if (HXDomainTransfer::isTransferredAway($params, $domainstr)) {
+            logActivity($domainstr . ": Domain Sync finished. Status updated to `Transferred Away`");
+            return [
+                "transferredAway" => true
+            ];
         }
         $r = Ispapi::call([
             "COMMAND" => "QueryObjectList",
