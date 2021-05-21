@@ -781,6 +781,11 @@ function ispapi_getConfigArray($params)
             "FriendlyName" => "Offer DNSSEC / Secure DNS",
             "Type" => "yesno",
             "Description" => "Display the DNSSEC Management functionality in the Domain Details View."
+        ],
+        "TRANSFERCARTPRECHECK" => [
+            "FriendlyName" => "Transfer Checkout Pre-Checks",
+            "Type" => "yesno",
+            "Description" => "Validate Domain Transfers on Shopping Cart Checkout. This will block the checkout until all Transfer pre-checks succeed. e.g. valid eppcode, unlocked domain etc."
         ]
     ];
 

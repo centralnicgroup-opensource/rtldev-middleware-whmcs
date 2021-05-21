@@ -3,11 +3,52 @@
 use WHMCS\Module\Registrar\Ispapi\Ispapi;
 use WHMCS\Module\Registrar\Ispapi\Helper;
 use WHMCS\Module\Registrar\Ispapi\Domain as HXDomain;
+use Illuminate\Database\Capsule\Manager as DB;
 
 $path = implode(DIRECTORY_SEPARATOR, [__DIR__, "hooks_migration.php"]);
 if (file_exists($path)) {
     include $path;
 }
+
+add_hook("ShoppingCartValidateCheckout", 1, function ($vars) {
+    // error container
+    $errors = [];
+
+    // load registrar module settings and check if transfer precheck are activated
+    $regcfg = \getregistrarconfigoptions("ispapi");
+    $cartprecheck = ($regcfg["TRANSFERCARTPRECHECK"] === "on");
+    if (!$cartprecheck || empty($_SESSION["cart"]["domains"])) {
+        return $errors;
+    }
+
+    // precheck all transfers
+    foreach ($_SESSION["cart"]["domains"] as $d) {
+        if ($d["type"] === "transfer") {
+            $tld = preg_replace("/^[^.]+\./", "", $d["domain"]);
+            // check if the registrar configured for that tld is `ispapi`
+            $count = DB::table("tbldomainpricing")
+                ->select("autoreg")
+                ->where("extension", "." . $tld)
+                ->where("autoreg", "ispapi")
+                ->count();
+            if (!$count) {
+                continue;
+            }
+            $cmd = [
+                "COMMAND" => "CheckDomainTransfer",
+                "DOMAIN" => $d["domain"]
+            ];
+            if (!empty($d["eppcode"])) {
+                $cmd["AUTH"] = $d["eppcode"];
+            }
+            $r = Ispapi::call($cmd);
+            if ($r["CODE"] === "219") {
+                $errors[] = $d["domain"] . ": " . $r["DESCRIPTION"];
+            }
+        }
+    }
+    return $errors;
+});
 
 add_hook("ClientAreaHeadOutput", 1, function ($vars) {
     // Auto-Prefill VAT-ID, X-DK-REGISTRANT/ADMIN additional domain field when provided in client data
