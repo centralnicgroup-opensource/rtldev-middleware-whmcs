@@ -1,3 +1,10 @@
+## [5.1.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v5.1.0...v5.1.1) (2021-05-21)
+
+
+### Bug Fixes
+
+* **expirydate:** fixed expirydate detection for special TLDs like .dk ([d4d2f75](https://github.com/hexonet/whmcs-ispapi-registrar/commit/d4d2f7581f0113813796729f7333ee60b213356d))
+
 # [5.1.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v5.0.0...v5.1.0) (2021-05-21)
 
 
