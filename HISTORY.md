@@ -1,3 +1,10 @@
+# [5.1.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v5.0.0...v5.1.0) (2021-05-21)
+
+
+### Features
+
+* **shopping cart:** transfer Pre-Checks on Checkout. See Registrar Module Configuration ([fd2e717](https://github.com/hexonet/whmcs-ispapi-registrar/commit/fd2e7173139f21edc8fbb1413efdcca166ce3404))
+
 # [5.0.0](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v4.10.0...v5.0.0) (2021-05-18)
 
 
