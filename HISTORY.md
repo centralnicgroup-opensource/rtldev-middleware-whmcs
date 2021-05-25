@@ -1,3 +1,10 @@
+## [5.1.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v5.1.1...v5.1.2) (2021-05-25)
+
+
+### Bug Fixes
+
+* **savenameservers:** nameserver update including dnszone creation but dns management not active ([f31055a](https://github.com/hexonet/whmcs-ispapi-registrar/commit/f31055afe0aa94ff7077fdd2c3e8e02a2ca17ffe))
+
 ## [5.1.1](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v5.1.0...v5.1.1) (2021-05-21)
 
 
