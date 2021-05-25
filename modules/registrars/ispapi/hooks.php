@@ -11,11 +11,16 @@ if (file_exists($path)) {
 }
 
 add_hook("ShoppingCartValidateCheckout", 1, function ($vars) {
+    // load registrar functions
+    if (!function_exists("getregistrarconfigoptions")) {
+        require_once implode(DIRECTORY_SEPARATOR, [ROOTDIR, "includes", "registrarfunctions.php"]);
+    }
+
     // error container
     $errors = [];
 
     // load registrar module settings and check if transfer precheck are activated
-    $regcfg = \getregistrarconfigoptions("ispapi");
+    $regcfg = getregistrarconfigoptions("ispapi");
     $cartprecheck = ($regcfg["TRANSFERCARTPRECHECK"] === "on");
     if (!$cartprecheck || empty($_SESSION["cart"]["domains"])) {
         return $errors;
@@ -163,6 +168,11 @@ $ispapi_domainMenuUpdate = function ($vars) {
     $domain = Menu::context("domain");
 
     if ($domain->registrar === "ispapi") {
+        // load registrar functions
+        if (!function_exists("getregistrarconfigoptions")) {
+            require_once implode(DIRECTORY_SEPARATOR, [ROOTDIR, "includes", "registrarfunctions.php"]);
+        }
+
         $menu = $vars["primarySidebar"]->getChild("Domain Details Management");
 
         $r = HXDomain::getRegistrarLock(getregistrarconfigoptions("ispapi"), $domain->domain);
