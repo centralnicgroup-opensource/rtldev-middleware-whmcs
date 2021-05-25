@@ -1,3 +1,10 @@
+## [5.1.3](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v5.1.2...v5.1.3) (2021-05-25)
+
+
+### Bug Fixes
+
+* **hooks:** ensure to load registrar functions if not available ([5c8883c](https://github.com/hexonet/whmcs-ispapi-registrar/commit/5c8883c69a2180c256735332bef8bba77dd19558))
+
 ## [5.1.2](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v5.1.1...v5.1.2) (2021-05-25)
 
 
