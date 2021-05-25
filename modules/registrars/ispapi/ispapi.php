@@ -1866,26 +1866,27 @@ function ispapi_GetNameservers($params)
  */
 function ispapi_SaveNameservers($params)
 {
-    $values = array();
     if (isset($params["original"])) {
         $params = $params["original"];
     }
-    $domain = $params["sld"] . "." . $params["tld"];
-
-    $command = array(
+    $r = Ispapi::call([
         "COMMAND" => "ModifyDomain",
-        "DOMAIN" => $domain,
+        "DOMAIN" => $params["sld"] . "." . $params["tld"],
         "NAMESERVER" => Ispapi::castNameserversBE($params),
-        "INTERNALDNS" => 1
-    );
-    $response = Ispapi::call($command, $params);
-    if ($response["CODE"] != 200) {
-        $values["error"] = $response["DESCRIPTION"];
-        if ($response["CODE"] == 504 && preg_match("/TOO FEW.+CONTACTS/", $values["error"])) {
-            $values["error"] = "Please update contact data first to be able to update nameserver data.";
+        "INTERNALDNS" => (int)$params["dnsmanagement"]
+    ], $params);
+    if ($r["CODE"] !== "200") {
+        $error = $r["DESCRIPTION"];
+        if ($r["CODE"] === "504" && preg_match("/TOO FEW.+CONTACTS/", $values["error"])) {
+            $error = "Please update contact data first to be able to update nameserver data.";
         }
+        return [
+            "error" => $error
+        ];
     }
-    return $values;
+    return [
+        "success" => true
+    ];
 }
 
 /**
