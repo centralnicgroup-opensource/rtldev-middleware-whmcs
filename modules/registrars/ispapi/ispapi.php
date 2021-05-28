@@ -1796,22 +1796,14 @@ function ispapi_GetDomainInformation($params)
  */
 function ispapi_ResendIRTPVerificationEmail($params)
 {
-    //perform API call to initiate resending of the IRTP Verification Email
-    $success = true;
-    $errorMessage = "";
-    $domain = $params["sld"] . "." . $params["tld"];
-    $command = array(
+    $r = Ispapi::call([
         "COMMAND" => "ResendDomainTransferConfirmationEmails",
-        "DOMAIN" => $domain
-    );
-    $response = Ispapi::call($command, $params);
-
-    if ($response["CODE"] == 200) {
-        return ["success" => true];
-    } else {
-        $errorMessage = $response["DESCRIPTION"];
-        return ["error" => $errorMessage];
+        "DOMAIN" => $params["sld"] . "." . $params["tld"]
+    ], $params);
+    if ($r["CODE"] !== "200") {
+        return ["error" => $r["DESCRIPTION"]];
     }
+    return ["success" => true];
 }
 
 /**
