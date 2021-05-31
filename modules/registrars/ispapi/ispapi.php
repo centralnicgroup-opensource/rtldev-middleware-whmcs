@@ -1704,13 +1704,8 @@ function ispapi_GetDomainInformation($params)
     $values["setIrtpTransferLock"] = isset($r["TRADE-TRANSFERLOCK-EXPIRATIONDATE"][0]);
     $values["transferlock"] = (isset($r["TRANSFERLOCK"][0]) && $r["TRANSFERLOCK"][0] === "1");
     //expirydate
-    $expirydate = Ispapi::castDate($r["EXPIRATIONDATE"][0]);
-    $paiduntildate = Ispapi::castDate($r["PAIDUNTILDATE"][0]);
-    if ($expirydate["ts"] < $paiduntildate["ts"]) {
-        //registries that do not support explicit renewal e.g. .dk
-        $expirydate = $paiduntildate;
-    }
-    $values["expirydate"] = \WHMCS\Carbon::createFromFormat("Y-m-d H:i:s", $expirydate["long"]);
+    $expirydate = Ispapi::castDate($r["FAILUREDATE"][0]);
+    $values["expirydate"] = \WHMCS\Carbon::createFromFormat("Y-m-d H:i:s", $expirydate["long"])->subDays(1);
 
     //IRTP handling
     $isAffectedByIRTP = HXDomain::needsIRTPForRegistrantModification($params, $domain);
@@ -3102,15 +3097,12 @@ function ispapi_TransferSync($params)
             }
             //--------------- EXCEPTION [END] -----------
         }
-        // expirydate calculation
-        $expirydate = Ispapi::castDate($r["data"]["EXPIRATIONDATE"][0]);
-        $paiduntildate = Ispapi::castDate($r["data"]["PAIDUNTILDATE"][0]);
-        if ($expirydate["ts"] < $paiduntildate["ts"]) {
-            //registries that do not support explicit renewal e.g. .dk
-            $expirydate = $paiduntildate;
-        }
-        $values["expirydate"] = $expirydate["short"];
-        $values["expired"] = strtotime("now") > $expdate["ts"];
+        $r = $r["data"];
+        //expirydate
+        $expirydate = Ispapi::castDate($r["FAILUREDATE"][0]);
+        $expirydate = \WHMCS\Carbon::createFromFormat("Y-m-d H:i:s", $expirydate["long"])->subDays(1);
+        $values["expirydate"] = $expirydate->toDateString();//YYYY-MM-DD
+        $values["expired"] = $expirydate->isPast();
         $values["completed"] = true;
         logActivity($domain_idn . ": Domain Transfer finished. expirydate: " . $values["expirydate"]);
         return $values;
@@ -3239,15 +3231,11 @@ function ispapi_Sync($params)
         Ispapi::call($command, $params);
     }
 
-    // expirydate calculation
-    $expirydate = Ispapi::castDate($r["EXPIRATIONDATE"][0]);
-    $paiduntildate = Ispapi::castDate($r["PAIDUNTILDATE"][0]);
-    if ($expirydate["ts"] < $paiduntildate["ts"]) {
-        //registries that do not support explicit renewal e.g. .dk
-        $expirydate = $paiduntildate;
-    }
-    $values["expirydate"] = $expirydate["short"];
-    $values["expired"] = strtotime("now") > $expdate["ts"];
+    //expirydate
+    $expirydate = Ispapi::castDate($r["FAILUREDATE"][0]);
+    $expirydate = \WHMCS\Carbon::createFromFormat("Y-m-d H:i:s", $expirydate["long"])->subDays(1);
+    $values["expirydate"] = $expirydate->toDateString();//YYYY-MM-DD
+    $values["expired"] = $expirydate->isPast();
     $values["active"] = (bool) preg_match("/ACTIVE/i", $r["STATUS"][0]);
 
     logActivity($domainstr . ": Domain Sync finished. Updated expirydate: " . $values["expirydate"]);
