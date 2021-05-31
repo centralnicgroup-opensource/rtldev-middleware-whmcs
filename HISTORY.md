@@ -1,3 +1,10 @@
+## [5.1.4](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v5.1.3...v5.1.4) (2021-05-31)
+
+
+### Bug Fixes
+
+* **expirydate:** considering FAILUREDATE - 1d as better approach for expirydate ([b593ba2](https://github.com/hexonet/whmcs-ispapi-registrar/commit/b593ba23f8aa1c1e5687dc890b6f3591bfccf571))
+
 ## [5.1.3](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v5.1.2...v5.1.3) (2021-05-25)
 
 
