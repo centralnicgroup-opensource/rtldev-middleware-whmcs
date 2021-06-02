@@ -2268,29 +2268,31 @@ function ispapi_SaveEmailForwarding($params)
  */
 function ispapi_GetContactDetails($params)
 {
-    $values = array();
     if (isset($params["original"])) {
         $params = $params["original"];
     }
 
     $domain = $params["sld"] . "." . $params["tld"];
-    $values = array();
-    $command = array(
+    $r = Ispapi::call([
         "COMMAND" => "StatusDomain",
         "DOMAIN" => $domain
-    );
-    $response = Ispapi::call($command, $params);
+    ], $params);
 
-    if ($response["CODE"] == 200) {
-        $values["Registrant"] = ispapi_get_contact_info($response["PROPERTY"]["OWNERCONTACT"][0], $params);
-        $values["Admin"] = ispapi_get_contact_info($response["PROPERTY"]["ADMINCONTACT"][0], $params);
-        $values["Technical"] = ispapi_get_contact_info($response["PROPERTY"]["TECHCONTACT"][0], $params);
-        $values["Billing"] = ispapi_get_contact_info($response["PROPERTY"]["BILLINGCONTACT"][0], $params);
-        if (preg_match("/\.(ca|it|ch|li|se|sg)$/i", $domain)) {
-            unset($values["Registrant"]["First Name"]);
-            unset($values["Registrant"]["Last Name"]);
-            unset($values["Registrant"]["Company Name"]);
-        }
+    if ($r["CODE"] !== "200") {
+        return [
+            "error" => "Failed to load Contact Details (" . $r["CODE"] . " " . $r["DESCRIPTION"] . ")."
+        ];
+    }
+    $values = [
+        "Registrant" => ispapi_get_contact_info($r["PROPERTY"]["OWNERCONTACT"][0], $params),
+        "Admin" => ispapi_get_contact_info($r["PROPERTY"]["ADMINCONTACT"][0], $params),
+        "Technical" => ispapi_get_contact_info($r["PROPERTY"]["TECHCONTACT"][0], $params),
+        "Billing" => ispapi_get_contact_info($r["PROPERTY"]["BILLINGCONTACT"][0], $params)
+    ];
+    if (preg_match("/\.(ca|it|ch|li|se|sg)$/i", $domain)) {
+        unset($values["Registrant"]["First Name"]);
+        unset($values["Registrant"]["Last Name"]);
+        unset($values["Registrant"]["Company Name"]);
     }
     return $values;
 }
@@ -2350,7 +2352,6 @@ function ispapi_SaveContactDetails($params)
             "X-CONFIRM-DA-NEW-REGISTRANT" => 1
         ];
 
-        //some of the AFNIC TLDs(.fr, .pm, .re, .pm, .tf, .yt) require local presence. eg: "X-FR-ACCEPT-TRUSTEE-TAC" => 1
         ispapi_query_additionalfields($params);
         ispapi_use_additionalfields($params, $command);
 
