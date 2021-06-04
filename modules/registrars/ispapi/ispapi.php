@@ -2318,13 +2318,17 @@ function ispapi_GetContactDetails($params)
  */
 function ispapi_SaveContactDetails($params)
 {
+    global $additionaldomainfields;
+
     if (!function_exists("convertStateToCode")) {
         require implode(DIRECTORY_SEPARATOR, [ROOTDIR, "includes", "clientfunctions.php"]);
     }
+    
     // TODO:---------- EXCEPTION [BEGIN] --------
     // $params has invalid chars for idn domain names where $params["original"] is fine [kschwarz]
+    // HINT: Transliteration
     // JIRA #HM-709
-    // WHMCS #YOV-471189 (unconfirmed)
+    // WHMCS #YOV-471189
     $origparams = $params;
     $params = ispapi_get_utf8_params($params);
     //--------------- EXCEPTION [END] -----------
@@ -2332,25 +2336,16 @@ function ispapi_SaveContactDetails($params)
     $params = injectDomainObjectIfNecessary($params);
     $domain = $params["domainObj"]->getDomain();
 
-    global $additionaldomainfields;
-    $values = array();
-
-    $status_response = Ispapi::call([
-        "COMMAND" => "StatusDomain",
-        "DOMAIN" => $domain
-    ], $origparams);
-    if ($status_response["CODE"] != 200) {
-        return [
-            "error" => $status_response["DESCRIPTION"]
-        ];
+    $sr = HXDomain::getStatus($params, $domain);
+    if ($sr["success"] === false) {
+        return $sr;
     }
-    $isAffectedByIRTP = HXDomain::needsIRTPForRegistrantModification($params, $domain);
-
-    $registrant = ispapi_get_contact_info($status_response["PROPERTY"]["OWNERCONTACT"][0], $params);
+    $registrant = ispapi_get_contact_info($sr["data"]["OWNERCONTACT"][0], $params);
     if (isset($origparams["contactdetails"]["Registrant"])) {
         $new_registrant = $origparams["contactdetails"]["Registrant"];
     }
 
+    $isAffectedByIRTP = HXDomain::needsIRTPForRegistrantModification($params, $domain);
     //the following conditions must be true to trigger registrant change request (IRTP)
     if (
         preg_match("/Designated Agent/", $params["IRTP"]) &&
@@ -2361,13 +2356,13 @@ function ispapi_SaveContactDetails($params)
             $registrant["Email"] != $new_registrant["Email"]
         )
     ) {
-        $command = array(
+        $command = [
             "COMMAND" => "TradeDomain",
             "DOMAIN" => $domain,
             "OWNERCONTACT0" => $new_registrant,
             "X-CONFIRM-DA-OLD-REGISTRANT" => 1,
-            "X-CONFIRM-DA-NEW-REGISTRANT" => 1,
-        );
+            "X-CONFIRM-DA-NEW-REGISTRANT" => 1
+        ];
 
         //some of the AFNIC TLDs(.fr, .pm, .re, .pm, .tf, .yt) require local presence. eg: "X-FR-ACCEPT-TRUSTEE-TAC" => 1
         ispapi_query_additionalfields($params);
@@ -2439,71 +2434,64 @@ function ispapi_SaveContactDetails($params)
         }
     }
 
-    if (preg_match("/\.(it|ch|li|se|sg)$/i", $domain)) {
+    // avoid trade here, not free of charge
+    // that's why contact data is being unset and reset to api one
+    // need to rethink here
+    if (HXDomain::needsTradeForRegistrantModification($params, $domain)) {
+        $sr = HXDomain::getStatus($params, $domain);
+        if ($sr["success"] === false) {
+            return $sr;
+        }
         unset($command["OWNERCONTACT0"]["FIRSTNAME"]);
         unset($command["OWNERCONTACT0"]["LASTNAME"]);
         unset($command["OWNERCONTACT0"]["ORGANIZATION"]);
-
-        $status_command = array(
-            "COMMAND" => "StatusDomain",
-            "DOMAIN" => $domain
-        );
-        $status_response = Ispapi::call($status_command, $origparams);
-
-        if ($status_response["CODE"] != 200) {
-            return [
-                "error" => $status_response["DESCRIPTION"]
-            ];
-        }
-
-        $registrant = ispapi_get_contact_info($status_response["PROPERTY"]["OWNERCONTACT"][0], $params);
+        $registrant = ispapi_get_contact_info($sr["data"]["OWNERCONTACT"][0], $params);
         $command["OWNERCONTACT0"]["FIRSTNAME"] = $registrant["First Name"];
         $command["OWNERCONTACT0"]["LASTNAME"] = $registrant["Last Name"];
         $command["OWNERCONTACT0"]["ORGANIZATION"] = $registrant["Company Name"];
+        
+        ispapi_query_additionalfields($params);
+        ispapi_use_additionalfields($params, $command);
     }
-
+    
     if ($isCA) {
         $registrant_command = $command["OWNERCONTACT0"];
-
-        $status_command = array(
-            "COMMAND" => "StatusDomain",
-            "DOMAIN" => $domain
-        );
-        $status_response = Ispapi::call($status_command, $origparams);
-
-        if ($status_response["CODE"] != 200) {
-            $values["error"] = $status_response["DESCRIPTION"];
-            return $values;
+        $sr = HXDomain::getStatus($params, $domain);
+        if ($sr["success"] === false) {
+            return $sr;
         }
 
         $registrant_command["COMMAND"] = "ModifyContact";
-        $registrant_command["CONTACT"] = $status_response["PROPERTY"]["OWNERCONTACT"][0];
+        $registrant_command["CONTACT"] = $sr["data"]["OWNERCONTACT"][0];
 
         if (!preg_match("/^AUTO\-/i", $registrant_command["CONTACT"])) {
             unset($registrant_command["FIRSTNAME"]);
             unset($registrant_command["LASTNAME"]);
             unset($registrant_command["ORGANIZATION"]);
+            unset($command["OWNERCONTACT0"]);
             $registrant_response = Ispapi::call($registrant_command, $origparams);
 
             if ($registrant_response["CODE"] != 200) {
-                $values["error"] = $registrant_response["DESCRIPTION"];
-                return $values;
+                return [
+                    "error" => $registrant_response["DESCRIPTION"]
+                ];
             }
-            unset($command["OWNERCONTACT0"]);
         }
 
         ispapi_query_additionalfields($params);
         ispapi_use_additionalfields($params, $command);
     }
 
-    $response = Ispapi::call($command, $origparams);
+    $r = Ispapi::call($command, $origparams);
 
-    if ($response["CODE"] != 200) {
+    if ($r["CODE"] != 200) {
         return [
-            "error" => $response["DESCRIPTION"]
+            "error" => $r["DESCRIPTION"]
         ];
     }
-    return $values;
+    return [
+        "success" => true
+    ];
 }
 
 /**
