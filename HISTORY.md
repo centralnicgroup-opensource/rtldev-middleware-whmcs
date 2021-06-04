@@ -1,3 +1,10 @@
+## [5.1.6](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v5.1.5...v5.1.6) (2021-06-04)
+
+
+### Bug Fixes
+
+* **dep bump:** upgrade helper lib to fix namespace lookup issue for DB Class ([83e64ba](https://github.com/hexonet/whmcs-ispapi-registrar/commit/83e64ba6bbefe76045e7e8644cabd02b85f0b9cf)), closes [#186](https://github.com/hexonet/whmcs-ispapi-registrar/issues/186)
+
 ## [5.1.5](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v5.1.4...v5.1.5) (2021-06-04)
 
 
