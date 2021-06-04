@@ -1626,7 +1626,6 @@ function ispapi_GetDomainInformation($params)
 {
     //code optimization on getting nameservers and transferLock setting (applicable since WHMCS 7.6)
     //we kept the GetNameservers(), GetRegistrarLock() for the users with < WHMCS 7.6
-    $values = [];
     $params = ispapi_get_utf8_params($params);
     $domain = $params["sld"] . "." . $params["tld"];
 
@@ -1643,59 +1642,57 @@ function ispapi_GetDomainInformation($params)
     if ($r["success"] !== true) {
         if ($r["errorcode"] === "531") {
             throw new \Exception("Domain no longer in management - probably transferred away.");
-        } elseif ($r["errorcode"] !== "545") {
-            throw new \Exception("Loading Domain information failed. You may retry in few minutes.<br/><small>" . $r["errorcode"] . " " . $r["error"] . "</small>");
-        } else {
-            $domainstr = $domain;
-            $r = Ispapi::call([
-                "COMMAND" => "ConvertIDN",
-                "DOMAIN0" => $domain
-            ], $params);
-            if ($r["CODE"] === "200" && !empty($r["PROPERTY"]["ACE"][0])) {
-                $domainstr = $r["PROPERTY"]["ACE"][0];
-            }
-            $r = Ispapi::call([
-                "COMMAND" => "QueryObjectList",
-                "OBJECTCLASS" => "DELETEDDOMAIN",
-                "OBJECTID" => $domainstr
-            ], $params);
-            if ($r["CODE"] === "545") {
-                throw new \Exception("Domain no longer in management - probably transferred away.");
-            }
-            if ($r["CODE"] === "200" && $r["PROPERTY"]["COUNT"][0] > 0) {
-                $expdate = Ispapi::castExpirationDate($r["PROPERTY"]["EXPIRATIONDATE"][0]);
-                if ($expdate["expired"]) { // domain really expired
-                    throw new \Exception("Domain expired, but is still renewable leading to redemption fees.");
-                }
-                throw new \Exception("Domain expired, but is still renewable.");
-            }
-            if ($r["CODE"] === "200" && $r["PROPERTY"]["COUNT"][0] === "0") {
-                $params["searchTerm"] = $params["sld"];
-                $params["tldsToInclude"] = [$params["tld"]];
-                $r = ispapi_CheckAvailability($params);
-                $r = array_pop($r->toArray());
-                $msg = "Domain not found in Registrar's System. ";
-                switch ($r["status"]) {
-                    case SR::STATUS_NOT_REGISTERED:
-                        $msg .= "Available for registration.";
-                        break;
-                    case SR::STATUS_RESERVED:
-                        $msg .= "Reserved Domain Name.";
-                        break;
-                    case SR::STATUS_TLD_NOT_SUPPORTED:
-                        $msg .= "TLD not supported.";
-                        break;
-                    case SR::STATUS_REGISTERED:
-                        $msg .= "Not available for registration.";
-                        break;
-                    default:
-                        $msg = "Eventually available for registration.";
-                        break;
-                }
-                throw new \Exception($msg);
-            }
         }
+
+        if ($r["errorcode"] !== "545") {
+            throw new \Exception("Loading Domain information failed. You may retry in few minutes.<br/><small>" . $r["errorcode"] . " " . $r["error"] . "</small>");
+        }
+
+        $rconv = HXDomain::convert($params, $domain);
+        $domainstr = $rconv["punycode"];
+        $values = HXDomain::getExpiredStatus($params, $domainstr, null, false);
+        if (isset($values["transferredAway"]) && $values["transferredAway"] === true) {
+            throw new \Exception("Domain no longer in management - probably transferred away.");
+        }
+        if (isset($values["expired"]) && isset($values["expirationdate"])) {
+            if ($values["expired"] === true) {
+                // in redemption period
+                throw new \Exception("Domain expired, but is still renewable leading to redemption fees.");
+            }
+            // in ARGP
+            throw new \Exception("Domain expired, but is still renewable.");
+        }
+        if (isset($values["expired"]) && $values["expired"] === true) {
+            // expired, deleted
+            $params["searchTerm"] = $params["sld"];
+            $params["tldsToInclude"] = [$params["tld"]];
+            $ac = ispapi_CheckAvailability($params);
+            $ac = array_pop($ac->toArray());
+            $msg = "Domain not found in Registrar's System. ";
+            switch ($ac["status"]) {
+                case SR::STATUS_NOT_REGISTERED:
+                    $msg .= "Available for registration.";
+                    break;
+                case SR::STATUS_RESERVED:
+                    $msg .= "Reserved Domain Name.";
+                    break;
+                case SR::STATUS_TLD_NOT_SUPPORTED:
+                    $msg .= "TLD not supported.";
+                    break;
+                case SR::STATUS_REGISTERED:
+                    $msg .= "Not available for registration.";
+                    break;
+                default:
+                    $msg = "Eventually available for registration.";
+                    break;
+            }
+            throw new \Exception($msg);
+        }
+        throw new \Exception("Loading Domain information failed. You may retry in few minutes.");
     }
+
+    // get data: expired, expirydate, active
+    $values = HXDomain::getExpiryData($params, $domain, false, $r, true);
 
     $r = $r["data"];
     //nameservers
@@ -1703,9 +1700,6 @@ function ispapi_GetDomainInformation($params)
     //transferlock settings
     $values["setIrtpTransferLock"] = isset($r["TRADE-TRANSFERLOCK-EXPIRATIONDATE"][0]);
     $values["transferlock"] = (isset($r["TRANSFERLOCK"][0]) && $r["TRANSFERLOCK"][0] === "1");
-    //expirydate
-    $expirydate = Ispapi::castDate($r["FAILUREDATE"][0]);
-    $values["expirydate"] = \WHMCS\Carbon::createFromFormat("Y-m-d H:i:s", $expirydate["long"])->subDays(1);
 
     //IRTP handling
     $isAffectedByIRTP = HXDomain::needsIRTPForRegistrantModification($params, $domain);
@@ -3097,12 +3091,8 @@ function ispapi_TransferSync($params)
             }
             //--------------- EXCEPTION [END] -----------
         }
-        $r = $r["data"];
-        //expirydate
-        $expirydate = Ispapi::castDate($r["FAILUREDATE"][0]);
-        $expirydate = \WHMCS\Carbon::createFromFormat("Y-m-d H:i:s", $expirydate["long"])->subDays(1);
-        $values["expirydate"] = $expirydate->toDateString();//YYYY-MM-DD
-        $values["expired"] = $expirydate->isPast();
+
+        $values = HXDomain::getExpiryData($params, $domain_pc, false, $r);
         $values["completed"] = true;
         logActivity($domain_idn . ": Domain Transfer finished. expirydate: " . $values["expirydate"]);
         return $values;
@@ -3152,92 +3142,36 @@ function ispapi_Sync($params)
     $domain = $params["domainObj"];
     $domainstr = $domain->getDomain();
 
-    $r = Ispapi::call([
-        "COMMAND" => "StatusDomain",
-        "DOMAIN" => $domainstr
-    ], $params);
-
-    if ($r["CODE"] === "531") {
+    $r = HXDomain::getStatus($params, $domainstr);
+    if (!$r["success"] && $r["errorcode"] === "531") {
         logActivity($domainstr . ": Domain Sync finished. Status updated to `Transferred Away`");
         return [
             "transferredAway" => true
         ];
     }
-    if ($r["CODE"] === "545") {
-        $r = Ispapi::call([
-            "COMMAND" => "ConvertIDN",
-            "DOMAIN0" => $domainstr
-        ], $params);
-        if ($r["CODE"] === "200" && !empty($r["PROPERTY"]["ACE"][0])) {
-            $domainstr = $r["PROPERTY"]["ACE"][0];
-        }
+    if (!$r["success"] && $r["errorcode"] === "545") {
+        $rconv = HXDomain::convert($params, $domainstr);
+        $domainstr = $rconv["punycode"];
         if (HXDomainTransfer::isTransferredAway($params, $domainstr)) {
             logActivity($domainstr . ": Domain Sync finished. Status updated to `Transferred Away`");
             return [
                 "transferredAway" => true
             ];
         }
-        $r = Ispapi::call([
-            "COMMAND" => "QueryObjectList",
-            "OBJECTCLASS" => "DELETEDDOMAIN",
-            "OBJECTID" => $domainstr
-        ], $params);
-        if ($r["CODE"] === "545") {
-            logActivity($domainstr . ": Domain Sync finished. Status updated to `Transferred Away`");
-            return [
-                "transferredAway" => true
-            ];
-        }
-        if ($r["CODE"] === "200" && $r["PROPERTY"]["COUNT"][0] > 0) {
-            $values = Ispapi::castExpirationDate($r["PROPERTY"]["EXPIRATIONDATE"][0]);
-            logActivity($domainstr . ": Domain Sync finished. Updated expirydate: " . $values["expirydate"]);
-            return $values;
-        }
-        if ($r["CODE"] === "200" && $r["PROPERTY"]["COUNT"][0] === "0") {
-            // deleted, not restorable
-            DB::table("tbldomains")
-                ->where([
-                    [ "domainid", "=", $params["domainid"] ]
-                ])
-                ->update(["status" => "Expired"]);
-            logActivity($domainstr . ": Domain Sync finished. Status updated to `Expired` (not restorable).");
-            return [
-                "expired" => true// this doesn't change anything that's why we update the status
-            ];
-        }
-        logActivity($domainstr . ": Domain Sync finished. Status Detection failed - probably a temporary issue.");
-        return [
-        ]; // whmcs should show a curl error
+        return HXDomain::getExpiryData($params, $domainstr, true);
     }
-    if ($r["CODE"] !== "200") {
+    if (!$r["success"]) {
         logActivity($domainstr . ": Domain Sync failed. See Module Log.");
-        return [
-            "error" => $r["DESCRIPTION"]
-        ];
+        return $r;
     }
 
-    $r = $r["PROPERTY"];
-    $command = [
-        "COMMAND" => "ModifyDomain",
-        "DOMAIN" => $domainstr
-    ];
     //activate the whoistrustee if set to 1 in WHMCS
-    if ($params["idprotection"] && empty($r["X-ACCEPT-WHOISTRUSTEE-TAC"][0])) { // doesn't exist, "" or 0
-        $command["X-ACCEPT-WHOISTRUSTEE-TAC"] = 1;
-    }
-
-    //check if domain update is necessary
-    if (count(array_keys($command)) > 2) {
-        Ispapi::call($command, $params);
+    if ($params["idprotection"] && empty($r["data"]["X-ACCEPT-WHOISTRUSTEE-TAC"][0])) { // doesn't exist, "" or 0
+        HXDomain::saveIdProtection($params, $domainstr, true);
     }
 
     //expirydate
-    $expirydate = Ispapi::castDate($r["FAILUREDATE"][0]);
-    $expirydate = \WHMCS\Carbon::createFromFormat("Y-m-d H:i:s", $expirydate["long"])->subDays(1);
-    $values["expirydate"] = $expirydate->toDateString();//YYYY-MM-DD
-    $values["expired"] = $expirydate->isPast();
-    $values["active"] = (bool) preg_match("/ACTIVE/i", $r["STATUS"][0]);
-
+    $values = HXDomain::getExpiryData($params, $domainstr, false, $r);
     logActivity($domainstr . ": Domain Sync finished. Updated expirydate: " . $values["expirydate"]);
     return $values;
 }
