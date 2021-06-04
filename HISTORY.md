@@ -1,3 +1,10 @@
+## [5.1.7](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v5.1.6...v5.1.7) (2021-06-04)
+
+
+### Bug Fixes
+
+* **dep-bump:** fix SQL Query related to expired (deleted) domains ([d6c2dfe](https://github.com/hexonet/whmcs-ispapi-registrar/commit/d6c2dfe93aa78c84e3f984f6f0c658162a10f53f)), closes [#186](https://github.com/hexonet/whmcs-ispapi-registrar/issues/186)
+
 ## [5.1.6](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v5.1.5...v5.1.6) (2021-06-04)
 
 
