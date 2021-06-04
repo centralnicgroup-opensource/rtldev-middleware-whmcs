@@ -1,3 +1,10 @@
+## [5.1.5](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v5.1.4...v5.1.5) (2021-06-04)
+
+
+### Bug Fixes
+
+* **expiry data:** use former way; sub 1d: whmcs deals with date portion ([622aa26](https://github.com/hexonet/whmcs-ispapi-registrar/commit/622aa2609d486d1d4ed24883785cce9696daf54b))
+
 ## [5.1.4](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v5.1.3...v5.1.4) (2021-05-31)
 
 
