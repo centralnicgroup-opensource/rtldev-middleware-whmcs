@@ -417,9 +417,17 @@ $additionaldomainfields[".es"][] = [
 ];
 
 ## .EU DOMAIN REQUIREMENTS ##
+$additionaldomainfields[".eu"] = [];
+$additionaldomainfields["eu"][] = [
+    "Name" => "Registrant Citizenship",
+    "Options" => ["", "AT", "BE", "BG", "CZ", "CY", "DE", "DK", "ES", "EE", "FI", "FR", "GR", "HU", "IE", "IT", "LT", "LU", "LV", "MT", "NL", "PL", "PT", "RO", "SE", "SK", "SI", "HR"],
+    "Description" => "Required only if you're a European Citizen residing outside of the EU",
+    "Ispapi-Name" => "X-EU-REGISTRANT-CITIZENSHIP",
+    "Required" => false
+];
 ## NOTE: Activate trustee service / local presence service just in case you have reflected the service costs
 ## in the TLD prices otherwise your customers do not pay for it. This is a missing Domain Add-On in WHMCS.
-/*$additionaldomainfields[".eu"] = [];
+/*
 $additionaldomainfields[".eu"][] = [
     "Name" => "Local Presence",
     "Type" => "dropdown",
