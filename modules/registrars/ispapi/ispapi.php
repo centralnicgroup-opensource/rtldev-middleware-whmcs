@@ -880,48 +880,34 @@ function ispapi_ClientArea($params)
  */
 function ispapi_ClientAreaCustomButtonArray($params)
 {
+    if (isset($params["original"])) {
+        $params = $params["original"];
+    }
     $params = injectDomainObjectIfNecessary($params);
-    $buttonarray = [];
-
-    if (isset($params["domainid"])) {
-        $domainid = $params["domainid"];
-    } elseif (!isset($_REQUEST["id"])) {
-        $params = $GLOBALS["params"];
-        $domainid = $params["domainid"];
-    } else {
-        $domainid = $_REQUEST["id"];
-    }
-    if (!isset($params["idprotection"], $params["dnsmanagement"])) {
-        $r = Helper::SQLCall("SELECT idprotection, dnsmanagement FROM tbldomains WHERE id=:id", [":id" => $domainid], "fetch");
-        if ($r["success"]) {
-            $params["idprotection"] = $r["result"]["idprotection"];
-            $params["dnsmanagement"] = $r["result"]["dnsmanagement"];
-        }
-    }
-    if ($params["idprotection"]) {
-        $buttonarray["WHOIS Privacy"] = "whoisprivacy";
-    }
     $domain = $params["domainObj"]->getDomain();
+    $tld = "." . $params["domainObj"]->getTLD();
 
-    if (preg_match("/\.ca$/i", $domain)) {
-        $buttonarray[".CA Registrant WHOIS Privacy"] = "whoisprivacy_ca";
-        $buttonarray[".CA Change of Registrant"] = "registrantmodification_ca";
-    } elseif (preg_match("/\.it$/i", $domain)) {
-        $buttonarray[".IT Change of Registrant"] = "registrantmodification_it";
-    } elseif (preg_match("/\.(ch|li|se|sg|nu)$/i", $domain)) {
-        $tld = strtoupper(preg_replace("/.+\./", ".", $domain));
-        $buttonarray[$tld . " Change of Registrant"] = "registrantmodification_tld";
+    $buttons = [
+        "Private Nameservers List" => "pnslist"
+    ];
+    if ($params["idprotection"]) {
+        $buttons["WHOIS Privacy"] = "whoisprivacy";
     }
-    if ($params["DNSSEC"] == "on") {
-        $buttonarray["DNSSEC Management"] = "dnssec";
+    if (preg_match("/\.ca$/i", $tld)) {
+        $buttons[".CA Registrant WHOIS Privacy"] = "whoisprivacy_ca";
+        $buttons[".CA Change of Registrant"] = "registrantmodification_ca";
+    } elseif (preg_match("/\.it$/i", $tld)) {
+        $buttons[".IT Change of Registrant"] = "registrantmodification_it";
+    } elseif (HXDomain::needsTradeForRegistrantModification($params, $domain)) {
+        $buttons[strtoupper($tld) . " Change of Registrant"] = "registrantmodification_tld";
     }
-    if ($params["dnsmanagement"]) {
-        if ($params["WebApps"] && Ispapi::canUse("WEBAPPS", $params)) {
-            $buttonarray["Web Apps"] = "webapps";
-        }
+    if ($params["DNSSEC"] === "on") {
+        $buttons["DNSSEC Management"] = "dnssec";
     }
-    $buttonarray["Private Nameservers List"] = "pnslist";
-    return $buttonarray;
+    if ($params["dnsmanagement"] && $params["WebApps"] && Ispapi::canUse("WEBAPPS", $params)) {
+        $buttons["Web Apps"] = "webapps";
+    }
+    return $buttons;
 }
 
 /**
@@ -2323,7 +2309,7 @@ function ispapi_SaveContactDetails($params)
     if (!function_exists("convertStateToCode")) {
         require implode(DIRECTORY_SEPARATOR, [ROOTDIR, "includes", "clientfunctions.php"]);
     }
-    
+
     // TODO:---------- EXCEPTION [BEGIN] --------
     // $params has invalid chars for idn domain names where $params["original"] is fine [kschwarz]
     // HINT: Transliteration
@@ -2449,11 +2435,11 @@ function ispapi_SaveContactDetails($params)
         $command["OWNERCONTACT0"]["FIRSTNAME"] = $registrant["First Name"];
         $command["OWNERCONTACT0"]["LASTNAME"] = $registrant["Last Name"];
         $command["OWNERCONTACT0"]["ORGANIZATION"] = $registrant["Company Name"];
-        
+
         ispapi_query_additionalfields($params);
         ispapi_use_additionalfields($params, $command);
     }
-    
+
     if ($isCA) {
         $registrant_command = $command["OWNERCONTACT0"];
         $sr = HXDomain::getStatus($params, $domain);
