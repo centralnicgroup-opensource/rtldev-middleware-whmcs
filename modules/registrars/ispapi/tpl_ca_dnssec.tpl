@@ -2,7 +2,7 @@
 
 {if $successful}
 	<div class="alert alert-success text-center">
-    	<p>{$LANG.changessavedsuccessfully}</p>
+    	<p>{$L::trans("changessavedsuccessfully")}</p>
 	</div>
 {/if}
 
@@ -80,20 +80,8 @@
 	<tr><td><input style="width:200px;" class="form-control" type="text" name="MAXSIGLIFE" value="{$maxsiglife}"></td></tr>
 </table>
 
-<!-- <h4>Urgent (Optional)</h4>
-<div class="alert alert-info">This parameter is used to ask the server operator to complete and implement the update request with high priority.<br>
-The use of this flag depends on the registry operator, many TLDs will silently ignore it.</div>
-<table class="table table-striped">
-	<tr><td>
-		<select name="URGENT">
-		  <option value="0">No</option>
-		  <option value="1">YES</option>
-		</select>
-	</td></tr>
-</table> -->
-
 <p class="text-center">
-    <input class="btn btn-large btn-primary" type="submit" value="{$LANG.clientareasavechanges}">
+    <input class="btn btn-large btn-primary" type="submit" value="{$L::trans('clientareasavechanges')}">
 </p>
 
 </form>

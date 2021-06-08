@@ -20,7 +20,7 @@ $additionaldomainfields[".abogado"][] = [
     "Required" => true,
     "Description" => (
         "Tick to confirm that you certify that the Registrant is eligibile to register this domain and that all provided information is " .
-        "true and accurate. Eligibility criteria may be viewed <a href='http://nic.law/eligibilitycriteria/' target='_blank'>here</a>."
+        "true and accurate. Eligibility criteria may be viewed <a href=\"http://nic.law/eligibilitycriteria/\" target=\"_blank\">here</a>."
     ),
     "Ispapi-Name" => "X-ABOGADO-ACCEPT-HIGHLY-REGULATED-TAC"
 ];

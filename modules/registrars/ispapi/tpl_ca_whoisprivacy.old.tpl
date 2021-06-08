@@ -3,7 +3,7 @@
 {else}
     {assign var="img_logo" value="modules/registrars/$registrar/images/whoistrustee_logo.gif"}
     {if file_exists($img_logo)}
-        <img src='{$img_logo}' />
+        <img src="{$img_logo}" />
         <!--<h3>{$domain}</h3>-->
     {else}
         <h3>WHOIS Privacy - {$domain}</h3>
@@ -29,7 +29,7 @@
                 </div>
                 <form method="post" action="{$smarty.server.PHP_SELF}?action=domaindetails&id={$domainid}&modop=custom&a={$smarty.request.a|htmlspecialchars}">
                     <input type="hidden" name="id" value="{$domainid}" />
-                    <input type='hidden' name="idprotection" value='disable' />
+                    <input type="hidden" name="idprotection" value="disable" />
                     <p><input type="submit" class="btn btn-danger btn-large" value="Disable WHOIS Privacy" /></p>
                 </form>
         {else}
@@ -38,7 +38,7 @@
                 </div>
                 <form method="post" action="{$smarty.server.PHP_SELF}?action=domaindetails&id={$domainid}&modop=custom&a={$smarty.request.a|htmlspecialchars}">
                     <input type="hidden" name="id" value="{$domainid}" />
-                    <input type='hidden' name="idprotection" value='enable' />
+                    <input type="hidden" name="idprotection" value="enable" />
                     <p><input type="submit" class="btn btn-success btn-large" value="Enable WHOIS Privacy" /></p>
                 </form>
         {/if}

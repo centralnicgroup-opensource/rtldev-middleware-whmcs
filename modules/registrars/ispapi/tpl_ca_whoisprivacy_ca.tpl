@@ -41,7 +41,7 @@
                 </div>
                 <form method="post" action="{$smarty.server.PHP_SELF}?action=domaindetails&modop=custom&a={$smarty.request.a|htmlspecialchars}">
                     <input type="hidden" name="id" value="{$domainid}" />
-                    <input type='hidden' name="idprotection" value='disable' />
+                    <input type="hidden" name="idprotection" value="disable" />
                     <p><input type="submit" class="btn btn-danger btn-large" value="Disable WHOIS Privacy" /></p>
                 </form>
             {else}
@@ -50,7 +50,7 @@
                 </div>
                 <form method="post" action="{$smarty.server.PHP_SELF}?action=domaindetails&modop=custom&a={$smarty.request.a|htmlspecialchars}">
                     <input type="hidden" name="id" value="{$domainid}" />
-                    <input type='hidden' name="idprotection" value='enable' />
+                    <input type="hidden" name="idprotection" value="enable" />
                     <p><input type="submit" class="btn btn-success btn-large" value="Enable WHOIS Privacy" /></p>
                 </form>
             {/if}
