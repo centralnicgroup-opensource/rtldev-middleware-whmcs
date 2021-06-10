@@ -18,9 +18,13 @@ use WHMCS\Module\Registrar\Ispapi\Helper as Helper;
 use WHMCS\Module\Registrar\Ispapi\WebApps as WebApps;
 use WHMCS\Module\Registrar\Ispapi\DomainTransfer as HXDomainTransfer;
 use WHMCS\Module\Registrar\Ispapi\Domain as HXDomain;
+use WHMCS\Module\Registrar\Ispapi\DomainTrade as HXTrade;
+use WHMCS\Module\Registrar\Ispapi\Contact as HXContact;
+use WHMCS\Module\Registrar\Ispapi\User as HXUser;
 use WHMCS\Domains\DomainLookup\SearchResult as SR;
 use WHMCS\Module\Registrar\Ispapi\AdditionalFields as AF;
 use WHMCS\Module\Registrar\Ispapi\Lang as L;
+use WHMCS\Config\Setting as Setting;
 
 /**
  * Check the availability of domains using HEXONET's fast API
@@ -73,7 +77,7 @@ function ispapi_CheckAvailability($params)
         foreach ($command["DOMAIN"] as $idx => $domain) {
             $parts = preg_split("/\./", $domain, 2);
             $sr = new SR($parts[0], $parts[1]);
-            if ($r["CODE"] != "200" || empty($r["PROPERTY"]["DOMAINCHECK"][$idx])) {
+            if ($r["CODE"] !== "200" || empty($r["PROPERTY"]["DOMAINCHECK"][$idx])) {
                 $dc = "421 Temporary issue";
             } else {
                 $dc = $r["PROPERTY"]["DOMAINCHECK"][$idx];
@@ -135,7 +139,7 @@ function ispapi_CheckAvailability($params)
 
             //ONLY RETURNS AVAILABLE DOMAINS FOR DOMAIN NAME SUGGESTIONS MODE
             //AND ALL RESULTS OTHERWISE
-            if (!isset($params["suggestions"]) || $sr->getStatus() == $sr::STATUS_NOT_REGISTERED) {
+            if (!isset($params["suggestions"]) || $sr->getStatus() === $sr::STATUS_NOT_REGISTERED) {
                 $results->append($sr);
             }
         }
@@ -194,7 +198,7 @@ function ispapi_GetDomainSuggestions($params)
         // get domain name suggestions
         $command["FIRST"] = $first;
         $r = Ispapi::call($command, $params);
-        if ($r["CODE"] != 200 || empty($r["PROPERTY"]["DOMAIN"])) {
+        if ($r["CODE"] !== "200" || empty($r["PROPERTY"]["DOMAIN"])) {
             break;//leave while and return $results
         }
         // check the availability, as also taken/reserved/blocked domains could be returned
@@ -235,7 +239,7 @@ function ispapi_DomainSuggestionOptions($params)
         "SOURCE" => "ISPAPI-CATEGORIES"
     ], $params);
     $categories = ["" => "Not set (default)"];
-    if ($r["CODE"] != "200") {
+    if ($r["CODE"] !== "200") {
         $r["PROPERTY"]["CATEGORY"] = [ // 06-08-2020
             "professions", "geographic", "education", "entertainment", "business", "adult", "travel", "technology", "realEstate", "community",
             "identity", "arts", "shopping", "other", "financial", "food", "fitness", "lifestyle", "culture", "popular", "health", "idns"
@@ -313,12 +317,12 @@ function ispapi_DomainSuggestionOptions($params)
 }
 /**
  * Get Premium Price for given domain,
- * $params -> array(
+ * $params -> [
  *      "domain" => ...,
  *      "sld" => ...
  *      "tld" => ...
  *      "type" => ...
- * );
+ * ];
  * @throws Exception in case currency configuration is missing
  */
 function ispapi_GetPremiumPrice($params)
@@ -339,7 +343,7 @@ function ispapi_GetPremiumPrice($params)
         ], $params);
     }
     if (
-        ($r["CODE"] != 200) ||
+        ($r["CODE"] !== "200") ||
         (empty($r["PROPERTY"]["PREMIUMCHANNEL"][0]) && empty($r["PROPERTY"]["CLASS"][0]))
     ) {
         return [];
@@ -373,7 +377,7 @@ function ispapi_GetPremiumPrice($params)
             $racc = Ispapi::call([ // worst case fallback
                 "COMMAND" => "StatusAccount"
             ], $params);
-            if ($racc["CODE"] != "200" || empty($racc["PROPERTY"]["CURRENCY"][0])) {
+            if ($racc["CODE"] !== "200" || empty($racc["PROPERTY"]["CURRENCY"][0])) {
                 return [];
             }
             $prices["CurrencyCode"] = $racc["PROPERTY"]["CURRENCY"][0];
@@ -406,7 +410,7 @@ function ispapi_getPremiumCurrency($params, $class)
 {
     if (!preg_match("/\:/", $class)) {
         //REGISTRY PREMIUM DOMAIN (e.g. PREMIUM_DATE_F)
-        return  ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_" . $class . "_CURRENCY");
+        return  HXUser::getRelationValue($params, "PRICE_CLASS_DOMAIN_" . $class . "_CURRENCY");
     }
     //VARIABLE FEE PREMIUM DOMAINS (e.g. PREMIUM_TOP_CNY:24:2976)
     return preg_replace("/(^.+_|:.+$)/", "", $class);
@@ -431,10 +435,10 @@ function ispapi_getPremiumRegisterPrice($params, $class, $registerprice, $cur_id
     //VARIABLE FEE PREMIUM DOMAINS (e.g. PREMIUM_TOP_CNY:24:2976)
     $p = preg_split("/\:/", $class);
     $cl = preg_split("/_/", $p[0]);
-    $premiummarkupfix_value = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_" . $cl[0] . "_" . $cl[1] . "_*_SETUP_MARKUP_FIX");
-    $premiummarkupvar_value = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_" . $cl[0] . "_" . $cl[1] . "_*_SETUP_MARKUP_VAR");
+    $premiummarkupfix_value = HXUser::getRelationValue($params, "PRICE_CLASS_DOMAIN_" . $cl[0] . "_" . $cl[1] . "_*_SETUP_MARKUP_FIX");
+    $premiummarkupvar_value = HXUser::getRelationValue($params, "PRICE_CLASS_DOMAIN_" . $cl[0] . "_" . $cl[1] . "_*_SETUP_MARKUP_VAR");
     if ($premiummarkupfix_value && $premiummarkupvar_value) {
-        $currency = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_" . $cl[0] . "_" . $cl[1] . "_*_CURRENCY");
+        $currency = HXUser::getRelationValue($params, "PRICE_CLASS_DOMAIN_" . $cl[0] . "_" . $cl[1] . "_*_CURRENCY");
         if ($currency !== false) {
             $currency = \WHMCS\Billing\Currency::where("code", $prices["CurrencyCode"])->first();
             if (!$currency) {
@@ -463,7 +467,7 @@ function ispapi_getPremiumTransferPrice($params, $class, $cur_id)
 {
     if (!preg_match("/\:/", $class)) {
         //REGISTRY PREMIUM DOMAIN (e.g. PREMIUM_DATE_F)
-        $currency = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_" . $class . "_CURRENCY");
+        $currency = HXUser::getRelationValue($params, "PRICE_CLASS_DOMAIN_" . $class . "_CURRENCY");
         if ($currency === false) {
             return false;
         }
@@ -471,7 +475,7 @@ function ispapi_getPremiumTransferPrice($params, $class, $cur_id)
         if (!$currency) {
             return false;
         }
-        $transfer = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_" . $class . "_TRANSFER");
+        $transfer = HXUser::getRelationValue($params, "PRICE_CLASS_DOMAIN_" . $class . "_TRANSFER");
         // premium period is in general 1Y, no need to reflect period in calculations
         if ($transfer !== false && ($currency->id != $cur_id)) {
             return convertCurrency($transfer, $currency->id, $cur_id);
@@ -481,10 +485,10 @@ function ispapi_getPremiumTransferPrice($params, $class, $cur_id)
     //VARIABLE FEE PREMIUM DOMAINS (e.g. PREMIUM_TOP_CNY:24:2976)
     $p = preg_split("/\:/", $class);
     $cl = preg_split("/_/", $p[0]);
-    $premiummarkupfix_value = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_" . $cl[0] . "_" . $cl[1] . "_*_TRANSFER_MARKUP_FIX");
-    $premiummarkupvar_value = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_" . $cl[0] . "_" . $cl[1] . "_*_TRANSFER_MARKUP_VAR");
+    $premiummarkupfix_value = HXUser::getRelationValue($params, "PRICE_CLASS_DOMAIN_" . $cl[0] . "_" . $cl[1] . "_*_TRANSFER_MARKUP_FIX");
+    $premiummarkupvar_value = HXUser::getRelationValue($params, "PRICE_CLASS_DOMAIN_" . $cl[0] . "_" . $cl[1] . "_*_TRANSFER_MARKUP_VAR");
     if ($premiummarkupfix_value && $premiummarkupvar_value) {
-        $currency = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_" . $cl[0] . "_" . $cl[1] . "_*_CURRENCY");
+        $currency = HXUser::getRelationValue($params, "PRICE_CLASS_DOMAIN_" . $cl[0] . "_" . $cl[1] . "_*_CURRENCY");
         if ($currency !== false) {
             $currency = \WHMCS\Billing\Currency::where("code", $currency)->first();
             if (!$currency) {
@@ -513,7 +517,7 @@ function ispapi_getPremiumRenewPrice($params, $class, $cur_id)
 {
     if (!preg_match("/\:/", $class)) {
         //REGISTRY PREMIUM DOMAIN (e.g. PREMIUM_DATE_F)
-        $currency = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_" . $class . "_CURRENCY");
+        $currency = HXUser::getRelationValue($params, "PRICE_CLASS_DOMAIN_" . $class . "_CURRENCY");
         if ($currency === false) {
             return false;
         }
@@ -521,7 +525,7 @@ function ispapi_getPremiumRenewPrice($params, $class, $cur_id)
         if (!$currency) {
             return false;
         }
-        $renewprice = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_" . $class . "_ANNUAL");
+        $renewprice = HXUser::getRelationValue($params, "PRICE_CLASS_DOMAIN_" . $class . "_ANNUAL");
         if ($renewprice && ($currency->id != $cur_id)) {
             $renewprice = convertCurrency($renewprice, $cur_id2->id, $cur_id);
         }
@@ -530,10 +534,10 @@ function ispapi_getPremiumRenewPrice($params, $class, $cur_id)
     //VARIABLE FEE PREMIUM DOMAINS (e.g. PREMIUM_TOP_CNY:24:2976)
     $p = preg_split("/\:/", $class);
     $cl = preg_split("/_/", $p[0]);
-    $premiummarkupfix_value = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_" . $cl[0] . "_" . $cl[1] . "_*_ANNUAL_MARKUP_FIX");
-    $premiummarkupvar_value = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_" . $cl[0] . "_" . $cl[1] . "_*_ANNUAL_MARKUP_VAR");
+    $premiummarkupfix_value = HXUser::getRelationValue($params, "PRICE_CLASS_DOMAIN_" . $cl[0] . "_" . $cl[1] . "_*_ANNUAL_MARKUP_FIX");
+    $premiummarkupvar_value = HXUser::getRelationValue($params, "PRICE_CLASS_DOMAIN_" . $cl[0] . "_" . $cl[1] . "_*_ANNUAL_MARKUP_VAR");
     if ($premiummarkupfix_value && $premiummarkupvar_value) {
-        $currency = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_" . $cl[0] . "_" . $cl[1] . "_*_CURRENCY");
+        $currency = HXUser::getRelationValue($params, "PRICE_CLASS_DOMAIN_" . $cl[0] . "_" . $cl[1] . "_*_CURRENCY");
         if ($currency !== false) {
             $currency = \WHMCS\Billing\Currency::where("code", $currency)->first();
             if (!$currency) {
@@ -565,69 +569,19 @@ function ispapi_getRenewPrice($params, $class, $cur_id, $tld)
         //NO PREMIUM RENEW, RETURN THE PRICE SET IN WHMCS
         $pdo = \WHMCS\Database\Capsule::connection()->getPdo();
         $stmt = $pdo->prepare("select * from tbldomainpricing tbldp, tblpricing tblp where tbldp.extension = ? and tbldp.id = tblp.relid and tblp.type = 'domainrenew' and tblp.currency=?");
-        $stmt->execute(array("." . $tld, $cur_id));
+        $stmt->execute(["." . $tld, $cur_id]);
         $data = $stmt->fetch(PDO::FETCH_ASSOC);
-        if (!empty($data) && !in_array($data["msetupfee"], array("-1", "0"))) {
+        if (!empty($data) && !in_array($data["msetupfee"], ["-1", "0"])) {
             return $data["msetupfee"];
         }
         return false;
         //API COMMAND GetTLDPricing IS TRIGERING JS ERROR AND IS UNUSABLE.
-        // $gettldpricing_res = localAPI("GetTLDPricing", array("currencyid" => $cur_id));
+        // $gettldpricing_res = localAPI("GetTLDPricing", ["currencyid" => $cur_id]);
         // $renewprice = $gettldpricing_res["pricing"][$tld]["renew"][1];
         //return !empty($renewprice) ? $renewprice : false;
     }
 
     return ispapi_getPremiumRenewPrice($params, $class, $cur_id);
-}
-
-/**
- * Get the value for a given user relationtype
- *
- * @param array $params common module parameters
- * @param string $relationtype the name of the user relationtype
- *
- * @return integer/bool the user relationvalue, false if not found
- */
-function ispapi_getUserRelationValue($params, $relationtype)
-{
-    $relations = ispapi_getUserRelations($params);
-    $i = 0;
-    foreach ($relations["RELATIONTYPE"] as $relation) {
-        if ($relation == $relationtype) {
-            return $relations["RELATIONVALUE"][$i];
-        }
-        $i++;
-    }
-    return false;
-}
-
-/**
- * Generate and return the user relations (StatusUser)
- * The user relations are stored in a session ($_SESSION["ISPAPICACHE"]["RELATIONS"]) and are regenerated after 600 seconds.
- *
- * @param array $params common module parameters
- *
- * @return array/bool the user relations, false if not found
- */
-function ispapi_getUserRelations($params)
-{
-    if (session_status() == PHP_SESSION_NONE) {
-        session_start();
-    }
-
-    $date = new DateTime();
-    if ((!isset($_SESSION["ISPAPICACHE"])) || ($_SESSION["ISPAPICACHE"]["TIMESTAMP"] + 600 < $date->getTimestamp() )) {
-        $command["COMMAND"] = "StatusUser";
-        $response = Ispapi::call($command, $params);
-        if ($response["CODE"] == 200) {
-            $_SESSION["ISPAPICACHE"] = array("TIMESTAMP" => $date->getTimestamp() , "RELATIONS" => $response["PROPERTY"]);
-            return $_SESSION["ISPAPICACHE"]["RELATIONS"];
-        } else {
-            return false;
-        }
-    } else {
-        return $_SESSION["ISPAPICACHE"]["RELATIONS"];
-    }
 }
 
 /**
@@ -641,7 +595,7 @@ function ispapi_getUserRelations($params)
 {
     $authOk = Ispapi::checkAuth($params);
     if ($authOk===false) {
-        $parts = parse_url(\WHMCS\Config\Setting::getValue("SystemURL"));
+        $parts = parse_url(Setting::getValue("SystemURL"));
         $ip = gethostbyname($parts["host"]);
         $error = Ispapi::getAuthError();
         $url = "https://github.com/hexonet/whmcs-ispapi-registrar/wiki/FAQs#49-login-failed-in-registrar-module";
@@ -801,7 +755,7 @@ function ispapi_getConfigArray($params)
     }
 
     $system = $params["TestMode"] === "on" ? "OT&E" : "LIVE";
-    $parts = parse_url(\WHMCS\Config\Setting::getValue("SystemURL"));
+    $parts = parse_url(Setting::getValue("SystemURL"));
     $ip = gethostbyname($parts["host"]);
 
     if ($authOk === false) {
@@ -829,7 +783,6 @@ HTML
         ];
     }
 
-
     return $configarray;
 }
 
@@ -856,13 +809,10 @@ function ispapi_ClientArea($params)
     $result = Helper::SQLCall("SELECT g.name FROM tblproductgroups g, tblproducts p, tblhosting h WHERE p.id = h.packageid AND p.gid = g.id AND h.domain = :domain", $data, "fetch");
     if ($result["success"]) {
         $data = $result["result"];
-        if ($data["name"] == "PREMIUM DOMAIN") {
-            $response = Ispapi::call([
-                "COMMAND" => "StatusDomain",
-                "DOMAIN" => $domain
-            ], $params);
-            if ($response["CODE"] == 200) {
-                $smarty->assign("statusdomain", $response["PROPERTY"]);
+        if ($data["name"] === "PREMIUM DOMAIN") {
+            $r = HXDomain::getStatus($params, $domain);
+            if ($r["success"]) {
+                $smarty->assign("statusdomain", $r["data"]);
             }
             return [
                 "templatefile" => "tpl_ca_premium",
@@ -901,14 +851,14 @@ function ispapi_ClientAreaCustomButtonArray($params)
         // (free of charge, don't cover it over _IDProtectToggle/ID Protection Addon)
         $buttons[L::trans("hxwhoisprivacy")] = "whoisprivacy";
     }
-    if (1 || HXDomain::needsTradeForRegistrantModification($params, $domain)) {
+    if (HXTrade::needsTradeForRegistrantModification($params, $domain, ["TRADE", "ICANN-TRADE"])) {
         $buttons[L::trans("hxownerchange")] = "registrantmodificationtrade";
     } else {
         // changes can be done by update; we need only a specific page in case domain fields are necessary
         $addflds = new AF($params["TestMode"] === "on");
         $addflds->setDomainType("update")
                 ->setDomain($domain);
-        if ($addflds->isMissingRequiredFields()) {
+        if (!empty($addflds->getRequiredFields())) {
             //in case we have additional required domain fields for update
             $buttons[L::trans("hxownerchange")] = "registrantmodification";
         }
@@ -932,8 +882,11 @@ function ispapi_ClientAreaCustomButtonArray($params)
  */
 function ispapi_pnslist($params)
 {
-    $params = injectDomainObjectIfNecessary($params);
-    $r = HXDomain::getStatus($params, $params["domainObj"]->getDomain(), true);
+    if (isset($params["original"])) {
+        $params = $params["original"];
+    }
+    $domain = $params["sld"] . "." . $params["tld"];
+    $r = HXDomain::getStatus($params, $domain, true);
     return [
         "templatefile" => "tpl_ca_pnslist",
         "vars" => array_merge(["L" => new L()], $r)
@@ -997,12 +950,9 @@ function ispapi_dnssec($params)
         //remove DS records - bugfix (REASON? TICKET?)
         if (empty($command["SECDNS-DS"])) {
             unset($command["SECDNS-DS"]);
-            $r = Ispapi::call([
-                "COMMAND" => "StatusDomain",
-                "DOMAIN" => $domain
-            ], $params);
-            if ($r["CODE"] == 200) {
-                $command["DELSECDNS-DS"] = $r["PROPERTY"]["SECDNS-DS"];
+            $r = HXDomain::getStatus($params, $domain);
+            if ($r["success"]) {
+                $command["DELSECDNS-DS"] = $r["data"]["SECDNS-DS"];
             }
         }
 
@@ -1019,13 +969,9 @@ function ispapi_dnssec($params)
     $secdnsds_newformat = [];
     $secdnskey_newformat = [];
 
-    $r = Ispapi::call([
-        "COMMAND" => "StatusDomain",
-        "DOMAIN" => $domain
-    ], $params);
-
-    if ($r["CODE"] === "200") {
-        $r = $r["PROPERTY"];
+    $r = HXDomain::getStatus($params, $domain);
+    if ($r["success"]) {
+        $r = $r["data"];
         $maxsiglife = (isset($r["SECDNS-MAXSIGLIFE"])) ? $r["SECDNS-MAXSIGLIFE"][0] : "";
         $secdnsds = (isset($r["SECDNS-DS"])) ? $r["SECDNS-DS"] : [];
         //delete empty KEY records, if cb fn not provided, array_filter will remove empty entries
@@ -1053,7 +999,7 @@ function ispapi_dnssec($params)
             ];
         }
     } else {
-        $error = $r["DESCRIPTION"];
+        $error = $r["error"];
     }
 
     return [
@@ -1090,24 +1036,28 @@ function ispapi_registrantmodification($params)
     $addflds->setDomainType("update")
             ->setDomain($domain->getDomain());
 
-    $r = Ispapi::call([
-        "COMMAND" => "StatusDomain",
-        "DOMAIN" => $domain->getDomain()
-    ], $params);
+    $r = HXDomain::getStatus($params, $domain->getDomain());
 
     $values = [];
-    if ($r["CODE"] === "200") {
-        $values["Registrant"] = ispapi_get_contact_info($r["PROPERTY"]["OWNERCONTACT"][0], $params);
+    if (!$r["success"]) {
+        // TODO: show error page directly
+        // TODO: add Admin-C (idx Admin) to values if $needsAdminC
     }
+    $values["Registrant"] = HXContact::getInfo($r["data"]["OWNERCONTACT"][0], $params);
 
     $error = false;
     $successful = false;
+
+    $needsAdminC = $addflds->needsAdminC();
+    $needsTechC = $addflds->needsTechC();
+    $needsBillingC = $addflds->needsBillingC();
+
     $missingfields = [];
 
     if (isset($_POST["submit"])) {
         $addflds->setFieldValues($_POST["domainfield"]);
         if ($addflds->isMissingRequiredFields()) {
-            $error = Lang::trans("hxerrormissingfields");
+            $error = L::trans("hxerrormissingfields");
             $missingfields = $addflds->getMissingRequiredFields();
         } else {
             $values["Registrant"] = $_POST["contactdetails"]["Registrant"];
@@ -1117,9 +1067,7 @@ function ispapi_registrantmodification($params)
                 "DOMAIN" => $domain->getDomain()
             ];
 
-            ispapi_get_contact_info2($command, $_POST, [
-                "OWNERCONTACT0" => "Registrant"
-            ]);
+            HXContact::getInfo2($command, $_POST);
 
             $addflds->addToCommand($command, $params["country"]);
             $r = Ispapi::call($command, $params);
@@ -1140,13 +1088,16 @@ function ispapi_registrantmodification($params)
         "vars" => [
             "L" => new L(),
             "tld" => $domain->getLastTLDSegment(),
-            "needsAdminC" => false,
+            "needsAdminC" => $needsAdminC,
+            "needsTechC" => $needsTechC,
+            "needsBillingC" => $needsBillingC,
             "error" => $error,
             "successful" => $successful,
             "values" => $values,
             "additionalfields" => $addflds,
             "missingfields" => $missingfields,
-            "type" => ""
+            "type" => "",
+            "subtype" => ""
         ]
     ];
 }
@@ -1172,42 +1123,60 @@ function ispapi_registrantmodificationtrade($params)
     $addflds->setDomainType("trade")
             ->setDomain($domain->getDomain());
 
-    $r = Ispapi::call([
-        "COMMAND" => "StatusDomain",
-        "DOMAIN" => $domain->getDomain()
-    ], $params);
+    $r = HXDomain::getStatus($params, $domain->getDomain());
 
     $values = [];
-    if ($r["CODE"] === "200") {
-        $values["Registrant"] = ispapi_get_contact_info($r["PROPERTY"]["OWNERCONTACT"][0], $params);
+    $repository = "";
+    if ($r["success"]) {
+        // TODO: show error page directly
+        // TODO: add Admin-C (idx Admin) to values if $needsAdminC
+        $oldreg = HXContact::getInfo($r["data"]["OWNERCONTACT"][0], $params);
+        $values["Registrant"] = $oldreg;
+        $repository = $r["data"]["REPOSITORY"][0];
     }
 
     $error = false;
     $successful = false;
-    $missingfields = [];
-    $needsAdminC = Ispapi::needsAdminContactInTrade($domain->getLastTLDSegment());
 
+    $needsAdminC = (
+        HXTrade::needsAdminContactInTrade($domain->getLastTLDSegment()) ||
+        $addflds->needsAdminC()
+    );
+    $needsTechC = $addflds->needsTechC();
+    $needsBillingC = $addflds->needsBillingC();
+
+    $tradeType = HXTrade::needsTradeForRegistrantModification($params, $domain->getDomain(), ["TRADE", "ICANN-TRADE"]);
+    $missingfields = [];
+
+    //TODO: consider admin-c, tech-c, billing-c fields
     if (isset($_POST["submit"])) {
         $addflds->setFieldValues($_POST["domainfield"]);
         if ($addflds->isMissingRequiredFields()) {
-            $error = Lang::trans("hxerrormissingfields");
+            $error = L::trans("hxerrormissingfields");
             $missingfields = $addflds->getMissingRequiredFields();
         } else {
-            $values["Registrant"] = $_POST["contactdetails"]["Registrant"];
-
             $command = [
                 "COMMAND" => "TradeDomain",
                 "DOMAIN" => $domain->getDomain()
             ];
-            $map = [
-                "OWNERCONTACT0" => "Registrant"
-            ];
-            if ($needsAdminC) {
-                $map["ADMINCONTACT0"] = "Registrant";
+            $newreg = $_POST["contactdetails"]["Registrant"];
+            $values["Registrant"] = $newreg;
+            // IRTP Handling
+            if ($tradeType === "ICANN-TRADE") {
+                if (
+                    preg_match("/Designated Agent/", $params["IRTP"])
+                    && HXTrade::isTradeDataChange($oldreg, $newreg)
+                ) {
+                    $command = array_merge($command, [
+                        "X-CONFIRM-DA-OLD-REGISTRANT" => 1,
+                        "X-CONFIRM-DA-NEW-REGISTRANT" => 1,
+                    ]);
+                }
+                //HM-735: opt-out is not supported for AFNIC TLDs (pm, tf, wf, yt, fr, re)
+                $command["X-REQUEST-OPT-OUT-TRANSFERLOCK"] = (!preg_match("/AFNIC/i", $repository) && $params["irtpOptOut"]) ? 1 : 0;
             }
-            ispapi_get_contact_info2($command, $_POST, $map);
-
             $addflds->addToCommand($command, $params["country"]);
+            HXContact::getInfo2($command, $_POST, "Registrant", "Registrant");
             $r = Ispapi::call($command, $params);
             if ($r["CODE"] === "200") {
                 $addflds->saveToDatabase();
@@ -1226,12 +1195,15 @@ function ispapi_registrantmodificationtrade($params)
             "L" => new L(),
             "tld" => $domain->getLastTLDSegment(),
             "needsAdminC" => $needsAdminC,
+            "needsTechC" => $needsTechC,
+            "needsBillingC" => $needsBillingC,
             "error" => $error,
             "successful" => $successful,
             "values" => $values,
             "additionalfields" => $addflds,
             "missingfields" => $missingfields,
-            "type" => "trade"
+            "type" => "trade",
+            "subtype" => $tradeType
         ]
     ];
 }
@@ -1251,16 +1223,16 @@ function ispapi_whoisprivacy($params)
 
     $params = injectDomainObjectIfNecessary($params);
     /** @var \WHMCS\Domains\Domain $domain */
-    $domain = $params["domainObj"];
+    $domain = $params["domainObj"]->getDomain();
 
-    $addflds = new AF($params["TestMode"] == "on");
-    $addflds->setDomainType("whoisprivacy")->setDomain($domain->getDomain());
+    $addflds = new AF($params["TestMode"] === "on");
+    $addflds->setDomainType("whoisprivacy")->setDomain($domain);
 
     $error = false;
     if (isset($_POST["idprotection"])) {
         $command = [
             "COMMAND" => "ModifyDomain",
-            "DOMAIN" => $domain->getDomain()
+            "DOMAIN" => $domain
         ];
         $addflds->addWhoisProtectiontoCommand($command, $_POST["idprotection"]);
         $r = Ispapi::call($command, $params);
@@ -1269,11 +1241,7 @@ function ispapi_whoisprivacy($params)
         }
     }
 
-    $r = Ispapi::call([
-        "COMMAND" => "StatusDomain",
-        "DOMAIN" => $domain->getDomain()
-    ], $params);
-
+    $r = HXDomain::getStatus($params, $domain);
     $addflds->setFieldValuesFromAPI($r);
     $protected = $addflds->isWhoisProtected();
 
@@ -1349,7 +1317,7 @@ function ispapi_GetDomainInformation($params)
     }
 
     $r = HXDomain::getStatus($params, $domain);
-    if ($r["success"] !== true) {
+    if (!$r["success"]) {
         if ($r["errorcode"] === "531") {
             throw new \Exception("Domain no longer in management - probably transferred away.");
         }
@@ -1412,7 +1380,7 @@ function ispapi_GetDomainInformation($params)
     $values["transferlock"] = (isset($r["TRANSFERLOCK"][0]) && $r["TRANSFERLOCK"][0] === "1");
 
     //IRTP handling
-    $isAffectedByIRTP = HXDomain::needsIRTPForRegistrantModification($params, $domain);
+    $isAffectedByIRTP = HXTrade::needsIRTPForRegistrantModification($params, $domain);
     $values["contactChangeExpiryDate"] = null;
     $values["setDomainContactChangePending"] = false;
     $values["setPendingSuspension"] = false;
@@ -1476,12 +1444,7 @@ function ispapi_GetDomainInformation($params)
         //->setRegistrantEmailAddress($response["registrant"]["email"])
         ->setIrtpVerificationTriggerFields(
             [
-                "Registrant" => [
-                    "First Name",
-                    "Last Name",
-                    "Organization Name",
-                    "Email",
-                ]
+                "Registrant" => HXTrade::getTradeTriggerFields()
             ]
         );
     return $thedomain;
@@ -1535,17 +1498,12 @@ function ispapi_GetNameservers($params)
     if (isset($params["original"])) {
         $params = $params["original"];
     }
-    $r = Ispapi::call([
-        "COMMAND" => "StatusDomain",
-        "DOMAIN" => $params["sld"] . "." . $params["tld"]
-    ], $params);
-    if ($r["CODE"] === "200") {
+    $r = HXDomain::getStatus($params, $params["sld"] . "." . $params["tld"]);
+    if ($r["success"]) {
         //no findings for htmlspecialchars in other registrar modules, looks like this got fixed
-        return Ispapi::castNameservers($r["PROPERTY"]["NAMESERVER"]);
+        return Ispapi::castNameservers($r["data"]["NAMESERVER"]);
     }
-    return [
-        "error" => $r["DESCRIPTION"]
-    ];
+    return $r;
 }
 
 /**
@@ -1589,7 +1547,7 @@ function ispapi_SaveNameservers($params)
  */
 function ispapi_GetDNS($params)
 {
-    $values = array();
+    $values = [];
     if (isset($params["original"])) {
         $params = $params["original"];
     }
@@ -1597,21 +1555,16 @@ function ispapi_GetDNS($params)
     $domain = $params["sld"] . "." . $params["tld"];
 
     //convert the dnszone in idn
-    $command = array(
-            "COMMAND" => "ConvertIDN",
-            "DOMAIN" => $domain
-    );
-    $response = Ispapi::call($command, $params);
-    $dnszone_idn = $response["PROPERTY"]["ACE"][0] . ".";
+    $r = HXDomain::convert($params, $domain);
+    $dnszone_idn = $r["punycode"] . "."; // idn, but punycode assigned ... lol ...
 
-    $command = array(
-            "COMMAND" => "QueryDNSZoneRRList",
-            "DNSZONE" => $dnszone,
-            "EXTENDED" => 1
-    );
-    $response = Ispapi::call($command, $params);
-    $hostrecords = array();
-    if ($response["CODE"] == 200) {
+    $response = Ispapi::call([
+        "COMMAND" => "QueryDNSZoneRRList",
+        "DNSZONE" => $dnszone,
+        "EXTENDED" => 1
+    ], $params);
+    $hostrecords = [];
+    if ($response["CODE"] === "200") {
         $i = 0;
         foreach ($response["PROPERTY"]["RR"] as $rr) {
             $fields = explode(" ", $rr);
@@ -1620,13 +1573,17 @@ function ispapi_GetDNS($params)
             $class = array_shift($fields);
             $rrtype = array_shift($fields);
 
-            if ($domain == $dnszone) {
+            if ($domain === $dnszone) {
                 $domain = "@";
             }
             $domain = str_replace("." . $dnszone_idn, "", $domain);
 
-            if ($rrtype == "A") {
-                $hostrecords[$i] = array( "hostname" => $domain, "type" => $rrtype, "address" => $fields[0], );
+            if ($rrtype === "A") {
+                $hostrecords[$i] = [
+                    "hostname" => $domain,
+                    "type" => $rrtype,
+                    "address" => $fields[0]
+                ];
                 if (preg_match("/^mxe-host-for-ip-(\d+)-(\d+)-(\d+)-(\d+)$/i", $domain, $m)) {
                     unset($hostrecords[$i]);
                     $i--;
@@ -1634,28 +1591,45 @@ function ispapi_GetDNS($params)
                 $i++;
             }
 
-            if ($rrtype == "AAAA") {
-                $hostrecords[$i] = array( "hostname" => $domain, "type" => "AAAA", "address" => $fields[0], );
+            if ($rrtype === "AAAA") {
+                $hostrecords[$i] = [
+                    "hostname" => $domain,
+                    "type" => "AAAA",
+                    "address" => $fields[0]
+                ];
                 $i++;
             }
 
-            if ($rrtype == "TXT") {
-                $hostrecords[$i] = array( "hostname" => $domain, "type" => $rrtype, "address" => (implode(" ", $fields)), );
+            if ($rrtype === "TXT") {
+                $hostrecords[$i] = [
+                    "hostname" => $domain,
+                    "type" => $rrtype,
+                    "address" => implode(" ", $fields)
+                ];
                 $i++;
             }
 
-            if ($rrtype == "SRV") {
+            if ($rrtype === "SRV") {
                 $priority = array_shift($fields);
-                $hostrecords[$i] = array( "hostname" => $domain, "type" => $rrtype, "address" => implode(" ", $fields), "priority" => $priority );
+                $hostrecords[$i] = [
+                    "hostname" => $domain,
+                    "type" => $rrtype,
+                    "address" => implode(" ", $fields),
+                    "priority" => $priority
+                ];
                 $i++;
             }
 
-            if ($rrtype == "CNAME") {
-                $hostrecords[$i] = array( "hostname" => $domain, "type" => $rrtype, "address" => $fields[0], );
+            if ($rrtype === "CNAME") {
+                $hostrecords[$i] = [
+                    "hostname" => $domain,
+                    "type" => $rrtype,
+                    "address" => $fields[0]
+                ];
                 $i++;
             }
 
-            if ($rrtype == "X-HTTP") {
+            if ($rrtype === "X-HTTP") {
                 if (preg_match("/^\//", $fields[0])) {
                     $domain .= array_shift($fields);
                     /*while(substr($domain, -1)=="/"){
@@ -1664,23 +1638,26 @@ function ispapi_GetDNS($params)
                 }
 
                 $url_type = array_shift($fields);
-                if ($url_type == "REDIRECT") {
+                if ($url_type === "REDIRECT") {
                     $url_type = "URL";
                 }
 
-                $hostrecords[$i] = array( "hostname" => $domain, "type" => $url_type, "address" => implode(" ", $fields), );
+                $hostrecords[$i] = [
+                    "hostname" => $domain,
+                    "type" => $url_type,
+                    "address" => implode(" ", $fields)
+                ];
                 $i++;
             }
         }
 
         //only for MX fields, they are note displayed in the "EXTENDED" version
-        $command = array(
-                "COMMAND" => "QueryDNSZoneRRList",
-                "DNSZONE" => $dnszone,
-                "SHORT" => 1,
-        );
-        $response = Ispapi::call($command, $params);
-        if ($response["CODE"] == 200) {
+        $response = Ispapi::call([
+            "COMMAND" => "QueryDNSZoneRRList",
+            "DNSZONE" => $dnszone,
+            "SHORT" => 1
+        ], $params);
+        if ($response["CODE"] === "200") {
             foreach ($response["PROPERTY"]["RR"] as $rr) {
                 $fields = explode(" ", $rr);
                 $domain = array_shift($fields);
@@ -1688,11 +1665,20 @@ function ispapi_GetDNS($params)
                 $class = array_shift($fields);
                 $rrtype = array_shift($fields);
 
-                if ($rrtype == "MX") {
+                if ($rrtype === "MX") {
                     if (preg_match("/^mxe-host-for-ip-(\d+)-(\d+)-(\d+)-(\d+)($|\.)/i", $fields[1], $m)) {
-                        $hostrecords[$i] = array( "hostname" => $domain, "type" => "MXE", "address" => $m[1] . "." . $m[2] . "." . $m[3] . "." . $m[4], );
+                        $hostrecords[$i] = [
+                            "hostname" => $domain,
+                            "type" => "MXE",
+                            "address" => $m[1] . "." . $m[2] . "." . $m[3] . "." . $m[4]
+                        ];
                     } else {
-                        $hostrecords[$i] = array( "hostname" => $domain, "type" => $rrtype, "address" => $fields[1], "priority" => $fields[0] );
+                        $hostrecords[$i] = [
+                            "hostname" => $domain,
+                            "type" => $rrtype,
+                            "address" => $fields[1],
+                            "priority" => $fields[0]
+                        ];
                     }
                     $i++;
                 }
@@ -1719,17 +1705,17 @@ function ispapi_SaveDNS($params)
     $dnszone = $params["sld"] . "." . $params["tld"] . ".";
     $domain = $params["sld"] . "." . $params["tld"];
 
-    $command = array(
+    $command = [
         "COMMAND" => "UpdateDNSZone",
         "DNSZONE" => $dnszone,
         "RESOLVETTLCONFLICTS" => 1,
         "INCSERIAL" => 1,
         "EXTENDED" => 1,
-        "DELRR" => array("% A", "% AAAA", "% CNAME", "% TXT", "% MX", "% X-HTTP", "% X-SMTP", "% SRV"),
-        "ADDRR" => array(),
-    );
+        "DELRR" => ["% A", "% AAAA", "% CNAME", "% TXT", "% MX", "% X-HTTP", "% X-SMTP", "% SRV"],
+        "ADDRR" => []
+    ];
 
-    $mxe_hosts = array();
+    $mxe_hosts = [];
     foreach ($params["dnsrecords"] as $key => $values) {
         $hostname = $values["hostname"];
         $type = strtoupper($values["type"]);
@@ -1737,26 +1723,26 @@ function ispapi_SaveDNS($params)
         $priority = $values["priority"];
 
         if (strlen($hostname) && strlen($address)) {
-            if ($type == "A") {
+            if ($type === "A") {
                 $command["ADDRR"][] = "$hostname $type $address";
             }
-            if ($type == "AAAA") {
+            if ($type === "AAAA") {
                 $command["ADDRR"][] = "$hostname $type $address";
             }
-            if ($type == "CNAME") {
+            if ($type === "CNAME") {
                 $command["ADDRR"][] = "$hostname $type $address";
             }
-            if ($type == "TXT") {
+            if ($type === "TXT") {
                 $command["ADDRR"][] = "$hostname $type $address";
             }
-            if ($type == "SRV") {
+            if ($type === "SRV") {
                 if (empty($priority)) {
                     $priority = 0;
                 }
-                array_push($command["DELRR"], "% SRV");
+                $command["DELRR"][] = "% SRV";
                 $command["ADDRR"][] = "$hostname $type $priority $address";
             }
-            if ($type == "MXE") {
+            if ($type === "MXE") {
                 $mxpref = 100;
                 if (preg_match("/^([0-9]+) (.*)$/", $address, $m)) {
                     $mxpref = $m[1];
@@ -1776,7 +1762,7 @@ function ispapi_SaveDNS($params)
                     $type = "MX";
                 }
             }
-            if ($type == "MX") {
+            if ($type === "MX") {
                 $mxpref = 100;
                 if (preg_match("/^([0-9]+) (.*)$/", $address, $m)) {
                     $mxpref = $m[1];
@@ -1788,7 +1774,7 @@ function ispapi_SaveDNS($params)
 
                 $command["ADDRR"][] = "$hostname $type $mxpref $address";
             }
-            if ($type == "FRAME") {
+            if ($type === "FRAME") {
                 $redirect = "FRAME";
                 if (preg_match("/^([^\/]+)(.*)$/", $hostname, $m)) {
                     $hostname = $m[1];
@@ -1796,7 +1782,7 @@ function ispapi_SaveDNS($params)
                 }
                 $command["ADDRR"][] = "$hostname X-HTTP $redirect $address";
             }
-            if ($type == "URL") {
+            if ($type === "URL") {
                 $redirect = "REDIRECT";
                 if (preg_match("/^([^\/]+)(.*)$/", $hostname, $m)) {
                     $hostname = $m[1];
@@ -1811,14 +1797,13 @@ function ispapi_SaveDNS($params)
     }
 
     //add X-SMTP to the list
-    $command2 = array(
-            "COMMAND" => "QueryDNSZoneRRList",
-            "DNSZONE" => $dnszone,
-            "EXTENDED" => 1
-    );
-    $response = Ispapi::call($command2, $params);
+    $response = Ispapi::call([
+        "COMMAND" => "QueryDNSZoneRRList",
+        "DNSZONE" => $dnszone,
+        "EXTENDED" => 1
+    ], $params);
 
-    if ($response["CODE"] == 200) {
+    if ($response["CODE"] === "200") {
         foreach ($response["PROPERTY"]["RR"] as $rr) {
             $fields = explode(" ", $rr);
             $domain = array_shift($fields);
@@ -1826,7 +1811,7 @@ function ispapi_SaveDNS($params)
             $class = array_shift($fields);
             $rrtype = array_shift($fields);
 
-            if ($rrtype == "X-SMTP") {
+            if ($rrtype === "X-SMTP") {
                 $command["ADDRR"][] = $rr;
 
                 $item = preg_grep("/@ MX [0-9 ]* mx.ispapi.net./i", $command["ADDRR"]);
@@ -1844,20 +1829,19 @@ function ispapi_SaveDNS($params)
     $response = Ispapi::call($command, $params);
 
     //if DNS Zone not existing, create one automatically
-    if ($response["CODE"] == 545) {
-        $creatednszone_command = array(
+    if ($response["CODE"] === "545") {
+        $creatednszone = Ispapi::call([
             "COMMAND" => "ModifyDomain",
             "DOMAIN" => $domain,
             "INTERNALDNS" => 1
-        );
-        $creatednszone = Ispapi::call($creatednszone_command, $params);
-        if ($creatednszone["CODE"] == 200) {
+        ], $params);
+        if ($creatednszone["CODE"] === "200") {
             //resend command to update DNS Zone
             $response = Ispapi::call($command, $params);
         }
     }
 
-    if ($response["CODE"] != 200) {
+    if ($response["CODE"] !== "200") {
         return [
             "error" => $response["DESCRIPTION"]
         ];
@@ -1876,23 +1860,22 @@ function ispapi_SaveDNS($params)
  */
 function ispapi_GetEmailForwarding($params)
 {
-    $values = array();
+    $values = [];
     if (isset($params["original"])) {
         $params = $params["original"];
     }
     $dnszone = $params["sld"] . "." . $params["tld"] . ".";
 
-    $command = array(
+    $response = Ispapi::call([
         "COMMAND" => "QueryDNSZoneRRList",
         "DNSZONE" => $dnszone,
         "SHORT" => 1,
         "EXTENDED" => 1
-    );
-    $response = Ispapi::call($command, $params);
+    ], $params);
 
-    $result = array();
+    $result = [];
 
-    if ($response["CODE"] == 200) {
+    if ($response["CODE"] === "200") {
         foreach ($response["PROPERTY"]["RR"] as $rr) {
             $fields = explode(" ", $rr);
             $domain = array_shift($fields);
@@ -1900,14 +1883,17 @@ function ispapi_GetEmailForwarding($params)
             $class = array_shift($fields);
             $rrtype = array_shift($fields);
 
-            if (($rrtype == "X-SMTP") && ($fields[1] == "MAILFORWARD")) {
+            if (($rrtype === "X-SMTP") && ($fields[1] === "MAILFORWARD")) {
                 if (preg_match("/^(.*)\@$/", $fields[0], $m)) {
                     $address = $m[1];
                     if (!strlen($address)) {
                         $address = "*";
                     }
                 }
-                $result[] = array("prefix" => $address, "forwardto" => $fields[2]);
+                $result[] = [
+                    "prefix" => $address,
+                    "forwardto" => $fields[2]
+                ];
             }
         }
     } else {
@@ -1926,7 +1912,7 @@ function ispapi_GetEmailForwarding($params)
  */
 function ispapi_SaveEmailForwarding($params)
 {
-    $values = array();
+    $values = [];
     if (isset($params["original"])) {
         $params = $params["original"];
     }
@@ -1952,22 +1938,22 @@ function ispapi_SaveEmailForwarding($params)
 
     $dnszone = $params["sld"] . "." . $params["tld"] . ".";
 
-    $command = array(
+    $command = [
         "COMMAND" => "UpdateDNSZone",
         "DNSZONE" => $dnszone,
         "RESOLVETTLCONFLICTS" => 1,
         "INCSERIAL" => 1,
         "EXTENDED" => 1,
-        "DELRR" => array("@ X-SMTP"),
-        "ADDRR" => array(),
-    );
+        "DELRR" => ["@ X-SMTP"],
+        "ADDRR" => [],
+    ];
 
     foreach ($params["prefix"] as $key => $value) {
         $prefix = $params["prefix"][$key];
         $target = $params["forwardto"][$key];
         if (strlen($prefix) && strlen($target)) {
             $redirect = "MAILFORWARD";
-            if ($prefix == "*") {
+            if ($prefix === "*") {
                 $prefix = "";
             }
             $redirect = $prefix . "@ " . $redirect;
@@ -1977,7 +1963,7 @@ function ispapi_SaveEmailForwarding($params)
 
     $response = Ispapi::call($command, $params);
 
-    if ($response["CODE"] != 200) {
+    if ($response["CODE"] !== "200") {
         $values["error"] = $response["DESCRIPTION"];
     }
     return $values;
@@ -1997,34 +1983,18 @@ function ispapi_GetContactDetails($params)
     }
     $domain = $params["sld"] . "." . $params["tld"];
 
-    $r = Ispapi::call([
-        "COMMAND" => "StatusDomain",
-        "DOMAIN" => $domain
-    ], $params);
-
-    if ($r["CODE"] !== "200") {
+    $r = HXDomain::getStatus($params, $domain);
+    if (!$r["success"]) {
         return [
-            "error" => "Failed to load Contact Details (" . $r["CODE"] . " " . $r["DESCRIPTION"] . ")."
+            "error" => "Failed to load Contact Details (" . $r["errorcode"] . " " . $r["error"] . ")."
         ];
     }
-    $values = [
-        "Registrant" => ispapi_get_contact_info($r["PROPERTY"]["OWNERCONTACT"][0], $params),
-        "Admin" => ispapi_get_contact_info($r["PROPERTY"]["ADMINCONTACT"][0], $params),
-        "Technical" => ispapi_get_contact_info($r["PROPERTY"]["TECHCONTACT"][0], $params),
-        "Billing" => ispapi_get_contact_info($r["PROPERTY"]["BILLINGCONTACT"][0], $params)
+    return [
+        "Registrant" => HXContact::getInfo($r["data"]["OWNERCONTACT"][0], $params),
+        "Admin" => HXContact::getInfo($r["data"]["ADMINCONTACT"][0], $params),
+        "Technical" => HXContact::getInfo($r["data"]["TECHCONTACT"][0], $params),
+        "Billing" => HXContact::getInfo($r["data"]["BILLINGCONTACT"][0], $params)
     ];
-    if (HXDomain::needsTradeForRegistrantModification($params, $domain)) {
-        // prior: TLD check for ca|it|ch|li|se|sg - ca is superfluous (ownerchange by update)
-        // idea: unknown, something related to avoiding trade costs
-        // thoughts: do not display these fields in whmcs as we do not update them
-        // over saveContactDetails, Trade is required for this.
-        // showing data that we did not update is probably misleading
-        // imho we need to rethink here in general, not making much sense
-        unset($values["Registrant"]["First Name"]);
-        unset($values["Registrant"]["Last Name"]);
-        unset($values["Registrant"]["Company Name"]);
-    }
-    return $values;
 }
 
 /**
@@ -2036,172 +2006,61 @@ function ispapi_GetContactDetails($params)
  */
 function ispapi_SaveContactDetails($params)
 {
-    global $additionaldomainfields;
-
-    if (!function_exists("convertStateToCode")) {
-        require implode(DIRECTORY_SEPARATOR, [ROOTDIR, "includes", "clientfunctions.php"]);
-    }
-
-    // TODO:---------- EXCEPTION [BEGIN] --------
-    // $params has invalid chars for idn domain names where $params["original"] is fine [kschwarz]
-    // HINT: Transliteration
-    // JIRA #HM-709
-    // WHMCS #YOV-471189
-    $origparams = $params;
     $params = ispapi_get_utf8_params($params);
-    //--------------- EXCEPTION [END] -----------
-
     $params = injectDomainObjectIfNecessary($params);
     $domain = $params["domainObj"]->getDomain();
 
-    $sr = HXDomain::getStatus($params, $domain);
-    if ($sr["success"] === false) {
-        return $sr;
+    $command = [
+        "COMMAND" => "ModifyDomain",
+        "DOMAIN" => $domain
+    ];
+    // check if change of registrant requires a trade
+    $tradeType = HXTrade::needsTradeForRegistrantModification($params, $domain, ["TRADE", "ICANN-TRADE"]);
+    // add additional domain fields to the API command
+    $addflds = new AF($params["TestMode"] === "on");
+    $addflds->setDomainType($tradeType ? "trade" : "update")
+            ->setDomain($domain);
+    $addflds->addToCommand($command, $params["country"]);
+    if ($addflds->isMissingRequiredFields()) {
+        //TODO
+        //in case we have additional required domain fields for update
+        //$buttons[L::trans("hxownerchange")] = "registrantmodification";
     }
-    $registrant = ispapi_get_contact_info($sr["data"]["OWNERCONTACT"][0], $params);
-    if (isset($origparams["contactdetails"]["Registrant"])) {
-        $new_registrant = $origparams["contactdetails"]["Registrant"];
-    }
 
-    $isAffectedByIRTP = HXDomain::needsIRTPForRegistrantModification($params, $domain);
-    //the following conditions must be true to trigger registrant change request (IRTP)
-    if (
-        preg_match("/Designated Agent/", $params["IRTP"]) &&
-        $isAffectedByIRTP && (
-            $registrant["First Name"] != $new_registrant["First Name"] ||
-            $registrant["Last Name"] != $new_registrant["Last Name"] ||
-            $registrant["Company Name"] != $new_registrant["Company Name"] ||
-            $registrant["Email"] != $new_registrant["Email"]
-        )
-    ) {
-        $command = [
-            "COMMAND" => "TradeDomain",
-            "DOMAIN" => $domain,
-            "OWNERCONTACT0" => $new_registrant,
-            "X-CONFIRM-DA-OLD-REGISTRANT" => 1,
-            "X-CONFIRM-DA-NEW-REGISTRANT" => 1
-        ];
+    // add contact data to the API command
+    HXContact::getInfo2($command, $_POST, "Registrant", "Admin", "Technical", "Billing");
 
-        ispapi_query_additionalfields($params);
-        ispapi_use_additionalfields($params, $command);
-
-        //opt-out is not supported for AFNIC TLDs (eg: .FR)
-        $queryDomainOptions_response = Ispapi::call([
-            "COMMAND" => "QueryDomainOptions",
-            "DOMAIN0" => $domain
-        ], $origparams);
-        //AFNIC TLDs => pm, tf, wf, yt, fr, re
-        if (!preg_match("/AFNIC/i", $queryDomainOptions_response["PROPERTY"]["REPOSITORY"][0])) {
-            if ($origparams["irtpOptOut"]) { //HM-735
-                $command["X-REQUEST-OPT-OUT-TRANSFERLOCK"] = 1;
-            } else {
+    if ($tradeType) {
+        // get registrant data, new and old
+        $data = ispapi_GetContactDetails($params);
+        if (isset($data["error"])) {
+            return $data;
+        }
+        $newregistrant = [];
+        if (isset($params["contactdetails"]["Registrant"])) {
+            $newregistrant = $params["contactdetails"]["Registrant"];
+        }
+        // if so, check if the data changes would lead to a trade
+        if (HXTrade::isTradeDataChange($data["Registrant"], $newregistrant)) {
+            $command["COMMAND"] = "TradeDomain";
+            if ($tradeType === "ICANN-TRADE") {
+                // IRTP
+                if (preg_match("/Designated Agent/", $params["IRTP"])) {
+                    $command["X-CONFIRM-DA-OLD-REGISTRANT"] = 1;
+                    $command["X-CONFIRM-DA-NEW-REGISTRANT"] = 1;
+                }
+                //HM-735: opt-out is not supported for AFNIC TLDs (pm, tf, wf, yt, fr, re)
                 $command["X-REQUEST-OPT-OUT-TRANSFERLOCK"] = 0;
-            }
-        }
-    } else {
-        $command = array(
-            "COMMAND" => "ModifyDomain",
-            "DOMAIN" => $domain
-        );
-    }
-
-    $map = array(
-        "OWNERCONTACT0" => "Registrant",
-        "ADMINCONTACT0" => "Admin",
-        "TECHCONTACT0" => "Technical",
-        "BILLINGCONTACT0" => "Billing",
-    );
-
-    //bug in WHMCS since 6.1, $params["original"] is completely stripped, we will take the $_POST array to have the unstipped version
-    $unstrippedparams = $_POST;
-
-    $isCA = preg_match("/\.ca$/i", $domain);
-    foreach ($map as $ctype => $ptype) {
-        //when using "Use Existing Contact" function in WHMCS, the $_POST array is empty, so we have to use the $params version.
-        //in this case the special characters will be replaced due to the default transliteration hook. (https://docs.whmcs.com/Custom_Transliteration)
-        //workarround for customers will be to deactivate the transliteration hook.
-        //once this issue has been fixed on WHMCS side we will release a new version which will support special characters in each cases.
-        if (array_key_exists("First Name", $unstrippedparams["contactdetails"][$ptype])) {
-            $p = $unstrippedparams["contactdetails"][$ptype];
-        } else {
-            $p = $origparams["contactdetails"][$ptype];
-        }
-
-        $command[$ctype] = array(
-            "FIRSTNAME" => html_entity_decode($p["First Name"], ENT_QUOTES | ENT_XML1, "UTF-8"),
-            "LASTNAME" => html_entity_decode($p["Last Name"], ENT_QUOTES | ENT_XML1, "UTF-8"),
-            "ORGANIZATION" => html_entity_decode($p["Company Name"], ENT_QUOTES | ENT_XML1, "UTF-8"),
-            "STREET" => html_entity_decode($p["Address"], ENT_QUOTES | ENT_XML1, "UTF-8"),
-            "CITY" => html_entity_decode($p["City"], ENT_QUOTES | ENT_XML1, "UTF-8"),
-            "STATE" => html_entity_decode($p["State"], ENT_QUOTES | ENT_XML1, "UTF-8"),
-            "ZIP" => html_entity_decode($p["Postcode"], ENT_QUOTES | ENT_XML1, "UTF-8"),
-            "COUNTRY" => html_entity_decode($p["Country"], ENT_QUOTES | ENT_XML1, "UTF-8"),
-            "PHONE" => html_entity_decode($p["Phone"], ENT_QUOTES | ENT_XML1, "UTF-8"),
-            "FAX" => html_entity_decode($p["Fax"], ENT_QUOTES | ENT_XML1, "UTF-8"),
-            "EMAIL" => html_entity_decode($p["Email"], ENT_QUOTES | ENT_XML1, "UTF-8"),
-        );
-        if (strlen($p["Address 2"])) {
-            $command[$ctype]["STREET"] .= " , " . html_entity_decode($p["Address 2"], ENT_QUOTES | ENT_XML1, "UTF-8");
-        }
-        $command[$ctype]["STATE"] = convertStateToCode($command[$ctype]["STATE"], $command[$ctype]["COUNTRY"]);
-        if ($isCA) {//converttociracode
-            if ($command[$ctype]["STATE"] == "YT") {
-                $command[$ctype]["STATE"] = "YK";
+                if (!preg_match("/AFNIC/i", $repository) && $params["irtpOptOut"]) {
+                    $command["X-REQUEST-OPT-OUT-TRANSFERLOCK"] = 1;
+                }
             }
         }
     }
 
-    // avoid trade here, not free of charge
-    // that's why contact data is being unset and reset to api one
-    // need to rethink here
-    if (HXDomain::needsTradeForRegistrantModification($params, $domain)) {
-        $sr = HXDomain::getStatus($params, $domain);
-        if ($sr["success"] === false) {
-            return $sr;
-        }
-        unset($command["OWNERCONTACT0"]["FIRSTNAME"]);
-        unset($command["OWNERCONTACT0"]["LASTNAME"]);
-        unset($command["OWNERCONTACT0"]["ORGANIZATION"]);
-        $registrant = ispapi_get_contact_info($sr["data"]["OWNERCONTACT"][0], $params);
-        $command["OWNERCONTACT0"]["FIRSTNAME"] = $registrant["First Name"];
-        $command["OWNERCONTACT0"]["LASTNAME"] = $registrant["Last Name"];
-        $command["OWNERCONTACT0"]["ORGANIZATION"] = $registrant["Company Name"];
+    $r = Ispapi::call($command, $params);
 
-        ispapi_query_additionalfields($params);
-        ispapi_use_additionalfields($params, $command);
-    }
-
-    if ($isCA) {
-        $registrant_command = $command["OWNERCONTACT0"];
-        $sr = HXDomain::getStatus($params, $domain);
-        if ($sr["success"] === false) {
-            return $sr;
-        }
-
-        $registrant_command["COMMAND"] = "ModifyContact";
-        $registrant_command["CONTACT"] = $sr["data"]["OWNERCONTACT"][0];
-
-        if (!preg_match("/^AUTO\-/i", $registrant_command["CONTACT"])) {
-            unset($registrant_command["FIRSTNAME"]);
-            unset($registrant_command["LASTNAME"]);
-            unset($registrant_command["ORGANIZATION"]);
-            unset($command["OWNERCONTACT0"]);
-            $registrant_response = Ispapi::call($registrant_command, $origparams);
-
-            if ($registrant_response["CODE"] != 200) {
-                return [
-                    "error" => $registrant_response["DESCRIPTION"]
-                ];
-            }
-        }
-
-        ispapi_query_additionalfields($params);
-        ispapi_use_additionalfields($params, $command);
-    }
-
-    $r = Ispapi::call($command, $origparams);
-
-    if ($r["CODE"] != 200) {
+    if ($r["CODE"] !== "200") {
         return [
             "error" => $r["DESCRIPTION"]
         ];
@@ -2216,26 +2075,28 @@ function ispapi_SaveContactDetails($params)
  * A glue record is simply the association of a hostname (nameserver in our case) with an IP address at the registry
  *
  * @param array $params common module parameters
- *
- * @return array $values - an array with command response description
+ * @return array
  */
 function ispapi_RegisterNameserver($params)
 {
-    $values = array();
     if (isset($params["original"])) {
         $params = $params["original"];
     }
 
-    $command = array(
+    $r = Ispapi::call([
         "COMMAND" => "AddNameserver",
         "NAMESERVER" => $params["nameserver"],
-        "IPADDRESS0" => $params["ipaddress"],
-    );
-    $response = Ispapi::call($command, $params);
-    if ($response["CODE"] != 200) {
-        $values["error"] = $response["DESCRIPTION"];
+        "IPADDRESS0" => $params["ipaddress"]
+    ], $params);
+
+    if ($r["CODE"] !== "200") {
+        return [
+            "error" => $r["DESCRIPTION"]
+        ];
     }
-    return $values;
+    return [
+        "success" => "success"
+    ];
 }
 
 /**
@@ -2247,130 +2108,99 @@ function ispapi_RegisterNameserver($params)
  */
 function ispapi_ModifyNameserver($params)
 {
-    $values = array();
     if (isset($params["original"])) {
         $params = $params["original"];
     }
 
-    $command = array(
+    $r = Ispapi::call([
         "COMMAND" => "ModifyNameserver",
         "NAMESERVER" => $params["nameserver"],
         "DELIPADDRESS0" => $params["currentipaddress"],
         "ADDIPADDRESS0" => $params["newipaddress"],
-    );
-    $response = Ispapi::call($command, $params);
-    if ($response["CODE"] != 200) {
-        $values["error"] = $response["DESCRIPTION"];
+    ], $params);
+
+    if ($r["CODE"] !== "200") {
+        return [
+            "error" => $r["DESCRIPTION"]
+        ];
     }
-    return $values;
+    return [
+        "success" => "success"
+    ];
 }
 
 /**
  * Delete a Private Nameserver
  *
  * @param array $params common module parameters
- *
- * @return array $values - an array with command response description
+ * @return array
  */
 function ispapi_DeleteNameserver($params)
 {
-    $values = array();
     if (isset($params["original"])) {
         $params = $params["original"];
     }
 
-    $command = array(
+    $r = Ispapi::call([
         "COMMAND" => "DeleteNameserver",
         "NAMESERVER" => $params["nameserver"]
-    );
-    $response = Ispapi::call($command, $params);
-    if ($response["CODE"] != 200) {
-        $values["error"] = $response["DESCRIPTION"];
+    ], $params);
+
+    if ($r["CODE"] !== "200") {
+        return [
+            "error" => $r["DESCRIPTION"]
+        ];
     }
-    return $values;
+    return [
+        "success" => "success"
+    ];
 }
 
 /**
  * Toggle the ID Protection of a domain name
  *
  * @param array $params common module parameters
- *
  * @return array
  */
 function ispapi_IDProtectToggle($params)
 {
-    $values = array();
     if (isset($params["original"])) {
         $params = $params["original"];
     }
-    $domain = $params["sld"] . "." . $params["tld"];
 
-    $command = array(
+    $r = Ispapi::call([
         "COMMAND" => "ModifyDomain",
-        "DOMAIN" => $domain,
+        "DOMAIN" => $params["sld"] . "." . $params["tld"],
         "X-ACCEPT-WHOISTRUSTEE-TAC" => ($params["protectenable"]) ? "1" : "0"
-    );
-    $response = Ispapi::call($command, $params);
-    if ($response["CODE"] != 200) {
-        $values["error"] = $response["DESCRIPTION"];
+    ], $params);
+
+    if ($r["CODE"] !== "200") {
+        return [
+            "error" => $r["DESCRIPTION"]
+        ];
     }
-    return $values;
+    return [
+        "success" => "success"
+    ];
 }
 
 /**
  * Register a domain name - Premium support
  *
  * @param array $params common module parameters
- *
- * @return array $values - an array with command response description
+ * @return array
  */
 function ispapi_RegisterDomain($params)
 {
-    global $additionaldomainfields;
-
-    $values = array();
-    $origparams = $params;
-
     $premiumDomainsEnabled = (bool) $params["premiumEnabled"];
     $premiumDomainsCost = $params["premiumCost"];
-
     $params = ispapi_get_utf8_params($params);
-
     $domain = $params["sld"] . "." . $params["tld"];
 
-    $registrant = array(
-        "FIRSTNAME" => $params["firstname"],
-        "LASTNAME" => $params["lastname"],
-        "ORGANIZATION" => $params["companyname"],
-        "STREET" => $params["address1"],
-        "CITY" => $params["city"],
-        "STATE" => $params["state"],
-        "ZIP" => $params["postcode"],
-        "COUNTRY" => $params["country"],
-        "PHONE" => $params["phonenumber"],
-        "EMAIL" => $params["email"]
-    );
-    if (strlen($params["address2"])) {
-        $registrant["STREET"] .= " , " . $params["address2"];
-    }
+    $registrant = HXContact::getInfo3($params);
+    $admin = HXContact::getInfo3($params, true);
 
-    $admin = array(
-        "FIRSTNAME" => $params["adminfirstname"],
-        "LASTNAME" => $params["adminlastname"],
-        "ORGANIZATION" => $params["admincompanyname"],
-        "STREET" => $params["adminaddress1"],
-        "CITY" => $params["admincity"],
-        "STATE" => $params["adminstate"],
-        "ZIP" => $params["adminpostcode"],
-        "COUNTRY" => $params["admincountry"],
-        "PHONE" => $params["adminphonenumber"],
-        "EMAIL" => $params["adminemail"]
-    );
-    if (strlen($params["adminaddress2"])) {
-        $admin["STREET"] .= " , " . $params["adminaddress2"];
-    }
-
-    $command = array(
+    $command = [
         "COMMAND" => "AddDomain",
         "DOMAIN" => $domain,
         "PERIOD" => $params["regperiod"],
@@ -2379,73 +2209,69 @@ function ispapi_RegisterDomain($params)
         "ADMINCONTACT0" => $admin,
         "TECHCONTACT0" => $admin,
         "BILLINGCONTACT0" => $admin
-    );
-    if ($params["TRANSFERLOCK"]) {
-        $command["TRANSFERLOCK"] = 1;
-    }
-    if ($params["dnsmanagement"]) {
-        $command["INTERNALDNS"] = 1;
-    }
-    if ($params["idprotection"]) {
-        $command["X-ACCEPT-WHOISTRUSTEE-TAC"] = 1;
-    }
-
+    ];
     if (preg_match("/\.swiss$/i", $domain)) {
         $command["COMMAND"] = "AddDomainApplication";
         $command["CLASS"] = "GOLIVE";
-        //INTERNALDNS, WHOIS privacy service, transferlock parameter is not supported in AddDomainApplication command
-        //TODO: we need to sync transfer lock later
-        unset($command["INTERNALDNS"]);
-        unset($command["X-ACCEPT-WHOISTRUSTEE-TAC"]);
-        unset($command["TRANSFERLOCK"]);
     }
-
-    ispapi_use_additionalfields($params, $command);
-
     //#####################################################################
     //##################### PREMIUM DOMAIN HANDLING #######################
     //######################################################################
-    if ($premiumDomainsEnabled) { //check if premium domain functionality is enabled by the admin
-        if (!empty($premiumDomainsCost)) { //check if the domain has a premium price
-            $c = array(
-                    "COMMAND" => "CheckDomains",
-                    "DOMAIN" => array($domain),
-                    "PREMIUMCHANNELS" => "*"
-            );
-            $check = Ispapi::call($c, $origparams);
-            if ($check["CODE"] == 200) {
-                $registrar_premium_domain_price = $check["PROPERTY"]["PRICE"][0];
-                $registrar_premium_domain_class = empty($check["PROPERTY"]["CLASS"][0]) ? "AFTERMARKET_PURCHASE_" . $check["PROPERTY"]["PREMIUMCHANNEL"][0] : $check["PROPERTY"]["CLASS"][0];
-                $registrar_premium_domain_currency = $check["PROPERTY"]["CURRENCY"][0];
+    //check if premium domain functionality is enabled by the admin
+    //check if the domain has a premium price
+    if ($premiumDomainsEnabled && !empty($premiumDomainsCost)) {
+        $check = Ispapi::call([
+            "COMMAND" => "CheckDomains",
+            "DOMAIN0" => $domain,
+            "PREMIUMCHANNELS" => "*"
+        ], $params);
+        if ($check["CODE"] === "200") {
+            $regprice = $check["PROPERTY"]["PRICE"][0];
+            $regclass = empty($check["PROPERTY"]["CLASS"][0]) ? "AFTERMARKET_PURCHASE_" . $check["PROPERTY"]["PREMIUMCHANNEL"][0] : $check["PROPERTY"]["CLASS"][0];
+            $regcurrency = $check["PROPERTY"]["CURRENCY"][0];
 
-                if ($premiumDomainsCost == $registrar_premium_domain_price) { //check if the price displayed to the customer is equal to the real cost at the registar
-                    $command["COMMAND"] = "AddDomainApplication";
-                    $command["CLASS"] =  $registrar_premium_domain_class;
-                    $command["PRICE"] =  $premiumDomainsCost;
-                    $command["CURRENCY"] = $registrar_premium_domain_currency;
-                    //INTERNALDNS, WHOIS privacy service, transferlock parameter is not supported in AddDomainApplication command
-                    unset($command["INTERNALDNS"]);
-                    unset($command["X-ACCEPT-WHOISTRUSTEE-TAC"]);
-                    unset($command["TRANSFERLOCK"]);
-                }
+            if ($premiumDomainsCost == $regprice) { //check if the price displayed to the customer is equal to the real cost at the registar
+                $command["COMMAND"] = "AddDomainApplication";
+                $command["CLASS"] =  $regclass;
+                $command["PRICE"] =  $premiumDomainsCost;
+                $command["CURRENCY"] = $regcurrency;
             }
         }
     }
     //#####################################################################
-    $response = Ispapi::call($command, $origparams);
 
-    if ($response["CODE"] != 200) {
-        $values["error"] = $response["DESCRIPTION"];
-    }
-
-    if (preg_match("/\.swiss$/i", $domain)) {
-        if ($response["CODE"] == 200) {
-            $application_id = $response["PROPERTY"]["APPLICATION"][0];
-            $values["error"] = "APPLICATION <#" . $application_id . "#> SUCCESSFULLY SUBMITTED. STATUS SET TO PENDING UNTIL THE SWISS REGISTRATION PROCESS IS COMPLETED";
+    if ($command["COMMAND"] !== "AddDomainApplication") {
+        //--- TODO ---
+        //INTERNALDNS, X-ACCEPT-WHOISTRUSTEE-TAC, TRANSFERLOCK parameters are not
+        //supported in AddDomainApplication command. We need to sync this later.
+        if ($params["TRANSFERLOCK"]) {
+            $command["TRANSFERLOCK"] = 1;
+        }
+        if ($params["dnsmanagement"]) {
+            $command["INTERNALDNS"] = 1;
+        }
+        if ($params["idprotection"]) {
+            $command["X-ACCEPT-WHOISTRUSTEE-TAC"] = 1;
         }
     }
 
-    return $values;
+    AF::addToCMD($params, $command);
+
+    $r = Ispapi::call($command, $params);
+
+    if ($r["CODE"] !== "200") {
+        return [
+            "error" => $r["DESCRIPTION"]
+        ];
+    }
+    if (preg_match("/\.swiss$/i", $domain)) {
+        return [
+            "error" => "APPLICATION <#" . $r["PROPERTY"]["APPLICATION"][0] . "#> SUCCESSFULLY SUBMITTED. STATUS SET TO PENDING UNTIL THE SWISS REGISTRATION PROCESS IS COMPLETED"
+        ];
+    }
+    return [
+        "success" => true
+    ];
 }
 
 
@@ -2458,9 +2284,10 @@ function ispapi_RegisterDomain($params)
  */
 function ispapi_TransferDomain($params)
 {
+    $params = ispapi_get_utf8_params($params);
     $params = injectDomainObjectIfNecessary($params);
     /** @var \WHMCS\Domains\Domain $domain */
-    $domain = $params["domainObj"];
+    $domain = $params["domainObj"]->getDomain();
 
     $premiumDomainsEnabled = (bool) $params["premiumEnabled"];
     $premiumDomainsCost = $params["premiumCost"];
@@ -2468,68 +2295,39 @@ function ispapi_TransferDomain($params)
     //domain transfer pre-check
     $command = [
         "COMMAND" => "CheckDomainTransfer",
-        "DOMAIN" => $domain->getDomain()
+        "DOMAIN" => $domain
     ];
     if ($params["eppcode"]) {
         $command["AUTH"] = $params["eppcode"];
     }
     $r = Ispapi::call($command, $params);
 
-    if ($r["CODE"] != 218) {
+    if ($r["CODE"] !== "218") {
         return [
             "error" => $r["DESCRIPTION"]
         ];
     }
 
-    if (isset($r["PROPERTY"]["AUTHISVALID"]) && $r["PROPERTY"]["AUTHISVALID"][0] == "NO") {
+    if (isset($r["PROPERTY"]["AUTHISVALID"]) && $r["PROPERTY"]["AUTHISVALID"][0] === "NO") {
         // return custom error message
         return [
             "error" => "Invaild Authorization Code"
         ];
     }
 
-    if (isset($r["PROPERTY"]["TRANSFERLOCK"]) && $r["PROPERTY"]["TRANSFERLOCK"][0] == "1") {
+    if (isset($r["PROPERTY"]["TRANSFERLOCK"]) && $r["PROPERTY"]["TRANSFERLOCK"][0] === "1") {
         // return custom error message
         return [
             "error" => "Transferlock is active. Therefore the Domain cannot be transferred."
         ];
     }
 
-    $registrant = array(
-        "FIRSTNAME" => $params["firstname"],
-        "LASTNAME" => $params["lastname"],
-        "ORGANIZATION" => $params["companyname"],
-        "STREET" => $params["address1"],
-        "CITY" => $params["city"],
-        "STATE" => $params["state"],
-        "ZIP" => $params["postcode"],
-        "COUNTRY" => $params["country"],
-        "PHONE" => $params["phonenumber"],
-        "EMAIL" => $params["email"]
-    );
-    if (strlen($params["address2"])) {
-        $registrant["STREET"] .= " , " . $params["address2"];
-    }
-
-    $admin = array(
-        "FIRSTNAME" => $params["adminfirstname"],
-        "LASTNAME" => $params["adminlastname"],
-        "ORGANIZATION" => $params["admincompanyname"],
-        "STREET" => $params["adminaddress1"],
-        "CITY" => $params["admincity"],
-        "STATE" => $params["adminstate"],
-        "ZIP" => $params["adminpostcode"],
-        "COUNTRY" => $params["admincountry"],
-        "PHONE" => $params["adminphonenumber"],
-        "EMAIL" => $params["adminemail"]
-    );
-    if (strlen($params["adminaddress2"])) {
-        $admin["STREET"] .= " , " . $params["adminaddress2"];
-    }
+    $registrant = HXContact::getInfo3($params);
+    $admin = HXContact::getInfo3($params, true);
 
     $command = [
         "COMMAND" => "TransferDomain",
-        "DOMAIN" => $domain->getDomain(),
+        "DOMAIN" => $domain,
         "PERIOD" => $params["regperiod"],
         "NAMESERVER" => Ispapi::castNameserversBE($params),
         "OWNERCONTACT0" => $registrant,
@@ -2538,22 +2336,20 @@ function ispapi_TransferDomain($params)
         "BILLINGCONTACT0" => $admin,
         "AUTH" => $params["eppcode"]
     ];
-    if (isset($r["PROPERTY"]["USERTRANSFERREQUIRED"]) && $r["PROPERTY"]["USERTRANSFERREQUIRED"][0] == "1") {
+    if (isset($r["PROPERTY"]["USERTRANSFERREQUIRED"]) && $r["PROPERTY"]["USERTRANSFERREQUIRED"][0] === "1") {
         //auto-detect user-transfer
         $command["ACTION"] = "USERTRANSFER";
     }
-
     //1) don't send owner admin tech billing contact for .NU .DK .CA, .US, .PT, .NO, .SE, .ES domains
     //2) do not send contact information for gTLD (Including nTLDs)
-    if (preg_match("/\.([a-z]{3,}|nu|dk|ca|us|pt|no|se|es)$/i", $domain->getDomain())) {
+    if (preg_match("/\.([a-z]{3,}|nu|dk|ca|us|pt|no|se|es)$/i", $domain)) {
         unset($command["OWNERCONTACT0"]);
         unset($command["ADMINCONTACT0"]);
         unset($command["TECHCONTACT0"]);
         unset($command["BILLINGCONTACT0"]);
     }
-
     //don't send owner billing contact for .FR domains
-    if (preg_match("/\.(fr|pm|re|tf|wf|yt)$/i", $domain->getDomain())) {
+    if (preg_match("/\.(fr|pm|re|tf|wf|yt)$/i", $domain)) {
         unset($command["OWNERCONTACT0"]);
         unset($command["BILLINGCONTACT0"]);
     }
@@ -2564,10 +2360,10 @@ function ispapi_TransferDomain($params)
     // in WHMCS the default value is 1 (1Y)
     $qr = Ispapi::call([
         "COMMAND" => "QueryDomainOptions",
-        "DOMAIN0" => $domain->getDomain()
+        "DOMAIN0" => $domain
     ], $params);
 
-    if ($qr["CODE"] == 200) {
+    if ($qr["CODE"] === "200") {
         $period_array = explode(",", $qr["PROPERTY"]["ZONETRANSFERPERIODS"][0]);
         // if transfer for free is supported and regperiod not listed in supported periods
         if (!in_array($params["regperiod"] . "Y", $period_array) && in_array("0Y", $period_array)) {
@@ -2585,9 +2381,9 @@ function ispapi_TransferDomain($params)
         //check if the domain has a premium price
 
         //checkdomaintransfer
-        if ($r["CODE"] == 200 && !empty($r["PROPERTY"]["CLASS"][0])) {
+        if ($r["CODE"] === "200" && !empty($r["PROPERTY"]["CLASS"][0])) {
             //check if the price displayed to the customer is equal to the real cost at the registar
-            $price = ispapi_getUserRelationValue($params, "PRICE_CLASS_DOMAIN_" . $r["PROPERTY"]["CLASS"][0] . "_TRANSFER");
+            $price = HXUser::getRelationValue($params, "PRICE_CLASS_DOMAIN_" . $r["PROPERTY"]["CLASS"][0] . "_TRANSFER");
             if ($price !== false && $premiumDomainsCost == $price) {
                 $command["CLASS"] = $r["PROPERTY"]["CLASS"][0];
             } else {
@@ -2598,15 +2394,16 @@ function ispapi_TransferDomain($params)
         }
     }
     //#####################################################################
-    if (preg_match("/\.ca$/", $domain->getDomain())) {
-        ispapi_use_additionalfields($params, $command);
+
+    AF::addToCMD($params, $command);
+    if (preg_match("/\.ca$/", $domain)) {
         unset($command["X-CA-DISCLOSE"]);//not supported for transfers
     }
-    $response = Ispapi::call($command, $params);
+    $r = Ispapi::call($command, $params);
 
-    if ($response["CODE"] != 200) {
+    if ($r["CODE"] !== "200") {
         return [
-            "error" => $response["DESCRIPTION"]
+            "error" => $r["DESCRIPTION"]
         ];
     }
     return [
@@ -2699,22 +2496,23 @@ function ispapi_ReleaseDomain($params)
  */
 function ispapi_RequestDelete($params)
 {
-    $values = array();
     if (isset($params["original"])) {
         $params = $params["original"];
     }
-    $domain = $params["sld"] . "." . $params["tld"];
 
-    $command = array(
+    $r = Ispapi::call([
         "COMMAND" => "DeleteDomain",
-        "DOMAIN" => $domain
-    );
-    $response = Ispapi::call($command, $params);
+        "DOMAIN" => $params["sld"] . "." . $params["tld"]
+    ], $params);
 
-    if ($response["CODE"] != 200) {
-        $values["error"] = $response["DESCRIPTION"];
+    if ($r["CODE"] !== "200") {
+        return [
+            "error" => "Deletion failed. (" . $r["DESCRIPTION"] . ")"
+        ];
     }
-    return $values;
+    return [
+        "success" => "success"
+    ];
 }
 
 /**
@@ -2761,7 +2559,7 @@ function ispapi_TransferSync($params)
 
     // check if the domain is already on account
     $r = HXDomain::getStatus($params, $domain_pc);
-    if ($r["success"] === true) {
+    if ($r["success"]) {
         // AUTO-UPDATE ns after transfer
         if ($params["NSUpdTransfer"] === "on") {
             // load the ones submitted in transfer request
@@ -2791,8 +2589,10 @@ function ispapi_TransferSync($params)
             // only run auto-update mechanism in case a non-empty email address is given
             // otherwise it would keep trying to update on each run
             if (!empty($d["registrant"]["EMAIL"])) {
-                HXDomain::updateContactDetails($params, $domain_pc, $d);
-                logActivity($domain_idn . ": Contact update requested.");
+                $rr = HXDomain::updateContactDetails($params, $domain_pc, $d, $r);
+                if (!is_null($rr)) {
+                    logActivity($domain_idn . ": Request Contact update " . ($rr["success"] ? "succeeded" : "failed"));
+                }
             }
             //--------------- EXCEPTION [END] -----------
         }
@@ -2863,7 +2663,7 @@ function ispapi_Sync($params)
                 "transferredAway" => true
             ];
         }
-        return HXDomain::getExpiryData($params, $domainstr, true);
+        return HXDomain::getExpiryData($params, $domainstr, true, $r);
     }
     if (!$r["success"]) {
         logActivity($domainstr . ": Domain Sync failed. See Module Log.");
@@ -2950,183 +2750,6 @@ function ispapi_getTLDPricing($params)
     }
     //mail("kschwarz@hexonet.net", "tlds", $tmp);
     return $results;
-}
-
-/**
- * Return an array with the contact information of a contact handle
- * Uses the StatusContact command
- *
- * @param array $contact - contact handle
- * @param array &$params - common module parameters
- *
- * @return array $values - an array with contact information
- */
-function ispapi_get_contact_info($contact, &$params)
-{
-    if (isset($params["_contact_hash"][$contact])) {
-        return $params["_contact_hash"][$contact];
-    }
-
-    $domain = $params["sld"] . "." . $params["tld"];
-
-    $values = array();
-    $command = array(
-        "COMMAND" => "StatusContact",
-        "CONTACT" => $contact
-    );
-    $response = Ispapi::call($command, $params);
-
-    if (1 || $response["CODE"] == 200) {
-        $values["First Name"] = $response["PROPERTY"]["FIRSTNAME"][0];
-        $values["Last Name"] = $response["PROPERTY"]["LASTNAME"][0];
-        $values["Company Name"] = $response["PROPERTY"]["ORGANIZATION"][0];
-        $values["Address"] = $response["PROPERTY"]["STREET"][0];
-        $values["Address 2"] = $response["PROPERTY"]["STREET"][1];
-        $values["City"] = $response["PROPERTY"]["CITY"][0];
-        $values["State"] = $response["PROPERTY"]["STATE"][0];
-        $values["Postcode"] = $response["PROPERTY"]["ZIP"][0];
-        $values["Country"] = $response["PROPERTY"]["COUNTRY"][0];
-        $values["Phone"] = $response["PROPERTY"]["PHONE"][0];
-        $values["Fax"] = $response["PROPERTY"]["FAX"][0];
-        $values["Email"] = $response["PROPERTY"]["EMAIL"][0];
-
-        if ((count($response["PROPERTY"]["STREET"]) < 2) && preg_match("/^(.*) , (.*)/", $response["PROPERTY"]["STREET"][0], $m)) {
-            $values["Address"] = $m[1];
-            $values["Address 2"] = $m[2];
-        }
-
-        // handle imported .ca domains properly
-        if (preg_match("/\.ca$/i", $domain) && isset($response["PROPERTY"]["X-CA-LEGALTYPE"])) {
-            if (preg_match("/^(CCT|RES|ABO|LGR)$/i", $response["PROPERTY"]["X-CA-LEGALTYPE"][0])) {
-                // keep name/org
-            } else {
-                if ((!isset($response["PROPERTY"]["ORGANIZATION"])) || !$response["PROPERTY"]["ORGANIZATION"][0]) {
-                    $response["PROPERTY"]["ORGANIZATION"] = $response["PROPERTY"]["NAME"];
-                }
-            }
-        }
-    }
-    $params["_contact_hash"][$contact] = $values;
-    return $values;
-}
-
-// ------------------------------------------------------------------------------
-// ------- Helper functions and functions required to connect the API ----------
-// ------------------------------------------------------------------------------
-
-function ispapi_query_additionalfields(&$params)
-{
-    $data = [
-        ":domainid" => $params["domainid"]
-    ];
-    $r = Helper::SQLCall("SELECT name, value FROM tbldomainsadditionalfields WHERE domainid=:domainid", $data, "fetchall");
-    if ($r["success"]) {
-        foreach ($r["result"] as $row) {
-            $params["additionalfields"][$row["name"]] = $row["value"];
-        }
-    }
-}
-
-/**
- * Includes the corret additionl fields path based on the WHMCS vesion.
- * More information here: https://docs.whmcs.com/Additional_Domain_Fields
- *
- */
-function ispapi_include_additionaladditionalfields()
-{
-    global $additionaldomainfields;
-
-    $old_additionalfieldsfile_path = implode(DIRECTORY_SEPARATOR, array(ROOTDIR,"includes","additionaldomainfields.php"));
-    $new_additionalfieldsfile_path = implode(DIRECTORY_SEPARATOR, array(ROOTDIR,"resources","domains", "additionalfields.php"));
-
-    if (file_exists($new_additionalfieldsfile_path)) {
-        // for WHMCS >= 7.0
-        include $new_additionalfieldsfile_path;
-    } elseif (file_exists($old_additionalfieldsfile_path)) {
-        // for WHMCS < 7.0
-        include $old_additionalfieldsfile_path;
-    }
-}
-
-function ispapi_use_additionalfields($params, &$command)
-{
-    global $additionaldomainfields;
-
-    ispapi_include_additionaladditionalfields();
-
-    $myadditionalfields = array();
-    if (is_array($additionaldomainfields) && isset($additionaldomainfields["." . $params["tld"]])) {
-        $myadditionalfields = $additionaldomainfields["." . $params["tld"]];
-    }
-
-    foreach ($myadditionalfields as $field_index => $field) {
-        if (!is_array($field["Ispapi-Replacements"])) {
-            $field["Ispapi-Replacements"] = array();
-        }
-
-        if (isset($field["Ispapi-Options"]) && isset($field["Options"])) {
-            $options = explode(",", $field["Options"]);
-            foreach (explode(",", $field["Ispapi-Options"]) as $index => $new_option) {
-                $option = $options[$index];
-                if (!isset($field["Ispapi-Replacements"][$option])) {
-                    $field["Ispapi-Replacements"][$option] = $new_option;
-                }
-            }
-        }
-
-        $myadditionalfields[$field_index] = $field;
-    }
-
-    foreach ($myadditionalfields as $field) {
-        $name = $field["Name"];
-        if (isset($params["additionalfields"][$name])) {
-            $value = $params["additionalfields"][$name];
-
-            $ignore_countries = array();
-            if (isset($field["Ispapi-IgnoreForCountries"])) {
-                foreach (explode(",", $field["Ispapi-IgnoreForCountries"]) as $country) {
-                    $ignore_countries[strtoupper($country)] = 1;
-                }
-            }
-
-            if (!$ignore_countries[strtoupper($params["country"])]) {
-                if (isset($field["Ispapi-Replacements"][$value])) {
-                    $value = $field["Ispapi-Replacements"][$value];
-                }
-
-                if (isset($field["Ispapi-Eval"])) {
-                    eval($field["Ispapi-Eval"]);
-                }
-
-                if (isset($field["Ispapi-Name"]) && strlen($value) > 0) {
-                    $key = $field["Ispapi-Name"];
-
-                    // Ticket#2020111708017183 - START
-                    // + GH #167
-                    if (preg_match("/^X-DK-(REGISTRANT|ADMIN)-CONTACT$/", $key)) {
-                        $command[$key] = strtoupper($value);
-                    } elseif (preg_match("/^X-DK-AGREEMENT-ACCEPTEDDATE$/", $key) && $value === "on") {
-                        $command[$key] = gmdate("Y-m-d H:i:s");
-                    } elseif (preg_match("/^X-DE-(GENERAL-REQUEST|ABUSE-CONTACT)$/", $key) && !preg_match("/^mailto:|https?:\/\//", $value)) {
-                        $command[$key] = (preg_match("/@/", $value) ? "mailto:" : "https://") . $value;
-                    } else {
-                        $command[$key] = $value;
-                    }
-
-                    //Reflect these changes also in WHMCS DB but just for free-text inputs
-                    if ($field["Type"] === "text" && $value !== $command[$key]) {
-                        $result = DB::table("tbldomainsadditionalfields")
-                            ->where([
-                                [ "domainid", "=", $params["domainid"] ],
-                                [ "name", "=", $name ]
-                            ])
-                            ->update(["value" => $command[$key]]);
-                    }
-                    // Ticket#2020111708017183 - END
-                }
-            }
-        }
-    }
 }
 
 function ispapi_get_utf8_params($params)
@@ -3232,6 +2855,32 @@ function ispapi_get_utf8_params($params)
  */
 function ispapi_AdditionalDomainFields(array $params)
 {
+    if (isset($params["original"])) {
+        $params = $params["original"];
+    }
+    // fix incoming type if we can identify the related order item
+    // or if all tld-related items have the same type
+    // for transfers type "register" is forwarded
+    $types = [];
+    if (!empty($_SESSION["cart"])) {
+        $regex = "/[^.]+\." . $params["tld"] . "$/";
+        foreach ($_SESSION["cart"] as $order) {
+            foreach ($order as $item) {
+                if (
+                    is_array($item)
+                    && isset($item["domain"])
+                    && preg_match($regex, $item["domain"])
+                ) {
+                    if (!in_array($item["type"], $cases)) {
+                        $types[] = $item["type"];
+                    }
+                }
+            }
+        }
+    }
+    if (count($types) === 1 && $types[0] !== $params["type"]) {
+        $params["type"] = $types[0];
+    }
     AF::init($params["TestMode"] === "on");
     return AF::getAdditionalDomainFields($params);
 }

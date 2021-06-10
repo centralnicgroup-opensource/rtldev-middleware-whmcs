@@ -11,7 +11,7 @@
 
 	{if $successful}
 		<div class="alert alert-success text-center">
-			{if type == "trade"}
+			{if type === "trade"}
 				<p>{$L::trans("hxtraderequestedsuccessfully")}</p>
 			{else}
 				<p>{$L::trans("hxchangessavedsuccessfully")}</p>

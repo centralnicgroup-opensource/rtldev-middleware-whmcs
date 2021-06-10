@@ -148,12 +148,12 @@ add_hook("DailyCronJob", 1, function ($vars) {
                     "COMMAND" => "StatusDomainApplication",
                     "APPLICATION" => $matches[1]
                 ]);
-                if ($response["PROPERTY"]["STATUS"][0] == "SUCCESSFUL") {
+                if ($response["PROPERTY"]["STATUS"][0] === "SUCCESSFUL") {
                     //echo $row["domain"]." > Status:".$response["PROPERTY"]["STATUS"][0];
                     $data[":stat"] = "Active";
                     Helper::SQLCall("UPDATE tbldomains SET status=:stat WHERE id=:id", $data, "execute");
                 }
-                if ($response["PROPERTY"]["STATUS"][0] == "FAILED") {
+                if ($response["PROPERTY"]["STATUS"][0] === "FAILED") {
                     //echo $row["domain"]." > Status:".$response["PROPERTY"]["STATUS"][0];
                     $data[":stat"] = "Cancelled";
                     Helper::SQLCall("UPDATE tbldomains SET status=:stat WHERE id=:id", $data, "execute");
