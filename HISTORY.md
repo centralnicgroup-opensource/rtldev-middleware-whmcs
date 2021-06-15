@@ -1,3 +1,11 @@
+## [5.1.8](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v5.1.7...v5.1.8) (2021-06-15)
+
+
+### Bug Fixes
+
+* **six:** SRV Record Integration ([32f093a](https://github.com/hexonet/whmcs-ispapi-registrar/commit/32f093a3775e7d8cb027e9cefd1e6d8659c4c748))
+* **twenty-one:** SRV Record Integration ([d84fa26](https://github.com/hexonet/whmcs-ispapi-registrar/commit/d84fa2624ae65485599e534bd1aa31c22293df91)), closes [#191](https://github.com/hexonet/whmcs-ispapi-registrar/issues/191)
+
 ## [5.1.7](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v5.1.6...v5.1.7) (2021-06-04)
 
 
