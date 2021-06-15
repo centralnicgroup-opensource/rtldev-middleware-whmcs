@@ -47,7 +47,7 @@
                         <option value="TXT"{if $dnsrecord.type eq "TXT"} selected="selected"{/if}>{lang key="domainDns.txt"}</option>
                         <option value="URL"{if $dnsrecord.type eq "URL"} selected="selected"{/if}>{lang key="domainDns.url"}</option>
                         <option value="FRAME"{if $dnsrecord.type eq "FRAME"} selected="selected"{/if}>{lang key="domainDns.frame"}</option>
-                        <option value="SRV"{if $dnsrecord.type eq "SRV"} selected="selected"{/if}>{lang key="domainDns.srv"}</option>
+                        <option value="SRV"{if $dnsrecord.type eq "SRV"} selected="selected"{/if}>SRV</option>
                         </select>
                     </td>
                     <td><input type="text" name="dnsrecordaddress[]" value="{$dnsrecord.address}" size="40" class="form-control" /></td>
