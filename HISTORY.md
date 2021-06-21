@@ -1,3 +1,10 @@
+## [5.1.9](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v5.1.8...v5.1.9) (2021-06-21)
+
+
+### Bug Fixes
+
+* **expirydate:** do no longer consider to subtract 1d. Sorry for the inconveniences caused ([1fe4479](https://github.com/hexonet/whmcs-ispapi-registrar/commit/1fe4479848cb6f239b8191d4640fd9f1bc5a1721))
+
 ## [5.1.8](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v5.1.7...v5.1.8) (2021-06-15)
 
 
