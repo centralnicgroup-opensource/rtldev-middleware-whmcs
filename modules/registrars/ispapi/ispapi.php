@@ -18,6 +18,7 @@ use WHMCS\Module\Registrar\Ispapi\Helper as Helper;
 use WHMCS\Module\Registrar\Ispapi\WebApps as WebApps;
 use WHMCS\Module\Registrar\Ispapi\DomainTransfer as HXDomainTransfer;
 use WHMCS\Module\Registrar\Ispapi\Domain as HXDomain;
+use WHMCS\Module\Registrar\Ispapi\DomainApplication as HXApplication;
 use WHMCS\Domains\DomainLookup\SearchResult as SR;
 
 /**
@@ -1627,7 +1628,7 @@ function ispapi_GetDomainInformation($params)
     //code optimization on getting nameservers and transferLock setting (applicable since WHMCS 7.6)
     //we kept the GetNameservers(), GetRegistrarLock() for the users with < WHMCS 7.6
     $params = ispapi_get_utf8_params($params);
-    $domain = $params["sld"] . "." . $params["tld"];
+    $domain = $params["domainObj"]->getDomain();
 
     $r = HXDomainTransfer::getStatus($params, $domain);
     if ($r["success"]) {
@@ -1646,6 +1647,22 @@ function ispapi_GetDomainInformation($params)
 
         if ($r["errorcode"] !== "545") {
             throw new \Exception("Loading Domain information failed. You may retry in few minutes.<br/><small>" . $r["errorcode"] . " " . $r["error"] . "</small>");
+        }
+
+        $r = HXApplication::getStatus($params, $domain);
+        if ($r["success"] && !empty($r["data"]["STATUS"][0])) {
+            switch ($r["data"]["STATUS"][0]) {
+                case "FAILED":
+                    throw new \Exception("Premium Domain order failed.");
+                    break;
+                case "ACTIVE":
+                case "SUCCESSFUL":
+                    throw new \Exception("Premium Domain order succeeded. Will be soon in your Account.");
+                    break;
+                default:
+                    throw new \Exception("Premium Domain order is pending. Check back again later.");
+                    break;
+            }
         }
 
         $rconv = HXDomain::convert($params, $domain);
@@ -3149,6 +3166,7 @@ function ispapi_Sync($params)
             "transferredAway" => true
         ];
     }
+
     if (!$r["success"] && $r["errorcode"] === "545") {
         $rconv = HXDomain::convert($params, $domainstr);
         $domainstr = $rconv["punycode"];
@@ -3157,6 +3175,27 @@ function ispapi_Sync($params)
             return [
                 "transferredAway" => true
             ];
+        }
+
+        $r = HXApplication::getStatus($params, $domainstr);
+        if ($r["success"] && !empty($r["data"]["STATUS"][0])) {
+            $values = ["active" => true]; // pending cast from app to domain or pending order
+            switch ($r["data"]["STATUS"][0]) {
+                case "FAILED":
+                    logActivity($domainstr . ": Premium Domain Order failed.");
+                    $values = [
+                        "error" => "Premium Domain Order failed."
+                    ];
+                    break;
+                case "ACTIVE":
+                case "SUCCESSFUL":
+                    logActivity($domainstr . ": Premium Domain Order succeeded. Waiting for completion.");
+                    break;
+                default:
+                    logActivity($domainstr . ": Premium Domain Order is pending.");
+                    break;
+            }
+            return $values;
         }
         return HXDomain::getExpiryData($params, $domainstr, true);
     }
