@@ -1665,6 +1665,15 @@ function ispapi_GetDomainInformation($params)
             }
         }
 
+        $status = DB::table("tbldomains")
+            ->where("id", $params["domainid"])
+            ->value("status");
+        if ($status === "Pending") {
+            $thedomain = new \WHMCS\Domain\Registrar\Domain();
+            $thedomain->setDomain($domain);
+            return $thedomain;
+        }
+
         $rconv = HXDomain::convert($params, $domain);
         $domainstr = $rconv["punycode"];
         $values = HXDomain::getExpiredStatus($params, $domainstr, null, false);
