@@ -1,3 +1,10 @@
+## [5.1.10](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v5.1.9...v5.1.10) (2021-06-21)
+
+
+### Bug Fixes
+
+* **premium domains:** fixed domain synchronization/details page related to premium domains ([5ef0ddf](https://github.com/hexonet/whmcs-ispapi-registrar/commit/5ef0ddf4615b594d75f56ed23d12ac6e24105033)), closes [#192](https://github.com/hexonet/whmcs-ispapi-registrar/issues/192)
+
 ## [5.1.9](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v5.1.8...v5.1.9) (2021-06-21)
 
 
