@@ -1,3 +1,10 @@
+## [5.1.11](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v5.1.10...v5.1.11) (2021-06-21)
+
+
+### Bug Fixes
+
+* **failed orders:** with status "pending" are left untouched ([962b3d0](https://github.com/hexonet/whmcs-ispapi-registrar/commit/962b3d063b8eb10c9b0c9c4cac55ded1f67f5d95)), closes [#192](https://github.com/hexonet/whmcs-ispapi-registrar/issues/192)
+
 ## [5.1.10](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v5.1.9...v5.1.10) (2021-06-21)
 
 
