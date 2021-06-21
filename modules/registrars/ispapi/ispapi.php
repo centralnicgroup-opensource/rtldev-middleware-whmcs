@@ -825,10 +825,10 @@ function ispapi_ClientArea($params)
 }
 
 /**
- * Provide custom buttons (whoisprivacy, DNSSEC Management) for domains and change of registrant button for certain domain names on client area
+ * Provide custom buttons (whoisprivacy, DNSSEC Management) for domains and
+ * change of registrant button for certain domain names on client area
  *
  * @param array $params common module parameters
- *
  * @return array $buttonarray an array custum buttons
  */
 function ispapi_ClientAreaCustomButtonArray($params)
@@ -838,26 +838,31 @@ function ispapi_ClientAreaCustomButtonArray($params)
     }
     $params = injectDomainObjectIfNecessary($params);
     $domain = $params["domainObj"]->getDomain();
-    $tld = "." . $params["domainObj"]->getTLD();
 
     $buttons = [];
 
     $addflds = new AF($params["TestMode"] === "on");
     $addflds->setDomainType("whoisprivacy")
             ->setDomain($domain);
-
     if (!empty($addflds->getFields())) {
         // registry-specific id protection
         // (free of charge, don't cover it over _IDProtectToggle/ID Protection Addon)
         $buttons[L::trans("hxwhoisprivacy")] = "whoisprivacy";
     }
-    if (HXTrade::needsTradeForRegistrantModification($params, $domain, ["TRADE", "ICANN-TRADE"])) {
-        $buttons[L::trans("hxownerchange")] = "registrantmodificationtrade";
-    } else {
-        // changes can be done by update; we need only a specific page in case domain fields are necessary
+
+    $tradeType = HXTrade::affectsRegistrantModification($params, $domain, ["TRADE", "ICANN-TRADE"]);
+    if ($tradeType) {// IRTP, Standard Trade
         $addflds = new AF($params["TestMode"] === "on");
-        $addflds->setDomainType("update")
-                ->setDomain($domain);
+            $addflds->setDomainType("trade")
+                    ->setDomain($domain);
+        if (!empty($addflds->getRequiredFields())) {
+            //in case we have additional required domain fields for update
+            $buttons[L::trans("hxownerchange")] = "registrantmodificationtrade";
+        }
+    } else { // UPDATE
+        $addflds = new AF($params["TestMode"] === "on");
+            $addflds->setDomainType("update")
+                    ->setDomain($domain);
         if (!empty($addflds->getRequiredFields())) {
             //in case we have additional required domain fields for update
             $buttons[L::trans("hxownerchange")] = "registrantmodification";
@@ -1145,7 +1150,7 @@ function ispapi_registrantmodificationtrade($params)
     $needsTechC = $addflds->needsTechC();
     $needsBillingC = $addflds->needsBillingC();
 
-    $tradeType = HXTrade::needsTradeForRegistrantModification($params, $domain->getDomain(), ["TRADE", "ICANN-TRADE"]);
+    $tradeType = HXTrade::affectsRegistrantModification($params, $domain->getDomain(), ["TRADE", "ICANN-TRADE"]);
     $missingfields = [];
 
     //TODO: consider admin-c, tech-c, billing-c fields
@@ -1380,7 +1385,7 @@ function ispapi_GetDomainInformation($params)
     $values["transferlock"] = (isset($r["TRANSFERLOCK"][0]) && $r["TRANSFERLOCK"][0] === "1");
 
     //IRTP handling
-    $isAffectedByIRTP = HXTrade::needsIRTPForRegistrantModification($params, $domain);
+    $isAffectedByIRTP = HXTrade::affectsRegistrantModificationIRTP($params, $domain);
     $values["contactChangeExpiryDate"] = null;
     $values["setDomainContactChangePending"] = false;
     $values["setPendingSuspension"] = false;
@@ -2006,65 +2011,92 @@ function ispapi_GetContactDetails($params)
  */
 function ispapi_SaveContactDetails($params)
 {
+    error_reporting(E_ALL);
+    ini_set("display_errors", 1);
+
     $params = ispapi_get_utf8_params($params);
     $params = injectDomainObjectIfNecessary($params);
     $domain = $params["domainObj"]->getDomain();
-
-    $command = [
-        "COMMAND" => "ModifyDomain",
-        "DOMAIN" => $domain
-    ];
     // check if change of registrant requires a trade
-    $tradeType = HXTrade::needsTradeForRegistrantModification($params, $domain, ["TRADE", "ICANN-TRADE"]);
+    $tradeType = HXTrade::affectsRegistrantModification($params, $domain, ["TRADE", "ICANN-TRADE"]);
+
     // add additional domain fields to the API command
     $addflds = new AF($params["TestMode"] === "on");
-    $addflds->setDomainType($tradeType ? "trade" : "update")
-            ->setDomain($domain);
-    $addflds->addToCommand($command, $params["country"]);
+    $addflds->setDomain($domain)
+        ->setFieldValues($_POST["domainfield"])
+        ->setDomainType($tradeType ? "trade" : "update");
     if ($addflds->isMissingRequiredFields()) {
-        //TODO
-        //in case we have additional required domain fields for update
-        //$buttons[L::trans("hxownerchange")] = "registrantmodification";
+        logActivity($domain . ": Missing Additional Domain Fields for Contact Update.");
+        return [
+            "error" => "Required Additional Domain Fields missing for this update."
+        ];
     }
 
+    // API Command Stub
+    $command = ["DOMAIN" => $domain];
     // add contact data to the API command
     HXContact::getInfo2($command, $_POST, "Registrant", "Admin", "Technical", "Billing");
+    // add additional domain fields to the API command
+    $addflds->addToCommand($command, $params["country"]);
 
-    if ($tradeType) {
-        // get registrant data, new and old
-        $data = ispapi_GetContactDetails($params);
-        if (isset($data["error"])) {
-            return $data;
-        }
-        $newregistrant = [];
-        if (isset($params["contactdetails"]["Registrant"])) {
-            $newregistrant = $params["contactdetails"]["Registrant"];
-        }
-        // if so, check if the data changes would lead to a trade
-        if (HXTrade::isTradeDataChange($data["Registrant"], $newregistrant)) {
-            $command["COMMAND"] = "TradeDomain";
-            if ($tradeType === "ICANN-TRADE") {
-                // IRTP
-                if (preg_match("/Designated Agent/", $params["IRTP"])) {
-                    $command["X-CONFIRM-DA-OLD-REGISTRANT"] = 1;
-                    $command["X-CONFIRM-DA-NEW-REGISTRANT"] = 1;
-                }
-                //HM-735: opt-out is not supported for AFNIC TLDs (pm, tf, wf, yt, fr, re)
-                $command["X-REQUEST-OPT-OUT-TRANSFERLOCK"] = 0;
-                if (!preg_match("/AFNIC/i", $repository) && $params["irtpOptOut"]) {
-                    $command["X-REQUEST-OPT-OUT-TRANSFERLOCK"] = 1;
-                }
+    // Try Trade
+    if ($tradeType) { // IRTP, Standard Trade
+        $command["COMMAND"] = "TradeDomain";
+        
+        // IRTP specifics
+        if ($tradeType === "ICANN-TRADE"){
+            if (preg_match("/Designated Agent/", $params["IRTP"])) {
+                $command["X-CONFIRM-DA-OLD-REGISTRANT"] = 1;
+                $command["X-CONFIRM-DA-NEW-REGISTRANT"] = 1;
             }
+            //HM-735: opt-out is not supported for AFNIC TLDs (pm, tf, wf, yt, fr, re)
+            $command["X-REQUEST-OPT-OUT-TRANSFERLOCK"] = 0;
+            if (!preg_match("/AFNIC/i", $repository) && $params["irtpOptOut"]) {
+                $command["X-REQUEST-OPT-OUT-TRANSFERLOCK"] = 1;
+            }
+        }
+
+        // API request
+        $r = Ispapi::call($command, $params);
+        if ($r["CODE"] === "200") {
+            logActivity($domain . ": Contact Update by Trade Method succeeded/initiated.");
+            $addflds->saveToDatabase($params["domainid"], false);
+            return [
+                "success" => true
+            ];
+        }
+        if (!(
+            $r["CODE"] === "506"
+            && preg_match("/^Invalid option value; Registrant remains unchanged; trade is only allowed for change of registrant-name, registrant-organization or registrant-email$/i", $r["DESCRIPTION"])
+        )) {
+            logActivity($domain . ": Contact Update by Trade Method failed (" . $r["CODE"] . " " . $r["DESCRIPTION"] . ").");
+            return [
+                "error" => "Updating Contact Information failed (" . $r["CODE"] . " " . $r["DESCRIPTION"] . ")."
+            ];
+        }
+        // Fallback to domain update, trade not applying
+        // remove IRTP plags for update
+        if ($tradeType === "ICANN-TRADE"){
+            unset(
+                $command["X-CONFIRM-DA-OLD-REGISTRANT"],
+                $command["X-CONFIRM-DA-NEW-REGISTRANT"],
+                $command["X-REQUEST-OPT-OUT-TRANSFERLOCK"]
+            );
         }
     }
 
+    // API request
+    $command["COMMAND"] = "ModifyDomain";
     $r = Ispapi::call($command, $params);
 
     if ($r["CODE"] !== "200") {
+        logActivity($domain . ": Contact Update failed (" . $r["CODE"] . " " . $r["DESCRIPTION"] . ").");
         return [
             "error" => $r["DESCRIPTION"]
         ];
     }
+    logActivity($domain . ": Contact Update succeeded.");
+    $addflds->saveToDatabase($params["domainid"], false);
     return [
         "success" => true
     ];
@@ -2678,6 +2710,39 @@ function ispapi_Sync($params)
     //expirydate
     $values = HXDomain::getExpiryData($params, $domainstr, false, $r);
     logActivity($domainstr . ": Domain Sync finished. Updated expirydate: " . $values["expirydate"]);
+
+    // TODO - START
+    // get date of last trade request
+    //$r = HXTrade::getRequestLog($params, $domainstr, "2021-06-18");
+    //if (!$r["success"] || (int)$r["data"]["COUNT"][0] === 0) {
+        // no trade request found
+    //    return $values;
+    //}
+    // existing trade request, check for related success entry
+    //$logdate = $r["data"]["LOGDATE"][0]; // e.g. 2019-11-15 12:25:05
+    //$logindex = $r["data"]["LOGINDEX"][0];
+    //$r = HXTrade::getSuccessLog($params, $domainstr, $logdate);
+    //if (!$r["success"] || (int)$r["data"]["COUNT"][0] > 0) {
+    //    return $values;
+    //}
+
+    //$reqcmd = HXTrade::getRequestCommand($params, $domainstr, $logindex);
+    //$r = HXDomain::getUpdateLog($params, $domainstr, $logdate, $reqcmd);
+    //if ($r["success"] && (int)$r["data"]["COUNT"][0] > 0) {
+    //    return $values;
+    //}
+    //$reqcmd["COMMAND"] = "ModifyDomain";
+    //foreach (
+    //    [// Flags of IRTP
+    //    "X-CONFIRM-DA-NEW-REGISTRANT",
+    //    "X-CONFIRM-DA-OLD-REGISTRANT",
+    //    "X-REQUEST-OPT-OUT-TRANSFERLOCK"
+    //    ] as $flag
+    //) {
+    //    unset($reqcmd[$flag]);
+    //}
+    //Ispapi::call($reqcmd, $params);
+    // TODO - END
     return $values;
 }
 
@@ -2853,33 +2918,10 @@ function ispapi_get_utf8_params($params)
  * @see https://developers.whmcs.com/domain-registrars/module-parameters/
  * @return array
  */
-function ispapi_AdditionalDomainFields(array $params)
+function ispapi_AdditionalDomainFields($params)
 {
     if (isset($params["original"])) {
         $params = $params["original"];
-    }
-    // fix incoming type if we can identify the related order item
-    // or if all tld-related items have the same type
-    // for transfers type "register" is forwarded
-    $types = [];
-    if (!empty($_SESSION["cart"])) {
-        $regex = "/[^.]+\." . $params["tld"] . "$/";
-        foreach ($_SESSION["cart"] as $order) {
-            foreach ($order as $item) {
-                if (
-                    is_array($item)
-                    && isset($item["domain"])
-                    && preg_match($regex, $item["domain"])
-                ) {
-                    if (!in_array($item["type"], $cases)) {
-                        $types[] = $item["type"];
-                    }
-                }
-            }
-        }
-    }
-    if (count($types) === 1 && $types[0] !== $params["type"]) {
-        $params["type"] = $types[0];
     }
     AF::init($params["TestMode"] === "on");
     return AF::getAdditionalDomainFields($params);

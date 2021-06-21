@@ -3,6 +3,8 @@
 use WHMCS\Module\Registrar\Ispapi\Ispapi;
 use WHMCS\Module\Registrar\Ispapi\Helper;
 use WHMCS\Module\Registrar\Ispapi\Domain as HXDomain;
+use WHMCS\Module\Registrar\Ispapi\AdditionalFields as AF;
+use WHMCS\Module\Registrar\Ispapi\DomainTrade as HXTrade;
 use Illuminate\Database\Capsule\Manager as DB;
 
 $path = implode(DIRECTORY_SEPARATOR, [__DIR__, "hooks_migration.php"]);
@@ -13,7 +15,7 @@ if (file_exists($path)) {
 add_hook("ShoppingCartValidateCheckout", 1, function ($vars) {
     // load registrar functions
     if (!function_exists("getregistrarconfigoptions")) {
-        require_once implode(DIRECTORY_SEPARATOR, [ROOTDIR, "includes", "registrarfunctions.php"]);
+        include implode(DIRECTORY_SEPARATOR, [ROOTDIR, "includes", "registrarfunctions.php"]);
     }
 
     // error container
@@ -56,7 +58,59 @@ add_hook("ShoppingCartValidateCheckout", 1, function ($vars) {
 });
 
 add_hook("ClientAreaHeadOutput", 1, function ($vars) {
+    $domain = Menu::context("domain");
+    if (!$domain || $domain->registrar !== "ispapi") {
+        return "";
+    }
+
+    $html = "";
+    // ---------------------------------------
+    // Inject Fields into Contact Details Page
+    // ---------------------------------------
+    if (isset($_REQUEST["action"]) && $_REQUEST["action"] === "domaincontacts") {
+        // load registrar functions
+        if (!function_exists("getregistrarconfigoptions")) {
+            include implode(DIRECTORY_SEPARATOR, [ROOTDIR, "includes", "registrarfunctions.php"]);
+        }
+        // load registrar module settings and check if transfer precheck are activated
+        $params = getregistrarconfigoptions("ispapi");
+
+        $tradeType = HXTrade::affectsRegistrantModification($params, $domain->domain, ["TRADE", "ICANN-TRADE"]);
+        // Standard Trade and IRTP with no DA Authorization -> non-realtime
+        $showTradeInfo = (
+            (bool)$tradeType
+            && (
+                ($tradeType !== "ICANN-TRADE")
+                || preg_match("/Designated Agent/", $params["IRTP"])
+            )
+        );
+        $addflds = new AF($params["TestMode"] === "on");
+        $addflds->setDomain($domain->domain)
+                ->setDomainType($tradeType ? "trade" : "update")
+                ->getFieldValuesFromDatabase($domain->id);
+        $fields = $addflds->getFieldsForOutput();
+        if (!empty($fields)) {
+            $html .= <<<HTML
+            <script type="text/javascript">
+                const ispapi_show_tradeInfo = $showTradeInfo;
+                const ispapi_fields_html = '$fields';
+                $(document).ready(function(){
+                    const form = $('form[action="/clientarea.php?action=domaincontacts"]');
+                    if (ispapi_show_tradeInfo) {
+                        //TODO translation
+                        form.before('<p>Registrant Contact Data Changes may lead to a so-called Trade process.</p>');
+                    }
+                    form.children().last().before(ispapi_fields_html);
+                })
+            </script>
+HTML;
+        }
+    }
+
+    // -----------------------------------------------------------------------------------------------
     // Auto-Prefill VAT-ID, X-DK-REGISTRANT/ADMIN additional domain field when provided in client data
+    // -----------------------------------------------------------------------------------------------
+    // TODO: on specific action only
     $ispapilang = $vars["clientsdetails"]["language"];
     $ispapivatid = $vars["clientsdetails"]["tax_id"];
     $ispapidkid = "";
@@ -71,7 +125,7 @@ add_hook("ClientAreaHeadOutput", 1, function ($vars) {
     }
 
     if ($ispapivatid || $ispapidkid || $ispapilang) {
-        return <<<HTML
+        $html .= <<<HTML
             <style>
                 img.webappthumb {
                     width: 115px;
@@ -104,6 +158,7 @@ add_hook("ClientAreaHeadOutput", 1, function ($vars) {
             </script>
 HTML;
     }
+    return $html;
 });
 
 add_hook("AfterRegistrarRegistrationFailed", 1, function ($vars) {
