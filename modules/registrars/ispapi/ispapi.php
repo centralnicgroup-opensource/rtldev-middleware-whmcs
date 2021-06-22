@@ -1021,199 +1021,6 @@ function ispapi_dnssec($params)
 }
 
 /**
- * Return a special page for the registrant modification of a .CA domain name
- *
- * @param array $params common module parameters
- *
- * @return array an array with a template name and some variables
- */
-function ispapi_registrantmodification($params)
-{
-    if (isset($params["original"])) {
-        $params = $params["original"];
-    }
-
-    $params = injectDomainObjectIfNecessary($params);
-    /** @var \WHMCS\Domains\Domain $domain */
-    $domain = $params["domainObj"];
-
-    $addflds = new AF($params["TestMode"] === "on");
-    $addflds->setDomainType("update")
-            ->setDomain($domain->getDomain());
-
-    $r = HXDomain::getStatus($params, $domain->getDomain());
-
-    $values = [];
-    if (!$r["success"]) {
-        // TODO: show error page directly
-        // TODO: add Admin-C (idx Admin) to values if $needsAdminC
-    }
-    $values["Registrant"] = HXContact::getInfo($r["data"]["OWNERCONTACT"][0], $params);
-
-    $error = false;
-    $successful = false;
-
-    $needsAdminC = $addflds->needsAdminC();
-    $needsTechC = $addflds->needsTechC();
-    $needsBillingC = $addflds->needsBillingC();
-
-    $missingfields = [];
-
-    if (isset($_POST["submit"])) {
-        $addflds->setFieldValues($_POST["domainfield"]);
-        if ($addflds->isMissingRequiredFields()) {
-            $error = L::trans("hxerrormissingfields");
-            $missingfields = $addflds->getMissingRequiredFields();
-        } else {
-            $values["Registrant"] = $_POST["contactdetails"]["Registrant"];
-
-            $command = [
-                "COMMAND" => "ModifyDomain",
-                "DOMAIN" => $domain->getDomain()
-            ];
-
-            HXContact::getInfo2($command, $_POST);
-
-            $addflds->addToCommand($command, $params["country"]);
-            $r = Ispapi::call($command, $params);
-
-            if ($r["CODE"] === "200") {
-                $addflds->saveToDatabase();
-                $successful = $r["DESCRIPTION"];
-            } else {
-                $error = $r["DESCRIPTION"];
-            }
-        }
-    } else {
-        $addflds->getFieldValuesFromDatabase($params["domainid"]);
-    }
-
-    return [
-        "templatefile" => "tpl_ca_registrantmodification",
-        "vars" => [
-            "L" => new L(),
-            "tld" => $domain->getLastTLDSegment(),
-            "needsAdminC" => $needsAdminC,
-            "needsTechC" => $needsTechC,
-            "needsBillingC" => $needsBillingC,
-            "error" => $error,
-            "successful" => $successful,
-            "values" => $values,
-            "additionalfields" => $addflds,
-            "missingfields" => $missingfields,
-            "type" => "",
-            "subtype" => ""
-        ]
-    ];
-}
-
-/**
- * Return a special page for the registrant modification of a domain requiring TRADE
- *
- * @param array $params common module parameters
- * @see https://developers.whmcs.com/domain-registrars/module-parameters/
- * @return array an array with a template name and some variables
- */
-function ispapi_registrantmodificationtrade($params)
-{
-    if (isset($params["original"])) {
-        $params = $params["original"];
-    }
-
-    $params = injectDomainObjectIfNecessary($params);
-    /** @var \WHMCS\Domains\Domain $domain */
-    $domain = $params["domainObj"];
-
-    $addflds = new AF($params["TestMode"] === "on");
-    $addflds->setDomainType("trade")
-            ->setDomain($domain->getDomain());
-
-    $r = HXDomain::getStatus($params, $domain->getDomain());
-
-    $values = [];
-    $repository = "";
-    if ($r["success"]) {
-        // TODO: show error page directly
-        // TODO: add Admin-C (idx Admin) to values if $needsAdminC
-        $oldreg = HXContact::getInfo($r["data"]["OWNERCONTACT"][0], $params);
-        $values["Registrant"] = $oldreg;
-        $repository = $r["data"]["REPOSITORY"][0];
-    }
-
-    $error = false;
-    $successful = false;
-
-    $needsAdminC = (
-        HXTrade::needsAdminContactInTrade($domain->getLastTLDSegment()) ||
-        $addflds->needsAdminC()
-    );
-    $needsTechC = $addflds->needsTechC();
-    $needsBillingC = $addflds->needsBillingC();
-
-    $tradeType = HXTrade::affectsRegistrantModification($params, $domain->getDomain(), ["TRADE", "ICANN-TRADE"]);
-    $missingfields = [];
-
-    //TODO: consider admin-c, tech-c, billing-c fields
-    if (isset($_POST["submit"])) {
-        $addflds->setFieldValues($_POST["domainfield"]);
-        if ($addflds->isMissingRequiredFields()) {
-            $error = L::trans("hxerrormissingfields");
-            $missingfields = $addflds->getMissingRequiredFields();
-        } else {
-            $command = [
-                "COMMAND" => "TradeDomain",
-                "DOMAIN" => $domain->getDomain()
-            ];
-            $newreg = $_POST["contactdetails"]["Registrant"];
-            $values["Registrant"] = $newreg;
-            // IRTP Handling
-            if ($tradeType === "ICANN-TRADE") {
-                if (
-                    preg_match("/Designated Agent/", $params["IRTP"])
-                    && HXTrade::isTradeDataChange($oldreg, $newreg)
-                ) {
-                    $command = array_merge($command, [
-                        "X-CONFIRM-DA-OLD-REGISTRANT" => 1,
-                        "X-CONFIRM-DA-NEW-REGISTRANT" => 1,
-                    ]);
-                }
-                //HM-735: opt-out is not supported for AFNIC TLDs (pm, tf, wf, yt, fr, re)
-                $command["X-REQUEST-OPT-OUT-TRANSFERLOCK"] = (!preg_match("/AFNIC/i", $repository) && $params["irtpOptOut"]) ? 1 : 0;
-            }
-            $addflds->addToCommand($command, $params["country"]);
-            HXContact::getInfo2($command, $_POST, "Registrant", "Registrant");
-            $r = Ispapi::call($command, $params);
-            if ($r["CODE"] === "200") {
-                $addflds->saveToDatabase();
-                $successful = $r["DESCRIPTION"];
-            } else {
-                $error = $r["DESCRIPTION"];
-            }
-        }
-    } else {
-        $addflds->getFieldValuesFromDatabase($params["domainid"]);
-    }
-
-    return [
-        "templatefile" => "tpl_ca_registrantmodification",
-        "vars" => [
-            "L" => new L(),
-            "tld" => $domain->getLastTLDSegment(),
-            "needsAdminC" => $needsAdminC,
-            "needsTechC" => $needsTechC,
-            "needsBillingC" => $needsBillingC,
-            "error" => $error,
-            "successful" => $successful,
-            "values" => $values,
-            "additionalfields" => $addflds,
-            "missingfields" => $missingfields,
-            "type" => "trade",
-            "subtype" => $tradeType
-        ]
-    ];
-}
-
-/**
  * Handle the ID Protection (whoisprivacy) of a domain name
  *
  * @param array $params common module parameters
@@ -1994,12 +1801,7 @@ function ispapi_GetContactDetails($params)
             "error" => "Failed to load Contact Details (" . $r["errorcode"] . " " . $r["error"] . ")."
         ];
     }
-    return [
-        "Registrant" => HXContact::getInfo($r["data"]["OWNERCONTACT"][0], $params),
-        "Admin" => HXContact::getInfo($r["data"]["ADMINCONTACT"][0], $params),
-        "Technical" => HXContact::getInfo($r["data"]["TECHCONTACT"][0], $params),
-        "Billing" => HXContact::getInfo($r["data"]["BILLINGCONTACT"][0], $params)
-    ];
+    return HXContact::getInfo($r, $params);
 }
 
 /**
@@ -2035,16 +1837,16 @@ function ispapi_SaveContactDetails($params)
     // API Command Stub
     $command = ["DOMAIN" => $domain];
     // add contact data to the API command
-    HXContact::getInfo2($command, $_POST, "Registrant", "Admin", "Technical", "Billing");
+    HXContact::getFromPost($command, $_POST);
     // add additional domain fields to the API command
     $addflds->addToCommand($command, $params["country"]);
 
     // Try Trade
     if ($tradeType) { // IRTP, Standard Trade
         $command["COMMAND"] = "TradeDomain";
-        
+
         // IRTP specifics
-        if ($tradeType === "ICANN-TRADE"){
+        if ($tradeType === "ICANN-TRADE") {
             if (preg_match("/Designated Agent/", $params["IRTP"])) {
                 $command["X-CONFIRM-DA-OLD-REGISTRANT"] = 1;
                 $command["X-CONFIRM-DA-NEW-REGISTRANT"] = 1;
@@ -2065,10 +1867,12 @@ function ispapi_SaveContactDetails($params)
                 "success" => true
             ];
         }
-        if (!(
+        if (
+            !(
             $r["CODE"] === "506"
             && preg_match("/^Invalid option value; Registrant remains unchanged; trade is only allowed for change of registrant-name, registrant-organization or registrant-email$/i", $r["DESCRIPTION"])
-        )) {
+            )
+        ) {
             logActivity($domain . ": Contact Update by Trade Method failed (" . $r["CODE"] . " " . $r["DESCRIPTION"] . ").");
             return [
                 "error" => "Updating Contact Information failed (" . $r["CODE"] . " " . $r["DESCRIPTION"] . ")."
@@ -2076,7 +1880,7 @@ function ispapi_SaveContactDetails($params)
         }
         // Fallback to domain update, trade not applying
         // remove IRTP plags for update
-        if ($tradeType === "ICANN-TRADE"){
+        if ($tradeType === "ICANN-TRADE") {
             unset(
                 $command["X-CONFIRM-DA-OLD-REGISTRANT"],
                 $command["X-CONFIRM-DA-NEW-REGISTRANT"],
@@ -2229,19 +2033,15 @@ function ispapi_RegisterDomain($params)
     $params = ispapi_get_utf8_params($params);
     $domain = $params["sld"] . "." . $params["tld"];
 
-    $registrant = HXContact::getInfo3($params);
-    $admin = HXContact::getInfo3($params, true);
-
     $command = [
         "COMMAND" => "AddDomain",
         "DOMAIN" => $domain,
         "PERIOD" => $params["regperiod"],
         "NAMESERVER" => Ispapi::castNameserversBE($params),
-        "OWNERCONTACT0" => $registrant,
-        "ADMINCONTACT0" => $admin,
-        "TECHCONTACT0" => $admin,
-        "BILLINGCONTACT0" => $admin
     ];
+    // add contacts
+    HXContact::getFromParams($command, $params);
+
     if (preg_match("/\.swiss$/i", $domain)) {
         $command["COMMAND"] = "AddDomainApplication";
         $command["CLASS"] = "GOLIVE";
@@ -2354,20 +2154,16 @@ function ispapi_TransferDomain($params)
         ];
     }
 
-    $registrant = HXContact::getInfo3($params);
-    $admin = HXContact::getInfo3($params, true);
-
     $command = [
         "COMMAND" => "TransferDomain",
         "DOMAIN" => $domain,
         "PERIOD" => $params["regperiod"],
         "NAMESERVER" => Ispapi::castNameserversBE($params),
-        "OWNERCONTACT0" => $registrant,
-        "ADMINCONTACT0" => $admin,
-        "TECHCONTACT0" => $admin,
-        "BILLINGCONTACT0" => $admin,
         "AUTH" => $params["eppcode"]
     ];
+    // add contacts
+    HXContact::getFromParams($command, $params);
+
     if (isset($r["PROPERTY"]["USERTRANSFERREQUIRED"]) && $r["PROPERTY"]["USERTRANSFERREQUIRED"][0] === "1") {
         //auto-detect user-transfer
         $command["ACTION"] = "USERTRANSFER";
