@@ -95,70 +95,18 @@ add_hook("ClientAreaHeadOutput", 1, function ($vars) {
             $html .= <<<HTML
             <script type="text/javascript">
                 const ispapi_show_tradeInfo = $showTradeInfo;
-                const ispapi_tradeInfo = '<p>$tradeInfo</p>';
+                const ispapi_tradeInfo = '<br/>$tradeInfo';
                 const ispapi_fields_html = '$fields';
                 $(document).ready(function(){
                     const form = $('form[action="/clientarea.php?action=domaincontacts"]');
                     if (ispapi_show_tradeInfo) {
-                        form.before(ispapi_tradeInfo);
+                        form.prev().append(ispapi_tradeInfo);
                     }
                     form.children().last().before(ispapi_fields_html);
                 })
             </script>
 HTML;
         }
-    }
-
-    // -----------------------------------------------------------------------------------------------
-    // Auto-Prefill VAT-ID, X-DK-REGISTRANT/ADMIN additional domain field when provided in client data
-    // -----------------------------------------------------------------------------------------------
-    // TODO: on specific action only
-    $ispapilang = $vars["clientsdetails"]["language"];
-    $ispapivatid = $vars["clientsdetails"]["tax_id"];
-    $ispapidkid = "";
-
-    if (function_exists("getCustomFields")) {
-        $cfs = getCustomFields("client", "", $vars["clientsdetails"]["userid"], "on", "");
-        foreach ($cfs as $cf) {
-            if ("dkhostmasteruserid" === $cf["textid"] && !empty($cf["value"])) {
-                $ispapidkid = strtoupper($cf["value"]);
-            }
-        }
-    }
-
-    if ($ispapivatid || $ispapidkid || $ispapilang) {
-        $html .= <<<HTML
-            <style>
-                img.webappthumb {
-                    width: 115px;
-                    padding: 4px;
-                    border: 1px solid #ddd;
-                    border-radius: 4px;
-                }
-            </style>
-            <script type="text/javascript">
-                const ispapi_vatid = '$ispapivatid';
-                const ispapi_dkid = '$ispapidkid';
-                const ispapi_lang = '$ispapilang';
-                $(document).ready(function () {
-                    $('#frmConfigureDomains .row .col-sm-4').each(function () {
-                        if(ispapi_vatid && $(this).text().match(/VAT ID|VATID/i)){
-                            $(this).siblings().children(':input').val(ispapi_vatid);
-                        }
-                        if (ispapi_dkid && $(this).text().match(/^(registrant|admin) contact\:$/i)) {
-                            $(this).siblings().children(':input').val(ispapi_dkid);
-                        }
-                        if ($(this).text().match(/^Contact Language\:$/i)) {
-                            if (/^(english|french)$/i.test(ispapi_lang)){
-                                const mylang = ispapi_lang.charAt(0).toUpperCase() + ispapi_lang.slice(1);
-                                $(this).siblings().find('select option').prop('selected', false);
-                                $(this).siblings().find('select option[value="' + mylang + '"]').prop('selected', true);
-                            }
-                        }
-                    });
-                });
-            </script>
-HTML;
     }
     return $html;
 });
