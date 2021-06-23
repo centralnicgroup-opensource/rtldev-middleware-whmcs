@@ -5,6 +5,7 @@ use WHMCS\Module\Registrar\Ispapi\Helper;
 use WHMCS\Module\Registrar\Ispapi\Domain as HXDomain;
 use WHMCS\Module\Registrar\Ispapi\AdditionalFields as AF;
 use WHMCS\Module\Registrar\Ispapi\DomainTrade as HXTrade;
+use WHMCS\Module\Registrar\Ispapi\Lang as L;
 use Illuminate\Database\Capsule\Manager as DB;
 
 $path = implode(DIRECTORY_SEPARATOR, [__DIR__, "hooks_migration.php"]);
@@ -89,16 +90,17 @@ add_hook("ClientAreaHeadOutput", 1, function ($vars) {
                 ->setDomainType($tradeType ? "trade" : "update")
                 ->getFieldValuesFromDatabase($domain->id);
         $fields = $addflds->getFieldsForOutput();
+        $tradeInfo = L::trans('hxdomaincontactstradeinfo');
         if (!empty($fields)) {
             $html .= <<<HTML
             <script type="text/javascript">
                 const ispapi_show_tradeInfo = $showTradeInfo;
+                const ispapi_tradeInfo = '<p>$tradeInfo</p>';
                 const ispapi_fields_html = '$fields';
                 $(document).ready(function(){
                     const form = $('form[action="/clientarea.php?action=domaincontacts"]');
                     if (ispapi_show_tradeInfo) {
-                        //TODO translation
-                        form.before('<p>Registrant Contact Data Changes may lead to a so-called Trade process.</p>');
+                        form.before(ispapi_tradeInfo);
                     }
                     form.children().last().before(ispapi_fields_html);
                 })

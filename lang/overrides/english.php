@@ -636,3 +636,12 @@ $_LANG["hxpnsempty"] = "No private Nameserver registered under this domain name.
 // ----------------------- Web Apps -------------------------------------
 // ----------------------------------------------------------------------
 $_LANG["hxwebapps"] = "Web Apps";
+
+// ----------------------------------------------------------------------
+// ------------------ Contact Information -------------------------------
+// ----------------------------------------------------------------------
+$_LANG["hxdomaincontactstradeinfo"] = (
+    "Registrant Contact Data Changes may lead to a so-called Trade process that is " .
+    "in some cases not completed in realtime. Please be patient if changes are not " .
+    "reflected immediately."
+);

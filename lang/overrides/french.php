@@ -636,3 +636,12 @@ $_LANG["hxpnsempty"] = "Aucun serveur DNS privé enregistré sous ce nom de doma
 // ----------------------- Web Apps -------------------------------------
 // ----------------------------------------------------------------------
 $_LANG["hxwebapps"] = "Applications Web";
+
+// ----------------------------------------------------------------------
+// ------------------ Contact Information -------------------------------
+// ----------------------------------------------------------------------
+$_LANG["hxdomaincontactstradeinfo"] = (
+    "Les modifications des données de contact du titulaire peuvent entraîner un " .
+    "processus dit de \"Trade\" qui, dans certains cas, n'est pas achevé en temps réel. " .
+    "Veuillez être patient si les changements ne sont pas reflétés immédiatement."
+);
