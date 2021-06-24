@@ -2919,7 +2919,7 @@ function ispapi_TransferDomain($params)
         }
     }
     //#####################################################################
-    if (preg_match("/\.ca$/", $domain->getDomain())) {
+    if (preg_match("/\.(ca|ro)$/", $domain->getDomain())) {
         ispapi_use_additionalfields($params, $command);
         unset($command["X-CA-DISCLOSE"]);//not supported for transfers
     }
