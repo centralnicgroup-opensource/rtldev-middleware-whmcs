@@ -2507,38 +2507,6 @@ function ispapi_Sync($params)
     $values = HXDomain::getExpiryData($params, $domainstr, false, $r);
     logActivity($domainstr . ": Domain Sync finished. Updated expirydate: " . $values["expirydate"]);
 
-    // TODO - START
-    // get date of last trade request
-    //$r = HXTrade::getRequestLog($params, $domainstr, "2021-06-18");
-    //if (!$r["success"] || (int)$r["data"]["COUNT"][0] === 0) {
-        // no trade request found
-    //    return $values;
-    //}
-    // existing trade request, check for related success entry
-    //$logdate = $r["data"]["LOGDATE"][0]; // e.g. 2019-11-15 12:25:05
-    //$logindex = $r["data"]["LOGINDEX"][0];
-    //$r = HXTrade::getSuccessLog($params, $domainstr, $logdate);
-    //if (!$r["success"] || (int)$r["data"]["COUNT"][0] > 0) {
-    //    return $values;
-    //}
-
-    //$reqcmd = HXTrade::getRequestCommand($params, $domainstr, $logindex);
-    //$r = HXDomain::getUpdateLog($params, $domainstr, $logdate, $reqcmd);
-    //if ($r["success"] && (int)$r["data"]["COUNT"][0] > 0) {
-    //    return $values;
-    //}
-    //$reqcmd["COMMAND"] = "ModifyDomain";
-    //foreach (
-    //    [// Flags of IRTP
-    //    "X-CONFIRM-DA-NEW-REGISTRANT",
-    //    "X-CONFIRM-DA-OLD-REGISTRANT",
-    //    "X-REQUEST-OPT-OUT-TRANSFERLOCK"
-    //    ] as $flag
-    //) {
-    //    unset($reqcmd[$flag]);
-    //}
-    //Ispapi::call($reqcmd, $params);
-    // TODO - END
     return $values;
 }
 
