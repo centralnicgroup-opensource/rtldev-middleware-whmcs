@@ -1,3 +1,10 @@
+## [5.1.12](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v5.1.11...v5.1.12) (2021-06-24)
+
+
+### Bug Fixes
+
+* **transfer:** consider additional fields for .ro ([a7867e0](https://github.com/hexonet/whmcs-ispapi-registrar/commit/a7867e0df84cfac974d809eb200ca3cb21dc8d86)), closes [#195](https://github.com/hexonet/whmcs-ispapi-registrar/issues/195)
+
 ## [5.1.11](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v5.1.10...v5.1.11) (2021-06-21)
 
 

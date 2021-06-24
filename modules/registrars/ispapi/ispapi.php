@@ -6,7 +6,7 @@
  * @author HEXONET GmbH <support@hexonet.net>
  */
 
-define("ISPAPI_MODULE_VERSION", "5.1.11");
+define("ISPAPI_MODULE_VERSION", "5.1.12");
 
 if (!defined("WHMCS")) {
     die("This file cannot be accessed directly");
