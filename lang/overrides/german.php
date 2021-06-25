@@ -114,7 +114,7 @@ $_LANG["hxflagsallocationtokendescr"] = (
 $_LANG["hxflagsnexuscategory"] = "Nexus Kategorie";
 $_LANG["hxflagsnexuscountry"] = "Nexus Länderschlüssel";
 $_LANG["hxflagsfax"] = "Fax benötigt";
-$_LANG["hxflagsfaxregisterdescr"] = "Ich versichere <a href=\"{FAXFORM}\" target=\"_blank\">dieses Formular</a> nach Übermittlung der Registrierungsanfrage auszufüllen und zu übersenden, um den Prozess abzuschließen.";
+$_LANG["hxflagsfaxregistrationdescr"] = "Ich versichere <a href=\"{FAXFORM}\" target=\"_blank\">dieses Formular</a> nach Übermittlung der Registrierungsanfrage auszufüllen und zu übersenden, um den Prozess abzuschließen.";
 $_LANG["hxflagsfaxtransferdescr"] = "Ich versichere <a href=\"{FAXFORM}\" target=\"_blank\">dieses Formular</a> nach Übermittlung der Transferanfrage auszufüllen und zu übersenden, um den Prozess abzuschließen.";
 $_LANG["hxflagsfaxownerchangedescr"] = "Ich versichere <a href=\"{FAXFORM}\" target=\"_blank\">dieses Formular</a> nach Übermittlung der Besitzerwechselanfrage auszufüllen und zu übersenden, um den Prozess abzuschließen.";
 $_LANG["hxflagsidentificationnumber"] = "Identifikationsnr.";
