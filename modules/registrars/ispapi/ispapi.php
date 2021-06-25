@@ -1801,7 +1801,7 @@ function ispapi_GetContactDetails($params)
             "error" => "Failed to load Contact Details (" . $r["errorcode"] . " " . $r["error"] . ")."
         ];
     }
-    return HXContact::getInfo($r, $params);
+    return HXContact::getInfo($params, $r);
 }
 
 /**
@@ -1813,9 +1813,6 @@ function ispapi_GetContactDetails($params)
  */
 function ispapi_SaveContactDetails($params)
 {
-    error_reporting(E_ALL);
-    ini_set("display_errors", 1);
-
     $params = ispapi_get_utf8_params($params);
     $params = injectDomainObjectIfNecessary($params);
     $domain = $params["domainObj"]->getDomain();
@@ -1861,7 +1858,14 @@ function ispapi_SaveContactDetails($params)
         // API request
         $r = Ispapi::call($command, $params);
         if ($r["CODE"] === "200") {
-            logActivity($domain . ": Contact Update by Trade Method succeeded/initiated.");
+            $msg = $domain . ": Contact Update by Trade Method succeeded/initiated ";
+            $p = HXTrade::getPrice($params, $params["tld"]);
+            if ($p) {
+                $msg .= "(Price: " . $p["price"] . " " . $p["currency"] . ").";
+            } else {
+                $msg .= "(free of charge).";
+            }
+            logActivity($msg);
             $addflds->saveToDatabase($params["domainid"], false);
             return [
                 "success" => true
