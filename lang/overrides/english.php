@@ -151,6 +151,9 @@ $_LANG["hxflagsafnictldlegaltypeass"] = "French Association";
 $_LANG["hxflagsaerotldaeroid"] = ".AERO ID <sup style=\"cursor:help;\" title=\"Obtain from https://www.information.aero/\">what's this?</sup>";
 $_LANG["hxflagsaerotldaerokey"] = ".AERO Key <sup style=\"cursor:help;\" title=\"Obtain from https://www.information.aero/\">what's this?</sup>";
 
+// .BE
+$_LANG["hxflagsbetldtradeauthdescr"] = "The Change of Registrant requires a valid EPP Code. This applies when changing Registrant's Name, Organization or Email Address.";
+
 // .CA
 $_LANG["hxflagscatldcontactlanguage"] = "Contact Language";
 $_LANG["hxflagscatldregistryinformation"] = "Registry Information";
@@ -590,16 +593,6 @@ $_LANG["hxflagsxxxtldmembershipiddescr"] = "(Required in order to make your .XXX
 // Options, Non-Resolving Domain
 $_LANG["hxflagsxxxtldnonresolvingdomain0"] = "No - This domain SHOULD resolve";
 $_LANG["hxflagsxxxtldnonresolvingdomain1"] = "Yes - This domain SHOULD NOT resolve";
-
-// ----------------------------------------------------------------------
-// ----------------------- OWNER CHANGE ---------------------------------
-// ----------------------------------------------------------------------
-$_LANG["hxtraderequestedsuccessfully"] = "The Trade has been requested successfully.";
-$_LANG["hxownerchangeproceduresimple"] = "The Change of Registrant for this TLD requires a special procedure called `Trade`. Registrant Contact will be replaced.";
-$_LANG["hxownerchangeprocedureextended"] = "The Change of Registrant for this TLD requires a special procedure called `Trade`. Registrant and Admin Contact will be replaced.";
-$_LANG["hxownerchange"] = "Change of Registrant";
-$_LANG["hxbttnsendtrade"] = "Send Trade";
-$_LANG["hxerrormissingfields"] = "Missing data for the below mandatory fields:";
 
 // ----------------------------------------------------------------------
 // ----------------------- WHOIS PRIVACY --------------------------------

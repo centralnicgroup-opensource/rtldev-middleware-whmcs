@@ -151,6 +151,9 @@ $_LANG["hxflagsafnictldlegaltypeass"] = "Association française";
 $_LANG["hxflagsaerotldaeroid"] = ".AERO ID <sup style=\"cursor:help;\" title=\"Voir https://www.information.aero/\">Qu'est ce que c'est?</sup>";
 $_LANG["hxflagsaerotldaerokey"] = ".AERO Key <sup style=\"cursor:help;\" title=\"Voir https://www.information.aero/\">Qu'est ce que c'est?</sup>";
 
+// .BE
+$_LANG["hxflagsbetldtradeauthdescr"] = "Le changement de titulaire nécessite un code EPP valide. Ceci s'applique lors du changement du nom, de l'organisation ou de l'adresse e-mail du titulaire.";
+
 // .CA
 $_LANG["hxflagscatldcontactlanguage"] = "Langue du contact";
 $_LANG["hxflagscatldregistryinformation"] = "Information du registre";
@@ -590,16 +593,6 @@ $_LANG["hxflagsxxxtldmembershipiddescr"] = "(Obligatoire pour que votre domaine 
 // Options, Non-Resolving Domain
 $_LANG["hxflagsxxxtldnonresolvingdomain0"] = "Non - Ce domaine DOIT résoudre";
 $_LANG["hxflagsxxxtldnonresolvingdomain1"] = "Oui - Ce domaine NE DOIT PAS résoudre";
-
-// ----------------------------------------------------------------------
-// ----------------------- OWNER CHANGE ---------------------------------
-// ----------------------------------------------------------------------
-$_LANG["hxtraderequestedsuccessfully"] = "Le changement de titulaire a été demandé avec succès.";
-$_LANG["hxownerchangeproceduresimple"] = "Le changement de titulaire pour ce TLD nécessite une procédure spéciale appelée `Trade`. Le contact du titulaire sera remplacé.";
-$_LANG["hxownerchangeprocedureextended"] = "Le changement de titulaire pour ce TLD nécessite une procédure spéciale appelée `Trade`. Le titulaire et le contact administratif seront remplacés.";
-$_LANG["hxownerchange"] = "Changement de Titulaire";
-$_LANG["hxbttnsendtrade"] = "Soumettre";
-$_LANG["hxerrormissingfields"] = "Données manquantes pour les champs de saisie obligatoires ci-dessous:";
 
 // ----------------------------------------------------------------------
 // ----------------------- WHOIS PRIVACY --------------------------------

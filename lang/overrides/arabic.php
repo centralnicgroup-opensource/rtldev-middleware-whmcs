@@ -140,6 +140,9 @@ $_LANG["hxflagsafnictldlegaltypeass"] = "الرابطة الفرنسية";
 $_LANG["hxflagsaerotldaeroid"] = ".AERO ID <sup style=\"cursor:help;\" title=\"Obtain from https://www.information.aero/\">ماهذا؟</sup>";
 $_LANG["hxflagsaerotldaerokey"] = ".AERO Key <sup style=\"cursor:help;\" title=\"Obtain from https://www.information.aero/\">ماهذا؟</sup>";
 
+// .BE
+$_LANG["hxflagsbetldtradeauthdescr"] = "يتطلب تغيير المسجل رمز EPP Code صالحًا. ينطبق هذا عند تغيير اسم المسجل أو المنظمة أو عنوان البريد الإلكتروني";
+
 // .CA
 $_LANG["hxflagscatldcontactlanguage"] = "لغة الاتصال";
 $_LANG["hxflagscatldwhoisoptoutdescr"] = "حدد لإخفاء معلومات الاتصال الخاصة بك في سجل WHOIS (متاح فقط للأفراد ، اقرأ أعلاه.)";
@@ -567,16 +570,6 @@ $_LANG["hxflagsxxxtldmembershipiddescr"] = "(مطلوب لحل النطاق .XXX
 // Options, Non-Resolving Domain
 $_LANG["hxflagsxxxtldnonresolvingdomain0"] = "لا - يجب حل هذا المجال";
 $_LANG["hxflagsxxxtldnonresolvingdomain1"] = "نعم - لا يجب حل هذا المجال";
-
-// ----------------------------------------------------------------------
-// ----------------------- OWNER CHANGE ---------------------------------
-// ----------------------------------------------------------------------
-$_LANG["hxtraderequestedsuccessfully"] = "تم طلب التجارة بنجاح";
-$_LANG["hxownerchangeproceduresimple"] = "يتطلب تغيير المسجل لهذا TLD إجراءً خاصًا يسمى 'التجارة'. سيتم استبدال الاتصال المسجل.";
-$_LANG["hxownerchangeprocedureextended"] = "يتطلب تغيير المسجل لهذا TLD إجراءً خاصًا يسمى 'التجارة'. سيتم استبدال المسجل والاتصال المسؤول.";
-$_LANG["hxownerchange"] = "تغيير المسجل";
-$_LANG["hxbttnsendtrade"] = "إرسال التجارة";
-$_LANG["hxerrormissingfields"] = "البيانات المفقودة للحقول الإلزامية أدناه:";
 
 // ----------------------------------------------------------------------
 // ----------------------- WHOIS PRIVACY --------------------------------

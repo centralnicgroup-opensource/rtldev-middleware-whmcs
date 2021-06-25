@@ -66,6 +66,39 @@ add_hook("ClientAreaHeadOutput", 1, function ($vars) {
 
     $html = "";
     // ---------------------------------------
+    // Inject Private NS List into private NS Page
+    // ---------------------------------------
+    if (isset($_REQUEST["action"]) && $_REQUEST["action"] === "domainregisterns") {
+        // load registrar functions
+        if (!function_exists("getregistrarconfigoptions")) {
+            include implode(DIRECTORY_SEPARATOR, [ROOTDIR, "includes", "registrarfunctions.php"]);
+        }
+        // load registrar module settings and check if transfer precheck are activated
+        $params = getregistrarconfigoptions("ispapi");
+
+        $r = HXDomain::getStatus($params, $domain->domain, true);
+        if ($r["success"] && !empty($r["data"]["HOST"])) {
+            $col1 = L::trans("domainregisternsns");
+            $col2 = L::trans("domainregisternsip");
+            $html .= "<table class=\"table table-bordered table-striped\"><thead><tr><th>$col1</th><th>$col2</th></tr></thead><tbody>";
+            foreach ($r["data"]["HOST"] as $host) {
+                list($hname, $ip) = explode(" ", $host);
+                $html .= "<tr><td>$hname</li></td><td>$ip</td></tr> ";
+            }
+            $html .= "</tbody></table>";
+            return <<< HTML
+                <script type="text/javascript">
+                    const ispapi_pns_html = '$html';
+                    $(document).ready(function(){
+                        const form = $('form[action="/clientarea.php?action=domainregisterns"]').first();
+                        form.before(ispapi_pns_html);
+                    })
+                </script>
+    HTML;
+            return $html;
+        }
+    }
+    // ---------------------------------------
     // Inject Fields into Contact Details Page
     // ---------------------------------------
     if (isset($_REQUEST["action"]) && $_REQUEST["action"] === "domaincontacts") {
@@ -86,8 +119,8 @@ add_hook("ClientAreaHeadOutput", 1, function ($vars) {
             )
         );
         $addflds = new AF($params["TestMode"] === "on");
-        $addflds->setDomain($domain->domain)
-                ->setDomainType($tradeType ? "trade" : "update")
+        $addflds->setDomainType($tradeType ? "trade" : "update")
+                ->setDomain($domain->domain)
                 ->getFieldValuesFromDatabase($domain->id);
         $fields = $addflds->getFieldsForOutput();
         $tradeInfo = L::trans('hxdomaincontactstradeinfo');
@@ -186,17 +219,6 @@ $ispapi_domainMenuUpdate = function ($vars) {
             $vars["lockstatus"] = false;
             if (!is_null($menu)) {
                 $menu->removeChild("Registrar Lock Status");
-            }
-        }
-
-        if (!is_null($menu)) {
-            $menuItem = $menu->getChild("Manage Private Nameservers");
-            if (!is_null($menuItem)) {
-                $menuItem->moveToBack();
-            }
-            $menuItem = $menu->getChild("Private Nameservers List");
-            if (!is_null($menuItem)) {
-                $menuItem->moveToBack();
             }
         }
         return $vars;

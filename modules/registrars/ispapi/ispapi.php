@@ -850,52 +850,13 @@ function ispapi_ClientAreaCustomButtonArray($params)
         $buttons[L::trans("hxwhoisprivacy")] = "whoisprivacy";
     }
 
-    $tradeType = HXTrade::affectsRegistrantModification($params, $domain, ["TRADE", "ICANN-TRADE"]);
-    if ($tradeType) {// IRTP, Standard Trade
-        $addflds = new AF($params["TestMode"] === "on");
-            $addflds->setDomainType("trade")
-                    ->setDomain($domain);
-        if (!empty($addflds->getRequiredFields())) {
-            //in case we have additional required domain fields for update
-            $buttons[L::trans("hxownerchange")] = "registrantmodificationtrade";
-        }
-    } else { // UPDATE
-        $addflds = new AF($params["TestMode"] === "on");
-            $addflds->setDomainType("update")
-                    ->setDomain($domain);
-        if (!empty($addflds->getRequiredFields())) {
-            //in case we have additional required domain fields for update
-            $buttons[L::trans("hxownerchange")] = "registrantmodification";
-        }
-    }
     if ($params["DNSSEC"] === "on") {
         $buttons[L::trans("hxdnssecmanagement")] = "dnssec";
     }
     if ($params["dnsmanagement"] && $params["WebApps"] && Ispapi::canUse("WEBAPPS", $params)) {
         $buttons[L::trans("hxwebapps")] = "webapps";
     }
-    $buttons[L::trans("hxpnslist")] = "pnslist";
     return $buttons;
-}
-
-/**
- * Handle the WebApps management page of a domain
- *
- * @param array $params common module parameters
- *
- * @return array an array with a template name
- */
-function ispapi_pnslist($params)
-{
-    if (isset($params["original"])) {
-        $params = $params["original"];
-    }
-    $domain = $params["sld"] . "." . $params["tld"];
-    $r = HXDomain::getStatus($params, $domain, true);
-    return [
-        "templatefile" => "tpl_ca_pnslist",
-        "vars" => array_merge(["L" => new L()], $r)
-    ];
 }
 
 /**
@@ -1038,7 +999,8 @@ function ispapi_whoisprivacy($params)
     $domain = $params["domainObj"]->getDomain();
 
     $addflds = new AF($params["TestMode"] === "on");
-    $addflds->setDomainType("whoisprivacy")->setDomain($domain);
+    $addflds->setDomainType("whoisprivacy")
+            ->setDomain($domain);
 
     $error = false;
     if (isset($_POST["idprotection"])) {
@@ -1821,9 +1783,10 @@ function ispapi_SaveContactDetails($params)
 
     // add additional domain fields to the API command
     $addflds = new AF($params["TestMode"] === "on");
-    $addflds->setDomain($domain)
-        ->setFieldValues($_POST["domainfield"])
-        ->setDomainType($tradeType ? "trade" : "update");
+    $addflds->setDomainType($tradeType ? "trade" : "update")
+        ->setDomain($domain)
+        ->setFieldValues($_POST["domainfield"]);
+
     if ($addflds->isMissingRequiredFields()) {
         logActivity($domain . ": Missing Additional Domain Fields for Contact Update.");
         return [

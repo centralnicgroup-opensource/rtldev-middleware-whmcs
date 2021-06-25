@@ -151,6 +151,9 @@ $_LANG["hxflagsafnictldlegaltypeass"] = "Französischer Verband";
 $_LANG["hxflagsaerotldaeroid"] = ".AERO ID <sup style=\"cursor:help;\" title=\"Hier ausstellen lassen https://www.information.aero/\">was ist das?</sup>";
 $_LANG["hxflagsaerotldaerokey"] = ".AERO Key <sup style=\"cursor:help;\" title=\"Hier ausstellen lassen https://www.information.aero/\">was ist das?</sup>";
 
+// .BE
+$_LANG["hxflagsbetldtradeauthdescr"] = "Die Änderung des Registranten erfordert einen gültigen EPP Code. Erforderlich, wenn der Name, die Organisation oder die E-Mail-Adresse des Registranten geändert werden.";
+
 // .CA
 $_LANG["hxflagscatldcontactlanguage"] = "Kontaktsprache";
 $_LANG["hxflagscatldregistryinformation"] = "Information der Registrierungsstelle";
@@ -590,16 +593,6 @@ $_LANG["hxflagsxxxtldmembershipiddescr"] = "(Benötigt, damit Ihre .XXX Domain a
 // Options, Non-Resolving Domain
 $_LANG["hxflagsxxxtldnonresolvingdomain0"] = "Nein - dieser Domainname SOLL auflösen.";
 $_LANG["hxflagsxxxtldnonresolvingdomain1"] = "Ja - dieser Domainname SOLL NICHT auflösen";
-
-// ----------------------------------------------------------------------
-// ----------------------- OWNER CHANGE ---------------------------------
-// ----------------------------------------------------------------------
-$_LANG["hxtraderequestedsuccessfully"] = "Die Tradeanfrage wurde erfolgreich übermittelt.";
-$_LANG["hxownerchangeproceduresimple"] = "Der Besitzerwechsel für diese TLD erfordert eine spezielle Prozedur namens `Trade`. Hier bei wird der Registrantkontakt ersetzt.";
-$_LANG["hxownerchangeprocedureextended"] = "Der Besitzerwechsel für diese TLD erfordert eine spezielle Prozedur namens `Trade`. Hier bei werden Registrant- und Adminkontakt ersetzt.";
-$_LANG["hxownerchange"] = "Besitzerwechsel";
-$_LANG["hxbttnsendtrade"] = "Trade übermitteln";
-$_LANG["hxerrormissingfields"] = "Fehlende Angaben bei folgenden Mussfeldern:";
 
 // ----------------------------------------------------------------------
 // ----------------------- WHOIS PRIVACY --------------------------------
