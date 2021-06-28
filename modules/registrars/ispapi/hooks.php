@@ -128,12 +128,12 @@ add_hook("ClientAreaHeadOutput", 1, function ($vars) {
             $html .= <<<HTML
             <script type="text/javascript">
                 const ispapi_show_tradeInfo = $showTradeInfo;
-                const ispapi_tradeInfo = '<br/>$tradeInfo';
+                const ispapi_tradeInfo = ' $tradeInfo';
                 const ispapi_fields_html = '$fields';
                 $(document).ready(function(){
                     const form = $('form[action="/clientarea.php?action=domaincontacts"]');
                     if (ispapi_show_tradeInfo) {
-                        form.prev().append(ispapi_tradeInfo);
+                        form.parent().find('h3').next().append(ispapi_tradeInfo);
                     }
                     form.children().last().before(ispapi_fields_html);
                 })
