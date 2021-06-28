@@ -105,7 +105,6 @@ $_LANG["hxflagsnexuscountry"] = "Nexus بلد";
 $_LANG["hxflagsfax"] = "Fax Required";
 $_LANG["hxflagsfaxregistrationdescr"] = "أؤكد أنه بعد طلب التسجيل هذا ، سأرسل <a href=\"{FAXFORM}\" target=\"_blank\"> هذا النموذج </a> مرة أخرى لإكمال العملية";
 $_LANG["hxflagsfaxtransferdescr"] = "أؤكد أنه بعد طلب النقل هذا ، سأرسل <a href=\"{FAXFORM}\" target=\"_blank\"> هذا النموذج </a> مرة أخرى لإكمال العملية";
-$_LANG["hxflagsfaxownerchangedescr"] = "أؤكد أنه بعد هذا الطلب لتغيير المالك ، سأرسل <a href=\"{FAXFORMggest\" target=\"_blank\"> هذا النموذج </a> مرة أخرى لإكمال العملية";
 $_LANG["hxflagsidentificationnumber"] = "رقم التعريف ID";
 $_LANG["hxflagswhoisoptout"] = "WHOIS Opt-out";
 $_LANG["hxflagsregistrantbirthdate"] = "تاريخ ميلاد المسجل";

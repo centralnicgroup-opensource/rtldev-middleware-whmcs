@@ -58,6 +58,52 @@ add_hook("ShoppingCartValidateCheckout", 1, function ($vars) {
     return $errors;
 });
 
+/*
+add_hook("AdminAreaHeadOutput", 1, function($vars) {
+    if (basename($_SERVER["SCRIPT_NAME"]) !== "clientsdomaincontacts.php") {
+        return "";
+    }
+    $domainid = (int)App::getFromRequest("domainid");
+    $domain = json_decode(
+        json_encode(
+            DB::table("tbldomains")
+                ->select("domain", "registrar")
+                ->where("id", $domainid)
+                ->first()
+        ),
+        true
+    );
+    if ($domain["registrar"] !== "ispapi") {
+        return "";
+    }
+    // load registrar functions
+    if (!function_exists("getregistrarconfigoptions")) {
+        include implode(DIRECTORY_SEPARATOR, [ROOTDIR, "includes", "registrarfunctions.php"]);
+    }
+    // load registrar module settings and check if transfer precheck are activated
+    $params = getregistrarconfigoptions("ispapi");
+
+    $tradeType = HXTrade::affectsRegistrantModification($params, $domain["domain"], ["TRADE", "ICANN-TRADE"]);
+    $addflds = new AF($params["TestMode"] === "on");
+    $addflds->setDomainType($tradeType ? "trade" : "update")
+            ->setDomain($domain["domain"])
+            ->getFieldValuesFromDatabase($domainid);
+    $fields = $addflds->getFieldsForOutput();
+    if (!empty($fields)) {
+        $html .= <<<HTML
+        <script type="text/javascript">
+            const ispapi_fields_html = '$fields';
+            $(document).ready(function(){
+                const form = $('form[action="/admin/clientsdomaincontacts.php?domainid=$domainid&action=save"]');
+                form.children().last().before(ispapi_fields_html);
+            })
+        </script>
+HTML;
+    }
+    return $html;
+});
+*/
+
 add_hook("ClientAreaHeadOutput", 1, function ($vars) {
     $domain = Menu::context("domain");
     if (!$domain || $domain->registrar !== "ispapi") {

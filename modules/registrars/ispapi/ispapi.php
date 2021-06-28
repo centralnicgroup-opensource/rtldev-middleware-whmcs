@@ -1781,45 +1781,60 @@ function ispapi_SaveContactDetails($params)
     // check if change of registrant requires a trade
     $tradeType = HXTrade::affectsRegistrantModification($params, $domain, ["TRADE", "ICANN-TRADE"]);
 
-    // add additional domain fields to the API command
-    $addflds = new AF($params["TestMode"] === "on");
-    $addflds->setDomainType($tradeType ? "trade" : "update")
-        ->setDomain($domain)
-        ->setFieldValues($_POST["domainfield"]);
-
-    if ($addflds->isMissingRequiredFields()) {
-        logActivity($domain . ": Missing Additional Domain Fields for Contact Update.");
-        return [
-            "error" => "Required Additional Domain Fields missing for this update."
-        ];
-    }
-
     // API Command Stub
-    $command = ["DOMAIN" => $domain];
+    $command = [
+        "COMMAND" => "ModifyDomain",
+        "DOMAIN" => $domain
+    ];
     // add contact data to the API command
     HXContact::getFromPost($command, $_POST);
-    // add additional domain fields to the API command
-    $addflds->addToCommand($command, $params["country"]);
+    // prepare additional domain fields (UPDATE)
+    $updaddflds = new AF($params["TestMode"] === "on");
+    $updaddflds->setDomainType("update")
+             ->setDomain($domain);
 
     // Try Trade
     if ($tradeType) { // IRTP, Standard Trade
-        $command["COMMAND"] = "TradeDomain";
+        $cmd = [
+            "COMMAND" => "TradeDomain",
+            "DOMAIN" => $domain
+        ];
+        // add contact data to the API command
+        HXContact::getFromPost($cmd, $_POST);
+        // add additional domain fields to the API command
+        $trdaddflds = new AF($params["TestMode"] === "on");
+        $trdaddflds->setDomainType("trade")
+                 ->setDomain($domain)
+                 ->setFieldValues($_POST["domainfield"]);
+        $trdaddflds->addToCommand($cmd);
 
-        // IRTP specifics
+        // IRTP specifics --- TODO: we could cover these fields over AdditionalFields
+        $pending = true;
         if ($tradeType === "ICANN-TRADE") {
             if (preg_match("/Designated Agent/", $params["IRTP"])) {
-                $command["X-CONFIRM-DA-OLD-REGISTRANT"] = 1;
-                $command["X-CONFIRM-DA-NEW-REGISTRANT"] = 1;
+                $cmd["X-CONFIRM-DA-OLD-REGISTRANT"] = 1;
+                $cmd["X-CONFIRM-DA-NEW-REGISTRANT"] = 1;
             }
             //HM-735: opt-out is not supported for AFNIC TLDs (pm, tf, wf, yt, fr, re)
-            $command["X-REQUEST-OPT-OUT-TRANSFERLOCK"] = 0;
+            $cmd["X-REQUEST-OPT-OUT-TRANSFERLOCK"] = 0;
             if (!preg_match("/AFNIC/i", $repository) && $params["irtpOptOut"]) {
-                $command["X-REQUEST-OPT-OUT-TRANSFERLOCK"] = 1;
+                $cmd["X-REQUEST-OPT-OUT-TRANSFERLOCK"] = 1;
+            }
+        } else {
+            $tld = strtolower(preg_replace("/^.+\./", ".", $domain));//2nd lvl tld
+            if (AF::requiresFaxForm($tld, "trade")) {
+                $tldcl = substr($tld, 1);//strip leading dot
+                $pendingData = [
+                    "message" => "domains.changePendingFormRequired",
+                    "replacement" => [
+                        ":form" => "<a href=\"https://www.domainform.net/form/$tldcl/search?view=ownerchange\" target=\"_blank\">domainform.net</a>"
+                    ]
+                ];
             }
         }
 
         // API request
-        $r = Ispapi::call($command, $params);
+        $r = Ispapi::call($cmd, $params);
         if ($r["CODE"] === "200") {
             $msg = $domain . ": Contact Update by Trade Method succeeded/initiated ";
             $p = HXTrade::getPrice($params, $params["tld"]);
@@ -1829,15 +1844,14 @@ function ispapi_SaveContactDetails($params)
                 $msg .= "(free of charge).";
             }
             logActivity($msg);
-            $addflds->saveToDatabase($params["domainid"], false);
-            return [
-                "success" => true
-            ];
+            $trdaddflds->saveToDatabase($params["domainid"], false);
+            // respond including pending information
+            return $trdaddflds->respondPending($r);
         }
         if (
             !(
-            $r["CODE"] === "506"
-            && preg_match("/^Invalid option value; Registrant remains unchanged; trade is only allowed for change of registrant-name, registrant-organization or registrant-email$/i", $r["DESCRIPTION"])
+                ($r["CODE"] === "506" || $r["CODE"] === "219")
+                && preg_match("/trade is only allowed for change of registrant/", $r["DESCRIPTION"])
             )
         ) {
             logActivity($domain . ": Contact Update by Trade Method failed (" . $r["CODE"] . " " . $r["DESCRIPTION"] . ").");
@@ -1845,32 +1859,30 @@ function ispapi_SaveContactDetails($params)
                 "error" => "Updating Contact Information failed (" . $r["CODE"] . " " . $r["DESCRIPTION"] . ")."
             ];
         }
-        // Fallback to domain update, trade not applying
-        // remove IRTP plags for update
-        if ($tradeType === "ICANN-TRADE") {
-            unset(
-                $command["X-CONFIRM-DA-OLD-REGISTRANT"],
-                $command["X-CONFIRM-DA-NEW-REGISTRANT"],
-                $command["X-REQUEST-OPT-OUT-TRANSFERLOCK"]
-            );
-        }
+        // load additional domain fields from different type (TRADE)
+        // hint: X-.+-REGISTRATION-TAC not allowed for update, but sent with trade
+        $updaddflds->setFieldValuesFromType("trade", $_POST["domainfield"]);
+    } else {
+        $updaddflds->setFieldValues($_POST["domainfield"]);
     }
 
+    // add additional fields to command
+    $updaddflds->addToCommand($command, true);
+
     // API request
-    $command["COMMAND"] = "ModifyDomain";
     $r = Ispapi::call($command, $params);
 
     if ($r["CODE"] !== "200") {
         logActivity($domain . ": Contact Update failed (" . $r["CODE"] . " " . $r["DESCRIPTION"] . ").");
+        // Data management policy violation; Update domain combination of status, name server and registrant is not allowed
         return [
             "error" => $r["DESCRIPTION"]
         ];
     }
     logActivity($domain . ": Contact Update succeeded.");
-    $addflds->saveToDatabase($params["domainid"], false);
-    return [
-        "success" => true
-    ];
+    $updaddflds->saveToDatabase($params["domainid"], false);
+    // respond including pending information
+    return $updaddlfds->respondPending($r);
 }
 
 /**
