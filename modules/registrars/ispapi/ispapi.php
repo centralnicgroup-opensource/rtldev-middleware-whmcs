@@ -19,6 +19,7 @@ use WHMCS\Module\Registrar\Ispapi\WebApps as WebApps;
 use WHMCS\Module\Registrar\Ispapi\DomainTransfer as HXDomainTransfer;
 use WHMCS\Module\Registrar\Ispapi\Domain as HXDomain;
 use WHMCS\Module\Registrar\Ispapi\DomainTrade as HXTrade;
+use WHMCS\Module\Registrar\Ispapi\DomainApplication as HXApp;
 use WHMCS\Module\Registrar\Ispapi\Contact as HXContact;
 use WHMCS\Module\Registrar\Ispapi\User as HXUser;
 use WHMCS\Domains\DomainLookup\SearchResult as SR;
@@ -2076,8 +2077,19 @@ function ispapi_RegisterDomain($params)
         ];
     }
     if (preg_match("/\.swiss$/i", $domain)) {
+        $appid = $r["PROPERTY"]["APPLICATION"][0];
+        DB::table("tbldomains")
+            ->where("id", "=", $params["domainid"])
+            ->update([
+                "additionalnotes" => "### DO NOT DELETE THE LINE BELOW ### \n.SWISS ApplicationID: " . $appid . "\n"
+            ]);
         return [
-            "error" => "APPLICATION <#" . $r["PROPERTY"]["APPLICATION"][0] . "#> SUCCESSFULLY SUBMITTED. STATUS SET TO PENDING UNTIL THE SWISS REGISTRATION PROCESS IS COMPLETED"
+            "pending" => true,
+            "pendingMessage" => (
+                "APPLICATION ID <strong>" . $appid . "</strong> SUCCESSFULLY SUBMITTED." .
+                " STATUS IS PENDING UNTIL THE SWISS REGISTRATION PROCESS IS COMPLETED"
+            ),
+            "success" => true
         ];
     }
     return [
@@ -2454,6 +2466,51 @@ function ispapi_Sync($params)
     $domain = $params["domainObj"];
     $domainstr = $domain->getDomain();
 
+    // .SWISS Applications Handling
+    $domains = DB::table("tbldomains")
+        ->where("registrar", "=", "ispapi")
+        ->where("status", "=", "Pending Registration")
+        ->where("domain", "like", "%.swiss")
+        ->get(["id", "domain", "additionalnotes"]);
+    foreach ($domains as $d) {
+        // just deal with last .swiss application received
+        $regex = "/^\.SWISS ApplicationID: (\d+)(.+)?$/i";
+        $apps = preg_grep($regex, array_reverse(explode("\n", $d->additionalnotes)));
+        if (empty($apps)) {
+            continue;
+        }
+        $app = array_shift($apps);
+        preg_match($regex, $app, $appId);
+        $rapp = HXApp::getStatus($params, $appId[1]);
+        if ($rapp["success"] && $rapp["data"]["STATUS"][0] === "FAILED") {
+            // do not return anything, not the domain context of the sync run
+            logActivity($domainstr . ": Domain Sync finished. Application failed. Status updated to `Cancelled`");
+            DB::table("tbldomains")->where([
+                    [ "id", "=", $d->id ]
+                ])
+                ->update(["status" => "Cancelled"]);
+        } elseif ($rapp["success"] && $rapp["data"]["STATUS"][0] === "SUCCESSFUL") {
+            // do not return anything, not the domain context of the sync run
+            // Successful Applications will be auto-cleaned up, StatusDomain will follow
+            logActivity($domainstr . ": Domain Sync finished. Application succeeded. Status updated to `Active`");
+            DB::table("tbldomains")
+                ->where([
+                    [ "id", "=", $d->id ]
+                ])
+                ->update(["status" => "Active"]);
+        } else {
+            // do not return anything, not the domain context of the sync run
+            $r = HXDomain::getStatus($params, $d->domain);
+            if ($r["success"]) {
+                DB::table("tbldomains")
+                    ->where([
+                        [ "id", "=", $d->id ]
+                    ])
+                    ->update(["status" => "Active"]);
+            }
+        }
+    }
+
     $r = HXDomain::getStatus($params, $domainstr);
     if (!$r["success"] && $r["errorcode"] === "531") {
         logActivity($domainstr . ": Domain Sync finished. Status updated to `Transferred Away`");
@@ -2464,6 +2521,7 @@ function ispapi_Sync($params)
     if (!$r["success"] && $r["errorcode"] === "545") {
         $rconv = HXDomain::convert($params, $domainstr);
         $domainstr = $rconv["punycode"];
+
         if (HXDomainTransfer::isTransferredAway($params, $domainstr)) {
             logActivity($domainstr . ": Domain Sync finished. Status updated to `Transferred Away`");
             return [

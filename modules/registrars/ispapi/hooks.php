@@ -58,8 +58,7 @@ add_hook("ShoppingCartValidateCheckout", 1, function ($vars) {
     return $errors;
 });
 
-/*
-add_hook("AdminAreaHeadOutput", 1, function($vars) {
+add_hook("AdminAreaHeadOutput", 1, function ($vars) {
     if (basename($_SERVER["SCRIPT_NAME"]) !== "clientsdomaincontacts.php") {
         return "";
     }
@@ -102,7 +101,6 @@ HTML;
     }
     return $html;
 });
-*/
 
 add_hook("ClientAreaHeadOutput", 1, function ($vars) {
     $domain = Menu::context("domain");
@@ -190,64 +188,13 @@ HTML;
     return $html;
 });
 
-add_hook("AfterRegistrarRegistrationFailed", 1, function ($vars) {
-    // ONLY FOR .SWISS: saves the .swiss application ID in the admin note
-    $params = $vars["params"];
-    $domain = $params["sld"] . "." . $params["tld"];
-    if (preg_match("/[.]swiss$/i", $domain)) {
-        preg_match("/<#(.+?)#>/i", $vars["error"], $matches);
-        if (isset($matches[1])) {
-            $application_id = $matches[1];
-            $data = [
-                ":id" => $params["domainid"],
-                ":notes" => "### DO NOT DELETE ANYTHING BELOW THIS LINE \nAPPLICATION:" . $application_id . "\n"
-            ];
-            Helper::SQLCall("UPDATE tbldomains SET additionalnotes=:notes WHERE id=:id", $data, "execute");
-        }
-    }
-});
-
 add_hook("DailyCronJob", 1, function ($vars) {
     //Save information about module versions in the environment
     Ispapi::sendStatisticsData();
-
-    // ONLY FOR .SWISS: runs over all pending applications to check if the registration was successful or not.
-    $data = [
-        ":registrar" => "ispapi",
-        ":stat" => "Pending"
-    ];
-    $r = Helper::SQLCall(
-        "SELECT id, additionalnotes FROM tbldomains WHERE additionalnotes!=\"\" AND registrar=:registrar AND status=:stat",
-        $data,
-        "fetchall"
-    );
-    if ($r["success"]) {
-        foreach ($r["result"] as $row) {
-            preg_match("/APPLICATION:(.+?)(?:$|\n)/i", $row["additionalnotes"], $matches);
-            if (isset($matches[1])) {
-                $data = [
-                    ":id" => $row["id"]
-                ];
-                $response = Ispapi::call([
-                    "COMMAND" => "StatusDomainApplication",
-                    "APPLICATION" => $matches[1]
-                ]);
-                if ($response["PROPERTY"]["STATUS"][0] === "SUCCESSFUL") {
-                    //echo $row["domain"]." > Status:".$response["PROPERTY"]["STATUS"][0];
-                    $data[":stat"] = "Active";
-                    Helper::SQLCall("UPDATE tbldomains SET status=:stat WHERE id=:id", $data, "execute");
-                }
-                if ($response["PROPERTY"]["STATUS"][0] === "FAILED") {
-                    //echo $row["domain"]." > Status:".$response["PROPERTY"]["STATUS"][0];
-                    $data[":stat"] = "Cancelled";
-                    Helper::SQLCall("UPDATE tbldomains SET status=:stat WHERE id=:id", $data, "execute");
-                }
-            }
-        }
-    }
 });
 
-$ispapi_domainMenuUpdate = function ($vars) {
+function ispapi_domainMenuUpdate($vars)
+{
     // TLDs not supporting Transfer Lock: remove "Registrar Lock" menu entry.
     $domain = Menu::context("domain");
 
@@ -269,10 +216,10 @@ $ispapi_domainMenuUpdate = function ($vars) {
         }
         return $vars;
     }
-};
+}
 
-add_hook("ClientAreaPageDomainDNSManagement", 1, $ispapi_domainMenuUpdate);
-add_hook("ClientAreaPageDomainEPPCode", 1, $ispapi_domainMenuUpdate);
-add_hook("ClientAreaPageDomainContacts", 1, $ispapi_domainMenuUpdate);
-add_hook("ClientAreaPageDomainRegisterNameservers", 1, $ispapi_domainMenuUpdate);
-add_hook("ClientAreaPageDomainDetails", 1, $ispapi_domainMenuUpdate);
+add_hook("ClientAreaPageDomainDNSManagement", 1, "ispapi_domainMenuUpdate");
+add_hook("ClientAreaPageDomainEPPCode", 1, "ispapi_domainMenuUpdate");
+add_hook("ClientAreaPageDomainContacts", 1, "ispapi_domainMenuUpdate");
+add_hook("ClientAreaPageDomainRegisterNameservers", 1, "ispapi_domainMenuUpdate");
+add_hook("ClientAreaPageDomainDetails", 1, "ispapi_domainMenuUpdate");
