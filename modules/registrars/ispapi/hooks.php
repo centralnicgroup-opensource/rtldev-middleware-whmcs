@@ -83,6 +83,21 @@ add_hook("AdminAreaHeadOutput", 1, function ($vars) {
     $params = getregistrarconfigoptions("ispapi");
 
     $tradeType = HXTrade::affectsRegistrantModification($params, $domain["domain"], ["TRADE", "ICANN-TRADE"]);
+    $pendingTrade = HXTrade::getStatus($params, $domain["domain"]);
+    $pendingTrade = $pendingTrade["success"] === true;
+    // Standard Trade and IRTP with no DA Authorization -> non-realtime
+    $showTradeInfo = (
+        (bool)$tradeType
+        && (
+            ($tradeType !== "ICANN-TRADE")
+            || preg_match("/Designated Agent/", $params["IRTP"])
+        )
+    );
+    $tradeInfo = (
+        L::trans('hxdomaincontactstradeinfo') .
+        ($pendingTrade ? "<br/><b>Trade</b>: " . L::trans("domainsPending") : "")
+    );
+
     $addflds = new AF($params["TestMode"] === "on");
     $addflds->setDomainType($tradeType ? "trade" : "update")
             ->setDomain($domain["domain"])
@@ -91,9 +106,18 @@ add_hook("AdminAreaHeadOutput", 1, function ($vars) {
     if (!empty($fields)) {
         $html .= <<<HTML
         <script type="text/javascript">
+            const ispapi_show_tradeInfo = $showTradeInfo;
+            const ispapi_tradeInfo = ' $tradeInfo';
             const ispapi_fields_html = '$fields';
+            let form;
             $(document).ready(function(){
-                const form = $('form[action="/admin/clientsdomaincontacts.php?domainid=$domainid&action=save"]');
+                form = $('form[action="/admin/clientsdomaincontacts.php?domainid=$domainid&action=save"]');
+                if (ispapi_show_tradeInfo) {
+                    const selector = 'table.form:first tbody tr:last';
+                    form.find(selector).clone().insertAfter(selector);
+                    form.find(selector + ' td').first().html('');
+                    form.find(selector + ' td').last().html(ispapi_tradeInfo);
+                }
                 form.children().last().before(ispapi_fields_html);
             })
         </script>
@@ -154,6 +178,8 @@ add_hook("ClientAreaHeadOutput", 1, function ($vars) {
         $params = getregistrarconfigoptions("ispapi");
 
         $tradeType = HXTrade::affectsRegistrantModification($params, $domain->domain, ["TRADE", "ICANN-TRADE"]);
+        $pendingTrade = HXTrade::getStatus($params, $domain->domain);
+        $pendingTrade = $pendingTrade["success"] === true;
         // Standard Trade and IRTP with no DA Authorization -> non-realtime
         $showTradeInfo = (
             (bool)$tradeType
@@ -162,12 +188,17 @@ add_hook("ClientAreaHeadOutput", 1, function ($vars) {
                 || preg_match("/Designated Agent/", $params["IRTP"])
             )
         );
+        $tradeInfo = (
+            L::trans('hxdomaincontactstradeinfo') .
+            ($pendingTrade ? "<br/><br/><b>Trade</b>: " . L::trans("domainsPending") : "")
+        );
+
         $addflds = new AF($params["TestMode"] === "on");
         $addflds->setDomainType($tradeType ? "trade" : "update")
                 ->setDomain($domain->domain)
                 ->getFieldValuesFromDatabase($domain->id);
         $fields = $addflds->getFieldsForOutput();
-        $tradeInfo = L::trans('hxdomaincontactstradeinfo');
+
         if (!empty($fields)) {
             $html .= <<<HTML
             <script type="text/javascript">
