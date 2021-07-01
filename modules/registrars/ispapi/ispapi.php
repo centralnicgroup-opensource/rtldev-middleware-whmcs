@@ -43,6 +43,9 @@ use WHMCS\Config\Setting as Setting;
  */
 function ispapi_CheckAvailability($params)
 {
+    if (isset($params["original"])) {
+        $params = $params["original"];
+    }
     $maxGroupSize = 25;
     $premiumEnabled = (bool) $params["premiumEnabled"];
 
@@ -157,6 +160,9 @@ function ispapi_CheckAvailability($params)
  */
 function ispapi_GetDomainSuggestions($params)
 {
+    if (isset($params["original"])) {
+        $params = $params["original"];
+    }
     // go through configuration settings
     if (empty($params["suggestionSettings"]["suggestions"])) {
         return new \WHMCS\Domains\DomainLookup\ResultsList();
@@ -1083,14 +1089,13 @@ function ispapi_GetDomainInformation($params)
     $domain = $params["sld"] . "." . $params["tld"];
 
     $r = HXDomainTransfer::getStatus($params, $domain);
-    if ($r["success"]) {
+    if ($r["success"] && $r["data"]["TRANSFERTYPE"][0] !== "TRADE") {
         $thedomain = new \WHMCS\Domain\Registrar\Domain();
         $thedomain
             ->setDomain($domain)
             ->setNameservers(Ispapi::castNameservers($r["data"]["NAMESERVER"]));
         return $thedomain;
     }
-
     $r = HXDomain::getStatus($params, $domain);
     if (!$r["success"]) {
         if ($r["errorcode"] === "531") {
@@ -1155,41 +1160,37 @@ function ispapi_GetDomainInformation($params)
     $values["transferlock"] = (isset($r["TRANSFERLOCK"][0]) && $r["TRANSFERLOCK"][0] === "1");
 
     //IRTP handling
-    $isAffectedByIRTP = HXTrade::affectsRegistrantModificationIRTP($params, $domain);
     $values["contactChangeExpiryDate"] = null;
     $values["setDomainContactChangePending"] = false;
     $values["setPendingSuspension"] = false;
-    $values["setIsIrtpEnabled"] = false;
-    if (preg_match("/Designated Agent/", $params["IRTP"]) && $isAffectedByIRTP) {
-        //setIsIrtpEnabled
-        $values["setIsIrtpEnabled"] = true;
+    $values["setIsIrtpEnabled"] = HXTrade::affectsRegistrantModificationIRTP($params, $domain);
 
-        //setDomainContactChangePending
-        $r2 = Ispapi::call([
-            "COMMAND" => "QueryDomainPendingRegistrantVerificationList",
+    //setDomainContactChangePending
+    $r2 = Ispapi::call([
+        "COMMAND" => "QueryDomainPendingRegistrantVerificationList",
+        "DOMAIN" => $domain
+    ], $params);
+
+    if ($r2["CODE"] === "200") {
+        $r2 = $r2["PROPERTY"];
+        //check if registrant change has been requested
+        $rTrade = Ispapi::call([
+            "COMMAND" => "StatusDomainTrade",
             "DOMAIN" => $domain
         ], $params);
-
-        if ($r2["CODE"] === "200") {
-            $r2 = $r2["PROPERTY"];
-            //check if registrant change has been requested
-            $rTrade = Ispapi::call([
-                "COMMAND" => "StatusDomainTrade",
-                "DOMAIN" => $domain
-            ], $params);
-            if (
-                ($rTrade["CODE"] === "200")
-                && isset($r2["X-REGISTRANT-VERIFICATION-STATUS"][0])
-                && preg_match("/^(PENDING|OVERDUE)$/i", $r2["X-REGISTRANT-VERIFICATION-STATUS"][0])
-            ) {
-                $values["setDomainContactChangePending"] = true;
-                $values["setPendingSuspension"] = true;
-            }
-            //setDomainContactChangeExpiryDate
-            if (isset($r["X-REGISTRANT-VERIFICATION-DUEDATE"][0])) {
-                $values["contactChangeExpiryDate"] = Ispapi::castDate($r2["X-REGISTRANT-VERIFICATION-DUEDATE"][0]);
-                $values["contactChangeExpiryDate"] = \WHMCS\Carbon::createFromFormat("Y-m-d H:i:s", $values["contactChangeExpiryDate"]["long"]);
-            }
+        // echo "<pre>"; var_dump($rTrade); echo "</pre>";die();
+        if (
+            ($rTrade["CODE"] === "200")
+            && isset($r2["X-REGISTRANT-VERIFICATION-STATUS"][0])
+            && preg_match("/^(PENDING|OVERDUE)$/i", $r2["X-REGISTRANT-VERIFICATION-STATUS"][0])
+        ) {
+            $values["setDomainContactChangePending"] = true;
+            $values["setPendingSuspension"] = true;
+        }
+        //setDomainContactChangeExpiryDate
+        if (isset($r["X-REGISTRANT-VERIFICATION-DUEDATE"][0])) {
+            $ts = Ispapi::castDate($r2["X-REGISTRANT-VERIFICATION-DUEDATE"][0]);
+            $values["contactChangeExpiryDate"] = \WHMCS\Carbon::createFromFormat("Y-m-d H:i:s", $ts["long"]);
         }
     }
 
@@ -1776,6 +1777,7 @@ function ispapi_GetContactDetails($params)
  */
 function ispapi_SaveContactDetails($params)
 {
+    $params_transliterated = $params;
     $params = ispapi_get_utf8_params($params);
     $params = injectDomainObjectIfNecessary($params);
     $domain = $params["domainObj"]->getDomain();
@@ -1788,7 +1790,7 @@ function ispapi_SaveContactDetails($params)
         "DOMAIN" => $domain
     ];
     // add contact data to the API command
-    HXContact::getFromPost($command, $_POST);
+    HXContact::getFromParams($command, $params_transliterated);
     // prepare additional domain fields (UPDATE)
     $updaddflds = new AF($params["TestMode"] === "on");
     $updaddflds->setDomainType("update")
@@ -1801,7 +1803,7 @@ function ispapi_SaveContactDetails($params)
             "DOMAIN" => $domain
         ];
         // add contact data to the API command
-        HXContact::getFromPost($cmd, $_POST);
+        HXContact::getFromParams($cmd, $params_transliterated);
         // add additional domain fields to the API command
         $trdaddflds = new AF($params["TestMode"] === "on");
         $trdaddflds->setDomainType("trade")
@@ -1810,7 +1812,6 @@ function ispapi_SaveContactDetails($params)
         $trdaddflds->addToCommand($cmd);
 
         // IRTP specifics --- TODO: we could cover these fields over AdditionalFields
-        $pending = true;
         if ($tradeType === "ICANN-TRADE") {
             if (preg_match("/Designated Agent/", $params["IRTP"])) {
                 $cmd["X-CONFIRM-DA-OLD-REGISTRANT"] = 1;
@@ -1825,12 +1826,6 @@ function ispapi_SaveContactDetails($params)
             $tld = strtolower(preg_replace("/^.+\./", ".", $domain));//2nd lvl tld
             if (AF::requiresFaxForm($tld, "trade")) {
                 $tldcl = substr($tld, 1);//strip leading dot
-                $pendingData = [
-                    "message" => "domains.changePendingFormRequired",
-                    "replacement" => [
-                        ":form" => "<a href=\"https://www.domainform.net/form/$tldcl/search?view=ownerchange\" target=\"_blank\">domainform.net</a>"
-                    ]
-                ];
             }
         }
 
@@ -1852,7 +1847,7 @@ function ispapi_SaveContactDetails($params)
         if (
             !(
                 ($r["CODE"] === "506" || $r["CODE"] === "219")
-                && preg_match("/trade is only allowed for change of registrant/", $r["DESCRIPTION"])
+                && preg_match("/(trade is only allowed for change of registrant|please use UPDATE method)/", $r["DESCRIPTION"])
             )
         ) {
             logActivity($domain . ": Contact Update by Trade Method failed (" . $r["CODE"] . " " . $r["DESCRIPTION"] . ").");
@@ -2008,6 +2003,7 @@ function ispapi_IDProtectToggle($params)
  */
 function ispapi_RegisterDomain($params)
 {
+    $params_transliterated = $params;
     $premiumDomainsEnabled = (bool) $params["premiumEnabled"];
     $premiumDomainsCost = $params["premiumCost"];
     $params = ispapi_get_utf8_params($params);
@@ -2020,7 +2016,7 @@ function ispapi_RegisterDomain($params)
         "NAMESERVER" => Ispapi::castNameserversBE($params),
     ];
     // add contacts
-    HXContact::getFromParams($command, $params);
+    HXContact::getFromParams($command, $params_transliterated);
 
     if (preg_match("/\.swiss$/i", $domain)) {
         $command["COMMAND"] = "AddDomainApplication";
@@ -2107,6 +2103,7 @@ function ispapi_RegisterDomain($params)
  */
 function ispapi_TransferDomain($params)
 {
+    $params_transliterated = $params;
     $params = ispapi_get_utf8_params($params);
     $params = injectDomainObjectIfNecessary($params);
     /** @var \WHMCS\Domains\Domain $domain */
@@ -2153,7 +2150,7 @@ function ispapi_TransferDomain($params)
         "AUTH" => $params["eppcode"]
     ];
     // add contacts
-    HXContact::getFromParams($command, $params);
+    HXContact::getFromParams($command, $params_transliterated);
 
     if (isset($r["PROPERTY"]["USERTRANSFERREQUIRED"]) && $r["PROPERTY"]["USERTRANSFERREQUIRED"][0] === "1") {
         //auto-detect user-transfer
@@ -2498,7 +2495,7 @@ function ispapi_Sync($params)
                     [ "id", "=", $d->id ]
                 ])
                 ->update(["status" => "Active"]);
-        } else {
+        } elseif (!$rapp["success"] && $rapp["errorcode"] === "545") {
             // do not return anything, not the domain context of the sync run
             $r = HXDomain::getStatus($params, $d->domain);
             if ($r["success"]) {
