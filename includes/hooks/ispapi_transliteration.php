@@ -4,6 +4,7 @@
  * Hook Function to transliterate Greek to Greeklish
  *
  * https://docs.whmcs.com/Custom_Transliteration
+ * https://en.wikipedia.org/wiki/ISO_843
  * GH Issue #196
  *
  * @package    WHMCS/Modules/Registrar/Ispapi
@@ -38,7 +39,7 @@ function hook_transliterate($string)
     static $charset;
     static $greeklish;
     static $whmcsCharset;
-    static $accentsregex;
+    //static $accentsregex;
 
     if (!$charset) {
         $charset = "UTF-8";
@@ -57,14 +58,14 @@ function hook_transliterate($string)
             "ψ" => "ps", "Ω" => "O", "ω" => "o", "ώ" => "o", "Ώ" => "O"
         ];
         $whmcsCharset = WHMCS\Config\Setting::getValue("Charset");
-        $accentsregex = "/&([A-Za-z]{1,2})(acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml|caron);/i";
+        //$accentsregex = "/&([A-Za-z]{1,2})(acute|cedil|circ|grave|lig|orn|ring|slash|th|tilde|uml|caron);/i";
     }
     // Some useful common replacements
     // https://unicode-table.com/de/html-entities/
     // https://stackoverflow.com/questions/12697107/replace-accented-characters
     // -- replace accents --
-    $string = htmlentities($string, ENT_QUOTES, $whmcsCharset);
-    $string = preg_replace($accentsregex, "\$1", $string);
+    //$string = htmlentities($string, ENT_QUOTES, $whmcsCharset);
+    //$string = preg_replace($accentsregex, "\$1", $string);
     $string = html_entity_decode($string, ENT_NOQUOTES, $whmcsCharset);
 
     // Transliteration - use multibyte functions
@@ -73,5 +74,6 @@ function hook_transliterate($string)
     foreach ($greeklish as $org => $new) {
         $string = mb_ereg_replace($org, $new, $string);
     }
+
     return $string;
 }

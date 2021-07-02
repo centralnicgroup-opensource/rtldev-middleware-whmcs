@@ -1878,7 +1878,7 @@ function ispapi_SaveContactDetails($params)
     logActivity($domain . ": Contact Update succeeded.");
     $updaddflds->saveToDatabase($params["domainid"], false);
     // respond including pending information
-    return $updaddlfds->respondPending($r);
+    return $updaddflds->respondPending($r);
 }
 
 /**
