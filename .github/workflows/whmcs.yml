@@ -18,9 +18,9 @@ jobs:
           composer global require dealerdirect/phpcodesniffer-composer-installer roave/security-advisories:dev-master squizlabs/php_codesniffer phpcompatibility/php-compatibility
         # TODO migrate the below to gulp calls
       - name: Check PHP Compatibility
-        run: phpcs --standard=PHPCompatibility -s -q -n --colors --runtime-set testVersion ${{ matrix.php-version }} --extensions=php,inc,lib --ignore=node_modules,vendor,templates_c,modules/registrars/ispapi/lib,modules/registrars/ispapi/migration,modules/registrars/ispapi/hooks_migration .
+        run: phpcs --standard=PHPCompatibility -s -q -n --colors --runtime-set testVersion ${{ matrix.php-version }} --extensions=php,inc,lib --ignore=node_modules,vendor,templates_c,modules/registrars/ispapi/lib/sdk,modules/registrars/ispapi/migration,modules/registrars/ispapi/hooks_migration .
       - name: Check PSR12 Standard
-        run: phpcs --standard=PSR12 -s -q -n --colors --extensions=php,inc,lib --ignore=node_modules,vendor,templates_c,modules/registrars/ispapi/lib,modules/registrars/ispapi/migration,modules/registrars/ispapi/hooks_migration .
+        run: phpcs --standard=PSR12 -s -q -n --colors --extensions=php,inc,lib --ignore=node_modules,vendor,templates_c,modules/registrars/ispapi/lib/sdk,modules/registrars/ispapi/migration,modules/registrars/ispapi/hooks_migration .
   release:
     name: Release @ NodeJS LTS - x86 - ubuntu-latest
     runs-on: ubuntu-latest

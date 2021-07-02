@@ -53,8 +53,8 @@
     "gulp-zip": "^5.0.2"
   },
   "scripts": {
-    "codeCheck": "phpcs --standard=PSR12 -q -n --colors --ignore=node_modules,vendor,templates_c,modules/registrars/ispapi/lib,modules/registrars/ispapi/migration,modules/registrars/ispapi/hooks_migration .",
-    "codeFix": "phpcbf --standard=PSR12 -q --ignore=node_modules,vendor,templates_c,modules/registrars/ispapi/lib,modules/registrars/ispapi/migration,modules/registrars/ispapi/hooks_migration .",
+    "codeCheck": "phpcs --standard=PSR12 -q -n --colors --ignore=node_modules,vendor,templates_c,modules/registrars/ispapi/lib/sdk,modules/registrars/ispapi/migration,modules/registrars/ispapi/hooks_migration .",
+    "codeFix": "phpcbf --standard=PSR12 -q --ignore=node_modules,vendor,templates_c,modules/registrars/ispapi/lib/sdk,modules/registrars/ispapi/migration,modules/registrars/ispapi/hooks_migration .",
     "phpCompatibility": "./scripts/phpcompatibility.sh"
   }
 }
