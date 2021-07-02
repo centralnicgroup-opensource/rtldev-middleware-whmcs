@@ -1,0 +1,41 @@
+<div class="row form-group">
+  <div class="col-sm-12">
+    <span translate="WEBAPPS.CONFIGURATION.WIX.INTROTEXT" translate-values=""></span>
+  </div>
+</div>
+<div class="row form-group">
+  <div class="col-sm-12">
+    <span translate="WEBAPPS.CONFIGURATION.TOCONNECTTEXT" translate-values="{domain:'{{domain}}', webapp:'{{webappName}}'}"></span>
+  </div>
+</div>
+<div class="row form-group">
+  <div class="col-sm-12">
+    <ol>
+      <li class="webapps-configuration-steps">
+        <div>
+          <span translate="WEBAPPS.CONFIGURATION.WIX.STEP1" translate-values=""></span>
+          <span>
+            <a href="https://wix.com" target="_blank">{{webappName}}</a>
+          </span>
+        </div>
+      </li>
+      <li class="webapps-configuration-steps">
+        <div translate="WEBAPPS.CONFIGURATION.WIX.STEP2"></div>
+      </li>
+      <li class="webapps-configuration-steps">
+        <div translate="WEBAPPS.CONFIGURATION.WIX.STEP3"></div>
+      </li>
+      <li class="webapps-configuration-steps">
+        <div translate="WEBAPPS.CONFIGURATION.WIX.STEP4"></div>
+        <div class="row">
+          <div class="col-sm-12">
+            <ispapi-input-text name="zone" model="main.zone" required="true" placeholder="{{'WEBAPPS.CONFIGURATION.WIX.STEP4.ZONE_PLACEHOLDER'|translate}}"></ispapi-input-text>
+          </div>
+        </div>
+      </li>
+      <li class="webapps-configuration-steps">
+        <div translate="WEBAPPS.CONFIGURATION.CLICKCONNECT"></div>
+      </li>
+    </ol>
+  </div>
+</div>
