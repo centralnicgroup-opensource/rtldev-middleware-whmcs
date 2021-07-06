@@ -1,10 +1,12 @@
 {
+    "ioncubecmd": "/usr/local/ioncube/ioncube_encoder.sh -72 --no-doc-comments --add-comments LICENSE --verbose",
     "phpcsparams": "--extensions=php --ignore=node_modules,vendor,templates_c,modules/registrars/ispapi/lib,modules/registrars/ispapi/migration,modules/registrars/ispapi/hooks_migration -q .",
     "phpcsfixcmd": "phpcbf --standard=PSR12",
     "phpcschkcmd": "phpcs -n --colors --standard=PSR12",
     "phpcomptcmd": "phpcs -n --colors --standard=PHPCompatibility --runtime-set testVersion \"$(php -r 'echo PHP_MAJOR_VERSION . \".\" . PHP_MINOR_VERSION;')\"",
     "phpstancmd": "./vendor/bin/phpstan analyse",
-    "archiveFileName": "whmcs-ispapi-registrar",
+    "archiveFileName": "whmcs-ispapi-registrar-latest.zip",
+    "archiveFileNameEncrypted": "whmcs-ispapi-registrar-latest.enc.zip",
     "archiveBuildPath": "build",
     "filesForArchive": [
         "README.md",
@@ -23,6 +25,11 @@
         "composer.lock",
         ".phpunit.result.cache",
         "package-lock.json",
-        "tmp"
+        "tmp",
+        "build"
+    ],
+    "filesForEncrypt": [
+        "modules/registrars/ispapi/*.php",
+        "modules/registrars/ispapi/lib/*.php"        
     ]
 }
