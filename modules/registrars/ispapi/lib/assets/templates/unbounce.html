@@ -1,0 +1,64 @@
+<div ng-if="fromPage === 'add'">
+  <div class="row form-group">
+    <div class="col-sm-12">
+      <span translate="WEBAPPS.CONFIGURATION.UNBOUNCE.INTROTEXT" translate-values=""></span>
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-sm-12">
+      <span translate="WEBAPPS.CONFIGURATION.TOCONNECTTEXT" translate-values="{domain:'{{domain}}', webapp:'{{webappName}}'}"></span>
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-sm-12">
+      <ol>
+        <li class="webapps-configuration-steps">
+          <div>
+            <span translate="WEBAPPS.CONFIGURATION.STEP1"></span>
+            <span>
+                <a href="https://unbounce.com" target="_blank">{{webappName}}</a>
+              </span>
+          </div>
+        </li>
+        <li class="webapps-configuration-steps">
+          <div translate="WEBAPPS.CONFIGURATION.UNBOUNCE.STEP2" translate-values="{domain:'{{domain}}'}"></div>
+        </li>
+        <li class="webapps-configuration-steps">
+          <div translate="WEBAPPS.CONFIGURATION.UNBOUNCE.STEP3" translate-values="{domain:'{{domain}}'}"></div>
+        </li>
+        <li class="webapps-configuration-steps">
+          <div translate="WEBAPPS.CONFIGURATION.UNBOUNCE.STEP4" translate-values="{domain:'{{domain}}'}"></div>
+          <div class="row">
+            <div class="col-sm-6">
+              <ispapi-input-text name="subdomain" model="main.subdomain" required="true" placeholder="{{'WEBAPPS.CONFIGURATION.UNBOUNCE.STEP4.PLACEHOLDER'|translate}}"></ispapi-input-text>
+            </div>
+          </div>
+        </li>
+        <li class="webapps-configuration-steps">
+          <div translate="WEBAPPS.CONFIGURATION.UNBOUNCE.STEP5" translate-values="{domain:'{{domain}}'}"></div>
+        </li>
+        <li class="webapps-configuration-steps">
+          <div translate="WEBAPPS.CONFIGURATION.CLICKCONNECT"></div>
+        </li>
+      </ol>
+    </div>
+  </div>
+</div>
+
+<div ng-if="fromPage === 'edit'">
+  <div class="row form-group">
+    <div class="col-sm-12">
+      <span translate="WEBAPPS.EDIT.UNBOUNCE.TEXT"></span>
+      <div class="row m-t-sm">
+        <div class="col-sm-6">
+          <ispapi-input-text name="subdomain" model="main.subdomain" required="true" placeholder="{{'WEBAPPS.CONFIGURATION.UNBOUNCE.STEP3.PLACEHOLDER2'|translate}}"></ispapi-input-text>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row form-group">
+    <div class="col-sm-12">
+      <span translate="WEBAPPS.EDIT.CLICKCONNECT"></span>
+    </div>
+  </div>
+</div>

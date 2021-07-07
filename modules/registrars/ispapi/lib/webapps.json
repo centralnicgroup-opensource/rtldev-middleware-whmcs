@@ -1,0 +1,556 @@
+{
+    "categories": {
+        "popular": [
+            "blog",
+            "website-builder",
+            "ecommerce"
+        ]
+    },
+    "apps": {
+        "available": [
+            "gsuite"
+        ],
+        "all": {
+            "22slides": {
+                "name": "22slides",
+                "alt": "22Slides",
+                "description": "WEBAPPS.22SLIDES.DESCRIPTION",
+                "logo": "22slides-logo-final.png",
+                "category": [
+                    "portfolio"
+                ],
+                "type": [
+                    "web"
+                ],
+                "isEditable": false,
+                "command": {
+                    "ADDRR0": "@ IN X-ALIAS-A-WEBAPP 22slides.webapp.ispapi.net.",
+                    "ADDRR1": "www 3600 IN CNAME sites.22slides.com.",
+                    "DELRR0": "@ IN X-ALIAS-A-WEBAPP",
+                    "DELRR1": "@ IN X-ALIAS-AAAA-WEBAPP",
+                    "DELRR2": "@ IN X-ALIAS-TXT-WEBAPP"
+                }
+            },
+            "aboutme": {
+                "name": "aboutme",
+                "alt": "about.me",
+                "description": "WEBAPPS.ABOUTME.DESCRIPTION",
+                "logo": "aboutme-logo-final.png",
+                "category": [
+                    "website-builder"
+                ],
+                "type": [
+                    "web"
+                ],
+                "isEditable": false,
+                "command": {
+                    "ADDRR0": "@ IN X-ALIAS-A-WEBAPP aboutme.webapp.ispapi.net.",
+                    "ADDRR1": "www IN X-HTTP / REDIRECT http://<domain>",
+                    "DELRR0": "@ IN X-ALIAS-A-WEBAPP",
+                    "DELRR1": "@ IN X-ALIAS-AAAA-WEBAPP",
+                    "DELRR2": "@ IN X-ALIAS-TXT-WEBAPP"
+                }
+            },
+            "bigcartel": {
+                "name": "bigcartel",
+                "alt": "Big Cartel",
+                "description": "WEBAPPS.BIGCARTEL.DESCRIPTION",
+                "logo": "bigcartel-logo-final.png",
+                "category": [
+                    "ecommerce"
+                ],
+                "type": [
+                    "web"
+                ],
+                "isEditable": false,
+                "extraData": [
+                    "storename"
+                ],
+                "command": {
+                    "ADDRR0": "www 3600 IN CNAME <storename>.",
+                    "ADDRR1": "@ 3600 IN X-HTTP REDIRECT http://www.<domain>",
+                    "ADDRR2": "@ IN X-ALIAS-A-WEBAPP bigcartel.webapp.ispapi.net.",
+                    "DELRR0": "@ IN X-ALIAS-A-WEBAPP",
+                    "DELRR1": "@ IN X-ALIAS-AAAA-WEBAPP",
+                    "DELRR2": "@ IN X-ALIAS-TXT-WEBAPP"
+                }
+            },
+            "bitly": {
+                "name": "bitly",
+                "alt": "Bitly",
+                "description": "WEBAPPS.BITLY.DESCRIPTION",
+                "logo": "bitly-logo-final.png",
+                "category": [
+                    "url-shortener"
+                ],
+                "type": [
+                    "web"
+                ],
+                "isEditable": false,
+                "command": {
+                    "ADDRR0": "@ IN X-ALIAS-A-WEBAPP bitly.webapp.ispapi.net.",
+                    "ADDRR1": "www IN X-HTTP / REDIRECT http://<domain>",
+                    "DELRR0": "@ IN X-ALIAS-A-WEBAPP",
+                    "DELRR1": "@ IN X-ALIAS-AAAA-WEBAPP",
+                    "DELRR2": "@ IN X-ALIAS-TXT-WEBAPP"
+                }
+            },
+            "blogger": {
+                "name": "blogger",
+                "alt": "Blogger",
+                "description": "WEBAPPS.BLOGGER.DESCRIPTION",
+                "logo": "blogger-logo-final.png",
+                "category": [
+                    "blog"
+                ],
+                "type": [
+                    "web"
+                ],
+                "extraData": [
+                    "host",
+                    "target"
+                ],
+                "isEditable": true,
+                "command": {
+                    "ADDRR0": "@ IN X-ALIAS-A-WEBAPP blogger.webapp.ispapi.net.",
+                    "ADDRR1": "www IN CNAME ghs.googlehosted.com.",
+                    "ADDRR2": "<host> IN CNAME <target>",
+                    "DELRR0": "@ IN X-ALIAS-A-WEBAPP",
+                    "DELRR1": "@ IN X-ALIAS-AAAA-WEBAPP",
+                    "DELRR2": "@ IN X-ALIAS-TXT-WEBAPP"
+                }
+            },
+            "bookmark": {
+                "name": "bookmark",
+                "alt": "Bookmark",
+                "description": "WEBAPPS.BOOKMARK.DESCRIPTION",
+                "logo": "bookmark-logo-final.png",
+                "category": [
+                    "website-builder"
+                ],
+                "type": [
+                    "web"
+                ],
+                "isEditable": false,
+                "command": {
+                    "ADDRR0": "@ IN X-ALIAS-A-WEBAPP bookmark.webapp.ispapi.net.",
+                    "ADDRR1": "www 3600 IN CNAME ns.bookmark.com.",
+                    "DELRR0": "@ IN X-ALIAS-A-WEBAPP",
+                    "DELRR1": "@ IN X-ALIAS-AAAA-WEBAPP",
+                    "DELRR2": "@ IN X-ALIAS-TXT-WEBAPP"
+                }
+            },
+            "carbonmade": {
+                "name": "carbonmade",
+                "alt": "Carbonmade",
+                "description": "WEBAPPS.CARBONMADE.DESCRIPTION",
+                "logo": "carbonmade-logo-final.png",
+                "category": [
+                    "portfolio"
+                ],
+                "type": [
+                    "web"
+                ],
+                "isEditable": false,
+                "command": {
+                    "ADDRR0": "@ IN X-ALIAS-A-WEBAPP carbonmade.webapp.ispapi.net.",
+                    "ADDRR1": "www 3600 IN CNAME hosted.carbonmade.com.",
+                    "DELRR0": "@ IN X-ALIAS-A-WEBAPP",
+                    "DELRR1": "@ IN X-ALIAS-AAAA-WEBAPP",
+                    "DELRR2": "@ IN X-ALIAS-TXT-WEBAPP"
+                }
+            },
+            "fastmail": {
+                "name": "fastmail",
+                "alt": "FastMail",
+                "description": "WEBAPPS.FASTMAIL.DESCRIPTION",
+                "logo": "fastmail-logo-final.png",
+                "category": [
+                    "email"
+                ],
+                "type": [
+                    "mail"
+                ],
+                "isEditable": false,
+                "command": {
+                    "ADDRR0": "@ IN X-ALIAS-MX-WEBAPP fastmail.webapp.ispapi.net.",
+                    "ADDRR1": "@ IN TXT \"v=spf1 include:spf.messagingengine.com ?all\"",
+                    "ADDRR2": "fm1._domainkey IN CNAME fm1.<domain>.dkim.fmhosted.com.",
+                    "ADDRR3": "fm2._domainkey IN CNAME fm2.<domain>.dkim.fmhosted.com.",
+                    "ADDRR4": "fm3._domainkey IN CNAME fm3.<domain>.dkim.fmhosted.com.",
+                    "DELRR0": "@ IN X-ALIAS-MX-WEBAPP",
+                    "DELRR1": "@ IN X-ALIAS-TXT-WEBAPP"
+                }
+            },
+            "greatmail": {
+                "name": "greatmail",
+                "alt": "Greatmail",
+                "description": "WEBAPPS.GREATMAIL.DESCRIPTION",
+                "logo": "greatmail-logo-final.png",
+                "category": [
+                    "email"
+                ],
+                "type": [
+                    "mail"
+                ],
+                "isEditable": false,
+                "command": {
+                    "ADDRR0": "@ IN X-ALIAS-MX-WEBAPP greatmail.webapp.ispapi.net.",
+                    "ADDRR1": "@ IN TXT \"v=spf1 mx include:spf.greatmail.com -all\"",
+                    "DELRR0": "@ IN X-ALIAS-MX-WEBAPP",
+                    "DELRR1": "@ IN X-ALIAS-TXT-WEBAPP"
+                }
+            },
+            "github": {
+                "name": "github",
+                "alt": "GitHub",
+                "description": "WEBAPPS.GITHUB.DESCRIPTION",
+                "logo": "github-logo-final.png",
+                "category": [
+                    "website-hosting"
+                ],
+                "type": [
+                    "web"
+                ],
+                "extraData": [
+                    "username"
+                ],
+                "isEditable": true,
+                "command": {
+                    "ADDRR0": "@ IN X-ALIAS-A-WEBAPP github.webapp.ispapi.net.",
+                    "ADDRR1": "www IN CNAME <username>.github.io.",
+                    "DELRR0": "@ IN X-ALIAS-A-WEBAPP",
+                    "DELRR1": "@ IN X-ALIAS-AAAA-WEBAPP",
+                    "DELRR2": "@ IN X-ALIAS-TXT-WEBAPP"
+                }
+            },
+            "gsuite": {
+                "name": "gsuite",
+                "alt": "G Suite",
+                "description": "WEBAPPS.GSUITE.DESCRIPTION",
+                "logo": "gsuite-logo-final.png",
+                "category": [
+                    "email"
+                ],
+                "type": [
+                    "mail"
+                ],
+                "extraData": [
+                    "watoken"
+                ],
+                "isEditable": true,
+                "command": {
+                    "ADDRR0": "@ IN X-ALIAS-MX-WEBAPP gsuite.webapp.ispapi.net.",
+                    "ADDRR1": "@ IN TXT \"<watoken>\"",
+                    "DELRR0": "@ IN X-ALIAS-MX-WEBAPP",
+                    "DELRR1": "@ IN X-ALIAS-TXT-WEBAPP"
+                }
+            },
+            "netlify": {
+                "name": "netlify",
+                "alt": "Netlify",
+                "description": "WEBAPPS.NETLIFY.DESCRIPTION",
+                "logo": "netlify-logo-final.png",
+                "category": [
+                    "website-hosting"
+                ],
+                "type": [
+                    "web"
+                ],
+                "extraData": [
+                    "sitename"
+                ],
+                "isEditable": true,
+                "command": {
+                    "ADDRR0": "@ IN X-ALIAS-A-WEBAPP netlify.webapp.ispapi.net.",
+                    "ADDRR1": "www IN CNAME <sitename>.",
+                    "DELRR0": "@ IN X-ALIAS-A-WEBAPP",
+                    "DELRR1": "@ IN X-ALIAS-AAAA-WEBAPP",
+                    "DELRR2": "@ IN X-ALIAS-TXT-WEBAPP"
+                }
+            },
+            "pattern": {
+                "name": "pattern",
+                "alt": "Pattern",
+                "description": "WEBAPPS.PATTERN.DESCRIPTION",
+                "logo": "pattern-logo-final.png",
+                "category": [
+                    "ecommerce"
+                ],
+                "type": [
+                    "web"
+                ],
+                "isEditable": false,
+                "command": {
+                    "ADDRR0": "@ IN X-ALIAS-A-WEBAPP pattern.webapp.ispapi.net.",
+                    "ADDRR1": "www IN X-HTTP / REDIRECT http://<domain>",
+                    "DELRR0": "@ IN X-ALIAS-A-WEBAPP",
+                    "DELRR1": "@ IN X-ALIAS-AAAA-WEBAPP",
+                    "DELRR2": "@ IN X-ALIAS-TXT-WEBAPP"
+                }
+            },
+            "rackspace": {
+                "name": "rackspace",
+                "alt": "Rackspace Email",
+                "description": "WEBAPPS.RACKSPACE.DESCRIPTION",
+                "logo": "rackspace-logo-final.png",
+                "category": [
+                    "email"
+                ],
+                "type": [
+                    "mail"
+                ],
+                "isEditable": false,
+                "command": {
+                    "ADDRR0": "@ IN X-ALIAS-MX-WEBAPP rackspace.webapp.ispapi.net.",
+                    "ADDRR1": "@ IN TXT \"v=spf1 include:emailsrvr.com ~all\"",
+                    "ADDRR2": "autodiscover IN CNAME autodiscover.emailsrvr.com.",
+                    "DELRR0": "@ IN X-ALIAS-MX-WEBAPP",
+                    "DELRR1": "@ IN X-ALIAS-TXT-WEBAPP"
+                }
+            },
+            "rebrandly": {
+                "name": "rebrandly",
+                "alt": "Rebrandly",
+                "description": "WEBAPPS.REBRANDLY.DESCRIPTION",
+                "logo": "rebrandly-logo-final.png",
+                "category": [
+                    "url-shortener"
+                ],
+                "type": [
+                    "web"
+                ],
+                "isEditable": true,
+                "extraData": [
+                    "subdomain"
+                ],
+                "command": {
+                    "DELRR0": "@ IN X-ALIAS-A-WEBAPP",
+                    "DELRR1": "@ IN X-ALIAS-AAAA-WEBAPP",
+                    "DELRR2": "@ IN X-ALIAS-TXT-WEBAPP"
+                }
+            },
+            "typepad": {
+                "name": "typepad",
+                "alt": "TypePad",
+                "description": "WEBAPPS.TYPEPAD.DESCRIPTION",
+                "logo": "typepad-logo-final.png",
+                "category": [
+                    "blog"
+                ],
+                "type": [
+                    "web"
+                ],
+                "isEditable": true,
+                "extraData": [
+                    "typepadname"
+                ],
+                "command": {
+                    "ADDRR0": "www IN CNAME <typepadname>",
+                    "ADDRR1": "@ 3600 IN X-HTTP REDIRECT http://www.<domain>",
+                    "ADDRR2": "@ IN X-ALIAS-A-WEBAPP typepad.webapp.ispapi.net.",
+                    "DELRR0": "@ IN X-ALIAS-A-WEBAPP",
+                    "DELRR1": "@ IN X-ALIAS-AAAA-WEBAPP",
+                    "DELRR2": "@ IN X-ALIAS-TXT-WEBAPP"
+                }
+            },
+            "shopify": {
+                "name": "shopify",
+                "alt": "Shopify",
+                "description": "WEBAPPS.SHOPIFY.DESCRIPTION",
+                "logo": "shopify-logo-final.png",
+                "category": [
+                    "ecommerce"
+                ],
+                "type": [
+                    "web"
+                ],
+                "isEditable": false,
+                "command": {
+                    "ADDRR0": "@ IN X-ALIAS-A-WEBAPP shopify.webapp.ispapi.net.",
+                    "ADDRR1": "www 3600 IN CNAME shops.myshopify.com.",
+                    "ADDRR2": "www IN X-HTTP / REDIRECT http://<domain>",
+                    "DELRR0": "@ IN X-ALIAS-A-WEBAPP",
+                    "DELRR1": "@ IN X-ALIAS-AAAA-WEBAPP",
+                    "DELRR2": "@ IN X-ALIAS-TXT-WEBAPP"
+                }
+            },
+            "sitepro": {
+                "name": "sitepro",
+                "alt": "Site.pro",
+                "description": "WEBAPPS.SITEPRO.DESCRIPTION",
+                "logo": "sitepro-logo-final.png",
+                "category": [
+                    "website-builder"
+                ],
+                "type": [
+                    "web"
+                ],
+                "isEditable": false,
+                "command": {
+                    "ADDRR0": "@ IN X-ALIAS-A-WEBAPP sitepro.webapp.ispapi.net.",
+                    "ADDRR1": "www IN X-HTTP / REDIRECT http://<domain>",
+                    "DELRR0": "@ IN X-ALIAS-A-WEBAPP",
+                    "DELRR1": "@ IN X-ALIAS-AAAA-WEBAPP",
+                    "DELRR2": "@ IN X-ALIAS-TXT-WEBAPP"
+                }
+            },
+            "squarespace": {
+                "name": "squarespace",
+                "alt": "Squarespace",
+                "description": "WEBAPPS.SQUARESPACE.DESCRIPTION",
+                "logo": "squarespace-logo-final.png",
+                "category": [
+                    "website-builder"
+                ],
+                "type": [
+                    "web"
+                ],
+                "extraData": [
+                    "code"
+                ],
+                "isEditable": true,
+                "command": {
+                    "ADDRR0": "@ IN X-ALIAS-A-WEBAPP squarespace.webapp.ispapi.net.",
+                    "ADDRR1": "www 3600 IN CNAME ext-cust.squarespace.com.",
+                    "ADDRR2": "<code> IN CNAME verify.squarespace.com.",
+                    "DELRR0": "@ IN X-ALIAS-A-WEBAPP",
+                    "DELRR1": "@ IN X-ALIAS-AAAA-WEBAPP",
+                    "DELRR2": "@ IN X-ALIAS-TXT-WEBAPP"
+                }
+            },
+            "tumblr": {
+                "name": "tumblr",
+                "alt": "Tumblr",
+                "description": "WEBAPPS.TUMBLR.DESCRIPTION",
+                "logo": "tumblr-logo-final.png",
+                "category": [
+                    "blog"
+                ],
+                "type": [
+                    "web"
+                ],
+                "isEditable": false,
+                "command": {
+                    "ADDRR0": "@ IN X-ALIAS-A-WEBAPP tumblr.webapp.ispapi.net.",
+                    "ADDRR1": "www IN X-HTTP / REDIRECT http://<domain>",
+                    "DELRR0": "@ IN X-ALIAS-A-WEBAPP",
+                    "DELRR1": "@ IN X-ALIAS-AAAA-WEBAPP",
+                    "DELRR2": "@ IN X-ALIAS-TXT-WEBAPP"
+                }
+            },
+            "unbounce": {
+                "name": "unbounce",
+                "alt": "Unbounce",
+                "description": "WEBAPPS.UNBOUNCE.DESCRIPTION",
+                "logo": "unbounce-logo-final.png",
+                "category": [
+                    "marketing"
+                ],
+                "type": [
+                    "web"
+                ],
+                "extraData": [
+                    "subdomain"
+                ],
+                "isEditable": true,
+                "command": {
+                    "ADDRR0": "<subdomain> IN CNAME unbouncepages.com.",
+                    "ADDRR1": "@ IN X-ALIAS-A-WEBAPP unbounce.webapp.ispapi.net.",
+                    "DELRR0": "@ IN X-ALIAS-A-WEBAPP",
+                    "DELRR1": "@ IN X-ALIAS-AAAA-WEBAPP",
+                    "DELRR2": "@ IN X-ALIAS-TXT-WEBAPP"
+                }
+            },
+            "weebly": {
+                "name": "weebly",
+                "alt": "Weebly",
+                "description": "WEBAPPS.WEEBLY.DESCRIPTION",
+                "logo": "weebly-logo-final.png",
+                "category": [
+                    "website-builder"
+                ],
+                "type": [
+                    "web"
+                ],
+                "isEditable": false,
+                "command": {
+                    "ADDRR0": "@ IN X-ALIAS-A-WEBAPP weebly.webapp.ispapi.net.",
+                    "ADDRR1": "www 3600 IN A 199.34.228.59",
+                    "DELRR0": "@ IN X-ALIAS-A-WEBAPP",
+                    "DELRR1": "@ IN X-ALIAS-AAAA-WEBAPP",
+                    "DELRR2": "@ IN X-ALIAS-TXT-WEBAPP"
+                }
+            },
+            "wpengine": {
+                "name": "wpengine",
+                "alt": "WP Engine",
+                "description": "WEBAPPS.WPENGINE.DESCRIPTION",
+                "logo": "wpengine-logo-final.png",
+                "category": [
+                    "website-hosting",
+                    "blog"
+                ],
+                "type": [
+                    "web"
+                ],
+                "isEditable": true,
+                "extraData": [
+                    "ip"
+                ],
+                "command": {
+                    "ADDRR0": "@ IN A <ip>",
+                    "ADDRR1": "www IN X-HTTP / REDIRECT http://<domain>",
+                    "ADDRR2": "@ IN X-ALIAS-AAAA-WEBAPP wpengine.webapp.ispapi.net.",
+                    "DELRR0": "@ IN X-ALIAS-A-WEBAPP",
+                    "DELRR1": "@ IN X-ALIAS-AAAA-WEBAPP",
+                    "DELRR2": "@ IN X-ALIAS-TXT-WEBAPP"
+                }
+            },
+            "wix": {
+                "name": "wix",
+                "alt": "Wix",
+                "description": "WEBAPPS.WIX.DESCRIPTION",
+                "logo": "wix-logo-final.png",
+                "category": [
+                    "website-builder"
+                ],
+                "type": [
+                    "web"
+                ],
+                "extraData": [
+                    "zone"
+                ],
+                "isEditable": true,
+                "command": {
+                    "ADDRR0": "@ IN X-ALIAS-A-WEBAPP wix.webapp.ispapi.net.",
+                    "ADDRR1": "www IN CNAME <zone>.",
+                    "ADDRR2": "m IN CNAME <zone>.",
+                    "DELRR0": "@ IN X-ALIAS-A-WEBAPP",
+                    "DELRR1": "@ IN X-ALIAS-AAAA-WEBAPP",
+                    "DELRR2": "@ IN X-ALIAS-TXT-WEBAPP"
+                }
+            },
+            "zenfolio": {
+                "name": "zenfolio",
+                "alt": "Zenfolio",
+                "description": "WEBAPPS.ZENFOLIO.DESCRIPTION",
+                "logo": "zenfolio-logo-final.png",
+                "category": [
+                    "portfolio"
+                ],
+                "type": [
+                    "web"
+                ],
+                "isEditable": false,
+                "command": {
+                    "ADDRR0": "@ IN X-ALIAS-A-WEBAPP zenfolio.webapp.ispapi.net.",
+                    "ADDRR1": "www IN X-HTTP / REDIRECT http://<domain>",
+                    "DELRR0": "@ IN X-ALIAS-A-WEBAPP",
+                    "DELRR1": "@ IN X-ALIAS-AAAA-WEBAPP",
+                    "DELRR2": "@ IN X-ALIAS-TXT-WEBAPP"
+                }
+            }
+        }
+    }
+}
