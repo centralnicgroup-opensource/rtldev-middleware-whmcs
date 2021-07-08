@@ -1,3 +1,33 @@
+## [6.0.4](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.0.3...v6.0.4) (2021-07-08)
+
+
+### Bug Fixes
+
+* **additional fields:** create fields in DB if not existing ([9590cb7](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/9590cb7ed1b712a6941d9b4cf0c5662969dde1e0))
+
+## [6.0.3](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.0.2...v6.0.3) (2021-07-07)
+
+
+### Bug Fixes
+
+* **additional fields:** set tickbox field values as int ([436003c](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/436003c7310090405ab980720c724901f8075a59))
+
+## [6.0.2](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.0.1...v6.0.2) (2021-07-07)
+
+
+### Bug Fixes
+
+* **5.1.9-5.1.12:** add missing changes ([dc3f0a6](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/dc3f0a61a02f20b0321e1b1cfc638a853badd955))
+
+## [6.0.1](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.0.0...v6.0.1) (2021-07-07)
+
+
+### Bug Fixes
+
+* **contacts:** reviewed contact data mechanism for .it (ADMIN = REGISTRANT) ([3ce4d74](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/3ce4d74f97535255365d7f25b204d7b919e96722))
+
+# [6.0.0](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v5.1.12...v6.0.0) (2021-07-07)
+
 ## [5.1.12](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v5.1.11...v5.1.12) (2021-06-24)
 
 
@@ -25,6 +55,15 @@
 ### Bug Fixes
 
 * **expirydate:** do no longer consider to subtract 1d. Sorry for the inconveniences caused ([1fe4479](https://github.com/hexonet/whmcs-ispapi-registrar/commit/1fe4479848cb6f239b8191d4640fd9f1bc5a1721))
+### Features
+
+* **revamp:** revamping Transliteration, Domain Fields, Contact Update ([20c3310](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/20c3310d94555f95ee96d4e1dd8384fc0901c522))
+
+
+### BREAKING CHANGES
+
+* **revamp:** New way of Handling Domain Fields, Contact Updates/Owner Changes and consider
+Transliterations and introducing a new Translation Mechanism
 
 ## [5.1.8](https://github.com/hexonet/whmcs-ispapi-registrar/compare/v5.1.7...v5.1.8) (2021-06-15)
 
