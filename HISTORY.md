@@ -1,3 +1,10 @@
+## [6.0.5](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.0.4...v6.0.5) (2021-07-09)
+
+
+### Bug Fixes
+
+* **ci:** do not encrypt language files ([3afd10c](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/3afd10ca28207abf06c949c67fe8aa68a051a78e))
+
 ## [6.0.4](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.0.3...v6.0.4) (2021-07-08)
 
 
