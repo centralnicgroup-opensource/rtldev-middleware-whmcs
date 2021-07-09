@@ -1,3 +1,10 @@
+## [6.0.6](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.0.5...v6.0.6) (2021-07-09)
+
+
+### Bug Fixes
+
+* **logo:** missing logo for our modules overview widget (will be cleaned up soon again) ([049a558](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/049a5581d84321399933024999519d296f6301a5))
+
 ## [6.0.5](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.0.4...v6.0.5) (2021-07-09)
 
 
