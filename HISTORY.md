@@ -1,3 +1,10 @@
+## [6.0.7](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.0.6...v6.0.7) (2021-07-12)
+
+
+### Bug Fixes
+
+* **archive:** wrong folder structure; reviewed encryption of hooks.php ([14dca89](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/14dca892fc476ac9b434eae9c82fde2b022ab761))
+
 ## [6.0.6](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.0.5...v6.0.6) (2021-07-09)
 
 
