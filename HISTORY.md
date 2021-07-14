@@ -1,3 +1,10 @@
+## [6.0.8](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.0.7...v6.0.8) (2021-07-14)
+
+
+### Bug Fixes
+
+* **idprotection:** include idprotection setting in SaveContactDetails (except Owner Change/Trade) ([d13e813](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/d13e813a46ef68d3f4d4cd5af472fefbceaa9689))
+
 ## [6.0.7](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.0.6...v6.0.7) (2021-07-12)
 
 
