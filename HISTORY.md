@@ -1,3 +1,10 @@
+# [6.1.0](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.0.8...v6.1.0) (2021-07-20)
+
+
+### Features
+
+* **domain importer:** support of direct domain import to specified client (our importer addon) ([5943904](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/5943904e6dd2982c355c952ebe4718e2129e0510))
+
 ## [6.0.8](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.0.7...v6.0.8) (2021-07-14)
 
 
