@@ -1,3 +1,10 @@
+## [6.1.1](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.1.0...v6.1.1) (2021-07-21)
+
+
+### Bug Fixes
+
+* **savecontactdetails:** not saving new additional field value (field name new/changed) ([097b8c4](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/097b8c4b6e86f6e3aed501b7fec2a7021f25dcbf))
+
 # [6.1.0](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.0.8...v6.1.0) (2021-07-20)
 
 
