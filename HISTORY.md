@@ -1,3 +1,10 @@
+## [6.1.2](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.1.1...v6.1.2) (2021-07-22)
+
+
+### Bug Fixes
+
+* **getdomaininformation:** extend to return addon status. (no need to upgrade) ([382bc57](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/382bc57ae3cf1ef43cbe05ea8417cd8af90826f9))
+
 ## [6.1.1](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.1.0...v6.1.1) (2021-07-21)
 
 
