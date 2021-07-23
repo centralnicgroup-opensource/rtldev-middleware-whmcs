@@ -1,3 +1,10 @@
+## [6.1.4](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.1.3...v6.1.4) (2021-07-23)
+
+
+### Bug Fixes
+
+* **additional fields:** for transfers: review when to not include contact data using generics ([ef88cfc](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/ef88cfc39bf964edb6a687cdabcd96028c3fc875))
+
 ## [6.1.3](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.1.2...v6.1.3) (2021-07-23)
 
 
