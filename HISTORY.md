@@ -1,3 +1,10 @@
+## [6.1.3](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.1.2...v6.1.3) (2021-07-23)
+
+
+### Bug Fixes
+
+* **additional fields:** fixed for transfers (WHMCS provides fields for registration) ([33e8684](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/33e8684a970aa5c34fffcd7f4a4dd3032231a24a))
+
 ## [6.1.2](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.1.1...v6.1.2) (2021-07-22)
 
 
