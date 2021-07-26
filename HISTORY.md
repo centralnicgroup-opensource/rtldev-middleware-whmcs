@@ -1,3 +1,10 @@
+# [6.2.0](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.1.5...v6.2.0) (2021-07-26)
+
+
+### Features
+
+* **getdomaininformation:** extended to return further custom registrar data ([7825135](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/782513514c538b30d23077d42f5763f17980debd))
+
 ## [6.1.5](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.1.4...v6.1.5) (2021-07-26)
 
 
