@@ -1,3 +1,10 @@
+## [6.1.5](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.1.4...v6.1.5) (2021-07-26)
+
+
+### Bug Fixes
+
+* **additional fields:** fixed missing .fi configuration field id: X-FI-REGISTRANT-BIRTH-DATE ([ce8b2e6](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/ce8b2e6009ddcf2010023ccf7f60d1acd4a5f324))
+
 ## [6.1.4](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.1.3...v6.1.4) (2021-07-23)
 
 
