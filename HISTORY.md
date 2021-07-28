@@ -1,3 +1,10 @@
+## [6.2.2](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.2.1...v6.2.2) (2021-07-28)
+
+
+### Bug Fixes
+
+* **contact update:** fixed method chaining when taking additional fields from POST Request ([fe8a99c](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/fe8a99cdf1b363e41a922c8bd700d13b41904bbc))
+
 ## [6.2.1](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.2.0...v6.2.1) (2021-07-28)
 
 
