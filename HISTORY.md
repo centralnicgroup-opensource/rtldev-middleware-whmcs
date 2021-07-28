@@ -1,3 +1,10 @@
+## [6.2.1](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.2.0...v6.2.1) (2021-07-28)
+
+
+### Bug Fixes
+
+* **additional fields:** .nu requirements reviewed ([360d16a](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/360d16a7010fa6405db7424fb6521fa542793cb4))
+
 # [6.2.0](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.1.5...v6.2.0) (2021-07-26)
 
 
