@@ -1,3 +1,10 @@
+## [6.2.3](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.2.2...v6.2.3) (2021-07-29)
+
+
+### Bug Fixes
+
+* **savecontactdetails:** fixed to consider the right submitted contact data ([97c248c](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/97c248c08fe709b84b6ef9bc845377e712c15052))
+
 ## [6.2.2](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.2.1...v6.2.2) (2021-07-28)
 
 
