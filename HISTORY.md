@@ -1,3 +1,10 @@
+## [6.2.5](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.2.4...v6.2.5) (2021-08-03)
+
+
+### Bug Fixes
+
+* **getdomaininformation:** fixed index access (no need to upgrade) ([96f9db2](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/96f9db232fef59da2549520184e5ccc714bb95c2))
+
 ## [6.2.4](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.2.3...v6.2.4) (2021-08-03)
 
 
