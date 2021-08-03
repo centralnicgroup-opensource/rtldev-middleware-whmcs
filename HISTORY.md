@@ -1,3 +1,10 @@
+## [6.2.4](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.2.3...v6.2.4) (2021-08-03)
+
+
+### Bug Fixes
+
+* **getdomaininformation:** added custom data for important addon ([0ee06be](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/0ee06be647b434a4bc7ae6f2661b6878612bb266))
+
 ## [6.2.3](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.2.2...v6.2.3) (2021-07-29)
 
 
