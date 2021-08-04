@@ -1,3 +1,10 @@
+## [6.2.6](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.2.5...v6.2.6) (2021-08-04)
+
+
+### Bug Fixes
+
+* **getdomaininformation:** fixed registrationdate returned by custom mechanism (no need to upgrade) ([7d7786c](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/7d7786c7e0ff0491d585145c9447c1d3e9cb0131))
+
 ## [6.2.5](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.2.4...v6.2.5) (2021-08-03)
 
 
