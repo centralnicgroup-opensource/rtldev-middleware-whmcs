@@ -1,3 +1,10 @@
+## [6.2.8](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.2.7...v6.2.8) (2021-08-05)
+
+
+### Performance Improvements
+
+* **translations:** moved into our module folder. include them in language override files ([fe4908e](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/fe4908eb21d9514bf4529461494972e724c421ba)), closes [#201](https://github.com/hexonet/whmcs-ispapi-registrar-src/issues/201)
+
 ## [6.2.7](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.2.6...v6.2.7) (2021-08-05)
 
 
