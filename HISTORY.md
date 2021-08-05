@@ -1,3 +1,11 @@
+## [6.2.7](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.2.6...v6.2.7) (2021-08-05)
+
+
+### Bug Fixes
+
+* **additional fields:** configure .SE Registrant ID Number as required ([152eb92](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/152eb9256963c527ecb0b2d160e60734abe47be9)), closes [#204](https://github.com/hexonet/whmcs-ispapi-registrar-src/issues/204)
+* **transliteration:** fixed transliteration php errors ([29baeb3](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/29baeb3efcf04721c6174fe66b369edd081113d1)), closes [#202](https://github.com/hexonet/whmcs-ispapi-registrar-src/issues/202)
+
 ## [6.2.6](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.2.5...v6.2.6) (2021-08-04)
 
 
