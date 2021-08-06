@@ -1,3 +1,17 @@
+## [6.3.1](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.3.0...v6.3.1) (2021-08-06)
+
+
+### Bug Fixes
+
+* **domain (un)suspension:** added error details for error case ([677804e](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/677804eb0d706f6460f0707551b0f1f37149d0a8))
+
+# [6.3.0](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.2.9...v6.3.0) (2021-08-06)
+
+
+### Features
+
+* **domain (un)suspenion:** admin Area Button to suspend/unsuspend the domain name ([a68e303](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/a68e303b57aa7530a0e23598a7e39f5dc56589af))
+
 ## [6.2.9](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.2.8...v6.2.9) (2021-08-06)
 
 
