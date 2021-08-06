@@ -1,11 +1,16 @@
+## [6.2.9](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.2.8...v6.2.9) (2021-08-06)
+
+
+### Bug Fixes
+
+* **additional fields:** fixed .jobs company url field ([3dd5146](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/3dd5146c83b3ddf1ee12d79d8400838c97a54143))
+
 ## [6.2.8](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.2.7...v6.2.8) (2021-08-05)
 
 
 ### Performance Improvements
 
 * **translations:** moved into our module folder. include them in language override files ([fe4908e](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/fe4908eb21d9514bf4529461494972e724c421ba)), closes [#201](https://github.com/hexonet/whmcs-ispapi-registrar-src/issues/201)
-
-Read [here](https://centralnic-reseller.github.io/centralnic-reseller/docs/hexonet/whmcs/whmcs-ispapi-registrar#installing-our-module) on how to install and use these translation files.
 
 ## [6.2.7](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.2.6...v6.2.7) (2021-08-05)
 
