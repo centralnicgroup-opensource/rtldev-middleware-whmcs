@@ -1,3 +1,17 @@
+## [6.3.2](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.3.1...v6.3.2) (2021-08-09)
+
+
+### Bug Fixes
+
+* **web apps:** fixed web apps logo size ([248601a](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/248601a6db3e6f5eed0e7721b84051d955afbf1f))
+
+## [6.3.2](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.3.1...v6.3.2) (2021-08-09)
+
+
+### Bug Fixes
+
+* **web apps:** fixed web apps logo size ([2e4f4da](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/2e4f4da67be83ff9c585455cdfbaca51832c4950))
+
 ## [6.3.1](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.3.0...v6.3.1) (2021-08-06)
 
 
