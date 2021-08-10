@@ -1,3 +1,17 @@
+## [6.4.3](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.4.2...v6.4.3) (2021-08-10)
+
+
+### Bug Fixes
+
+* **getdomaininformation:** removed debug output ([c623e53](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/c623e535fdb0de8a5a0f9acbc15bd949d2bead2e))
+
+## [6.4.2](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.4.1...v6.4.2) (2021-08-10)
+
+
+### Bug Fixes
+
+* **getdomaininformation:** do not change domain status on our own, delegate this to whmcs (in sync) ([1fdf99f](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/1fdf99f3769c71eb39fd190b2ab38115cbd2967c))
+
 ## [6.4.1](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.4.0...v6.4.1) (2021-08-10)
 
 
