@@ -1,3 +1,17 @@
+## [6.4.1](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.4.0...v6.4.1) (2021-08-10)
+
+
+### Bug Fixes
+
+* **new aa buttons:** add missing check for pending transfer status ([d356686](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/d356686ea55f76d9920adad66222ad1bd7417084))
+
+# [6.4.0](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.3.2...v6.4.0) (2021-08-10)
+
+
+### Features
+
+* **new admin area buttons:** for resending transfer confirmation email & cancelling transfer ([3faa74f](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/3faa74feb7f0b4e55e994cb4715c4d588781251a))
+
 ## [6.3.2](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.3.1...v6.3.2) (2021-08-09)
 
 
