@@ -1,3 +1,10 @@
+# [6.5.0](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.4.3...v6.5.0) (2021-08-10)
+
+
+### Features
+
+* **registrar tld sync:** include syncing id protection addon support (registrar config setting) ([6702270](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/6702270f8b361c4604069845436cf3d872837c27))
+
 ## [6.4.3](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.4.2...v6.4.3) (2021-08-10)
 
 
