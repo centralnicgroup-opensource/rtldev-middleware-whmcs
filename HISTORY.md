@@ -1,3 +1,15 @@
+# [6.6.0](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.5.0...v6.6.0) (2021-08-12)
+
+
+### Bug Fixes
+
+* **additional fields:** fixed typo with .ES Admin Type ([ef2f8c9](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/ef2f8c957bb823b93f0e3fbb4f0a42f5d782393a))
+
+
+### Features
+
+* **idnlanguage:** auto-detection in GetDomainInformation for our domain importer addon ([bc6ccc9](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/bc6ccc9471a2931f57f8e942c6cf3736cf2e864e))
+
 # [6.5.0](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.4.3...v6.5.0) (2021-08-10)
 
 
