@@ -1,3 +1,29 @@
+# [7.0.0](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.6.0...v7.0.0) (2021-08-20)
+
+
+### Bug Fixes
+
+* **availability check:** deprecate aftermarket premiums (blocking transfers), fixed price detection ([7c14a5e](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/7c14a5e8186cafcf86d75769ebf424f0a6f137c5))
+* **client area:** fixed broken additional domainfields injection in contact information page ([a9261b3](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/a9261b313da4344306dd60d8e9f36fe527dfdb97))
+* **getdomaininformation:** return nameservers correctly for pending transfers ([3a3bdb7](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/3a3bdb75ec3aabb038b257379c5104ab455597b3))
+
+
+### Features
+
+* **suspend after expiration:** configure auto-suspension after expiration (before ARGP) ([d403dbb](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/d403dbb3fa36c82408f09df4131b7e97dce4c628))
+* **transfer status:** show Transfer Status & Logs in Admin Area ([56a6abd](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/56a6abd33774306d3055c01ac3ec48b8c08f01b9))
+
+
+### Performance Improvements
+
+* **idn conversion:** cleanup idn conversion, this is handled automatically now ([8998451](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/8998451b1ffc8f26dac07485d8b9a7e412fb7e05))
+
+
+### BREAKING CHANGES
+
+* **transfer status:** https://developers.whmcs.com/domain-registrars/domain-information/ making
+GetRegistrarLock and GetNameservers superfluous
+
 # [6.6.0](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.5.0...v6.6.0) (2021-08-12)
 
 
