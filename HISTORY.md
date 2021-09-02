@@ -1,3 +1,10 @@
+## [7.0.1](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.0.0...v7.0.1) (2021-09-02)
+
+
+### Bug Fixes
+
+* **additional fields:** fix issue with .NGO Transfers ([8ea1407](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/8ea1407cb7f8b1e148bd30d286922e01c4f1e83f)), closes [#208](https://github.com/hexonet/whmcs-ispapi-registrar-src/issues/208)
+
 # [7.0.0](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v6.6.0...v7.0.0) (2021-08-20)
 
 
