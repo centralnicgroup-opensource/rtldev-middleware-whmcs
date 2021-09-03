@@ -1,3 +1,10 @@
+## [7.0.3](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.0.2...v7.0.3) (2021-09-03)
+
+
+### Bug Fixes
+
+* **additional fields:** add missing fields for AFNIC TLDs ([963e852](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/963e852eba854b152b0717db1a91b7048aa302b7))
+
 ## [7.0.2](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.0.1...v7.0.2) (2021-09-03)
 
 
