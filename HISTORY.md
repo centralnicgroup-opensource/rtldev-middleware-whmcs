@@ -1,3 +1,10 @@
+## [7.0.2](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.0.1...v7.0.2) (2021-09-03)
+
+
+### Bug Fixes
+
+* **additional fields:** make .IT fields partially required ([7707d6c](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/7707d6c7aa4db63c494c462f76d48d05a45c924b))
+
 ## [7.0.1](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.0.0...v7.0.1) (2021-09-02)
 
 
