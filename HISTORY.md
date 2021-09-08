@@ -1,3 +1,10 @@
+## [7.0.4](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.0.3...v7.0.4) (2021-09-08)
+
+
+### Bug Fixes
+
+* **sidebar menu:** on client area not showing menu entries "Registrar Lock", "Nameservers" ([0ee142a](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/0ee142ac15f108edfe066a661de01990e0ba5e53)), closes [#213](https://github.com/hexonet/whmcs-ispapi-registrar-src/issues/213)
+
 ## [7.0.3](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.0.2...v7.0.3) (2021-09-03)
 
 
