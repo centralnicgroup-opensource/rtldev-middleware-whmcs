@@ -1,3 +1,10 @@
+# [7.1.0](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.0.4...v7.1.0) (2021-09-15)
+
+
+### Features
+
+* **Whois Output & ERRP Settings:** added fields to admin area ([15b7ca3](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/15b7ca37ef2b9e2442bc5e25556edd1e98996486))
+
 ## [7.0.4](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.0.3...v7.0.4) (2021-09-08)
 
 
