@@ -1,3 +1,10 @@
+## [7.1.1](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.1.0...v7.1.1) (2021-09-30)
+
+
+### Bug Fixes
+
+* **domain sync:** fix for .dk domains to get returned as transferred away instead of expired ([63459ff](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/63459ffb6c9e698ac9c56f51dd8b1ea61aff123f))
+
 # [7.1.0](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.0.4...v7.1.0) (2021-09-15)
 
 
