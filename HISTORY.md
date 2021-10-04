@@ -1,3 +1,10 @@
+## [7.1.2](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.1.1...v7.1.2) (2021-10-04)
+
+
+### Bug Fixes
+
+* **domain transfer:** of .au to include contact data ([da7c642](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/da7c6429b8e5b884ea87698b1340a8673391b16b))
+
 ## [7.1.1](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.1.0...v7.1.1) (2021-09-30)
 
 
