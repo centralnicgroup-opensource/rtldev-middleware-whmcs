@@ -1,3 +1,10 @@
+## [7.1.4](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.1.3...v7.1.4) (2021-10-04)
+
+
+### Bug Fixes
+
+* **transfer validation:** html_entity_decode eppcode for validation on checkout ([867d605](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/867d605b16ff670314a180d486ab3b5116ec592e))
+
 ## [7.1.3](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.1.2...v7.1.3) (2021-10-04)
 
 
