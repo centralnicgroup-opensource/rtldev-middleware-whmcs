@@ -1,3 +1,10 @@
+## [7.1.3](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.1.2...v7.1.3) (2021-10-04)
+
+
+### Bug Fixes
+
+* **transfer log:** fixed ui width in admin area when showing big blog transfer log data (e.g. .fm) ([c4c8935](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/c4c8935a7bc24b4cbfc1b0857c05ddddeb09a044)), closes [#216](https://github.com/hexonet/whmcs-ispapi-registrar-src/issues/216)
+
 ## [7.1.2](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.1.1...v7.1.2) (2021-10-04)
 
 
