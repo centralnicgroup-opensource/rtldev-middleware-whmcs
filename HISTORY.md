@@ -1,3 +1,10 @@
+## [7.1.5](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.1.4...v7.1.5) (2021-10-05)
+
+
+### Bug Fixes
+
+* **language override:** fix translation keys of .dk additional fields for contacts ([bc2ea26](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/bc2ea265864948ccca469f07bcbcc3a203980ae2))
+
 ## [7.1.4](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.1.3...v7.1.4) (2021-10-04)
 
 
