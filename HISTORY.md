@@ -1,3 +1,10 @@
+# [7.2.0](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.1.5...v7.2.0) (2021-10-05)
+
+
+### Features
+
+* **additional fields:** added autocompletion (mailto: / https?s://) for .de contact fields ([fe9863e](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/fe9863e6230bffd2aaca9a0799e0cba388607dee))
+
 ## [7.1.5](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.1.4...v7.1.5) (2021-10-05)
 
 
