@@ -1,3 +1,10 @@
+## [7.2.1](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.0...v7.2.1) (2021-10-06)
+
+
+### Bug Fixes
+
+* **getnameservers,getregistrarlock:** cleanup reverted (until WHMCS' #CORE-17038 got rolled out) ([8f8cf40](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/8f8cf40f06acfba627a6465640183c3eb47a359e)), closes [#CORE-17038](https://github.com/hexonet/whmcs-ispapi-registrar-src/issues/CORE-17038)
+
 # [7.2.0](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.1.5...v7.2.0) (2021-10-05)
 
 
