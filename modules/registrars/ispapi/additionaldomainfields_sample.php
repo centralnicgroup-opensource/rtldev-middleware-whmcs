@@ -419,8 +419,8 @@ $additionaldomainfields[".es"][] = [
 ## .EU DOMAIN REQUIREMENTS ##
 ## NOTE: Activate trustee service / local presence service just in case you have reflected the service costs
 ## in the TLD prices otherwise your customers do not pay for it. This is a missing Domain Add-On in WHMCS.
-/*$additionaldomainfields[".eu"] = [];
-$additionaldomainfields[".eu"][] = [
+$additionaldomainfields[".eu"] = [];
+/*$additionaldomainfields[".eu"][] = [
     "Name" => "Local Presence",
     "Type" => "dropdown",
     "Options" => ",Registrant is domiciled in the EU / Use Local Presence Service",
@@ -428,6 +428,45 @@ $additionaldomainfields[".eu"][] = [
     "Ispapi-Name" => "X-EU-ACCEPT-TRUSTEE-TAC",
     "Ispapi-Options" => ",1"
 ];*/
+$additionaldomainfields[".eu"][] = [
+    "Name" => "Registrant Citizenship",
+    "Options" => implode(",", [
+	    "AT|AT - Austria",
+	    "AX|AX - Åland",
+	    "BE|BE - Belgium",
+	    "BG|BG - Bulgaria",
+	    "CY|CY - Cyprus",
+	    "CZ|CZ - Czechia",
+	    "DE|DE - Germany",
+	    "DK|DK - Denmark",
+	    "EE|EE - Estonia",
+	    "ES|ES - Spain",
+	    "FI|FI - Finland",
+	    "FR|FR - France",
+	    "GF|GF - French Guiana",
+	    "GP|GP - Guadeloupe",
+	    "GR|GR - Greece",
+	    "HR|HR - Croatia",
+	    "HU|HU - Hungary",
+	    "IE|IE - Ireland",
+	    "IT|IT - Italy",
+	    "LT|LT - Lithuania",
+	    "LU|LU - Luxembourg",
+	    "LV|LV - Latvia",
+	    "MQ|MQ - Martinique",
+	    "MT|MT - Malta",
+	    "NL|NL - Netherlands",
+	    "PL|PL - Poland",
+	    "PT|PT - Portugal",
+	    "RE|RE - Réunion",
+	    "RO|RO - Romania",
+	    "SE|SE - Sweden",
+	    "SI|SI - Slovenia",
+	    "SK|SK - Slovakia"
+     ]),
+    "Description" => "Required only if you're a European Citizen residing outside of the EU",
+    "Ispapi-Name" => "X-EU-REGISTRANT-CITIZENSHIP"
+];
 
 ## .FI DOMAIN REQUIREMENTS ##
 $additionaldomainfields[".fi"][] = [];
