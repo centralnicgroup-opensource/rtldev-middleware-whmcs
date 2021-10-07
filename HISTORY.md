@@ -1,3 +1,10 @@
+## [7.2.2](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.1...v7.2.2) (2021-10-07)
+
+
+### Bug Fixes
+
+* **domain sync:** sync expirydate for .dk domains renewed at dkh but still pending in our system ([bdb4ff1](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/bdb4ff1fccf0c1e41c4fa2d7b273732333a475c1))
+
 ## [7.2.1](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.0...v7.2.1) (2021-10-06)
 
 
