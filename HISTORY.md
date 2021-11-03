@@ -1,3 +1,10 @@
+## [7.2.3](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.2...v7.2.3) (2021-11-03)
+
+
+### Bug Fixes
+
+* **api client:** upgrade php-sdk to 6.1.2 fixing POST requests ([c180f12](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/c180f123cad246ad04938d7dc926120786c06beb))
+
 ## [7.2.2](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.1...v7.2.2) (2021-10-07)
 
 
