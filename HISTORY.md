@@ -1,3 +1,10 @@
+## [7.2.4](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.3...v7.2.4) (2021-11-04)
+
+
+### Bug Fixes
+
+* **transferdomain:** remove additional field for .nu transfers ([3185849](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/3185849b0a4a883f708ca1a04892be3cf60c5a78))
+
 ## [7.2.3](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.2...v7.2.3) (2021-11-03)
 
 
