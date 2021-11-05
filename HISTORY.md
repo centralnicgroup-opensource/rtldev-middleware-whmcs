@@ -1,3 +1,10 @@
+## [7.2.5](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.4...v7.2.5) (2021-11-05)
+
+
+### Bug Fixes
+
+* **transferdomain:** request not forwarded to backend system ([df64c43](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/df64c43c2491c645e4afff775bad142cd38229d8))
+
 ## [7.2.4](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.3...v7.2.4) (2021-11-04)
 
 
