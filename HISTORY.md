@@ -1,3 +1,10 @@
+## [7.2.6](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.5...v7.2.6) (2021-11-09)
+
+
+### Bug Fixes
+
+* **transferdomain:** generic mechanism for eliminating additional fields not supported by transfer ([415bcd0](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/415bcd0204cf93966ac1d9546f0f0a4779d69558))
+
 ## [7.2.5](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.4...v7.2.5) (2021-11-05)
 
 
