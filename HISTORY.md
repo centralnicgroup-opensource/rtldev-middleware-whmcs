@@ -1,3 +1,10 @@
+## [7.2.7](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.6...v7.2.7) (2021-11-10)
+
+
+### Bug Fixes
+
+* **registrar tld sync:** exclude breaking IDN TLD .XN--HX814E for now (RSRBE-6790) ([b2c98c0](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/b2c98c05310c169251eb879410b77cbb36773d57))
+
 ## [7.2.6](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.5...v7.2.6) (2021-11-09)
 
 
