@@ -1,3 +1,10 @@
+## [7.2.8](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.7...v7.2.8) (2021-11-19)
+
+
+### Bug Fixes
+
+* **irtp:** fix IRTP detection ([2bbf3cc](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/2bbf3cc8ac7f8624d5f0eee9fdc797838acac93b))
+
 ## [7.2.7](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.6...v7.2.7) (2021-11-10)
 
 
