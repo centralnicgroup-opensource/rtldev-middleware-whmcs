@@ -1,3 +1,16 @@
+## [7.2.9](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.8...v7.2.9) (2021-11-29)
+
+
+### Bug Fixes
+
+* **.nu:** no Additional Fields Configuration for Trade ([9fdcff4](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/9fdcff40cbd86ece4b11e476c161548b20f8bd4e))
+
+
+### Performance Improvements
+
+* **registrar tld sync:** minimize idn conversion runtime of IDN TLDs ([048b195](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/048b19540d0f84784aa9a12a10f0aabeb8e78aa9))
+* **zone configuration cache:** added caching mechanism to QueryDomain(Options|Repository) calls ([bdeb39f](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/bdeb39fe6d43c42cf9442f14ce81e715daa45a24))
+
 ## [7.2.8](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.7...v7.2.8) (2021-11-19)
 
 
