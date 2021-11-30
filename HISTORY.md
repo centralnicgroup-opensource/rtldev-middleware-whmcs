@@ -1,3 +1,10 @@
+## [7.2.10](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.9...v7.2.10) (2021-11-30)
+
+
+### Bug Fixes
+
+* **.nu:** additional domain fields for change of owner fixed ([264d8e2](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/264d8e23842be0316878bfb0e96b033f2cfa1c35))
+
 ## [7.2.9](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.8...v7.2.9) (2021-11-29)
 
 
