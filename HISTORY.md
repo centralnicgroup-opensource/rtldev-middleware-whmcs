@@ -1,3 +1,10 @@
+## [7.2.12](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.11...v7.2.12) (2021-12-06)
+
+
+### Bug Fixes
+
+* **domain synchronization:** fix status after expiration (transferred away / expired / unchanged) ([f97bc74](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/f97bc74b0e2c7fcf04857fc058a3a9e452094934))
+
 ## [7.2.11](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.10...v7.2.11) (2021-12-01)
 
 
