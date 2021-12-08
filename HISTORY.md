@@ -1,3 +1,10 @@
+## [7.2.13](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.12...v7.2.13) (2021-12-08)
+
+
+### Bug Fixes
+
+* **data gathering:** added missing whereIn clause and registrar configuration option ([d4f894b](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/d4f894b03527b22f8f9913ea407bcdc80d9a7383))
+
 ## [7.2.12](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.11...v7.2.12) (2021-12-06)
 
 
