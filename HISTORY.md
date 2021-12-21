@@ -1,3 +1,10 @@
+## [7.2.14](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.13...v7.2.14) (2021-12-21)
+
+
+### Bug Fixes
+
+* **additional fields:** suppress additional fields for repository owners ([fd888d0](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/fd888d0e7a440b2f93e480dff6093aa9d98fb2c4))
+
 ## [7.2.13](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.12...v7.2.13) (2021-12-08)
 
 
