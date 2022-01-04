@@ -1,3 +1,11 @@
+## [7.2.15](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.14...v7.2.15) (2022-01-04)
+
+
+### Bug Fixes
+
+* **.ae:** removed all additional fields (deprecated) ([181511e](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/181511eaa877234e453393e4d99e8f8d2f7f23bd))
+* **.ca:** added contact confirmation menu entry ([389d645](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/389d645118ee166cf8bc820255ecec309b3d2688))
+
 ## [7.2.14](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.13...v7.2.14) (2021-12-21)
 
 
