@@ -1,3 +1,10 @@
+## [7.2.16](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.15...v7.2.16) (2022-01-10)
+
+
+### Bug Fixes
+
+* **additional domain fields:** reviewed .de fields autocompletion ([87f4abf](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/87f4abf05f740639fb2d44ada48ccb06c647b736))
+
 ## [7.2.15](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.14...v7.2.15) (2022-01-04)
 
 
