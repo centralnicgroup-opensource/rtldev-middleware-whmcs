@@ -1,3 +1,10 @@
+## [7.2.17](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.16...v7.2.17) (2022-01-11)
+
+
+### Bug Fixes
+
+* **.de:** fixed issue with autocompletion when not having additional fields filled ([6bf2819](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/6bf2819025d4348f469fceb1caad6e10c3b1bc46))
+
 ## [7.2.16](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.15...v7.2.16) (2022-01-10)
 
 
