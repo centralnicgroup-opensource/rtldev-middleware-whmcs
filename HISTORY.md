@@ -1,3 +1,10 @@
+## [7.2.18](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.17...v7.2.18) (2022-02-01)
+
+
+### Bug Fixes
+
+* **transfersync:** fixed transfer failure log lookup ([4041f45](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/4041f45f8c46e13455453f64849f6f4230017888))
+
 ## [7.2.17](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.16...v7.2.17) (2022-01-11)
 
 
