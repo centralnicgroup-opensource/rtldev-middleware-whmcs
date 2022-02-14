@@ -1,3 +1,10 @@
+## [7.2.19](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.18...v7.2.19) (2022-02-14)
+
+
+### Bug Fixes
+
+* **registrar tld sync:** prepare for WHMCS Core Patch #CORE-17488 ([79e0207](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/79e0207bfba76b8b35fbe8b562edd8a1b5aa5443)), closes [#CORE-17488](https://github.com/hexonet/whmcs-ispapi-registrar-src/issues/CORE-17488)
+
 ## [7.2.18](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.17...v7.2.18) (2022-02-01)
 
 
