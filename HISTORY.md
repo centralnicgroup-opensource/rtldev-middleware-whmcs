@@ -1,3 +1,10 @@
+## [7.2.20](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.19...v7.2.20) (2022-02-21)
+
+
+### Bug Fixes
+
+* **additional fields:** add missing fields for .day ([4c623a6](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/4c623a6aa73244104e2fbc8bc4b9e7e3c378c42e))
+
 ## [7.2.19](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.18...v7.2.19) (2022-02-14)
 
 
