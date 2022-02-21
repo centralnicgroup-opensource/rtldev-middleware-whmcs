@@ -301,6 +301,21 @@ $additionaldomainfields[".dentist"][] = [
     "Ispapi-Name" => "X-DENTIST-ACCEPT-HIGHLY-REGULATED-TAC"
 ];
 
+## .DAY
+$additionaldomainfields[".day"] = [];
+$additionaldomainfields[".day"][] = [
+    "Name" => "Agreement",
+    "Type" => "tickbox",
+    "Description" => (
+        "You acknowledge that .DAY is a secured namespace, meaning that " .
+        ".DAY domain names require an SSL certificate to work. Websites " .
+        "using a .DAY domain name can only be accessed by web browsers " .
+        "using HTTPS through an encrypted and secured connection."
+    ),
+    "Required" => true,
+    "Ispapi-Name" => "X-ACCEPT-SSL-REQUIREMENT"
+];
+
 ## .DK DOMAIN REQUIREMENTS ##
 $additionaldomainfields[".dk"] = [];
 /*
