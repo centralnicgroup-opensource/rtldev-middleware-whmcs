@@ -1,3 +1,10 @@
+## [7.2.21](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.20...v7.2.21) (2022-03-01)
+
+
+### Bug Fixes
+
+* **additional fields:** consider contact data for .ro transfers ([fcb6c55](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/fcb6c55e9c6627ac1d7ab3e62d14d9d45d07edfd))
+
 ## [7.2.20](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.19...v7.2.20) (2022-02-21)
 
 
