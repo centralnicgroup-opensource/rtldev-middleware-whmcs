@@ -1,3 +1,10 @@
+## [7.2.22](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.21...v7.2.22) (2022-03-03)
+
+
+### Bug Fixes
+
+* **additional fields:** add .ca agreement field ([f7dc1c4](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/f7dc1c465b7a8348acdce588b78c88fec08e3d66))
+
 ## [7.2.21](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.20...v7.2.21) (2022-03-01)
 
 
