@@ -1,3 +1,10 @@
+## [7.2.23](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.22...v7.2.23) (2022-03-07)
+
+
+### Bug Fixes
+
+* **zoneinfo:** correct return types for zoneinfo functions ([6302484](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/6302484aa06ef406264c198a1ea174e6749a142f))
+
 ## [7.2.22](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.21...v7.2.22) (2022-03-03)
 
 
