@@ -1,3 +1,10 @@
+## [7.2.24](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.23...v7.2.24) (2022-03-21)
+
+
+### Bug Fixes
+
+* **additional fields:** .AU TLD soon in GA (Pre-Regs/Grandfathering not supported in WHMCS) ([bbefa90](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/bbefa9044f2e80b391e79e78b77e0361bdf85461))
+
 ## [7.2.23](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.22...v7.2.23) (2022-03-07)
 
 
