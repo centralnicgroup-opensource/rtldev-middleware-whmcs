@@ -1,3 +1,10 @@
+## [7.2.25](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.24...v7.2.25) (2022-03-21)
+
+
+### Bug Fixes
+
+* **.de:** reviewed requesting EPP/Authorization Code Process ([8e03ec6](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/8e03ec6825cc54461433f987df44d1d8379700ae))
+
 ## [7.2.24](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.23...v7.2.24) (2022-03-21)
 
 
