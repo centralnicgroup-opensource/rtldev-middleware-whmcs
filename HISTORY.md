@@ -1,3 +1,15 @@
+# [8.0.0](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.25...v8.0.0) (2022-03-22)
+
+
+### Code Refactoring
+
+* **api connector:** migrated to the new CentralNic SDK ([deee40c](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/deee40cc2372fc390bc87bf480cbff5ae4f9c37b))
+
+
+### BREAKING CHANGES
+
+* **api connector:** No need to upgrade as this release is just switching internal dependencies. New Major Version required as we connect now to a different API endpoint in Testmode (OT&E): api-ote.ispapi.net:443
+
 ## [7.2.25](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.24...v7.2.25) (2022-03-21)
 
 
