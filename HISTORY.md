@@ -1,3 +1,10 @@
+## [8.0.1](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.0.0...v8.0.1) (2022-03-23)
+
+
+### Bug Fixes
+
+* **savedns:** filter out Resource Record Duplicates before saving and ending in an API error ([01e3823](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/01e3823984261576547a38fc49fc236487862ff3))
+
 # [8.0.0](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v7.2.25...v8.0.0) (2022-03-22)
 
 
