@@ -1,3 +1,10 @@
+## [8.0.2](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.0.1...v8.0.2) (2022-03-25)
+
+
+### Bug Fixes
+
+* **premium transfers:** WHMCS fixed CORE-14055 allowing us to get premium transfers covered ([14f6fe2](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/14f6fe289e6a03b0754f0568aed3c3cd31f9d462))
+
 ## [8.0.1](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.0.0...v8.0.1) (2022-03-23)
 
 
