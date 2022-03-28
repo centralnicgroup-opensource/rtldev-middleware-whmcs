@@ -1,3 +1,10 @@
+## [8.0.4](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.0.3...v8.0.4) (2022-03-28)
+
+
+### Bug Fixes
+
+* **.de:** fixed wrong transfer price import ([d46e819](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/d46e819ae5957854b535c76dc0aa68301ae50e10))
+
 ## [8.0.3](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.0.2...v8.0.3) (2022-03-28)
 
 
