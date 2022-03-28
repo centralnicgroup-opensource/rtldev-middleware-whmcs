@@ -1,3 +1,10 @@
+## [8.0.3](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.0.2...v8.0.3) (2022-03-28)
+
+
+### Bug Fixes
+
+* **api connector:** upgraded to v7.0.6 of our connector library with deactivated CURLOPT_VERBOSE ([ead58cd](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/ead58cd3dd35e4f1ce4319b514d870d89d2e51b7))
+
 ## [8.0.2](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.0.1...v8.0.2) (2022-03-25)
 
 
