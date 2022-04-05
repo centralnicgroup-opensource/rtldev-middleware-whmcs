@@ -1,3 +1,10 @@
+## [8.0.5](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.0.4...v8.0.5) (2022-04-05)
+
+
+### Bug Fixes
+
+* **registrar tld sync:** issue with importing 3rd level TLDs ([1f6f263](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/1f6f26369d03e12626cf08fa89249337e11b0263)), closes [#223](https://github.com/hexonet/whmcs-ispapi-registrar-src/issues/223)
+
 ## [8.0.4](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.0.3...v8.0.4) (2022-03-28)
 
 
