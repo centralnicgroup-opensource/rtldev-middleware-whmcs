@@ -1,3 +1,10 @@
+## [8.0.6](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.0.5...v8.0.6) (2022-04-06)
+
+
+### Bug Fixes
+
+* **registrar tld sync:** support IRT currency and check unsupported currency / registration period ([6527396](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/6527396c5c4f21961a9e294a863d6bc5719a0912))
+
 ## [8.0.5](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.0.4...v8.0.5) (2022-04-05)
 
 
