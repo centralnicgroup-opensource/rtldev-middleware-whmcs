@@ -1,3 +1,10 @@
+## [8.0.7](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.0.6...v8.0.7) (2022-04-07)
+
+
+### Performance Improvements
+
+* **idn conversion:** only convert idn domains to punycode ([5f6fb6a](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/5f6fb6a967cd4853b0eeb3c32dfc1fc1f13bb82b))
+
 ## [8.0.6](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.0.5...v8.0.6) (2022-04-06)
 
 
