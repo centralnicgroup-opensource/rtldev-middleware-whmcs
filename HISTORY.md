@@ -1,3 +1,10 @@
+# [8.1.0](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.0.8...v8.1.0) (2022-04-12)
+
+
+### Features
+
+* **high performance setup:** now supported. Check the link in the registrar module configuration ([e8433c3](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/e8433c3cfe618a9f06e7bdd4187c1b86a9590f5a))
+
 ## [8.0.8](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.0.7...v8.0.8) (2022-04-11)
 
 
