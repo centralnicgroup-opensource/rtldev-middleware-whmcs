@@ -1,3 +1,10 @@
+## [8.1.1](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.1.0...v8.1.1) (2022-04-13)
+
+
+### Bug Fixes
+
+* **savecontactdetails:** fetching trade costs may fail (ispapi_tblrelations may not exist) ([fb07781](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/fb07781ca77075297e45e8bded58385d8efe63e7))
+
 # [8.1.0](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.0.8...v8.1.0) (2022-04-12)
 
 
