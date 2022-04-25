@@ -1,3 +1,10 @@
+## [8.1.2](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.1.1...v8.1.2) (2022-04-25)
+
+
+### Bug Fixes
+
+* **.id.au:** not requiring additional domain fields ([031bac1](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/031bac122ff8531d8cd8f09e830a05d6866e5c52))
+
 ## [8.1.1](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.1.0...v8.1.1) (2022-04-13)
 
 
