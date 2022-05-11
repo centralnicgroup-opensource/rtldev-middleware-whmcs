@@ -1,3 +1,15 @@
+## [8.1.3](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.1.2...v8.1.3) (2022-05-11)
+
+
+### Bug Fixes
+
+* **registrar tld sync:** fix price import where SETUP relation is absent (still valid) ([4d1d773](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/4d1d77335596fe5d953a9d48e506ca3e04ed5584))
+
+
+### Performance Improvements
+
+* **transferdomain:** less idn conversions ([a4d31b0](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/a4d31b0a0c533048be62d63d83b2f17bf064aecf))
+
 ## [8.1.2](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.1.1...v8.1.2) (2022-04-25)
 
 
