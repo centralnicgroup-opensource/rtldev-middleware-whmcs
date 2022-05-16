@@ -1,3 +1,10 @@
+## [8.1.4](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.1.3...v8.1.4) (2022-05-16)
+
+
+### Bug Fixes
+
+* **auto-suspension:** fixed to happen in all cases of domain expiration ([cea84bd](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/cea84bde4025ded9ca8be5b900fb093318d7529e))
+
 ## [8.1.3](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.1.2...v8.1.3) (2022-05-11)
 
 
