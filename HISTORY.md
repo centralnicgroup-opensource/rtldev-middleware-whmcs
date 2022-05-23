@@ -1,3 +1,10 @@
+## [8.1.5](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.1.4...v8.1.5) (2022-05-23)
+
+
+### Bug Fixes
+
+* **dep-bump:** upgrade api connector (PHP-SDK) to 7.1.1 ([54b0a81](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/54b0a815247949a5cee9b32d79c91bbd4518e798))
+
 ## [8.1.4](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.1.3...v8.1.4) (2022-05-16)
 
 
