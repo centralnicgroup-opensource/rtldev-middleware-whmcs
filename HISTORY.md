@@ -1,3 +1,10 @@
+## [8.1.6](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.1.5...v8.1.6) (2022-06-03)
+
+
+### Bug Fixes
+
+* **additional fields:** patched .us Intended Use field's translations ([4cae05a](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/4cae05a44f3f8f35297cbdd208faa8f58a0a2f4a))
+
 ## [8.1.5](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.1.4...v8.1.5) (2022-05-23)
 
 
