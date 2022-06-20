@@ -1,3 +1,17 @@
+## [8.1.8](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.1.7...v8.1.8) (2022-06-20)
+
+
+### Bug Fixes
+
+* **additional fields:** fixed issue with corner case platforms ([6a2bf5b](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/6a2bf5b80aee41146c3c107541b46a3d075a871e)), closes [#226](https://github.com/hexonet/whmcs-ispapi-registrar-src/issues/226)
+
+## [8.1.7](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.1.6...v8.1.7) (2022-06-20)
+
+
+### Bug Fixes
+
+* **premium domains:** price detection for premium renewal validation patched ([944ac77](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/944ac77bf3a280968d103c1b60478302229f6f65))
+
 ## [8.1.6](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.1.5...v8.1.6) (2022-06-03)
 
 
