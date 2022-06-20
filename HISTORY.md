@@ -1,3 +1,10 @@
+## [8.1.9](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.1.8...v8.1.9) (2022-06-20)
+
+
+### Bug Fixes
+
+* **dep bump:** upgraded PHP-SDK to v7.1.4 ([8c609a7](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/8c609a79fd6b5e742adffa3b832403b645f0f1eb)), closes [#227](https://github.com/hexonet/whmcs-ispapi-registrar-src/issues/227)
+
 ## [8.1.8](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.1.7...v8.1.8) (2022-06-20)
 
 
