@@ -1,3 +1,11 @@
+## [8.1.10](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.1.9...v8.1.10) (2022-06-28)
+
+
+### Bug Fixes
+
+* **dep-bump:** patch php errors that were a result of strict typing of our PHP-SDK ([33fcc99](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/33fcc996eb822a6b6b0d689dc4f0da70cd45ca27))
+* **dep-bump:** removed strict typings from Api Connector Library (patching latest PHP Errors) ([74b355e](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/74b355eccf411b7d4654000159acaadadf7d4ca9))
+
 ## [8.1.9](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.1.8...v8.1.9) (2022-06-20)
 
 
