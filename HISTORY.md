@@ -1,3 +1,10 @@
+## [8.1.11](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.1.10...v8.1.11) (2022-07-05)
+
+
+### Bug Fixes
+
+* **contact verification:** patched detection (working "Resend Verification Email" in Client Area) ([8101aa1](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/8101aa11d88df121b64e2d37c2d86c94d4510ba5))
+
 ## [8.1.10](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.1.9...v8.1.10) (2022-06-28)
 
 
