@@ -1,3 +1,10 @@
+## [8.1.12](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.1.11...v8.1.12) (2022-07-06)
+
+
+### Bug Fixes
+
+* **contact verification:** also consider items in status REMINDED ([a1dd6f4](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/a1dd6f48baa7f1017003d960a10b06e8e58f964a))
+
 ## [8.1.11](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.1.10...v8.1.11) (2022-07-05)
 
 
