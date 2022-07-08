@@ -1,3 +1,10 @@
+# [8.2.0](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.1.12...v8.2.0) (2022-07-08)
+
+
+### Features
+
+* **aftermarket domains:** again supported for our Domain Search Addon ([b1da476](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/b1da47631edb83d78729b6c73bf631e7753ee7b6))
+
 ## [8.1.12](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.1.11...v8.1.12) (2022-07-06)
 
 
