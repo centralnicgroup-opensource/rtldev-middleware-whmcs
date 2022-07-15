@@ -1,3 +1,22 @@
+# [8.4.0](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.3.1...v8.4.0) (2022-07-15)
+
+
+### Bug Fixes
+
+* **getdomaininformation:** only do idn conversion if necessary ([344c3d0](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/344c3d0558909ced08d1579cd77b8032b5130448))
+
+
+### Features
+
+* **ispapi.php:** getaccountdetails function ([035402f](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/035402f52addd4df12fed29cea7a55c690fae3d9))
+
+## [8.3.1](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.3.0...v8.3.1) (2022-07-12)
+
+
+### Bug Fixes
+
+* **composer:** updated php version dependency to ^7.3.0 ([d645589](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/d6455898c8cde83bda3755f88639224fedb3d5b5)), closes [#227](https://github.com/hexonet/whmcs-ispapi-registrar-src/issues/227)
+
 # [8.3.0](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.2.0...v8.3.0) (2022-07-11)
 
 
