@@ -1,3 +1,10 @@
+# [8.5.0](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.4.0...v8.5.0) (2022-07-18)
+
+
+### Features
+
+* **dns management:** create DNS Zone after paid invoice (post-registration addon activation) ([984a9bb](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/984a9bb6cb4bfec92c1a66f5f74fd9c7be0221c8))
+
 # [8.4.0](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.3.1...v8.4.0) (2022-07-15)
 
 
