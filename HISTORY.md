@@ -1,3 +1,25 @@
+## [8.5.2](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.5.1...v8.5.2) (2022-08-16)
+
+
+### Bug Fixes
+
+* **additional fields:** for .coop added (in use by some RegOC customers) ([5a4c642](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/5a4c642a66d9fca0826c3ddac6fcb8b525673b30))
+
+## [8.5.2](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.5.1...v8.5.2) (2022-08-16)
+
+
+### Bug Fixes
+
+* **additional fields:** for .coop added (in use by some RegOC customers) ([5bafc85](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/5bafc858a355be004992f519837811487224c049))
+
+## [8.5.1](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.5.0...v8.5.1) (2022-08-01)
+
+
+### Bug Fixes
+
+* **additional fields:** for .cn reviewed to support Registrant ID-Type QTTYDM as well ([cd79e5f](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/cd79e5fa118a6a19fe067aba12ec0f284305f471))
+* **web apps:** return missing error message in case of dnszone absence ([fc383cb](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/fc383cb89fdc889c057c7b5cc4d7ee24f9d65c65))
+
 # [8.5.0](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.4.0...v8.5.0) (2022-07-18)
 
 
