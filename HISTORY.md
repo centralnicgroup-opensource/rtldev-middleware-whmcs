@@ -1,3 +1,10 @@
+## [8.5.3](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.5.2...v8.5.3) (2022-08-16)
+
+
+### Bug Fixes
+
+* **dependencies:** remove codesniffer / phpstan from dependencies ([2b85c6d](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/2b85c6dbb75565ad553a2a433181477c28cc9df0))
+
 ## [8.5.2](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.5.1...v8.5.2) (2022-08-16)
 
 
