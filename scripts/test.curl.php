@@ -3,7 +3,7 @@
     error_reporting(E_ALL);
     ini_set("display_errors", 1);
 
-    $ch = curl_init("https://api.ispapi.net/api/call.cgi");
+    $ch = curl_init("https://api-ote.ispapi.net/api/call.cgi");
 if ($ch === false) {
     die("CURL: impossible to establish a HTTP Connection;");
 }
