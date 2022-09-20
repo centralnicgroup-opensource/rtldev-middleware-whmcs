@@ -1,3 +1,10 @@
+## [8.5.4](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.5.3...v8.5.4) (2022-09-20)
+
+
+### Bug Fixes
+
+* **composer autoload:** generate optimized autoload files in release process ([333f01a](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/333f01a6d67bc737f49909bf915b60073886d3d8))
+
 ## [8.5.3](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.5.2...v8.5.3) (2022-08-16)
 
 
