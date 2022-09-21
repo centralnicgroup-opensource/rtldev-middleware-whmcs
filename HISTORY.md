@@ -1,3 +1,11 @@
+## [8.5.5](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.5.4...v8.5.5) (2022-09-21)
+
+
+### Performance Improvements
+
+* **registrar lock:** review _getRegistrarLock integration (QueryDomainList V2 -> regular) ([3cfe6f4](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/3cfe6f41219bd64e0f3d656badf8a222962f71f3))
+* **renew domain:** switch from CMD QueryDomainList V2 to regular version ([eaf2844](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/eaf2844d5ef82da7697a52b468974fc99275d8d6))
+
 ## [8.5.4](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.5.3...v8.5.4) (2022-09-20)
 
 
