@@ -1,3 +1,10 @@
+## [8.5.6](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.5.5...v8.5.6) (2022-09-21)
+
+
+### Performance Improvements
+
+* **registrant verification:** request DUEDATE only in case of a verification (1 less api call) ([63051ae](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/63051aeab9422a036670ec22bdefeeb490eeeed8))
+
 ## [8.5.5](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.5.4...v8.5.5) (2022-09-21)
 
 
