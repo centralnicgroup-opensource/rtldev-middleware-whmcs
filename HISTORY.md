@@ -1,3 +1,10 @@
+## [8.5.7](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.5.6...v8.5.7) (2022-10-05)
+
+
+### Performance Improvements
+
+* **registrant verification:** load time improved for finding the due date out ([68e1cf3](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/68e1cf352bdeb82777284d5d465d321618c037b7))
+
 ## [8.5.6](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.5.5...v8.5.6) (2022-09-21)
 
 
