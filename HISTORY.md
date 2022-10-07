@@ -1,3 +1,17 @@
+## [8.5.8](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.5.7...v8.5.8) (2022-10-07)
+
+
+### Bug Fixes
+
+* **dns management:** reviewed zone creation; plus performance: patched useless idn conversion ([c334bca](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/c334bca23080030841094e781ad59b5e9c0588d6))
+
+## [8.5.8](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.5.7...v8.5.8) (2022-10-07)
+
+
+### Bug Fixes
+
+* **dns management:** reviewed zone creation; plus performance: patched useless idn conversion ([c334bca](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/c334bca23080030841094e781ad59b5e9c0588d6))
+
 ## [8.5.7](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.5.6...v8.5.7) (2022-10-05)
 
 
