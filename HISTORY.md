@@ -1,3 +1,24 @@
+## [8.5.9](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.5.8...v8.5.9) (2022-10-12)
+
+
+### Bug Fixes
+
+* **registrant verification:** patched resending button (wrong API command used) ([e176fe9](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/e176fe9f6a0f41d30fa29051f84078a046ecb608))
+
+## [8.5.9](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.5.8...v8.5.9) (2022-10-12)
+
+
+### Bug Fixes
+
+* **registrant verification:** patched resending button (wrong API command used) ([e176fe9](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/e176fe9f6a0f41d30fa29051f84078a046ecb608))
+
+## [8.5.9](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.5.8...v8.5.9) (2022-10-12)
+
+
+### Bug Fixes
+
+* **registrant verification:** patched resending button (wrong API command used) ([e176fe9](https://github.com/hexonet/whmcs-ispapi-registrar-src/commit/e176fe9f6a0f41d30fa29051f84078a046ecb608))
+
 ## [8.5.8](https://github.com/hexonet/whmcs-ispapi-registrar-src/compare/v8.5.7...v8.5.8) (2022-10-07)
 
 
