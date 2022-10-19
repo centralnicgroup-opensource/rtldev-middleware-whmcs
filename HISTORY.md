@@ -1,3 +1,11 @@
+## [16.0.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.0.1...v16.0.2) (2022-10-19)
+
+
+### Bug Fixes
+
+* **domainchecker:** default categories import fix, build-release workflow fix, gulp config updated ([ff4b211](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/ff4b211d11e8fb34b897b984cad96b2043d39ca8))
+* **ispapi domain search:** fix multi-year terms dropdown order (10Y now after 9Y) ([1918b72](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/1918b72d4f9936f53ab22b250e9b85bbb2318fda))
+
 ## [16.0.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.0.0...v16.0.1) (2022-10-19)
 
 
