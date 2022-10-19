@@ -1,3 +1,10 @@
+## [16.0.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.0.2...v16.0.3) (2022-10-19)
+
+
+### Bug Fixes
+
+* **gulp:** updated encryption files list ([150e603](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/150e603df47a2257b550be21144ebc665fb64451))
+
 ## [16.0.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.0.1...v16.0.2) (2022-10-19)
 
 
