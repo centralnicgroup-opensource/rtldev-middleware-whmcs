@@ -1,3 +1,10 @@
+## [16.1.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.1.1...v16.1.2) (2022-10-20)
+
+
+### Bug Fixes
+
+* **hx registrar module:** patch autoloading of function in hooks.php ([247411d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/247411d60b2840c5975a6bd1a0e056f46a29381b))
+
 ## [16.1.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.1.0...v16.1.1) (2022-10-20)
 
 
