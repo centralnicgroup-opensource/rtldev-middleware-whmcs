@@ -1,3 +1,10 @@
+## [16.1.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.1.0...v16.1.1) (2022-10-20)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** nameserver update patched ([da45fc5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/da45fc5f721429f6f5a34018491c8a6086c66d84))
+
 # [16.1.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.0.3...v16.1.0) (2022-10-20)
 
 
