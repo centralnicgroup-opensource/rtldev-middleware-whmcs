@@ -1,3 +1,15 @@
+# [16.1.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.0.3...v16.1.0) (2022-10-20)
+
+
+### Bug Fixes
+
+* **cnic-ssl:** fix several issues and add PHP 8.1 compatibility ([65b76e9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/65b76e9126a5f71f3528a0436151c2f24d89d370))
+
+
+### Features
+
+* **precheck addons:** automatically precheck addons on cart level page, feature added ([fdbba09](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/fdbba091533b78eeb081d32e9bcf6eec418429b6))
+
 ## [16.0.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.0.2...v16.0.3) (2022-10-19)
 
 
