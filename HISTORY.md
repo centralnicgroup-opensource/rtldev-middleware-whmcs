@@ -1,3 +1,10 @@
+## [16.1.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.1.2...v16.1.3) (2022-10-20)
+
+
+### Bug Fixes
+
+* **cnr registrar module:** patch autoloading of function in hooks.php ([44fc4d5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/44fc4d5ead6e8c202d862c5da722e7595d899ad6))
+
 ## [16.1.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.1.1...v16.1.2) (2022-10-20)
 
 
