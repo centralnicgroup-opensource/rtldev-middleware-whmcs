@@ -1,3 +1,10 @@
+## [16.2.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.2.0...v16.2.1) (2022-11-07)
+
+
+### Bug Fixes
+
+* **migrator:** Fix for migrator when fetching domain status ([f6f8f15](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/f6f8f15a020505778749901ebd48e18f9c9e08b2))
+
 # [16.2.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.1.3...v16.2.0) (2022-11-07)
 
 
