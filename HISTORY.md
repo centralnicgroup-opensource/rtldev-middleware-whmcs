@@ -1,3 +1,10 @@
+## [16.2.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.2.2...v16.2.3) (2022-11-07)
+
+
+### Bug Fixes
+
+* **tld-eu:** remove unnecessary parameter that prevented .eu transfers ([0ef425d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/0ef425d2bb5fcfe7eeac8e83796af5a1f19863f3))
+
 ## [16.2.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.2.1...v16.2.2) (2022-11-07)
 
 
