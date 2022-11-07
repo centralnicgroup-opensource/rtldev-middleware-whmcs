@@ -1,3 +1,17 @@
+# [16.2.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.1.3...v16.2.0) (2022-11-07)
+
+
+### Bug Fixes
+
+* **cnicmigration:** fix link to documentation ([5cca1e7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/5cca1e7e49623c3f969b83257f07752f9ce9e506))
+* **ispapi registrar module:** extend TLD Mapping (.edu.mx <-> EDUMX) ([4ba43b5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/4ba43b58b3e0d85be11be57c9e6c70c65846f5b7))
+
+
+### Features
+
+* **cnicmigration:** show warning if email templates have not been configured ([9e3712c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/9e3712c9127a1cabf69ce138090dbe142bd05965))
+* **cnicssl:** add ability to download certificates ([8d438d4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/8d438d415e57b22abb14e1e76f5f475da0795662))
+
 ## [16.1.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.1.2...v16.1.3) (2022-10-20)
 
 
