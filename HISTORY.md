@@ -1,3 +1,10 @@
+## [16.2.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.2.1...v16.2.2) (2022-11-07)
+
+
+### Bug Fixes
+
+* **autoloading:** autoloading fixes when modules are deactivated ([3cb4273](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/3cb4273cdb9d1862bc0a0f418111a87fbce71cd5))
+
 ## [16.2.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.2.0...v16.2.1) (2022-11-07)
 
 
