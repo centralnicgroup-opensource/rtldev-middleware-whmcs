@@ -1,3 +1,15 @@
+# [16.3.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.2.3...v16.3.0) (2022-11-08)
+
+
+### Bug Fixes
+
+* **ioncube:** support for php 8.1 and 7.4 ([792fba2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/792fba25170ab5fca3b203f467e9682acbf38c92))
+
+
+### Features
+
+* **hexonet registrar module:** post-transfer activation of DNS Management added ([df0b81b](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/df0b81bf363a3194e323f39a949b3eda021462d8))
+
 ## [16.2.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.2.2...v16.2.3) (2022-11-07)
 
 
