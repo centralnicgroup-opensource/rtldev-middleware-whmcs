@@ -1,3 +1,10 @@
+## [16.3.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.3.1...v16.3.2) (2022-11-09)
+
+
+### Bug Fixes
+
+* **ioncube:** fixed corrupt files issue by separating archives for php versions ([bd1c861](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/bd1c86181ca43b2c376052ebdfc72e75847e6397))
+
 ## [16.3.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.3.0...v16.3.1) (2022-11-09)
 
 
