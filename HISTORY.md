@@ -1,3 +1,10 @@
+## [16.3.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.3.0...v16.3.1) (2022-11-09)
+
+
+### Bug Fixes
+
+* **ioncube:** encoding order fix higher to lower ([a75d8ac](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/a75d8ac422dcc98cb914440b6ef2a386cb8342fb))
+
 # [16.3.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.2.3...v16.3.0) (2022-11-08)
 
 
