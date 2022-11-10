@@ -30,16 +30,8 @@
             {
                 "assets": [
                     {
-                        "label": "WHMCS Software Bundle for PHP <7.4 (zip)",
+                        "label": "WHMCS Software Bundle (zip)",
                         "path": "whmcs-cnic-bundle.zip"
-                    },
-                    {
-                        "label": "WHMCS Software Bundle for PHP >=7.4 (zip)",
-                        "path": "whmcs-cnic-bundle-74.zip"
-                    },
-                    {
-                        "label": "WHMCS Software Bundle for PHP 8 (zip)",
-                        "path": "whmcs-cnic-bundle-81.zip"
                     }
                 ]
             }

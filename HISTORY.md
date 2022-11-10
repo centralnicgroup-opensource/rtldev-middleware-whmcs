@@ -1,3 +1,11 @@
+## [16.3.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.3.3...v16.3.4) (2022-11-10)
+
+
+### Bug Fixes
+
+* **ioncube:** php version encoding bundling - fixes corrupt files ([38c80e4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/38c80e49961352bb5a2ac88fd518862bac3b7e74))
+* **widgets:** widget error fixed, index.tpl not found ([1e00b77](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/1e00b770da34e3e079ff611e792619bbf4d7dad9))
+
 ## [16.3.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.3.2...v16.3.3) (2022-11-10)
 
 
