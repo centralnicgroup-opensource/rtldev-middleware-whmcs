@@ -1,3 +1,10 @@
+## [16.3.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.3.2...v16.3.3) (2022-11-10)
+
+
+### Bug Fixes
+
+* **translations:** patching additional fields  translation (different lang used that we don't ship) ([34ceaa2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/34ceaa2b7eb61aa062631c35d4ff76ad731fa258))
+
 ## [16.3.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.3.1...v16.3.2) (2022-11-09)
 
 
