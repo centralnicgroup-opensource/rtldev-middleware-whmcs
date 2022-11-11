@@ -1,3 +1,10 @@
+## [16.3.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.3.4...v16.3.5) (2022-11-11)
+
+
+### Bug Fixes
+
+* **widget:** widget styling fixes for Windows OS users ([55b35e4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/55b35e4a8d3ab2ebeccc515f08ccd84398ac572c))
+
 ## [16.3.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.3.3...v16.3.4) (2022-11-10)
 
 
