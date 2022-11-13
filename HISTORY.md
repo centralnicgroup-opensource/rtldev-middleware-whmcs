@@ -1,3 +1,10 @@
+## [16.3.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.3.5...v16.3.6) (2022-11-13)
+
+
+### Bug Fixes
+
+* **migration:** failure message is now displayed correctly ([a780a1a](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/a780a1a49de3e31baca0f3c1069fd3a4f5a66307))
+
 ## [16.3.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.3.4...v16.3.5) (2022-11-11)
 
 
