@@ -1,3 +1,10 @@
+# [16.4.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.3.7...v16.4.0) (2022-11-14)
+
+
+### Features
+
+* **dashboard widget:** total request/query limit quota shown on Hexonet (Ispapi) widget ([bb1be6f](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/bb1be6f0ec9285b92f4c340c999579dec172bbc4))
+
 ## [16.3.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.3.6...v16.3.7) (2022-11-14)
 
 
