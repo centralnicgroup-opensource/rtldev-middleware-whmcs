@@ -1,3 +1,10 @@
+## [16.4.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.4.0...v16.4.1) (2022-11-14)
+
+
+### Bug Fixes
+
+* **cnicmigration:** fix email template paths ([cf9d4dc](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/cf9d4dcf70596c5c925f12c4fcea90e7b92ff9dd))
+
 # [16.4.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.3.7...v16.4.0) (2022-11-14)
 
 
