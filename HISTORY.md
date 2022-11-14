@@ -1,3 +1,10 @@
+## [16.3.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.3.6...v16.3.7) (2022-11-14)
+
+
+### Bug Fixes
+
+* **license:** changes to our LICENSE and COPYRIGHTS ([6a14a19](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/6a14a1907ba6aa0b6784962312b3436d6870a943))
+
 ## [16.3.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.3.5...v16.3.6) (2022-11-13)
 
 
