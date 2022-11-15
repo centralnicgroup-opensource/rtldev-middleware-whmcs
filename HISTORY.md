@@ -1,3 +1,10 @@
+# [16.5.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.4.1...v16.5.0) (2022-11-15)
+
+
+### Features
+
+* **domain checker:** support language overrides ([720d026](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/720d026c8c96accfbc719fe81974fe560db934fa))
+
 ## [16.4.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.4.0...v16.4.1) (2022-11-14)
 
 
