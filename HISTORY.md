@@ -1,3 +1,10 @@
+# [16.6.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.5.0...v16.6.0) (2022-11-18)
+
+
+### Features
+
+* **statistics:** extended statistics data functionality ([cac452d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/cac452d993b4feaec8822ee5aa60f24daa19ff37))
+
 # [16.5.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.4.1...v16.5.0) (2022-11-15)
 
 
