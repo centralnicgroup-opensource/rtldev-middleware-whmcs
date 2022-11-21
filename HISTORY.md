@@ -1,3 +1,11 @@
+## [16.6.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.6.0...v16.6.1) (2022-11-21)
+
+
+### Bug Fixes
+
+* **widget:** quota usage Infinity (INF) percentage fix ([c4d14cb](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/c4d14cbf958a94b6d4d36e9a665858f911ccd214))
+* **widget:** quota usage Infinity (INF) percentage fix ([4e5a158](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/4e5a158f978d24b843da91f2d41beb10d13eaf4e))
+
 # [16.6.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.5.0...v16.6.0) (2022-11-18)
 
 
