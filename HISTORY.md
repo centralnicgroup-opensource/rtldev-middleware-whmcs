@@ -1,3 +1,11 @@
+## [16.6.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.6.1...v16.6.2) (2022-11-23)
+
+
+### Bug Fixes
+
+* **domain-import:** premium domains import pricing fix ([97c5449](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/97c54495c2ca328103cc68359515b1ffe17ce008))
+* **premium price detection:** for corner cases (probably just affecting the OT&E) patched ([19808af](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/19808af5f57ee42b527094c116dbd8809b2e0c76))
+
 ## [16.6.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.6.0...v16.6.1) (2022-11-21)
 
 

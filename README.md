@@ -4,7 +4,7 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 This Repository covers the WHMCS Software Bundle provided by the CentralNic Group PLC.
-Download the ZIP archive including the latest release version [here](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/raw/main/whmcs-cnic-bundle.zip).
+Download the ZIP archive including the latest release version [here](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/raw/master/whmcs-cnic-bundle-latest.zip).
 
 In this Bundle we include:
 
