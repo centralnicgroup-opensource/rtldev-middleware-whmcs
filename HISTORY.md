@@ -1,3 +1,10 @@
+## [16.6.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.6.2...v16.6.3) (2022-11-29)
+
+
+### Bug Fixes
+
+* **php8 support:** patched compatibility of DB Interactivity + Transactions ([3bd576c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/3bd576cc04c8a4b4061482f4054ee96c7a6db3a0))
+
 ## [16.6.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.6.1...v16.6.2) (2022-11-23)
 
 
