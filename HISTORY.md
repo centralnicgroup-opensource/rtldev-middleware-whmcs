@@ -1,3 +1,10 @@
+## [16.6.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.6.3...v16.6.4) (2022-11-29)
+
+
+### Bug Fixes
+
+* **php8 support:** replacing mktime() with time() ([481c178](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/481c17855879fc066444bcf49224d4e7cae639da))
+
 ## [16.6.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.6.2...v16.6.3) (2022-11-29)
 
 
