@@ -1,3 +1,16 @@
+# [16.7.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.6.5...v16.7.0) (2022-11-30)
+
+
+### Bug Fixes
+
+* **aftermarket domains:** consider registrar module setting in ISPAPI Domain Checker ([7b067d9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/7b067d90d9b65774d5c03ffc53a9af92391d231b))
+* **aftermarket domains:** review aftermarket premium domains to display with label "AFTERMARKET" ([7b32b04](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/7b32b047ca7ae2403e7a0bce7ec8f6fec28cd9f3))
+
+
+### Features
+
+* **aftermarket domains:** configuration option added to registrar module (by default: off) ([af487fe](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/af487fe8c6a8122e0fd166ce70203fd6889af4c1))
+
 ## [16.6.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.6.4...v16.6.5) (2022-11-30)
 
 
