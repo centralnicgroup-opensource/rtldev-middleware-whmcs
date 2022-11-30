@@ -1,3 +1,13 @@
+## [16.6.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.6.4...v16.6.5) (2022-11-30)
+
+
+### Bug Fixes
+
+* **domain search:** fixed issue with aftermarket pricing detection (non-premium class) ([bb54200](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/bb5420019e80c694e3d64a74b8629f29a108ab76))
+* **domain search:** fixed issue with currency detection and upgrade function ([95baa1c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/95baa1ceb8f128507843166102a114cb8fec71fc))
+* **domain search:** update item count of shopping cart button ([8f836ea](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/8f836ea48b2e9c7873c9f344d49f00fe709847d9))
+* **helper library:** patched db communication wrapper ([7867ebe](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/7867ebe573f072b6cf6c2d071cfed08b0ed74e5f))
+
 ## [16.6.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.6.3...v16.6.4) (2022-11-29)
 
 
