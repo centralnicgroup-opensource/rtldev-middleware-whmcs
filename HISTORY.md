@@ -1,3 +1,18 @@
+# [16.8.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.7.0...v16.8.0) (2022-12-01)
+
+
+### Bug Fixes
+
+* **domain search:** fadeIn/-Out transfer button in search field based on input value ([afe9348](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/afe9348d3b3f209a1b33491bb11a470d3db599fc))
+* **domain search:** patch CSS of toggles (for mobile devices) ([7fb30f9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/7fb30f9669b0bbd596ce3b8ae45d7d5a8f445543))
+* **ispapi registrar module:** patch output of connectivity result in module settings (WHMCS 8.6) ([3411751](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/3411751b4e633c88d1ea4e8bb14a73cc11d5dc6a))
+* **ispapi registrar module:** web apps cfg (file-based solution not working in corner cases) ([d559c6d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/d559c6db9af2ac406c77b8ad52e86c46737e4b56))
+
+
+### Features
+
+* **domain search:** configurable transfer button in search field ([0aad3a6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/0aad3a6586ceb6fa8c6ac2f202d8a3f4fdd446fb))
+
 # [16.7.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.6.5...v16.7.0) (2022-11-30)
 
 
