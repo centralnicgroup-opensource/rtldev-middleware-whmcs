@@ -1,3 +1,10 @@
+## [16.8.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.8.0...v16.8.1) (2022-12-06)
+
+
+### Bug Fixes
+
+* **statistics data:** only submit cnic/ispapi addons in use (for customer support improvements) ([59901a4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/59901a4609aa73e77b65707da6e7230037c32ab4))
+
 # [16.8.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.7.0...v16.8.0) (2022-12-01)
 
 
