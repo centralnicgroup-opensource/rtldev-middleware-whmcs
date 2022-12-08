@@ -1,3 +1,10 @@
+## [16.8.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.8.1...v16.8.2) (2022-12-08)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** patch bug with connected web apps ([da464a8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/da464a8a198388ac85c8ebdf498153f995eec230))
+
 ## [16.8.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.8.0...v16.8.1) (2022-12-06)
 
 
