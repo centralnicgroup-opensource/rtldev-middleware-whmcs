@@ -1,3 +1,10 @@
+## [16.8.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.8.3...v16.8.4) (2022-12-08)
+
+
+### Bug Fixes
+
+* **release process test:** automated publishing to WHMCS Marketplace ([2364cb4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/2364cb4990ab6d665c0160c81b9769a86f125520))
+
 ## [16.8.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.8.2...v16.8.3) (2022-12-08)
 
 
