@@ -1,3 +1,10 @@
+## [16.8.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.8.4...v16.8.5) (2023-01-03)
+
+
+### Bug Fixes
+
+* **assets:** review mechanism for browser cache update ([2e38f67](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/2e38f675b3c9b1c8c768bd3774604e9a9bd1c50e))
+
 ## [16.8.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.8.3...v16.8.4) (2022-12-08)
 
 
