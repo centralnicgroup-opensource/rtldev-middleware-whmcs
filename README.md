@@ -8,30 +8,30 @@ Download the ZIP archive including the latest release version [here](https://git
 
 In this Bundle we include:
 
-* The ISPAPI Registrar Module (our widgets integrated)
-* The ISPAPI Domain Search
-* The CNR (fka. RRPproxy) Registrar Module
-* The CNIC DNS Templating Addon
-* The CNIC SSL Cert Addon
-* The CNIC Domain Importer Addon
-* The CNIC Domain Migrator Addon
+- The ISPAPI Registrar Module (our widgets integrated)
+- The ISPAPI Domain Search
+- The CNR (fka. RRPproxy) Registrar Module
+- The CNIC DNS Templating Addon
+- The CNIC SSL Cert Addon
+- The CNIC Domain Importer Addon
+- The CNIC Domain Migrator Addon
 
 ## Resources
 
-* [Documentation](https://centralnic-reseller.github.io/centralnic-reseller/)
-* [Release Notes](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/releases)
+- [Documentation](https://centralnicgroup-public.github.io/rtldev-middleware-documentation/)
+- [Release Notes](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/releases)
 
 ## Authors
 
-* **Kai Schwarz** - _lead developer_ - [KaiSchwarz-cnic](https://github.com/KaiSchwarz-cnic)
-* **Asif Nawaz** - _developer_ - [AsifNawaz-cnic](https://github.com/AsifNawaz-cnic)
-* **Sebastian Vassiliou** - _developer_ - [SebastianVassiliou-cnic](https://github.com/SebastianVassiliou-cnic)
+- **Kai Schwarz** - _lead developer_ - [KaiSchwarz-cnic](https://github.com/KaiSchwarz-cnic)
+- **Asif Nawaz** - _developer_ - [AsifNawaz-cnic](https://github.com/AsifNawaz-cnic)
+- **Sebastian Vassiliou** - _developer_ - [SebastianVassiliou-cnic](https://github.com/SebastianVassiliou-cnic)
 
 Former Developers:
 
-* **Zoltan Egresi** - [ZoltanEgresi-cnic](https://github.com/ZoltanEgresi-cnic)
-* **Anthony Schneider** - [AnthonySchneider-cnic](https://github.com/AnthonySchneider-cnic)
-* **Tulasi Seelamkurthi** - [Tulsi91](https://github.com/tulsi91)
+- **Zoltan Egresi** - [ZoltanEgresi-cnic](https://github.com/ZoltanEgresi-cnic)
+- **Anthony Schneider** - [AnthonySchneider-cnic](https://github.com/AnthonySchneider-cnic)
+- **Tulasi Seelamkurthi** - [Tulsi91](https://github.com/tulsi91)
 
 ## License
 

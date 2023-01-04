@@ -1,3 +1,15 @@
+# [16.9.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.8.5...v16.9.0) (2023-01-04)
+
+
+### Bug Fixes
+
+* **tweak:** front-end and error messages improvements ([c65a7c6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/c65a7c6b71708d2cb6b1eeceb84f5edd00ce51bb))
+
+
+### Features
+
+* **epp-csv:** bulk Import EPP Codes via CSV file ([2b9d5eb](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/2b9d5ebf4a3e3b99d1174b0988ad0464e43b646f))
+
 ## [16.8.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.8.4...v16.8.5) (2023-01-03)
 
 
