@@ -1,3 +1,10 @@
+## [16.9.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.9.0...v16.9.1) (2023-01-06)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** identify and use right locale for additional domain fields translation ([c78f9ce](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/c78f9cef8fc29e2a71cfb6d1523bb20369cf4234))
+
 # [16.9.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.8.5...v16.9.0) (2023-01-04)
 
 
