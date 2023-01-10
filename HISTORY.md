@@ -1,3 +1,10 @@
+# [16.10.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.9.1...v16.10.0) (2023-01-10)
+
+
+### Features
+
+* **hooks:** support customs hooks by file /your/path/to/whmcs/resources/hooks_ispapi_custom.php ([25f99d8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/25f99d8f3527954d76626807b72361e23c575dfa))
+
 ## [16.9.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.9.0...v16.9.1) (2023-01-06)
 
 
