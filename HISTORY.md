@@ -1,3 +1,11 @@
+## [16.10.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.10.0...v16.10.1) (2023-01-19)
+
+
+### Bug Fixes
+
+* **hx domainchecker:** add missing markup to renewal price for premium domains ([ba93e12](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/ba93e12525cd7e4091c76ce86a94caf6ae5c9daf))
+* **hx domainchecker:** update number of items in shopping cart ([db30f82](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/db30f8240d297d74e18b7bc2278a13d1ce81b96c))
+
 # [16.10.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.9.1...v16.10.0) (2023-01-10)
 
 
