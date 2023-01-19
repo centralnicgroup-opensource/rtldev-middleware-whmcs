@@ -1,3 +1,10 @@
+## [16.10.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.10.1...v16.10.2) (2023-01-19)
+
+
+### Bug Fixes
+
+* **cnic:** add support for old WHMCS v7 ([0946a86](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/0946a867fdb92c3ba6b698cd4eaf97b2685e0eaa))
+
 ## [16.10.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.10.0...v16.10.1) (2023-01-19)
 
 
