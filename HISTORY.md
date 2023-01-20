@@ -1,3 +1,10 @@
+# [16.11.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.10.2...v16.11.0) (2023-01-20)
+
+
+### Features
+
+* **domain checker:** add possibility for subscribing to availability checks ([8a2f63b](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/8a2f63b2be898c6c20213d440d8c721e0e2eeb49))
+
 ## [16.10.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.10.1...v16.10.2) (2023-01-19)
 
 
