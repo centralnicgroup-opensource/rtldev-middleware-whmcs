@@ -1,3 +1,16 @@
+# [16.12.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.11.0...v16.12.0) (2023-01-23)
+
+
+### Bug Fixes
+
+* **hx registrar:** additional fields for .giving ([0a6add5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/0a6add5403edb593ace70caabfb413dce12761e2))
+* **registration:** fix registration failing for some tlds not supporting transfer lock ([503b2f0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/503b2f0ff1e8e2eedf2507637d9750fb70e99016))
+
+
+### Features
+
+* **cnic:** hide transfer lock from Client Area if TLD does not support it ([988fd06](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/988fd06526450e37598e3a072dad59cb63151f07))
+
 # [16.11.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.10.2...v16.11.0) (2023-01-20)
 
 
