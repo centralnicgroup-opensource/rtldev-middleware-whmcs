@@ -1,3 +1,10 @@
+## [16.12.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.12.0...v16.12.1) (2023-01-25)
+
+
+### Bug Fixes
+
+* **cnr:** fix smarty error in renewal protection notification email ([0cb0bb3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/0cb0bb35ac7b1946de9136fbbd110080edeb3283))
+
 # [16.12.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.11.0...v16.12.0) (2023-01-23)
 
 
