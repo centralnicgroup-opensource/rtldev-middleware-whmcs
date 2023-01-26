@@ -1,3 +1,10 @@
+# [16.13.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.12.2...v16.13.0) (2023-01-26)
+
+
+### Features
+
+* **hx mod reg:** auto-unsuspension for renewed domains ([497d03b](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/497d03b2701a171327be9738992496010d25c87c))
+
 ## [16.12.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.12.1...v16.12.2) (2023-01-26)
 
 
