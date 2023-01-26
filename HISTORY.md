@@ -1,3 +1,10 @@
+## [16.12.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.12.1...v16.12.2) (2023-01-26)
+
+
+### Performance Improvements
+
+* **hx reg mod:** Dynamic TLD configuration, tldmap.json file deprecated ([ddd5044](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/ddd50444aeb45e1e16446887db4942b5c7008b66))
+
 ## [16.12.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.12.0...v16.12.1) (2023-01-25)
 
 
