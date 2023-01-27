@@ -1,3 +1,10 @@
+## [16.13.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.13.0...v16.13.1) (2023-01-27)
+
+
+### Bug Fixes
+
+* **cnic pricing import:** clean code refactoring & patching & performance review ([8215d0f](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/8215d0fc9853562808479958dab1a129db76cd6b))
+
 # [16.13.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.12.2...v16.13.0) (2023-01-26)
 
 
