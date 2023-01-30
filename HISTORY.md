@@ -1,3 +1,10 @@
+# [16.14.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.13.1...v16.14.0) (2023-01-30)
+
+
+### Features
+
+* **reg hx mod:** additionalfield  ID Protection support for .AT TLD ([71f2f07](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/71f2f0785722703e5c1283410d5455bbdf99f2eb))
+
 ## [16.13.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.13.0...v16.13.1) (2023-01-27)
 
 
