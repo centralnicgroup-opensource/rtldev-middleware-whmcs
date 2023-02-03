@@ -1,3 +1,10 @@
+## [16.14.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.14.0...v16.14.1) (2023-02-03)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** added .coop additional fields for contact update ([45a819b](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/45a819b6c8320ec59128d1e0e62c16f79af88aa6))
+
 # [16.14.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.13.1...v16.14.0) (2023-01-30)
 
 
