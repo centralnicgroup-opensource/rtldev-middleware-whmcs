@@ -1,3 +1,10 @@
+## [16.14.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.14.1...v16.14.2) (2023-02-03)
+
+
+### Bug Fixes
+
+* **registrars:** cleanup accidental inclusion of tpp wholesale. registrar module to be reviewed 1st ([cac5e91](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/cac5e91cfb9a2767dd722a97ac88a07c9681a155))
+
 ## [16.14.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.14.0...v16.14.1) (2023-02-03)
 
 
