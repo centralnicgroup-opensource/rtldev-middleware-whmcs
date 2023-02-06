@@ -1,3 +1,10 @@
+# [16.15.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.14.3...v16.15.0) (2023-02-06)
+
+
+### Features
+
+* **cnr registrar module:** support premium domain names ([d821ed9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/d821ed9d0b9b2b3227d70a4996e685d7456fe3ef))
+
 ## [16.14.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.14.2...v16.14.3) (2023-02-06)
 
 
