@@ -1,3 +1,10 @@
+## [16.14.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.14.2...v16.14.3) (2023-02-06)
+
+
+### Bug Fixes
+
+* **download links:** to latest software bundle archive patched ([15a414b](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/15a414b5e32000f9482eac0f42e86e9b09ddb871))
+
 ## [16.14.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.14.1...v16.14.2) (2023-02-03)
 
 
