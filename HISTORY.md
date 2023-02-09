@@ -1,3 +1,10 @@
+## [16.15.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.1...v16.15.2) (2023-02-09)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** fix .se additional fields for transfer ([564e503](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/564e50305c34421bba4668fd9b80de00d4ebb4ba))
+
 ## [16.15.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.0...v16.15.1) (2023-02-09)
 
 
