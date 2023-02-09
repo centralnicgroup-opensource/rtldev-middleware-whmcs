@@ -1,3 +1,10 @@
+## [16.15.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.0...v16.15.1) (2023-02-09)
+
+
+### Bug Fixes
+
+* **cnic dns addon:** pHP error when loading hooks, added missing composer autoloader ([23c0050](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/23c0050285d5bcaf6502b84ee6f387c07165d436))
+
 # [16.15.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.14.3...v16.15.0) (2023-02-06)
 
 
