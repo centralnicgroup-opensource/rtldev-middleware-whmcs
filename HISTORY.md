@@ -1,3 +1,10 @@
+## [16.15.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.2...v16.15.3) (2023-02-10)
+
+
+### Bug Fixes
+
+* **migration:** fix pagination issue in upcoming migrations table ([2416fe7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/2416fe7dafa50e0203ecc84d7da3a26f107ec1f0))
+
 ## [16.15.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.1...v16.15.2) (2023-02-09)
 
 
