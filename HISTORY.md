@@ -1,3 +1,10 @@
+## [16.15.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.4...v16.15.5) (2023-02-14)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** fix transferlock handling ([d6ffa99](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/d6ffa996bf55092904f4da9ace4f32dd6d6c2b99))
+
 ## [16.15.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.3...v16.15.4) (2023-02-14)
 
 
