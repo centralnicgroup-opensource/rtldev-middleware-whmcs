@@ -1,3 +1,10 @@
+## [16.15.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.3...v16.15.4) (2023-02-14)
+
+
+### Bug Fixes
+
+* **dashboard widget:** show right versioning information after upgrade ([179ce37](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/179ce37e8fe607b26f1beaf854dd478ae928a4b0))
+
 ## [16.15.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.2...v16.15.3) (2023-02-10)
 
 
