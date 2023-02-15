@@ -1,3 +1,10 @@
+## [16.15.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.5...v16.15.6) (2023-02-15)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** extend messaging of .dk additional fields regarding email confirmation ([40a9d0c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/40a9d0cd4be9765ae1c0fa6179d02fc6e1698b5a))
+
 ## [16.15.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.4...v16.15.5) (2023-02-14)
 
 
