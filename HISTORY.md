@@ -1,3 +1,10 @@
+## [16.15.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.6...v16.15.7) (2023-02-22)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** added missing additional domain fields for .boo ([c6d6095](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/c6d6095f112d0327d97f1f6fe149d350c2011d57))
+
 ## [16.15.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.5...v16.15.6) (2023-02-15)
 
 
