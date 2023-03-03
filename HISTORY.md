@@ -1,3 +1,10 @@
+## [16.15.10](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.9...v16.15.10) (2023-03-03)
+
+
+### Bug Fixes
+
+* **migrator addon:** doing whois data lookup via localAPI; cnic: AddContact made optional ([86982cd](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/86982cd55b50321968727b92b223f1d9d6a96777))
+
 ## [16.15.9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.8...v16.15.9) (2023-03-03)
 
 
