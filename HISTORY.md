@@ -1,3 +1,11 @@
+## [16.15.9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.8...v16.15.9) (2023-03-03)
+
+
+### Bug Fixes
+
+* **cnr registrar module:** exclude transfer precheck in TransferDomain integration ([c47185c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/c47185cc944761dbe9e0c2866f47adcd317b2b1b))
+* **cnr registrar module:** fix ClientAreaHeadOutput to only invoke function if present ([ba7cf9e](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/ba7cf9e476f65c9d7148cb877cfce1c5f1e9f826))
+
 ## [16.15.8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.7...v16.15.8) (2023-03-03)
 
 
