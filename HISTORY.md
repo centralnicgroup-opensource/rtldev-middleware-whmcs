@@ -1,3 +1,10 @@
+## [16.15.11](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.10...v16.15.11) (2023-03-03)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** in case of a restorable domain do only return "expired" in sync ([3a6490b](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/3a6490bbfddeb53e39c6648eae1bb545f1c2799e)), closes [#XAT-159107](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/issues/XAT-159107)
+
 ## [16.15.10](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.9...v16.15.10) (2023-03-03)
 
 
