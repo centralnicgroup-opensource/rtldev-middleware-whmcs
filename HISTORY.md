@@ -1,3 +1,12 @@
+## [16.15.8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.7...v16.15.8) (2023-03-03)
+
+
+### Bug Fixes
+
+* **cnic migrator addon:** .uk: do a push via losing registrar after initiating the transfer ([319a3c3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/319a3c33e43d331fb36405e82787f9e187ca14c3))
+* **cnr registrar module:** review .uk transfer (action=request); requires Push at losing Registrar ([98329f7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/98329f771f872a487620ab41c0210866772e433c))
+* **ispapi registrar module:** .uk transfers using action=request (waiting for Domain Release / Push) ([92ce879](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/92ce879f3dd3b9c2f6870ce029473fd5c969a5fd))
+
 ## [16.15.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.6...v16.15.7) (2023-02-22)
 
 
