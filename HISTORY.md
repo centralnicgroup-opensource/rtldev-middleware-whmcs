@@ -1,3 +1,10 @@
+## [16.15.12](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.11...v16.15.12) (2023-03-06)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** reviewed expirydate sync of domains in redemption ([ddbbb12](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/ddbbb12d694334bde2486716beab5ce581a922f1))
+
 ## [16.15.11](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.10...v16.15.11) (2023-03-03)
 
 
