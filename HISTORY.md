@@ -1,3 +1,10 @@
+## [16.15.13](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.12...v16.15.13) (2023-03-06)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** migrate .AT whois disclose to hardcoded solution (non-ui solution) ([45c2fc4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/45c2fc4001cda49ed37aa7b94250c2ab8a928f14))
+
 ## [16.15.12](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.11...v16.15.12) (2023-03-06)
 
 
