@@ -1,3 +1,10 @@
+## [16.15.14](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.13...v16.15.14) (2023-03-14)
+
+
+### Bug Fixes
+
+* **cnic migration addon:** added fallback to whmcs data in case Whois Data lookup fails ([59d26af](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/59d26af016ce8c7e6df9774a02a730bec27ca4c7))
+
 ## [16.15.13](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.12...v16.15.13) (2023-03-06)
 
 
