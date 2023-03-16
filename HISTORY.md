@@ -1,3 +1,10 @@
+## [16.15.15](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.14...v16.15.15) (2023-03-16)
+
+
+### Bug Fixes
+
+* **cnic migrator addon:** patched whois data lookup for registrant & admin ([ae5287a](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/ae5287ab5b532d1ea2d80c053e847dd3446db0e0))
+
 ## [16.15.14](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.13...v16.15.14) (2023-03-14)
 
 
