@@ -22,7 +22,8 @@ if ($ch === false) {
         CURLOPT_RETURNTRANSFER  =>  1,
         CURLOPT_HTTPHEADER      =>  [
             'Expect:',
-            'Content-type: text/html; charset=UTF-8'
+            'Content-Type: application/x-www-form-urlencoded', //UTF-8 implied
+            'Content-Length: ' . strlen($data)
         ]
     ]/* + $this->curlopts*/);
     $r = curl_exec($ch);
