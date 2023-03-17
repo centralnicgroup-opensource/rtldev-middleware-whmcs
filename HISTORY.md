@@ -1,3 +1,10 @@
+## [16.15.17](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.16...v16.15.17) (2023-03-17)
+
+
+### Bug Fixes
+
+* **cnic migrator addon:** fix fieldnames consumed from GetClientsDetails ([cc4e5aa](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/cc4e5aa561286c7738cb405958874e78edcce358))
+
 ## [16.15.16](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.15...v16.15.16) (2023-03-17)
 
 
