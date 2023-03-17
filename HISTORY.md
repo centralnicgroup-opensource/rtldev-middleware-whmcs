@@ -1,3 +1,10 @@
+## [16.15.16](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.15...v16.15.16) (2023-03-17)
+
+
+### Bug Fixes
+
+* **cnic migrator addon:** auto-retry transfer without contact data to improve success rate ([4d64549](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/4d64549e774dd3120bf71e905b5249a5bd4bb9e1))
+
 ## [16.15.15](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.14...v16.15.15) (2023-03-16)
 
 
