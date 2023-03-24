@@ -1,3 +1,10 @@
+## [16.15.18](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.17...v16.15.18) (2023-03-24)
+
+
+### Bug Fixes
+
+* **cnic:** use correct expiration date in daily cron ([93a6ca8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/93a6ca8e2508a4528e43de67cd7b98e2fd8a7b31))
+
 ## [16.15.17](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.16...v16.15.17) (2023-03-17)
 
 
