@@ -1,0 +1,2 @@
+UPDATE `tbldomainsadditionalfields` INNER JOIN `tbldomains` ON `tbldomains`.id=`tbldomainsadditionalfields`.`domainid` SET `tbldomainsadditionalfields`.`name`='VATTAXPassportIDNumber' WHERE `tbldomainsadditionalfields`.`name`='VAT/TAX/Passport/ID Number' AND `tbldomains`.`registrar`='internetbs';
+UPDATE tbldomains SET registrar='ibs' WHERE `registrar`='internetbs';
