@@ -1,3 +1,10 @@
+## [16.15.19](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.18...v16.15.19) (2023-03-24)
+
+
+### Bug Fixes
+
+* **cnic:** set cancelled domains to default renewal mode in pre cron check ([cd108a3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/cd108a3bc0c528c8562f8d92c0346fff7b1980c8))
+
 ## [16.15.18](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.17...v16.15.18) (2023-03-24)
 
 
