@@ -1,3 +1,10 @@
+## [16.15.20](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.19...v16.15.20) (2023-03-27)
+
+
+### Bug Fixes
+
+* **cnic:** fallback to expiration date if paid date is not returned from API ([6f2c6c2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/6f2c6c21551d395f27450eb26882ae01566bd9a4))
+
 ## [16.15.19](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.18...v16.15.19) (2023-03-24)
 
 
