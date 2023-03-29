@@ -1,3 +1,10 @@
+## [16.15.21](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.20...v16.15.21) (2023-03-29)
+
+
+### Bug Fixes
+
+* **ispapi:** fix for requesting authcode for .de domains via whmcs ([66657b4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/66657b4984863c9fb354c2f5df5eaf08e88aff01))
+
 ## [16.15.20](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.19...v16.15.20) (2023-03-27)
 
 
