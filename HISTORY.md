@@ -1,3 +1,10 @@
+## [16.15.22](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.21...v16.15.22) (2023-03-31)
+
+
+### Bug Fixes
+
+* **cnic migrator addon:** drop whois data lookup; problematic in case of active id protection ([19a7b44](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/19a7b442dd2560a9d200b7bb9563f8c49e9eac58))
+
 ## [16.15.21](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.20...v16.15.21) (2023-03-29)
 
 
