@@ -1,3 +1,10 @@
+## [16.15.23](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.22...v16.15.23) (2023-03-31)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** dropped email check in contact data update mechanism after transfer ([e77a689](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/e77a68973e2322b98980c7fc56fdefc42bbe1435))
+
 ## [16.15.22](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.21...v16.15.22) (2023-03-31)
 
 
