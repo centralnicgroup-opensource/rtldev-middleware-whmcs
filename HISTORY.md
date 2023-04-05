@@ -1,3 +1,36 @@
+# [17.0.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.23...v17.0.0) (2023-04-05)
+
+
+### Bug Fixes
+
+* **cnic domain importer:** support CentralNic Reseller Module as Registrar in Dropdown List ([b88a067](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/b88a06735c06f448ef6c3c3a7bee041854b4b6d2))
+* **cnr registrar module:** patch integration of special admin area buttons ([371d35f](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/371d35f34916668fb960c4db8af8b5ff55fbd42f))
+* **cnr/ispapi registrar modules:** upgrade to v8.0.5 of connector library (curlopt settings patch) ([57895fc](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/57895fc7d564c6a98616afe17c7a22cca2815068))
+
+
+### Code Refactoring
+
+* **hx reg mod:** replaced querydomainrepositoryinfo with querydomainoptions (categories) ([e18f58f](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/e18f58fbd1f06669036634e4c0987045ee38d38a))
+
+
+### Features
+
+* **cnic registrar module:** show connectivity result in registrar module settings overview ([90fff84](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/90fff848be69a7da0f42e6f3e75c28ad1e1c668a))
+* **cnic registrar module:** support of domain restores ([bbf201b](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/bbf201b18ad9ff72a6d45722185c2f229115a8ba))
+* **cnic+ispapi registrar module:** add/review transfer precheck on shopping cart level ([fdbc119](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/fdbc119e156ceca6e40a846d271b004322b80866))
+* **cnic+ispapi registrar module:** added/reviewed injection of private nameservers listing ([c4032a0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/c4032a06312e5240af1501a7ef250cea3adf6707))
+* **cnic+ispapi registrar module:** added/reviewed injection of private nameservers listing ([61bd983](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/61bd983444b332864f105f9f8e3d5a6a4b9d9a71))
+* **cnr registrar module:** add "Cancel Domain Transfer" / "Resend Transfer Approval Email" buttons ([de757ef](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/de757ef8aef6a60130fbd027b8eff685adb1b7f2))
+* **cnr registrar module:** added automatic/manual supension/unsuspension feature ([d5063e2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/d5063e2f8b160ef008a926ccff798fa2e084ebea))
+* **ispapi registrar module:** add explicit system activity logs for NS and DNSZone RRs updates ([74a47f2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/74a47f2305f0dd990eb2c581dcf00e1ca85884cd))
+* **ispapi registrar module:** auto post-transfer contact & nameserver update extended to all TLDs ([ecb966d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/ecb966d2f50d92a81a57aee6d6d03b1b6a40ec3c))
+
+
+### BREAKING CHANGES
+
+* **hx reg mod:** The internal data structure of TLD Settings got extended. Please execute the following SQL Query to avoid PHP issues: ```DELETE FROM `tbltransientdata` WHERE name LIKE "ispapiZoneInfo%"```
+* **ispapi registrar module:** Post-Transfer Update is no longer only covering .com/.net/.cc/.tv, but all TLDs. In addition, it first updates contact data and then doing the nameserver update. Nameserver Data is now taken out of the order in WHMCS which is faster than looking this up from transfer request. The post processing got in addition moved into a hook and isn't any longer part of the TransferSync (Separation of Concerns).
+
 ## [16.15.23](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.22...v16.15.23) (2023-03-31)
 
 
