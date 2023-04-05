@@ -1,3 +1,10 @@
+## [17.0.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.0...v17.0.1) (2023-04-05)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** avoid changing nameservers when activating dns zone ([f8666de](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/f8666de5e3685703a9e6457de22f1aa9e140fce4))
+
 # [17.0.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v16.15.23...v17.0.0) (2023-04-05)
 
 
