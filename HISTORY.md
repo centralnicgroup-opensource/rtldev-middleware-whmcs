@@ -1,3 +1,11 @@
+## [17.0.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.1...v17.0.2) (2023-04-14)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** fix for Resend transfer email and cancel domain transfer buttons ([8c55d86](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/8c55d86cc41df18bb1c4ada6ef56acc9cce4be4e))
+* **cnic registrar:** add required additional field for .app tld ([b4e96de](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/b4e96de984bc09a3dd85a79c0de2274a573f6df2))
+
 ## [17.0.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.0...v17.0.1) (2023-04-05)
 
 
