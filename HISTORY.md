@@ -1,3 +1,10 @@
+## [17.0.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.2...v17.0.3) (2023-04-14)
+
+
+### Bug Fixes
+
+* **cnic registrar:** revamped additional fields for *.au tld ([23b44b2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/23b44b2f55e51054fffd3c68ed3a14fb19b465d2))
+
 ## [17.0.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.1...v17.0.2) (2023-04-14)
 
 
