@@ -1,3 +1,10 @@
+## [17.0.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.3...v17.0.4) (2023-04-17)
+
+
+### Bug Fixes
+
+* **ispapi+cnic registrar module:** review output of Transfers (GetDomainInformation) ([104784d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/104784dcb5b8bc66299224c01d2f9d27c6bbd309))
+
 ## [17.0.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.2...v17.0.3) (2023-04-14)
 
 
