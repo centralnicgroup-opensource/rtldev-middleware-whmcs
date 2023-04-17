@@ -1,3 +1,10 @@
+## [17.0.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.5...v17.0.6) (2023-04-17)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** .dk sync: status cancelled requires active as true ([96d4abf](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/96d4abf3f40f25b810efc7e8ba76d31a9e74e09f))
+
 ## [17.0.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.4...v17.0.5) (2023-04-17)
 
 
