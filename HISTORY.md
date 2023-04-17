@@ -1,3 +1,10 @@
+## [17.0.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.4...v17.0.5) (2023-04-17)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** .dk domain sync: switch to cancelled in case of status PENDINGDELETE ([7c3b94d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/7c3b94d167fc5b640fde20b063a5fb0aeb5383c2))
+
 ## [17.0.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.3...v17.0.4) (2023-04-17)
 
 
