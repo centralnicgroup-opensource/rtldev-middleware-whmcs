@@ -1,3 +1,10 @@
+## [17.0.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.6...v17.0.7) (2023-04-18)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** keep additional fields related files unencrypted ([f245232](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/f2452324b8b8e13147b829e00d732fb095ee3667))
+
 ## [17.0.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.5...v17.0.6) (2023-04-17)
 
 
