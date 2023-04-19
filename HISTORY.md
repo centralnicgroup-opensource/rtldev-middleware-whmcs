@@ -1,3 +1,10 @@
+## [17.0.8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.7...v17.0.8) (2023-04-19)
+
+
+### Bug Fixes
+
+* **cleanup:** assets cleanup ([1fa0564](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/1fa05645b2ad4c213750ff55e3461b076351418e))
+
 ## [17.0.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.6...v17.0.7) (2023-04-18)
 
 
