@@ -1,3 +1,10 @@
+## [17.0.9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.8...v17.0.9) (2023-04-21)
+
+
+### Bug Fixes
+
+* **cnr + ispapi registrar module:** patch grace & redemption fees ([8ae6fae](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/8ae6faedf2ed53971e9f609817e7b49f78f2605e)), closes [#248](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/issues/248)
+
 ## [17.0.8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.7...v17.0.8) (2023-04-19)
 
 
