@@ -1,3 +1,10 @@
+## [17.0.10](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.9...v17.0.10) (2023-04-24)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** patch system-internal transfer (USERTRANSFER) ([06c89a4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/06c89a45268f30bcf6f05872a3a39bcbf9d44c74))
+
 ## [17.0.9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.8...v17.0.9) (2023-04-21)
 
 
