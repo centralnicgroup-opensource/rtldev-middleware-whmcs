@@ -1,3 +1,10 @@
+## [17.0.11](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.10...v17.0.11) (2023-04-24)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** patch Domain Sync for WHMCS7 (laravel query builder) ([0bb3e18](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/0bb3e1891e6a44bb8f8812cbe1ab549338935fec))
+
 ## [17.0.10](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.9...v17.0.10) (2023-04-24)
 
 
