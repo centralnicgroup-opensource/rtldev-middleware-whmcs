@@ -1,0 +1,40 @@
+{
+    "ci": false,
+    "branches": [
+        "main"
+    ],
+    "plugins": [
+        [
+            "@semantic-release/commit-analyzer",
+            {
+                "preset": "angular",
+                "releaseRules": [
+                    {
+                        "type": "chore",
+                        "release": "major"
+                    },
+                    {
+                        "type": "feat",
+                        "release": "minor"
+                    },
+                    {
+                        "type": "fix",
+                        "release": "patch"
+                    }
+                ]
+            }
+        ],
+        "semantic-release-notes-override",
+        [
+            "@semantic-release/github",
+            {
+                "assets": [
+                    {
+                        "label": "WHMCS Software Bundle (zip)",
+                        "path": "whmcs-cnic-bundle.zip"
+                    }
+                ]
+            }
+        ]
+    ]
+}
