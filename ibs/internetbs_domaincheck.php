@@ -1,10 +1,6 @@
 <?php
 
-if (file_exists('dbconnect.php')) {
-    require 'dbconnect.php';
-} else {
-    require 'init.php';
-}
+require 'init.php';
 require ROOTDIR . '/includes/functions.php';
 require ROOTDIR . '/includes/registrarfunctions.php';
 
