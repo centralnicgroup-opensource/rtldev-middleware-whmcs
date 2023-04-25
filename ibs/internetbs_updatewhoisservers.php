@@ -1,87 +1,115 @@
 <?php
 
-if (file_exists('dbconnect.php')) {
-    require 'dbconnect.php';
-} else {
-    require 'init.php';
+require "init.php";
+
+# Load the IBS Registrar Module
+$module = new WHMCS\Module\Registrar();
+if (!$module->load("ibs")) {
+    echo "ERROR: Unable to load the Internet.bs Registrar Module.\n";
+    exit(-1);
 }
 
-$file = ROOTDIR . '/includes/whoisservers.php';
-$tlds = ".feedback,.com,.site,.tech,.store,.online,.us,.biz,.space,.net,.college,.design,.me,.rent,.xyz,.org,.group,.asia,.cx,.eu,.be,.it,.co,.co.com,.pro,.guru,.london,.bid,.club,.date,.download,.loan,.review,.science,.trade,.webcam,.uk,.fr,.de,.tokyo,.us.com,.eu.com,.nyc,.info,.vegas,.tel,.co.uk,.bar,.host,.email,.ink,.press,.rest,.com.de,.com.se,.mex.com,.website,.cc,.wiki,.center,.company,.cool,.digital,.discount,.domains,.expert,.foundation,.gallery,.life,.management,.photography,.photos,.services,.solutions,.systems,.technology,.tips,.today,.tools,.vision,.watch,.works,.zone,.care,.global,.house,.land,.media,.money,.uk.com,.uk.net,.de.com,.in,.tv,.re,.nl,.la,.pw,.za.bz,.in.net,.mobi,.org.uk,.me.uk,.com.co,.net.co,.nom.co,.co.in,.net.in,.org.in,.firm.in,.gen.in,.ind.in,.pm,.tf,.wf,.yt,.br.com,.cn.com,.gb.com,.gb.net,.no.com,.ru.com,.sa.com,.se.net,.za.com,.jpn.com,.ae.org,.us.org,.gr.com,.jp.net,.hu.net,.africa.com";
+# Check if the Module has been activated
+if (!$module->isActivated()) {
+    echo "ERROR: The Internet.bs Registrar Module is not activated.\n";
+    exit(-1);
+}
 
-/* Get WHMCS installation url */
-$queryresult = select_query("tblconfiguration", "value", "setting='SystemUrl'");
-$result = mysql_fetch_assoc($queryresult);
-$websiteUrl = $result["value"];
-$domainCheckUrl = $websiteUrl . "internetbs_domaincheck.php?domain=";
-$domainAvailableString = "domain found";
+# fetch currency
+$results = localAPI("GetCurrencies", []);
+$defaultCurrency = $results["currencies"]["currency"][0]["code"];
+$currency = "USD";
+if (in_array($defaultCurrency, ["USD", "CAD", "AUD", "JPY", "EUR", "GBP"])) {
+    $currency = $defaultCurrency;
+}
 
-if (file_exists($file)) {
-    if (is_writable($file)) {
-        $f = fopen($file, 'r');
-        $oldContent = fread($f, filesize($file));
+# Prepare API Request
+$params = $module->getSettings();
 
-        $tldArray = explode(",", $tlds);
-        for ($i = 0, $iMax = count($tldArray); $i < $iMax; $i++) {
-            $tld = $tldArray[$i];
-            $tldData = $tld . "|" . $domainCheckUrl . "|HTTPREQUEST-" . $domainAvailableString;
-            if (strpos($oldContent, $tld) !== false) {
-                $searchTld = $tld . "|";
-                $pattern = preg_quote($searchTld, '/');
-                $pattern = "/^$pattern.*\$/m";
-                if (preg_match($pattern, $oldContent, $matches)) {
-                    $oldContent = preg_replace($pattern, $tldData, $oldContent);
-                } else {
-                    $oldContent .= $tldData . "\n";
-                }
-            } else {
-                $oldContent .= $tldData . "\n";
-            }
-        }
-        $f = fopen($file, 'w+');
-        if (fwrite($f, $oldContent)) {
-            echo "Whois servers has been updated.";
-        } else {
-            echo "Error while updating whois servers.";
-        }
-        fclose($f);
-    } else {
-        echo "File whoiseservers.php is not writable.";
-    }
-} else {
-    $whoisJsonFile = ROOTDIR . "/resources/domains/whois.json";
-    $whoisArray = array(
-            "extensions" => $tlds,
-            "uri" => $domainCheckUrl,
-            "available" => $domainAvailableString
-            );
-    if (file_exists($whoisJsonFile)) {
-        if (is_writable($whoisJsonFile)) {
-            $f = fopen($whoisJsonFile, 'r');
-            $content = fread($f, filesize($whoisJsonFile));
-            $whoisJsonDecode = json_decode($content, true);
+$r = ibs_call($params, "Account/PriceList/Get", [
+    "version" => "5",
+    "currency" => $currency
+]);
 
-            $whoisJsonDecode[] = $whoisArray;
-            $jsonArray = json_encode($whoisJsonDecode, JSON_PRETTY_PRINT);
+if ($r["status"] === "FAILURE") {
+    echo "ERROR: Unable to fetch list of TLDs. " . $r["message"];
+    exit(-1);
+}
 
-            $f = fopen($whoisJsonFile, 'w+');
-            if (fwrite($f, $jsonArray)) {
-                echo "Whois server has been updated successfully.";
-            } else {
-                echo "Error while updating whois servers.";
-            }
-            fclose($f);
-        } else {
-            echo "File whois.json is not writable.";
-        }
-    } else {
-        $f = fopen($whoisJsonFile, 'w+');
-        $jsonArray = json_encode(array($whoisArray), JSON_PRETTY_PRINT);
-        if (fwrite($f, $jsonArray)) {
-            echo "Whois server has been updated successfully.";
-        } else {
-            echo "Error while updating whois servers.";
-        }
-        fclose($f);
+# transactid=...
+# status=SUCCESS
+# product_0_authinforequired=YES
+# product_0_rgp=2160
+# product_0_minperiod=1
+# product_0_maxperiod=10
+# product_0_inc=1
+# product_0_registration=<price>
+# product_0_renewal=<price>
+# product_0_transfer=<price>
+# product_0_restore=<price>
+# product_0_tld=ac.nz
+# product_0_currency=USD
+# product_1_authinforequired=YES
+# product_1_rgp=720
+# product_1_minperiod=1
+# product_1_maxperiod=10
+# product_1_inc=1
+# product_1_registration=<price>
+# product_1_renewal=<price>
+# product_1_transfer=<price>
+# product_1_restore=<price>
+# product_1_tld=academy
+# product_1_currency=USD
+# ...
+
+$tlds = [];
+foreach($result as $key => $value) {
+    if (preg_match("/^product_\d_tld$/", $key)) {
+        $tlds[] = "." . $value;
     }
 }
+$tldStr = implode(",", $tlds);
+
+# >= WHMCS 7, /resources/domains/dist.whois.json -> default file, the below is the override file
+# @see https://docs.whmcs.com/WHOIS_Servers
+$whoisJsonFile = ROOTDIR . "/resources/domains/whois.json";
+
+$whoisArray = [
+    "extensions" => $tldStr,
+    "uri" => \WHMCS\Config\Setting::getValue("SystemURL") . "internetbs_domaincheck.php?domain=",
+    "available" => "domain found"
+];
+if (!file_exists($whoisJsonFile)) {
+    $f = fopen($whoisJsonFile, 'w+');
+    $jsonArray = json_encode([$whoisArray], JSON_PRETTY_PRINT);
+    if (fwrite($f, $jsonArray) === false) {
+        echo "Error while updating whois servers.";
+        fclose($f);
+        exit(-1);
+    }
+    echo "Whois server has been updated successfully.";
+    fclose($f);
+    exit(0);
+}
+
+if (!is_writable($whoisJsonFile)) {
+    echo "File " . $whoisJsonFile . " is not writable.";
+    exit(-1);
+}
+
+$f = fopen($whoisJsonFile, 'r');
+$content = fread($f, filesize($whoisJsonFile));
+$whoisJsonDecode = json_decode($content, true);
+$whoisJsonDecode[] = $whoisArray;
+$jsonArray = json_encode($whoisJsonDecode, JSON_PRETTY_PRINT);
+fclose($f);
+
+$f = fopen($whoisJsonFile, 'w+');
+if (fwrite($f, $jsonArray) === false) {
+    echo "Error while updating whois servers.";
+    exit(-1);
+}
+
+echo "Whois servers have been updated successfully.";
+fclose($f);
+exit(0);
