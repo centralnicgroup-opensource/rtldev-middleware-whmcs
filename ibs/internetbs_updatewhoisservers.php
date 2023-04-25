@@ -76,7 +76,7 @@ $whoisJsonFile = ROOTDIR . "/resources/domains/whois.json";
 
 $whoisArray = [
     "extensions" => $tldStr,
-    "uri" => \WHMCS\Config\Setting::getValue("SystemURL") . "internetbs_domaincheck.php?domain=",
+    "uri" => \WHMCS\Config\Setting::getValue("SystemURL") . "/internetbs_domaincheck.php?domain=",
     "available" => "domain found"
 ];
 if (!file_exists($whoisJsonFile)) {
