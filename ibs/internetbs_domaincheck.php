@@ -1,8 +1,8 @@
 <?php
 
-require 'init.php';
-require ROOTDIR . '/includes/functions.php';
-require ROOTDIR . '/includes/registrarfunctions.php';
+require "init.php";
+require ROOTDIR . "/includes/functions.php";
+require ROOTDIR . "/includes/registrarfunctions.php";
 
 function parseResult($data)
 {
@@ -18,21 +18,22 @@ function parseResult($data)
 }
 
 logactivity("Internetbs: Domain Check");
-logactivity($postfields['Domain']);
-$params = getregistrarconfigoptions('ibs');
+logactivity($postfields["Domain"]);
+$params = getregistrarconfigoptions("ibs");
 
-$postfields = array ();
-$postfields ['ApiKey'] = $params ['Username'];
-$postfields ['Password'] = $params ['Password'];
-$postfields ['ResponseFormat'] = 'TEXT';
-$postfields ['Domain'] = $_GET['domain'];
+$postfields = [
+    "ApiKey" => $params["Username"],
+    "Password" => $params["Password"],
+    "ResponseFormat" => "TEXT",
+    "Domain" => $_GET["domain"]
+];
 
-$testMode = trim(strtolower($params ['TestMode'])) === "on";
+$testMode = trim(strtolower($params["TestMode"])) === "on";
 
 if ($testMode) {
-    $url = 'https://testapi.internet.bs/domain/check';
+    $url = "https://testapi.internet.bs/domain/check";
 } else {
-    $url = 'https://api.internet.bs/domain/check';
+    $url = "https://api.internet.bs/domain/check";
 }
 
 $ch = curl_init();
@@ -50,8 +51,8 @@ curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
 $data = curl_exec($ch);
 $curl_err = false;
 if (curl_error($ch)) {
-    $curl_err = 'CURL Error: ' . curl_errno($ch) . ' - ' . curl_error($ch);
-    exit('CURL Error: ' . curl_errno($ch) . ' - ' . curl_error($ch));
+    $curl_err = "CURL Error: " . curl_errno($ch) . " - " . curl_error($ch);
+    exit("CURL Error: " . curl_errno($ch) . " - " . curl_error($ch));
 }
 curl_close($ch);
 if ($curl_err) {
