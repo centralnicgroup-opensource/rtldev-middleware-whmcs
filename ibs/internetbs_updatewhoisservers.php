@@ -26,12 +26,12 @@ if (in_array($defaultCurrency, ["USD", "CAD", "AUD", "JPY", "EUR", "GBP"])) {
 # Prepare API Request
 $params = $module->getSettings();
 
-$r = ibs_call($params, "Account/PriceList/Get", [
+$result = ibs_call($params, "Account/PriceList/Get", [
     "version" => "5",
     "currency" => $currency
 ]);
 
-if ($r["status"] === "FAILURE") {
+if ($result["status"] === "FAILURE") {
     echo "ERROR: Unable to fetch list of TLDs. " . $r["message"];
     exit(-1);
 }
