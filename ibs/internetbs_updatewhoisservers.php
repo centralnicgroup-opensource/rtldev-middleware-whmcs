@@ -80,7 +80,7 @@ $whoisArray = [
     "available" => "domain found"
 ];
 if (!file_exists($whoisJsonFile)) {
-    $f = fopen($whoisJsonFile, 'w+');
+    $f = fopen($whoisJsonFile, "w+");
     $jsonArray = json_encode([$whoisArray], JSON_PRETTY_PRINT);
     if (fwrite($f, $jsonArray) === false) {
         echo "Error while updating whois servers.";
@@ -97,14 +97,14 @@ if (!is_writable($whoisJsonFile)) {
     exit(-1);
 }
 
-$f = fopen($whoisJsonFile, 'r');
+$f = fopen($whoisJsonFile, "r");
 $content = fread($f, filesize($whoisJsonFile));
 $whoisJsonDecode = json_decode($content, true);
 $whoisJsonDecode[] = $whoisArray;
 $jsonArray = json_encode($whoisJsonDecode, JSON_PRETTY_PRINT);
 fclose($f);
 
-$f = fopen($whoisJsonFile, 'w+');
+$f = fopen($whoisJsonFile, "w+");
 if (fwrite($f, $jsonArray) === false) {
     echo "Error while updating whois servers.";
     exit(-1);
