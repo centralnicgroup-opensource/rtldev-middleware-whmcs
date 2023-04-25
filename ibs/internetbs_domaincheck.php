@@ -4,68 +4,49 @@ require "init.php";
 require ROOTDIR . "/includes/functions.php";
 require ROOTDIR . "/includes/registrarfunctions.php";
 
-function parseResult($data)
-{
-    $result = array ();
-    $arr = explode("\n", $data);
-    foreach ($arr as $str) {
-        list ( $varName, $value ) = explode("=", $str, 2);
-        $varName = trim($varName);
-        $value = trim($value);
-        $result [$varName] = $value;
-    }
-    return $result;
+# Load the IBS Registrar Module
+$module = new WHMCS\Module\Registrar();
+if (!$module->load("ibs")) {
+    echo "ERROR: Unable to load the Internet.bs Registrar Module.\n";
+    exit(-1);
 }
 
-logactivity("Internetbs: Domain Check");
-logactivity($postfields["Domain"]);
-$params = getregistrarconfigoptions("ibs");
+# Check if the Module has been activated
+if (!$module->isActivated()) {
+    echo "ERROR: The Internet.bs Registrar Module is not activated.\n";
+    exit(-1);
+}
 
-$postfields = [
-    "ApiKey" => $params["Username"],
-    "Password" => $params["Password"],
+logactivity("Internetbs: Domain Check, " . $postfields["Domain"]);
+$params = $module->getSettings();
+
+# don't replace this with the call to _CheckAvailability
+$result = ibs_call($params, "domain/check", [
     "ResponseFormat" => "TEXT",
     "Domain" => $_GET["domain"]
-];
+]);
 
-$testMode = trim(strtolower($params["TestMode"])) === "on";
-
-if ($testMode) {
-    $url = "https://testapi.internet.bs/domain/check";
-} else {
-    $url = "https://api.internet.bs/domain/check";
+if (!isset($results["status"]) || $result["status"] === "FAILURE") {
+    echo "ERROR: Availability Check failed. " . $result["message"];
+    exit(-1);
 }
 
-$ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, $url);
+# Examplary API response
+#
+# transactid=...
+# status=AVAILABLE
+# domain=...
+# minregperiod=1Y
+# maxregperiod=10Y
+# registrarlockallowed=YES
+# privatewhoisallowed=YES
+# realtimeregistration=YES
+# price_ispremium=NO
 
-curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-
-curl_setopt($ch, CURLOPT_HEADER, 0);
-curl_setopt($ch, CURLOPT_USERAGENT, "WHMCS Internet.bs Corp. Domain Check");
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-curl_setopt($ch, CURLOPT_POST, 1);
-curl_setopt($ch, CURLOPT_POSTFIELDS, $postfields);
-
-$data = curl_exec($ch);
-$curl_err = false;
-if (curl_error($ch)) {
-    $curl_err = "CURL Error: " . curl_errno($ch) . " - " . curl_error($ch);
-    exit("CURL Error: " . curl_errno($ch) . " - " . curl_error($ch));
+if (strtoupper($result["status"]) === "AVAILABLE") {
+    echo "domain found";
+    exit(0);
 }
-curl_close($ch);
-if ($curl_err) {
-    $cronreport .= "Error connecting to API: $curl_err";
-} else {
-    $result = parseResult($data);
-    if (!$result) {
-        $cronreport .= "Error connecting to API:<br>" . nl2br($data) . "<br>";
-    } else {
-        if (isset($result["status"]) && (strtoupper($result["status"]) === "AVAILABLE")) {
-            echo "domain found";
-        } else {
-            echo "domains not found";
-        }
-    }
-}
+
+echo "domains not found";
+exit(0);
