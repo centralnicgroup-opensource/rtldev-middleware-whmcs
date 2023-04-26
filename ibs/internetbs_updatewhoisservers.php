@@ -74,9 +74,10 @@ $tldStr = implode(",", $tlds);
 # @see https://docs.whmcs.com/WHOIS_Servers
 $whoisJsonFile = ROOTDIR . "/resources/domains/whois.json";
 
+$uri = \WHMCS\Config\Setting::getValue("SystemURL") . "/internetbs_domaincheck.php?domain=";
 $whoisArray = [
     "extensions" => $tldStr,
-    "uri" => \WHMCS\Config\Setting::getValue("SystemURL") . "/internetbs_domaincheck.php?domain=",
+    "uri" => $uri,
     "available" => "domain found"
 ];
 if (!file_exists($whoisJsonFile)) {
@@ -97,13 +98,35 @@ if (!is_writable($whoisJsonFile)) {
     exit(-1);
 }
 
+# read existing configuration
 $f = fopen($whoisJsonFile, "r");
 $content = fread($f, filesize($whoisJsonFile));
-$whoisJsonDecode = json_decode($content, true);
-$whoisJsonDecode[] = $whoisArray;
-$jsonArray = json_encode($whoisJsonDecode, JSON_PRETTY_PRINT);
 fclose($f);
 
+# parse content to assoc array
+$whoisJsonDecode = json_decode($content, true);
+if (is_null($whoisJsonDecode)) {
+    $whoisJsonDecode = [];
+}
+
+# check if IBS settings are present
+# if so, update extensions
+$found = false;
+foreach($whoisJsonDecode as $idx => $entry){
+    if ($entry["uri"] === $uri) {
+        $whoisJsonDecode[$idx]["extensions"] = $whoisArray["extensions"];
+        $found = true;
+    }
+}
+
+# IBS settings are not present
+# add them
+if (!$found) {
+    $whoisJsonDecode[] = $whoisArray;
+}
+$jsonArray = json_encode($whoisJsonDecode, JSON_PRETTY_PRINT);
+
+# write updated config to file
 $f = fopen($whoisJsonFile, "w+");
 if (fwrite($f, $jsonArray) === false) {
     echo "Error while updating whois servers.";
