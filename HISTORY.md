@@ -1,3 +1,10 @@
+## [17.0.12](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.11...v17.0.12) (2023-04-26)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** buttons related to Pending Transfer not showing ([fe70482](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/fe70482b1d1780ab9133cb9745a0aa0e50073ab5))
+
 ## [17.0.11](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.10...v17.0.11) (2023-04-24)
 
 
