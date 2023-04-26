@@ -17,7 +17,7 @@ if (!$module->isActivated()) {
     exit(-1);
 }
 
-logactivity("Internetbs: Domain Check, " . $postfields["Domain"]);
+logactivity("Internetbs: Domain Check, " . $_GET["domain"]);
 $params = $module->getSettings();
 
 # don't replace this with the call to _CheckAvailability
@@ -26,7 +26,7 @@ $result = ibs_call($params, "domain/check", [
     "Domain" => $_GET["domain"]
 ]);
 
-if (!isset($results["status"]) || $result["status"] === "FAILURE") {
+if (!isset($result["status"]) || $result["status"] === "FAILURE") {
     echo "ERROR: Availability Check failed. " . $result["message"];
     exit(-1);
 }

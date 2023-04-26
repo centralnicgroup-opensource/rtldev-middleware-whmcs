@@ -64,7 +64,7 @@ if ($result["status"] === "FAILURE") {
 
 $tlds = [];
 foreach($result as $key => $value) {
-    if (preg_match("/^product_\d_tld$/", $key)) {
+    if (preg_match("/^product_[0-9]+_tld$/", $key)) {
         $tlds[] = "." . $value;
     }
 }
