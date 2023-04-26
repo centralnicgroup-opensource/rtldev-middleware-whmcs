@@ -1,3 +1,10 @@
+## [17.0.13](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.12...v17.0.13) (2023-04-26)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** final patch for Transfer-related Buttons in Admin Area ([5f7484d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/5f7484d27cb0e8bb24cd844d3b0d956fd96734ed))
+
 ## [17.0.12](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.11...v17.0.12) (2023-04-26)
 
 
