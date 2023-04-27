@@ -1,3 +1,10 @@
+## [17.0.14](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.13...v17.0.14) (2023-04-27)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** patch GetEPPCode implementation for .eu ([82858bc](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/82858bcf25e98bdd277bd782eccb7bc50a5b11c5))
+
 ## [17.0.13](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.12...v17.0.13) (2023-04-26)
 
 
