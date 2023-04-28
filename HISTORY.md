@@ -1,3 +1,10 @@
+## [17.0.16](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.15...v17.0.16) (2023-04-28)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** fix IRTP Lock output ([27d954d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/27d954d792a6e25f0475d497c5d550f0c2dd82d2))
+
 ## [17.0.15](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.14...v17.0.15) (2023-04-28)
 
 
