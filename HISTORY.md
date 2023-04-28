@@ -1,3 +1,10 @@
+## [17.0.15](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.14...v17.0.15) (2023-04-28)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** review .eu fields (country of citizenship dropped for companies) ([16551fc](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/16551fcf0f53c41465eff5b1407e07a9d1d67fbf))
+
 ## [17.0.14](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.13...v17.0.14) (2023-04-27)
 
 
