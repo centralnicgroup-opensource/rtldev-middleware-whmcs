@@ -1,3 +1,11 @@
+## [17.0.17](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.16...v17.0.17) (2023-05-02)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** DomainTransferSync > getContactDetailsWHMCS error fix ([afe63d9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/afe63d96ef650aeba3d1e4a89324ae2250abe3ae))
+* **ispapi registrar module:** function hook_transliterate conflict fix ([0b592e3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/0b592e388b44a0bd09c516f9c53b6aa4b40c02c6))
+
 ## [17.0.16](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.15...v17.0.16) (2023-04-28)
 
 
