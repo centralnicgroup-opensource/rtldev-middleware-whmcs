@@ -1,3 +1,17 @@
+# [17.1.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.17...v17.1.0) (2023-05-03)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** fix .app additional domain fields ([ebf998c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/ebf998c4882bfe83e580c3d7999d69bc1fb732a9))
+* **cnic registrar module:** fix not skipping contacts on transfer when using migrator ([b354297](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/b3542972e0d1ef1f24ed396b983e5a3053ac13a1))
+
+
+### Features
+
+* **cnic registrar:** show warning in DNS Management page if nameservers do not point to KeyDNS ([d64d656](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/d64d656ebbfdb46f29aacff4dec172da3d983d48))
+* **templates:** include child templates for improving DNS management ([9c97cec](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/9c97cece9b5d83d53d2931301f942d6126eaafff))
+
 ## [17.0.17](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.0.16...v17.0.17) (2023-05-02)
 
 
