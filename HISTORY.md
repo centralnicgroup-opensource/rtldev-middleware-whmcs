@@ -1,3 +1,10 @@
+## [17.1.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.1.1...v17.1.2) (2023-05-05)
+
+
+### Bug Fixes
+
+* **cnic domain importer addon:** import: show original msg if no translation available ([3a712b1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/3a712b1fe5832fdc7c942fd2ac9fe32cf1e19a97))
+
 ## [17.1.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.1.0...v17.1.1) (2023-05-05)
 
 
