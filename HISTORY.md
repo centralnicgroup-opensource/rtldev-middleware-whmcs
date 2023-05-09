@@ -1,3 +1,10 @@
+## [17.1.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.1.2...v17.1.3) (2023-05-09)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** support for .CAT domains in WHMCS ([2efdc22](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/2efdc22609f760d1e0e854df3624c6913d948b83))
+
 ## [17.1.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.1.1...v17.1.2) (2023-05-05)
 
 
