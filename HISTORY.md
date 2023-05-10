@@ -1,3 +1,10 @@
+## [17.1.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.1.3...v17.1.4) (2023-05-10)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** PHP Error fix in Domain Availability Check ([9fe930b](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/9fe930be8d7c8c863de0449652d2221cfe00e1a1))
+
 ## [17.1.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.1.2...v17.1.3) (2023-05-09)
 
 
