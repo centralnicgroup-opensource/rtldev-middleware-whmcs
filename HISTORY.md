@@ -1,3 +1,10 @@
+## [17.1.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.1.6...v17.1.7) (2023-05-16)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** trimming of contact data before use in api commands ([7bbec00](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/7bbec00e772193d3bdb96cf4812f28abedc41200))
+
 ## [17.1.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.1.5...v17.1.6) (2023-05-16)
 
 
