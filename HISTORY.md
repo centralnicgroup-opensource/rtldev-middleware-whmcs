@@ -1,3 +1,10 @@
+## [17.1.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.1.4...v17.1.5) (2023-05-16)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** fix for Creating DNS Zone as non-hidden internal ([9a3c32e](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/9a3c32e20422a4e7bc3822867d85030f62d4a751))
+
 ## [17.1.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.1.3...v17.1.4) (2023-05-10)
 
 
