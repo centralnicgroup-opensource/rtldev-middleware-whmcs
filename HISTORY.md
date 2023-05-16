@@ -1,3 +1,10 @@
+## [17.1.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.1.5...v17.1.6) (2023-05-16)
+
+
+### Performance Improvements
+
+* **all registrar modules:** improve performance for Domain Registrations page in Admin Area ([fcf062d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/fcf062d3bd503562e458ec9c41b89087322abdde))
+
 ## [17.1.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.1.4...v17.1.5) (2023-05-16)
 
 
