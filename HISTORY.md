@@ -1,3 +1,10 @@
+## [17.2.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.1...v17.2.2) (2023-05-22)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** add missing namespace to class Carbon ([9558489](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/9558489af965ca0a202436cc892cdfb0420ac46c))
+
 ## [17.2.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.0...v17.2.1) (2023-05-22)
 
 
