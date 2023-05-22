@@ -1,3 +1,10 @@
+## [17.2.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.0...v17.2.1) (2023-05-22)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** add additional domain fields for .EUS ([d057177](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/d0571776f999e0fcb014a26372ce41cb00d42497))
+
 # [17.2.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.1.7...v17.2.0) (2023-05-22)
 
 
