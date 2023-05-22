@@ -1,3 +1,17 @@
+# [17.2.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.1.7...v17.2.0) (2023-05-22)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** patch pending contact verification output ([6848c84](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/6848c849a8cba258412d1792a12487ff0ba6f9d0))
+* **ispapi registrar module:** review `setPendingSuspension` integration for Registrant Verification ([f8435fb](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/f8435fbb54ecf8b7cfe1d7a390111fe0492309f6))
+* **ispapi registrar module:** review IRTP for 60d lock display and lock opt-out ([d7ce839](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/d7ce8399fab999db6286c195b6db85fadef62fcf))
+
+
+### Features
+
+* **cnic registrar module:** add initial IRTP integration ([608b0d5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/608b0d5a79000b027aaf9e18e69ddecfe27476d9))
+
 ## [17.1.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.1.6...v17.1.7) (2023-05-16)
 
 
