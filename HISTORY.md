@@ -1,3 +1,10 @@
+## [17.2.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.2...v17.2.3) (2023-05-24)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** include contact data in .SI Transfer Request ([65a3293](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/65a3293d1aec80c56e9fb4e9318e908c6f8797cd))
+
 ## [17.2.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.1...v17.2.2) (2023-05-22)
 
 
