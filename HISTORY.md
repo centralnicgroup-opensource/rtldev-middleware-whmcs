@@ -1,3 +1,10 @@
+## [17.2.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.3...v17.2.4) (2023-05-30)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** remove X-SE-ACCEPT-REGISTRATION-TAC from Contact Update ([c5aff1a](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/c5aff1aa8acca5fdd92547a8983b34d713abef77))
+
 ## [17.2.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.2...v17.2.3) (2023-05-24)
 
 
