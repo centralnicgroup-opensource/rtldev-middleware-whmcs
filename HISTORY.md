@@ -1,3 +1,10 @@
+## [17.2.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.5...v17.2.6) (2023-05-31)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** fix .SWISS additional domain fields binding to default WHMCS' fields ([1fdf47b](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/1fdf47bc8c6b6937dcc7542746d43374bd0697ee))
+
 ## [17.2.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.4...v17.2.5) (2023-05-31)
 
 
