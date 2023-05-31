@@ -1,3 +1,10 @@
+## [17.2.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.4...v17.2.5) (2023-05-31)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** contact information form & reviewed additional domain fields injection ([74af371](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/74af37178c49f74b6343c315c3bd9d9438b4968d))
+
 ## [17.2.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.3...v17.2.4) (2023-05-30)
 
 
