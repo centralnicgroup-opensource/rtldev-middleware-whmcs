@@ -1,3 +1,10 @@
+## [17.2.8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.7...v17.2.8) (2023-06-02)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** patch wrong output of eppcode with special chars ([8d35785](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/8d3578550f7e3d4c7fa4c6c90eaa9d822e8a584f))
+
 ## [17.2.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.6...v17.2.7) (2023-06-02)
 
 
