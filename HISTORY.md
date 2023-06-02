@@ -1,3 +1,10 @@
+## [17.2.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.6...v17.2.7) (2023-06-02)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** patched expirydate for new regs (finalization-, failuredate n/a yet) ([8c83d1b](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/8c83d1b2694405fc328d43b0462990a3beb266be))
+
 ## [17.2.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.5...v17.2.6) (2023-05-31)
 
 
