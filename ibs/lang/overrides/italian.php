@@ -53,6 +53,10 @@ $_LANG["nlTerm"] = "I agree to the <a href=\"https://www.sidn.nl/downloads/terms
 $_LANG["nlLeagalForm"] = "Legal Form";
 $_LANG["nlRegNumber"] = "Registration number";
 
+/* .se related additional fields */
+$_LANG["seRegistrantIdNumber"] = "Numero identificativo del registrante";
+$_LANG["seRegistrantVatId"] = "Partita IVA del registrante";
+
 /* .tel related additional fields */
 $_LANG["telHostingAccount"] = "Hosting Account";
 $_LANG["telHostingPassword"] = "Hosting Password";
