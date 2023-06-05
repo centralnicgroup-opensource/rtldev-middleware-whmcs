@@ -1,3 +1,10 @@
+## [17.2.9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.8...v17.2.9) (2023-06-05)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** generic field solution for google TLDs (X-ACCEPT-SSL-REQUIREMENT) ([fa13d83](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/fa13d8385e6e60990d1b6a503475ddf3dc21a686))
+
 ## [17.2.8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.7...v17.2.8) (2023-06-02)
 
 
