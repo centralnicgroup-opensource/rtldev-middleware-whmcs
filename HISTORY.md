@@ -1,3 +1,10 @@
+## [17.2.10](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.9...v17.2.10) (2023-06-06)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** update .HK registration policies url ([b876688](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/b876688bdb650fb99657bfb6321841e01a88c5cb))
+
 ## [17.2.9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.8...v17.2.9) (2023-06-05)
 
 
