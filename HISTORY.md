@@ -1,3 +1,10 @@
+## [17.2.12](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.11...v17.2.12) (2023-06-07)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** restrict output of "Cancel Transfer", "Resend Transfer Approval Email" ([b98b924](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/b98b9242a90ba254838ccf0b4fc734fac6199e11))
+
 ## [17.2.11](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.10...v17.2.11) (2023-06-07)
 
 
