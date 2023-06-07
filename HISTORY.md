@@ -1,3 +1,10 @@
+## [17.2.11](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.10...v17.2.11) (2023-06-07)
+
+
+### Bug Fixes
+
+* **cnic + ispapi registrar module:** patch getConfigArray to consider custom admin folder name ([a38be33](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/a38be331b58471b7c2310071d4fce0d609f4aaaf))
+
 ## [17.2.10](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.9...v17.2.10) (2023-06-06)
 
 
