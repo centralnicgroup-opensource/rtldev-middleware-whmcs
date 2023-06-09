@@ -1,3 +1,10 @@
+## [17.2.13](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.12...v17.2.13) (2023-06-09)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** dNS Management ([4d48b28](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/4d48b28e91582723c3d6657876c3009cc2147584))
+
 ## [17.2.12](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.11...v17.2.12) (2023-06-07)
 
 
