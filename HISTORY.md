@@ -1,3 +1,10 @@
+## [17.2.14](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.13...v17.2.14) (2023-06-09)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** patched PHP Error in SaveContactDetails ([fcd6ff4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/fcd6ff4674632b4a1a0f7457db0874c38db17a23))
+
 ## [17.2.13](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.12...v17.2.13) (2023-06-09)
 
 
