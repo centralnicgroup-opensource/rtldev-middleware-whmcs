@@ -1,3 +1,10 @@
+## [17.2.15](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.14...v17.2.15) (2023-06-12)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** fix expirydate detection (consider api property renewaldate) ([175493d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/175493ddf5b9a38cb7d1b8d8d2b2d81b4b754a26))
+
 ## [17.2.14](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.13...v17.2.14) (2023-06-09)
 
 
