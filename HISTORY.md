@@ -1,3 +1,10 @@
+## [17.2.16](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.15...v17.2.16) (2023-06-13)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** use configured data for admin/tech/billing if not ＂Use Clients Details＂ ([6e015c4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/6e015c4518780d2d1ef42d00de452f17f26719fb))
+
 ## [17.2.15](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.14...v17.2.15) (2023-06-12)
 
 
