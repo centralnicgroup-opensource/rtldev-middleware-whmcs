@@ -1,3 +1,10 @@
+## [17.2.18](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.17...v17.2.18) (2023-06-14)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** migrate connectivity check to _config_validate ([526e8c1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/526e8c1cbd716a415a8d3dbfff457839848cffd2))
+
 ## [17.2.17](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.16...v17.2.17) (2023-06-14)
 
 
