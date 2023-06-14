@@ -1,3 +1,10 @@
+## [17.2.17](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.16...v17.2.17) (2023-06-14)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** move connection validation to _config_validate ([5245555](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/5245555d5c1e2983ef66d6aa06fc80a72324ae2e))
+
 ## [17.2.16](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.15...v17.2.16) (2023-06-13)
 
 
