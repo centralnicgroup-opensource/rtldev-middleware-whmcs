@@ -1,3 +1,10 @@
+## [17.2.20](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.19...v17.2.20) (2023-06-16)
+
+
+### Performance Improvements
+
+* **cnic registrar module:** remove check for last version in registrar module overview ([eb39a4b](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/eb39a4bfcee20a6adb5e4e1958e13971d8b2adbe))
+
 ## [17.2.19](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.18...v17.2.19) (2023-06-16)
 
 
