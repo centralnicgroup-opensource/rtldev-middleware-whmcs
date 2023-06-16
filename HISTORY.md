@@ -1,3 +1,10 @@
+## [17.2.19](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.18...v17.2.19) (2023-06-16)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** premium domain transfer support ([4ac293d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/4ac293db7c463fff825f971cb09d805a4702c9d4))
+
 ## [17.2.18](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.17...v17.2.18) (2023-06-14)
 
 
