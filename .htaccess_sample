@@ -1,0 +1,12 @@
+RewriteEngine On
+RewriteBase /
+RewriteRule ^domain-search$ /mydomainsearch.php [L,QSA,NC]
+RewriteRule ^domainchecker\.php$ domain-search [R=301,L,QSA,NC]
+
+# Uncomment the following lines to enable static file caching
+#<IfModule mod_expires.c>
+#    ExpiresActive On
+#    <FilesMatch "(?i)^resources/cnic/templates/cnicdomainsearch/.*\.(html|css|json|png|jpe?g|gif)$">
+#        ExpiresDefault "access plus 1 month"
+#    </FilesMatch>
+#</IfModule>
