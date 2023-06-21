@@ -1,3 +1,10 @@
+## [17.2.21](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.20...v17.2.21) (2023-06-21)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** patch dns management activation via sync to rely on dnszone status ([6efd3c9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/6efd3c9c75fc9a484f6417c130b8c9d3b3a5f4ef))
+
 ## [17.2.20](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.19...v17.2.20) (2023-06-16)
 
 
