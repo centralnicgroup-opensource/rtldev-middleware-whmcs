@@ -1,3 +1,10 @@
+## [17.2.23](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.22...v17.2.23) (2023-06-22)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** patch .swiss transfers (consider lower-case parameter name) ([3c08b98](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/3c08b98a577ece169f6a391547442df86da21272))
+
 ## [17.2.22](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.21...v17.2.22) (2023-06-22)
 
 
