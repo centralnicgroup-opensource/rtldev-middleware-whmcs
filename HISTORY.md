@@ -1,3 +1,10 @@
+## [17.2.22](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.21...v17.2.22) (2023-06-22)
+
+
+### Bug Fixes
+
+* **migrator addon:** abort migration if non-premium domain is premium on target registrar ([d98dacc](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/d98dacca9df5d32dd2eeb9b4f487a447f1dc64d9))
+
 ## [17.2.21](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.20...v17.2.21) (2023-06-22)
 
 
