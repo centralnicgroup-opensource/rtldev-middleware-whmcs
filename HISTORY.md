@@ -1,8 +1,10 @@
-## [17.2.21](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.20...v17.2.21) (2023-06-21)
+## [17.2.21](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.20...v17.2.21) (2023-06-22)
 
 
 ### Bug Fixes
 
+* **cnic registrar module:** missing .ES additional fields (Admin, Tech, Billing) for registrations ([1294556](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/129455632e4143ad3a6004a691369224f38baee7))
+* **cnic registrar module:** patch .SWISS Transfer (removing parameter CLASS = SWISS-GOLIVE) ([fe43e2e](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/fe43e2e52d2b7d654db85b905ad842471f0ac3ec))
 * **ispapi registrar module:** patch dns management activation via sync to rely on dnszone status ([6efd3c9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/6efd3c9c75fc9a484f6417c130b8c9d3b3a5f4ef))
 
 ## [17.2.20](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.19...v17.2.20) (2023-06-16)
