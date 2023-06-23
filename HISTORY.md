@@ -1,3 +1,10 @@
+## [17.2.24](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.23...v17.2.24) (2023-06-23)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** remove additional fields for .SWISS Domain Transfers ([172aa6c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/172aa6cac3ceba8211b96898cd3a25b261b6f94f))
+
 ## [17.2.23](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.22...v17.2.23) (2023-06-22)
 
 
