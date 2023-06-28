@@ -1,3 +1,10 @@
+## [17.2.25](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.24...v17.2.25) (2023-06-28)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** improve additional fields injection theme compatibility (lagom) ([36e3144](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/36e3144d6e30351f102e935c0da2c32dd894dbb8))
+
 ## [17.2.24](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.23...v17.2.24) (2023-06-23)
 
 
