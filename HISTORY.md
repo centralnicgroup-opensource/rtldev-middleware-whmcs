@@ -1,3 +1,15 @@
+# [18.0.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.26...v18.0.0) (2023-07-03)
+
+
+### Features
+
+* **cnic domain search addon:** Deprecating domain search v2 and introducing domain search v3 ([7ada120](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/7ada120d5a862e1e9190bb7d10d2cf562536722b))
+
+
+### BREAKING CHANGES
+
+* **cnic domain search addon:** In this release, we have deprecated Version 2 of our ISPAPI Domain Search addon. As a result, it is no longer accessible. We kindly ask you to remove the older version of our domain search addon and start with the Version 3. To take advantage of the new and improved Domain Search with exciting features, we recommend reading and following our updated public documentation.
+
 ## [17.2.26](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.25...v17.2.26) (2023-07-03)
 
 
