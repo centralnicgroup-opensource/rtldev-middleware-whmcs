@@ -1,3 +1,10 @@
+## [17.2.26](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.25...v17.2.26) (2023-07-03)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** fix private nameservers page in client area not working ([c12da8d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/c12da8dcb9a6ecc45d6ae4606e52b1fcce3569cc))
+
 ## [17.2.25](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.24...v17.2.25) (2023-06-28)
 
 
