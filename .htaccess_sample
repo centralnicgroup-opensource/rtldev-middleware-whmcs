@@ -1,7 +1,9 @@
 RewriteEngine On
 RewriteBase /
-RewriteRule ^domain-search$ /mydomainsearch.php [L,QSA,NC]
-RewriteRule ^domainchecker\.php$ domain-search [R=301,L,QSA,NC]
+
+RewriteCond %{REQUEST_METHOD} POST
+RewriteCond %{THE_REQUEST} ^POST\ /domainchecker\.php
+RewriteRule ^domainchecker\.php$ /mydomainsearch\.php [P]
 
 # Uncomment the following lines to enable static file caching
 #<IfModule mod_expires.c>
