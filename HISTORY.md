@@ -1,3 +1,10 @@
+## [18.0.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v18.0.0...v18.0.1) (2023-07-05)
+
+
+### Bug Fixes
+
+* **cnic ssl addon:** patch issue with missing dependency utopia/domains ([8912a2a](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/8912a2a8cf52ee70424e2f8860fbdcf81facbbc9))
+
 # [18.0.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v17.2.26...v18.0.0) (2023-07-03)
 
 
