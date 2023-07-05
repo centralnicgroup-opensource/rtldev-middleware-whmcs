@@ -1,3 +1,10 @@
+## [18.0.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v18.0.1...v18.0.2) (2023-07-05)
+
+
+### Bug Fixes
+
+* **cnic domain search addon:** updated broken url in spotlight tlds section ([d98e3b9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/d98e3b91eceb00ad0308f93ac1bd908adefc3f5c))
+
 ## [18.0.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v18.0.0...v18.0.1) (2023-07-05)
 
 
