@@ -1,3 +1,10 @@
+## [18.0.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v18.0.2...v18.0.3) (2023-07-07)
+
+
+### Bug Fixes
+
+* **cnic domain search engine addon:** fixed DB query issue preventing addon upgrade ([153c94c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/153c94c4203fbf9fa2ca6e5077ca7cfa117fb66e))
+
 ## [18.0.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v18.0.1...v18.0.2) (2023-07-05)
 
 
