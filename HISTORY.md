@@ -1,3 +1,10 @@
+## [19.0.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.0...v19.0.1) (2023-07-10)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** cleanup additional fields tmp. workaround ([2a07184](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/2a071847547998827ebb2bec8be856a163323177))
+
 # [19.0.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v18.0.3...v19.0.0) (2023-07-10)
 
 
