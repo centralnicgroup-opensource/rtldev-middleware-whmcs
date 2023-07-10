@@ -1,3 +1,16 @@
+# [19.0.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v18.0.3...v19.0.0) (2023-07-10)
+
+
+### Features
+
+* **cnic registrar module:** api-driven additional domain fields integration (no config required) ([c77d7b5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/c77d7b59dbb74b4f89ac5bb256f1c1251f13d9e7))
+
+
+### BREAKING CHANGES
+
+* **cnic registrar module:** New API-driven way for Additional Domain Fields added. Therefore, a custom configuration via /resources/domains/additionalfields.php is no longer required for the cnic registrar module. It follows the HEXONET Brand in that regard with few improvements. The Integration itself in direction of additional domain fields is by this step fully API-driven and with no support effort (missing or wrong additional domain fields configuration) and it makes a custom configuration entirely superfluous. In addition, we have made auto-prefilling available for tax id, language, country related input fields and we made the fields 100% translatable via Language Override Files.
+If you're interested in adding your custom translation, add domains with TLDs of interests to your Shopping Cart and switch to the Shopping Cart Item's Configuration. There, add "&showtranslationkeys=1" to the URL and press enter. Instead of the texts, you'll now see the Translation Keys which can be used in the Language Override files for adding your custom translations. If you remove that URL parameter again, texts will be displayed as usual. The fallback will always be our default english texts in case a translation is not present. It allows for translating step by step.
+
 ## [18.0.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v18.0.2...v18.0.3) (2023-07-07)
 
 
