@@ -1,3 +1,10 @@
+## [19.0.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.1...v19.0.2) (2023-07-11)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** patch issue in field generator ([0512f2b](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/0512f2b3fca96ddb8a936cd4a0d98ba103419102))
+
 ## [19.0.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.0...v19.0.1) (2023-07-10)
 
 
