@@ -1,3 +1,10 @@
+## [19.0.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.2...v19.0.3) (2023-07-12)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** review and cleanup of additional fields' required property detection ([8473cd2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/8473cd2302b2de3da242cbf4364cdb0590b73dac))
+
 ## [19.0.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.1...v19.0.2) (2023-07-11)
 
 
