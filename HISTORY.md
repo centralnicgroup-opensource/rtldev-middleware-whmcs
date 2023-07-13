@@ -1,3 +1,10 @@
+## [19.0.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.6...v19.0.7) (2023-07-13)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** replace comma in additional field option labels (=new option for WHMCS) ([d335b46](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/d335b4633dd89f19401c9471cb8218dbfa44c6b2))
+
 ## [19.0.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.5...v19.0.6) (2023-07-13)
 
 
