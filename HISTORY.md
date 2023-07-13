@@ -1,3 +1,10 @@
+## [19.0.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.3...v19.0.4) (2023-07-13)
+
+
+### Bug Fixes
+
+* **cnic ssl addon:** works again with ispapi registrar module ([f0ae65d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/f0ae65d524d46fc786c5d92129100960c1d93e6e))
+
 ## [19.0.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.2...v19.0.3) (2023-07-12)
 
 
