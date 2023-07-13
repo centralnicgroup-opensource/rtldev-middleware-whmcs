@@ -1,3 +1,11 @@
+## [19.0.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.5...v19.0.6) (2023-07-13)
+
+
+### Bug Fixes
+
+* **cnic domain importer:** do not include additional fields in import (auto-reg lookup of whmcs) ([31f138b](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/31f138bc7f3912d79ab1471cd5678db1f895a9d4))
+* **cnic registrar module:** patch AdditionalFields' Class internal function call to $this context ([e89b4ee](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/e89b4ee821c56a92c8c86363c685d6c193d99cba))
+
 ## [19.0.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.4...v19.0.5) (2023-07-13)
 
 
