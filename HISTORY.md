@@ -1,3 +1,10 @@
+## [19.0.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.4...v19.0.5) (2023-07-13)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** patched issue related to domain status for DNS management ([0e43b96](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/0e43b96d204cfa9f9868929e9bb5c999bc7750d7))
+
 ## [19.0.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.3...v19.0.4) (2023-07-13)
 
 
