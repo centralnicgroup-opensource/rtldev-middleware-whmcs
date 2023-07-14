@@ -1,3 +1,10 @@
+## [19.0.8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.7...v19.0.8) (2023-07-14)
+
+
+### Bug Fixes
+
+* **cnic ssl addon:** patch ouput of Intermediate Cert + Root Cert for CNR ([5c39e69](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/5c39e69e2e0d7bbb8566cbcab2de5e151200b280))
+
 ## [19.0.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.6...v19.0.7) (2023-07-13)
 
 
