@@ -48,5 +48,5 @@ if (strtoupper($result["status"]) === "AVAILABLE") {
     exit(0);
 }
 
-echo "domains not found";
+echo "domain not found";
 exit(0);

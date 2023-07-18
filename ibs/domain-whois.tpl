@@ -14,13 +14,7 @@
 					<input type="text" name="domainname" value="{$domain}" class="form-control" />
 				</div>
 			</div>
-	
-			{assign var="captcha" value="{$captchaType}"}
-			
-			<div class="form-group">
-	            {include file="$template/includes/captcha.tpl"}
-			</div>
-			
+		
 			<div class="form-group">
 				<div class="text-center">
 				   	<input type="submit" name="domain-whois" value="Search" class="btn btn-primary" />
