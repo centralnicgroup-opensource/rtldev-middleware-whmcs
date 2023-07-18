@@ -44,9 +44,9 @@ if (!isset($result["status"]) || $result["status"] === "FAILURE") {
 # price_ispremium=NO
 
 if (strtoupper($result["status"]) === "AVAILABLE") {
-    echo "domain found";
+    echo "domain available";
     exit(0);
 }
 
-echo "domain not found";
+echo "domain not available";
 exit(0);
