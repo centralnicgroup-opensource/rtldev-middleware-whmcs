@@ -1,3 +1,10 @@
+## [19.0.9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.8...v19.0.9) (2023-07-18)
+
+
+### Bug Fixes
+
+* **ispapi + cnic registrar module:** cleanup additional fields handling in _GetDomainInformation ([d59ea2c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/d59ea2c31169dd0ad564949654846a09ff0e28be))
+
 ## [19.0.8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.7...v19.0.8) (2023-07-14)
 
 
