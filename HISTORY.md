@@ -1,3 +1,10 @@
+## [19.0.11](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.10...v19.0.11) (2023-07-24)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** fix transfer precheck on shopping cart ([478f3f1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/478f3f1eb556e022d8e9dbf2c62c7c819f888d7f))
+
 ## [19.0.10](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.9...v19.0.10) (2023-07-24)
 
 
