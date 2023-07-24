@@ -1,3 +1,12 @@
+## [19.0.10](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.9...v19.0.10) (2023-07-24)
+
+
+### Bug Fixes
+
+* **cnic and ispapi registrar module:** beautifying the system activity logs ([f943d5c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/f943d5c4d814d0fc63b5a2a57d408adc0626cd09))
+* **ispapi registrar module:** getEPPCode for .NZ, .FI reviewed ([0b8a14e](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/0b8a14e40cbd09f119e367beb26793f0b944f685))
+* **ispapi registrar module:** logging for renewal patched ([98b2517](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/98b2517cce7876518091018d70f0b382a1a5c810))
+
 ## [19.0.9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.8...v19.0.9) (2023-07-18)
 
 
