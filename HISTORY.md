@@ -1,3 +1,10 @@
+## [19.0.12](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.11...v19.0.12) (2023-07-25)
+
+
+### Bug Fixes
+
+* **cnic domain search add-on:** Patched domain suggestion search ending in PHP error ([4a6c73b](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/4a6c73b45660f401b20c35ec6d5a45cd2d839707))
+
 ## [19.0.11](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.10...v19.0.11) (2023-07-24)
 
 
