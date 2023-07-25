@@ -1,3 +1,10 @@
+## [19.0.13](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.12...v19.0.13) (2023-07-25)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** no PHP error when saving contact data in context of pending domains ([3e94e7e](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/3e94e7eaa27cc64285926e093f0b9bcb2d44ea9f))
+
 ## [19.0.12](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.11...v19.0.12) (2023-07-25)
 
 
