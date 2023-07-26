@@ -1,3 +1,10 @@
+## [19.0.16](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.15...v19.0.16) (2023-07-26)
+
+
+### Bug Fixes
+
+* **cnic registar module:** fix issue with additional fields update in `_SaveContactDetails` ([efa3ca7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/efa3ca7083e2709bf750db2f67d95c19cda13980))
+
 ## [19.0.15](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.14...v19.0.15) (2023-07-26)
 
 
