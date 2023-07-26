@@ -1,3 +1,10 @@
+## [19.0.14](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.13...v19.0.14) (2023-07-26)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** add X-AT-DISCLOSE = 0 in contact data updates (auto-hide contact data) ([08d35c3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/08d35c3a5ddcb6794f23b1c707d605156fb2468a))
+
 ## [19.0.13](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.12...v19.0.13) (2023-07-25)
 
 
