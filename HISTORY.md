@@ -1,3 +1,10 @@
+## [19.0.15](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.14...v19.0.15) (2023-07-26)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** domain Sync to map Active to Transferred Away ([6091f03](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/6091f038c3a0a5b071235021f008eb2ee29517e1))
+
 ## [19.0.14](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.13...v19.0.14) (2023-07-26)
 
 
