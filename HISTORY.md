@@ -1,3 +1,10 @@
+# [19.1.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.16...v19.1.0) (2023-07-27)
+
+
+### Features
+
+* **cnic dns addon:** add ability to bulk apply templates to multiple domains ([8ea581a](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/8ea581a1ee69e710dd37bf4ff693ca90ddc036cf))
+
 ## [19.0.16](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.15...v19.0.16) (2023-07-26)
 
 
