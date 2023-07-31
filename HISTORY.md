@@ -1,3 +1,10 @@
+## [19.1.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.1.2...v19.1.3) (2023-07-31)
+
+
+### Bug Fixes
+
+* **cnic dns addon:** disable Apply button while in progress ([f5a37f1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/f5a37f1db846e39586d8468b709466fe0992b248))
+
 ## [19.1.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.1.1...v19.1.2) (2023-07-31)
 
 
