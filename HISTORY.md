@@ -1,3 +1,10 @@
+## [19.1.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.1.0...v19.1.1) (2023-07-31)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** additional fields conditional requirements detection ([eb0ef0e](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/eb0ef0eacf02c12b2c92d2eb933f3ae72806f2a4))
+
 # [19.1.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.0.16...v19.1.0) (2023-07-27)
 
 

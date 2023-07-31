@@ -28,3 +28,6 @@
 
 `$ gulp buildEncrypted --module ibs`
 
+### Generate whmcs*.zip to whmcs.tar.gz and export mysql dump
+
+`$ gulp databaseDump`
