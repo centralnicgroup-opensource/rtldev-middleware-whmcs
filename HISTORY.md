@@ -1,3 +1,10 @@
+## [19.1.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.1.1...v19.1.2) (2023-07-31)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** review registrar context in hooks ([e51e642](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/e51e6420b52eef603ccf9382e7f9ed428270f60d))
+
 ## [19.1.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.1.0...v19.1.1) (2023-07-31)
 
 
