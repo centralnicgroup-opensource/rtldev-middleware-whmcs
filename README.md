@@ -28,6 +28,20 @@
 
 `$ gulp buildEncrypted --module ibs`
 
-### Generate whmcs*.zip to whmcs.tar.gz and export mysql dump
+### Generate whmcs*.zip to whmcs.tar.gz and an export of database dump
 
-`$ gulp databaseDump`
+`$ gulp dbDumpWhmcs`
+
+### Export a new database dump only
+
+`$ gulp dbDump`
+
+### Copy Changed CNIC Template Files to WHMCS Directory
+
+Automatically copy any updates made to the CNIC template files to the corresponding WHMCS directory.
+
+`$ gulp themeWatcher`
+
+### Debugging using xDebug
+
+First make sure to start the debugging via Run > Start Debugging (F5), then you can simply call xdebug_break() in your code where you want the execution to pause, and the debugger will break at that point.

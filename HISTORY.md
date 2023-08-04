@@ -1,3 +1,18 @@
+# [20.0.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.1.3...v20.0.0) (2023-08-04)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** patch GetContactDetails to return all contact even if not set ([2c432d4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/2c432d444c613ee1b6fabb2f4d61bf4dec9f4fa5))
+* **ispapi registrar module:** improved description for .NO "Registrant ID Number" additional field ([60b0382](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/60b0382107bdfa5e585b7f8b30e1625b7b05134d))
+* **ispapi registrar module:** inject additional fields via Child Theme (deprecate JS solution) ([a5d8578](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/a5d857822d7fd504a6a28c6a3aedbd3d7563d39c))
+
+
+### BREAKING CHANGES
+
+* **ispapi registrar module:** Replaced our Javascript-based injection of additional fields into the contact
+information form in clientarea with a mechanism using Child Themes.
+
 ## [19.1.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.1.2...v19.1.3) (2023-07-31)
 
 
