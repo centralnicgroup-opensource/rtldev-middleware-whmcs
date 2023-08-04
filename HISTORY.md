@@ -1,3 +1,10 @@
+## [20.0.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v20.0.0...v20.0.1) (2023-08-04)
+
+
+### Bug Fixes
+
+* **cnic & ispapi registrar module:** patch for pre-select domain addons on checkout ([020f54f](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/020f54fc3952400e19971ff1ebcd81bf6f7881aa))
+
 # [20.0.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v19.1.3...v20.0.0) (2023-08-04)
 
 
