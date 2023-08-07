@@ -1,5 +1,4 @@
 <?php
-
 define("CLIENTAREA", true);
 
 //define("FORCESSL", true); // Uncomment to force the page to use https://
@@ -14,7 +13,6 @@ $ca->setPageTitle("WHOIS Lookup");
 $ca->addToBreadCrumb("domain-whois.php", "WHOIS ");
 $ca->initPage();
 $ca->setTemplate("domain-whois");
-
 
 if (isset($_POST["domain-whois"])) {
     $domainName = $_POST["domainname"];
@@ -31,7 +29,7 @@ if (isset($_POST["domain-whois"])) {
     } else {
         $ca->assign("results", $results);
         $whoisResult = urldecode($results["whois"]);
-        $domainStatus = $results["status"];
+        $domainStatus = $results["status"] === "available" ? $domainName . " is available to register!" : "";
         $whoisServer = "";
 
         $domain = explode(".", $domainName, 2);

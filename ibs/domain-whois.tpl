@@ -28,4 +28,10 @@
 		</div>
 	{/if}
 
+	{if $status}
+		<div class="whois-results well well-lg">
+			<pre>{$status}</pre>
+		</div>
+	{/if}
+
 </div>
