@@ -1,3 +1,10 @@
+## [20.0.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v20.0.1...v20.0.2) (2023-08-24)
+
+
+### Bug Fixes
+
+* **composer dependencies:** changed the way of producing the vendor directory ([fb3987c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/fb3987c596c14df719cb868072007c5cde36f23e))
+
 ## [20.0.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v20.0.0...v20.0.1) (2023-08-04)
 
 
