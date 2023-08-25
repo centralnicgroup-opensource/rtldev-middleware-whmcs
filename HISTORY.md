@@ -1,3 +1,10 @@
+## [20.0.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v20.0.2...v20.0.3) (2023-08-25)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** .dk transfers to be initiated without contact data ([34e8bc1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/34e8bc10b31402370e6253356d0441d7aae3b779))
+
 ## [20.0.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v20.0.1...v20.0.2) (2023-08-24)
 
 

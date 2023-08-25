@@ -24,11 +24,11 @@
 
 `$ gulp buildEncrypted --module tpp`
 
-### Generate TPP Wholesale fully unencrypted Archive
+### Generate IBS Wholesale fully unencrypted Archive
 
 `$ gulp buildEncrypted --module ibs`
 
-### Generate whmcs*.zip to whmcs.tar.gz and an export of database dump
+### Generate whmcs\*.zip to whmcs.tar.gz and an export of database dump
 
 `$ gulp dbDumpWhmcs`
 
