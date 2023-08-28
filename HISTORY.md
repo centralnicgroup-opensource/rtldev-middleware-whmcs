@@ -1,3 +1,10 @@
+## [20.0.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v20.0.3...v20.0.4) (2023-08-28)
+
+
+### Bug Fixes
+
+* **cnic domain search addon:** input search fix for bulk domain transfers ([4796874](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/47968741042a693aba0f6b145d6afac3ebecb1d9))
+
 ## [20.0.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v20.0.2...v20.0.3) (2023-08-25)
 
 
