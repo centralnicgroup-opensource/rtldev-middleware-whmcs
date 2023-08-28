@@ -1,3 +1,10 @@
+## [21.0.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.0.0...v21.0.1) (2023-08-28)
+
+
+### Bug Fixes
+
+* **cnic domain importer:** fix controller endpoints json response for http code 200 ([716f2e9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/716f2e91f51fb647d689919d8594b99fedd8f065))
+
 # [21.0.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v20.0.4...v21.0.0) (2023-08-28)
 
 
