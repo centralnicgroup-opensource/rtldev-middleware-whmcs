@@ -1,3 +1,31 @@
+# [21.0.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v20.0.4...v21.0.0) (2023-08-28)
+
+
+### Bug Fixes
+
+* **cnic + ispapi registrar module:** inject private nameserver list now via child theme ([7ebb039](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/7ebb0395ea040499108b5a151e7c97d0b980009b))
+* **ispapi registrar module:** add global default TTL Setting for DNS RR ([f3fe4bd](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/f3fe4bd57d40739406ebb4266513245808b764cd))
+* **ispapi registrar module:** deprecated add. fields injection in admin area (contact information) ([569d22b](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/569d22bf4c349ad9f6c4f098635af5d012e2c6d3))
+* **ispapi registrar module:** Dns Management replacement for RR deletion via wildcard ([a826cc5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/a826cc5416e0bd1c038581c6c8215d994e2dd34f))
+
+
+### Features
+
+* **cnic + ispapi registrar module:** add exact error of DNS Update to output and more record types (child theme) ([ff929fd](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/ff929fdf528136f1ee0cc53fe5ca4eb5263890dc))
+* **cnic + ispapi registrar module:** add support for TTL field for DNS Management Section ([0d682d5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/0d682d55808c1efcf756387ceaa32ca70c0ac85d))
+* **cnic + ispapi registrar module:** review private nameserver deletion for better UX ([e3fb49d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/e3fb49d66bfebda9a18f0a60e4c641f022021422))
+* **cnic registrar module:** add support for MXE resource record (internally covered via MX, A) ([dfc57ca](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/dfc57ca847d4562f3b8c4725e660eb4896911308))
+* **cnic sex/twenty-one theme:** show success message for succeeded dns update ([d556633](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/d556633cfb11c5cbe3c3536c824e6173b42b013c))
+* **ispapi registrar module:** offer more supported DNS Resource Records ([e3ca300](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/e3ca30063b7a75f3116e970ffdf56072f0293d79))
+
+
+### BREAKING CHANGES
+
+* **ispapi registrar module:** The way of doing the additional domain fields injection on contact information page in admin are wasn't compatible to all themes and were it did not work, we run into bugs. If you want to cover a contact update via admin area, please do the additional fields update via domain details first and then the contact update itself.
+* **cnic + ispapi registrar module:** We use beneficial child themes now (compatible to WHMCS 8) to improve the DNS Management Section. We added a TTL field plus better error / success messaging and more supported resource records. Please ensure so update your template fields by taking over custom changes we applied to includes/alert.tpl and clientareadomaindns.tpl. Find our custom files under /templates/cnic-six or /templates/cnic-twenty-one. Custom changes are wrapped with comments to ease up taking them over.
+* **cnic + ispapi registrar module:** Javascript-based way for private Nameserver List injection got replaced by
+injection over child theme.
+
 ## [20.0.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v20.0.3...v20.0.4) (2023-08-28)
 
 
