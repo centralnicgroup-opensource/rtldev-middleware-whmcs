@@ -1,3 +1,10 @@
+## [21.0.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.0.1...v21.0.2) (2023-08-29)
+
+
+### Bug Fixes
+
+* **readme.md:** updated readme.md file ([65432e8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/65432e8ce758b081800d3e2ab1519a2aca6c6a4d))
+
 ## [21.0.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.0.0...v21.0.1) (2023-08-28)
 
 
