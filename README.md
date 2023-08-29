@@ -1,47 +1,40 @@
-# Technical Documentation
+# WHMCS "CNIC" Software Bundle
 
-... TO BE EXTENDED ...
+[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-## Gulp Tasks
+This codebase addresses the WHMCS Software Bundle provided by CentralNic Group PLC. To access the ZIP archive with the latest release version, click [here](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/raw/main/whmcs-cnic-bundle.zip).
 
-### Release TPP Wholesale Archive
+Within this bundle, we've included:
 
-`$ gulp preRelease --module tpp`
+- The ISPAPI Registrar Module (our widgets integrated)
+- The ISPAPI Domain Search
+- The CNR (fka. RRPproxy) Registrar Module
+- The CNIC DNS Templating Addon
+- The CNIC SSL Cert Addon
+- The CNIC Domain Importer Addon
+- The CNIC Domain Migrator Addon
 
-### Release IBS Archive
+## Resources
 
-`$ gulp preRelease --module ibs`
+- [Documentation](https://centralnicgroup-public.github.io/rtldev-middleware-documentation/)
+- [Release Notes](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/releases)
 
-### Generate Encrypted Archive
+## Authors
 
-`$ gulp buildEncrypted`
+- **Kai Schwarz** - _lead developer_ - [KaiSchwarz-cnic](https://github.com/KaiSchwarz-cnic)
+- **Asif Nawaz** - _developer_ - [AsifNawaz-cnic](https://github.com/AsifNawaz-cnic)
+- **Sebastian Vassiliou** - _developer_ - [SebastianVassiliou-cnic](https://github.com/SebastianVassiliou-cnic)
 
-### Generate Partially Encrypted Archive
+Former Developers:
 
-`$ gulp buildEncrypted --module internal`
+- **Zoltan Egresi** - [ZoltanEgresi-cnic](https://github.com/ZoltanEgresi-cnic)
+- **Anthony Schneider** - [AnthonySchneider-cnic](https://github.com/AnthonySchneider-cnic)
+- **Tulasi Seelamkurthi** - [Tulsi91](https://github.com/tulsi91)
 
-### Generate TPP Wholesale fully unencrypted Archive
+## License
 
-`$ gulp buildEncrypted --module tpp`
+Except the ISPAPI Registrar Module and the CNIC Migration Addon, all our code is licensed under the MIT License - see the [LICENSE](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/blob/master/LICENSE) file for details.
+Using these two encrypted Addons is allowed. Any actions in direction of unencrypting / reverse engineering et al to gain knowledge of how these encrypted modules work are disallowed.
 
-### Generate IBS Wholesale fully unencrypted Archive
-
-`$ gulp buildEncrypted --module ibs`
-
-### Generate whmcs\*.zip to whmcs.tar.gz and an export of database dump
-
-`$ gulp dbDumpWhmcs`
-
-### Export a new database dump only
-
-`$ gulp dbDump`
-
-### Copy Changed CNIC Template Files to WHMCS Directory
-
-Automatically copy any updates made to the CNIC template files to the corresponding WHMCS directory.
-
-`$ gulp themeWatcher`
-
-### Debugging using xDebug
-
-First make sure to start the debugging via Run > Start Debugging (F5), then you can simply call xdebug_break() in your code where you want the execution to pause, and the debugger will break at that point.
+[CentralNic Group PLC](https://centralnicreseller.com)

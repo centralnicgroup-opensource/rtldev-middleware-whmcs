@@ -7,7 +7,7 @@ Please note we have a code of conduct, please follow it in all your interactions
 
 ## Pull Request Process
 
-Read [here](https://github.com/hexonet/whmcs-ispapi-registrar/wiki/Development-Guide#pull-request-pr-procedure).
+TBD. For now just open your PR and assign it for review to our hands.
 
 ## Code of Conduct
 
