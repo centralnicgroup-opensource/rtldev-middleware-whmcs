@@ -1,3 +1,10 @@
+# [21.1.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.0.3...v21.1.0) (2023-08-31)
+
+
+### Features
+
+* **ispapi registrar module:** to-Do List add: failed post-transfer updates + non-free domain trades ([7a4e881](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/7a4e8813074f1bc7cff2ef39465d7a94916a1a7b))
+
 ## [21.0.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.0.2...v21.0.3) (2023-08-29)
 
 
