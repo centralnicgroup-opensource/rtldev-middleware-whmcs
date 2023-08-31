@@ -1,3 +1,10 @@
+## [21.1.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.1.1...v21.1.2) (2023-08-31)
+
+
+### Bug Fixes
+
+* **cnic domain search addon:** sidebar menu entries on review & checkout page ([1b07242](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/1b07242dc6ff88fe47ba3cbe570735fe71c7c260))
+
 ## [21.1.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.1.0...v21.1.1) (2023-08-31)
 
 
