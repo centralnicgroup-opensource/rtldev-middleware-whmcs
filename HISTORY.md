@@ -1,3 +1,10 @@
+## [21.1.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.1.0...v21.1.1) (2023-08-31)
+
+
+### Bug Fixes
+
+* **cnic domain search addon:** patched a bug related to  domain transfers auth code ([4ff1a34](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/4ff1a349a36b691421d7cfc51bd810eab5594000))
+
 # [21.1.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.0.3...v21.1.0) (2023-08-31)
 
 
