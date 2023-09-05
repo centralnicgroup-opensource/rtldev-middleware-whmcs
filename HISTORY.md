@@ -1,3 +1,10 @@
+# [21.2.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.1.2...v21.2.0) (2023-09-05)
+
+
+### Features
+
+* **cnic domain search addon:** notifications when adding items to cart; UI for info in transfer tab ([5da5d99](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/5da5d99b64c4747b9dec6162d9f27031673c9c34))
+
 ## [21.1.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.1.1...v21.1.2) (2023-08-31)
 
 
