@@ -1,3 +1,10 @@
+## [21.2.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.2.0...v21.2.1) (2023-09-06)
+
+
+### Bug Fixes
+
+* **cnic domain search addon:** patched an issue related to add/remove items to cart ([e72da1b](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/e72da1b99716803c0ba350a738d690af0931cf71))
+
 # [21.2.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.1.2...v21.2.0) (2023-09-05)
 
 
