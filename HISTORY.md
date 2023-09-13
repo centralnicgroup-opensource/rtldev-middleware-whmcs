@@ -1,3 +1,10 @@
+## [21.2.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.2.1...v21.2.2) (2023-09-13)
+
+
+### Bug Fixes
+
+* **ispapi registrar:** add multiple improvements to DNS Management and detection of duplicate RRs ([cfd31cf](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/cfd31cf77dd14e6ad553fd3cbe7f13036ec2d039)), closes [#267](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/issues/267)
+
 ## [21.2.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.2.0...v21.2.1) (2023-09-06)
 
 
