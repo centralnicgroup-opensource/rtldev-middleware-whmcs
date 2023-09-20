@@ -1,3 +1,10 @@
+## [21.2.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.2.2...v21.2.3) (2023-09-20)
+
+
+### Bug Fixes
+
+* **cnic search engine addon:** fixed ob_start conflict with zlib compression ([fc2d3cf](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/fc2d3cfd6504a57010bb1f7130e5e2c73a9c037f))
+
 ## [21.2.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.2.1...v21.2.2) (2023-09-13)
 
 
