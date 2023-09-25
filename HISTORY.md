@@ -1,3 +1,10 @@
+## [21.2.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.2.3...v21.2.4) (2023-09-25)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** .eu domain registration error due to conflicting client data fields ([76e5b73](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/76e5b731880e5a047b9e4309747c444ac9091f1c))
+
 ## [21.2.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.2.2...v21.2.3) (2023-09-20)
 
 
