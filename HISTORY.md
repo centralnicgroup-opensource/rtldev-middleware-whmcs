@@ -1,3 +1,10 @@
+# [21.3.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.2.4...v21.3.0) (2023-09-25)
+
+
+### Features
+
+* **cnic & ispapi registrar module:** implemented validation for additional fields on the domain cart page ([a98befe](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/a98befebdb9598c4055dc1ae331518f5c701d2cf))
+
 ## [21.2.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.2.3...v21.2.4) (2023-09-25)
 
 
