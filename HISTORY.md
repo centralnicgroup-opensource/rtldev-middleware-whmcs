@@ -1,3 +1,10 @@
+## [21.3.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.3.0...v21.3.1) (2023-09-26)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** patch PHP Error in GetContactDetails in case of missing API data ([a09c44d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/a09c44dc0d75a28ad796994396133732a4e30cec))
+
 # [21.3.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.2.4...v21.3.0) (2023-09-25)
 
 
