@@ -1,3 +1,10 @@
+# [21.4.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.3.1...v21.4.0) (2023-09-27)
+
+
+### Features
+
+* **cnic domain monitoring addon:** Sync premium status and apply pricing updates to domains ([370fd99](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/370fd995d4a144cc58cac8e196f7cf5f29c947f7))
+
 ## [21.3.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.3.0...v21.3.1) (2023-09-26)
 
 
