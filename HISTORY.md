@@ -1,3 +1,10 @@
+## [21.4.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.4.3...v21.4.4) (2023-09-28)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** reviewed Get/SaveEmailforwarding. Create DNSZone dnsmanagement-like ([e6ee658](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/e6ee6584d25091c5650b1ebac766a8456d22b34d))
+
 ## [21.4.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.4.2...v21.4.3) (2023-09-28)
 
 
