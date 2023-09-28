@@ -1,3 +1,10 @@
+## [21.4.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.4.2...v21.4.3) (2023-09-28)
+
+
+### Bug Fixes
+
+* **cnic domain monitoring addon:** patched an issue throwing an error on activation ([b69c430](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/b69c4300b92642db988aac2e35d63f0e11e3d56c))
+
 ## [21.4.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.4.1...v21.4.2) (2023-09-28)
 
 
