@@ -1,3 +1,10 @@
+## [21.4.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.4.1...v21.4.2) (2023-09-28)
+
+
+### Bug Fixes
+
+* **migrator addon:** store EPP codes without encoded HTML entities ([ca4c4c1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/ca4c4c16e41a9975849aa86984a50b72ed141f4f))
+
 ## [21.4.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.4.0...v21.4.1) (2023-09-28)
 
 

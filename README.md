@@ -3,7 +3,7 @@
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
-This codebase addresses the WHMCS Software Bundle provided by CentralNic Group PLC. To access the ZIP archive with the latest release version, click [here](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/raw/main/whmcs-cnic-bundle.zip).
+This codebase addresses the WHMCS Software Bundle provided by Team Internet Group PLC. To access the ZIP archive with the latest release version, click [here](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/raw/main/whmcs-cnic-bundle.zip).
 
 Within this bundle, we've included:
 
@@ -38,4 +38,4 @@ Former Developers:
 Except the ISPAPI Registrar Module and the CNIC Migration Addon, all our code is licensed under the MIT License - see the [LICENSE](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/blob/master/LICENSE) file for details.
 Using these two encrypted Addons is allowed. Any actions in direction of unencrypting / reverse engineering et al to gain knowledge of how these encrypted modules work are disallowed.
 
-[CentralNic Group PLC](https://centralnicreseller.com)
+[Team Internet Group PLC](https://teaminternet.com)
