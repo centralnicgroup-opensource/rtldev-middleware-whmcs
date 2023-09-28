@@ -14,6 +14,7 @@ Within this bundle, we've included:
 - The CNIC SSL Cert Addon
 - The CNIC Domain Importer Addon
 - The CNIC Domain Migrator Addon
+- The CNIC Domain Monitoring Addon
 
 ## Resources
 

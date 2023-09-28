@@ -1,3 +1,11 @@
+## [21.4.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.4.0...v21.4.1) (2023-09-28)
+
+
+### Bug Fixes
+
+* **cnic domain monitoring addon:** delete record functionality patch ([10af4d6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/10af4d624a21bcfea8d8092e04ea4817c180c5b8))
+* **cnic domain monitoring addon:** patch to recalculate premium prices manually with extended info ([15948de](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/15948dee9b576bb9105105e2cb41a3c6d430dfe3))
+
 # [21.4.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.3.1...v21.4.0) (2023-09-27)
 
 
