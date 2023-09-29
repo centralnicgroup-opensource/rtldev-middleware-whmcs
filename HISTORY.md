@@ -1,3 +1,10 @@
+## [21.4.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.4.4...v21.4.5) (2023-09-29)
+
+
+### Bug Fixes
+
+* **ispapi/cnic registrar module:** additional domain fields validation scope & processing ([e052c7d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/e052c7d1b07f79446b614375c30132f6aa0001fe))
+
 ## [21.4.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.4.3...v21.4.4) (2023-09-28)
 
 
