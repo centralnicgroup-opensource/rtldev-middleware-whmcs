@@ -1,3 +1,10 @@
+## [21.4.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.4.5...v21.4.6) (2023-10-02)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** add DNSZone for EmailForwardings if not present ([508eec9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/508eec990a6621ba65db5ed3904911c7bac952c6))
+
 ## [21.4.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.4.4...v21.4.5) (2023-09-29)
 
 
