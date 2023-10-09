@@ -1,3 +1,10 @@
+## [21.4.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.4.6...v21.4.7) (2023-10-09)
+
+
+### Bug Fixes
+
+* **package.json:** bumped semantic-release-whmcs package depedency to 5.0.4 (no need to upgrade) ([26fde4a](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/26fde4a3416fa2da5c0e70ce74e7375d9759b565))
+
 ## [21.4.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.4.5...v21.4.6) (2023-10-02)
 
 
