@@ -1,3 +1,11 @@
+# [21.5.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.4.7...v21.5.0) (2023-10-09)
+
+
+### Features
+
+* **cnic registrar module:** added AA buttons for approving/rejecting outgoing transfers ([5e4f40f](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/5e4f40fa0ebafb1f262a530a2e30e4cdf6991402))
+* **ispapi registrar module:** added AA buttons for approving/rejecting outgoing transfers ([da5b0f2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/da5b0f2c72dd4dafcc3984025a1c6ee489fb32f9))
+
 ## [21.4.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.4.6...v21.4.7) (2023-10-09)
 
 
