@@ -1,3 +1,10 @@
+## [21.5.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.5.1...v21.5.2) (2023-10-11)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** deprecate & cleanup of feature "Daily Cron" ([8c67b88](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/8c67b88b1617c88e9d3cb526b6aeb4daf56d79e3))
+
 ## [21.5.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.5.0...v21.5.1) (2023-10-11)
 
 
