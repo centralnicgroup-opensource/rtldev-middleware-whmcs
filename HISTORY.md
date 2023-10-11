@@ -1,3 +1,10 @@
+## [21.5.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.5.0...v21.5.1) (2023-10-11)
+
+
+### Bug Fixes
+
+* **cnic & ispapi registrar module:** Domain private Nameservers access and deletion functionality fixed. ([7bf0217](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/7bf0217d88a519b53bbe0d6031ceb7737455e442))
+
 # [21.5.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.4.7...v21.5.0) (2023-10-09)
 
 
