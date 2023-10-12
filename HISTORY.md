@@ -1,3 +1,10 @@
+## [21.5.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.5.2...v21.5.3) (2023-10-12)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** review additional domain fields for TLD .giving ([ec43ad4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/ec43ad4ad84883f47800ec784396204da4ce4c9a))
+
 ## [21.5.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.5.1...v21.5.2) (2023-10-11)
 
 
