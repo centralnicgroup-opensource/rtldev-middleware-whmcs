@@ -1,3 +1,10 @@
+## [21.5.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.5.3...v21.5.4) (2023-10-12)
+
+
+### Bug Fixes
+
+* **ssl module:** fix default registrar fallback ([e381599](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/e38159930f0436de76ff5e3215de0335c3104454))
+
 ## [21.5.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.5.2...v21.5.3) (2023-10-12)
 
 
