@@ -1,3 +1,14 @@
+# [21.6.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.5.4...v21.6.0) (2023-10-20)
+
+
+### Features
+
+* **cnic registrar module:** add support for managing DS records in DNSSEC ([2547c38](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/2547c389096c063b6405331d9ce60b542b261630))
+* **cnic registrar module:** automatically detect if DNSSEC supports DS records for TLD ([3f13d30](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/3f13d3015d73bf282836af6c9ed95364906c8317))
+* **ibs registrar module:** automatically detect if DNSSEC supports DS records for TLD ([9c2f301](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/9c2f301c840d7f62e4e76cb6493522720cf91095))
+* **ispapi registrar module:** auto-detect which dnssec form is supported (dsdata or dnskey) ([69de940](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/69de940b67fa047b038f1eb67631404a1bf81c46))
+* **ispapi registrar module:** revamped DNSSEC management feature ([dfef791](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/dfef79106eb8a216272b470625e8533531913cef))
+
 ## [21.5.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.5.3...v21.5.4) (2023-10-12)
 
 
