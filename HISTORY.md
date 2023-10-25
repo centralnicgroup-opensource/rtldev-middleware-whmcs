@@ -1,3 +1,10 @@
+## [21.6.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.6.0...v21.6.1) (2023-10-25)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** reviewed handling of applications (premium domains, .swiss et al) ([f9c0e86](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/f9c0e86bf70e0268e0dd8eb1393c847a85a76809))
+
 # [21.6.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.5.4...v21.6.0) (2023-10-20)
 
 
