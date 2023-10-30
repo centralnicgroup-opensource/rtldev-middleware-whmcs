@@ -1,3 +1,10 @@
+## [21.6.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.6.2...v21.6.3) (2023-10-30)
+
+
+### Bug Fixes
+
+* **ibs / cnic / ispapi registrar modules:** patch issue with if branch in dnssec template ([b8a4d18](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/b8a4d187fe0bf2446790dd68a36f5c2e3432270a))
+
 ## [21.6.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.6.1...v21.6.2) (2023-10-30)
 
 
