@@ -1,3 +1,10 @@
+## [21.6.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.6.1...v21.6.2) (2023-10-30)
+
+
+### Bug Fixes
+
+* **ibs / cnic / ispapi registrar modules:** review dnssec template for translation support ([9172f93](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/9172f93bf0074a68cb506fcdc96a096ac7d2a3b4)), closes [#271](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/issues/271)
+
 ## [21.6.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.6.0...v21.6.1) (2023-10-25)
 
 
