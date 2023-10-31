@@ -1,3 +1,10 @@
+## [21.6.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.6.3...v21.6.4) (2023-10-31)
+
+
+### Bug Fixes
+
+* **deps:** bump lit from 3.0.0 to 3.0.1 in /domain-search-src-files ([973b3a0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/973b3a0416b4a7b84a3716211cf654776b769927))
+
 ## [21.6.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.6.2...v21.6.3) (2023-10-30)
 
 
