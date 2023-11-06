@@ -23,19 +23,22 @@ Within this bundle, we've included:
 
 ## Authors
 
-- **Kai Schwarz** - _lead developer_ - [KaiSchwarz-cnic](https://github.com/KaiSchwarz-cnic)
+- **Kai Schwarz** - _Team Lead_ - [KaiSchwarz-cnic](https://github.com/KaiSchwarz-cnic)
 - **Asif Nawaz** - _developer_ - [AsifNawaz-cnic](https://github.com/AsifNawaz-cnic)
 - **Sebastian Vassiliou** - _developer_ - [SebastianVassiliou-cnic](https://github.com/SebastianVassiliou-cnic)
 
 Former Developers:
 
-- **Zoltan Egresi** - [ZoltanEgresi-cnic](https://github.com/ZoltanEgresi-cnic)
-- **Anthony Schneider** - [AnthonySchneider-cnic](https://github.com/AnthonySchneider-cnic)
-- **Tulasi Seelamkurthi** - [Tulsi91](https://github.com/tulsi91)
+- **Zoltan Egresi** [RRPproxy] - [ZoltanEgresi-cnic](https://github.com/ZoltanEgresi-cnic)
+- **Pavel Ciocan** [IBS] - [PavelCiocan-cnic](https://github.com/PavelCiocan-cnic)
+- **Anthony Schneider** [HEXONET] - [AnthonySchneider-cnic](https://github.com/AnthonySchneider-cnic)
+- **Tulasi Seelamkurthi** [HEXONET] - [Tulsi91](https://github.com/tulsi91)
 
 ## License
 
-Except the ISPAPI Registrar Module and the CNIC Migration Addon, all our code is licensed under the MIT License - see the [LICENSE](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/blob/master/LICENSE) file for details.
-Using these two encrypted Addons is allowed. Any actions in direction of unencrypting / reverse engineering et al to gain knowledge of how these encrypted modules work are disallowed.
+Except the IBS Registrar Module and the TPP Wholesale Registrar module, all our code is closed source.
+Using these encrypted Addons is allowed. Any actions in direction of unencrypting / reverse engineering et al to gain knowledge of how these encrypted modules work are disallowed.
+
+Means for IBS and TPPW, the modules are released under the MIT License - see the [LICENSE](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/blob/master/LICENSE) file for details.
 
 [Team Internet Group PLC](https://teaminternet.com)
