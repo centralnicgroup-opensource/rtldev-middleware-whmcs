@@ -1,3 +1,19 @@
+## [21.6.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.6.5...v21.6.6) (2023-11-10)
+
+
+### Bug Fixes
+
+* **release process:** patch release process ([88849cf](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/88849cf8c4bb7887d4d9260593f3ba43f545eb72))
+
+## [21.6.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.6.4...v21.6.5) (2023-11-10)
+
+
+### Bug Fixes
+
+* **ci:** test release process after rewrite (no need to upgrade) ([714b3ff](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/714b3ffe3179f80459f0612ebe1b58c99254faec))
+* **deps:** bump lit from 3.0.1 to 3.0.2 in /domain-search-src-files ([fad89a4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/fad89a46e2ae0b1a2ad8ef08869942aa639b2a7f))
+* **ispapi registrar module:** fix Transfer integration and use of additional fields (e.g. .dk) ([b2f59b3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/b2f59b32edeeb359b0c4ede155278fa3ba3191be))
+
 ## [21.6.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.6.3...v21.6.4) (2023-11-02)
 
 
