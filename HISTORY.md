@@ -1,3 +1,10 @@
+## [21.6.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.6.6...v21.6.7) (2023-11-24)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** tLD & Pricing Import to ignore garbage data from API e.g. .nu (CA) ([4b2beaa](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/4b2beaa1444e4bfcbad13d1685749124e83a6be3))
+
 ## [21.6.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.6.5...v21.6.6) (2023-11-17)
 
 
