@@ -1,3 +1,10 @@
+## [21.6.8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.6.7...v21.6.8) (2023-11-24)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** remove contact-related params NEW, PREVERIFY and AUTODELETE ([ce29e99](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/ce29e999a2c7d84ae32d150db619e400fadd59ce))
+
 ## [21.6.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.6.6...v21.6.7) (2023-11-24)
 
 
