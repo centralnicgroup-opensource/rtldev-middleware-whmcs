@@ -1,3 +1,10 @@
+## [21.6.9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.6.8...v21.6.9) (2023-12-07)
+
+
+### Bug Fixes
+
+* **domain search addon:** Domain transfer authorization codes with dots (.) were not being processed correctly. ([408a7da](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/408a7da9474ebc4c050988bf2ebee8b3f0c17c9b))
+
 ## [21.6.8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.6.7...v21.6.8) (2023-11-24)
 
 
