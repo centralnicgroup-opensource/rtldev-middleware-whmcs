@@ -1,3 +1,10 @@
+## [21.6.10](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.6.9...v21.6.10) (2023-12-14)
+
+
+### Bug Fixes
+
+* **domain search addon:** Fixed the "cannot redeclare gettldlist" error issue for specific resellers. ([a566776](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/a5667768271bc216cd489fffd818aab402c7a624))
+
 ## [21.6.9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.6.8...v21.6.9) (2023-12-07)
 
 
