@@ -1,3 +1,10 @@
+## [21.6.11](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.6.10...v21.6.11) (2023-12-14)
+
+
+### Bug Fixes
+
+* **domain search addon:** Updated the link for transferring domains to our search engine addon URL, overriding the default Store > Transfer Domain To Us link. ([e97446c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/e97446cfefa5af50bc9fac1609a1a61d687c70a2))
+
 ## [21.6.10](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.6.9...v21.6.10) (2023-12-14)
 
 
