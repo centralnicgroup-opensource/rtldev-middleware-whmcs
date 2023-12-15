@@ -1,3 +1,11 @@
+## [21.6.12](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.6.11...v21.6.12) (2023-12-15)
+
+
+### Bug Fixes
+
+* **cnr registrar:** make sure DNS zone is existing when saving records ([322459f](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/322459f075312be9620401dff013997fa22af1e2))
+* **dns addon:** fix template failing to apply ([38b88bc](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/38b88bc9b04a20a07c8522b67173983728619257))
+
 ## [21.6.11](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.6.10...v21.6.11) (2023-12-14)
 
 
