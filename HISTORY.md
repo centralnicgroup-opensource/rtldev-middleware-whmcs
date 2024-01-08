@@ -1,3 +1,10 @@
+## [21.6.13](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.6.12...v21.6.13) (2024-01-08)
+
+
+### Bug Fixes
+
+* **cnr registrar:** fix ignored error on domain status when domain is transfered away ([74b1beb](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/74b1beb98d51bac4448d23a0dee91a1229c9b614))
+
 ## [21.6.12](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.6.11...v21.6.12) (2023-12-15)
 
 
