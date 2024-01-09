@@ -8,8 +8,8 @@ This codebase addresses the WHMCS Software Bundle provided by Team Internet Grou
 Within this bundle, we've included:
 
 - The ISPAPI Registrar Module (our widgets integrated)
-- The ISPAPI Domain Search
 - The CNR (fka. RRPproxy) Registrar Module
+- The CNIC Domain Search
 - The CNIC DNS Templating Addon
 - The CNIC SSL Cert Addon
 - The CNIC Domain Importer Addon

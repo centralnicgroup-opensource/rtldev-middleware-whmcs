@@ -1,3 +1,15 @@
+# [22.0.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.6.13...v22.0.0) (2024-01-09)
+
+
+### Features
+
+* **ssl:** implement new CNR SSL API 2.0 ([4b399f1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/4b399f146028f82607c5f01d464bc591b3e6ef52))
+
+
+### BREAKING CHANGES
+
+* **ssl:** Existing legacy certificates must be migrated by opening the SSL Addon once.
+
 ## [21.6.13](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v21.6.12...v21.6.13) (2024-01-08)
 
 
