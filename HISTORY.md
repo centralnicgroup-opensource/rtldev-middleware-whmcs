@@ -1,3 +1,10 @@
+## [22.0.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.0.1...v22.0.2) (2024-01-10)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** temporarily deactivate premium domain data auto-cleanup ([10f0633](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/10f0633818d6371e63bc67455bda51b962a1a8c6))
+
 ## [22.0.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.0.0...v22.0.1) (2024-01-09)
 
 
