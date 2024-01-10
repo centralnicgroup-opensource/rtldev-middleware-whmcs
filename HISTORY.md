@@ -1,3 +1,10 @@
+## [22.0.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.0.3...v22.0.4) (2024-01-10)
+
+
+### Bug Fixes
+
+* **deps:** bump lit from 3.1.0 to 3.1.1 in /domain-search-src-files ([aa2ae68](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/aa2ae68eda8972d58a8d0e3791a0d6428b042b8c))
+
 ## [22.0.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.0.2...v22.0.3) (2024-01-10)
 
 
