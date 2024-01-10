@@ -1,3 +1,10 @@
+## [22.0.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.0.2...v22.0.3) (2024-01-10)
+
+
+### Bug Fixes
+
+* **domain search addon:** fixed the stylesheet loading issue for WHMCS installations in sub-folders ([cc388a2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/cc388a2237fec2a426b00d2d358d4c25d624e6f5))
+
 ## [22.0.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.0.1...v22.0.2) (2024-01-10)
 
 
