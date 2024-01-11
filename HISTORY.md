@@ -1,3 +1,10 @@
+## [22.0.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.0.4...v22.0.5) (2024-01-11)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** .ES fields (X-ES-REGISTRANT-TIPO-IDENTIFICACION, add option VAT ID) ([d8c41a9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/d8c41a9fbf38ec659dac4666caa9aaa7427aea8e))
+
 ## [22.0.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.0.3...v22.0.4) (2024-01-10)
 
 
