@@ -1,3 +1,10 @@
+## [22.1.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.1.0...v22.1.1) (2024-1-15)
+
+
+### Bug Fixes
+
+* **domain search addon:** Fixed an issue that was preventing the adding domains to the cart for domain transfers. ([cc99db6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/cc99db6fb052b03603e28d3c7df26cd05e3e7bc5))
+
 # [22.1.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.0.5...v22.1.0) (2024-1-15)
 
 
