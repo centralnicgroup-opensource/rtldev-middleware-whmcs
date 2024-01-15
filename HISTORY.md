@@ -1,3 +1,10 @@
+# [22.1.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.0.5...v22.1.0) (2024-1-15)
+
+
+### Features
+
+* **domain search addon:** aftermarket domains integration for HX and CNIC ([936504a](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/936504ac19f0d1603b391aaab9787932f0fef08b))
+
 ## [22.0.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.0.4...v22.0.5) (2024-01-11)
 
 
