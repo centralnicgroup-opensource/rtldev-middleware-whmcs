@@ -1,3 +1,10 @@
+## [22.1.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.1.1...v22.1.2) (2024-1-16)
+
+
+### Bug Fixes
+
+* **domain search addon:** Marking Aftermarket domains as reserved in regular and suggestion tabs. ([a51d141](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/a51d14187c9de5e3ac39414c682f287d5311c41e))
+
 ## [22.1.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.1.0...v22.1.1) (2024-1-15)
 
 
