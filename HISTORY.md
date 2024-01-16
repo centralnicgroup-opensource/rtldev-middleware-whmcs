@@ -1,3 +1,10 @@
+# [22.2.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.1.2...v22.2.0) (2024-1-16)
+
+
+### Features
+
+* **domain search addon:** Added a quick link for Aftermarket domains in Regular/Suggestions tab search results, directing users to the Aftermarket search tab. ([0f691f0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/0f691f0c3bd0370ce4bcd512be50d9947fe99975))
+
 ## [22.1.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.1.1...v22.1.2) (2024-1-16)
 
 
