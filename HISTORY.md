@@ -1,3 +1,10 @@
+## [22.2.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.2.0...v22.2.1) (2024-1-18)
+
+
+### Bug Fixes
+
+* **ispapi & cnic registrar:** exclude invalid domains from appearing in the SearchEngine via API ([126f2d3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/126f2d3a54f98d6e0dcc0d46676ae80ec0ca6b6e))
+
 # [22.2.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.1.2...v22.2.0) (2024-1-16)
 
 
