@@ -1,3 +1,10 @@
+# [22.3.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.2.1...v22.3.0) (2024-1-22)
+
+
+### Features
+
+* **ispapi/cnr/ibs registrar module:** add todo item in case of free/0Y transfer ([37551fa](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/37551fac355dd5dc0a65138d26d01b6a88f393fb))
+
 ## [22.2.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.2.0...v22.2.1) (2024-1-18)
 
 
