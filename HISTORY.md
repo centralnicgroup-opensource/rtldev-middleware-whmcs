@@ -1,3 +1,10 @@
+## [22.3.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.3.0...v22.3.1) (2024-1-24)
+
+
+### Bug Fixes
+
+* **cnic and ibs registrar:** patch for adding to do items for  domain transfers without renewals ([98cacf7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/98cacf7bc1fb88af9ba6b1d729b9ffbb973e61c4))
+
 # [22.3.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.2.1...v22.3.0) (2024-1-22)
 
 
