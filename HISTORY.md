@@ -1,3 +1,10 @@
+## [22.3.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.3.1...v22.3.2) (2024-1-30)
+
+
+### Performance Improvements
+
+* **css and js files:** reviewed and optimised css and js file with resource hints ([72c32df](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/72c32df1022b0e6773711a43f3a46f6202df5787))
+
 ## [22.3.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.3.0...v22.3.1) (2024-1-24)
 
 
