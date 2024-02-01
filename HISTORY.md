@@ -1,3 +1,15 @@
+## [22.3.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.3.2...v22.3.3) (2024-2-1)
+
+
+### Bug Fixes
+
+* **domain search addon:** enhance Compatibility for WHMCS Database Operations ([9ac16b6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/9ac16b64c6b68a1dc9702125efb07fbcbfcb3cbd))
+
+
+### Performance Improvements
+
+* **css and javascripts:** preloading stylesheets and defer loading javascripts to improve UI ([e84b17c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/e84b17c042b18b04d923e3df8a79dbab09bb422d))
+
 ## [22.3.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.3.1...v22.3.2) (2024-1-30)
 
 
