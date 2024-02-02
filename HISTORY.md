@@ -1,3 +1,10 @@
+## [22.3.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.3.5...v22.3.6) (2024-2-2)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** fix SaveDNS integration (return error case of internal GetDNS call) ([b711854](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/b71185479c875a2112917a610612ce6c9be299f2))
+
 ## [22.3.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.3.4...v22.3.5) (2024-2-2)
 
 
