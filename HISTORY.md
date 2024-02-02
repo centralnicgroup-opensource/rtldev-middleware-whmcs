@@ -1,3 +1,10 @@
+## [22.3.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.3.4...v22.3.5) (2024-2-2)
+
+
+### Bug Fixes
+
+* **cnr registrar module:** minor improvement for setting transferlock within registration process ([238ad9f](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/238ad9f5f200b6dbfda537e95a3ec9ef62a698a5))
+
 ## [22.3.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.3.3...v22.3.4) (2024-2-1)
 
 
