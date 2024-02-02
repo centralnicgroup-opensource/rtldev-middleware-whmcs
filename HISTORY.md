@@ -1,3 +1,10 @@
+## [22.3.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.3.6...v22.3.7) (2024-2-2)
+
+
+### Bug Fixes
+
+* **cnic dns addon:** Ensure freshly created DNS Templates are available for Bulk Update ([ad677c6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/ad677c66861b8cc5d64a31ba5a32762b2d7ba7cd))
+
 ## [22.3.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.3.5...v22.3.6) (2024-2-2)
 
 
