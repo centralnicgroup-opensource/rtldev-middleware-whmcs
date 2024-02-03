@@ -1,3 +1,10 @@
+## [22.3.8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.3.7...v22.3.8) (2024-2-3)
+
+
+### Bug Fixes
+
+* **migrator:** improve database performance ([4bc886d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/4bc886d5bd19d0ca3ea0af468ca2f429e0531a02))
+
 ## [22.3.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.3.6...v22.3.7) (2024-2-2)
 
 
