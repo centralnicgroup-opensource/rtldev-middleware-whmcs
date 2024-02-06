@@ -1,3 +1,10 @@
+# [22.4.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.3.8...v22.4.0) (2024-2-6)
+
+
+### Features
+
+* **cnr registrar module:** Implemented Transfer Status and Log integration for domains in "Pending Transfer" status ([bd14184](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/bd14184dfe295a168a8237a4f9861e93b6367563))
+
 ## [22.3.8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.3.7...v22.3.8) (2024-2-3)
 
 
