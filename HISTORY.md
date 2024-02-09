@@ -1,3 +1,13 @@
+## [22.4.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.4.0...v22.4.1) (2024-2-9)
+
+
+### Bug Fixes
+
+* **cnr registrar module:** aftermarket integration: check for registrar id before processing ([4b33e4b](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/4b33e4b6fb8c802b23e55ff0f994310150dce31f))
+* **cnr registrar module:** aftermarket integration: don't set a registration to pending transfer ([2482c91](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/2482c91fd188712673ac2088a83942be75fc29af))
+* **hooks:** fixed scope of hooks ([b65ceec](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/b65ceec18e5a0eef979ca5054ec758e91ba908a1))
+* **ispapi registrar module:** keep non-realtime registrations pending until completion e.g. .dk ([70e25f6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/70e25f6cc54a6940c6b10b53a864977d8193d0f4))
+
 # [22.4.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.3.8...v22.4.0) (2024-2-6)
 
 
