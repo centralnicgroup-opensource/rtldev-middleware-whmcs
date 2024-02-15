@@ -1,3 +1,11 @@
+## [22.4.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.4.2...v22.4.3) (2024-2-15)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** patched .EU domain transfers with too many contact data submitted ([48abb9f](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/48abb9fae389983cfc821884efbc283f6c1e92cc))
+* **cnic registrar module:** using unformatted phone number for registrations and transfers ([5919f6c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/5919f6c1579373da13e44172f67cdeebccc24277))
+
 ## [22.4.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.4.1...v22.4.2) (2024-2-15)
 
 
