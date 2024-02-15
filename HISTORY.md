@@ -1,3 +1,10 @@
+## [22.4.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.4.1...v22.4.2) (2024-2-15)
+
+
+### Bug Fixes
+
+* **composer.json:** deprecated PHP version requirement ([8861a62](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/8861a62148bb6e5d4df5b05fb7ba364bc72964a5))
+
 ## [22.4.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.4.0...v22.4.1) (2024-2-9)
 
 
