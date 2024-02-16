@@ -1,3 +1,10 @@
+## [22.4.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.4.3...v22.4.4) (2024-2-16)
+
+
+### Bug Fixes
+
+* **cnr registrar module:** fix additional fields generator (.fr at least affected) ([7f5a533](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/7f5a5333884d558d0c31f135f6a6e83bc4e678af))
+
 ## [22.4.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.4.2...v22.4.3) (2024-2-15)
 
 
