@@ -1,3 +1,10 @@
+## [22.4.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.4.4...v22.4.5) (2024-2-19)
+
+
+### Bug Fixes
+
+* **cnic migrator addon:** fix country code field forwarding to HEXONET integration ([304fb59](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/304fb597808443e44d9ce24aaf7093229f656505))
+
 ## [22.4.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.4.3...v22.4.4) (2024-2-16)
 
 
