@@ -1,3 +1,10 @@
+## [22.4.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.4.5...v22.4.6) (2024-2-22)
+
+
+### Bug Fixes
+
+* **cnic / ispapi registrar module:** ignore Migrator Addon related Transfers in Post-Transfer Processing ([11d016f](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/11d016f28315a871123d60e8b540aceb5afd7852))
+
 ## [22.4.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.4.4...v22.4.5) (2024-2-19)
 
 
