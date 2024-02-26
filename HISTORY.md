@@ -1,3 +1,10 @@
+## [22.4.9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.4.8...v22.4.9) (2024-2-26)
+
+
+### Bug Fixes
+
+* **deps:** bump phpseclib/phpseclib from 3.0.35 to 3.0.36 ([7b0a2f9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/7b0a2f98ee78fe0d7b73f7b0a3a01c3ce30cc10c))
+
 ## [22.4.8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.4.7...v22.4.8) (2024-2-26)
 
 
