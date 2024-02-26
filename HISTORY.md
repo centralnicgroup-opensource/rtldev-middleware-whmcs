@@ -1,3 +1,10 @@
+## [22.4.8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.4.7...v22.4.8) (2024-2-26)
+
+
+### Bug Fixes
+
+* **hexonet registrar module:** (89) Show aftermarket domains as available via regular domain tab in cnic domain search addon and whmcs core search engine ([a7b94fd](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/a7b94fde986b8403985701b5049cd5bb8f71d4fb))
+
 ## [22.4.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.4.6...v22.4.7) (2024-2-26)
 
 
