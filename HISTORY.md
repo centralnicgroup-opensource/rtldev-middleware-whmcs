@@ -1,3 +1,10 @@
+## [22.4.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.4.6...v22.4.7) (2024-2-26)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** patch loading the list of existing email forwardings ([846a8b5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/846a8b52b3ce5f962914bba89d5b1911d534808c))
+
 ## [22.4.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.4.5...v22.4.6) (2024-2-22)
 
 
