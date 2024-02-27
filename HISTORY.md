@@ -1,3 +1,10 @@
+# [22.6.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.5.0...v22.6.0) (2024-2-27)
+
+
+### Features
+
+* **ispapi/cnic registrar module:** client area nameserver update to show a provider-specific error ([6c51f67](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/6c51f679de0a2630e3257d528fb6646bd2de1f52))
+
 # [22.5.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.4.9...v22.5.0) (2024-2-27)
 
 
