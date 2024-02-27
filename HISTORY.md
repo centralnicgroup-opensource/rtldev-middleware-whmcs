@@ -1,3 +1,10 @@
+# [22.5.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.4.9...v22.5.0) (2024-2-27)
+
+
+### Features
+
+* **cnic registrar module:** add auto-loading custom hooks file (/resources/hooks_cnic_custom.php) ([24de8e3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/24de8e395b95b0b6eeabc80f7d67910a39b02798))
+
 ## [22.4.9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.4.8...v22.4.9) (2024-2-26)
 
 
