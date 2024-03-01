@@ -1,3 +1,10 @@
+## [22.6.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.6.0...v22.6.1) (2024-3-1)
+
+
+### Bug Fixes
+
+* **deps:** bump idna-uts46-hx in /domain-search-src-files ([591576a](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/591576af07c3a5a93fb8c4bd5f81b8fe7ac6e861))
+
 # [22.6.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.5.0...v22.6.0) (2024-2-27)
 
 
