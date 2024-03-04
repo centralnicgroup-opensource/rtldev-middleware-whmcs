@@ -1,3 +1,10 @@
+## [22.6.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.6.2...v22.6.3) (2024-3-4)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** improved error messaging for domain transfers pre-checks ([2708668](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/270866870071af1a2b4627f75acdf59f38612f5d))
+
 ## [22.6.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.6.1...v22.6.2) (2024-3-4)
 
 
