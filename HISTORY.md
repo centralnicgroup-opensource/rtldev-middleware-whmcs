@@ -1,3 +1,17 @@
+# [22.7.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.6.3...v22.7.0) (2024-3-4)
+
+
+### Bug Fixes
+
+* **cnic dns templating addon:** review default nameservers for DNS Management ([b53132a](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/b53132a033c0c16c3a02eec1b4cc7e93901c4ec9))
+* **dns addon:** fix handling of IDN domains ([fc9fc85](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/fc9fc85b4a3e7452de2606e8276cb846ce29f65a))
+
+
+### Features
+
+* **dns addon:** add option to enforce registry nameservers when creating dns zone ([e31a44b](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/e31a44b96c071ddad11f176b36ff3323efa8c6d4))
+* **ispapi registrar module:** nameserver configuration setting for dns templating addon ([039b3d8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/039b3d89db60fc5207e08d993f87bb3890453228))
+
 ## [22.6.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.6.2...v22.6.3) (2024-3-4)
 
 
