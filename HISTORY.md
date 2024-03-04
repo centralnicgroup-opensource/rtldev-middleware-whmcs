@@ -1,3 +1,10 @@
+## [22.6.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.6.1...v22.6.2) (2024-3-4)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** patch handling of contact data's middlename via firstname field ([bdb5ce5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/bdb5ce57164d63e2b4c9e782318437e265e6956e))
+
 ## [22.6.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.6.0...v22.6.1) (2024-3-1)
 
 
