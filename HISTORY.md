@@ -1,3 +1,11 @@
+## [22.7.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.7.0...v22.7.1) (2024-3-5)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** create todo item for 0Y term transfers only if pricing is not 0.00 ([75407ea](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/75407ea7ccfd975538abd1a693e475df46dd8d07))
+* **ispapi registrar module:** create todo item for 0Y term transfers only if pricing is not  0.00 ([e4d479f](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/e4d479f9959849d7eebf510c1e403c6291b2ecbd))
+
 # [22.7.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.6.3...v22.7.0) (2024-3-4)
 
 
