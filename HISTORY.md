@@ -1,3 +1,11 @@
+## [22.7.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.7.2...v22.7.3) (2024-3-6)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** additional fields: add description for field .IT PIN ([d91525f](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/d91525fdae77eb095a634fe870a545a231f8cef9))
+* **ispapi registrar module:** additional fields: add description for field .IT PIN (Transfer) ([4dccb1e](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/4dccb1efd2f9ff3ebd591f833756c633213b32a2))
+
 ## [22.7.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.7.1...v22.7.2) (2024-3-6)
 
 
