@@ -1,3 +1,10 @@
+## [22.7.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.7.1...v22.7.2) (2024-3-6)
+
+
+### Bug Fixes
+
+* **software bundle:** patched issues with ioncube encryption mechanism ([90b9c90](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/90b9c90df93b2acea9d2c8ce7f2ce24dff691053))
+
 ## [22.7.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.7.0...v22.7.1) (2024-3-5)
 
 
