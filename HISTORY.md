@@ -1,3 +1,10 @@
+## [22.7.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.7.3...v22.7.4) (2024-3-7)
+
+
+### Performance Improvements
+
+* **release automation:** to no longer use Chrome for web scripting ([85054c8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/85054c899497fb11b19af01a206d1844a785f371))
+
 ## [22.7.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.7.2...v22.7.3) (2024-3-6)
 
 
