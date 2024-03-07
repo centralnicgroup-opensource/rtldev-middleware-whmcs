@@ -1,3 +1,10 @@
+## [22.7.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.7.4...v22.7.5) (2024-3-7)
+
+
+### Bug Fixes
+
+* **cnic ssl module:** fix contact handling in CentralNic SSL module ([cb79282](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/cb7928267378463cf5d045a5752d0334f5aeaabf))
+
 ## [22.7.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.7.3...v22.7.4) (2024-3-7)
 
 
