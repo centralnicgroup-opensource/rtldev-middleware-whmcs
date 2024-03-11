@@ -1,3 +1,16 @@
+# [23.0.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.7.5...v23.0.0) (2024-03-11)
+
+
+### Features
+
+* **cnic migrator addon:** switch email configuration files to email templates ([af30cf6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/af30cf68f2effcfc7881de719f916024b37320c8))
+
+
+### BREAKING CHANGES
+
+* **cnic migrator addon:** We switched from json configuration file based approach to using WHMCS built-in
+email templating system. Check our Documentation at https://centralnicgroup-public.github.io/rtldev-middleware-documentation/docs/hexonet/whmcs/whmcs-migration/ Section Client Email Templates and following.
+
 ## [22.7.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.7.4...v22.7.5) (2024-3-7)
 
 
