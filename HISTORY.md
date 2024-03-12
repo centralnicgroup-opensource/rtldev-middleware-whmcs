@@ -1,3 +1,10 @@
+## [23.0.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.0.1...v23.0.2) (2024-03-12)
+
+
+### Bug Fixes
+
+* **cnic ssl module:** fix CNIC certificates not showing in status ([476a089](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/476a089d003b1666df1b045c5d7c95da4e31b29a))
+
 ## [23.0.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.0.0...v23.0.1) (2024-03-12)
 
 
