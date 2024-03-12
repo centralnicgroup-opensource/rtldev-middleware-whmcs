@@ -1,3 +1,10 @@
+## [23.0.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.0.2...v23.0.3) (2024-03-12)
+
+
+### Bug Fixes
+
+* **cnic domain search addon:** remove invalid characters from searched keywords ([a8f14e3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/a8f14e319183e8f347b23109364d69089287ebb5))
+
 ## [23.0.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.0.1...v23.0.2) (2024-03-12)
 
 
