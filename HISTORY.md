@@ -1,3 +1,10 @@
+## [23.0.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.0.0...v23.0.1) (2024-03-12)
+
+
+### Bug Fixes
+
+* **cnic migrator addon:** fix merge issue ([e7c4922](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/e7c4922866fcd5e72b5ba822ef60a3e86b47066f))
+
 # [23.0.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.7.5...v23.0.0) (2024-03-11)
 
 
