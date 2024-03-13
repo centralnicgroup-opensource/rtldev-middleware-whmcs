@@ -1,3 +1,10 @@
+## [23.0.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.0.3...v23.0.4) (2024-03-13)
+
+
+### Performance Improvements
+
+* **cnic domain search:** minifying javascript source files to improve the performance and user experience ([8e62597](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/8e6259725bdec98f855ab80fde569b65aafe00e5))
+
 ## [23.0.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.0.2...v23.0.3) (2024-03-12)
 
 
