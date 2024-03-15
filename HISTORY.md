@@ -1,3 +1,13 @@
+## [23.0.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.0.4...v23.0.5) (2024-03-15)
+
+
+### Bug Fixes
+
+* **cnic ssl module:** fix centralnic dns validation method for some certificate classes ([c0e1e3b](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/c0e1e3b1451d4ecfe48645c56483f92cee1ddcf1))
+* **cnic ssl module:** fix unable to order wildcard certificates with CNIC ([0dd39f8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/0dd39f8e0e270e4e20153afd2a7038bbcd662dbc))
+* **cnic ssl module:** improve CSR validation ([d2d275a](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/d2d275a14ab6c51317304548959919a8e2a1132f))
+* **cnic ssl module:** improve handling of DNS and FILE validation methods in CNIC ([28d0ecc](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/28d0ecc4bc5b60d2a12a82867705bc35e14b80dc))
+
 ## [23.0.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.0.3...v23.0.4) (2024-03-13)
 
 
