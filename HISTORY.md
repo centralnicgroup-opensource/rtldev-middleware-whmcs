@@ -1,3 +1,11 @@
+# [23.1.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.0.5...v23.1.0) (2024-03-19)
+
+
+### Features
+
+* **cnic registrar module:** suppress api-side id protection service on demand ([8657799](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/8657799dd7074d9ffb9d2cca8408ac4044f35d02))
+* **ispapi registrar module:** suppress api-side id protection service on demand ([55f5cc5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/55f5cc54657728aa2c1b7e4199096049077271c4))
+
 ## [23.0.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.0.4...v23.0.5) (2024-03-15)
 
 
