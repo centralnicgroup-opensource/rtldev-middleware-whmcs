@@ -1,3 +1,10 @@
+# [23.2.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.1.0...v23.2.0) (2024-03-20)
+
+
+### Features
+
+* **ispapi registrar module:** Allow resellers to change domain renewals to AUTODELETE on specific tlds e.g. (.DK, .AT, etc) from Domain Configurations via admin panel ([fde2f5e](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/fde2f5ef91e94e64e67f2415023e803b2e37b5bb))
+
 # [23.1.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.0.5...v23.1.0) (2024-03-19)
 
 
