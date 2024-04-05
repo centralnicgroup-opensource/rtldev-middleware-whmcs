@@ -1,3 +1,10 @@
+## [23.2.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.2.1...v23.2.2) (2024-04-05)
+
+
+### Bug Fixes
+
+* **deps:** bump centralnic-reseller/php-sdk from 8.0.16 to 8.0.17 ([4af67c3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/4af67c37ca3e7e70e983b5e11b56f4d300f649e1))
+
 ## [23.2.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.2.0...v23.2.1) (2024-04-05)
 
 
