@@ -1,3 +1,10 @@
+## [23.2.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.2.0...v23.2.1) (2024-04-05)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** reviewed renewalmode UI for .at,.dk etc tlds ([bb783e4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/bb783e458520bfa85482ca85159912255f4e6dda))
+
 # [23.2.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.1.0...v23.2.0) (2024-03-20)
 
 
