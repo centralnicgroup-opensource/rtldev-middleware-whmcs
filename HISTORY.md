@@ -1,3 +1,10 @@
+## [23.2.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.2.2...v23.2.3) (2024-04-06)
+
+
+### Bug Fixes
+
+* **cnic ssl module:** fix parsing of DNS records for Sectigo certificates ([a76cb14](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/a76cb1427e073af0a5601a92a554bc9f9f5860e8))
+
 ## [23.2.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.2.1...v23.2.2) (2024-04-05)
 
 
