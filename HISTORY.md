@@ -1,3 +1,10 @@
+## [23.2.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.2.3...v23.2.4) (2024-04-08)
+
+
+### Bug Fixes
+
+* **zip archive:** rebuild (docker container patch) ([0499b20](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/0499b20aee4da5b0bf18317414012e32a3885b62))
+
 ## [23.2.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.2.2...v23.2.3) (2024-04-06)
 
 
