@@ -1,3 +1,22 @@
+# [23.3.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.2.5...v23.3.0) (2024-04-11)
+
+
+### Bug Fixes
+
+* **cnic ssl module:** avoid showing duplicate validation information in Client Area ([5e2068c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/5e2068cca1b555cc764eed60779ad6c3223613b1))
+* **cnic ssl module:** fix revoke certificate in CNIC ([0c3f311](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/0c3f3114a89847032f9de47cbcaa48f86d14479b))
+* **ispapi registrar module:** patch dns management in direction of IDNs in address field ([4d975c3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/4d975c32f853b84abc07950bf4bf4f9534914f60))
+
+
+### Features
+
+* **cnic ssl module:** improve wildcard domain handling in CSR parsing ([ff7f6b4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/ff7f6b47c071fae8813032f09060f5c1cd98f897))
+
+
+### Performance Improvements
+
+* **ispapi registrar module:** reviewed & replaced api idn conversion with php-idn-converter ([1518c47](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/1518c473dda6cef0ae5dede24adae552f5f2afe1))
+
 ## [23.2.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.2.4...v23.2.5) (2024-04-10)
 
 
