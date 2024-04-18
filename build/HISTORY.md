@@ -1,3 +1,11 @@
+## [23.3.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.3.2...v23.3.3) (2024-04-18)
+
+
+### Bug Fixes
+
+* **release process:** building registrar logo with version number ([1b52a46](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/1b52a46da29d317322e00ff613078dce15837964))
+* **release process:** reviewed gulp tasks and gh secrets usage ([c02e2a7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/c02e2a7996f36ea3ef2be4e92111a76f8bb5cd71))
+
 ## [23.3.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.3.1...v23.3.2) (2024-04-16)
 
 
