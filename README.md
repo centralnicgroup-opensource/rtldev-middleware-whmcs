@@ -18,7 +18,9 @@ Within this bundle, we've included:
 
 ## Resources
 
-- [Documentation](https://centralnicgroup-public.github.io/rtldev-middleware-documentation/)
+- Documentation:
+    - [HEXONET](https://www.hexonet.support/hc/en-gb/sections/13647993846813-WHMCS)
+    - [CentralNic Reseller](https://support.centralnicreseller.com/hc/en-gb/sections/13438422570781-WHMCS)
 - [Release Notes](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/releases)
 
 ## Authors
