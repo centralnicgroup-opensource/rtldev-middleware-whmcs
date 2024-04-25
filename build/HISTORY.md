@@ -1,3 +1,10 @@
+## [23.3.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.3.3...v23.3.4) (2024-04-25)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** review .swiss additional fields to support natural persons ([7d750f7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/7d750f7069e47cd92c9cfa7f97654d52d9a5b3eb))
+
 ## [23.3.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.3.2...v23.3.3) (2024-04-18)
 
 
