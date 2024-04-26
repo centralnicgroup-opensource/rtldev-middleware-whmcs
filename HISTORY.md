@@ -116,7 +116,7 @@
 ### BREAKING CHANGES
 
 * **cnic migrator addon:** We switched from json configuration file based approach to using WHMCS built-in
-email templating system. Check our Documentation at https://centralnicgroup-public.github.io/rtldev-middleware-documentation/docs/hexonet/whmcs/whmcs-migration/ Section Client Email Templates and following.
+email templating system. Check our Documentation at https://www.hexonet.support/hc/en-gb/articles/13653135500573-WHMCS-Domain-Migrator-Addon Section Client Email Templates and following.
 
 ## [22.7.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v22.7.4...v22.7.5) (2024-3-7)
 
