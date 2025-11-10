@@ -1,3 +1,1680 @@
+## [28.0.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.0.4...v28.0.5) (2025-11-10)
+
+
+### Bug Fixes
+
+* **cnic addons:** making sure cnic addon language files are unecrypted ([8d82364](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/8d8236466c691ad22f4e500d69f229b78087e9c4))
+
+## [28.0.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.0.3...v28.0.4) (2025-11-10)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** PHP 8.3 code improvements ([c78deea](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/c78deeaec23cb8d373dbaec5ca81db14a85f6395))
+
+## [28.0.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.0.2...v28.0.3) (2025-11-07)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** patched logger and CONTACT related PHP issues ([30386df](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/30386df32e63f675963492744436d2f0ffbbc388))
+
+## [28.0.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.0.1...v28.0.2) (2025-11-07)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** patched  issue where WHMCS incorrectly returning Sync Not Supported by Registrar Module ([31e5474](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/31e54742002e02fa02f896ed06226972d7d66421))
+
+## [28.0.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.0.0...v28.0.1) (2025-11-05)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** fix saving url forwarding in case the dnszone is not present yet ([0c2c858](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/0c2c8583e9d43be31d67819b2cfa7a37f3188d38))
+
+# [28.0.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.16.4...v28.0.0) (2025-11-04)
+
+
+### Bug Fixes
+
+* **cnic ssl addon:** improve error handling on CSR and Private Key generation ([b455c13](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/b455c13ed58180b568a96377eb6c26655628f768))
+
+
+### chore
+
+* **ispapi registrar module:** official deprecation and cleanup of Brand HEXONET, ISPAPI ([4d63364](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/4d63364794545929932f9e0e91f054b9393a9e25))
+
+
+### Code Refactoring
+
+* **cnic ssl addon:** remove hexonet/ispapi support from ssl module ([0428942](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/04289420be426ef497e7c6bff484aef8f7352ee2))
+
+
+### Features
+
+* **cnic cpnael hosting addon:** add server module for CNIC cPanel hosting support ([583fcc2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/583fcc25d206a2b76bbf13132242853025b41c24))
+* **cnic price importer addon:** Implement Hosting Import UI and product group import ([f7cc396](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/f7cc3961bc251c4e4a3094230add199f360e33ab))
+* **cnic price importer addon:** implement module upgrade procedure ([e55057a](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/e55057a658f412ee6c4bd1622b0f9a62b5bdf914))
+* **cnic price importer addon:** refactoring for pricing import ([afefd97](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/afefd97fa5d283dde654c8216331e3f01120c1d6))
+* **cnic ssl addon:** pricing import logic moved to cnic price importer addon ([0adb05f](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/0adb05f6006ef5a5ab533792fa0236b9ddff66eb))
+
+
+### BREAKING CHANGES
+
+* **cnic ssl addon:** ISPAPI is no longer supported in the SSL modules as customers have been migrated
+* **cnic ssl addon:** the pricing import functionality of the SSL addon has been moved to the cnic price importer addon for better UX and achieving a single place of trust for CNIC pricing imports.
+
+re RSRMID-2386 and RSRMID-2428
+* **ispapi registrar module:** This release removes the legacy ISPAPI (HEXONET) Integration from our
+software bundle and its support in our addons. Use v27 if you still need support for it.
+
+## [27.16.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.16.3...v27.16.4) (2025-10-28)
+
+
+### Bug Fixes
+
+* **deps:** bump idna-uts46-hx in /domain-search-src-files ([347e857](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/347e857b874499e0196a80e317a0a59a9715d605))
+
+## [27.16.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.16.2...v27.16.3) (2025-10-28)
+
+
+### Bug Fixes
+
+* **dns manager addon:** Patched an issue which was causing dnssec to disappear ([6fdef6c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/6fdef6cdc810b5959d5e6bdda183aacceeaaed09))
+
+## [27.16.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.16.1...v27.16.2) (2025-10-27)
+
+
+### Bug Fixes
+
+* **deps:** bump tar-fs from 2.1.3 to 2.1.4 ([83f1527](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/83f1527cdb59b6f25092a4449311c2a268a1a8dd))
+
+## [27.16.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.16.0...v27.16.1) (2025-10-23)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** patch issue where an incorrect client ID was assigned to activity log entries ([b65b498](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/b65b498e11f14562f7b1e448b7f07572997890f9))
+
+# [27.16.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.15.4...v27.16.0) (2025-10-14)
+
+
+### Features
+
+* **cnic admin addon:** add force update option for expiry date synchronization including next due date ([3eca271](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/3eca2715c38cdd2a853b5058702b1b4e0562f78e))
+
+## [27.15.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.15.3...v27.15.4) (2025-10-13)
+
+
+### Bug Fixes
+
+* **cnic admin addon:** streamline due date calculation in domain expiry sync ([f3f5202](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/f3f52022dd24579be29ad3a7d1685b617620b34d))
+
+## [27.15.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.15.2...v27.15.3) (2025-10-13)
+
+
+### Bug Fixes
+
+* **cnic admin addon:** enhance error handling and add detailed status information for domain sync and improve expiry logic ([551eebe](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/551eebea2fd0fa1deeb08fc70c4d21280ebd0d34))
+
+## [27.15.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.15.1...v27.15.2) (2025-10-07)
+
+
+### Bug Fixes
+
+* **cnic monitoring addon:** improve accessibility and event handling for premium domains pricing fix now button ([9dacc1f](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/9dacc1f06f9a5d0e3f1b8da7a85423ed9aeb34b2))
+
+## [27.15.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.15.0...v27.15.1) (2025-10-06)
+
+
+### Bug Fixes
+
+* **deps:** bump phpseclib/phpseclib from 3.0.46 to 3.0.47 ([c64f868](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/c64f868ffc8c255353ba697786cc0b3728efea07))
+
+# [27.15.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.14.0...v27.15.0) (2025-09-24)
+
+
+### Features
+
+* **event list:** implement event list feature with navigation, backend, and frontend components & extended domain expiration date sync to support filter by TLDs ([e2456f8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/e2456f810b60fd18e7341385d2db6a7b09960b42))
+
+# [27.14.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.13.3...v27.14.0) (2025-09-15)
+
+
+### Bug Fixes
+
+* **domain search addon:** add initial loader skeleton for domain search engine ([7c8346a](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/7c8346added3a5f9e14badf3fca3f0b186567328))
+
+
+### Features
+
+* **cnic registrar module:** add additional domain fields validator on checkout page ([66abe1c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/66abe1c23cca7402d3d27d4323ab29c41978ba23))
+
+## [27.13.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.13.2...v27.13.3) (2025-09-05)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** cleaning up whitespace from postal code for .SE tld ([52ae952](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/52ae952ff7470c66b69611b0c520b16b1830f412))
+
+## [27.13.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.13.1...v27.13.2) (2025-09-03)
+
+
+### Bug Fixes
+
+* **cnic ssl addon:** fixed issue related to sslcert deletion ([e299044](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/e29904470a5e43d2920ca6e070efad30f92dd8c5))
+
+## [27.13.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.13.0...v27.13.1) (2025-09-03)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** reviewed hook regarding software dependency load ([95617bc](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/95617bcbf4a2a8ab1d6e13d0d329a648f5c60370))
+
+# [27.13.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.12.5...v27.13.0) (2025-09-02)
+
+
+### Features
+
+* **cnic registrar settings:** added registrar settings page to configure "renewal mode" and "include renewals for internal transfer" ([20cc73c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/20cc73c248d0cfb543a7b6a453a7fa9e1192aff2))
+
+## [27.12.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.12.4...v27.12.5) (2025-08-28)
+
+
+### Bug Fixes
+
+* **cnic ssl addon:** fix PHP error related to missing APIHelper class ([769a96e](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/769a96ee837337d94f6b344fb3581b1f089490d1))
+
+## [27.12.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.12.3...v27.12.4) (2025-08-28)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** review domain search case TLD NOT SUPPORTED (more fine grained) ([e2671a0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/e2671a03a4712a024fd37aeb1750cc25e2b836e2))
+
+## [27.12.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.12.2...v27.12.3) (2025-08-26)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** domain synchronization to better cover outgoing transfers ([6b54d75](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/6b54d75b32a819bcf82696f9b63862c8c45b90eb))
+
+## [27.12.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.12.1...v27.12.2) (2025-08-21)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** fix unintended two year renewals in ARGP ([7ccd3f9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/7ccd3f9e3164cd48d4504e542164d1b5cfb3c723))
+
+## [27.12.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.12.0...v27.12.1) (2025-08-20)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** sanitize error messages by removing command prefixes from client area ([afc6a39](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/afc6a392e4b1443295bf39fb14366c4f81e3cd54))
+
+# [27.12.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.11.2...v27.12.0) (2025-08-20)
+
+
+### Features
+
+* **cnic registrar module:** replace data refresh on sync by a CNIC Config Addon Tool ([959adac](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/959adac25ebd7e5aae3614360f7ca5bf5f744f85))
+
+## [27.11.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.11.1...v27.11.2) (2025-08-20)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** add transfer term parameter conditionally (e.g. .qa, .se) ([5b5a57f](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/5b5a57f97b277c6dfb4bbad1a0d41cc1aee9f444))
+
+## [27.11.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.11.0...v27.11.1) (2025-08-14)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** improved contact details handling for Save Contact Details ([a9b8e46](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/a9b8e462381a2fa34ac3b6cc7390bdcae9fdde93))
+
+# [27.11.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.10.0...v27.11.0) (2025-08-12)
+
+
+### Features
+
+* **cnic admin addon:** add support to show all DNSZones from CentralNic Reseller account ([3aeb59e](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/3aeb59ee79fb2f2343d77fed7407824c74fc7dfd))
+
+# [27.10.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.9.4...v27.10.0) (2025-08-07)
+
+
+### Features
+
+* **cnic registrar module:** show special stati (suspended et al) (set at registrar or registry) ([c16c86e](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/c16c86ec427cd9af51c78db06d3780a1faa0e7e0))
+
+## [27.9.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.9.3...v27.9.4) (2025-08-06)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** review renewal endpoint for EXPIRATION parameter ([8cd7004](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/8cd7004ddd1495ca3ab9aa701e0c32e07f8bb928))
+
+## [27.9.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.9.2...v27.9.3) (2025-08-05)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** remove EXPIRATION parameter from domain renewal process ([e58a0a0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/e58a0a036f2872f47bc2f48ee3e4b7b07fe7e40b))
+
+## [27.9.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.9.1...v27.9.2) (2025-08-05)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** retry transfer without period parameter (if returned as not supported) ([04ed8bf](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/04ed8bf5d18e2da2aaa0a306c7202b6de0d7435a))
+
+## [27.9.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.9.0...v27.9.1) (2025-08-05)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** do not include nameservers in transfer requests in general - except .be ([7a1d633](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/7a1d633153558419f5c72b8544882ae985bf9741))
+
+# [27.9.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.8.0...v27.9.0) (2025-08-04)
+
+
+### Features
+
+* **cnic admin addon:** add bulk expiry date sync functionality with modern UI ([8a161c7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/8a161c76d4b13ac447f17dd691d6ee334d2950ca))
+
+# [27.8.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.7.2...v27.8.0) (2025-08-04)
+
+
+### Features
+
+* **cnic registrar module:** add dutch language support ([c79b573](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/c79b57345a1989d10b77501c79414298eae546b6))
+* **cnic registrar module:** add spanish language support ([c271883](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/c271883157b1f24c33ae6c04cf141c7defe560ef))
+
+## [27.7.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.7.1...v27.7.2) (2025-07-29)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** do not submit empty nameserver parameters as part of a domain update ([84fc65d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/84fc65d45001a3d7d9d54816a8194504b48df49a))
+
+## [27.7.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.7.0...v27.7.1) (2025-07-29)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** do not return a middlename contact data field; refactored code base ([f2d5c25](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/f2d5c256b046985f9e9c4ce572f79e656e9293ea))
+
+# [27.7.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.6.0...v27.7.0) (2025-07-29)
+
+
+### Features
+
+* **cnic registrar module:** extend registrar settings with Enable EPP Code (sync TLD-specific EPP code requirements) for pricing sync ([8bb641b](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/8bb641b58840424845a79a1f98899084e693beb1))
+
+# [27.6.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.5.14...v27.6.0) (2025-07-29)
+
+
+### Features
+
+* **cnic registrar module:** automatic hide of optional additional domain fields ([a9d3219](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/a9d32193cce3077dfab4bdf105ba63b1c9738cd8))
+
+## [27.5.14](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.5.13...v27.5.14) (2025-07-25)
+
+
+### Bug Fixes
+
+* **cnic domain search:** improve handling of unassigned TLDs in categories to prevent showing them as unsupported ([bc5a62d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/bc5a62d47e1be7ec12dad96c9cc7eae70bc9bc70))
+* **cnic registrar module:** update registrar dropdown mappings for immediate domain deletion mode ([bcbfafb](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/bcbfafb61dbc8733e8f277f2d7f99347d979d664))
+
+## [27.5.13](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.5.12...v27.5.13) (2025-07-23)
+
+
+### Bug Fixes
+
+* **deps:** bump idna-uts46-hx in /domain-search-src-files ([c44e853](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/c44e853db65d1efa6517e0317d67d4e8ecc008c9))
+
+## [27.5.12](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.5.11...v27.5.12) (2025-07-23)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** return registry contact handles as contact tab with empty input fields ([23de401](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/23de4015264d0bca29d6533442b914cb67745e2f))
+
+## [27.5.11](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.5.10...v27.5.11) (2025-07-21)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** prevent registered domains from showing as available in Domain Suggestions ([71e1836](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/71e1836249eb958e897189c3fc38035e6efdcb75))
+
+## [27.5.10](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.5.9...v27.5.10) (2025-07-21)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** availability check - add explicit cast to int of cnics code ([030b903](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/030b903417d17864d944c720a14dae82d90c2a92))
+
+## [27.5.9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.5.8...v27.5.9) (2025-07-18)
+
+
+### Bug Fixes
+
+* **deps:** bump centralnic-reseller/php-sdk from 11.0.8 to 11.0.9 ([b0c860b](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/b0c860b15b1571dae995f0657dbc44018fff08a2))
+
+## [27.5.8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.5.7...v27.5.8) (2025-07-18)
+
+
+### Bug Fixes
+
+* **dns manager addon:** update action URL to patch error modals on DNS form submission ([862f72a](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/862f72a2607d8e8df36961321a1ad28452780ef0))
+
+## [27.5.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.5.6...v27.5.7) (2025-07-16)
+
+
+### Bug Fixes
+
+* **cnic dns addon:** support NS records with optional TTL and IN fields in DNS template handling ([a2ca190](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/a2ca190e0176b7b0f125ffd6d30b2f1e9916471b))
+
+# [27.6.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.5.5...v27.6.0) (2025-07-15)
+
+
+### Features
+
+* **cnic registrar module:** add PERIOD parameter handling for domain transfer requests ([168071a](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/168071a138b21b96cdd8c56d93bd4ab6d1f72f65))
+
+## [27.5.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.5.4...v27.5.5) (2025-07-15)
+
+
+### Bug Fixes
+
+* **cnic ssl addon:** skip empty product groups on pricing/product import ([8bb079b](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/8bb079b9f782460719f12df3831f680587ab3869))
+
+## [27.5.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.5.3...v27.5.4) (2025-07-14)
+
+
+### Bug Fixes
+
+* **dns manager addon:** patched priority field handling for SRV Resource Records ([7ba8a82](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/7ba8a829a8e2bb260e48db964451c1ab8aa10b4c))
+
+## [27.5.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.5.2...v27.5.3) (2025-07-14)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** explicit data refresh on domain sync / loading contact data ([f764309](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/f76430966c9c85df24d64d9d867c75041065173e))
+
+## [27.5.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.5.1...v27.5.2) (2025-07-14)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** review contact information handling (not all/no contacts set) ([441e65c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/441e65c36cad70a2a4b57381fa7bfee7b13cc26a))
+
+## [27.5.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.5.0...v27.5.1) (2025-07-11)
+
+
+### Bug Fixes
+
+* **deps:** bump lit from 3.3.0 to 3.3.1 in /domain-search-src-files ([f8f3f95](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/f8f3f9508a6bc7f96ee8042f112ac92099ce93ec))
+
+# [27.5.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.4.16...v27.5.0) (2025-07-11)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** auto-fallback to trade process if contact update fails respectively ([de69532](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/de695329abe3f86ac7c0e50de391053e82158bac))
+* **cnic registrar module:** identifying contacts to use whithin domain transfer process reviewed ([cea57bf](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/cea57bf2897278a65019d7181f09ed6214b4100a))
+* **cnic registrar module:** return requested owner changes as pending ([313a3da](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/313a3daca66cf3f42a8763775882778aa49a1ff5))
+* **cnic registrar module:** return the ownerchange status and expiry date ([cf1d9e5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/cf1d9e5a5878e263b4ceeaf66411654008d92c58))
+
+
+### Features
+
+* **cnic registrar module:** show change of registrant form and or upload link for whois updates ([af91f92](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/af91f925d6b7b24c08ad866b5f88b96b8c76fce5))
+* **cnic registrar module:** support showing fax form / doc upload link if necessary on ownerchange ([d9a8841](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/d9a88414ad71816e9fdda2580ec1b10e38e864ac))
+
+## [27.4.16](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.4.15...v27.4.16) (2025-07-10)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** do not auto-cancel domains during sync if not found at provider ([60bfa65](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/60bfa657540419a4a497d048dcee481231bdc267))
+
+## [27.4.15](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.4.14...v27.4.15) (2025-07-08)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** handle redemption days and fees correctly in TLD pricing sync ([b0c3d3a](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/b0c3d3afa34551f6c28fdbc2d667a5df3a088905))
+
+## [27.4.14](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.4.13...v27.4.14) (2025-07-08)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** add support in domain details view for renewal mode DEFAULT ([aba0e34](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/aba0e34d2b97a26891eeca62735db0f8358cd956))
+
+## [27.4.13](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.4.12...v27.4.13) (2025-07-07)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** patch dnssec section (smarty php error on access) ([c472eb6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/c472eb65e5ed37aa6bf89397691c53fe8d765a59)), closes [#297](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/issues/297)
+
+## [27.4.12](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.4.11...v27.4.12) (2025-07-04)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** .de registrations & nameservers ([6337245](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/6337245647fec8436e065cc9ea0b95dd2ff03516))
+
+## [27.4.11](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.4.10...v27.4.11) (2025-07-02)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** major review of the domain sync integration ([6b031b8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/6b031b84d49600a76a7b21a7408d02becd7fcc10))
+
+## [27.4.10](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.4.9...v27.4.10) (2025-07-01)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** reduced TLDs Sync Cache from 24h to 1h ([47474c4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/47474c45bf37e06ba7b08566c1861accfe0ec9d3))
+
+## [27.4.9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.4.8...v27.4.9) (2025-07-01)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** patched an issue with balance widget toggle button ([d0e2b00](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/d0e2b00a72b5034220287d480284b49d7322c6b9))
+
+## [27.4.8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.4.7...v27.4.8) (2025-06-30)
+
+
+### Bug Fixes
+
+* **deps:** bump phpseclib/phpseclib from 3.0.45 to 3.0.46 ([b4b143e](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/b4b143ec550e8ecf832318fd0ff7ad64b78f00a1))
+
+## [27.4.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.4.6...v27.4.7) (2025-06-27)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** temp remove the Automatic DNS Zone deletion feature (post-migration) ([0c98ff2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/0c98ff26926bfa28bda6a913630a52f608b7f691))
+
+## [27.4.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.4.5...v27.4.6) (2025-06-25)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** fix Nameserver Update after Transfer (Transfer initiated via Admin Area) ([73a9ff6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/73a9ff6d693aa93f781d5734467ac7cad80fc507))
+
+## [27.4.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.4.4...v27.4.5) (2025-06-23)
+
+
+### Bug Fixes
+
+* **deps:** bump phpseclib/phpseclib from 3.0.44 to 3.0.45 ([64dadd0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/64dadd01f8480efeebc21e0a3db91f14e92e5a7b))
+
+## [27.4.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.4.3...v27.4.4) (2025-06-19)
+
+
+### Bug Fixes
+
+* **cnic dns manager:** normalize host to '@' when adding new DNS record if it matches dnszone ([bf432fb](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/bf432fb5b147f5ed8b0122bd050bb99fe9c30656))
+
+## [27.4.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.4.2...v27.4.3) (2025-06-17)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** request eppcode using modifydomain (except the special tlds) ([bf95c42](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/bf95c421cbe911bd64b0eda3638c4b21a342a32b))
+
+## [27.4.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.4.1...v27.4.2) (2025-06-17)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** handle exceptions and hide dnszone status warning messages ([bb66202](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/bb662022ecf9237bd4a4a5dbe984d10bde5fe749))
+
+## [27.4.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.4.0...v27.4.1) (2025-06-12)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** fix domain search (premiums domains = off, offered for regular price) ([d63c31f](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/d63c31fab43734afdb42bc84bf31f5d7511c1568))
+* **cnic registrar module:** skip the add. field for the allocation token for premiums ([9e27218](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/9e2721894d88aaf6f445ade5b7faa0381aeb9054))
+
+# [27.4.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.3.0...v27.4.0) (2025-06-06)
+
+
+### Features
+
+* **cnic dnsmanager/dnssec addon:** enhance DNSSEC management with new UI elements and backend logic, auto activate dnssec via dnsmanager ([418233d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/418233d4820052176c240d8048c7b888889c5656))
+
+# [27.3.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.2.7...v27.3.0) (2025-05-28)
+
+
+### Features
+
+* **cnic config addon:** add CNICConfig for TLD additional field management ([e4455f7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/e4455f78a00eec2cb26088bbec81011e95eb058d))
+
+## [27.2.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.2.6...v27.2.7) (2025-05-26)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** fix expirydate after renew (renewonce, wrong backend data, e.g. .ch) ([5c741fd](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/5c741fde94644633f88527f4a97d95cb73caa786))
+
+## [27.2.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.2.5...v27.2.6) (2025-05-21)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** fix nameserver update after transfer to cover all nameservers ([ad8633d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/ad8633dcf5a0d6f2d7baef218286ad4c574a3a06)), closes [#293](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/issues/293)
+
+## [27.2.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.2.4...v27.2.5) (2025-05-20)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** review DNSSEC to be offered only for TLDs technically supporting it ([cf318ef](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/cf318efc601c1cb0eda09fca5f4a3b6fe4e5b179))
+
+## [27.2.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.2.3...v27.2.4) (2025-05-19)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** reviewed auto transfer status caching to avoid unnecessary calls to the registrar API ([eb14520](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/eb1452094cdfffcc679a845bdddd414ac0588bf9))
+
+## [27.2.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.2.2...v27.2.3) (2025-05-16)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** improve contact field state handling by converting state codes from YK to YT ([697331b](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/697331b8576abf5eddb9a5b2543cd14f70795d0d))
+
+## [27.2.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.2.1...v27.2.2) (2025-05-16)
+
+
+### Bug Fixes
+
+* **software bundle:** trigger new release encrypted with ioncube encoder v14.0.2 ([82ad93e](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/82ad93ea5a9f40c3e49d89059ff7dddfe7b4dab0))
+
+## [27.2.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.2.0...v27.2.1) (2025-05-12)
+
+
+### Bug Fixes
+
+* **cnic register module:** update automatic transfer lock status handling and improve error messaging ([84cc079](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/84cc079eaa98b1dd07eb274934bc4c365fb1d619))
+
+# [27.2.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.1.0...v27.2.0) (2025-05-12)
+
+
+### Features
+
+* **cnic registrar module & domain importer addon:** Add support for importing premium domain names to WHMCS via the domain importer addon. ([7ce94b6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/7ce94b61b96a28bd481881d5b8dc72a303034a11))
+
+# [27.1.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.0.3...v27.1.0) (2025-05-06)
+
+
+### Bug Fixes
+
+* **cnic dnsmanager addon:** update algorithm and digest option references for DNSSEC template consistency ([7483ce0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/7483ce0f00aa5159df45de477f957b0acd814d06))
+
+
+### Features
+
+* **cnic registrar module:** improve error handling and display registrar error messages in client domain area ([fabcf4d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/fabcf4df7a4a0e31aa879209d6533d9d5cb36114))
+
+## [27.0.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.0.2...v27.0.3) (2025-05-02)
+
+
+### Bug Fixes
+
+* **cnic dnsmanager addon:** correct template paths to resolve redirection issues ([43eb08a](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/43eb08a984a731cac5ffe619691947d238544640))
+
+## [27.0.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.0.1...v27.0.2) (2025-05-02)
+
+
+### Performance Improvements
+
+* **cnic registrar module:** improve performance when loading private nameservers ([2ba88cb](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/2ba88cbecbb8b41e12bbc80533238fe5288f374c))
+
+## [27.0.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v27.0.0...v27.0.1) (2025-04-30)
+
+
+### Bug Fixes
+
+* **cnic dnsmanager addon:** enhance DNSSEC management UI and logic, improve template structure ([1d3e645](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/1d3e645f5bf470cffcd1a539a45b763a94cdfc2c))
+* **cnic registrar module:** review module logging for addons ([a996afc](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/a996afc6172a1b5c6bfa81a8ac357d9815a46e2f))
+
+# [27.0.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v26.2.2...v27.0.0) (2025-04-28)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** consider settings (yes/no, default:true) even if initially not present ([d69c082](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/d69c0820bb290778ad8c237b9186550f8072d5b8))
+
+
+### Features
+
+* **cnic registrar module:** cleanup dnszones if domain identified as Cancelled or Transferred Away ([066184f](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/066184f0cd7b1aece044339c269acbaa420bea6a))
+* **cnic registrar module:** TLD Settings / Pricing Import Review ([07f0b45](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/07f0b453c12b91bf6ac7963474d1a70b035eb77a))
+
+
+### BREAKING CHANGES
+
+* **cnic registrar module:** Table `mod_cnic_zones` has been deprecated and can be removed from the database.
+
+The TLD Settings / Pricing Import has been refactored to use a new cache mechanism.
+This change improves performance and reliability when importing TLD settings.
+Pricing Import is now also fully api-driven with further potential for improvements (pending backend requests).
+
+We reviewed the Post-Transfer Update Process for Contact and Nameserver Data.
+Saving Contacts and Handling of Domain Transfers has been reviewed and improved as well considering the new TLD Settings Mechanism.
+
+## [26.2.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v26.2.1...v26.2.2) (2025-04-17)
+
+
+### Bug Fixes
+
+* **deps:** bump idna-uts46-hx in /domain-search-src-files ([5a34f1a](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/5a34f1a464356d2dc4670a234f3654c97f10154f))
+
+## [26.2.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v26.2.0...v26.2.1) (2025-04-17)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** updated return types for Add DNS Record and Enable DNSSec methods ([202d3e0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/202d3e0d382d1885c4b57d3a8b4ae52700e5330b))
+
+# [26.2.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v26.1.4...v26.2.0) (2025-04-14)
+
+
+### Features
+
+* **cnic ssl:** add option to set cross-sell products on certificate pricing import ([225f7fc](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/225f7fc33d052908505c3d1323e95e28edc72bb1))
+
+## [26.1.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v26.1.3...v26.1.4) (2025-04-11)
+
+
+### Bug Fixes
+
+* **deps:** bump lit from 3.2.1 to 3.3.0 in /domain-search-src-files ([bce1a29](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/bce1a295dea40ed44e727053a662ae83c25c9119))
+
+## [26.1.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v26.1.2...v26.1.3) (2025-04-10)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** improve error handling for automatic transfer lock status retrieval via GetProperty CMD ([574aacb](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/574aacb72fb4366a38adb9f9bea043c1d3a5777b))
+
+## [26.1.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v26.1.1...v26.1.2) (2025-04-02)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** reviewed: Domain Sync to return domains as cancelled ([152b6a9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/152b6a9d6e509f55508ef7363c0bdbbd41dfdbde))
+
+## [26.1.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v26.1.0...v26.1.1) (2025-04-02)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** mark domains as cancelled if available for registration to improve domain status sync ([5846758](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/5846758c6db39d8a1376ef9efb1eb5454a541e24))
+
+# [26.1.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v26.0.0...v26.1.0) (2025-04-01)
+
+
+### Features
+
+* **cnic dns:** implement dnssec support for keydns zones ([b94b455](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/b94b4555dcaed701ead97c052b04767eb06ff8a2))
+
+# [26.0.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.7.12...v26.0.0) (2025-03-28)
+
+
+### Features
+
+* **cnic registrar module:** implement domain automatic transfer lock status retrieval on registrar settings ([184a4f5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/184a4f5facb49c5eac55aad139a3f3350a963c84))
+
+
+### BREAKING CHANGES
+
+* **cnic registrar module:** The automatic transfer lock after registration and transfer has changed. Check the registrar module settings for details on how to activate it.
+
+## [25.7.12](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.7.11...v25.7.12) (2025-03-24)
+
+
+### Bug Fixes
+
+* **cnic dnsmanager addon:** streamline domain handling and sidebar generation ([22d46d8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/22d46d8f1dc5127a104c7b1abde1ea12a2c4ada8))
+
+## [25.7.11](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.7.10...v25.7.11) (2025-03-19)
+
+
+### Bug Fixes
+
+* **cnic registar module:** resolve issues with detecting 3rd level TLDs (e.g., .pp.se) to improve domain zone accuracy ([048c598](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/048c59827a2a79cab66081d7c427f04d2f81b633))
+
+## [25.7.10](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.7.9...v25.7.10) (2025-03-17)
+
+
+### Bug Fixes
+
+* **deps:** bump idna-uts46-hx in /domain-search-src-files ([9d5a9ac](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/9d5a9aca5c7c227eae421e9bc82855b2ea748fb0))
+
+## [25.7.9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.7.8...v25.7.9) (2025-03-17)
+
+
+### Bug Fixes
+
+* **cnic registar module / dns manager:** review TXT resource record / address field handling, UI improvements for DNS manager addon ([1ef554c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/1ef554cd625bc155084fc724bdf48c0803b1e7d4))
+* **cnic registrar module:** reviewed and optimised handling for contact verification in GetDomainInformation ([506b277](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/506b27741684a5478637940cdd8bb4086e192f7d))
+
+## [25.7.8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.7.7...v25.7.8) (2025-03-12)
+
+
+### Bug Fixes
+
+* **deps:** bump centralnic-reseller/php-sdk from 11.0.3 to 11.0.5 ([596952a](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/596952a0e522b2b791edb84bb92f1503b4e7ca44))
+
+## [25.7.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.7.6...v25.7.7) (2025-03-11)
+
+
+### Bug Fixes
+
+* **ispapi & cnic registrar module:** ensure user is logged in before accessing DNS Management; improve Nameservers handling ([ba99d66](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/ba99d661a19a9882b0b764663d268f4060890315))
+
+## [25.7.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.7.5...v25.7.6) (2025-03-10)
+
+
+### Bug Fixes
+
+* **ispapi & cnr registrar module:** correct link and label for terms and conditions agreement for .dk tld ([7fef0fb](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/7fef0fbddd0a34524e6e3458001f1b06526fd711))
+
+## [25.7.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.7.4...v25.7.5) (2025-03-10)
+
+
+### Bug Fixes
+
+* **ispapi & cnr registrar module:** enhance .dk terms and conditions checkout layout for Lagom and retable themes ([0db263d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/0db263dc223452dd8660e60be4dca33f347bd57e))
+
+## [25.7.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.7.3...v25.7.4) (2025-03-07)
+
+
+### Bug Fixes
+
+* **deps:** bump centralnic-reseller/php-sdk from 11.0.2 to 11.0.3 ([2cd41f0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/2cd41f081320b9153f22ae456a004a1cb3d480c0))
+
+## [25.7.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.7.2...v25.7.3) (2025-02-28)
+
+
+### Bug Fixes
+
+* **deps:** bump centralnic-reseller/php-sdk from 11.0.1 to 11.0.2 ([94bf2d0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/94bf2d01f156390d3527f966921d1b5da009a942))
+
+## [25.7.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.7.1...v25.7.2) (2025-02-20)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** Transfer Sync to consider also domains that joined the reseller account differently (non-transfer way) ([590133b](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/590133bf8f093761abd3b738bee94e7c80ad4805))
+
+## [25.7.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.7.0...v25.7.1) (2025-02-20)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** add missing REGISTRANT-IDNUMBER and VATID fields for .SE and .NU domain transfers ([2e99b56](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/2e99b560b0c40fecf9c9d605de07546a3c088e70))
+
+# [25.7.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.6.1...v25.7.0) (2025-02-18)
+
+
+### Features
+
+* **ispapi registrar module:** add .dk checkout page translations for Arabic, French, and German ([a79cc87](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/a79cc878d3ea714c11c9eda91fb4ae5e80088c18))
+
+## [25.6.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.6.0...v25.6.1) (2025-02-17)
+
+
+### Bug Fixes
+
+* **cnic dns manager:** fix default nameserver set suggestion in DNS Management ([d135b6d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/d135b6dd6e4fb83448e893eb6942d47828ddfd0a))
+
+# [25.6.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.5.0...v25.6.0) (2025-02-17)
+
+
+### Features
+
+* **cnic dns manager:** support custom settings for SOA MNAME, RNAME ([b84b3f1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/b84b3f1df99290e89c0d92df10b6fdf8ec46df52))
+
+# [25.5.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.4.5...v25.5.0) (2025-02-14)
+
+
+### Features
+
+* **cnic registrar module:** offer a global customizing of defaults for additional fields ([522ae1c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/522ae1c064b09f0f1cc37cff5689ef82aa5ec4e9))
+
+## [25.4.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.4.4...v25.4.5) (2025-02-14)
+
+
+### Bug Fixes
+
+* **dns-manager-addon:** display KeyDNS nameservers warning and enhance UI for empty records ([bdfd82a](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/bdfd82ad44d4d7201e60a482e273bf93a375a6d1))
+
+## [25.4.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.4.3...v25.4.4) (2025-02-13)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** patch empty dnszones creation as part Domain Details View ([2238977](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/2238977b72652c969fd840e7d6ebf707a3d65c78))
+
+## [25.4.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.4.2...v25.4.3) (2025-02-12)
+
+
+### Bug Fixes
+
+* **dns manager addon:** include file extension in import statement ([acb7aa6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/acb7aa6202bd758ab436622c125d50039fa66f7b))
+
+## [25.4.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.4.1...v25.4.2) (2025-02-12)
+
+
+### Bug Fixes
+
+* **cnic/ispapi registrar & domain search addon:** Enhance TLD handling in domain suggestions & improve domain availability status handling ([bbd8df0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/bbd8df090142fa086ca252138fbffdb5382cb7b6))
+
+## [25.4.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.4.0...v25.4.1) (2025-02-07)
+
+
+### Bug Fixes
+
+* **deps:** bump centralnic-reseller/php-sdk from 11.0.0 to 11.0.1 ([406adc4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/406adc4e4222b65d263ca7d6e0192cd6e15ac958))
+
+# [25.4.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.3.2...v25.4.0) (2025-02-06)
+
+
+### Features
+
+* **CNIC DNS Manager Addon:** Introducing DNS Manager addon with responsive UI, error handling, and client area integration ([907c2e7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/907c2e7456177585d81c6cc14af4391c029a8d7f))
+
+## [25.3.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.3.1...v25.3.2) (2025-02-06)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** .CA additional field handling: add preselection of Legal Type ([d270523](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/d270523487efcb48b1ac74bc3d2382c98858def5))
+
+## [25.3.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.3.0...v25.3.1) (2025-02-06)
+
+
+### Bug Fixes
+
+* **cnic / ispapi registrar module:** patch issues with missing DkTaCHandler Class ([fee978b](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/fee978b4e2ba63419f15862628c35cdde24f3740))
+
+# [25.3.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.2.1...v25.3.0) (2025-01-31)
+
+
+### Features
+
+* **ispapi / cnic registrar module:** add multi-lang support for .dk checkout page ([3ce56dc](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/3ce56dc75bd9b0afd1e88741e2d5d8454106635b))
+
+## [25.2.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.2.0...v25.2.1) (2025-01-30)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** return .CA Legal Type as required additional field ([a7edd04](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/a7edd049b0fd937a780dab95656e10079308752d))
+
+# [25.2.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.1.2...v25.2.0) (2025-01-30)
+
+
+### Features
+
+* **ispapi / cnic registrar module:** .DK Order Process reviewed in direction of Flow 1 compliance ([bea5854](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/bea5854de81c3519786eee901cf6ab1a3e06a287))
+
+## [25.1.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.1.1...v25.1.2) (2025-01-22)
+
+
+### Performance Improvements
+
+* **hexonet registrar module:** upgrade php-sdk to v10 for improved connection handling ([4c4bd3c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/4c4bd3c0dd33537130a943285b28c6d55996ab55))
+
+## [25.1.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.1.0...v25.1.1) (2025-01-22)
+
+
+### Bug Fixes
+
+* **hexonet registrar module:** update policies url for .ngo / .ong ([2605b1d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/2605b1d8b356aa4817ce53932e6e8bc82a1f8d44))
+
+# [25.1.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.0.3...v25.1.0) (2025-01-20)
+
+
+### Features
+
+* **domain monitoring addon:** Automate Premium Price & Domain Status Updates ([7ec99f8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/7ec99f813ea6bfa264f035996b4552ef195be00d))
+
+## [25.0.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.0.2...v25.0.3) (2025-01-15)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** add .dk domain terms and conditions additional field ([4bff2c8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/4bff2c889047b2d7a0390c0cac70baaa50bcfbba))
+
+## [25.0.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.0.1...v25.0.2) (2025-01-14)
+
+
+### Bug Fixes
+
+* **hexonet registrar module:** transfers to auto-fallback to 0Y period (to early for 1Y period) ([78fbaec](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/78fbaec5521efde865e8b06cd5ae7243a6f3a09d)), closes [#283](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/issues/283)
+
+## [25.0.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v25.0.0...v25.0.1) (2025-01-14)
+
+
+### Bug Fixes
+
+* **deps:** bump centralnic-reseller/php-sdk from 8.0.17 to 9.1.0 ([6814ed6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/6814ed6de65e33dcbdc40985dde4267be68c05b6))
+
+# [25.0.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.9.7...v25.0.0) (2025-01-14)
+
+
+### Bug Fixes
+
+* **cnic ssl:** take into account included domains amount when validating csr ([c567448](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/c567448a3463dd96565dc3dd26a1e87a005318a8))
+
+
+### Build System
+
+* **php:** drop php7.4 encryption support ([cc8ca2d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/cc8ca2d87972af0be0027a2acf885ed1f5a4b7ef))
+
+
+### Features
+
+* **cnic ssl:** get certificate information from API ([b68b3c9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/b68b3c9daf0744674f98ef81a96be32107546777))
+* **cnic ssl:** implement certificate deletion upon product termination ([782117e](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/782117eea742541570bd1294424e097000d7f6a8))
+* **cnic ssl:** implement certificate reissuing ([0cd6586](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/0cd6586887ac0f944dcad76b06d35c3c35024b62))
+* **cnic ssl:** implement CSR generation in order process ([6322fa6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/6322fa605fee84cc33f097369a2e70656d451961))
+* **cnic ssl:** only prompt for private key if autodeploy is enabled and webpros server is detected ([82d301e](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/82d301e52da2ddd29cd85895d1614f53c5122321))
+* **cnic ssl:** support wildcard and non-wildcard additional domains on base certs that allow that ([b4b1434](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/b4b14341d77da7cf99a305ee5dbb272bb6c99cd4))
+
+
+### BREAKING CHANGES
+
+* **php:** Dropped support for PHP 7.4. Please use earlier versions of our module, if you can't upgrade to PHP 8.
+* **cnic ssl:** You must reimport certificates using the CNIC SSL addon as additional required
+information will get imported
+
+RSRMID-2130
+
+## [24.9.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.9.6...v24.9.7) (2025-01-07)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** Added Compatibility to Get EPP Codes for .cn tld ([74006cb](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/74006cb3a58c940b5678fed63eef7e8c06e716d3))
+
+## [24.9.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.9.5...v24.9.6) (2025-01-07)
+
+
+### Bug Fixes
+
+* **domain search addon:** improve domain search functionality and domain search handling exact search terms ([5258c50](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/5258c50e57140f00067fe18574d9eefef2237dcc))
+
+## [24.9.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.9.4...v24.9.5) (2025-01-07)
+
+
+### Bug Fixes
+
+* **cnic & ispapi registrar module:** Enhance tracking by passing client ID instead of user ID to logActivity ([ad2d293](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/ad2d2936a82c18cae293d5ec675e1bba6d0d4351))
+
+## [24.9.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.9.3...v24.9.4) (2024-12-16)
+
+
+### Bug Fixes
+
+* **deps:** bump phpseclib/phpseclib from 3.0.42 to 3.0.43 ([2e746e7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/2e746e72b87a7d4a8aec661d35f7d3c96e8f9326))
+
+## [24.9.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.9.2...v24.9.3) (2024-12-12)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** update .uk fields translations (to align with recent API changes) ([9c2dc35](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/9c2dc3529ba227dae666670c3e356143fc360aec))
+
+## [24.9.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.9.1...v24.9.2) (2024-11-29)
+
+
+### Bug Fixes
+
+* **domain search addon:** improve handling of selected TLD categories in regular search tab ([9d0787a](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/9d0787ae411368992209374deab5d446d6bf2df3))
+
+## [24.9.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.9.0...v24.9.1) (2024-11-22)
+
+
+### Bug Fixes
+
+* **cnic domain search addon:** Update tab action handling and improve domain transfer logic ([6c31041](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/6c31041a5fa5a884a0288459e939a68338f094d8))
+
+# [24.9.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.8.3...v24.9.0) (2024-11-21)
+
+
+### Features
+
+* **cnic registrar module:** enhance domain suggestion functionality & added configuration to lookup provider ([3b7358d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/3b7358d00dff564daada1240724fbdeda77ec51d))
+
+## [24.8.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.8.2...v24.8.3) (2024-11-19)
+
+
+### Bug Fixes
+
+* **deps:** bump idna-uts46-hx in /domain-search-src-files ([8e81d9d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/8e81d9d10d89d6e126013236c35c309de0b7f033))
+
+## [24.8.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.8.1...v24.8.2) (2024-11-18)
+
+
+### Bug Fixes
+
+* **deps:** bump cross-spawn from 7.0.3 to 7.0.6 ([0a66104](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/0a661040ce662accd0fd2916b86b0bda7d73b77d))
+
+## [24.8.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.8.0...v24.8.1) (2024-11-14)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** improve domain indexing and validation in CheckDomains command for the domain search ([ce51b54](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/ce51b5453c9511628254023eb704d175ec7e1e2e))
+
+# [24.8.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.7.4...v24.8.0) (2024-11-14)
+
+
+### Features
+
+* **cnic registrar module:** Implement trade cost detection and logging for CNR Integration. Add To-Do List item for costs and invoice creation for end customers. ([77c0b9d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/77c0b9dcdc79967a3501710f19ad51c4e8524b0f))
+
+
+### Performance Improvements
+
+* **cnic registrar module:** optimize contact details fetch and save integration ([a495d5d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/a495d5d39a34e3882f321955835459baa3d6e242))
+
+## [24.7.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.7.3...v24.7.4) (2024-11-14)
+
+
+### Performance Improvements
+
+* **cnic registrar module:** optimize contact details fetch and save integration ([c536f0a](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/c536f0a844848efe7da5e5c0c12ca099f608b168))
+
+## [24.7.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.7.2...v24.7.3) (2024-11-14)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** review .au (and related 3rd level tlds) translations / texts ([d11cb39](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/d11cb39941d074f85696bc600ffc1cc5d13d16b5))
+
+## [24.7.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.7.1...v24.7.2) (2024-11-11)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** review .FI additional domain fields ([bfe60f7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/bfe60f7833fd45e26aeda9e1b7e070e8dab5aad5))
+
+## [24.7.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.7.0...v24.7.1) (2024-11-11)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** switch fields gen back to non-tmp. workaround (issue with 3rd lvl tlds) ([071cb24](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/071cb24ddc37660edf2dc8e7a93df03b67d6adc6))
+
+# [24.7.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.6.2...v24.7.0) (2024-11-08)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** added partial missing translation for AFNIC TLDs ([3c3cf50](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/3c3cf50eb7e8a4bf1647e5b993d55f154979cb00))
+* **cnic registrar module:** improve description for .EU citizenship field ([b69ea3c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/b69ea3c8c21308344f1a94c244ab0ec0b5b2363b))
+* **cnic registrar module:** reviewed API error handling within additional domain fields generator ([46fc1eb](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/46fc1eb010ff00d364dddf7db68332510df96ee3))
+
+
+### Features
+
+* **cnic registrar module:** add .abogado additional domain fields translations ([79115d8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/79115d80c7a7fd7f99a9963def5c93726b0841ab))
+* **cnic registrar module:** add .aero additional domain fields translations ([e21a5ca](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/e21a5ca6558191e13e722a2510bbc37fae0450b2))
+* **cnic registrar module:** add .attorney additional fields translations ([c675a8b](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/c675a8b43cd957b55688f780600623bd861452e2))
+* **cnic registrar module:** add .au additional fields translations ([2e85479](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/2e854794ce4f199d14eb9dee04ceb06d52d2e0d8))
+* **cnic registrar module:** add .ca additional fields translations ([1cd06fd](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/1cd06fd42e7152c35cc554c25b52d2527405a338))
+* **cnic registrar module:** add .cn additional fields translations and prefilling ([47f20e3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/47f20e3c0697ef173afa1357f0213e91758bb071))
+* **cnic registrar module:** add .com.br additional fields translations ([c1aad90](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/c1aad900ec41279cfc625b4147ec6138edcc6bf1))
+* **cnic registrar module:** add .coop additional fields translations ([2147936](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/214793646db35f0a4a1e5031d00c667e63cc5cb7))
+* **cnic registrar module:** add .dk additional domain fields translations ([fea8098](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/fea8098678991cf816017a015991883ff9f9745d))
+* **cnic registrar module:** add .es additional domain fields translations ([2db87ea](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/2db87eafc06cd8aa24c9c73e9efb7e5356017f74))
+* **cnic registrar module:** add .fi additional domain fields translations ([8659926](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/86599261eb480e1e4a1253dc836ff2603a9299e9))
+* **cnic registrar module:** add .gay additional domain fields translations ([3c3eaaa](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/3c3eaaaf4de7091be90a09ca2bc5a47ecfa35119))
+* **cnic registrar module:** add .HK additional domain fields translations ([b344968](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/b3449683d3d2901980ee6836f27a1f3f00076e8a))
+* **cnic registrar module:** add .ie additional domain fields translations ([172f9ec](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/172f9ecad12c0dc365af94c10bbf0df61e0e8dfa))
+* **cnic registrar module:** add .LT additional domain fields translations ([5085c96](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/5085c96bb544f1dc05213fb45d0fa14aea8e1c78))
+* **cnic registrar module:** add .LV additional domain fields translations ([61fff19](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/61fff194b450ce3968fe69e6d4ea8bf846829a13))
+* **cnic registrar module:** add .MK additional domain fields translations ([6e00578](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/6e00578ca1b11db638ee5f9803b8ab35a67e3278))
+* **cnic registrar module:** add .MY additional domain fields translations ([469b9e9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/469b9e977b6e8729e31cbe470ba58057dd4af201))
+* **cnic registrar module:** add .NO additional domain fields translations ([eb475b3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/eb475b3bc28fc31a2dc7edc67739a2ffae2fd55d))
+* **cnic registrar module:** add .NU additional domain fields translations ([249994a](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/249994aaba51f5041fc5af89480d13f34f3251cc))
+* **cnic registrar module:** add .NYC additional domain fields translations ([445bd48](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/445bd48d337d08a7e93a0ac08d95fe6cd8a79a00))
+* **cnic registrar module:** add .PARIS additional domain fields translations ([d7c9a9a](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/d7c9a9aa5680259831d9342b00dec65523fcc20c))
+* **cnic registrar module:** add .PT additional fields translations ([a3092b7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/a3092b7ff40519821d42756e636979ceed90ca57))
+* **cnic registrar module:** add .RO additional domain fields translations ([c185231](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/c18523115d040db9f9447dd7c1541483f20b0f9c))
+* **cnic registrar module:** add .RU additional domain fields translations ([403249d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/403249d4a0769b95d38076ac4fc4882a6bd2d8f4))
+* **cnic registrar module:** add .SE additional domain fields translations ([abeaed5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/abeaed58692163a384ca833dacc7a9c3843378db))
+* **cnic registrar module:** add .SG additional domain fields translations ([eeb9e75](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/eeb9e75e099420f882e5f252efccb27de97784e8))
+* **cnic registrar module:** add .SWISS additional domain fields translations ([f15640a](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/f15640aeddfd2ab2d328c4d2a8b4c535b815c411))
+* **cnic registrar module:** add .TRAVEL addditional domain fields translations ([d3cd3f5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/d3cd3f523c5347ac55c7d63e9337aa37bd9ba220))
+* **cnic registrar module:** add .US additional domain fields translations ([6a15a6d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/6a15a6ddb8d468a8b84fca34af99350e01a704ce))
+* **cnic registrar module:** add .XXX additional domain fields translations ([ec19346](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/ec1934613ca34aba6e56d521275786833a7fc93e))
+* **cnic registrar module:** add Google TLD additional domain fields translations ([8888384](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/8888384c26a2f5f6aa8a27a534ec0125a39c8518))
+* **cnic registrar module:** add prefilling for .SWISS Owner Type field ([41b80c6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/41b80c64a1f03d81e59542ab165f9e3f05ed5601))
+* **cnic registrar module:** add. fields: .IE lang preselection; default to EN for lang fields ([18acd7e](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/18acd7e522bb41d0289ddc491fcccde9dbca54e9))
+
+## [24.6.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.6.1...v24.6.2) (2024-10-31)
+
+
+### Bug Fixes
+
+* **domain search addon:** Patch issue causing filters and additional options to ignore configurations ([8562eea](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/8562eea1fffbe49b2220dcb62c96aa860ed1406a))
+* **ispapi & cnic registrar module:** Patch issue causing monitoring errors on Premium domains renewals ([1720e0a](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/1720e0ab408214ea4038fce1ae2b1733796614e1))
+
+## [24.6.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.6.0...v24.6.1) (2024-10-23)
+
+
+### Bug Fixes
+
+* **domain search addon:** patched cache clearing ttl expiry timeout loops ([753b5a3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/753b5a3a113a64e25e485d5276abd1e7031a89ba))
+
+# [24.6.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.5.4...v24.6.0) (2024-10-22)
+
+
+### Features
+
+* **domain search addon:** enhance caching and UI features for better user experience ([eb2fc0a](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/eb2fc0aa94104089ac683bceb606ffdacefbf5da))
+
+## [24.5.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.5.3...v24.5.4) (2024-10-22)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** additional field issue (X-ACCEPT-SSL-REQUIREMENT) with contact updates ([2de61c3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/2de61c308031ece876a52e531533c851b8deb2d5))
+
+## [24.5.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.5.2...v24.5.3) (2024-10-16)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** add platform config to composer to ensure PHP 7.4 emulation ([a1a5273](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/a1a5273cc0a9b856ff349f68a8a2273e61e99951))
+
+## [24.5.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.5.1...v24.5.2) (2024-10-16)
+
+
+### Bug Fixes
+
+* **cnic:** ensure PHP 7.4 compatibility in vendor libs ([1b1d7c8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/1b1d7c87b515334a477803fdc51600a3e42b4ec8))
+
+## [24.5.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.5.0...v24.5.1) (2024-10-15)
+
+
+### Bug Fixes
+
+* **activity logging:** forward 0 as uid if there is no client session or uid present there ([2430458](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/2430458059de9f4bb5a89fa2d6a86b46c96582d3))
+
+# [24.5.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.4.0...v24.5.0) (2024-10-11)
+
+
+### Bug Fixes
+
+* **cnic ssl:** fix php 7.4 compatibility ([db913a8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/db913a8064472f11d136f79329e9e5eff51e26b3))
+* **cnic ssl:** prevent scenario where products are missing registrar property in db ([0a52647](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/0a526475a4fa165062c0cbe98df51b3e7f1d58fe))
+
+
+### Features
+
+* **cnic ssl module:** implement automatic cert validation configuration and cert installation for Plesk/DirectAdmin/cPanel ([835268e](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/835268e52b9faa67e2f2d02c84d2d58367235da1))
+
+# [24.4.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.3.2...v24.4.0) (2024-10-10)
+
+
+### Features
+
+* **cnic registrar module:** add translations for .uk additional fields ([b02d003](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/b02d003f40e72cbd67c6b8fbbde858e34575f98c))
+* **cnic registrar module:** introduced registrar setting Automatic DNSSEC Deactivation on Transfer ([437d159](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/437d159f00a87a5a8266ba2a884094ec394f26d7))
+
+## [24.3.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.3.1...v24.3.2) (2024-10-09)
+
+
+### Bug Fixes
+
+* **cnr domain registrar:** added ioncube support for php 8.1 and 8.2 ([3aed5dd](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/3aed5dd6320cf29db14c01f276cddb93fdd5989f))
+
+## [24.3.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.3.0...v24.3.1) (2024-10-08)
+
+
+### Bug Fixes
+
+* **deps:** bump lit from 3.2.0 to 3.2.1 in /domain-search-src-files ([43b5521](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/43b552127f77644eb195f8a38dc304e0a5eeeee5))
+
+# [24.3.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.2.0...v24.3.0) (2024-10-07)
+
+
+### Features
+
+* **hexonet & cnr registrar module:** added support for PHP 8.2 & support for WHMCS v8.11+ ([f837631](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/f83763176fdb81e3ac782af5f182f5892e4063d5))
+
+# [24.2.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.1.0...v24.2.0) (2024-10-04)
+
+
+### Features
+
+* **cnic registrar module:** support for the High-Performance Setup via Registrar Module Settings ([2cdc58b](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/2cdc58b09f40b9a74e980db671596f972c881a35))
+
+# [24.1.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v24.0.0...v24.1.0) (2024-10-02)
+
+
+### Bug Fixes
+
+* **domain-search-addon:** patched domain extraction and formatting logic ([b442c31](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/b442c31618881f80b0d8d5820e2fc3ee405e111a))
+
+
+### Features
+
+* **cnic registrar module:** add additional field translations for .SK ([5c5cc0d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/5c5cc0db86401042834d34afba2c0fd888e42d75))
+
+# [24.0.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.13.2...v24.0.0) (2024-09-30)
+
+
+### Bug Fixes
+
+* **cnr registrar module:** additional domain fields: improvements for .eu, .fr, it ([0f3b9ae](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/0f3b9aec9d5b32c80b1dee04c34e53dbfcc84826))
+
+
+### Features
+
+* **cnr registrar module:** additional fields lang files/support: english, german, french, arabic (.de,.eu,.fr,.it for now) ([bd1e956](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/bd1e956b415d192eba74508e5820958658d0a69b))
+
+
+### BREAKING CHANGES
+
+* **cnr registrar module:** For HEXONET/ispapi customers: please remove the include statements you have for our language files in your language override files under /lang/overrides.
+
+## [23.13.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.13.1...v23.13.2) (2024-09-27)
+
+
+### Bug Fixes
+
+* **domain-search-addon:** Improved domain cleaning logic to handle unsupported TLDs by merging and retaining only the matching TLD for search ([e3885ee](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/e3885eeace25c4c05684b9f724ebf2c940f4ad8f))
+
+## [23.13.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.13.0...v23.13.1) (2024-09-27)
+
+
+### Bug Fixes
+
+* **cnr registrar module:** consider fullphonenumber instead of phonenumber (missing phone-cc) ([28198da](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/28198daab3fadc3325d74757df88698a2cb00d94))
+
+# [23.13.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.12.1...v23.13.0) (2024-09-17)
+
+
+### Features
+
+* **domain search addon:** support custom language files for official languages if available ([1502ea4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/1502ea40532e67d0d682e0dd8ecab30557a314b5))
+
+## [23.12.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.12.0...v23.12.1) (2024-09-16)
+
+
+### Bug Fixes
+
+* **deps:** bump phpseclib/phpseclib from 3.0.41 to 3.0.42 ([6274b57](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/6274b579ba604c4f8e1be60f2ab2eb624103908c))
+
+# [23.12.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.11.1...v23.12.0) (2024-09-09)
+
+
+### Bug Fixes
+
+* **cnic ssl:** fix multiline file content handling for sectigo certificates ([55c5a8c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/55c5a8cee35fdfbc4536187ec1a73b4d496e814e))
+
+
+### Features
+
+* **cnic registrar module:** Extend domain renewal mode status and settings for TLDs that do not support explicit renewals via admin panel client domains configuration ([49c06b1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/49c06b13e7c239ce7413496e17f6b104a9f547e8))
+
+## [23.11.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.11.0...v23.11.1) (2024-09-06)
+
+
+### Bug Fixes
+
+* **domain-search-addon:** Fix client theme path and premium domains toggle in search engine admin config ([bc3fac8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/bc3fac8889fdf27716d834697ecfa424bbf71c7a))
+
+# [23.11.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.10.7...v23.11.0) (2024-09-02)
+
+
+### Features
+
+* **domain-search-addon:** Add support for custom languages ([d995923](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/d995923e621605b9106173a11640f283aebe73aa))
+
+## [23.10.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.10.6...v23.10.7) (2024-08-26)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** .health transfer: skip additional fields (for registration only) ([f7d1a9f](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/f7d1a9f94e2d27e544028332f096d6ddc0d29880))
+
+## [23.10.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.10.5...v23.10.6) (2024-08-22)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** include .itregional TLDs in GetTldPricing import ([8d22183](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/8d2218355b3c0dd361e172338188996f52796587))
+
+## [23.10.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.10.4...v23.10.5) (2024-08-12)
+
+
+### Bug Fixes
+
+* **deps:** bump phpseclib/phpseclib from 3.0.39 to 3.0.41 ([806bdd1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/806bdd1dcacec386adbe8395a75d689897ec8833))
+
+## [23.10.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.10.3...v23.10.4) (2024-08-06)
+
+
+### Bug Fixes
+
+* **deps:** bump lit from 3.1.4 to 3.2.0 in /domain-search-src-files ([5723dfe](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/5723dfe81681dff2e326e99eb311aa2871c336da))
+
+## [23.10.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.10.2...v23.10.3) (2024-08-05)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** add missing registration prices for some premium domains ([3ac3bfb](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/3ac3bfb5e7d2f0d801f10ec1e4b08bb494825060))
+* **ssl:** product configuration option is now hard linked to the product ([28aea16](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/28aea1641177e7c2f643a002ddedc7dcb50cf279))
+
+
+### Performance Improvements
+
+* **domain-search-addon:** add custom.css stylesheet for custom styling ([45c57e3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/45c57e3075a46eeff0221220da0ed825296898eb))
+
+## [23.10.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.10.1...v23.10.2) (2024-07-29)
+
+
+### Bug Fixes
+
+* **domain-search-addon:** resolve 'TLD not supported' error in transfer results ([ed6bdb9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/ed6bdb942a5cd3afe22c92cda28c68b69e34a06b))
+
+## [23.10.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.10.0...v23.10.1) (2024-07-25)
+
+
+### Bug Fixes
+
+* **deps:** bump idna-uts46-hx in /domain-search-src-files ([2af1ea2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/2af1ea2c876a61f059ff4bb9b51a39b0095d8bec))
+
+# [23.10.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.9.1...v23.10.0) (2024-07-25)
+
+
+### Features
+
+* **domain-search-addon:** introduced configuration to turn on/off mobile sticky menu and improved UI ([547b038](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/547b038e1b9e7989468a914a2de2d5d5fce866b8))
+
+## [23.9.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.9.0...v23.9.1) (2024-07-24)
+
+
+### Bug Fixes
+
+* **domain-search-addon:** resolve domain price range and default tab issues ([5c42a57](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/5c42a579f2733b3650c97b6bed6bc7875fb3e294))
+* **domain-search-addon:** resolved issue with suggestions tab causing no results to display in some cases ([246f2d5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/246f2d58d310789410c93b0eb1266692b72809b6))
+
+# [23.9.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.8.5...v23.9.0) (2024-07-23)
+
+
+### Features
+
+* **domain search addon:** Add functionality to reorder feature tabs for enhanced organization ([4097e7f](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/4097e7f00db1a339546221d663a7e0889ba21522))
+
+## [23.8.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.8.4...v23.8.5) (2024-07-23)
+
+
+### Bug Fixes
+
+* **domain-search-addon:** resolve issue causing no results to display in some cases ([19e0dce](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/19e0dcedd9abf6439dec8071de02936dc15e7209))
+
+## [23.8.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.8.3...v23.8.4) (2024-07-22)
+
+
+### Bug Fixes
+
+* **domain search addon:** correct TLD matching for third-level domains and improve domain extraction ([5a6acd0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/5a6acd0b7945c0ae30549a98a0d4a638d51c9cbc))
+
+## [23.8.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.8.2...v23.8.3) (2024-07-19)
+
+
+### Bug Fixes
+
+* **ispapi + cnic registrar module:** deactivate charset/collation setting when creating DB Tables ([45ec212](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/45ec2125c5dea9375e69e58c03b2653eb4031e3b))
+
+## [23.8.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.8.1...v23.8.2) (2024-07-17)
+
+
+### Bug Fixes
+
+* **cnic ssl module:** fix cert renew not updating cert id ([36a9e20](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/36a9e208219c59c41dd092e87619ab161f35e5c4))
+
+## [23.8.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.8.0...v23.8.1) (2024-07-17)
+
+
+### Bug Fixes
+
+* **domain search addon:** reviewed and revamped menu for mobile and devices with smaller screens ([1825319](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/18253192bf779725f65e329a57c3f3b7e421c77e))
+
+# [23.8.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.7.11...v23.8.0) (2024-07-11)
+
+
+### Features
+
+* **domain search addon:** Remove additional scroll bar and implement infinite scrolling with browser scroll bar for better UX ([eb03f2e](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/eb03f2e1d51954fcd6cf39e2668872254adeccc3))
+
+## [23.7.11](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.7.10...v23.7.11) (2024-07-09)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** deprecation of Afternic and Namemedia aftermarket domains ([eb5a603](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/eb5a6038ffc08fb43d531690da8d571dbde431fa))
+
+## [23.7.10](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.7.9...v23.7.10) (2024-07-09)
+
+
+### Bug Fixes
+
+* **ispapi registrar module & domain search addon:** Changed aftermarket domain status to unavailable if no pricing, and domain search referrer from whmcs to system for reseller compatibility. ([7e46485](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/7e46485b38c8b22c8d1dbb1bc3ba5aeef8b6f9bf))
+
+## [23.7.9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.7.8...v23.7.9) (2024-07-08)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** patch .pm contact handling for transfers ([a5123d2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/a5123d240f1252d6f29845d5a747dd13ee770768))
+
+## [23.7.8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.7.7...v23.7.8) (2024-07-04)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** fix pricing import (issue with IDN converter) ([20dcba1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/20dcba13536395449dfde447d7981cf01ed43476))
+
+## [23.7.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.7.6...v23.7.7) (2024-07-04)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:**  Reviewed and patched premium domains check which was flagging  premium domains as not available ([77cf5c1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/77cf5c1ea72b44489fc5a40dd8894eafcf0eb626))
+
+## [23.7.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.7.5...v23.7.6) (2024-06-24)
+
+
+### Bug Fixes
+
+* **deps:** bump phpseclib/phpseclib from 3.0.38 to 3.0.39 ([3333630](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/3333630be91c1c5382a6f557b746b64a9658f28b))
+
+## [23.7.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.7.4...v23.7.5) (2024-06-17)
+
+
+### Bug Fixes
+
+* **deps:** bump phpseclib/phpseclib from 3.0.37 to 3.0.38 ([076aa15](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/076aa152abea017641506723ccefca513db8bffe))
+
+## [23.7.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.7.3...v23.7.4) (2024-06-12)
+
+
+### Bug Fixes
+
+* **cnic dns & migration addon:** reviewed & fixed navbar styling and optimised user viewability ([c91d913](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/c91d9131fe55164a493b4760ce2b82f1131f7bf4))
+
+## [23.7.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.7.2...v23.7.3) (2024-06-06)
+
+
+### Bug Fixes
+
+* **cnic migrator addon:** patched format of displayed dates ([071c4b4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/071c4b45e0553a92195b051bd64aacc3c762b7dc))
+
+## [23.7.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.7.1...v23.7.2) (2024-06-06)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** patch renewal mode shown/preselected ([03a666c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/03a666c178c61bc87f997017b2c183e9f83759f9))
+
+## [23.7.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.7.0...v23.7.1) (2024-06-05)
+
+
+### Bug Fixes
+
+* **deps:** bump lit from 3.1.3 to 3.1.4 in /domain-search-src-files ([d88b6a3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/d88b6a37eb74f6d7939348d4134b67bea28800f2))
+
+# [23.7.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.6.1...v23.7.0) (2024-06-05)
+
+
+### Bug Fixes
+
+* **cnic dns templating addon:** fix Template::apply to consider an optionally provided domain id ([6bc5da1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/6bc5da1d69773f4b93c70b12d153d86ed1f6fe19))
+* **ispapi registrar module:** SaveDNS using wrong TTL ([de27d79](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/de27d79013a600bc1217b369a8b24fa8f9c32892))
+
+
+### Features
+
+* **dns templating addon:** apply dns template after successful transfer ([ba2a3a4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/ba2a3a448794936c60adcb6ec5ee18017f75a145))
+
+## [23.6.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.6.0...v23.6.1) (2024-06-03)
+
+
+### Bug Fixes
+
+* **cnic migrator & domain import addon:** reviewed & replaced deprecated php functions ([be0f033](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/be0f033bf7dba93f2ea8e90fdb2b9ae43c17ee7f))
+
+# [23.6.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.5.0...v23.6.0) (2024-05-31)
+
+
+### Features
+
+* **ispapi registrar module:** creates an invoice when domain owner change is requested ([83a5312](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/83a53121cc960da4edb548c117da7d209a540f4e))
+
+# [23.5.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.4.5...v23.5.0) (2024-05-21)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** patch DNS Management's ALIAS RR in direction of type X-ALIAS-A ([2589d59](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/2589d591eb996ace26ce1daf7cb35e432b63798a))
+
+
+### Features
+
+* **cnic domain registrar:** mark non-instant domain registrations as pending registration status ([dbc5c11](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/dbc5c11d4363a18730c5a8b60d5a7089f58d3c83))
+
+## [23.4.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.4.4...v23.4.5) (2024-05-08)
+
+
+### Performance Improvements
+
+* **cnic registrar module:** perf. review of Registrar Lock Support Detection for UI update ([25be082](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/25be08258120d52b575003d2146c7a067e39db9e))
+* **ispapi registrar module:** perf. review of Registrar Lock Support Detection for UI update ([42ae1a3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/42ae1a39a80ddcba4331306214c6010ac3393993))
+
+## [23.4.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.4.3...v23.4.4) (2024-05-07)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** cleanup var_dump ([7c5a4ce](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/7c5a4ce67b9174de513b9bf7114280eb13d238ca))
+
+## [23.4.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.4.2...v23.4.3) (2024-05-02)
+
+
+### Bug Fixes
+
+* **ispapi/cnic registrar module:** fix icons / counter of widgets ([455fa43](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/455fa43e43f1978fc89e9fb56ded9bede3dcafb0))
+
+## [23.4.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.4.1...v23.4.2) (2024-05-02)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** review sync method to cover foreign transfers correctly ([093f4c8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/093f4c8b7552906718ea0c775f55dfbdfd556852))
+
+## [23.4.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.4.0...v23.4.1) (2024-05-02)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** cleanup relicts of old IDN Converter library ([44244b7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/44244b794185a328ed14af3e9f1228780338c20e))
+
+# [23.4.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.3.6...v23.4.0) (2024-05-02)
+
+
+### Features
+
+* **cnic domain search:** Enable Direct Link Search with Predefined Search Term to Skip Two-Step SearchProcess ([769ff7a](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/769ff7a935ed635e5a9893804ebfb7a2a88c4239))
+
+## [23.3.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.3.5...v23.3.6) (2024-04-30)
+
+
+### Bug Fixes
+
+* **do not upgrade:** internal testing fix for the broken archives - do not upgrade ([d8df084](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/d8df084d1f1ad9395e23aea6f043aa0e75f12c02))
+
+## [23.3.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.3.4...v23.3.5) (2024-04-30)
+
+
+### Bug Fixes
+
+* **archives:** this is just a test release to check broken archives - do not upgrade ([680f90d](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/680f90d49f164a7ea032b6f822bcef7bb46b5a8f))
+
+## [23.3.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.3.3...v23.3.4) (2024-04-25)
+
+
+### Bug Fixes
+
+* **ispapi registrar module:** review .swiss additional fields to support natural persons ([7d750f7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/7d750f7069e47cd92c9cfa7f97654d52d9a5b3eb))
+
+## [23.3.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.3.2...v23.3.3) (2024-04-18)
+
+
+### Bug Fixes
+
+* **release process:** building registrar logo with version number ([1b52a46](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/1b52a46da29d317322e00ff613078dce15837964))
+* **release process:** reviewed gulp tasks and gh secrets usage ([c02e2a7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/c02e2a7996f36ea3ef2be4e92111a76f8bb5cd71))
+
+## [23.3.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.3.1...v23.3.2) (2024-04-16)
+
+
+### Bug Fixes
+
+* **deps:** bump lit from 3.1.2 to 3.1.3 in /domain-search-src-files ([8451824](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/84518242aea0faf9f80623c03086617f84724118))
+
+## [23.3.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.3.0...v23.3.1) (2024-04-16)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** patch PHP Warning in Command Library StatusDomain ([b621451](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/b6214518cb03d50ec6600d4d6a2f6245c3fb0716))
+
 # [23.3.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v23.2.5...v23.3.0) (2024-04-11)
 
 
