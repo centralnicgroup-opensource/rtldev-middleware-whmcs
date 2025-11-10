@@ -1,3 +1,10 @@
+# [28.1.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.0.5...v28.1.0) (2025-11-10)
+
+
+### Features
+
+* **cnic admin config addon:** add traditional additional fields copy feature for dist.additionalfields.php ([78ace07](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/78ace07316d5be5acc90358b05ddba7643ff4649))
+
 ## [28.0.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.0.4...v28.0.5) (2025-11-10)
 
 
