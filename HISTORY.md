@@ -1,3 +1,10 @@
+## [28.2.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.2.0...v28.2.1) (2025-11-12)
+
+
+### Bug Fixes
+
+* **Domain Search Addon:** reviewed overrides custom language file path from /lang/overrides/<language>.json to /lang/overrides/cnic-domain-search-addon-<language>.json to ([e2fdeb9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/e2fdeb9b87b0564e2c04516c11b8abad22a69f30))
+
 # [28.2.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.1.0...v28.2.0) (2025-11-12)
 
 
