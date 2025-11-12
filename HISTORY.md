@@ -1,3 +1,10 @@
+# [28.2.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.1.0...v28.2.0) (2025-11-12)
+
+
+### Features
+
+* **cnr registrar module:** show status inactive in domain detail view in admin area as well ([d97c856](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/d97c8565d2300b37b547251e0ab495024e221abd))
+
 # [28.1.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.0.5...v28.1.0) (2025-11-10)
 
 
