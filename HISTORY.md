@@ -1,3 +1,10 @@
+## [28.2.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.2.1...v28.2.2) (2025-11-12)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** fully api-driven auth code retrieval aka. Get EPP Code ([1595c2b](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/1595c2be4d385965b8f1c0221fc620b334288d2e))
+
 ## [28.2.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.2.0...v28.2.1) (2025-11-12)
 
 
