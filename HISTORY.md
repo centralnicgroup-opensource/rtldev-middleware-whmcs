@@ -1,3 +1,10 @@
+## [28.2.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.2.2...v28.2.3) (2025-11-14)
+
+
+### Performance Improvements
+
+* **cnic config addon:** Refactor sync interface to enhance user experience and performance ([05c62ec](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/05c62ec690e662c9d5efc2ce3ac3c0288ae51206))
+
 ## [28.2.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.2.1...v28.2.2) (2025-11-12)
 
 
