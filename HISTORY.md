@@ -1,3 +1,10 @@
+## [28.2.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.2.3...v28.2.4) (2025-11-18)
+
+
+### Bug Fixes
+
+* **deps:** bump glob from 10.4.5 to 10.5.0 ([56352cf](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/56352cf6f7c5e6ba3a5b1c8c7316d24dde381ee8))
+
 ## [28.2.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.2.2...v28.2.3) (2025-11-14)
 
 
