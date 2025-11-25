@@ -1,3 +1,10 @@
+## [28.2.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.2.4...v28.2.5) (2025-11-25)
+
+
+### Bug Fixes
+
+* **cnic-domain-search:** show all TLDs in domain results; remove CNIC-only TLD restriction ([4ede33e](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/4ede33efb71525450058861d40aa1aebfff67d40))
+
 ## [28.2.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.2.3...v28.2.4) (2025-11-18)
 
 
