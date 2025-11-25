@@ -1,3 +1,10 @@
+## [28.2.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.2.6...v28.2.7) (2025-11-25)
+
+
+### Bug Fixes
+
+* **release workflow:** try new way of releasing to whmcs marketplace (dep install) ([5ae7a34](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/5ae7a342462aae214df10dc0e3d6ab842e57e0e2))
+
 ## [28.2.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.2.5...v28.2.6) (2025-11-25)
 
 
