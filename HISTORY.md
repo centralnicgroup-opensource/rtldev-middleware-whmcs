@@ -1,3 +1,10 @@
+## [28.2.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.2.5...v28.2.6) (2025-11-25)
+
+
+### Bug Fixes
+
+* **release workflow:** testing new GH PAT (don't upgrade) ([74ceb31](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/74ceb3119a9426940c27dd4cedb663326c389ca1))
+
 ## [28.2.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.2.4...v28.2.5) (2025-11-25)
 
 
