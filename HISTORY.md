@@ -1,3 +1,11 @@
+## [28.2.8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.2.7...v28.2.8) (2025-12-01)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** generate activity log entry when requesting a new eppcode/auth code ([a43b605](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/a43b6054f30d1db2a658ee5b3c7256ecabe8fff1))
+* **cnic registrar module:** patched activity log generator ([2eefd89](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/2eefd89bf63f80c7e68231985fa78cbfed31f90d))
+
 ## [28.2.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.2.6...v28.2.7) (2025-11-25)
 
 
