@@ -1,3 +1,10 @@
+## [28.2.9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.2.8...v28.2.9) (2025-12-02)
+
+
+### Bug Fixes
+
+* **cnic pricing importer:** patch link to the Domain Pricing Importer of WHMCS ([ce5e42e](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/ce5e42ecb3327adf00a73daa14442c068d903198))
+
 ## [28.2.8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.2.7...v28.2.8) (2025-12-01)
 
 
