@@ -1,3 +1,11 @@
+## [28.2.10](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.2.9...v28.2.10) (2025-12-04)
+
+
+### Bug Fixes
+
+* **cnic dns manager:** correct DNSSEC link and update breadcrumb URLs ([16f3599](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/16f359914605d6529df4286aa875aa1cd2fbc4e9))
+* **cnic dns manager:** review menu entry url to our DNS Manager Addon ([5644c6c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/5644c6c983b0766041b2ff11185363ee61f1df77))
+
 ## [28.2.9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.2.8...v28.2.9) (2025-12-02)
 
 
