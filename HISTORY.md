@@ -1,3 +1,10 @@
+## [28.2.11](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.2.10...v28.2.11) (2025-12-11)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** in case of too early restore, fallback to renewal ([63f4d0e](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/63f4d0e121cc970e635e268d1623c0adaa7db3fa))
+
 ## [28.2.10](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.2.9...v28.2.10) (2025-12-04)
 
 
