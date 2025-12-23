@@ -1,3 +1,15 @@
+# [28.3.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.2.11...v28.3.0) (2025-12-23)
+
+
+### Bug Fixes
+
+* **deps:** bump phpseclib/phpseclib from 3.0.47 to 3.0.48 ([e005f4c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/e005f4c9ef38aac7cf6b84ebece87cf1777d3f6b))
+
+
+### Features
+
+* **cnic registrar module:** add setting to disable automatic domain restoration during renewals ([e30562a](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/e30562aae6a3ea402c3732f94d633f87c48fcb8e))
+
 ## [28.2.11](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.2.10...v28.2.11) (2025-12-11)
 
 
