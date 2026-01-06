@@ -1,3 +1,15 @@
+# [28.4.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.3.0...v28.4.0) (2026-01-06)
+
+
+### Bug Fixes
+
+* **pricing-importer:** avoid kidnapping existing hosting product group ([ee0b5c4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/ee0b5c47b4456f211a458c38d4a6267a521bf91d))
+
+
+### Features
+
+* **pricing-import:** allow monthly rates for hosting products ([8576df3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/8576df3b97d93dfbdca563a083e27421db9c5226))
+
 # [28.3.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.2.11...v28.3.0) (2025-12-23)
 
 
