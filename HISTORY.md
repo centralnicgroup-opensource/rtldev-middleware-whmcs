@@ -1,3 +1,10 @@
+## [28.4.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.4.0...v28.4.1) (2026-01-12)
+
+
+### Bug Fixes
+
+* **cnic monitoring addon:** enhance premium pricing mismatch detection for renewals ([437d914](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/437d91421bd9548b4a8023f8ad5138f3c0808342))
+
 # [28.4.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.3.0...v28.4.0) (2026-01-06)
 
 
