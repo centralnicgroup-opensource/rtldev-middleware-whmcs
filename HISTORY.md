@@ -1,3 +1,10 @@
+## [28.4.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.4.1...v28.4.2) (2026-01-21)
+
+
+### Bug Fixes
+
+* **deps:** bump lodash-es from 4.17.21 to 4.17.23 ([4ab6d16](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/4ab6d16ce2311f5ecab2291e4c047d54a70b99cc))
+
 ## [28.4.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.4.0...v28.4.1) (2026-01-12)
 
 
