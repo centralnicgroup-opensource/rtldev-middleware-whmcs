@@ -1,3 +1,10 @@
+## [28.4.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.4.2...v28.4.3) (2026-01-27)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** fix show required contact verification after registration (RAA) ([ab73d5e](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/ab73d5edc1d88d0a5c8ada4248bc97b70056503f))
+
 ## [28.4.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.4.1...v28.4.2) (2026-01-21)
 
 
