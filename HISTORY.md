@@ -1,3 +1,10 @@
+## [28.4.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.4.3...v28.4.4) (2026-01-27)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** do not show "Suspend" button if yet suspensded by TLD Provider ([a0c34fc](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/a0c34fc1d0f7689a995246f5618bb5ca5a47c5ce))
+
 ## [28.4.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.4.2...v28.4.3) (2026-01-27)
 
 
