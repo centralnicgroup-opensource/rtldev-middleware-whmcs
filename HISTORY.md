@@ -1,3 +1,10 @@
+## [28.4.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.4.5...v28.4.6) (2026-01-28)
+
+
+### Bug Fixes
+
+* **cnic domain search & admin config addon:** updated template files related to FontAwesome icons and FontAwesome stylesheet path to ensure compatibility with WHMCS v9 ([26a71ae](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/26a71ae1f41817c2f02021b967e81afa97deeff6))
+
 ## [28.4.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.4.4...v28.4.5) (2026-01-27)
 
 
