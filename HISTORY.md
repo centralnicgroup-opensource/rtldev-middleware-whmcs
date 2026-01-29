@@ -1,3 +1,10 @@
+# [28.5.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.4.6...v28.5.0) (2026-01-29)
+
+
+### Features
+
+* **cnic registrar module:** add child theme support for Nexus theme in WHMCS 9.0 ([464351c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/464351cd04efac8615761e55d513be85f2c8a6ef))
+
 ## [28.4.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.4.5...v28.4.6) (2026-01-28)
 
 
