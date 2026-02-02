@@ -1,3 +1,10 @@
+# [28.6.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.5.0...v28.6.0) (2026-02-02)
+
+
+### Features
+
+* **domain search addon:** add cart support for Nexus cart WHMCS v9 ([66f9a46](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/66f9a461e441daf30311688fb10b9494e6e42dc2))
+
 # [28.5.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.4.6...v28.5.0) (2026-01-29)
 
 
