@@ -1,3 +1,10 @@
+## [28.6.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.6.2...v28.6.3) (2026-02-03)
+
+
+### Bug Fixes
+
+* **deps:** bump @isaacs/brace-expansion from 5.0.0 to 5.0.1 ([41acbd0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/41acbd0120c00bee6907c504da01b6aca7493d30))
+
 ## [28.6.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.6.1...v28.6.2) (2026-02-03)
 
 
