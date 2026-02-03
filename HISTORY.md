@@ -1,3 +1,10 @@
+## [28.6.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.6.0...v28.6.1) (2026-02-03)
+
+
+### Performance Improvements
+
+* **cnic registrar module:** add Cache to AdminCustomButtonArray Function as WHMCS calls it twice ([2dde5cc](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/2dde5cc431f982d66b5383eeab34194fd58bd1dc))
+
 # [28.6.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.5.0...v28.6.0) (2026-02-02)
 
 
