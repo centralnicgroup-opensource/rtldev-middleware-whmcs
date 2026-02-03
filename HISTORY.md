@@ -1,3 +1,10 @@
+## [28.6.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.6.1...v28.6.2) (2026-02-03)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** review Buttons for Transfers in AdminCustomButtonArray ([4db3ed1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/4db3ed1a26cbea9477392e8d7bea6482e00a8330))
+
 ## [28.6.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.6.0...v28.6.1) (2026-02-03)
 
 
