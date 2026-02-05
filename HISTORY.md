@@ -1,3 +1,10 @@
+## [28.6.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.6.3...v28.6.4) (2026-02-05)
+
+
+### Performance Improvements
+
+* **cnic registrar module:** improve data load by cache for StatusDomain ([370eaac](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/370eaace56218f4fcb8d98a090e5d14c21b7b75f))
+
 ## [28.6.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.6.2...v28.6.3) (2026-02-03)
 
 
