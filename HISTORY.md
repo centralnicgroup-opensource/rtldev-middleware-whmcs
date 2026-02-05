@@ -1,3 +1,16 @@
+## [28.6.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.6.5...v28.6.6) (2026-02-05)
+
+
+### Bug Fixes
+
+* **build-release:** clean up debug logging export in workflow, TEST RELEASE DO NOT UPDATE TO THIS RELEASE ([0228902](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/02289029fcd0a7bf0e25489d0ab9aa937a0e409f))
+
+
+### Performance Improvements
+
+* **build-release:** enable debug logging for semantic-release in the container, TEST RELEASE NO NEED TO UPGRADE ([f334272](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/f334272e3d97d480e5dd98a967af626226d57237))
+* **build-release:** update working directory handling in Docker exec commands, DO NOT UPGRADE TEST RELEASE ([a572507](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/a572507ff035fb7f8fc10516bf012aa7daf9d9dc))
+
 ## [28.6.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.6.6...v28.6.7) (2026-02-05)
 
 
