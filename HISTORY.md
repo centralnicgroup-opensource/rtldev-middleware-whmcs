@@ -1,3 +1,10 @@
+## [28.6.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.6.6...v28.6.7) (2026-02-05)
+
+
+### Performance Improvements
+
+* **build-release:** update working directory handling in Docker exec commands, DO NOT UPGRADE TEST RELEASE ([a572507](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/a572507ff035fb7f8fc10516bf012aa7daf9d9dc))
+
 ## [28.6.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.6.5...v28.6.6) (2026-02-05)
 
 
