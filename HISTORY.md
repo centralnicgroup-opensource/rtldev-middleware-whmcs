@@ -1,3 +1,10 @@
+## [28.6.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.6.4...v28.6.5) (2026-02-05)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** fix key gen for data cache ([c92741b](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/c92741b74ccc5c19edf05724065b400ff2b1b478))
+
 ## [28.6.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.6.3...v28.6.4) (2026-02-05)
 
 
