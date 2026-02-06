@@ -1,3 +1,10 @@
+## [28.6.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.6.6...v28.6.7) (2026-02-06)
+
+
+### Bug Fixes
+
+* **software bundle:** block web crawlers indexing of folder /resources/cnic via .htaccess ([85ba952](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/85ba9522fbcf0df031c8b0dd7e463b5f7ee08203))
+
 ## [28.6.6](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.6.5...v28.6.6) (2026-02-05)
 
 
