@@ -1,3 +1,10 @@
+## [28.6.8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.6.7...v28.6.8) (2026-02-06)
+
+
+### Bug Fixes
+
+* **software bundle:** build process to consider hidden files (missing .htaccess earlier) ([bbeb428](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/bbeb428dae45bf855afb4d7e1457957c768a5649))
+
 ## [28.6.7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.6.6...v28.6.7) (2026-02-06)
 
 
