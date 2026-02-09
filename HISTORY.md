@@ -1,3 +1,10 @@
+## [28.6.9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.6.8...v28.6.9) (2026-02-09)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** transferred away detection based on QueryEventList reviewed for IDNs ([239a5ea](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/239a5eace8b7e5cda665f511de2450eaffa366da))
+
 ## [28.6.8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.6.7...v28.6.8) (2026-02-06)
 
 
