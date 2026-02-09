@@ -1,3 +1,10 @@
+## [28.6.10](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.6.9...v28.6.10) (2026-02-09)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** review additional domain fields for AFNIC TLDs (.fr, .re et al) ([057b9ef](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/057b9efd7e2a530a8cb885045e2e96fe054a8720))
+
 ## [28.6.9](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.6.8...v28.6.9) (2026-02-09)
 
 
