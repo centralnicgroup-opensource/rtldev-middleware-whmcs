@@ -1,3 +1,10 @@
+## [28.7.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.7.0...v28.7.1) (2026-02-10)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** remove json file type from denied .htaccess list ([2bdc588](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/2bdc5883ee8d66e12c89b29337263c655da963ff))
+
 # [28.7.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.6.10...v28.7.0) (2026-02-10)
 
 
