@@ -1,3 +1,16 @@
+# [28.7.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.6.10...v28.7.0) (2026-02-10)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** ensure success status reflects actual DNSSEC actions submitted ([0189f5e](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/0189f5e3ed62b0e9bbb93397c2d4f59cade96f60))
+
+
+### Features
+
+* **cnic domain search:** Add client theme variant configuration and implemented dark theme support ([6d2d6e7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/6d2d6e7374dee9a3b103f3032f4e4d9cfdd0d7ce))
+* **dns manager addon:** Web forwarding as dedicated tab, import/export zone files, new DNS record types ([ac937b8](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/ac937b80d458908d2867083d71791010b9c8fa4b))
+
 ## [28.6.10](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.6.9...v28.6.10) (2026-02-09)
 
 
