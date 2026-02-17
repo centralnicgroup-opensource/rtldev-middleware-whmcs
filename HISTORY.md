@@ -1,3 +1,10 @@
+# [28.8.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.7.1...v28.8.0) (2026-02-17)
+
+
+### Features
+
+* **cnic ssl addon:** add pending reissue email notifications via daily cron ([2a7549c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/2a7549c4a59ad8d6e138db577ffe3f4009903cbf))
+
 ## [28.7.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.7.0...v28.7.1) (2026-02-10)
 
 
