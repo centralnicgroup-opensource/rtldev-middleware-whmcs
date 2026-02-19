@@ -1,3 +1,10 @@
+## [28.8.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.8.0...v28.8.1) (2026-02-19)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** update domain status handling to mark pending registrations as active efficiently ([1339e17](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/1339e171c80dd61278560393d651319006a8bd2a))
+
 # [28.8.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.7.1...v28.8.0) (2026-02-17)
 
 
