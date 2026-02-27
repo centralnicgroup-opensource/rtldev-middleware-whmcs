@@ -1,3 +1,11 @@
+## [28.8.2](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v28.8.1...v28.8.2) (2026-02-27)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** improve .DK domain registration status check and sync logic for foreign transfers ([718fd22](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/718fd2280e08979e87ab503bc0687abab19617d4))
+* **deps:** bump idna-uts46-hx from 6.1.0 to 6.1.1 ([97eb60f](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/97eb60f7a716f8a17899b7715fd17d5778d80338))
+
 ## [28.8.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v28.8.0...v28.8.1) (2026-02-19)
 
 
