@@ -1,3 +1,11 @@
+# [28.9.0](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v28.8.2...v28.9.0) (2026-03-01)
+
+
+### Features
+
+* **cnic-pricingimport:** ability to choose product group on hosting product import ([a616905](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/a6169055b4c5c7a727e8f72eaf59b64aebe62e89))
+* **cnichosting:** implement welcome email ([ab5f742](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/ab5f74204aa274b25a5fed7897bd4586ab8cc044))
+
 ## [28.8.2](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v28.8.1...v28.8.2) (2026-02-27)
 
 
