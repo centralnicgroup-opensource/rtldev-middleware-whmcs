@@ -1,3 +1,10 @@
+## [28.9.1](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v28.9.0...v28.9.1) (2026-03-02)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** reviewed API Command used for generating eppcodes (issues with .de) ([37e0ee2](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/37e0ee26dc4a8ca69ad5b803fcdaed8c9bead92e))
+
 # [28.9.0](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v28.8.2...v28.9.0) (2026-03-01)
 
 
