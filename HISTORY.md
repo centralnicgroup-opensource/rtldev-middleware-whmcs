@@ -1,3 +1,10 @@
+## [28.9.3](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v28.9.2...v28.9.3) (2026-03-03)
+
+
+### Bug Fixes
+
+* **deps:** bump idna-uts46-hx from 6.1.1 to 6.1.3 ([3ae27a1](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/3ae27a18fc80e8d794b178f24a8b2e6de9126c5d))
+
 ## [28.9.2](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v28.9.1...v28.9.2) (2026-03-03)
 
 
