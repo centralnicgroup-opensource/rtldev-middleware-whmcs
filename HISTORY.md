@@ -1,3 +1,10 @@
+## [28.9.2](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v28.9.1...v28.9.2) (2026-03-03)
+
+
+### Bug Fixes
+
+* **dependencies:** update centralnic-reseller/php-sdk to v13.1.1 ([723e0dc](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/723e0dc145de0747c9716d260c0e7efd213598f5))
+
 ## [28.9.1](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v28.9.0...v28.9.1) (2026-03-02)
 
 
