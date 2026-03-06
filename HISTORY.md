@@ -1,3 +1,10 @@
+## [28.9.4](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v28.9.3...v28.9.4) (2026-03-06)
+
+
+### Bug Fixes
+
+* **deps:** bumped some deps to latest version ([f9193f4](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/f9193f49b730cae067663b9b9c2d9afc8bfd687b))
+
 ## [28.9.3](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v28.9.2...v28.9.3) (2026-03-03)
 
 
