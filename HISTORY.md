@@ -1,3 +1,10 @@
+## [28.9.5](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v28.9.4...v28.9.5) (2026-03-09)
+
+
+### Bug Fixes
+
+* **cnr registrar module:** add fallback for domain transfers by retrying with owner contact when the API reports missing transfer contact data ([af6d6ab](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/af6d6ab8326ea3e0cbd99bb6cd707000d1fe2ffb))
+
 ## [28.9.4](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v28.9.3...v28.9.4) (2026-03-06)
 
 
