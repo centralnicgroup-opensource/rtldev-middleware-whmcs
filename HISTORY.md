@@ -1,3 +1,10 @@
+## [28.9.6](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v28.9.5...v28.9.6) (2026-03-11)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** include contacts for .DE, .FR and .CN Domain Transfers ([7d384b1](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/7d384b15005e72c7b9be5fa13177ab3b3019c09e))
+
 ## [28.9.5](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v28.9.4...v28.9.5) (2026-03-09)
 
 
