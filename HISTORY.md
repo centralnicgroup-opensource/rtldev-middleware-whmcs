@@ -1,3 +1,17 @@
+# [29.0.0](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v28.9.6...v29.0.0) (2026-03-12)
+
+
+### Features
+
+* **cnic registrar module:** fully revamped domain name suggestion engine ([3338864](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/33388647dea76bfddbfa95deb533c9f1f3d0277b))
+
+
+### BREAKING CHANGES
+
+* **cnic registrar module:** We revamped our lookup provider settings and the underlying domain name suggestion
+engine. There are downward incompatible changes and by that we recommend updating the Lookup
+Provider Settings.
+
 ## [28.9.6](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v28.9.5...v28.9.6) (2026-03-11)
 
 
