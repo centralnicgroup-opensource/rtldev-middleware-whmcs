@@ -1,3 +1,10 @@
+## [29.0.1](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v29.0.0...v29.0.1) (2026-03-13)
+
+
+### Bug Fixes
+
+* **cnic-registrar:** improve hostname normalization logic for URL forwardings ([85effbb](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/85effbbc265ab2aa00d5e4eee87c9b533249b2fd))
+
 # [29.0.0](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v28.9.6...v29.0.0) (2026-03-12)
 
 
