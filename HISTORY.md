@@ -1,3 +1,10 @@
+## [29.0.2](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v29.0.1...v29.0.2) (2026-03-16)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** update domain suggestion logic to prioritize TLD requests; now supports tlds as batch requests ([7ab0a9a](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/7ab0a9aebfb2e6fba52f41b18008d68b344e928d))
+
 ## [29.0.1](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v29.0.0...v29.0.1) (2026-03-13)
 
 
