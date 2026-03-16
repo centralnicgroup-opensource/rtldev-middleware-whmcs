@@ -1,3 +1,11 @@
+## [29.0.3](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v29.0.2...v29.0.3) (2026-03-16)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** include nameservers for .IN domain transfers ([878995f](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/878995f1ffb807b912e13544428b3ef1400734cd))
+* **cnic registrar module:** include nameservers for .IT domain transfers ([a436318](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/a436318e9d90f5e825771d98e6e2c2aaad395079))
+
 ## [29.0.2](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v29.0.1...v29.0.2) (2026-03-16)
 
 
