@@ -1,3 +1,15 @@
+# [29.1.0](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v29.0.4...v29.1.0) (2026-03-23)
+
+
+### Bug Fixes
+
+* **deps:** bump phpseclib/phpseclib from 3.0.49 to 3.0.50 ([c84af7e](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/c84af7e7deb85f519fe254a81b050a9a58355cf5))
+
+
+### Features
+
+* **cnic registrar module:** add incident reporting and implemented configurable notification modes (todo items, support tickets, and/or email notifications) ([bd2e4d0](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/bd2e4d05bb2e5983ce978b104bb97a3e061e883f))
+
 ## [29.0.4](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v29.0.3...v29.0.4) (2026-03-18)
 
 
