@@ -1,3 +1,10 @@
+## [29.1.2](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v29.1.1...v29.1.2) (2026-03-30)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** show non validated contacts warnings in client area domain details ([2279119](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/2279119b5347644b453bc67700c1a4ce625dace3))
+
 ## [29.1.1](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v29.1.0...v29.1.1) (2026-03-24)
 
 
