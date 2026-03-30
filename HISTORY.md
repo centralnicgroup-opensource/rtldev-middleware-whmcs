@@ -1,3 +1,10 @@
+## [29.1.3](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v29.1.2...v29.1.3) (2026-03-30)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** Patched an issue which prevented client domain details access ([68a7753](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/68a7753c3520d66fda1a23d722b356c5b3fdfd2b))
+
 ## [29.1.2](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v29.1.1...v29.1.2) (2026-03-30)
 
 
