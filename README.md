@@ -1,4 +1,4 @@
-# WHMCS "CNIC" Software Bundle
+# WHMCS Integrations
 
 [![Latest Release](https://img.shields.io/github/v/release/centralnicgroup-opensource/rtldev-middleware-whmcs)](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/releases)[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
@@ -6,6 +6,18 @@
 [![Contributors](https://img.shields.io/github/contributors/centralnicgroup-opensource/rtldev-middleware-whmcs)](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/graphs/contributors)
 [![GitHub Stars](https://img.shields.io/github/stars/centralnicgroup-opensource/rtldev-middleware-whmcs)](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/stargazers)
 
+## WHMCS Brand Overview
+
+| Registrar Brand | WHMCS ID | Status | Links |
+|---|---|---|---|
+| CentralNic Reseller | cnic | ![maintained](https://img.shields.io/badge/MAINTAINED-green.svg) | [📦](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/raw/main/whmcs-cnic-bundle.zip) [📘](#whmcs-cnic-software-bundle) |
+| Internet.bs | ibs | ![maintained](https://img.shields.io/badge/MAINTAINED-green.svg) | [📦](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/raw/refs/heads/main/whmcs-ibs-registrar-latest.zip) [📘](https://faq.internetbs.net/hc/en-gb/articles/13828327871773-WHMCS-Registrar-Module) |
+| Moniker | moniker | ![maintained](https://img.shields.io/badge/MAINTAINED-green.svg) | [📦](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/raw/refs/heads/main/whmcs-moniker-registrar-latest.zip) [📘](https://support.moniker.com/hc/en-gb/articles/24649624856349-WHMCS-Registrar-Module) |
+| TPP Wholesale | tppwregistrar | ![deprecated](https://img.shields.io/badge/DEPRECATED-red.svg) | [📦](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/raw/refs/heads/main/whmcs-tpp-registrar-latest.zip) [📘](https://www.tppwholesale.com.au/whmcs/) |
+
+We deprecated the TPP Wholesale Registrar Module on March 12th 2026. There is a replacement available which is shipped with WHMCS. Report Bugs directly to WHMCS please.
+
+## WHMCS "CNIC" Software Bundle
 
 The **WHMCS "CNIC" Software Bundle** is a comprehensive solution for managing domains, DNS, and SSL certificates within WHMCS. Developed by **Team Internet Group PLC**, this bundle integrates seamlessly with our Domain Registrar Brand CentralNic Reseller, providing a powerful, all-in-one solution for resellers.
 

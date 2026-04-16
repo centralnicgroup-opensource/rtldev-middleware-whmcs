@@ -1,3 +1,36 @@
+# [30.0.0](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v29.1.6...v30.0.0) (2026-04-16)
+
+
+### Bug Fixes
+
+* **cnic admin config addon:** extend CNIC configuration addon features with registrar selector for improved domain management ([08636b6](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/08636b685d585983e2a99942e6157f1ae4f59e16))
+* **cnic dns manager:** patch fallback logo path ([652cbff](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/652cbff5d5b84ba340360080521746a7ff3e4f92))
+* **cnic domain search addon:** make domain search compatible with cnic wrappers ([a06092f](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/a06092ff609f58423b4785bdaf79566d6f1be722))
+* **cnic registrar module:** fix useless GetProperty call in case no credentials are yet configured ([7fe020b](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/7fe020b12a3ac7feb62d94cc2a283050486e2bd8))
+* **cnic registrar module:** pick module name from whmcs.json to allow white-labeling ([04b7c4e](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/04b7c4eaf7875095c2c664836cd2565c83948d06))
+* **cnic registrar module:** review Domain Sync in direction of expirydate detection ([71a6283](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/71a6283b6e55b16a3beeb43be90e9931ad1f2188))
+* **cnic registrar module:** switch from hook subscription to template change ([1afeeb3](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/1afeeb3e10e7c64cf23d4ced3d0bed8eaa18d309))
+* **cnic registrar module:** update lookup provider handling and improve parameter initialization ([8d64f2d](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/8d64f2db21a04489ca194d041e3f657964dfb4fe))
+
+
+### Features
+
+* **cnic registrar module:** fully revamped domain name suggestion engine ([39ec479](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/39ec4792d7e9eed480c201b593ebab3c5944f74a))
+* **cnic registrar module:** multi-account/wrapper module support and improved/dymamic domain registrars overview UI ([0b3c0b9](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/0b3c0b948e608528974a91eabcf8b6682184d3b8))
+* **cnic registrar module:** review domain contact information (validation + verification) ([1481ba2](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/1481ba229c818118cd15546f38c7d144ab9695b1))
+
+
+### BREAKING CHANGES
+
+* **cnic registrar module:** We revamped our lookup provider settings and the underlying domain name suggestion
+engine. There are downward incompatible changes and by that we recommend updating the Lookup
+Provider Settings.
+* **cnic registrar module:** This commit reviews the registar module in direction of supporting the use of so-called wrapper registrar modules. These modules can be build and used by resellers if they have multiple reseller accounts with CentralNic and want to use them all in WHMCS. The code refactoring should ensure that the wrapper modules benefit of the same features by reusing the core logic of the main CNIC registrar module. The review includes changes to the module's configuration, hooks, and core functions to allow for this flexibility and reuse of code.
+* **cnic registrar module:** Switch from hook subscription to template change for more reliability. Check our themes for details in file clientareadomaindetails.tpl.
+* **cnic registrar module:** We reviewed the expirydate detection, the registrar's _Sync function though, in
+direction of some missing cases and issues we noticed. With did this with the help of our API Core
+Devs and tested this change. Running a Bulk Sync using our Expirydate Bulk Sync Tool is recommended.
+
 ## [29.1.6](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v29.1.5...v29.1.6) (2026-04-09)
 
 
