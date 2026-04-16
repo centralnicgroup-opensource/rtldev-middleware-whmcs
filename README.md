@@ -11,9 +11,13 @@
 | Registrar Brand | WHMCS ID | Status | Links |
 |---|---|---|---|
 | CentralNic Reseller | cnic | ![maintained](https://img.shields.io/badge/MAINTAINED-green.svg) | [📦](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/raw/main/whmcs-cnic-bundle.zip) [📘](#whmcs-cnic-software-bundle) |
+| CentralNic Reseller Wrapper 1 | cnic1* | ![maintained](https://img.shields.io/badge/MAINTAINED-green.svg) | [📦](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/raw/refs/heads/main/whmcs-cnic1-registrar-latest.zip) [📘](https://support.centralnicreseller.com/hc/en-gb/sections/13438422570781-WHMCS) |
+| CentralNic Reseller Wrapper 2 | cnic2* | ![maintained](https://img.shields.io/badge/MAINTAINED-green.svg) | [📦](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/raw/refs/heads/main/whmcs-cnic2-registrar-latest.zip) [📘](https://support.centralnicreseller.com/hc/en-gb/sections/13438422570781-WHMCS) |
 | Internet.bs | ibs | ![maintained](https://img.shields.io/badge/MAINTAINED-green.svg) | [📦](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/raw/refs/heads/main/whmcs-ibs-registrar-latest.zip) [📘](https://faq.internetbs.net/hc/en-gb/articles/13828327871773-WHMCS-Registrar-Module) |
 | Moniker | moniker | ![maintained](https://img.shields.io/badge/MAINTAINED-green.svg) | [📦](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/raw/refs/heads/main/whmcs-moniker-registrar-latest.zip) [📘](https://support.moniker.com/hc/en-gb/articles/24649624856349-WHMCS-Registrar-Module) |
 | TPP Wholesale | tppwregistrar | ![deprecated](https://img.shields.io/badge/DEPRECATED-red.svg) | [📦](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/raw/refs/heads/main/whmcs-tpp-registrar-latest.zip) [📘](https://www.tppwholesale.com.au/whmcs/) |
+
+`*` `cnic1`, `cnic2`, and any additional `cnicN` wrapper modules are separate CentralNic Reseller registrar identifiers for running multiple CentralNic Reseller accounts or brand variants side by side in one WHMCS installation. Install each wrapper archive by extracting it into your WHMCS `modules/registrars` directory so the resulting path is `modules/registrars/cnicX`. If the archive is extracted elsewhere, the wrapper registrar module will not be detected or work correctly.
 
 We deprecated the TPP Wholesale Registrar Module on March 12th 2026. There is a replacement available which is shipped with WHMCS. Report Bugs directly to WHMCS please.
 
