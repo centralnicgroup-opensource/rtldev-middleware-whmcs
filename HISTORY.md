@@ -1,3 +1,10 @@
+## [30.0.1](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.0.0...v30.0.1) (2026-04-22)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** improve domain validation during registration; patches error `Call to a member function toArray()` ([4a9d033](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/4a9d033618e21c9adc862c4a210299ee50a24cdb))
+
 # [30.0.0](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v29.1.6...v30.0.0) (2026-04-16)
 
 
