@@ -1,3 +1,10 @@
+## [30.0.2](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.0.1...v30.0.2) (2026-04-27)
+
+
+### Bug Fixes
+
+* **cnic pricing importer:** pass registrar settings to HostingImporter constructor and update CheckHosting requests ([d7e26ff](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/d7e26ff91e1119085f2dfdc413e758b114b39e6a))
+
 ## [30.0.1](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.0.0...v30.0.1) (2026-04-22)
 
 
