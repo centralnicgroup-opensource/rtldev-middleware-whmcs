@@ -1,3 +1,10 @@
+## [30.0.5](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.0.4...v30.0.5) (2026-04-28)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** resolve DNS Manager addon bug where record‑type selector failed to load, plus improved SPF record processing ([6a3b0ef](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/6a3b0efbc6e9e2f5c8c54591c136c570a8e7822b))
+
 ## [30.0.4](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.0.3...v30.0.4) (2026-04-28)
 
 
