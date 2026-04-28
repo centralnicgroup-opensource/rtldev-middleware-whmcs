@@ -1,3 +1,10 @@
+## [30.0.4](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.0.3...v30.0.4) (2026-04-28)
+
+
+### Bug Fixes
+
+* **cnic pricing importer:** fixes 'Check Authorisation' issue on products import ([73926cb](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/73926cb1d1560260ecc34f5347add9c72c89c032))
+
 ## [30.0.3](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.0.2...v30.0.3) (2026-04-28)
 
 
