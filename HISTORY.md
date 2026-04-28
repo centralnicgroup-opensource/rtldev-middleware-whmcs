@@ -1,3 +1,10 @@
+## [30.0.3](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.0.2...v30.0.3) (2026-04-28)
+
+
+### Bug Fixes
+
+* **cnic registrar:** fix regression in api client leading to some addons unable to make requests ([f22b179](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/f22b1792131b477eb9bde595727dba0ef25a2f55))
+
 ## [30.0.2](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.0.1...v30.0.2) (2026-04-27)
 
 
