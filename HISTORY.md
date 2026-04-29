@@ -1,3 +1,10 @@
+## [30.0.6](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.0.5...v30.0.6) (2026-04-29)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** implement fallback to WHMCS whois lookup for TLDs that are not supported by CentralNic Reseller ([0f9ca41](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/0f9ca412183334cfbfb3b5248a4f69f6def9f2dd))
+
 ## [30.0.5](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.0.4...v30.0.5) (2026-04-28)
 
 
