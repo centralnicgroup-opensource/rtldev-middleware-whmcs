@@ -1,3 +1,10 @@
+## [30.0.7](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.0.6...v30.0.7) (2026-05-01)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** handle unknown TLD status in availability check fallback to WHMCS whois lookup ([7e98a53](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/7e98a532f03022c19cb15d51a753b50e7b30ae68))
+
 ## [30.0.6](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.0.5...v30.0.6) (2026-04-29)
 
 
