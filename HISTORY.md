@@ -1,3 +1,11 @@
+## [30.0.8](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.0.7...v30.0.8) (2026-05-06)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** improved validation and patches error in client area my domains section ([0f17cb7](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/0f17cb7d63c356cee557577560b25d64cedba133))
+* **cnic ssl:** improve CSR handling ([e330531](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/e330531959a1cd69c71d6ae760bd59c864af5f06))
+
 ## [30.0.7](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.0.6...v30.0.7) (2026-05-01)
 
 
