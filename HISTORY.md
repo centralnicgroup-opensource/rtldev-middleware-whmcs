@@ -1,3 +1,10 @@
+## [30.0.9](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.0.8...v30.0.9) (2026-05-07)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** patched an issue which blocked aftermarket domain registrations ([ededd8c](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/ededd8c2d61f809889a3a97779ff7c4c47c4da4d))
+
 ## [30.0.8](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.0.7...v30.0.8) (2026-05-06)
 
 
