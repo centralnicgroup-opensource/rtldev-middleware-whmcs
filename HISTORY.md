@@ -1,3 +1,10 @@
+## [30.0.10](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.0.9...v30.0.10) (2026-05-08)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** implement validation and handling for .DE General Request and Abuse Contact additional fields ([4e33310](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/4e333105866c83e92048f9e3c6c8517be836cb59))
+
 ## [30.0.9](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.0.8...v30.0.9) (2026-05-07)
 
 
