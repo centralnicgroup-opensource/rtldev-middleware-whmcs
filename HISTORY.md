@@ -1,3 +1,10 @@
+## [30.0.12](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.0.11...v30.0.12) (2026-05-14)
+
+
+### Bug Fixes
+
+* **deps:** bump lit from 3.3.2 to 3.3.3 ([165cfbf](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/165cfbf4d21e5e4ee74dbe7a7fcc51278b2e2843))
+
 ## [30.0.11](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.0.10...v30.0.11) (2026-05-14)
 
 
