@@ -1,3 +1,10 @@
+## [30.0.11](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.0.10...v30.0.11) (2026-05-14)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** patches issue where `toArray()` warning was shown in some cases in the client area domains section ([d3dbaa0](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/d3dbaa02f4354207c2188f3ca560a2fc6d10ae6a))
+
 ## [30.0.10](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.0.9...v30.0.10) (2026-05-08)
 
 
