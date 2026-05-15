@@ -1,3 +1,10 @@
+## [30.0.13](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.0.12...v30.0.13) (2026-05-15)
+
+
+### Bug Fixes
+
+* **dns manager addon:** patch false nameserver warning and the CheckDNSZone request without the TLD ([804183d](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/804183d6b1d02a972e5ef102264ae08ab976d7ec))
+
 ## [30.0.12](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.0.11...v30.0.12) (2026-05-14)
 
 
