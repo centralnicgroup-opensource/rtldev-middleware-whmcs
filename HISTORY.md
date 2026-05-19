@@ -1,3 +1,10 @@
+## [30.0.14](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.0.13...v30.0.14) (2026-05-19)
+
+
+### Bug Fixes
+
+* **deps:** bump ws from 8.20.0 to 8.20.1 ([3c835b6](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/3c835b6820b3a1309dda0eaa537060c581c42ddf))
+
 ## [30.0.13](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.0.12...v30.0.13) (2026-05-15)
 
 
