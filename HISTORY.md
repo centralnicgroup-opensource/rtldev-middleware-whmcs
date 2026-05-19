@@ -1,3 +1,10 @@
+# [30.1.0](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.0.14...v30.1.0) (2026-05-19)
+
+
+### Features
+
+* **cnic registrar module:** implemented NSENTRIES removal button for .de domains via domain configurations page in admin panel ([08c912b](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/08c912ba59d8f989bcfece6e3e3b82f0edea04cc))
+
 ## [30.0.14](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.0.13...v30.0.14) (2026-05-19)
 
 
