@@ -1,3 +1,11 @@
+## [30.1.1](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.1.0...v30.1.1) (2026-05-26)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** prevent errors on domain detail pages when domain context is unavailable and resolve registrar ID not being detected correctly in addon and hook contexts ([1fd0d0e](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/1fd0d0e385fc59384428214c6908dd1a1f21f938))
+* **DNS Manager Addon:** resolve DNS management page not loading for domains using supported registrars ([b675e15](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/b675e15eef327139a3496c659f1a0ddd590cb25c))
+
 # [30.1.0](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.0.14...v30.1.0) (2026-05-19)
 
 
