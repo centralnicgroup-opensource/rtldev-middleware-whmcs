@@ -1,3 +1,10 @@
+## [30.1.2](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.1.1...v30.1.2) (2026-05-28)
+
+
+### Bug Fixes
+
+* **cnic registrar:** make StatusDomain more failsafe ([50091e6](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/50091e6b5e85a10861989d86ef9b547f6e690eeb))
+
 ## [30.1.1](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.1.0...v30.1.1) (2026-05-26)
 
 
