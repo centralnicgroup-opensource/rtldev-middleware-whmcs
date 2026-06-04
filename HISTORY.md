@@ -1,3 +1,10 @@
+# [30.2.0](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.1.2...v30.2.0) (2026-06-04)
+
+
+### Features
+
+* **cnic registrar module:** add IDN language tag support for domain registration and transfer ([02dd3e5](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/commit/02dd3e517a003257093395a13deda6f60ee26991))
+
 ## [30.1.2](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.1.1...v30.1.2) (2026-05-28)
 
 
