@@ -1,3 +1,11 @@
+## [30.2.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v30.2.0...v30.2.1) (2026-06-15)
+
+
+### Bug Fixes
+
+* **cnic dns manager:** Fix DNS manager TXT/SPF saves ([e0f2094](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/e0f2094347fbdb53f0414d7d9061102631d7a4cd))
+* **cnic registrar module:** improve handling of TestMode and ProxyServer parameters ([4427eb1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/4427eb1aaf2667ce68f595eced877dd08809becb))
+
 # [30.2.0](https://github.com/centralnicgroup/rtldev-[secure]-whmcs-src/compare/v30.1.2...v30.2.0) (2026-06-04)
 
 
