@@ -1,3 +1,10 @@
+# [30.3.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v30.2.1...v30.3.0) (2026-06-16)
+
+
+### Features
+
+* **dns manager addon:** redesign deletion UX, add copy-to-clipboard, and inline validation ([8540a3f](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/8540a3f3e2e7c452cc81cf443a6090d8f6fe164d))
+
 ## [30.2.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v30.2.0...v30.2.1) (2026-06-15)
 
 
