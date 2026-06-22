@@ -1,3 +1,10 @@
+## [30.3.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v30.3.0...v30.3.1) (2026-06-22)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** additional-fields support for Nexus cart and .dk fields implemented with boolean fallback for empty option labels and updated user type value ([6ee8e6a](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/6ee8e6aad34df3912386a91afbd7ab3545a2916b))
+
 # [30.3.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v30.2.1...v30.3.0) (2026-06-16)
 
 
