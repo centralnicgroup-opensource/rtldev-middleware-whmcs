@@ -1,3 +1,10 @@
+# [30.4.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v30.3.1...v30.4.0) (2026-06-30)
+
+
+### Features
+
+* **cnr registrar module:** improved DNSSEC key management ([e2cacde](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/e2cacdeba0d9c65a0292804e9d4cf014c843b03b))
+
 ## [30.3.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v30.3.0...v30.3.1) (2026-06-22)
 
 
