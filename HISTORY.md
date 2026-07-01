@@ -1,3 +1,10 @@
+## [30.4.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v30.4.0...v30.4.1) (2026-07-01)
+
+
+### Bug Fixes
+
+* **cnic dns manager:** improve DNS zones handling when contain duplicate records ([1f5618b](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/1f5618b2a5d48af0a036001a9075b48c726f112f))
+
 # [30.4.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v30.3.1...v30.4.0) (2026-06-30)
 
 
