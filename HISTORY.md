@@ -1,3 +1,10 @@
+# [30.5.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v30.4.1...v30.5.0) (2026-07-01)
+
+
+### Features
+
+* **cnic registrar module:** implement upgrade support, migrates .DK additional field values to new supported values ([5847cb7](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/5847cb7dce8ca821fa0063c434b4bf37ad4964f7))
+
 ## [30.4.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v30.4.0...v30.4.1) (2026-07-01)
 
 
