@@ -1,3 +1,10 @@
+## [30.5.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v30.5.0...v30.5.1) (2026-07-03)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** resolves Undefined constant CNIC_VERSION error in some older WHMCS versions ([558c03e](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/558c03e5bbdb2ebc18f898f4f7aa848e6a2dc187))
+
 # [30.5.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v30.4.1...v30.5.0) (2026-07-01)
 
 
