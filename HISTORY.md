@@ -1,3 +1,10 @@
+# [30.6.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v30.5.1...v30.6.0) (2026-07-06)
+
+
+### Features
+
+* **domain search addon:** cache compiled templates, migrate to @lit/task and ref directive, fix WHOIS container styling and eval risk ([916748c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/916748c699a4c8354db0d26a33e95583b793024c))
+
 ## [30.5.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v30.5.0...v30.5.1) (2026-07-03)
 
 
