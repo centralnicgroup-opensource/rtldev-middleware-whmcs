@@ -1,3 +1,10 @@
+## [30.6.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v30.6.0...v30.6.1) (2026-07-07)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** flag domains transferred via registrar-detected `Internal Transfers or User Transfers` for manual renewal review ([0366bce](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/0366bceb680dd3464cbbfca4ec641d8cb6c60923))
+
 # [30.6.0](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v30.5.1...v30.6.0) (2026-07-06)
 
 
