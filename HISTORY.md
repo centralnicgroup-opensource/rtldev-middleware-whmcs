@@ -1,3 +1,10 @@
+## [30.6.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v30.6.1...v30.6.2) (2026-07-09)
+
+
+### Bug Fixes
+
+* **dns manager addon:** enhance dns manager addon experience for custom themes like Lagom ([f3d8311](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/f3d8311346c8ccfc7c8553bbb24ef70e392723be))
+
 ## [30.6.1](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v30.6.0...v30.6.1) (2026-07-07)
 
 
