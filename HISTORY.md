@@ -1,3 +1,10 @@
+## [30.6.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v30.6.2...v30.6.3) (2026-07-24)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** improved environment validation and shows system requirements banner in admin area ([d6c9bae](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/d6c9baef82f06ecd3e5890174640d1413ed80288))
+
 ## [30.6.2](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v30.6.1...v30.6.2) (2026-07-09)
 
 

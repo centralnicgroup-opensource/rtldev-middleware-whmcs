@@ -36,18 +36,20 @@ WHMCS registrar modules and domain management addons for **Team Internet Group P
 
 ## Registrar Modules
 
-| Brand | WHMCS Module ID | Status | Download | Docs |
-|---|---|---|---|---|
-| CentralNic Reseller | `cnic` | ![maintained](https://img.shields.io/badge/MAINTAINED-green.svg) | [📦 Bundle](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/raw/main/whmcs-cnic-bundle.zip) | [📘 Docs](https://support.centralnicreseller.com/hc/en-gb/sections/13438422570781-WHMCS) |
-| CentralNic Reseller Wrapper 1 | `cnic1`* | ![maintained](https://img.shields.io/badge/MAINTAINED-green.svg) | [📦 Download](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/raw/refs/heads/main/whmcs-cnic1-wrapper-registrar-latest.zip) | [📘 Docs](https://support.centralnicreseller.com/hc/en-gb/sections/13438422570781-WHMCS) |
-| CentralNic Reseller Wrapper 2 | `cnic2`* | ![maintained](https://img.shields.io/badge/MAINTAINED-green.svg) | [📦 Download](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/raw/refs/heads/main/whmcs-cnic2-wrapper-registrar-latest.zip) | [📘 Docs](https://support.centralnicreseller.com/hc/en-gb/sections/13438422570781-WHMCS) |
-| Internet.bs | `ibs` | ![maintained](https://img.shields.io/badge/MAINTAINED-green.svg) | [📦 Download](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/raw/refs/heads/main/whmcs-ibs-registrar-latest.zip) | [📘 Docs](https://faq.internetbs.net/hc/en-gb/articles/13828327871773-WHMCS-Registrar-Module) |
-| Moniker | `moniker` | ![maintained](https://img.shields.io/badge/MAINTAINED-green.svg) | [📦 Download](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/raw/refs/heads/main/whmcs-moniker-registrar-latest.zip) | [📘 Docs](https://support.moniker.com/hc/en-gb/articles/24649624856349-WHMCS-Registrar-Module) |
-| TPP Wholesale | `tppwregistrar` | ![deprecated](https://img.shields.io/badge/DEPRECATED-red.svg) | [📦 Download](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/raw/refs/heads/main/whmcs-tpp-registrar-latest.zip) | [📘 Docs](https://www.tppwholesale.com.au/whmcs/) |
+| Brand                         | WHMCS Module ID | Status                                                           | Download                                                                                                                                              | Docs                                                                                           |
+| ----------------------------- | --------------- | ---------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| CentralNic Reseller           | `cnic`          | ![maintained](https://img.shields.io/badge/MAINTAINED-green.svg) | [📦 Bundle](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/raw/main/whmcs-cnic-bundle.zip)                                     | [📘 Docs](https://support.centralnicreseller.com/hc/en-gb/sections/13438422570781-WHMCS)       |
+| CentralNic Reseller Wrapper 1 | `cnic1`*        | ![maintained](https://img.shields.io/badge/MAINTAINED-green.svg) | [📦 Download](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/raw/refs/heads/main/whmcs-cnic1-wrapper-registrar-latest.zip)     | [📘 Docs](https://support.centralnicreseller.com/hc/en-gb/sections/13438422570781-WHMCS)       |
+| CentralNic Reseller Wrapper 2 | `cnic2`*        | ![maintained](https://img.shields.io/badge/MAINTAINED-green.svg) | [📦 Download](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/raw/refs/heads/main/whmcs-cnic2-wrapper-registrar-latest.zip)     | [📘 Docs](https://support.centralnicreseller.com/hc/en-gb/sections/13438422570781-WHMCS)       |
+| Internet.bs                   | `ibs`           | ![maintained](https://img.shields.io/badge/MAINTAINED-green.svg) | [📦 Download](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/raw/refs/heads/main/whmcs-ibs-registrar-latest.zip)               | [📘 Docs](https://faq.internetbs.net/hc/en-gb/articles/13828327871773-WHMCS-Registrar-Module)  |
+| Moniker                       | `moniker`       | ![maintained](https://img.shields.io/badge/MAINTAINED-green.svg) | [📦 Download](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/raw/refs/heads/main/whmcs-moniker-registrar-latest.zip)           | [📘 Docs](https://support.moniker.com/hc/en-gb/articles/24649624856349-WHMCS-Registrar-Module) |
+| TPP Wholesale                 | `tppwregistrar` | ![deprecated](https://img.shields.io/badge/DEPRECATED-red.svg)   | [📦 Download](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/raw/refs/heads/main/whmcs-tpp-registrar-latest.zip) (manual only) | [📘 Docs](https://www.tppwholesale.com.au/whmcs/)                                              |
 
 **`*` Wrapper modules** — `cnic1`, `cnic2`, and any additional `cnicN` wrappers allow running multiple CentralNic Reseller accounts or brand variants side by side within one WHMCS installation. Install each wrapper by extracting the archive so the resulting path is `modules/registrars/cnicX`. If extracted elsewhere, the module will not be detected by WHMCS.
 
 > **TPP Wholesale** was deprecated on **March 12, 2026**. A replacement module is now shipped with WHMCS. Please report any issues directly to WHMCS.
+
+The CNIC bundle is published as `whmcs-cnic-bundle.zip`. Internet.bs and Moniker are released together under the `ibs-moniker-<version>` tag. Their repository-root downloads are `whmcs-ibs-registrar-latest.zip` and `whmcs-moniker-registrar-latest.zip`; release attachments omit the `-latest` suffix. TPP remains a manually maintained legacy download and is not part of the automated release pipeline.
 
 ---
 
@@ -59,16 +61,16 @@ The **WHMCS CNIC Software Bundle** is a comprehensive solution for managing doma
 
 ### Included Addons
 
-| Addon | Description |
-|---|---|
-| **Domain Search** | Fast domain discovery with suggestions, bulk search, and premium domain support. |
-| **Domain Importer** | Bulk import existing domains from CentralNic brands or other registrar sources. |
-| **Domain Migrator** | Seamlessly transfer domains between registrars with minimal disruption. |
-| **Domain Monitoring** | Real-time tracking and alerts for domain status changes and upcoming expirations. |
-| **DNS Templating** | Apply predefined DNS record templates across multiple domains for consistent setup. |
+| Addon                                                                       | Description                                                                                                                                                                                                     |
+| --------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Domain Search**                                                           | Fast domain discovery with suggestions, bulk search, and premium domain support.                                                                                                                                |
+| **Domain Importer**                                                         | Bulk import existing domains from CentralNic brands or other registrar sources.                                                                                                                                 |
+| **Domain Migrator**                                                         | Seamlessly transfer domains between registrars with minimal disruption.                                                                                                                                         |
+| **Domain Monitoring**                                                       | Real-time tracking and alerts for domain status changes and upcoming expirations.                                                                                                                               |
+| **DNS Templating**                                                          | Apply predefined DNS record templates across multiple domains for consistent setup.                                                                                                                             |
 | **DNS Manager** ![updated](https://img.shields.io/badge/Updated-orange.svg) | Full DNS record management with DNSSEC key support — view DS records and key status, copy values in one click, and perform KSK rollovers. Redesigned editing flow with copy-to-clipboard and inline validation. |
-| **SSL Provisioning** | Automated SSL certificate ordering, issuance, and renewal management. |
-| **CNIC Admin Config** | Manage default values for additional domain fields and advanced registrar settings. |
+| **SSL Provisioning**                                                        | Automated SSL certificate ordering, issuance, and renewal management.                                                                                                                                           |
+| **CNIC Admin Config**                                                       | Manage default values for additional domain fields and advanced registrar settings.                                                                                                                             |
 
 > The **Backorder Addon** is currently being revamped and is temporarily excluded from this bundle.
 
@@ -85,13 +87,13 @@ For the latest features and fixes, see the [Release Notes](https://github.com/ce
 
 ## Resources
 
-| Resource | Link |
-|---|---|
+| Resource                       | Link                                                                                                            |
+| ------------------------------ | --------------------------------------------------------------------------------------------------------------- |
 | CentralNic Reseller WHMCS Docs | [support.centralnicreseller.com](https://support.centralnicreseller.com/hc/en-gb/sections/13438422570781-WHMCS) |
-| Internet.bs WHMCS Docs | [faq.internetbs.net](https://faq.internetbs.net/hc/en-gb/articles/13828327871773-WHMCS-Registrar-Module) |
-| Moniker WHMCS Docs | [support.moniker.com](https://support.moniker.com/hc/en-gb/articles/24649624856349-WHMCS-Registrar-Module) |
-| Release Notes | [GitHub Releases](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/releases) |
-| Bug Reports & Feature Requests | [GitHub Issues](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/issues) |
+| Internet.bs WHMCS Docs         | [faq.internetbs.net](https://faq.internetbs.net/hc/en-gb/articles/13828327871773-WHMCS-Registrar-Module)        |
+| Moniker WHMCS Docs             | [support.moniker.com](https://support.moniker.com/hc/en-gb/articles/24649624856349-WHMCS-Registrar-Module)      |
+| Release Notes                  | [GitHub Releases](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/releases)               |
+| Bug Reports & Feature Requests | [GitHub Issues](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/issues)                   |
 
 ---
 
@@ -106,10 +108,10 @@ For the latest features and fixes, see the [Release Notes](https://github.com/ce
 
 ## Maintainers
 
-| Name | Role | GitHub |
-|---|---|---|
-| Kai Schwarz | Team Lead | [@KaiSchwarz-cnic](https://github.com/KaiSchwarz-cnic) |
-| Asif Nawaz | Developer | [@AsifNawaz-cnic](https://github.com/AsifNawaz-cnic) |
+| Name                | Role      | GitHub                                                                 |
+| ------------------- | --------- | ---------------------------------------------------------------------- |
+| Kai Schwarz         | Team Lead | [@KaiSchwarz-cnic](https://github.com/KaiSchwarz-cnic)                 |
+| Asif Nawaz          | Developer | [@AsifNawaz-cnic](https://github.com/AsifNawaz-cnic)                   |
 | Sebastian Vassiliou | Developer | [@SebastianVassiliou-cnic](https://github.com/SebastianVassiliou-cnic) |
 
 ---
@@ -118,7 +120,7 @@ For the latest features and fixes, see the [Release Notes](https://github.com/ce
 
 The **WHMCS CNIC Software Bundle** is closed source. You may use the encrypted addons freely, but decrypting, reverse engineering, or otherwise attempting to access the underlying source code is strictly prohibited.
 
-The **Internet.bs**, **Moniker**, and **TPP Wholesale** registrar modules are available separately under the [MIT License](LICENSE). They are not included in the CNIC bundle.
+The **Internet.bs**, **Moniker**, and **TPP Wholesale** registrar modules are available separately under the [MIT License](LICENSE). They are not included in the CNIC bundle. TPP is deprecated and receives no automated releases.
 
 See the [LICENSE](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/blob/master/LICENSE) file for full terms.
 
