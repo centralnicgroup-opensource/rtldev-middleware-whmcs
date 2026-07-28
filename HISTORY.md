@@ -1,3 +1,19 @@
+## [30.6.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v30.6.3...v30.6.4) (2026-07-28)
+
+
+### Bug Fixes
+
+* **cnic registrar module:** hide registrar lock UI for TLDs without transfer lock
+WHMCS renders the "Domain Currently Unlocked!" alert whenever $lockstatus
+is "unlocked", so TLDs that do not support a transfer lock at all (e.g. .qa)
+told the customer to enable something that cannot be enabled.
+
+Only our own themes suppressed it (via a $managementoptions.locking override
+in clientareadomaindetails.tpl); stock and third-party themes did not. Handle
+it in the ClientAreaPageDomainDetails hook instead so it works theme-agnostic.
+
+Refs RSRMID-2928 ([d04224c](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/commit/d04224cabe6d9a0481bdd1fc1c3c072b23b53de5))
+
 ## [30.6.3](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v30.6.2...v30.6.3) (2026-07-24)
 
 
