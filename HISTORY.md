@@ -1,3 +1,8 @@
+## [30.6.5](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v30.6.4...v30.6.5) (2026-08-05)
+
+
+### Bug Fixes
+
 ## [30.6.4](https://github.com/centralnicgroup/rtldev-middleware-whmcs-src/compare/v30.6.3...v30.6.4) (2026-07-28)
 
 
