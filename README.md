@@ -1,9 +1,9 @@
 # WHMCS Integrations
 
 [![Latest Release](https://img.shields.io/github/v/release/centralnicgroup-opensource/rtldev-middleware-whmcs)](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/releases)
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CONTRIBUTING.md)
-[![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
-[![GitHub Closed Issues](https://img.shields.io/github/issues-closed/centralnicgroup-opensource/rtldev-middleware-whmcs)](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/issues?q=is%3Aissue+is%3Aclosed)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor Covenant-2.1-4baaaa.svg)](CONTRIBUTING.md)
+[![semantic-release](https://img.shields.io/badge/  📦🚀-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
+[![GitHub Closed Issues](https://img.shields.io/github/issues-closed/centralnicgroup-opensource/rtldev-middleware-whmcs)](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/issues?q=is:issue+is:closed)
 [![Contributors](https://img.shields.io/github/contributors/centralnicgroup-opensource/rtldev-middleware-whmcs)](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/graphs/contributors)
 [![GitHub Stars](https://img.shields.io/github/stars/centralnicgroup-opensource/rtldev-middleware-whmcs)](https://github.com/centralnicgroup-opensource/rtldev-middleware-whmcs/stargazers)
 
