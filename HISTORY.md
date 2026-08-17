@@ -1,3 +1,57 @@
+# 30.7.0 (2026-08-17)
+
+
+### Features
+
+* **domain search addon:** Domain Search v2 - new client theme, on-device name ideas, redesigned admin
+
+Second generation of the domain search add-on, aimed at resellers who embed
+it as their storefront search.
+
+Client theme v2 (new)
+* New `client_theme_v2` storefront theme alongside the existing one: landing
+  state with hero copy, featured TLD pricing cards and promotions, and an
+  app-style Search / Transfer / Whois / Aftermarket mode switcher.
+* Result rows rebuilt - inline premium/aftermarket badges, honest price
+  suffixes when renewal matches registration, collapsed runs of taken
+  domains, best-match priority and a confident whois summary.
+* Mobile-first: condensed sticky search shell, single-row toolbar, bottom
+  sheets for filters and sorting stacked above a sticky priced cart bar.
+* Appearance tokens drive radii, spacing, dividers, glass materials and dark
+  mode; RTL plus all four shipped languages (en/de/ar/pt-BR) updated.
+* Optional hiding of the host page title and breadcrumb so the add-on owns
+  the page.
+
+Semantic name ideas
+* New `src/domain-ideas` engine generates keyword-relevant domain ideas in
+  the browser: thesaurus/synonym shards, a trained phrase-fluency model, and
+  relevance + scoring passes, so suggestions read like real names instead of
+  keyword mashups. Shards are bundled at build time - no extra round trips.
+* Server side only plans and trims the work: `SuggestionRequestPlanner`,
+  `SemanticCandidatePayload` and the registrar-side `SuggestionEnhancer`.
+  Client-generated candidates no longer force an availability batch.
+* Zones are ordered by the reseller's configured priority, spotlights first;
+  featured zones stay reachable for semantic candidates.
+* Progressive loading streams results in groups behind a kinetic word-level
+  loader, with bounded auto-load and recovery from stalled requests.
+* Price filtering on results, with matching sort and filter controls.
+
+Admin
+* Schema-driven settings page (`SettingsSchema`) with grouped, conditional
+  fields replacing the old flat form and jQuery-UI accordion.
+* Shared cnic admin design-system base, consumed by domain search: flat pill
+  navigation, consistent settings rows, loading placeholders, visible focus
+  rings, and layouts that survive narrow viewports.
+
+Also
+* Fix BalanceWidget redeclaration SyntaxError on the admin dashboard.
+* PHPUnit coverage for the suggestion planner, payload, enhancer, pricing
+  service and common helper; Node tests for idea generation, keyword
+  handling, price filter, progressive load groups, whois summary and zone
+  ranking.
+* APPEARANCE.md customisation guide, README/CONTRIBUTING refresh, marketplace
+  listing drafts, and asset versioning for cache-busting client bundles. 
+
 ## 30.6.6 (2026-08-07)
 
 
