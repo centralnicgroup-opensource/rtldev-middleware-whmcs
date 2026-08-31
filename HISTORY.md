@@ -1,3 +1,14 @@
+## 30.7.1 (2026-08-31)
+
+
+### Bug Fixes
+
+* **cnic admin config addon:** improve TLD additional fields configuration
+
+* the TLD additional fields page now explains why no fields are available instead of always showing "No Additional Fields Required", including when the TLD is not assigned to a CNIC registrar module or when the registrar lookup fails; TLDs from additional CNR accounts (wrapper modules) can now be configured as well, which previously only worked for the main account, and the same applies to the DNS zone overview
+* "Load Traditional PHP Code for Additional Fields" now works for registry dropdown fields such as .co.ae, .dk and .it, and generated configurations are accepted by WHMCS without internal helper data, with the correct TLD keys and conditional requirements; the instructions now use resources/domains/additionalfields.php instead of dist.additionalfields.php, which is overwritten by WHMCS updates and should not be edited
+* TLD selection and lookup handling now supports TLDs with or without a leading dot, prevents duplicate entries and repeated lookups, clears stale fields after a failed lookup, and no longer shares cached field definitions between different CNR accounts 
+
 # 30.7.0 (2026-08-17)
 
 
