@@ -1,3 +1,27 @@
+# 30.8.0 (2026-09-16)
+
+### Features
+
+* **CNIC Registrar Module:** show .DK model and Punktum dk opt-in URL in admin panel 
+
+  Adds two .dk rows to the domain configuration page, showing the domain's Punktum dk management model without needing to log in to a CentralNic account.
+
+  A badge shows whether the domain is REGISTRAR or REGISTRANT managed. Since .dk moved to the Registrar Model on 2026-07-01, domains registered before that date remain registrant managed until transitioned, with registry-side restrictions on what can be changed.
+
+  When registrant opt-in is required, the opt-in URL is shown with a copy button so it can be forwarded directly to the registrant, covering pending registrations, transfers and existing domains being transitioned to the Registrar Model.
+
+# 30.8.0 (2026-09-16)
+
+### Features
+
+* **CNIC Registrar Module:** show .DK model and Punktum dk opt-in URL in admin panel 
+
+  Adds two .dk rows to the domain configuration page, showing the domain's Punktum dk management model without needing to log in to a CentralNic account.
+
+  A badge shows whether the domain is REGISTRAR or REGISTRANT managed. Since .dk moved to the Registrar Model on 2026-07-01, domains registered before that date remain registrant managed until transitioned, with registry-side restrictions on what can be changed.
+
+  When registrant opt-in is required, the opt-in URL is shown with a copy button so it can be forwarded directly to the registrant, covering pending registrations, transfers and existing domains being transitioned to the Registrar Model.
+
 ## 30.7.1 (2026-08-31)
 
 
