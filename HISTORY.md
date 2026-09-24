@@ -1,3 +1,20 @@
+## 30.8.1 (2026-09-24)
+
+### Bug Fixes
+
+* **CNIC Admin Config Addon:** show current registry fields when loading a TLD 
+
+  When you load a TLD on the TLD Additional Fields page, its additional
+  fields are now fetched fresh from the registry. Registry changes show up
+  right away on this page and in your shopping cart, instead of up to 24
+  hours later.
+
+  Selecting a TLD now loads its fields immediately. Use "Configure Fields"
+  to reload the TLD you already have selected.
+
+  If the registry can't be reached, the page and cart keep showing the
+  last known fields.
+
 # 30.8.0 (2026-09-16)
 
 ### Features
