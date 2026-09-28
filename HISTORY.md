@@ -1,3 +1,40 @@
+# 30.9.0 (2026-09-28)
+
+### Upgrade Notes
+
+* **CNIC Admin Config Addon:** The showtranslationkeys URL parameter of the shopping cart has been removed. Translation keys and texts of the additional domain fields are now managed in CNIC Configuration > TLD Additional Fields > Translations.
+
+
+### Features
+
+* **CNIC Admin Config Addon:** translate additional domain fields per client language 
+
+  You can now change the texts of a TLD's additional domain fields for each
+  client language, for example to explain "Sole Proprietorship" to your
+  Danish customers in your own words.
+
+  Open CNIC Configuration > TLD Additional Fields, load a TLD and switch to
+  "Translations":
+
+  - pick a client language and edit the label, help text and dropdown
+    options of each field, with the English original shown for reference
+  - a live customer view shows the field the way your customers see it in
+    the shopping cart
+  - find a text by searching, and filter for texts that are not translated
+    yet or that you have customised
+  - the language list shows how much of each language is translated
+  - reset any text to its default with one click
+
+  Your texts are saved in the standard WHMCS language override file
+  lang/overrides/<language>.php, so module and WHMCS updates keep them.
+  Your own entries in that file stay as they are. Translations and
+  default values apply while the TLD is assigned to the CNIC registrar
+  module or one of its wrapper modules.
+
+  Danish and German texts have been added for the .DK fields.
+
+  Refs: RSRMID-3098
+
 ## 30.8.1 (2026-09-24)
 
 ### Bug Fixes
