@@ -1,3 +1,16 @@
+## 30.9.1 (2026-09-29)
+
+### Bug Fixes
+
+* **CNIC Registrar Module:** send the correct IDN language for IDN registrations and transfers 
+
+  Language settings reported for a domain extension were not picked up, so
+  registrations and transfers of internationalized domain names (IDNs) could be
+  submitted without the required language. The module now detects these settings
+  reliably and sends the matching IDN language to the registry.
+
+  RSRMID-3102
+
 # 30.9.0 (2026-09-28)
 
 ### Upgrade Notes
