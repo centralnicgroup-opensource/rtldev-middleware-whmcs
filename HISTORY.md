@@ -1,3 +1,19 @@
+## 30.9.2 (2026-09-30)
+
+### Bug Fixes
+
+* **CNIC Registrar Module:** always include the owner contact in domain transfers (e.g. .com/.net) 
+
+  Registries now require an owner contact when a domain transfer is requested
+  (registry compliance requirements incl. NIS2 and escrow deposit, live since
+  28 September 2026). Transfers for domain extensions using the email based
+  transfer authorization (FOA) were sent without contacts, so transfers of
+  Verisign domains such as .com and .net failed with "Missing required
+  attribute; Registry requires owner contact on transfer". Transfers now include
+  the owner contact wherever the domain extension requires it.
+
+  RSRMID-3101
+
 ## 30.9.1 (2026-09-29)
 
 ### Bug Fixes
