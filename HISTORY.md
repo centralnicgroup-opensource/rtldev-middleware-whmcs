@@ -1,3 +1,19 @@
+## 30.9.3 (2026-10-01)
+
+### Bug Fixes
+
+* **CNIC Registrar Module:** show a clear error when the cron runs on an unsupported PHP version 
+
+  The WHMCS cron can run with a different PHP version than your website, for
+  example the server's default command line PHP. When that version was not
+  supported (PHP 8.3 is required), domain synchronisation tasks such as the
+  Domain Transfer Status Synchronisation stopped with the misleading error
+  'Class "CNIC\ClientFactory" not found'. The module now reports the actual
+  reason as the domain's synchronisation error, including the PHP version and
+  PHP binary the cron runs with, so you know to point the cron job at PHP 8.3.
+
+  RSRMID-3104
+
 ## 30.9.2 (2026-09-30)
 
 ### Bug Fixes
