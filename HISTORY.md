@@ -1,3 +1,31 @@
+# 30.10.0 (2026-10-08)
+
+### Features
+
+* **CNIC SSL Module:** smoother certificate reissue and reliable wildcard certificates 
+
+  Reissuing an SSL certificate is now easier and clearer for your customers, and wildcard certificates work correctly from order to reissue.
+
+  Reissue
+  - The Reissue screen is fully translated, with a short explanation of what happens next.
+  - Customers see a confirmation after submitting a reissue, or a clear error message if it fails.
+  - Wildcard certificates can now be reissued successfully.
+  - The link in the reissue notification email now points to the right page.
+  - Phone and fax numbers sent with a reissue are formatted correctly, so they are no longer rejected.
+  - Certificates stay linked to the correct active certificate after a reissue, including for existing orders.
+
+  Wildcard certificates
+  - The CSR generated for wildcard domains is now correct.
+  - HTTP validation is no longer offered for wildcard domains, as it is not possible for them.
+  - Wildcard certificate types are now shown with the right specifications.
+
+  Administration
+  - Admins can now change the remote order ID of a certificate in the admin area.
+
+  Compatibility and pricing
+  - Works with the updated phpseclib 4 library.
+  - The Pricing Import add-on now imports SSL prices correctly when they are quoted per day or month instead of per year.
+
 ## 30.9.3 (2026-10-01)
 
 ### Bug Fixes
