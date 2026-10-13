@@ -1,3 +1,16 @@
+## 30.10.1 (2026-10-13)
+
+### Bug Fixes
+
+* **CNIC DNS Manager Addon:** only let clients manage DNS of their own domains 
+
+  The DNS Manager now checks that a domain belongs to the logged-in client before it shows or changes the domain's DNS records, web forwarding or zone file. Opening the DNS Manager for a domain of another client account, for example through an old link or after switching between client accounts, now returns to the client area instead of failing with "The domain name input is empty". We recommend installing this update.
+
+  Web forwarding now also works for domains assigned to an additional CentralNic Reseller account (wrapper registrar modules such as cnic1 and cnic2). Until now the Web Forwarding page returned to the client area for these domains.
+* **CNIC Registrar Module:** no checkout error when the session expired with a contact selected 
+
+  Checkout no longer ends on a "Forbidden" error page when the client's session expired, or the client logged out in another browser tab, while an existing contact was selected for the domain registration. WHMCS now continues with its usual checkout flow and asks the customer to log in or complete the required details.
+
 # 30.10.0 (2026-10-08)
 
 ### Features
