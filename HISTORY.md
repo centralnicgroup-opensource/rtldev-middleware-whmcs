@@ -1,3 +1,18 @@
+## 30.10.2 (2026-10-14)
+
+### Upgrade Notes
+
+* **CNIC DNS Manager Addon:** If the "KeyDNS Nameservers" setting of a CNIC registrar module contains an invalid entry, WHMCS will refuse to save that module's settings until the entry is corrected or the field is emptied to use the default nameservers.
+
+
+### Bug Fixes
+
+* **CNIC DNS Manager Addon:** send clients to their domain list when a domain cannot be managed 
+
+  When the DNS Manager is opened for a domain that cannot be managed there, for example a domain of another client account, a domain without DNS management or one not managed through a CentralNic registrar module, the client is now taken to their domain list. Previously they landed on the client area home page, and every such request added a 'requested template file ".tpl" which could not be found' entry to the WHMCS Activity Log. The redirect works with every Friendly URLs setting and for WHMCS installations in a subfolder.
+
+  The DNS Manager no longer shows unreadable nameservers in its "This zone is not active" notice, and no longer reports a zone as inactive because of them. The "KeyDNS Nameservers" setting of the CNIC registrar module and of its additional account modules (cnic1, cnic2, ...) now ignores entries that are not valid nameserver hostnames, and uses the default nameservers ns1.dnsres.net, ns2.dnsres.net and ns3.dnsres.net when no valid entry is left. Saving the registrar settings with an invalid entry, for example nameservers separated by semicolons or spaces instead of commas, is now refused with a message naming the entry, so that it can be corrected.
+
 ## 30.10.1 (2026-10-13)
 
 ### Bug Fixes
