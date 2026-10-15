@@ -1,3 +1,28 @@
+# 30.12.0 (2026-10-15)
+
+### Features
+
+* **CNIC DNS Manager Addon:** let clients edit the SOA of existing DNS zones 
+
+  Existing zones could only have their SOA changed per zone in the
+  CentralNic Reseller control panel, which WHMCS resellers and their
+  customers don't have access to.
+
+  The DNS Manager now has an SOA Settings panel for zones on cnic and its
+  wrapper registrars. It shows the current SOA, lets clients change RName,
+  Refresh, Retry, Expire and Minimum TTL within the ranges the control panel
+  validates (ModifyDNSZone::SOA_RANGES), and sends only the changed fields
+  through ModifyDNSZone. The MName stays read-only and the serial is left to
+  the DNS platform. Each change is written to the activity log. The new
+  addon setting "Allow clients to edit SOA" (default on) turns the panel off.
+
+  The SOA, import/export and add record panels now share one compact layout:
+  the toolbar buttons show which panel is open and only one panel is open at
+  a time, import and export take a third of the previous height, and the type
+  select matches the height of the text inputs, in the panels and table rows.
+
+  Refs: RSRMID-3128
+
 # 30.11.0 (2026-10-15)
 
 ### Features
