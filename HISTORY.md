@@ -1,3 +1,21 @@
+# 30.11.0 (2026-10-15)
+
+### Features
+
+* **CNIC DNS Manager Addon:** add SOA Refresh, Retry, Expire and MinTTL settings for new DNS zones 
+
+  The DNS Manager addon only allowed customizing SOA RNAME and MNAME for new
+  DNS zones, and the CentralNic Reseller control panel only offers SOA
+  overrides per zone, so resellers had no way to set SOA timing defaults.
+
+  New optional addon settings SOA Refresh, Retry, Expire and MinTTL are passed
+  to AddDNSZone when set within the ranges the control panel validates;
+  empty or out-of-range values fall back to the API defaults. Existing zones
+  are not touched. A lower MinTTL shortens how long resolvers cache negative
+  answers, e.g. for the DNSSEC keys after signing a zone.
+
+  Refs: RSRMID-3127
+
 ## 30.10.2 (2026-10-14)
 
 ### Upgrade Notes
