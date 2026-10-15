@@ -1,6 +1,6 @@
 ---
 name: jira-conventions
-description: "RSRMID Jira conventions — the fields every issue needs (Work Category, Business Unit, Team, Components), this repository's `[COMPONENT][BU]: ` title prefix, choosing the parent epic, the Markdown description format, and the worklog rule for Done and Cancelled. Load before creating, editing, or transitioning a Jira issue."
+description: "RSRMID Jira conventions — the fields every issue needs (Work Category, Business Unit, Team, Components), this repository's `[COMPONENT][BU]: ` title prefix, choosing the parent epic, the Markdown description format, linking every issue key, the worklog rule for Done and Cancelled, and closing an issue once its PR has merged. Load before creating, editing, transitioning, or naming a Jira issue to the user."
 ---
 
 <!-- markdownlint-disable -->
@@ -134,6 +134,16 @@ Square brackets are Markdown link syntax, so a bare `[WHMCS][CNR]`-style prefix 
 description gets escaped. Either wrap it in backticks or drop the brackets when referring to another
 issue's title.
 
+## Referring to an Issue
+
+Every issue key you write for a reader is a link to the issue, never a bare key — in a reply,
+a summary, a PR description or a PR comment, and for every project's keys, not only RSRMID's:
+`[RSRMID-1234](https://centralnic.atlassian.net/browse/RSRMID-1234)`. A bare key makes the
+reader search for it; the link costs nothing.
+
+Branch names and commit messages keep the bare key. They are not rendered, and tooling matches
+the key in them.
+
 ## Closing an Issue: Done or Cancelled
 
 Neither **Done** nor **Cancelled** holds without a worklog — automation stamps
@@ -143,5 +153,19 @@ is not obvious; (2) remove the `missing-time-spent` label if present; (3) transi
 (`31`) or Cancelled (`91`).
 
 After opening a pull request for an issue, add the PR URL to the issue as a comment.
+
+### Close It Once Nothing Is Left
+
+When the last pull request for an issue has merged and the worklog is in, close the issue
+without asking — provided nothing is left:
+
+- every pull request for the issue is merged or closed, in every repository it touched;
+- for a change in a submodule of rtldev-middleware-workspace, the pin bump there has merged too;
+- the issue has no open sub-task and no open item in its description;
+- every follow-up the work turned up has its own issue.
+
+Bring the description up to the final state before the transition, since it is what a reader of a
+closed issue sees first. Then report the close with the issue linked. If anything on the list is
+still open, leave the issue open and say what is left.
 
 <!-- prettier-ignore-end -->

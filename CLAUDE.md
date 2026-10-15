@@ -63,6 +63,14 @@ Work is tracked in **Jira Cloud**, project `RSRMID` — not GitHub Issues. Load 
 `jira-conventions` skill before creating, editing or transitioning an issue: it carries the
 required fields, this repository's title prefix and component, and the worklog rule for Done and Cancelled.
 
+Two of its rules apply whether or not the skill is loaded:
+
+- Write every Jira issue key as a link to the issue, never bare:
+  `[RSRMID-1234](https://centralnic.atlassian.net/browse/RSRMID-1234)`.
+  Branch names and commit messages keep the bare key.
+- Once an issue's last pull request has merged and its worklog is in, close it
+  without asking if nothing is left — the skill lists what counts.
+
 ## Do NOT
 
 - Add `Co-Authored-By:` trailers to commit messages
