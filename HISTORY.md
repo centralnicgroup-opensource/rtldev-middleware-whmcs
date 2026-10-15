@@ -1,3 +1,41 @@
+# 30.13.0 (2026-10-15)
+
+### Upgrade Notes
+
+* **CNIC DNS Manager Addon:** DNS records are saved one at a time when clients save or
+delete a record; the "Save Changes" and "Cancel Changes" buttons are gone.
+
+Refs: RSRMID-3129, RSRMID-3130, RSRMID-3131
+
+
+### Features
+
+* **CNIC DNS Manager Addon:** redesign the client area with per-record editing 
+
+  The DNS Manager and Web Forwarding pages have a new, cleaner design that
+  also works well on phones.
+
+  DNS records are listed as plain rows with their type, value and a readable
+  TTL. Clients can search, filter by record type, sort by column and page
+  through large zones. Adding and editing a record use one form: it shows
+  labels and examples for the selected record type, a summary of what the
+  record does ("www.example.com points to 192.0.2.10") and a choice of TTL,
+  and it can be saved once the input is valid. Deleting asks for confirmation.
+
+  Each change is saved straight away: a confirmation appears, the saved
+  record is highlighted briefly, and nothing changes if saving fails.
+
+  Zone settings (SOA), import and export open from the toolbar. On phones,
+  records are tappable cards, forms open as bottom sheets and Add record stays
+  at the bottom of the screen. The pages can be used with the keyboard alone.
+
+  Web forwardings are listed in a table with Edit and Delete. The form offers
+  the forwarding type as three options, shows the domain next to the source
+  host name and summarises the forwarding before it is saved. Forwardings no
+  longer show the domain twice in their name.
+
+  All texts are available in English, German, Italian and Arabic.
+
 # 30.12.0 (2026-10-15)
 
 ### Features
