@@ -1,3 +1,14 @@
+## 30.13.1 (2026-10-16)
+
+### Bug Fixes
+
+* **CNIC Registrar Module:** stop .ca orders that hide WHOIS data for organisations 
+
+  CIRA only allows hiding contact data from public WHOIS for individual
+  registrants. When "Additional Fields Validation" is enabled in the registrar
+  settings, checkout now tells the customer this for any other legal type,
+  instead of the registration being rejected by the registry.
+
 # 30.13.0 (2026-10-15)
 
 ### Upgrade Notes
