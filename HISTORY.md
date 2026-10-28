@@ -1,3 +1,13 @@
+## 30.13.2 (2026-10-28)
+
+### Bug Fixes
+
+* **CNIC DNS Manager Addon:** keep long records editable and stop showing the platform nameserver 
+
+  A long record, such as a DKIM key, no longer stretches the DNS records list wider than the page, so the Save button of the record form stays in view.
+  The zone settings no longer show the primary nameserver of the DNS platform, which confused clients of resellers using their own nameservers.
+  The record form is easier to read, and Web Forwarding shows a single button to add the first forwarding.
+
 ## 30.13.1 (2026-10-16)
 
 ### Bug Fixes
