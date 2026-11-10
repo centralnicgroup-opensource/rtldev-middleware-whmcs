@@ -1,3 +1,36 @@
+## 30.13.4 (2026-11-10)
+
+### Upgrade Notes
+
+* **CNIC Pricing Import Addon:** Import your cPanel hosting products again to correct their prices. Hosting services you have already sold keep their old, too low price: open each service, tick "Recalculate on Save" and save, so that its next invoice uses the new price. To import hosting from an additional account, first add a cPanel hosting server with that account's username.
+
+Refs: RSRMID-3156
+* **CNIC Hosting Module:** Open the Module Settings of your cPanel hosting products. If Package or Default Location shows "CheckHosting - Authorization failed" or is empty, select the package and location again and save. Hosting orders that failed to set up can be set up again with the "Create" button of the service.
+
+Refs: RSRMID-3156
+
+
+### Bug Fixes
+
+* **CNIC Hosting Module:** make cPanel hosting work with your CentralNic Reseller account again 
+
+  Since version 30.0.4, cPanel hosting could not connect to CentralNic Reseller. Creating, suspending and terminating hosting accounts, the cPanel login and the account details all failed with "Authorization failed", and welcome emails were sent without the server and login details. Hosting now uses the account set up in the CNIC registrar module again.
+
+  Hosting now also works with your additional CentralNic Reseller accounts, the ones set up in the registrar modules cnic1, cnic2 and so on. Enter the account's username as the username of the hosting server, and that server uses the account. A hosting server without a username uses the account of the CNIC registrar module, as before.
+
+  In a hosting product's Module Settings, the Package and Default Location lists failed with the same error, and saving the product replaced the chosen package and location with the error text. The lists load again and show the packages of the server's account. If they can't be loaded, the saved package and location are kept and the reason is shown next to the field.
+
+  The "Test Connection" button of the hosting server now checks the connection to CentralNic Reseller, and tells you when no registrar module uses the server's username.
+* **CNIC Pricing Import Addon:** price cPanel hosting by its monthly cost 
+
+  CentralNic Reseller charges cPanel hosting per GB of disk space per month. The Products & Pricing Import took that monthly cost for a yearly one, so imported hosting products were priced at a twelfth of their cost, and products you had priced by hand showed a far too high margin. The import now shows the yearly cost, twelve times the monthly cost, and calculates prices and margins from it.
+
+  Packages are now priced by their exact disk space; a 7500 MB package was priced as 8 GB. Packages with unlimited disk space are no longer offered for import at a price of 0. If your account has no cPanel hosting price, the import says so instead of failing to load.
+
+  Hosting can also be imported from your additional CentralNic Reseller accounts (registrar modules cnic1, cnic2, ...): choose the registrar above the list. The imported products are assigned to a server group with that account's hosting server, so that WHMCS sets them up in that account. Each package is one product, so importing it from another account moves the product to that account; services you have already sold stay with their account. If two registrar modules use the same username, the import tells you, because their hosting servers could not be told apart.
+
+  Rounding prices, for example to x.99, no longer adds 1.00 to the price in your default currency. This also applied to SSL certificates.
+
 ## 30.13.3 (2026-11-05)
 
 ### Bug Fixes
