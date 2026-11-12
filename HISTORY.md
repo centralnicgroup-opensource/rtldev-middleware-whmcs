@@ -1,3 +1,76 @@
+# 30.14.0 (2026-11-12)
+
+### Bug Fixes
+
+* **CNIC Admin Config Addon:** restore titles, buttons and alerts in the WHMCS 9.1 iris theme 
+
+  With the iris admin theme the configuration pages showed an invisible page
+  title, colourless action buttons and plain uncoloured alerts, and the
+  dashboard ran wider than the page. Titles, buttons and success, error and
+  info messages now display in their intended colours, the pages fit the
+  content area, the "Recently Configured TLDs" shortcuts show their full label,
+  and the TLD lookup field and its "Configure Fields" button stay aligned.
+* **CNIC Migration Addon:** avoid PHP 8.4 deprecation notices 
+* **CNIC Migration Addon:** fit the EPP Codes tab to the page in the WHMCS 9.1 iris admin theme 
+* **CNIC Pricing Import Addon:** avoid PHP 8.4 deprecation notices 
+* **CNIC Registrar Module:** price aftermarket domains with the next available transfer fee 
+
+  When a TLD has no transfer price for its shortest registration period, the
+  domain search now adds the transfer price of the next period that has one to
+  an aftermarket domain's price, instead of showing the price without it.
+* **CNIC Registrar Module:** redesign the dashboard widget for the WHMCS 9.1 iris admin theme 
+
+  The account balance widget on the admin dashboard now shows the logo, an
+  "Up to date" or "update available" badge, the balance in large type with the
+  reseller account below it, and the installed version in a footer. It fits
+  narrow dashboard columns without cutting off the balance or the logo, and
+  matches both the new iris admin theme and the classic blend theme.
+
+  A negative account balance is now shown in red as intended.
+* **CNIC Registrar Module:** translate the .dk domain fields into all languages 
+
+  The .dk registrant fields (CVR number, P number, secondary email, mobile
+  phone, sole proprietorship and the Punktum dk user agreement) are now
+  translated into Arabic, Dutch, French and Spanish, and their Yes/No choices
+  are translated in every language.
+* **CNIC SSL Module:** avoid PHP 8.4 deprecation notices 
+* **CNIC SSL Module:** reject a CSR without subject details as invalid 
+
+  A certificate signing request without subject details is now rejected with
+  "Invalid CSR" instead of failing with an error.
+
+
+### Features
+
+* **CNIC Registrar Module:** .dk improvements and format checks for additional domain fields 
+
+  .dk domains:
+  - The registrant type and CVR number are prefilled from the client's company
+    name or VAT number.
+  - A domain whose registration is still pending at Punktum dk links from the
+    admin domain page to its registration events in the CNIC Configuration addon.
+
+  Additional domain fields (with "Additional Fields Validation" enabled):
+  - The shopping cart now checks phone numbers, email addresses and dates before
+    the order is placed, for every domain in the cart and also at checkout.
+  - Fields the registry does not allow for the chosen registrant type, such as a
+    .dk CVR number for an individual, are reported in the cart instead of
+    failing the registration.
+  - A new Validation tab in the CNIC Configuration addon lets you set simple
+    format rules per field (characters, length, fixed start like a country code)
+    without regular expressions, try them out, and turn single checks off.
+    Customers see the rule as a hint under the field.
+  - Values removed from an existing domain no longer come back as prefilled
+    defaults on the domain pages.
+  - .eu: individuals with an Icelandic, Liechtenstein or Norwegian citizenship
+    or address are accepted.
+* **CNIC Registrar Module:** support PHP 8.4 
+
+  The module and its add-ons now run on PHP 8.4 as well as 8.3; PHP 8.3 remains
+  the minimum. On PHP 8.4 the ionCube Loader for PHP 8.4 is required. On any
+  other PHP version the admin area keeps showing a notice naming the supported
+  versions instead of failing.
+
 ## 30.13.4 (2026-11-10)
 
 ### Upgrade Notes
