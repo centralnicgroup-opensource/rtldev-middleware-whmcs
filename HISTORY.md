@@ -1,3 +1,21 @@
+## 30.14.1 (2026-11-16)
+
+### Upgrade Notes
+
+* **CNIC Registrar Module:** After updating, end all active client sessions (for example
+by clearing the PHP session storage) so that no cart keeps a domain price
+from before the update.
+
+
+### Bug Fixes
+
+* **CNIC Registrar Module:** price aftermarket domains from the registrar listing only 
+
+  Adding an aftermarket domain to the cart now uses the price the registrar
+  listed for that domain. Prices sent with the add-to-cart request are
+  ignored, and domains that were not part of an aftermarket listing go
+  through the regular availability check.
+
 # 30.14.0 (2026-11-12)
 
 ### Bug Fixes
