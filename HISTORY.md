@@ -1,3 +1,14 @@
+## 30.14.2 (2026-11-23)
+
+### Bug Fixes
+
+* **Dependencies:** bump phpseclib/phpseclib from 4.0.3 to 4.0.4 
+
+  Bumps [phpseclib/phpseclib](https://github.com/phpseclib/phpseclib) from 4.0.3 to 4.0.4.
+  - [Release notes](https://github.com/phpseclib/phpseclib/releases)
+  - [Changelog](https://github.com/phpseclib/phpseclib/blob/master/CHANGELOG.md)
+  - Commits
+
 ## 30.14.1 (2026-11-16)
 
 ### Upgrade Notes
