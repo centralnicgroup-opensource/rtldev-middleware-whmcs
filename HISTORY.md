@@ -1,3 +1,133 @@
+# 30.15.0 (2026-11-25)
+
+### Upgrade Notes
+
+* **CNIC Registrar Module:** Domain trades are now billed by the daily cron job once the
+trade has completed, at what CentralNic Reseller booked for it, instead of
+at the contact save. Invoices or to-do items for trades therefore come with a
+delay of up to a day after completion. The cron job is part of the cnic
+registrar module's hooks, so the cnic registrar has to be activated. Trade
+invoices are now taxed if the WHMCS tax settings apply tax to domains.
+
+Refs: RSRMID-3158
+* **CNIC Registrar Module:** Update the cnicN wrapper registrar modules (e.g. cnic1, cnic2) together with this release. Older wrappers lack the new "Domain Owner" page and the resend commands, which are then not offered for their domains.
+
+Refs: RSRMID-3146
+
+
+### Bug Fixes
+
+* **CNIC Registrar Module:** bill domain trades on completion, at the booked cost plus margin 
+
+  The trade invoice or to-do item was created at the contact save, before the
+  save ran, on every save for a trade TLD: also for saves that failed, left the
+  owner unchanged, or whose trade was later denied, expired or replaced. CNR
+  charges a trade only once it completed, days later for one that needs approval.
+
+  A contact save now goes without ACCEPT-TRADE. Only when the API answers that
+  the change needs a trade, it is repeated with ACCEPT-TRADE=1, and the request
+  is recorded for the domain. So a save that leaves the owner unchanged no
+  longer fails on .at ("Frame contains no update operation"), and a change the
+  registry takes as a plain update is no longer charged as a trade.
+
+  A daily cron job bills each recorded trade once it completed: once the
+  reseller account has a TRADE_DOMAIN_<TLD> booking for the domain and the owner
+  has changed - or two or more bookings came up, for trades back to the owner
+  before. The invoice is for the booked cost plus the trade margin of the
+  registrar settings, in the client's currency, converted with the WHMCS
+  exchange rates; without one the admin gets the to-do item instead. A fixed
+  amount margin is in the WHMCS default currency. The invoice is taxed like
+  WHMCS' own domain invoices, if tax is enabled and applied to domains. Each
+  booking is billed once; a record without a completed trade is removed after
+  30 days.
+
+  A save the API runs as a plain update is not billed, also not on a trade TLD
+  where it changes the owner (e.g. .at on OT&E): no trade is booked for it.
+* **CNIC Registrar Module:** buy aftermarket IDNs by their punycode name 
+
+  WHMCS passes an IDN in unicode, and BuyDomain sent it that way. Sedo takes
+  IDNs in ACE form only, and CNR's BuyDomain passes DOMAIN on to Sedo without
+  converting it, so buying an aftermarket IDN would likely fail after the client
+  paid. BuyDomain now sends WHMCS' domain_punycode, which works either way.
+
+  Whether BuyDomain accepts both spellings like AddDomain, and if not to add
+  it, is asked in GDOM-5279.
+
+  Refs: RSRMID-3188
+* **CNIC Registrar Module:** find aftermarket IDNs at checkout 
+
+  The aftermarket session cache was keyed by the search result's domain, which
+  WHMCS gives in punycode for an IDN, while WHMCS stores the ordered domain in
+  unicode. Checkout didn't find an IDN in the cache, so it wasn't marked as an
+  aftermarket domain and was registered with AddDomain instead of bought.
+
+  The cache is now keyed by the domain in unicode, lowercase, on every side.
+
+  Refs: RSRMID-3188
+* **CNIC Registrar Module:** price aftermarket domains with WHMCS' exchange rates 
+
+  The aftermarket search converted the TLD's transfer price into the reseller
+  account's currency with CNR's exchange rates, and WHMCS converted the sum back
+  into the client's currency with its own - so the transfer part drifted, and a
+  WHMCS currency CNR doesn't know (541 Unknown Currency) left the Aftermarket tab
+  empty, logged only.
+
+  The transfer price is now converted with WHMCS' rates, looked up once per TLD,
+  and with CNR's only where WHMCS has no rate. For an account currency WHMCS
+  doesn't have, the price is given in the WHMCS default currency instead of
+  showing nothing, while BuyDomain still bids in the account currency: the bid is
+  stored with the order at checkout. Without a rate at WHMCS or CNR, one search
+  result tells why rather than none. A TLD without a transfer price no longer
+  takes the previous domain's, and a bid like 1.10 is no longer rounded up to
+  1.11.
+
+  Refs: RSRMID-3188
+* **CNIC Registrar Module:** send all additional domain fields with a contact save 
+
+  On a contact save from a form that posts the additional domain fields, only
+  the fields whose value changed were sent. A registry may need them for the
+  new owner contact of an owner change, e.g. .ro's ID card number, so such a
+  save failed with "Missing X-RO-Extensions" unless the client changed the
+  field too. All posted fields are sent now, the unchanged ones included.
+
+  Refs: RSRMID-3158
+* **CNIC Registrar Module:** show the admin domain buttons for the state after a command 
+
+  WHMCS calls cnic_AdminCustomButtonArray twice per admin domain page view:
+  before it runs a registrar action and again to draw the buttons. The second
+  call returned the first result, so after a module button ran, the page still
+  offered the buttons from before it: "Suspend" instead of "Unsuspend", the
+  transfer out buttons for a request already answered, a resend button for an
+  owner change that changed meanwhile. The first result is now reused only on
+  page views without an action.
+
+  Refs: RSRMID-3146
+* **Dependencies:** bump esbuild from 0.27.7 to 0.28.2 
+
+  Bumps [esbuild](https://github.com/evanw/esbuild) from 0.27.7 to 0.28.2.
+  - [Release notes](https://github.com/evanw/esbuild/releases)
+  - [Changelog](https://github.com/evanw/esbuild/blob/main/CHANGELOG.md)
+  - Commits
+
+
+### Features
+
+* **CNIC Registrar Module:** show and manage contact validation, verification and owner changes 
+  - a "Domain Owner" page in the client area, in every theme: the owner's email
+    verification with its suspension deadline, a pending owner change with the
+    requested new owner and its approval deadline, and what to do about them
+  - a short notice on the domain overview, and the contacts' validation issues
+  - resend the verification email or the outstanding approval email from the
+    client and the admin area
+  - the requested new owner shown read only in the admin area and the WHMCS API;
+    its data is ignored on save. Our addons get the current contacts only, so the
+    domain import costs no extra lookups; its API calls are logged under the addon
+  - fix the contact type filter on save matching e.g. any type starting with
+    "Registrant"
+  - the domain pages skip the status lookups for a domain that isn't at the
+    registrar (yet or any more), and a failed lookup isn't repeated within the
+    same page view
+
 ## 30.14.2 (2026-11-23)
 
 ### Bug Fixes
