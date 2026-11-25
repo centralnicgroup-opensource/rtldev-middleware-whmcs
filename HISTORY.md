@@ -1,3 +1,20 @@
+## 30.15.1 (2026-11-25)
+
+### Bug Fixes
+
+* **CNIC Domain Import Addon:** link the homepage to www.centralnicreseller.com 
+
+  It still pointed to www.hexonet.net.
+
+  Refs: RSRMID-3196
+* **CNIC Migration Addon:** send support requests to middleware@centralnic.com 
+
+  The Support button mailed diagnostic data to the obsolete HEXONET address
+  middleware@hexonet.net, and the addon's support link pointed to
+  hexonet.support. Both now go to CentralNic Reseller.
+
+  Refs: RSRMID-3196
+
 # 30.15.0 (2026-11-25)
 
 ### Upgrade Notes
