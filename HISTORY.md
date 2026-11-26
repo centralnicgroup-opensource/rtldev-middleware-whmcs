@@ -1,3 +1,17 @@
+## 30.15.2 (2026-11-26)
+
+### Bug Fixes
+
+* **CNIC Registrar Module:** accept registrants from Åland and the EU's outermost regions 
+
+  The EU check behind the .eu and .it validation knew only the 27 member states,
+  so a registrant whose country is the Åland Islands, French Guiana, Guadeloupe,
+  Martinique, Réunion, Mayotte or Saint-Martin was rejected, e.g. a non-EU
+  citizen living in Réunion registering a .eu domain. These are part of the EU
+  (Article 355 TFEU) and now count.
+
+  RSRMID-3197
+
 ## 30.15.1 (2026-11-25)
 
 ### Bug Fixes
