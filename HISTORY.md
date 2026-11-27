@@ -1,3 +1,23 @@
+## 30.15.3 (2026-11-27)
+
+### Bug Fixes
+
+* **CNIC DNS Manager Addon:** name the module as its folder in whmcs.json, for "Use App" 
+
+  "Use App" in WHMCS' Apps & Integrations failed with "Invalid Module
+  Name": WHMCS activates the module named in whmcs.json, which was
+  cnicdnsmanager-addon.
+
+  Refs: RSRMID-3203
+* **Software Bundle:** name the addons as their folders in whmcs.json, for "Use App" 
+
+  "Use App" in WHMCS' Apps & Integrations failed with "Invalid Module
+  Name" for the Admin Config, Reseller DNS, Domain Monitoring, Domain
+  Search and Pricing Import addons: WHMCS activates the module named in
+  whmcs.json, which carried an "-addon" suffix.
+
+  Refs: RSRMID-3203
+
 ## 30.15.2 (2026-11-26)
 
 ### Bug Fixes
